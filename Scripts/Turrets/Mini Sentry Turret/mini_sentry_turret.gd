@@ -38,22 +38,8 @@ var menu
 var health : float
 
 var energized : bool = false
+var energizerTurret
 var beaconBuffActive : bool = false
-
-var energizerDamageBuff : float = 0.0
-var energizerRangeBuff : float = 0.0
-var energizerProjctileSpeedBuff : float = 0.0
-var energizerAttackRangeBuff : float = 0.0
-var energizerReloadTimeBuff : float = 0.0
-
-var beaconDamageBuff : float = 0.0
-var beaconHealthBuff : float = 0.0
-var beaconProjectileSpeedBuff : float = 0.0
-var beaconAttackRangeBuff : float = 0.0
-var beaconReloadTimeBuff : float = 0.0
-
-var moneyBonus : float = 0.0
-var xpBonus : float = 0.0
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -79,6 +65,8 @@ func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
+	if not beaconBuffActive:
+		applyBeaconBuffs()
 
 func reloadAnimation():
 	var reloadFrames : int = 2
@@ -187,33 +175,23 @@ func applyUpgradeTier(): # SAME
 	attackRange +=  round_to_dec((attackRange * GameManager.getUpgradeTierPercent()),1)
 	reloadTime -=  round_to_dec((reloadTime * GameManager.getUpgradeTierPercent()),2)
 	
-	applyEnergizerBuffs()
-	applyBeaconBuffs()
+	if energized:
+		if is_instance_valid(energizerTurret):
+			energizerTurret.applyEnergizerBuffsToTurret($".")
+	beaconBuffActive = false
 	
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTimer.wait_time =  reloadTime
 
-func applyEnergizerBuffs(): # SAME
-	if not energized:
-		damage +=  round_to_dec((energizerDamageBuff * damage),1)
-		projectileSpeed +=  round_to_dec((energizerProjctileSpeedBuff * damage),1)
-		attackRange +=  round_to_dec((energizerAttackRangeBuff * attackRange),1)
-		reloadTime -=  round_to_dec((energizerReloadTimeBuff * reloadTime),2)
-		
-		line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-		rangeCollisionShape.shape.radius = attackRange
-		reloadTimer.wait_time =  reloadTime
-		energized = true
-		
 func applyBeaconBuffs(): # SAME
 	if not beaconBuffActive:
-		maxHealth += round_to_dec((beaconHealthBuff * maxHealth),1)
+		maxHealth += round_to_dec((BeaconManager.beaconHealthBuff * maxHealth),1)
 		health = maxHealth
-		damage +=  round_to_dec((beaconDamageBuff * damage),1)
-		projectileSpeed +=  round_to_dec((beaconProjectileSpeedBuff * damage),1)
-		attackRange +=  round_to_dec((beaconAttackRangeBuff * attackRange),1)
-		reloadTime -=  round_to_dec((beaconReloadTimeBuff * reloadTime),2)
+		damage +=  round_to_dec((BeaconManager.beaconDamageBuff * damage),1)
+		projectileSpeed +=  round_to_dec((BeaconManager.beaconProjectileSpeedBuff * damage),1)
+		attackRange +=  round_to_dec((BeaconManager.beaconAttackRangeBuff * attackRange),1)
+		reloadTime -=  round_to_dec((BeaconManager.beaconReloadTimeBuff * reloadTime),2)
 		
 		line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 		rangeCollisionShape.shape.radius = attackRange

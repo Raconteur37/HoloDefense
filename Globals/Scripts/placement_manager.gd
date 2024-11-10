@@ -29,6 +29,10 @@ func _input(event: InputEvent) -> void:
 				selectedTurret = GameManager.getTurret(2).instantiate()
 				turretSelected = true
 				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
+			KEY_3:
+				selectedTurret = GameManager.getTurret(3).instantiate()
+				turretSelected = true
+				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
 		
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
@@ -36,15 +40,24 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("turret_selected_place"):
 		if turretSelected:
-			if place_item_in_cell(selectedTurret.position) and GameManager.getCurrentMoney() >= selectedTurret.getCost():
-				selectedTurret.isPlaced = true
-				selectedTurret.hideRange()
-				turretSelected = false
-				GameManager.addTurretToDict(selectedTurret)
-				GameManager.subtractMoney(selectedTurret.getCost())
-				selectedTurret = null
+			if GameManager.getCurrentMoney() >= selectedTurret.getCost():
+				if place_item_in_cell(selectedTurret.position):
+					selectedTurret.isPlaced = true
+					selectedTurret.hideRange()
+					turretSelected = false
+					GameManager.addTurretToDict(selectedTurret)
+					GameManager.subtractMoney(selectedTurret.getCost())
+					selectedTurret = null
+				else:
+					print("Cannot place turret there!")
+					selectedTurret.queue_free()
+					turretSelected = false
+					selectedTurret = null
 			else:
-				print("Cannot place turret there!")
+				print("Not enough money!")
+				selectedTurret.queue_free()
+				turretSelected = false
+				selectedTurret = null
 		else:
 			if not is_cell_occupied(get_tree().root.get_node("/root/Game").get_global_mouse_position()):
 				GameManager.closeAllMenus()

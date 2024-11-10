@@ -20,6 +20,7 @@ GameManager="*res://Globals/Scripts/game_manager.gd"
 PlacementManager="*res://Globals/Scripts/placement_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
 PopupScene="*res://Globals/Scene/Popup.tscn"
+BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 
 [display]
 

@@ -1,13 +1,13 @@
 extends Node
 
-var startingCash : int = 100
+var startingCash : int = 1000
 
 var popupScene = load("res://Globals/Scene/Popup.tscn")
 
 var turretXpMap = {}
 
 # This array will be in order, so 0 will be 1 and so on
-var turretsNameArray = ["Arrow Turret","Mini Sentry Turret"]
+var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret"]
 
 var turretsUpgradeTier = {}
 
@@ -30,7 +30,7 @@ var playerLevel = 0
 var upgradeTierPercent = .05
 
 var inWave : bool = false
-var currentWave : int = 100
+var currentWave : int = 1
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -115,7 +115,7 @@ func summonEnemies():
 	summonDict["Basic Square"] = squareAmount
 	
 	#if enemyWaveCanAppear.get("Hexagon Mothership") >= currentWave chance to get one but will get one within 5 waves of appearing
-	summonEnemy("Hexagon Mothership")
+	#summonEnemy("Hexagon Mothership")
 	
 
 	while true:
@@ -146,6 +146,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Arrow Turret.tscn")
 		"Mini Sentry Turret":
 			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
+		"Energizer Turret":
+			return load("res://Turret Scenes/Energizer Turret.tscn")
 
 func getBeaconPosition():
 	return beacon.global_position

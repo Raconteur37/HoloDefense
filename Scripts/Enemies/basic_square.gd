@@ -54,7 +54,7 @@ func getName():
 func _on_attack_timer_timeout() -> void:
 	attackReady = true
 	for x in $Area2D.get_overlapping_areas():
-		if x.get_parent().is_in_group("Turret") and x.name.contains("SelectArea"):
+		if x.get_parent().is_in_group("Turret") and x.name.contains("SelectArea") and x.get_parent() != self:
 			x.get_parent().takeDamage(damage)
 			attackReady = false
 			attackTimer.start()
