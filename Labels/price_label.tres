@@ -1,0 +1,10 @@
+[gd_resource type="LabelSettings" load_steps=2 format=3 uid="uid://dljokcwqvby46"]
+
+[ext_resource type="FontFile" uid="uid://dgajg52guaaii" path="res://Fonts/Crashnumberingserif-KVjW.ttf" id="1_o2kdx"]
+
+[resource]
+resource_local_to_scene = true
+font = ExtResource("1_o2kdx")
+font_size = 10
+font_color = Color(1, 0, 0.121569, 1)
+shadow_color = Color(0, 0, 0, 1)

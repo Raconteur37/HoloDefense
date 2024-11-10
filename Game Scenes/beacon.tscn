@@ -1,0 +1,41 @@
+[gd_scene load_steps=6 format=3 uid="uid://bela5hy1hxvvn"]
+
+[ext_resource type="Script" path="res://Scripts/Game Scene/beacon.gd" id="1_1yw4u"]
+[ext_resource type="Texture2D" uid="uid://focw1t1ptcll" path="res://Textures/Map/Beacon.png" id="2_jullh"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5pqjd"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_jullh")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_vhe1t"]
+size = Vector2(136, 134.25)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_c55qx"]
+size = Vector2(128, 128)
+
+[node name="Beacon" type="CharacterBody2D"]
+position = Vector2(222, 107)
+collision_mask = 12
+script = ExtResource("1_1yw4u")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5pqjd")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0, -0.125)
+shape = SubResource("RectangleShape2D_vhe1t")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_c55qx")
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

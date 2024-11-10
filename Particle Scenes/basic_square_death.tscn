@@ -1,0 +1,24 @@
+[gd_scene load_steps=2 format=3 uid="uid://bpxex1tp8m4n3"]
+
+[sub_resource type="Curve" id="Curve_8clgk"]
+_data = [Vector2(0, 0.494505), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="CPUParticles2D" type="CPUParticles2D"]
+position = Vector2(457, 193)
+emitting = false
+amount = 10
+one_shot = true
+speed_scale = 0.5
+explosiveness = 1.0
+randomness = 1.0
+emission_shape = 1
+emission_sphere_radius = 1.0
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_max = 150.0
+linear_accel_min = -72.73
+linear_accel_max = -72.73
+scale_amount_min = 20.0
+scale_amount_max = 20.0
+scale_amount_curve = SubResource("Curve_8clgk")

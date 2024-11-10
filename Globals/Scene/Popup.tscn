@@ -1,0 +1,95 @@
+[gd_scene load_steps=7 format=3 uid="uid://b8jkae8udp5ox"]
+
+[ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
+[ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
+[ext_resource type="Script" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
+
+[sub_resource type="Animation" id="Animation_7lca7"]
+resource_name = "KillPopup"
+length = 1.2
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0.433333, 0.8, 1.2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../Money Label:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.433333, 0.8),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_fjn6v"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../Money Label:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
+_data = {
+"KillPopup": SubResource("Animation_7lca7"),
+"RESET": SubResource("Animation_fjn6v")
+}
+
+[node name="GridContainer" type="GridContainer"]
+z_index = 1
+offset_right = 40.0
+offset_bottom = 50.0
+script = ExtResource("3_dqdk6")
+
+[node name="Money Label" type="Label" parent="."]
+layout_mode = 2
+text = "$3"
+label_settings = ExtResource("1_hienb")
+
+[node name="Xp Label" type="Label" parent="."]
+layout_mode = 2
+text = "2 XP"
+label_settings = ExtResource("2_sjw7e")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Xp Label")
+libraries = {
+"": SubResource("AnimationLibrary_80hvi")
+}
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

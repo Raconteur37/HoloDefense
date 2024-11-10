@@ -1,0 +1,11 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://b5fhcy4ahttlr"]
+
+[ext_resource type="Texture2D" uid="uid://wysg5dtroefb" path="res://Textures/Style Boxs/Turret Border.png" id="1_8wbme"]
+
+[resource]
+resource_local_to_scene = true
+texture = ExtResource("1_8wbme")
+expand_margin_left = 3.0
+expand_margin_top = 3.0
+expand_margin_right = 3.0
+expand_margin_bottom = 3.0
