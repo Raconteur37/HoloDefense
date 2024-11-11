@@ -18,9 +18,9 @@ var beacon
 var summonDict = {}
 var enemiesAlive = []
 
-var hexagonMothershipCooldown = 10 # Every 10 waves one will appear after round 30
+var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
-var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Hexagon Mothership" : 30}
+var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 1, "Shooty Diamond" : 1,"Hexagon Mothership" : 5}
 
 var currentMoney = startingCash
 var currentExperience = 0
@@ -30,7 +30,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 100
+var currentWave : int = 1
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -74,6 +74,20 @@ func summonEnemy(enemyName : String):
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = Vector2(2100,540)
+			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			
+		"Speedy Triangle":
+			var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
+			enemy = enemy.instantiate()
+			enemiesAlive.append(enemy)
+			enemy.position = generateRandomPosition()
+			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			
+		"Shooty Diamond":
+			var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
+			enemy = enemy.instantiate()
+			enemiesAlive.append(enemy)
+			enemy.position = generateRandomPosition()
 			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
 
 func generateRandomPosition():
@@ -124,6 +138,22 @@ func summonEnemies():
 	
 	var squareAmount = int(40 * log(currentWave) + 10)
 	summonDict["Basic Square"] = squareAmount
+	
+	if currentWave >= enemyWaveCanAppear.get("Speedy Triangle"):
+		var triangleAmount = int(40 * log(currentWave) + 10)
+		summonDict["Speedy Triangle"] = triangleAmount
+		
+	if currentWave >= enemyWaveCanAppear.get("Shooty Diamond"):
+		var triangleAmount = int(40 * log(currentWave) + 10)
+		summonDict["Shooty Diamond"] = triangleAmount
+	
+	if currentWave >= enemyWaveCanAppear.get("Hexagon Mothership"):
+		var rand = randi_range(1,10)
+		if rand >= hexagonMothershipCooldown:
+			summonDict["Hexagon Mothership"] = 1
+			hexagonMothershipCooldown = 10
+		else:
+			hexagonMothershipCooldown -= 1
 	
 	#if enemyWaveCanAppear.get("Hexagon Mothership") >= currentWave chance to get one but will get one within 5 waves of appearing
 	summonEnemy("Hexagon Mothership")

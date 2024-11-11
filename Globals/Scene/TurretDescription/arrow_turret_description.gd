@@ -9,6 +9,7 @@ func applyTurret(turret):
 	$PanelContainer/MarginContainer/GridContainer/MarginContainer4/ReloadTimeLabel.text = "Reload Time: " + str(turret.reloadTime)
 	$PanelContainer/MarginContainer/GridContainer/MarginContainer5/ProjectileSpeedLabel.text = "Projectile Spd: " + str(turret.projectileSpeed)
 	$PanelContainer/MarginContainer/GridContainer/MarginContainer6/ArmorLabel.text ="Armor: " + str(turret.armor)
+	$AnimationPlayer.play("Open")
 
 func close():
 	queue_free()

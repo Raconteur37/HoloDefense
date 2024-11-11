@@ -1,4 +1,4 @@
-[gd_scene load_steps=17 format=3 uid="uid://bvkg8gf0pwi1p"]
+[gd_scene load_steps=20 format=3 uid="uid://bvkg8gf0pwi1p"]
 
 [ext_resource type="Script" path="res://Globals/Scene/TurretDescription/energizer_turret_description.gd" id="1_7le4t"]
 [ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_rxigx"]
@@ -52,6 +52,43 @@ shadow_color = Color(0, 0, 0, 1)
 font_color = Color(0.601223, 0.601223, 0.601223, 1)
 shadow_color = Color(0, 0, 0, 1)
 
+[sub_resource type="Animation" id="Animation_nm2dw"]
+resource_name = "Open"
+length = 0.1668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.166667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(2313, 500), Vector2(1904, 500)]
+}
+
+[sub_resource type="Animation" id="Animation_rj6qp"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:position")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(2313, 500)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_5a5d2"]
+_data = {
+"Open": SubResource("Animation_nm2dw"),
+"RESET": SubResource("Animation_rj6qp")
+}
+
 [node name="Control" type="Control"]
 layout_mode = 3
 anchors_preset = 6
@@ -59,6 +96,8 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
+offset_left = 413.0
+offset_right = 413.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("1_7le4t")
@@ -189,3 +228,8 @@ layout_mode = 2
 layout_mode = 2
 text = "Armor: 0"
 label_settings = SubResource("LabelSettings_32k8o")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_5a5d2")
+}

@@ -25,7 +25,6 @@ func takeDamage(projBody):
 func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
-	#destination = Vector2(1000,0) 
 	destination = GameManager.getBeaconPosition()
 	increaseStats()
 

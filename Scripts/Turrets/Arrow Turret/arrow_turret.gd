@@ -149,10 +149,6 @@ func closeSelectMenu():
 		menu.close()
 	hideRange()
 	
-func _on_area_2d_mouse_entered() -> void:
-	if isPlaced:
-		openSelectedMenu()
-
 func addKill():
 	kills += 1
 
@@ -186,6 +182,8 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			takeDamage(body.damage)
 			body.attackReady = false
 			body.attackTimer.start()
+	if body.is_in_group("Enemy Projectile") and isPlaced:
+		takeDamage(body.damage)
 			
 			
 func applyUpgradeTier():

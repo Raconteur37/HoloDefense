@@ -1,0 +1,32 @@
+[gd_scene load_steps=5 format=3 uid="uid://c8hxqwse75gq3"]
+
+[ext_resource type="Script" path="res://Scripts/Enemies/speedy_triangle.gd" id="1_nhcdp"]
+[ext_resource type="Script" path="res://Scripts/Enemies/speed_triangle_collision_polygon_2d.gd" id="2_pqsdf"]
+[ext_resource type="Script" path="res://Scripts/Enemies/speed_triangle_polygon_2d.gd" id="3_28s7i"]
+[ext_resource type="Script" path="res://Scripts/Enemies/speedy_triangle_collision_polygon_2d.gd" id="4_x7tq0"]
+
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemy"]]
+position = Vector2(686, 432)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_nhcdp")
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+script = ExtResource("2_pqsdf")
+
+[node name="Polygon2D" type="Polygon2D" parent="."]
+self_modulate = Color(1.5, 1, 1, 1)
+color = Color(0.999959, 0.548831, 0.484898, 1)
+script = ExtResource("3_28s7i")
+
+[node name="Area2D" type="Area2D" parent="."]
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+script = ExtResource("4_x7tq0")
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

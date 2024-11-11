@@ -3,7 +3,7 @@ extends CollisionPolygon2D
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	var radius = 230  # Adjust the radius for the size of the hexagon
+	var radius = 240  # Adjust the radius for the size of the hexagon
 	var points = []
 	
 	for i in range(6):  # 6 points for a hexagon
