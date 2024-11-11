@@ -25,12 +25,12 @@ var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Hexagon Mo
 var currentMoney = startingCash
 var currentExperience = 0
 var upgradeTokens = 0
-var playerLevel = 0
+var inGamePlayerLevel = 0
 
-var upgradeTierPercent = .05
+var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 1
+var currentWave : int = 100
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -41,6 +41,13 @@ func addTurretToDict(turret):
 func removeTurretFromGame(turret):
 	var turretsList : Array = turretsPlaced.get(turret.getName())
 	turretsList.erase(turret)
+	turret.closeSelectMenu()
+	
+	PlacementManager.occupied_cells.erase(PlacementManager.get_snapped_position(turret.position))
+	
+	for particle in turret.currentParticlesMap.values():
+		particle.queue_free()
+	
 	turret.queue_free()
 
 func removeAliveEnemyFromList(enemy : CharacterBody2D):
@@ -226,6 +233,8 @@ func upgradeTurret(turretNumber):
 	var turretsList : Array = turretsPlaced.get(turretName)
 	for x in turretsList:
 		x.applyUpgradeTier()
+		if x.energized:
+			x.energizerTurret.applyEnergizerBuffsToTurret(x)
 		
 	updateTurretUpgradeTier(turretName)
 
@@ -262,8 +271,12 @@ func getCurrentXP():
 func getUpgradeTokens():
 	return upgradeTokens
 
-func addUpgradeToken():
+func onInGameLevelUp(xpBar):
 	upgradeTokens += 1
+	inGamePlayerLevel += 1
+	
+	var nextLevelCost = round((inGamePlayerLevel+1) * 1.5 + 10)
+	xpBar.max_value = nextLevelCost
 
 func removeUpgradeToken():
 	upgradeTokens -= 1

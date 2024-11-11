@@ -7,6 +7,8 @@ var scanTurretsFirstTime : bool = false
 
 var turretsInRange = []
 
+var currentParticlesMap = {}
+
 var line2d
 var rangeCollisionShape
 var rangeIndicator
@@ -25,13 +27,14 @@ var menu
 @export var turretName : String = "Energizer Turret"
 @export var turretType : String = "Support"
 @export var price : int = 30
-@export var maxHealth : float = 25
-@export var attackRange : float = 150
+@export var maxHealth : float = 20
+@export var baseAttackRange : float = 150
 @export var upgradeTier : int = 0
-@export var armor : int = 30
+@export var armor : int = 0
 @export var level : int = 1
 
 var health : float
+var attackRange
 
 var energized : bool = false
 var energizerTurret
@@ -48,12 +51,15 @@ var beaconBuffActive : bool = false
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	line2d = $RangeArea/RangeIndicator
+	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
+	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $MiniSentryTurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
 	energizeTimer = $EnergizeTimer
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	attackRange = baseAttackRange
+	line2d = PlacementManager.draw_range_cirle(line2d,attackRange + 30)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
 	
@@ -68,7 +74,7 @@ func _process(delta: float) -> void:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
 	if not beaconBuffActive:
-		applyBeaconBuffs()
+		BeaconManager.applyBeaconBuffs()
 	if isPlaced and not scanTurretsFirstTime:
 		scanTurretsFirstTime = true
 		scanCurrentTurretsInRange()
@@ -96,7 +102,10 @@ func takeDamage(damage):
 			for x in turretsInRange:
 				if is_instance_valid(x):
 					if x.energized:
-						x.energized = false
+						x.currentParticlesMap.get("Energized").queue_free()
+						x.currentParticlesMap.erase("Energized")
+						removeEnergizerBuffsToTurret(x)
+						
 			GameManager.removeTurretFromGame(self)
 		else:
 			health = health - damage
@@ -129,7 +138,7 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 			turretsInRange.append(body)
 	if isPlaced:
 		if energizeTimer.is_stopped():
-			energizeTimer.start()
+			energizeTimer.start(energizeTime)
 			
 
 func _on_range_area_body_exited(body: Node2D) -> void:
@@ -150,39 +159,56 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			body.attackTimer.start()
 			
 func applyUpgradeTier(): 
-	maxHealth += round_to_dec((maxHealth * GameManager.getUpgradeTierPercent()),1)
+	maxHealth += roundf(maxHealth * GameManager.getUpgradeTierPercent())
 	health = maxHealth
-	attackRange +=  round_to_dec((attackRange * GameManager.getUpgradeTierPercent()),1)
+	attackRange +=  roundf(attackRange * GameManager.getUpgradeTierPercent())
+	maxTurretsEnergized += 1
+	energizeTime -= round_to_dec(energizeTime * GameManager.getUpgradeTierPercent(),2)
+	energizerDamageBuff += GameManager.getUpgradeTierPercent()
+	energizerAttackRangeBuff += GameManager.getUpgradeTierPercent()
+	energizerProjctileSpeedBuff += GameManager.getUpgradeTierPercent()
+	energizerReloadTimeBuff += GameManager.getUpgradeTierPercent()
 	
-	energized = false
+	for x in turretsEnergized:
+		applyEnergizerBuffsToTurret(x)
+	
+	if energized:
+		if is_instance_valid(energizerTurret):
+			energizerTurret.applyEnergizerBuffsToTurret($".")
 	beaconBuffActive = false
 	
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 		
 func applyEnergizerBuffsToTurret(turret):
-	turret.energized = true
+	if not turret.energized:
+		turret.energized = true
+		ParticleManager.playEnergizedParticle(turret)
 	if turret.get("damage") != null:
-		turret.damage +=  round_to_dec((energizerDamageBuff * turret.damage),1)
+		turret.damage +=  ceil(energizerDamageBuff * turret.baseDamage)
 	if turret.get("projectileSpeed") != null:
-		turret.projectileSpeed +=  round_to_dec((energizerProjctileSpeedBuff * turret.projectileSpeed),1)
+		turret.projectileSpeed +=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
 	if turret.get("attackRange") != null:
-		turret.attackRange +=  round_to_dec((energizerAttackRangeBuff * turret.attackRange),1)
+		turret.attackRange +=  ceil(energizerAttackRangeBuff * turret.baseAttackRange)
 		turret.line2d = PlacementManager.draw_range_cirle(turret.line2d,turret.attackRange)
 		turret.rangeCollisionShape.shape.radius = turret.attackRange
 	if turret.get("reloadTime") != null:
-		turret.reloadTime -=  round_to_dec((energizerReloadTimeBuff * turret.reloadTime),1)
+		turret.reloadTime -=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
 		turret.reloadTimer.wait_time = turret.reloadTime
-
-func applyBeaconBuffs(): 
-	if not beaconBuffActive:
-		maxHealth += round_to_dec((BeaconManager.beaconHealthBuff * maxHealth),1)
-		health = maxHealth
-		attackRange +=  round_to_dec((BeaconManager.beaconAttackRangeBuff * attackRange),1)
 		
-		line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-		rangeCollisionShape.shape.radius = attackRange
-		beaconBuffActive = true
+func removeEnergizerBuffsToTurret(turret):
+	turret.energized = false
+	if turret.get("damage") != null:
+		turret.damage -=  ceil(energizerDamageBuff * turret.baseDamage)
+	if turret.get("projectileSpeed") != null:
+		turret.projectileSpeed -=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
+	if turret.get("attackRange") != null:
+		turret.attackRange -=  ceil(energizerAttackRangeBuff * turret.baseAttackRange)
+		turret.line2d = PlacementManager.draw_range_cirle(turret.line2d,turret.attackRange)
+		turret.rangeCollisionShape.shape.radius = turret.attackRange
+	if turret.get("reloadTime") != null:
+		turret.reloadTime +=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
+		turret.reloadTimer.wait_time = turret.reloadTime
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
@@ -196,8 +222,9 @@ func scanCurrentTurretsInRange():
 
 func checkAllTurretsEnergized():
 	for turret in turretsInRange:
-		if not turret.energized:
-			return false
+		if is_instance_valid(turret):
+			if not turret.energized:
+				return false
 	return true
 
 func _on_energize_time_timeout() -> void:

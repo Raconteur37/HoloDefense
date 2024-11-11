@@ -7,6 +7,8 @@ var isCollisionReady : bool = false
 
 var enemiesInRange = []
 
+var currentParticlesMap = {}
+
 var line2d
 var reloadTimer
 var rangeCollisionShape
@@ -27,15 +29,19 @@ var menu
 @export var turretType : String = "Mechanical"
 @export var price : int = 30
 @export var maxHealth : float = 25
-@export var damage : float = 7
-@export var projectileSpeed : float = 500
-@export var attackRange : float = 100
-@export var reloadTime : float = .5
+@export var baseDamage : float = 7
+@export var baseProjectileSpeed : float = 500
+@export var baseAttackRange : float = 100
+@export var baseReloadTime : float = .5
 @export var upgradeTier : int = 0
 @export var armor : int = 30
 @export var level : int = 1
 
 var health : float
+var damage
+var reloadTime : float
+var attackRange
+var projectileSpeed
 
 var energized : bool = false
 var energizerTurret
@@ -45,13 +51,19 @@ var beaconBuffActive : bool = false
 func _ready() -> void:
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
+	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
+	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $MiniSentryTurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
+	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-	reloadTimer.wait_time = reloadTime
+	rangeCollisionShape.shape.radius = baseAttackRange
+	reloadTime = baseReloadTime
+	reloadTimer.wait_time = baseReloadTime
+	damage = baseDamage
+	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	
 	upgradeTier = GameManager.getUpgradeTier(turretName)
@@ -66,7 +78,7 @@ func _process(delta: float) -> void:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
 	if not beaconBuffActive:
-		applyBeaconBuffs()
+		BeaconManager.applyBeaconBuffs()
 
 func reloadAnimation():
 	var reloadFrames : int = 2
@@ -160,6 +172,7 @@ func getCost():
 func getName():
 	return turretName
 
+
 func _on_select_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy") and isPlaced:
 		if body.attackReady:
@@ -168,12 +181,16 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			body.attackTimer.start()
 			
 func applyUpgradeTier(): # SAME
-	maxHealth += round_to_dec((maxHealth * GameManager.getUpgradeTierPercent()),1)
+	maxHealth += roundf(maxHealth * GameManager.getUpgradeTierPercent())
 	health = maxHealth
-	damage +=  round_to_dec((damage * GameManager.getUpgradeTierPercent()),1)
-	projectileSpeed +=  round_to_dec((projectileSpeed * GameManager.getUpgradeTierPercent()),1)
-	attackRange +=  round_to_dec((attackRange * GameManager.getUpgradeTierPercent()),1)
-	reloadTime -=  round_to_dec((reloadTime * GameManager.getUpgradeTierPercent()),2)
+	baseDamage +=  roundf(baseDamage * GameManager.getUpgradeTierPercent())
+	damage = baseDamage
+	baseProjectileSpeed +=  roundf(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
+	projectileSpeed = baseProjectileSpeed
+	baseAttackRange +=  roundf(baseAttackRange * GameManager.getUpgradeTierPercent())
+	attackRange = baseAttackRange
+	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
+	reloadTime = baseReloadTime
 	
 	if energized:
 		if is_instance_valid(energizerTurret):
@@ -183,20 +200,6 @@ func applyUpgradeTier(): # SAME
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTimer.wait_time =  reloadTime
-
-func applyBeaconBuffs(): # SAME
-	if not beaconBuffActive:
-		maxHealth += round_to_dec((BeaconManager.beaconHealthBuff * maxHealth),1)
-		health = maxHealth
-		damage +=  round_to_dec((BeaconManager.beaconDamageBuff * damage),1)
-		projectileSpeed +=  round_to_dec((BeaconManager.beaconProjectileSpeedBuff * damage),1)
-		attackRange +=  round_to_dec((BeaconManager.beaconAttackRangeBuff * attackRange),1)
-		reloadTime -=  round_to_dec((BeaconManager.beaconReloadTimeBuff * reloadTime),2)
-		
-		line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-		rangeCollisionShape.shape.radius = attackRange
-		reloadTimer.wait_time =  reloadTime
-		beaconBuffActive = true
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)

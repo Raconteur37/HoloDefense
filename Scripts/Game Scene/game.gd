@@ -41,7 +41,9 @@ func _process(delta: float) -> void:
 
 func fullXpBar():
 	XPBar.value = 0
-	GameManager.addUpgradeToken()
+	GameManager.inGamePlayerLevel
+	GameManager.onInGameLevelUp($"CanvasLayer/PanelContainer3/MarginContainer/XP Bar")
+	
 
 func _on_upgrade_one_button_pressed() -> void:
 	print(GameManager.getUpgradeTokens())

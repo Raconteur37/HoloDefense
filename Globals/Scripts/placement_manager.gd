@@ -114,6 +114,7 @@ func get_grid_world_position(selected_cell: Vector2):
 	return grid_origin + selected_cell * cell_size
 	
 func draw_range_cirle(line2d,attackRange):
+	
 	line2d.clear_points()
 	
 	for i in range(32):
