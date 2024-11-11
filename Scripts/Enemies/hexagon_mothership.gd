@@ -5,7 +5,7 @@ var destination
 @export var enemyName : String = "Hexagon Mothership"
 @export var health : float = 5000
 @export var damage : float = 1000
-@export var attackTime : float = 3
+@export var attackTime : float = .5
 @export var speed : float = 10
 
 var attackTimer
@@ -25,6 +25,7 @@ func takeDamage(projBody):
 func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
+	#destination = Vector2(1000,0) 
 	destination = GameManager.getBeaconPosition()
 	increaseStats()
 

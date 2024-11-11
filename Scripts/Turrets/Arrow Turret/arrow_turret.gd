@@ -189,13 +189,13 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			
 			
 func applyUpgradeTier():
-	maxHealth += roundf(maxHealth * GameManager.getUpgradeTierPercent())
+	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
 	health = maxHealth
-	baseDamage +=  roundf(baseDamage * GameManager.getUpgradeTierPercent())
+	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
 	damage = baseDamage
-	baseProjectileSpeed +=  roundf(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
+	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
 	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  roundf(baseAttackRange * GameManager.getUpgradeTierPercent())
+	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
 	attackRange = baseAttackRange
 	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
 	reloadTime = baseReloadTime

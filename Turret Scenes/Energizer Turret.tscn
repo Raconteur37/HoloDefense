@@ -25,7 +25,7 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
-[node name="Energizer Turret" type="CharacterBody2D" groups=["Turret"]]
+[node name="Energizer Turret" type="CharacterBody2D" groups=["Energizer", "Turret"]]
 position = Vector2(127, 65)
 collision_mask = 12
 script = ExtResource("1_q1mdo")

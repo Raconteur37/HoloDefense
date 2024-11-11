@@ -43,6 +43,10 @@ func removeTurretFromGame(turret):
 	turretsList.erase(turret)
 	turret.closeSelectMenu()
 	
+	if turret.energized:
+		turret.energizerTurret.turretsEnergized -= 1
+		turret.energizerTurret.turretsInRange.erase(turret)
+	
 	PlacementManager.occupied_cells.erase(PlacementManager.get_snapped_position(turret.position))
 	
 	for particle in turret.currentParticlesMap.values():
@@ -122,7 +126,7 @@ func summonEnemies():
 	summonDict["Basic Square"] = squareAmount
 	
 	#if enemyWaveCanAppear.get("Hexagon Mothership") >= currentWave chance to get one but will get one within 5 waves of appearing
-	#summonEnemy("Hexagon Mothership")
+	summonEnemy("Hexagon Mothership")
 	
 
 	while true:
@@ -160,7 +164,7 @@ func getBeaconPosition():
 	return beacon.global_position
 	
 func calculateMoneyReward(enemyName):
-	var baseMoney = 1 + (currentWave / 3)
+	var baseMoney = 1 + (currentWave / 8)
 	
 	match enemyName:
 		
@@ -171,6 +175,20 @@ func calculateMoneyReward(enemyName):
 					extraMoney = extraMoney + randi_range(0,1) # 50%
 			baseMoney = baseMoney + extraMoney
 	
+		"Speedy Triangle":
+			var extraMoney = randi_range(0,2) # 50%
+			if extraMoney > 0:
+				if randi_range(1,4) == 4: # 25%  
+					extraMoney = extraMoney + randi_range(0,3) # 50%
+			baseMoney = baseMoney + extraMoney
+			
+		"Shooty Diamond":
+			var extraMoney = randi_range(0,4) 
+			if extraMoney > 3:
+				if randi_range(1,4) >= 3:
+					extraMoney = extraMoney + randi_range(0,5)
+			baseMoney = baseMoney + extraMoney
+	
 	return baseMoney
 
 func calculateExperienceReward(enemyName):
@@ -178,7 +196,17 @@ func calculateExperienceReward(enemyName):
 	match enemyName:
 		
 		"Basic Square":
-			return 2
+			return floor((.3 * currentWave + 2))
+		"Speedy Triangle":
+			return floor((.5 * currentWave + 3))
+		"Shooty Diamond":
+			return floor((.7 * currentWave + 4))
+		"Hexagon Mothership":
+			return floor((1.3 * currentWave + 20))
+		"Support Square":
+			return floor((.4 * currentWave + 2.5))
+		"Explosive Circle":
+			return floor((.6 * currentWave + 7))
 
 func onKill(turret,enemy):
 	
@@ -275,7 +303,7 @@ func onInGameLevelUp(xpBar):
 	upgradeTokens += 1
 	inGamePlayerLevel += 1
 	
-	var nextLevelCost = round((inGamePlayerLevel+1) * 1.5 + 10)
+	var nextLevelCost = ceil((inGamePlayerLevel+1) * 5.5 + 10)
 	xpBar.max_value = nextLevelCost
 
 func removeUpgradeToken():

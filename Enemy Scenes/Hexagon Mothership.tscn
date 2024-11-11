@@ -2,11 +2,8 @@
 
 [ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
 [ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_shape_draw.gd" id="2_gllsc"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_frbkt"]
-
-[sub_resource type="CircleShape2D" id="CircleShape2D_a472j"]
-radius = 8.02002
+[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d_body.gd" id="2_skr1q"]
+[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d.gd" id="3_85gur"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(686, 432)
@@ -14,9 +11,8 @@ collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_x64ye")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-scale = Vector2(19, 19)
-shape = SubResource("CircleShape2D_frbkt")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+script = ExtResource("2_skr1q")
 
 [node name="Polygon2D" type="Polygon2D" parent="."]
 self_modulate = Color(1.5, 1, 1, 1)
@@ -27,10 +23,8 @@ script = ExtResource("2_gllsc")
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-0.5, 2.5)
-scale = Vector2(25, 25)
-shape = SubResource("CircleShape2D_a472j")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+script = ExtResource("3_85gur")
 
 [node name="AttackTimer" type="Timer" parent="."]
 
