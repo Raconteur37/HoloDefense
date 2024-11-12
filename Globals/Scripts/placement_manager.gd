@@ -25,8 +25,6 @@ func _input(event: InputEvent) -> void:
 					if GameManager.getUpgradeTokens() > 0:
 						GameManager.removeUpgradeToken()
 						var number_pressed = event.keycode - KEY_0
-						print(number_pressed)
-						print("shift")
 						GameManager.upgradeTurret(number_pressed)
 				else:
 					selectedTurret = GameManager.getTurret(event.keycode - KEY_0).instantiate()

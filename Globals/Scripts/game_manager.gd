@@ -286,12 +286,13 @@ func upgradeTurret(turretNumber):
 	if turretsPlaced.size() > 0:
 		var turretName = turretsNameArray[turretNumber-1]
 		
-		var turretsList : Array = turretsPlaced.get(turretName)
-		for x in turretsList:
-			x.applyUpgradeTier()
-			if x.energized:
-				x.energizerTurret.applyEnergizerBuffsToTurret(x)
-			
+		if turretsPlaced.has(turretName):
+			var turretsList : Array = turretsPlaced.get(turretName)
+			for x in turretsList:
+				x.applyUpgradeTier()
+				if x.energized:
+					x.energizerTurret.applyEnergizerBuffsToTurret(x)
+				
 		updateTurretUpgradeTier(turretName)
 
 func getUpgradeTier(turretName):

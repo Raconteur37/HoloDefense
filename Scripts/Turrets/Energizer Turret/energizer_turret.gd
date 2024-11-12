@@ -152,8 +152,6 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			takeDamage(body.damage)
 			body.attackReady = false
 			body.attackTimer.start()
-	if body.is_in_group("Enemy Projectile") and isPlaced:
-		takeDamage(body.damage)
 			
 func applyUpgradeTier(): 
 	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
@@ -166,8 +164,9 @@ func applyUpgradeTier():
 	energizerProjctileSpeedBuff += GameManager.getUpgradeTierPercent()
 	energizerReloadTimeBuff += GameManager.getUpgradeTierPercent()
 	
-	for x in turretsEnergized:
-		applyEnergizerBuffsToTurret(x)
+	for x in turretsInRange:
+		if x.energized:
+			applyEnergizerBuffsToTurret(x)
 	
 	beaconBuffActive = false
 	
