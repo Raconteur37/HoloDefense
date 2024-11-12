@@ -1,7 +1,7 @@
 extends CollisionPolygon2D
 
 func _ready():
-	var radius = 40  # Adjust the radius for the size of the hexagon
+	var radius = 50  # Adjust the radius for the size of the hexagon
 	var points = []
 	
 	for i in range(4):  

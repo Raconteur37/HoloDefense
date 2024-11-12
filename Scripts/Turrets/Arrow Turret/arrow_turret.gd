@@ -35,7 +35,7 @@ var menu
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 3.5
 @export var upgradeTier : int = 0
-@export var armor : int = 5
+@export var armor : int = 0
 @export var level : int = 1
 
 var damage
@@ -182,10 +182,7 @@ func _on_select_area_body_entered(body: Node2D) -> void:
 			takeDamage(body.damage)
 			body.attackReady = false
 			body.attackTimer.start()
-	if body.is_in_group("Enemy Projectile") and isPlaced:
-		takeDamage(body.damage)
-			
-			
+
 func applyUpgradeTier():
 	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
 	health = maxHealth

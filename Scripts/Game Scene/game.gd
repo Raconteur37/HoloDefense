@@ -43,12 +43,6 @@ func fullXpBar():
 	XPBar.value = 0
 	GameManager.inGamePlayerLevel
 	GameManager.onInGameLevelUp($"CanvasLayer/PanelContainer3/MarginContainer/XP Bar")
-	
-
-func _on_upgrade_one_button_pressed() -> void:
-	print(GameManager.getUpgradeTokens())
-	GameManager.removeUpgradeToken()
-	GameManager.upgradeTurret(1)
 
 
 func _on_xp_bar_value_changed(value: float) -> void:

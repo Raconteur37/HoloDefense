@@ -20,20 +20,19 @@ func _input(event: InputEvent) -> void:
 			turretSelected = false
 		
 		match event.keycode:
-			
-			KEY_1:
-				selectedTurret = GameManager.getTurret(1).instantiate()
-				turretSelected = true
-				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
-			KEY_2:
-				selectedTurret = GameManager.getTurret(2).instantiate()
-				turretSelected = true
-				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
-			KEY_3:
-				selectedTurret = GameManager.getTurret(3).instantiate()
-				turretSelected = true
-				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
-		
+			KEY_0, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
+				if Input.is_key_pressed(KEY_SHIFT):
+					if GameManager.getUpgradeTokens() > 0:
+						GameManager.removeUpgradeToken()
+						var number_pressed = event.keycode - KEY_0
+						print(number_pressed)
+						print("shift")
+						GameManager.upgradeTurret(number_pressed)
+				else:
+					selectedTurret = GameManager.getTurret(event.keycode - KEY_0).instantiate()
+					turretSelected = true
+					get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(selectedTurret)
+					
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
 		turretSelected = false

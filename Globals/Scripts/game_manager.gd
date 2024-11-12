@@ -155,9 +155,6 @@ func summonEnemies():
 		else:
 			hexagonMothershipCooldown -= 1
 	
-	#if enemyWaveCanAppear.get("Hexagon Mothership") >= currentWave chance to get one but will get one within 5 waves of appearing
-	summonEnemy("Hexagon Mothership")
-	
 
 	while true:
 		if summonDict.size() > 0:
@@ -286,15 +283,16 @@ func updateTurretUpgradeTier(turretName):
 
 func upgradeTurret(turretNumber):
 	
-	var turretName = turretsNameArray[turretNumber-1]
-	
-	var turretsList : Array = turretsPlaced.get(turretName)
-	for x in turretsList:
-		x.applyUpgradeTier()
-		if x.energized:
-			x.energizerTurret.applyEnergizerBuffsToTurret(x)
+	if turretsPlaced.size() > 0:
+		var turretName = turretsNameArray[turretNumber-1]
 		
-	updateTurretUpgradeTier(turretName)
+		var turretsList : Array = turretsPlaced.get(turretName)
+		for x in turretsList:
+			x.applyUpgradeTier()
+			if x.energized:
+				x.energizerTurret.applyEnergizerBuffsToTurret(x)
+			
+		updateTurretUpgradeTier(turretName)
 
 func getUpgradeTier(turretName):
 	if turretsUpgradeTier.has(turretName):

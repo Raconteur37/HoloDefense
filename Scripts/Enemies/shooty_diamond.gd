@@ -2,10 +2,10 @@ extends CharacterBody2D
 
 var destination
 
-var projectile = preload("res://Textures/Projectiles/DiamondProjectile.png")
+var projectile = preload("res://Projectile Scenes/diamond.tscn")
 
 @export var enemyName : String = "Shooty Diamond"
-@export var health : float = 40
+@export var health : float = 75
 @export var damage : float = 20
 @export var attackTime : float = 4
 @export var speed : float = 25
@@ -15,6 +15,8 @@ var projectile = preload("res://Textures/Projectiles/DiamondProjectile.png")
 var attackTimer
 var attackReady : bool = true
 var isDead : bool = false
+
+var turretsInRange = []
 
 func takeDamage(projBody):
 	var damageTaken = projBody.damage
@@ -29,6 +31,7 @@ func takeDamage(projBody):
 func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
+	attackTimer.start()
 	#destination = Vector2(1000,0) 
 	destination = GameManager.getBeaconPosition()
 	increaseStats()
@@ -59,25 +62,26 @@ func getName():
 	return enemyName
 
 func _on_attack_timer_timeout() -> void:
-	while true:
-		var areaArray : Array = $Area2D.get_overlapping_areas()
-		while true:
-			var turret = areaArray.pick_random()
-			if turret.get_parent().is_in_group("Turret") and turret.name.contains("SelectArea"):
-				var proj = projectile.instantiate()
-				proj.position = position
-				proj.linear_velocity = (turret.position - position).normalized() * projectileSpeed
-				
-				var dif = self.global_position.angle_to_point(turret.global_position)
-				
-				proj.rotation = proj.rotation + dif
-				proj.damage = damage
-				proj.shooter = self
-				get_parent().add_child(proj)
-				
-				$AttackTimer.start()
-				break
-		break
+	for x in turretsInRange:
+		if not is_instance_valid(x):
+			turretsInRange.erase(x)
+	if turretsInRange.size() > 0:
+		var turret = turretsInRange.pick_random()
+		if is_instance_valid(turret):
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.linear_velocity = (turret.position - position).normalized() * projectileSpeed
+			
+			var dif = self.global_position.angle_to_point(turret.global_position)
+			
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+			get_parent().add_child(proj)
+			
+		else:
+			turretsInRange.erase(turret)
+	$AttackTimer.start()
 			
 func increaseStats():
 	var currentWave = GameManager.currentWave
@@ -88,3 +92,8 @@ func increaseStats():
 	damage += GameManager.round_to_dec(damage * statIncrease,2)
 	attackTime -= GameManager.round_to_dec(attackTime * statIncrease,2)
 	speed += GameManager.round_to_dec(speed * statIncrease,2)
+
+
+func _on_area_2d_2_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Turret") and body.isPlaced:
+		turretsInRange.append(body)

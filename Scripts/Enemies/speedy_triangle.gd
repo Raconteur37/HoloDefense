@@ -6,7 +6,7 @@ var destination
 @export var health : float = 30
 @export var damage : float = 20
 @export var attackTime : float = .5
-@export var speed : float = 400
+@export var speed : float = 200
 
 var attackTimer
 var attackReady : bool = true
