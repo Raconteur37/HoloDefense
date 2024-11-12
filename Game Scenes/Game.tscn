@@ -115,7 +115,7 @@ layout_mode = 2
 text = "999"
 
 [node name="Beacon" parent="CanvasLayer" instance=ExtResource("2_wh51m")]
-position = Vector2(575, 323)
+position = Vector2(487, 274)
 
 [node name="TilemapLayer0" type="TileMapLayer" parent="CanvasLayer"]
 use_parent_material = true

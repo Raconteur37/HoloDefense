@@ -22,7 +22,7 @@ var kills : int = 0
 
 
 @onready var projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
-@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
+@onready var description = preload("res://Globals/Scene/TurretDescription/RailgunDescription.tscn")
 
 var menu
 
@@ -37,7 +37,7 @@ var menu
 @export var upgradeTier : int = 0
 @export var armor : int = 30
 @export var level : int = 1
-@export var pierce : int = 1
+@export var pierce : int = 2
 
 var damage
 var projectileSpeed
@@ -58,7 +58,7 @@ func _ready() -> void:
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
-	topSprite = $ArrowTurretTop
+	topSprite = $RailgunTurretTop # CHANGE THIS
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackRange = baseAttackRange

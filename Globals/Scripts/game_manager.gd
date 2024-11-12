@@ -7,7 +7,7 @@ var popupScene = load("res://Globals/Scene/Popup.tscn")
 var turretXpMap = {}
 
 # This array will be in order, so 0 will be 1 and so on
-var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret"]
+var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret"]
 
 var turretsUpgradeTier = {}
 
@@ -186,6 +186,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
 		"Energizer Turret":
 			return load("res://Turret Scenes/Energizer Turret.tscn")
+		"Railgun Turret":
+			return load("res://Turret Scenes/Railgun Turret.tscn")
 
 func getBeaconPosition():
 	return beacon.global_position

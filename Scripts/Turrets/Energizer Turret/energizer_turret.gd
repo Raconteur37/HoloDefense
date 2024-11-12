@@ -182,7 +182,6 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.energized = true
 			ParticleManager.playEnergizedParticle(turret)
 		if turret.get("damage") != null:
-			print(turret.baseDamage)
 			turret.damage +=  ceil(energizerDamageBuff * turret.baseDamage)
 		if turret.get("projectileSpeed") != null:
 			turret.projectileSpeed +=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)

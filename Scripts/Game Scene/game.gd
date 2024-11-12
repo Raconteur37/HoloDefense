@@ -23,6 +23,8 @@ func _ready() -> void:
 	breakTimer.start()
 	
 	
+	
+	
 func _process(delta: float) -> void:
 	
 	moneyLabel.text = "$" +  str(GameManager.getCurrentMoney())
