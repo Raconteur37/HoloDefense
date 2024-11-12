@@ -20,7 +20,7 @@ var enemiesAlive = []
 
 var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
-var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 1, "Shooty Diamond" : 1,"Hexagon Mothership" : 5}
+var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 1, "Shooty Diamond" : 1,"Hexagon Mothership" : 1}
 
 var currentMoney = startingCash
 var currentExperience = 0

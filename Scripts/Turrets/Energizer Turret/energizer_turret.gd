@@ -165,8 +165,11 @@ func applyUpgradeTier():
 	energizerReloadTimeBuff += GameManager.getUpgradeTierPercent()
 	
 	for x in turretsInRange:
-		if x.energized:
-			applyEnergizerBuffsToTurret(x)
+		if is_instance_valid(x):
+			if x.energized:
+				applyEnergizerBuffsToTurret(x)
+		else:
+			turretsInRange.erase(x)
 	
 	beaconBuffActive = false
 	
@@ -179,6 +182,7 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.energized = true
 			ParticleManager.playEnergizedParticle(turret)
 		if turret.get("damage") != null:
+			print(turret.baseDamage)
 			turret.damage +=  ceil(energizerDamageBuff * turret.baseDamage)
 		if turret.get("projectileSpeed") != null:
 			turret.projectileSpeed +=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
