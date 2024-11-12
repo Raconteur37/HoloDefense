@@ -45,6 +45,18 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
+		if body.get("enemiesPierced") != null:
+			if body.enemiesPierced+1 >= body.maxEnemiesPierce:
+				takeDamage(body)
+				body.queue_free()
+				return
+			else:
+				body.enemiesPierced += 1
+				body.collision_mask = 999
+				takeDamage(body)
+				if isDead:
+					body.collision_mask = 3
+				return
 		takeDamage(body)
 		body.queue_free()
 
@@ -71,3 +83,7 @@ func increaseStats():
 	
 	
 	
+
+
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	pass # Replace with function body.
