@@ -1,24 +1,23 @@
-extends RigidBody2D
+extends Area2D
 
 var shooter
 var damage
 var enemiesPierced = 0
 var maxEnemyPierce = 1
-var enemy
 var inEnemy
+var velocity
+var speed
+
+var enemiesTouched = []
 
 func _on_despawn_timer_timeout() -> void:
 	queue_free()
 
 func _process(delta: float) -> void:
-	if inEnemy:
-		for x in $Area2D.get_overlapping_areas():
-			if x.get_parent().is_in_group("Enemy"):
-				x = x.get_parent()
-				if x != enemy:
-					inEnemy = false
-					print("Left enemy")
+	position += Vector2(speed * delta,0)
 
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	enemy = body
+func _on_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Enemy"):
+		if enemiesTouched.find(body) < 0:
+			body.takeDamage(damage)
+			enemiesTouched.append(body)
