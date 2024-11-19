@@ -56,12 +56,7 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
 		takeDamage(body)
-		#body.queue_free()
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		if body.get("enemiesPierced") != null:
-			pass
+		body.queue_free()
 
 func getName():
 	return enemyName
