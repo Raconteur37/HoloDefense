@@ -5,8 +5,8 @@ var damage
 var enemiesPierced = 0
 var maxEnemyPierce = 1
 var inEnemy
-var velocity
 var speed
+var velocity
 
 var enemiesTouched = []
 
@@ -14,10 +14,14 @@ func _on_despawn_timer_timeout() -> void:
 	queue_free()
 
 func _process(delta: float) -> void:
-	position += Vector2(speed * delta,0)
+	position += velocity * delta * 5.5
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		if enemiesTouched.find(body) < 0:
-			body.takeDamage(damage)
+			body.takeDamage(self)
 			enemiesTouched.append(body)
+			enemiesPierced += 1
+			if enemiesPierced >= maxEnemyPierce:
+				queue_free()
+		

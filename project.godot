@@ -24,7 +24,7 @@ BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 
 [display]
 
-window/size/viewport_width=1900
+window/size/viewport_width=1400
 window/size/viewport_height=1000
 window/size/mode=3
 

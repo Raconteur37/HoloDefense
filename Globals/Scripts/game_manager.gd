@@ -20,7 +20,7 @@ var enemiesAlive = []
 
 var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
-var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 1, "Shooty Diamond" : 1,"Hexagon Mothership" : 1}
+var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 10, "Shooty Diamond" : 10,"Hexagon Mothership" : 1}
 
 var currentMoney = startingCash
 var currentExperience = 0
@@ -30,7 +30,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 1
+var currentWave : int = 200
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -147,6 +147,7 @@ func summonEnemies():
 		var triangleAmount = int(40 * log(currentWave) + 10)
 		summonDict["Shooty Diamond"] = triangleAmount
 	
+	#summonEnemy("Hexagon Mothership")
 	if currentWave >= enemyWaveCanAppear.get("Hexagon Mothership"):
 		var rand = randi_range(1,10)
 		if rand >= hexagonMothershipCooldown:

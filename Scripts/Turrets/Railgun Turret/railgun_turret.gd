@@ -31,7 +31,7 @@ var menu
 @export var price : int = 35
 @export var maxHealth : float = 50
 @export var baseDamage : float = 100
-@export var baseProjectileSpeed : float = 1000
+@export var baseProjectileSpeed : float = 200
 @export var baseAttackRange : float = 500
 @export var baseReloadTime : float = 10.0
 @export var upgradeTier : int = 0
@@ -95,7 +95,8 @@ func shoot(enemy):
 	if is_instance_valid(enemy) and isPlaced:
 		var proj = projectile.instantiate()
 		proj.position = position
-		proj.speed = 100
+		proj.maxEnemyPierce = pierce
+		proj.velocity = (enemy.global_position - position).normalized() * projectileSpeed
 		var dif = self.global_position.angle_to_point(enemy.global_position)
 		
 		proj.rotation = proj.rotation + dif
