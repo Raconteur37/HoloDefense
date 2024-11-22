@@ -30,7 +30,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 5
+var currentWave : int = 200
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
