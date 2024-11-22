@@ -20,6 +20,9 @@ var turretsInRange = []
 
 func takeDamage(projBody):
 	var damageTaken = projBody.damage
+	# This is so bad but it works for now so yeah
+	if damageTaken > 99999:
+		ParticleManager.playExecutionParticle(self)
 	if health - damageTaken <= 0 and not isDead:
 		GameManager.onKill(projBody.shooter,self)
 		isDead = true

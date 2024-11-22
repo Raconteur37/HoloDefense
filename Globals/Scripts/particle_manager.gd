@@ -1,5 +1,7 @@
 extends Node
 
+var executionParticle = preload("res://Particle Scenes/reaper_execute.tscn")
+
 var basicSquareHurtParticle = preload("res://Particle Scenes/basic_square_hurt.tscn")
 var basicSquareDeathParticle = preload("res://Particle Scenes/basic_square_death.tscn")
 
@@ -29,6 +31,15 @@ func playDeathParticle(enemy):
 			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(particle)
 			await get_tree().create_timer(5).timeout
 			particle.queue_free()
+
+func playExecutionParticle(enemy):
+	
+	var particle = executionParticle.instantiate()
+	particle.global_position = enemy.global_position
+	particle.emitting = true
+	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(particle)
+	await get_tree().create_timer(5).timeout
+	particle.queue_free()
 
 func playEnergizedParticle(turret):
 	
