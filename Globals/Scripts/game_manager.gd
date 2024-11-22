@@ -1,6 +1,6 @@
 extends Node
 
-var startingCash : int = 1000
+var startingCash : int = 100
 
 var popupScene = load("res://Globals/Scene/Popup.tscn")
 
@@ -20,7 +20,7 @@ var enemiesAlive = []
 
 var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
-var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 10, "Shooty Diamond" : 10,"Hexagon Mothership" : 1}
+var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Shooty Diamond" : 10,"Hexagon Mothership" : 30}
 
 var currentMoney = startingCash
 var currentExperience = 0
@@ -30,7 +30,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 200
+var currentWave : int = 0
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -253,7 +253,7 @@ func onKill(turret,enemy):
 	popup.killPopup(moneyEarned,experienceEarned)
 	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(popup)
 	
-
+	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)
 
 	currentMoney += moneyEarned
@@ -263,13 +263,12 @@ func onKill(turret,enemy):
 	
 	removeAliveEnemyFromList(enemy)
 	
-	if turret.is_in_group("Minion"):
-		if is_instance_valid(turret):
+	if is_instance_valid(turret):
+		if turret.is_in_group("Minion"):
 			turret.turretOwner.addKill()
 			turret.enemy = null
 			addTurretXP(turret.turretOwner.getName(),experienceEarned)
-	else:
-		if is_instance_valid(turret):
+		else:
 			turret.addKill()
 			addTurretXP(turret.getName(),experienceEarned)
 

@@ -11,6 +11,8 @@ var turretSelected : bool = false
 
 var selectedTurret
 
+var popupScene = load("res://Globals/Scene/Popup.tscn")
+
 func _input(event: InputEvent) -> void:
 	
 	if event is InputEventKey and event.is_pressed():
@@ -52,6 +54,10 @@ func _input(event: InputEvent) -> void:
 					selectedTurret = null
 			else:
 				print("Not enough money!")
+				var popup = popupScene.instantiate()
+				popup.global_position = Vector2(get_viewport().size.x / 2, 200)
+				popup.insufficientFundsPopup()
+				get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(popup)
 				selectedTurret.queue_free()
 				turretSelected = false
 				selectedTurret = null

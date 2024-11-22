@@ -26,7 +26,7 @@ var menu
 
 @export var turretName : String = "Energizer Turret"
 @export var turretType : String = "Support"
-@export var price : int = 30
+@export var price : int = 35
 @export var maxHealth : float = 20
 @export var baseAttackRange : float = 150
 @export var upgradeTier : int = 0

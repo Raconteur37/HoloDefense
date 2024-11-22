@@ -28,7 +28,7 @@ var menu
 
 @export var turretName : String = "Reaper Turret"
 @export var turretType : String = "Magic"
-@export var price : int = 25
+@export var price : int = 35
 @export var maxHealth : float = 35
 @export var baseDamage : float = 15
 @export var baseProjectileSpeed : float = 250

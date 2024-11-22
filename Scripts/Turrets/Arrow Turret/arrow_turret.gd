@@ -28,7 +28,7 @@ var menu
 
 @export var turretName : String = "Arrow Turret"
 @export var turretType : String = "Medieval"
-@export var price : int = 25
+@export var price : int = 20
 @export var maxHealth : float = 20
 @export var baseDamage : float = 20
 @export var baseProjectileSpeed : float = 400

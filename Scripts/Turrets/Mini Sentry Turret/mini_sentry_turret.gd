@@ -27,7 +27,7 @@ var menu
 
 @export var turretName : String = "Mini Sentry Turret"
 @export var turretType : String = "Mechanical"
-@export var price : int = 30
+@export var price : int = 25
 @export var maxHealth : float = 25
 @export var baseDamage : float = 7
 @export var baseProjectileSpeed : float = 500

@@ -29,7 +29,7 @@ var menu
 
 @export var turretName : String = "Royal Turret"
 @export var turretType : String = "Medieval"
-@export var price : int = 25
+@export var price : int = 80
 @export var maxHealth : float = 20
 @export var baseAttackRange : float = 200
 @export var baseSummonTime : float = 5
@@ -114,8 +114,9 @@ func takeDamage(damage):
 		else:
 			armor -= damage
 	else:
-		
 		if health - damage <= 0:
+			for x in currentMinions:
+				x.queue_free()
 			GameManager.removeTurretFromGame(self)
 		else:
 			health = health - damage

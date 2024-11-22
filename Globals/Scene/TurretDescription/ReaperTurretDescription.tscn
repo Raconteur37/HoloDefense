@@ -53,7 +53,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.166667),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(2229, 500), Vector2(1901, 500)]
+"values": [Vector2(2753, 500), Vector2(2409, 499)]
 }
 
 [sub_resource type="Animation" id="Animation_hfbjl"]
@@ -84,8 +84,10 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 829.0
-offset_right = 829.0
+offset_left = 309.0
+offset_top = -40.0
+offset_right = 309.0
+offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 2
 script = ExtResource("1_endvs")

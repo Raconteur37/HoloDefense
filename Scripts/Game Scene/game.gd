@@ -18,7 +18,7 @@ func _ready() -> void:
 	waveLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer4/Label
 	breakTimer = $BreakTimer
 	GameManager.beacon = beacon
-	beacon.global_position = Vector2(1920 / 2, 1080 / 2)
+	beacon.global_position = get_viewport().size / 2
 	
 	breakTimer.start()
 	

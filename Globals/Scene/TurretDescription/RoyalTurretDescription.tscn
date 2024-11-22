@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://oocbjpspjuuc"]
+[gd_scene load_steps=17 format=3 uid="uid://oocbjpspjuuc"]
 
 [ext_resource type="Script" path="res://Globals/Scene/TurretDescription/royal_turret_description.gd" id="1_2jguv"]
 [ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_hmnq0"]
@@ -16,10 +16,6 @@ shadow_color = Color(0, 0, 0, 1)
 font_color = Color(0.972172, 0.248035, 0.565698, 1)
 shadow_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_fb3xi"]
-font_color = Color(0.760784, 0, 0, 1)
-shadow_color = Color(0, 0, 0, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_6nvnd"]
 font_color = Color(0, 0.656052, 0.656052, 1)
 shadow_color = Color(0, 0, 0, 1)
@@ -28,12 +24,20 @@ shadow_color = Color(0, 0, 0, 1)
 font_color = Color(0.790672, 0.399202, 3.85046e-07, 1)
 shadow_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_y6rm8"]
-font_color = Color(0.575671, 0.385446, 0.326012, 1)
-shadow_color = Color(0, 0, 0, 1)
-
 [sub_resource type="LabelSettings" id="LabelSettings_32k8o"]
 font_color = Color(0.601223, 0.601223, 0.601223, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ujp1n"]
+font_color = Color(1, 0.74902, 0.231373, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_6c1fg"]
+font_color = Color(0.92549, 0.12549, 0.568627, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_il2t4"]
+font_color = Color(0.890196, 0, 0.14902, 1)
 shadow_color = Color(0, 0, 0, 1)
 
 [sub_resource type="Animation" id="Animation_am0gr"]
@@ -80,9 +84,9 @@ anchor_left = 1.0
 anchor_top = 0.5
 anchor_right = 1.0
 anchor_bottom = 0.5
-offset_left = 309.0
+offset_left = 832.0
 offset_top = -40.0
-offset_right = 309.0
+offset_right = 832.0
 offset_bottom = -40.0
 grow_horizontal = 0
 grow_vertical = 2
@@ -142,14 +146,6 @@ layout_mode = 2
 text = "Current Health: 9999"
 label_settings = SubResource("LabelSettings_duey8")
 
-[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
-layout_mode = 2
-
-[node name="DamageLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer2"]
-layout_mode = 2
-text = "Damage: 9999"
-label_settings = SubResource("LabelSettings_fb3xi")
-
 [node name="MarginContainer3" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 
@@ -166,14 +162,6 @@ layout_mode = 2
 text = "Reload Time: 99 Sec."
 label_settings = SubResource("LabelSettings_p7xbo")
 
-[node name="MarginContainer5" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
-layout_mode = 2
-
-[node name="ProjectileSpeedLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer5"]
-layout_mode = 2
-text = "Projectile Spd: 99999"
-label_settings = SubResource("LabelSettings_y6rm8")
-
 [node name="MarginContainer6" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 
@@ -181,6 +169,30 @@ layout_mode = 2
 layout_mode = 2
 text = "Armor: 99999"
 label_settings = SubResource("LabelSettings_32k8o")
+
+[node name="MarginContainer8" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="MaxKnightsLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer8"]
+layout_mode = 2
+text = "Max Knights: "
+label_settings = SubResource("LabelSettings_ujp1n")
+
+[node name="MarginContainer2" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="KnightHealthLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer2"]
+layout_mode = 2
+text = "Knight Health: "
+label_settings = SubResource("LabelSettings_6c1fg")
+
+[node name="MarginContainer7" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="KnightDamageLabel" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer7"]
+layout_mode = 2
+text = "Knight Damage: "
+label_settings = SubResource("LabelSettings_il2t4")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

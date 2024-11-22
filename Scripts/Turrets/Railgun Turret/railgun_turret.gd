@@ -28,16 +28,17 @@ var menu
 
 @export var turretName : String = "Railgun Turret"
 @export var turretType : String = "Heavy Weapons"
-@export var price : int = 35
+@export var price : int = 75
 @export var maxHealth : float = 50
 @export var baseDamage : float = 100
-@export var baseProjectileSpeed : float = 200
+@export var baseProjectileSpeed : float = 150
 @export var baseAttackRange : float = 500
 @export var baseReloadTime : float = 10.0
 @export var upgradeTier : int = 0
 @export var armor : int = 30
 @export var level : int = 1
 @export var pierce : int = 2
+
 
 var damage
 var projectileSpeed
@@ -204,8 +205,12 @@ func applyUpgradeTier():
 	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
 	damage = baseDamage
 	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
+	if baseProjectileSpeed > 250:
+		baseProjectileSpeed = 250
 	projectileSpeed = baseProjectileSpeed
 	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
+	if baseAttackRange > 450:
+		baseAttackRange = 450
 	attackRange = baseAttackRange
 	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
 	reloadTime = baseReloadTime
