@@ -1,0 +1,68 @@
+[gd_scene load_steps=9 format=3 uid="uid://bm45emkr85pbg"]
+
+[ext_resource type="Texture2D" uid="uid://c2fdw5buet72r" path="res://Textures/Turrets/Royal Turret/RoyalTurretBottom.png" id="1_e6223"]
+[ext_resource type="Script" path="res://Scripts/Turrets/Royal Turret/royal_turret.gd" id="1_f7742"]
+[ext_resource type="Texture2D" uid="uid://cvt46co42dqqn" path="res://Textures/Turrets/Royal Turret/RoyalTurretTop.png" id="2_c33c0"]
+[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="4_aieaj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_c33c0")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Royal Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(127, 65)
+collision_mask = 12
+script = ExtResource("1_f7742")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("1_e6223")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("4_aieaj")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="SummonTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="SelectArea" to="." method="_on_select_area_body_entered"]
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="SummonTimer" to="." method="_on_summon_timer_timeout"]

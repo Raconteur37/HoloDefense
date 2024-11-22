@@ -59,10 +59,10 @@ script = ExtResource("2_mmj3o")
 shape = SubResource("RectangleShape2D_11eqx")
 disabled = true
 
-[node name="ArrowTurretBottom" type="Sprite2D" parent="."]
+[node name="TurretBottom" type="Sprite2D" parent="."]
 texture = ExtResource("1_n5hte")
 
-[node name="ArrowTurretTop" type="AnimatedSprite2D" parent="."]
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
@@ -86,8 +86,8 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 [node name="ReloadTimer" type="Timer" parent="."]
 
 [connection signal="body_entered" from="SelectArea" to="." method="_on_select_area_body_entered"]
-[connection signal="mouse_entered" from="SelectArea" to="ArrowTurretTop" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="SelectArea" to="ArrowTurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

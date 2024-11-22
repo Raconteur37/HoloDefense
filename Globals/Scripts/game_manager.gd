@@ -7,7 +7,7 @@ var popupScene = load("res://Globals/Scene/Popup.tscn")
 var turretXpMap = {}
 
 # This array will be in order, so 0 will be 1 and so on
-var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret"]
+var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret"]
 
 var turretsUpgradeTier = {}
 
@@ -30,7 +30,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 200
+var currentWave : int = 5
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -180,7 +180,6 @@ func getTurret(number):
 	
 	match turretName:
 		
-		
 		"Arrow Turret":
 			return load("res://Turret Scenes/Arrow Turret.tscn")
 		"Mini Sentry Turret":
@@ -191,6 +190,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Railgun Turret.tscn")
 		"Reaper Turret":
 			return load("res://Turret Scenes/Reaper Turret.tscn")
+		"Royal Turret":
+			return load("res://Turret Scenes/Royal Turret.tscn")
 
 func getBeaconPosition():
 	return beacon.global_position
@@ -262,9 +263,15 @@ func onKill(turret,enemy):
 	
 	removeAliveEnemyFromList(enemy)
 	
-	if is_instance_valid(turret):
-		turret.addKill()
-		addTurretXP(turret.getName(),experienceEarned)
+	if turret.is_in_group("Minion"):
+		if is_instance_valid(turret):
+			turret.turretOwner.addKill()
+			turret.enemy = null
+			addTurretXP(turret.turretOwner.getName(),experienceEarned)
+	else:
+		if is_instance_valid(turret):
+			turret.addKill()
+			addTurretXP(turret.getName(),experienceEarned)
 
 func addTurretXP(turretName,xp):
 	
