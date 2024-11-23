@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 var isPlaced : bool = false
 var selected : bool = false
-var shotReady : bool = true
+var shooting : bool = false
 var isCollisionReady : bool = false
 
 var enemiesInRange = []
@@ -10,7 +10,6 @@ var enemiesInRange = []
 var currentParticlesMap = {}
 
 var line2d
-var reloadTimer
 var rangeCollisionShape
 var rangeIndicator
 var topSprite
@@ -29,10 +28,12 @@ var menu
 @export var price : int = 20
 @export var maxHealth : float = 20
 @export var baseDamage : float = 5
-@export var baseAttackRange : float = 200
+@export var baseAttackRange : float = 90
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
+
+var particleVelocity = 200
 
 var damage
 var attackRange
@@ -45,7 +46,6 @@ var beaconBuffActive : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
-	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
@@ -72,46 +72,25 @@ func getName():
 	return turretName
 	
 func _process(delta: float) -> void:
-	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(GameManager.getClosestEnemyFromSprite($"."))
+	if enemiesInRange.size() > 0 and not shooting:
+		shooting = true
+		if $DamageTickTimer.is_stopped():
+			$DamageTickTimer.start()
+	if enemiesInRange.size() <= 0:
+		shooting = false
+	if shooting and enemiesInRange.size() > 0 and isPlaced:
+		var enemy = GameManager.getClosestEnemyFromSprite($".")
+		topSprite.look_at(enemy.global_position)
+		#topSprite.rotate(PI/2)
+		$"TurretTop/Flame Particle".emitting = true
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
 	if not beaconBuffActive:
 		BeaconManager.applyBeaconBuffs()
-	
-func shoot(enemy):
-	shotReady = false
-	if is_instance_valid(enemy) and isPlaced:
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.linear_velocity = (enemy.position - position).normalized() * projectileSpeed
-		
-		var dif = self.global_position.angle_to_point(enemy.global_position)
-		
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
-		get_parent().add_child(proj)
-		
-		reloadTimer.start()
-		reloadAnimation()
-		
-		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
-		topSprite.look_at(enemy.global_position)
-		topSprite.rotate(PI/2)
-
-func reloadAnimation():
-	for x in range(4):
-		if x == 0:
-			topSprite.frame = 1
-		if x == 1:
-			topSprite.frame = 2
-		if x == 2:
-			topSprite.frame = 3
-		if x == 3:
-			topSprite.frame = 0
-		await get_tree().create_timer((reloadTime / 4)).timeout
+	if not shooting:
+		$DamageTickTimer.stop()
+		$"TurretTop/Flame Particle".emitting = false
 		
 func takeDamage(damage):
 	
@@ -161,9 +140,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
 
 
-func _on_reload_timer_timeout() -> void:
-	shotReady = true
-
 func getCost():
 	return price
 
@@ -179,12 +155,13 @@ func applyUpgradeTier():
 	health = maxHealth
 	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
 	damage = baseDamage
-	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
-	projectileSpeed = baseProjectileSpeed
 	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
 	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
-	reloadTime = baseReloadTime
+	particleVelocity += 10
+	$TurretTop/FlameArea.position.x += .4
+	$TurretTop/FlameArea/CollisionShape2D.shape.height += .8
+	$"TurretTop/Flame Particle".process_material.set("initial_velocity",Vector2(particleVelocity,particleVelocity))
+	
 	
 	if energized:
 		if is_instance_valid(energizerTurret):
@@ -193,7 +170,14 @@ func applyUpgradeTier():
 	
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
-	reloadTimer.wait_time =  reloadTime
 
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
+
+
+func _on_damage_tick_timer_timeout() -> void:
+	if shooting:
+		for x in $TurretTop/FlameArea.get_overlapping_areas():
+			if x.get_parent().is_in_group("Enemy"):
+				x.get_parent().takeDamage(damage,self)
+		$DamageTickTimer.start()

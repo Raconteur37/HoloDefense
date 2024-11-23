@@ -88,7 +88,7 @@ func _on_attack_timer_timeout() -> void:
 	if enemy != null:
 		for x in $Area2D.get_overlapping_areas():
 			if x.get_parent() == enemy:
-				enemy.takeDamage(self)
+				enemy.takeDamage(damage,turretOwner)
 				attackReady = false
 		attackTimer.start()
 

@@ -7,7 +7,8 @@ var popupScene = load("res://Globals/Scene/Popup.tscn")
 var turretXpMap = {}
 
 # This array will be in order, so 0 will be 1 and so on
-var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret"]
+var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
+"Flame Turret"]
 
 var turretsUpgradeTier = {}
 
@@ -192,6 +193,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Reaper Turret.tscn")
 		"Royal Turret":
 			return load("res://Turret Scenes/Royal Turret.tscn")
+		"Flame Turret":
+			return load("res://Turret Scenes/Flame Turret.tscn")
 
 func getBeaconPosition():
 	return beacon.global_position
@@ -229,7 +232,7 @@ func calculateExperienceReward(enemyName):
 	match enemyName:
 		
 		"Basic Square":
-			return floor((.3 * currentWave + 2))
+			return floor((100 * currentWave + 2))
 		"Speedy Triangle":
 			return floor((.5 * currentWave + 3))
 		"Shooty Diamond":

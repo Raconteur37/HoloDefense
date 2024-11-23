@@ -18,13 +18,13 @@ var isDead : bool = false
 
 var turretsInRange = []
 
-func takeDamage(projBody):
-	var damageTaken = projBody.damage
+func takeDamage(damage,turret):
+	var damageTaken = damage
 	# This is so bad but it works for now so yeah
 	if damageTaken > 99999:
 		ParticleManager.playExecutionParticle(self)
 	if health - damageTaken <= 0 and not isDead:
-		GameManager.onKill(projBody.shooter,self)
+		GameManager.onKill(turret,self)
 		isDead = true
 		await get_tree().create_timer(.1).timeout
 		queue_free()
@@ -58,7 +58,19 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
-		takeDamage(body)
+		if body.get("enemiesPierced") != null:
+			if body.enemiesPierced+1 >= body.maxEnemyPierce:
+				takeDamage(body.damage,body.shooter)
+				body.queue_free()
+				return
+			else:
+				body.enemiesPierced += 1
+				body.collision_mask = 999
+				takeDamage(body.damage,body.shooter)
+				if isDead:
+					body.collision_mask = 3
+				return
+		takeDamage(body.damage,body.shooter)
 		body.queue_free()
 
 func getName():
