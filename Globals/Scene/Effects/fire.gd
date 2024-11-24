@@ -1,0 +1,48 @@
+extends Node2D
+
+var fireParticle = load("res://Particle Scenes/fire.tscn")
+
+var activeParticleEffect
+
+var effectName = "Fire"
+var damage = 0 # Default 0
+var turretApplier = null # Need this to be null in case I forgot to apply the turret
+var enemy = null # same for this
+
+var tickTime = .5
+
+func _ready() -> void:
+	$Tick.wait_time = tickTime
+	activeParticleEffect = fireParticle.instantiate()
+	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(activeParticleEffect)
+
+
+func _process(delta: float) -> void:
+	if not is_instance_valid(enemy): # Somehow the enemy is removed without death
+		activeParticleEffect.queue_free()
+		queue_free()
+	else:
+		activeParticleEffect.global_position = enemy.global_position
+
+func applyData(turret,victim,fireDamage,time):
+	turretApplier = turret
+	enemy = victim
+	damage = fireDamage
+	$"Total Time".wait_time = time
+	$"Total Time".start()
+	# Instantiate the particle effect
+
+func restartTime(time):
+	$"Total Time".start($"Total Time".wait_time)
+
+func getName():
+	return effectName
+
+func _on_tick_timeout() -> void:
+	enemy.takeDamage(damage,turretApplier)
+	$Tick.start()
+
+func _on_total_time_timeout() -> void:
+	activeParticleEffect.queue_free()
+	EffectManager.removeEffect(enemy,self)
+	queue_free()

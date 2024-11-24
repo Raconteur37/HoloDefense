@@ -1,0 +1,14 @@
+[gd_scene load_steps=2 format=3 uid="uid://bsyoc41ysierh"]
+
+[ext_resource type="Script" path="res://Globals/Scene/Effects/fire.gd" id="1_xdanp"]
+
+[node name="Fire" type="Node2D"]
+script = ExtResource("1_xdanp")
+
+[node name="Total Time" type="Timer" parent="."]
+
+[node name="Tick" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Total Time" to="." method="_on_total_time_timeout"]
+[connection signal="timeout" from="Tick" to="." method="_on_tick_timeout"]

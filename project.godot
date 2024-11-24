@@ -22,6 +22,7 @@ ParticleManager="*res://Globals/Scripts/particle_manager.gd"
 PopupScene="*res://Globals/Scene/Popup.tscn"
 BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 SoundManager="*res://Globals/Scene/SoundManager.tscn"
+EffectManager="*res://Globals/Scene/Effects.tscn"
 
 [display]
 

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 var destination
 
+var effects = []
+
 @export var enemyName : String = "Basic Square"
 @export var health : float = 20
 @export var damage : float = 10
@@ -20,8 +22,6 @@ func takeDamage(damage,turret):
 	if health - damageTaken <= 0 and not isDead:
 		GameManager.onKill(turret,self)
 		isDead = true
-		await get_tree().create_timer(.1).timeout
-		queue_free()
 	else:
 		health = health - damageTaken
 

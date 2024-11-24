@@ -55,10 +55,13 @@ func removeTurretFromGame(turret):
 	
 	turret.queue_free()
 
-func removeAliveEnemyFromList(enemy : CharacterBody2D):
+func removeEnemyFromGame(enemy : CharacterBody2D):
 	if (enemiesAlive.find(enemy) >= 0):
 		enemiesAlive.remove_at(enemiesAlive.find(enemy))
 		
+	EffectManager.clearEffects(enemy)
+		
+	enemy.queue_free()
 		
 func summonEnemy(enemyName : String):
 	match enemyName:
@@ -232,7 +235,7 @@ func calculateExperienceReward(enemyName):
 	match enemyName:
 		
 		"Basic Square":
-			return floor((100 * currentWave + 2))
+			return floor((.3 * currentWave + 2))
 		"Speedy Triangle":
 			return floor((.5 * currentWave + 3))
 		"Shooty Diamond":
@@ -251,6 +254,11 @@ func onKill(turret,enemy):
 	var moneyEarned = calculateMoneyReward(enemyName)
 	var experienceEarned = calculateExperienceReward(enemyName)
 	
+	currentMoney += moneyEarned
+	currentExperience += experienceEarned
+	
+	get_tree().root.get_node("/root/Game").find_child("XP Bar").value += experienceEarned
+	
 	var popup = popupScene.instantiate()
 	popup.global_position = enemy.global_position
 	popup.killPopup(moneyEarned,experienceEarned)
@@ -259,13 +267,8 @@ func onKill(turret,enemy):
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)
 
-	currentMoney += moneyEarned
-	currentExperience += experienceEarned
-	
-	get_tree().root.get_node("/root/Game").find_child("XP Bar").value += experienceEarned
-	
-	removeAliveEnemyFromList(enemy)
-	
+	removeEnemyFromGame(enemy)
+
 	if is_instance_valid(turret):
 		if turret.is_in_group("Minion"):
 			turret.turretOwner.addKill()

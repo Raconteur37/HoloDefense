@@ -12,6 +12,5 @@ func takeDamage(damage):
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		takeDamage(body.health)
-		GameManager.removeAliveEnemyFromList(body)
-		body.queue_free()
+		GameManager.removeEnemyFromGame(body)
 		

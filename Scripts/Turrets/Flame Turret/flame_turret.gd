@@ -19,7 +19,7 @@ var bodyCollisionShape
 #stats
 var kills : int = 0
 
-@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
+@onready var description = preload("res://Globals/Scene/TurretDescription/FlameTurretDescription.tscn")
 
 var menu
 
@@ -27,8 +27,10 @@ var menu
 @export var turretType : String = "Elemental"
 @export var price : int = 20
 @export var maxHealth : float = 20
-@export var baseDamage : float = 5
+@export var baseDamage : float = 3
 @export var baseAttackRange : float = 90
+@export var baseFireDamage : float = 2
+@export var baseFireTime : float = 3
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
@@ -37,6 +39,8 @@ var particleVelocity = 200
 
 var damage
 var attackRange
+var fireDamage
+var fireTime
 
 var health : float
 
@@ -59,6 +63,8 @@ func _ready() -> void:
 	rangeCollisionShape.shape.radius = attackRange
 	damage = baseDamage
 	health = maxHealth
+	fireDamage = baseFireDamage
+	fireTime = baseFireTime
 	
 	
 	upgradeTier = GameManager.getUpgradeTier(turretName)
@@ -157,6 +163,10 @@ func applyUpgradeTier():
 	damage = baseDamage
 	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
 	attackRange = baseAttackRange
+	baseFireDamage +=  1
+	fireDamage = baseFireDamage
+	baseFireTime +=  .5
+	fireTime = baseFireTime
 	particleVelocity += 10
 	$TurretTop/FlameArea.position.x += .4
 	$TurretTop/FlameArea/CollisionShape2D.shape.height += .8
@@ -180,4 +190,5 @@ func _on_damage_tick_timer_timeout() -> void:
 		for x in $TurretTop/FlameArea.get_overlapping_areas():
 			if x.get_parent().is_in_group("Enemy"):
 				x.get_parent().takeDamage(damage,self)
+				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
 		$DamageTickTimer.start()
