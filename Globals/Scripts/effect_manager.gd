@@ -1,6 +1,5 @@
 extends Node2D
 
-var fireScene = preload("res://Globals/Scene/Effects/Fire.tscn")
 
 # Is it more efficient to make seperate dicts for each effect? Or iterate through one dict.....
 
@@ -30,11 +29,12 @@ func removeEffect(enemy,effect):
 
 func applyFireEffect(victim,turret,damage,time):
 	cleanDict()
-	for enemy in enemyCurrentEffects.keys():
-		for effect in enemyCurrentEffects[enemy]:
+	if enemyCurrentEffects.has(victim):
+		for effect in enemyCurrentEffects[victim]:
 			if effect.getName() == "Fire":
 				effect.restartTime(time)
 				return
+	var fireScene = load("res://Globals/Scene/Effects/Fire.tscn")
 	var effectScene = fireScene.instantiate()
 	effectScene.applyData(turret,victim,damage,time)
 	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(effectScene)

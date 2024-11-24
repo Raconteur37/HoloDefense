@@ -1,6 +1,6 @@
 extends Node
 
-var startingCash : int = 100
+var startingCash : int = 1000
 
 var popupScene = load("res://Globals/Scene/Popup.tscn")
 
@@ -31,7 +31,7 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 0
+var currentWave : int = 100
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
