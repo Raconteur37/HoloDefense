@@ -1,0 +1,26 @@
+[gd_scene load_steps=3 format=3 uid="uid://6aptbaqf2hmy"]
+
+[ext_resource type="Texture2D" uid="uid://b0377duolnliv" path="res://Particle Scenes/Turrets/Reaper Turret/row_output.png" id="1_q42w1"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m72nu"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 15
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="Execute" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_m72nu")
+position = Vector2(976, 458)
+emitting = false
+amount = 1
+lifetime = 2.0
+one_shot = true
+speed_scale = 2.0
+texture = ExtResource("1_q42w1")
+particle_flag_align_y = true
+gravity = Vector2(0, 0)
+scale_amount_min = 1.01
+scale_amount_max = 1.01
+anim_speed_min = 1.0
+anim_speed_max = 1.0

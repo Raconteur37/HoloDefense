@@ -1,11 +1,11 @@
 extends Node
 
-var executionParticle = preload("res://Particle Scenes/reaper_execute.tscn")
+var executionParticle = preload("res://Particle Scenes/Turrets/Reaper Turret/reaper_execute.tscn")
 
-var basicSquareHurtParticle = preload("res://Particle Scenes/basic_square_hurt.tscn")
-var basicSquareDeathParticle = preload("res://Particle Scenes/basic_square_death.tscn")
+var basicSquareHurtParticle = preload("res://Particle Scenes/Enemies/basic_square_hurt.tscn")
+var basicSquareDeathParticle = preload("res://Particle Scenes/Enemies/basic_square_death.tscn")
 
-var energizedParticle = preload("res://Particle Scenes/energized.tscn")
+var energizedParticle = preload("res://Particle Scenes/Turrets/Energizer Turret/energized.tscn")
 
 func playDamageParticle(enemy):
 	

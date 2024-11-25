@@ -34,7 +34,7 @@ func applyFireEffect(victim,turret,damage,time):
 			if effect.getName() == "Fire":
 				effect.restartTime(time)
 				return
-	var fireScene = load("res://Globals/Scene/Effects/Fire.tscn")
+	var fireScene = load("res://Particle Scenes/Effects/fire.tscn")
 	var effectScene = fireScene.instantiate()
 	effectScene.applyData(turret,victim,damage,time)
 	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(effectScene)

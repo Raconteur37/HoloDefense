@@ -111,6 +111,8 @@ func shoot(enemy):
 		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 		topSprite.look_at(enemy.global_position)
 		topSprite.rotate(PI/2)
+		
+		$RailgunTurretTop/RailgunShoot.emitting = true
 
 func reloadAnimation():
 	for x in range(10):
