@@ -25,13 +25,15 @@ var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Shooty Dia
 
 var currentMoney = startingCash
 var currentExperience = 0
-var upgradeTokens = 0
+var upgradeTokens = 10
 var inGamePlayerLevel = 0
 
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 1
+var currentWave : int = 100
+
+var pandemonium = true
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -139,6 +141,9 @@ func summonEnemies():
 	var ln = log(currentWave / float(10)) / log(2.7182818)
 	var summonTime = -.5 * ln + 2
 	summonTime = round_to_dec(summonTime,2)
+	
+	if pandemonium:
+		summonTime = .2
 	
 	var squareAmount = int(40 * log(currentWave) + 10)
 	summonDict["Basic Square"] = squareAmount

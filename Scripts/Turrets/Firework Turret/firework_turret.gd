@@ -29,14 +29,14 @@ var menu
 @export var turretName : String = "Firework Turret"
 @export var turretType : String = "Unknown"
 @export var price : int = 20
-@export var maxHealth : float = 20
-@export var baseDamage : float = 20
-@export var baseProjectileSpeed : float = 400
+@export var maxHealth : float = 45
+@export var baseDamage : float = 30
+@export var baseProjectileSpeed : float = 600
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 1.5
 @export var upgradeTier : int = 0
 @export var explosionDamage : float = 10
-@export var explosionRadius : float = 300
+@export var explosionRadius : float = 60
 @export var armor : int = 0
 @export var level : int = 1
 
@@ -219,6 +219,8 @@ func applyUpgradeTier():
 	attackRange = baseAttackRange
 	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
 	reloadTime = baseReloadTime
+	explosionDamage += 5
+	explosionRadius += 3
 	
 	if energized:
 		if is_instance_valid(energizerTurret):
