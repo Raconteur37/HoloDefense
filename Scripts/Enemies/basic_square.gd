@@ -48,6 +48,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
+		if body.get("enterEffect") != null:
+			body.playEnterEffect(self)
 		if body.get("enemiesPierced") != null:
 			if body.enemiesPierced+1 >= body.maxEnemyPierce:
 				takeDamage(body.damage,body.shooter)

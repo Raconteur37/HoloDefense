@@ -125,8 +125,9 @@ animation = &"Ready"
 
 [node name="RailgunShoot" parent="RailgunTurretTop" instance=ExtResource("4_a7dtg")]
 material = SubResource("CanvasItemMaterial_y3b7i")
-position = Vector2(0, -20)
+position = Vector2(0, -28)
 rotation = -0.758102
+scale = Vector2(1.5, 1.5)
 
 [node name="SelectArea" type="Area2D" parent="."]
 collision_mask = 4

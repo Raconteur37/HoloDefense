@@ -34,7 +34,7 @@ var menu
 @export var baseProjectileSpeed : float = 250
 @export var baseAttackRange : float = 250
 @export var baseReloadTime : float = 3
-@export var executionChance : float = 99
+@export var executionChance : float = 2
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1

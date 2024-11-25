@@ -11,7 +11,7 @@ var tickTime = .5
 
 func _ready() -> void:
 	$Tick.wait_time = tickTime
-	var fireParticle = load("res://Particle Scenes/fire.tscn")
+	var fireParticle = load("res://Particle Scenes/Effects/fire.tscn")
 	activeParticleEffect = fireParticle.instantiate()
 	activeParticleEffect.global_position = enemy.global_position
 	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(activeParticleEffect)
