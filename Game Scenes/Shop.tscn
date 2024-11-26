@@ -1,0 +1,140 @@
+[gd_scene load_steps=12 format=3 uid="uid://bn4ajiuopc5lu"]
+
+[ext_resource type="Script" path="res://Scripts/Shop Scene/slot_machine.gd" id="1_c4eij"]
+[ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_nn1d4"]
+[ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="3_ycuo2"]
+[ext_resource type="Texture2D" uid="uid://camtps7iscofx" path="res://Textures/Turrets/Railgun Turret/RailgunTurret.png" id="4_4wxbc"]
+
+[sub_resource type="FontFile" id="FontFile_dn8hd"]
+cache/0/16/0/ascent = 0.0
+cache/0/16/0/descent = 0.0
+cache/0/16/0/underline_position = 0.0
+cache/0/16/0/underline_thickness = 0.0
+cache/0/16/0/scale = 1.0
+cache/0/50/0/ascent = 0.0
+cache/0/50/0/descent = 0.0
+cache/0/50/0/underline_position = 0.0
+cache/0/50/0/underline_thickness = 0.0
+cache/0/50/0/scale = 1.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_twyhd"]
+font = SubResource("FontFile_dn8hd")
+font_size = 50
+font_color = Color(0.258824, 1, 1, 1)
+outline_size = 10
+outline_color = Color(0.239216, 0, 1, 1)
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="Gradient" id="Gradient_oagga"]
+colors = PackedColorArray(0.823529, 0.541176, 0.913725, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bggxi"]
+gradient = SubResource("Gradient_oagga")
+
+[sub_resource type="Animation" id="Animation_j6ssx"]
+resource_name = "Spin"
+
+[sub_resource type="Animation" id="Animation_n7the"]
+length = 0.001
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_moqv8"]
+_data = {
+"RESET": SubResource("Animation_n7the"),
+"Spin": SubResource("Animation_j6ssx")
+}
+
+[node name="Shop" type="Node2D"]
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="Slot Machine" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -271.0
+offset_top = -187.0
+offset_right = -231.0
+offset_bottom = -147.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_c4eij")
+
+[node name="WinLabel" type="Label" parent="CanvasLayer/Slot Machine"]
+layout_mode = 0
+offset_left = 210.0
+offset_top = -301.0
+offset_right = 362.0
+offset_bottom = -234.0
+label_settings = SubResource("LabelSettings_twyhd")
+
+[node name="Button" type="Button" parent="CanvasLayer/Slot Machine"]
+layout_mode = 2
+offset_left = 232.0
+offset_top = 195.0
+offset_right = 322.0
+offset_bottom = 259.0
+text = "press here"
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Slot Machine"]
+layout_mode = 0
+offset_left = -451.0
+offset_top = -190.0
+offset_right = -387.0
+offset_bottom = -126.0
+scale = Vector2(23.0201, 5.77858)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer"]
+layout_mode = 2
+
+[node name="Background" type="TextureRect" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+texture = SubResource("GradientTexture2D_bggxi")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine"]
+layout_mode = 0
+offset_left = -80.0
+offset_top = -89.0
+offset_right = 124.0
+offset_bottom = 15.0
+scale = Vector2(3.8632, 1.41824)
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 0
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer"]
+layout_mode = 2
+texture = ExtResource("2_nn1d4")
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer2"]
+layout_mode = 2
+texture = ExtResource("3_ycuo2")
+
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 50
+
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer3"]
+layout_mode = 2
+texture = ExtResource("4_4wxbc")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Slot Machine"]
+libraries = {
+"": SubResource("AnimationLibrary_moqv8")
+}
+
+[node name="Roll Timer" type="Timer" parent="CanvasLayer/Slot Machine"]
+wait_time = 0.1
+
+[connection signal="pressed" from="CanvasLayer/Slot Machine/Button" to="CanvasLayer/Slot Machine" method="_on_button_pressed"]
+[connection signal="timeout" from="CanvasLayer/Slot Machine/Roll Timer" to="CanvasLayer/Slot Machine" method="_on_roll_time_timeout"]

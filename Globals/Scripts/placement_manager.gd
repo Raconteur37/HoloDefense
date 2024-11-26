@@ -1,5 +1,7 @@
 extends Node
 
+var inGame = false
+
 var tileMap
 
 var occupied_cells = {}
@@ -62,12 +64,13 @@ func _input(event: InputEvent) -> void:
 				turretSelected = false
 				selectedTurret = null
 		else:
-			if not is_cell_occupied(get_tree().root.get_node("/root/Game").get_global_mouse_position()):
-				GameManager.closeAllMenus()
-			#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
-			#if occupied_cells.has(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position())):
-				#var turret = occupied_cells.get(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
-				#turret.openSelectedMenu()
+			if inGame:
+				if not is_cell_occupied(get_tree().root.get_node("/root/Game").get_global_mouse_position()):
+					GameManager.closeAllMenus()
+				#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
+				#if occupied_cells.has(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position())):
+					#var turret = occupied_cells.get(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
+					#turret.openSelectedMenu()
 				
 func is_cell_occupied(position: Vector2):
 	return occupied_cells.has(position)

@@ -20,6 +20,8 @@ func _ready() -> void:
 	GameManager.beacon = beacon
 	beacon.global_position = get_viewport().size / 2
 	
+	PlacementManager.inGame = true
+	
 	breakTimer.start()
 	
 	
