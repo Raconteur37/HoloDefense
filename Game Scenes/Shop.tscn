@@ -31,11 +31,11 @@ colors = PackedColorArray(0.823529, 0.541176, 0.913725, 1, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_bggxi"]
 gradient = SubResource("Gradient_oagga")
 
-[sub_resource type="Animation" id="Animation_j6ssx"]
-resource_name = "Spin"
-
 [sub_resource type="Animation" id="Animation_n7the"]
 length = 0.001
+
+[sub_resource type="Animation" id="Animation_j6ssx"]
+resource_name = "Spin"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_moqv8"]
 _data = {
@@ -64,9 +64,9 @@ script = ExtResource("1_c4eij")
 
 [node name="WinLabel" type="Label" parent="CanvasLayer/Slot Machine"]
 layout_mode = 0
-offset_left = 210.0
+offset_left = -166.0
 offset_top = -301.0
-offset_right = 362.0
+offset_right = -14.0
 offset_bottom = -234.0
 label_settings = SubResource("LabelSettings_twyhd")
 
