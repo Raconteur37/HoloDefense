@@ -3,7 +3,7 @@ extends Control
 var turretTextures : Array = ["res://Textures/Turrets/Arrow Turret/ArrowTurret.png","res://Textures/Turrets/Energizer Turret/Energizer Turret.png",
 "res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png","res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png",
 "res://Textures/Turrets/Railgun Turret/RailgunTurret.png","res://Textures/Turrets/Reaper Turret/ReaperTurret.png",
-"res://Textures/Turrets/Royal Turret/RoyalTurret.png"]
+"res://Textures/Turrets/Royal Turret/RoyalTurret.png", "res://Textures/Turrets/Flame Turret/Flame Turret.png"]
 
 var textureListCloneOne
 var textureListCloneTwo
@@ -48,7 +48,7 @@ func startRoll():
 		
 		winLabel.text = "Rolling..."
 		
-		var randFloat = randf_range(-10,100)
+		var randFloat = randf_range(-99,100)
 		
 		if randFloat >= 60 and randFloat <= 79.99:
 			pickCommonTurret()
@@ -68,6 +68,8 @@ func startRoll():
 		if randFloat >= 99.5:
 			unseenWin = true
 			win = true
+		
+		print(winningTurret)
 		
 		rolling = true
 		rollTimer.start()
@@ -143,7 +145,7 @@ func pickCommonTurret():
 			winningTexture = "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png"
 			
 func pickRareTurret():
-	var rareTurrets = ["Railgun Turret", "Firework Turret", "Energizer Turret"]
+	var rareTurrets = ["Railgun Turret", "Firework Turret", "Energizer Turret", "Flame Turret"]
 
 	winningTurret = rareTurrets.pick_random()
 	
@@ -157,6 +159,9 @@ func pickRareTurret():
 			
 		"Energizer Turret":
 			winningTexture = "res://Textures/Turrets/Energizer Turret/Energizer Turret.png"
+			
+		"Flame Turret":
+			winningTexture = "res://Textures/Turrets/Flame Turret/Flame Turret.png"
 
 func pickSuperRareTurret():
 	var superRareTurrets = ["Reaper Turret", "Royal Turret"]

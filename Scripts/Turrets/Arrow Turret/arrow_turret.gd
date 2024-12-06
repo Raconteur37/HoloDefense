@@ -5,6 +5,8 @@ var selected : bool = false
 var shotReady : bool = true
 var isCollisionReady : bool = false
 
+signal hit(damage,turret)
+
 var enemiesInRange = []
 
 var currentParticlesMap = {}
@@ -69,8 +71,9 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	
+	hit.connect(EntityManager.turretTakeDamage)
 	
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
 		applyUpgradeTier()
@@ -82,7 +85,7 @@ func getName():
 	
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(GameManager.getClosestEnemyFromSprite($"."))
+		shoot(EntityManager.getClosestEnemyFromSprite($"."))
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
@@ -121,21 +124,6 @@ func reloadAnimation():
 		if x == 3:
 			topSprite.frame = 0
 		await get_tree().create_timer((reloadTime / 4)).timeout
-		
-func takeDamage(damage):
-	
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		
-		if health - damage <= 0:
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
 
 func openSelectedMenu():
 	if isPlaced:
@@ -179,20 +167,20 @@ func getCost():
 func _on_select_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy") and isPlaced:
 		if body.attackReady:
-			takeDamage(body.damage)
+			hit.emit(body.damage,self)
 			body.attackReady = false
 			body.attackTimer.start()
 
 func applyUpgradeTier():
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
+	maxHealth += ceil(maxHealth * EntityManager.getUpgradeTierPercent())
 	health = maxHealth
-	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
+	baseDamage +=  ceil(baseDamage * EntityManager.getUpgradeTierPercent())
 	damage = baseDamage
-	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
+	baseProjectileSpeed +=  ceil(baseProjectileSpeed * EntityManager.getUpgradeTierPercent())
 	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
+	baseAttackRange +=  ceil(baseAttackRange * EntityManager.getUpgradeTierPercent())
 	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
+	baseReloadTime -=  round_to_dec(baseReloadTime * EntityManager.getUpgradeTierPercent(),2)
 	reloadTime = baseReloadTime
 	
 	if energized:

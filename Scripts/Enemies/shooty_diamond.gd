@@ -1,5 +1,7 @@
 extends CharacterBody2D
 
+signal hit(damageTaken,turret,enemy,projectile)
+
 var destination
 
 var projectile = preload("res://Projectile Scenes/diamond.tscn")
@@ -18,16 +20,6 @@ var isDead : bool = false
 
 var turretsInRange = []
 
-func takeDamage(damage,turret):
-	var damageTaken = damage
-	# This is so bad but it works for now so yeah
-	if damageTaken > 99999:
-		ParticleManager.playExecutionParticle(self)
-	if health - damageTaken <= 0 and not isDead:
-		GameManager.onKill(turret,self)
-		isDead = true
-	else:
-		health = health - damageTaken
 
 func _ready():
 	attackTimer = $AttackTimer
@@ -35,6 +27,7 @@ func _ready():
 	attackTimer.start()
 	#destination = Vector2(1000,0) 
 	destination = GameManager.getBeaconPosition()
+	hit.connect(EntityManager.takeDamage)
 	increaseStats()
 	$Area2D2/CollisionShape2D.shape.radius = attackRange
 
@@ -56,22 +49,7 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
-		if body.get("enterEffect") != null:
-			body.playEnterEffect(self)
-		if body.get("enemiesPierced") != null:
-			if body.enemiesPierced+1 >= body.maxEnemyPierce:
-				takeDamage(body.damage,body.shooter)
-				body.queue_free()
-				return
-			else:
-				body.enemiesPierced += 1
-				body.collision_mask = 999
-				takeDamage(body.damage,body.shooter)
-				if isDead:
-					body.collision_mask = 3
-				return
-		takeDamage(body.damage,body.shooter)
-		body.queue_free()
+		hit.emit(body.damage,body.shooter,self,projectile)
 
 func getName():
 	return enemyName

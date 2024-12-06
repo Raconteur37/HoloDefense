@@ -189,6 +189,6 @@ func _on_damage_tick_timer_timeout() -> void:
 	if shooting:
 		for x in $TurretTop/FlameArea.get_overlapping_areas():
 			if x.get_parent().is_in_group("Enemy"):
-				x.get_parent().takeDamage(damage,self)
+				x.get_parent().hit.emit(damage,self,x.get_parent())
 				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
 		$DamageTickTimer.start()

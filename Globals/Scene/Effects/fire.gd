@@ -7,14 +7,18 @@ var damage = 0 # Default 0
 var turretApplier = null # Need this to be null in case I forgot to apply the turret
 var enemy = null # same for this
 
-var tickTime = .5
+var tickTimer
+var totalTimeTimer
+
+var tickTime = 1
 
 func _ready() -> void:
-	$Tick.wait_time = tickTime
+	tickTimer = $Tick
+	tickTimer.wait_time = tickTime
 	var fireParticle = load("res://Particle Scenes/Effects/fire.tscn")
 	activeParticleEffect = fireParticle.instantiate()
 	activeParticleEffect.global_position = enemy.global_position
-	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(activeParticleEffect)
+	get_tree().root.current_scene.add_child(activeParticleEffect)
 
 
 func _process(delta: float) -> void:
@@ -39,8 +43,8 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
-	enemy.takeDamage(damage,turretApplier)
-	$Tick.start()
+	enemy.hit.emit(damage,turretApplier,enemy)
+	tickTimer.start()
 
 func _on_total_time_timeout() -> void:
 	activeParticleEffect.queue_free()

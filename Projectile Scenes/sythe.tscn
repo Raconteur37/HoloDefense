@@ -34,7 +34,7 @@ collision_mask = 4
 shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="DespawnTimer" type="Timer" parent="."]
-wait_time = 10.0
+wait_time = 3.0
 one_shot = true
 autostart = true
 

@@ -37,7 +37,24 @@ func applyFireEffect(victim,turret,damage,time):
 	var fireScene = load("res://Globals/Scene/Effects/Fire.tscn")
 	var effectScene = fireScene.instantiate()
 	effectScene.applyData(turret,victim,damage,time)
-	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(effectScene)
+	get_tree().current_scene.add_child(effectScene)
+	if enemyCurrentEffects.has(victim):
+		enemyCurrentEffects[victim].append(effectScene)
+	else:
+		enemyCurrentEffects[victim] = [effectScene]
+
+
+func applyPoisonEffect(victim,turret,damage,time):
+	cleanDict()
+	if enemyCurrentEffects.has(victim):
+		for effect in enemyCurrentEffects[victim]:
+			if effect.getName() == "Poison":
+				effect.restartTime(time)
+				return
+	var poisonScene = load("res://Globals/Scene/Effects/Poison.tscn")
+	var effectScene = poisonScene.instantiate()
+	effectScene.applyData(turret,victim,damage,time)
+	get_tree().root.current_scene.add_child(effectScene)
 	if enemyCurrentEffects.has(victim):
 		enemyCurrentEffects[victim].append(effectScene)
 	else:

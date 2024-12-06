@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://dcprloviih8u3"
-path="res://.godot/imported/ReaperTurretTopSolo.png-c11087b3a8b2bf00c45944990d7c16de.ctex"
+uid="uid://b7dwdsvcy3xow"
+path="res://.godot/imported/Spider Turret Top.png-4c3fc997cbe56fd1eaa1bf48a3fc020a.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Particles/ReaperTurretTopSolo.png"
-dest_files=["res://.godot/imported/ReaperTurretTopSolo.png-c11087b3a8b2bf00c45944990d7c16de.ctex"]
+source_file="res://Textures/Turrets/Spider Turret/Spider Turret Top.png"
+dest_files=["res://.godot/imported/Spider Turret Top.png-4c3fc997cbe56fd1eaa1bf48a3fc020a.ctex"]
 
 [params]
 

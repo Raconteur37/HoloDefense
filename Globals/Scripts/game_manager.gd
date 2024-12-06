@@ -4,13 +4,9 @@ var startingCash : int = 1000
 
 var popupScene = load("res://Globals/Scene/Popup.tscn")
 
-var turretXpMap = {}
-
 # This array will be in order, so 0 will be 1 and so on
 var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
 "Flame Turret", "Firework Turret"]
-
-var turretsUpgradeTier = {}
 
 var turretsPlaced = {}
 
@@ -31,9 +27,9 @@ var inGamePlayerLevel = 0
 var upgradeTierPercent = .02
 
 var inWave : bool = false
-var currentWave : int = 100
+var currentWave : int = 3
 
-var pandemonium = true
+var pandemonium = false
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -73,28 +69,28 @@ func summonEnemy(enemyName : String):
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Hexagon Mothership":
 			var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = Vector2(2100,540)
-			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Speedy Triangle":
 			var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Shooty Diamond":
 			var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
 
 func generateRandomPosition():
 	var side = randi_range(1,4)
@@ -120,19 +116,6 @@ func generateRandomPosition():
 		
 	return Vector2(randX,randY)
 
-func getClosestEnemyFromSprite(turret):
-	var distance = 999999
-	var enemy = null
-	for x in turret.enemiesInRange:
-		if (is_instance_valid(x)):
-			if (turret.global_position.distance_to(x.global_position) < distance):
-				distance = turret.global_position.distance_to(x.global_position)
-				enemy = x
-	if (enemy == null):
-		print("No enemies around")
-		return 0
-	else:
-		return enemy
 
 func summonEnemies():
 	
@@ -254,77 +237,12 @@ func calculateExperienceReward(enemyName):
 		"Explosive Circle":
 			return floor((.6 * currentWave + 7))
 
-func onKill(turret,enemy):
-	
-	var enemyName = enemy.getName()
-	
-	var moneyEarned = calculateMoneyReward(enemyName)
-	var experienceEarned = calculateExperienceReward(enemyName)
-	
-	currentMoney += moneyEarned
-	currentExperience += experienceEarned
-	
-	get_tree().root.get_node("/root/Game").find_child("XP Bar").value += experienceEarned
-	
-	var popup = popupScene.instantiate()
-	popup.global_position = enemy.global_position
-	popup.killPopup(moneyEarned,experienceEarned)
-	get_tree().root.get_node("/root/Game").find_child("CanvasLayer").add_child(popup)
-	
-	SoundManager.playGenericKillSound()
-	ParticleManager.playDeathParticle(enemy)
-
-	removeEnemyFromGame(enemy)
-
-	if is_instance_valid(turret):
-		if turret.is_in_group("Minion"):
-			turret.turretOwner.addKill()
-			turret.enemy = null
-			addTurretXP(turret.turretOwner.getName(),experienceEarned)
-		else:
-			turret.addKill()
-			addTurretXP(turret.getName(),experienceEarned)
-
-func addTurretXP(turretName,xp):
-	
-	if (turretXpMap.has(turretName)):
-		turretXpMap[turretName] = turretXpMap.get(turretName) + xp
-	else:
-		turretXpMap[turretName] = xp
-
 func closeAllMenus():
 	for x in turretsPlaced.values():
 		for z in x:
 			if is_instance_valid(z):
 				z.closeSelectMenu()
 
-func updateTurretUpgradeTier(turretName):
-	
-	if turretsUpgradeTier.has(turretName):
-		turretsUpgradeTier[turretName] = turretsUpgradeTier.get(turretName) + 1
-	else:
-		turretsUpgradeTier[turretName] = 1
-
-func upgradeTurret(turretNumber):
-	
-	if turretsPlaced.size() > 0:
-		var turretName = turretsNameArray[turretNumber-1]
-		
-		if turretsPlaced.has(turretName):
-			var turretsList : Array = turretsPlaced.get(turretName)
-			for x in turretsList:
-				x.applyUpgradeTier()
-				if x.energized:
-					x.energizerTurret.applyEnergizerBuffsToTurret(x)
-				
-		updateTurretUpgradeTier(turretName)
-
-func getUpgradeTier(turretName):
-	if turretsUpgradeTier.has(turretName):
-		return turretsUpgradeTier.get(turretName)
-	else:
-		return 0
-		
 
 func startWave():
 	
