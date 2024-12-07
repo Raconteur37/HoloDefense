@@ -1,7 +1,10 @@
 extends CharacterBody2D
 
+signal hit(damage,minion)
 
-@export var minionName : String = "Knight"
+enum Type {Minion}
+
+const minionName : String = "Knight"
 var health : float = 0
 var damage : float = 0
 @export var attackTime : float = 3
@@ -20,19 +23,6 @@ var shooter = self
 
 var enemiesList = []
 
-func takeDamage(damage):
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		if health - damage <= 0:
-			turretOwner.removeMinion(self)
-		else:
-			health = health - damage
-
 func _ready():
 	attackTimer = $AttackTimer
 	idleTimer = $IdleTimer
@@ -42,6 +32,8 @@ func _ready():
 	velocity = direction * 200
 	await get_tree().create_timer(.2).timeout
 	velocity = Vector2(0,0)
+	
+	hit.connect(EntityManager.entityTakeDamage)
 
 func getName():
 	return minionName
@@ -74,12 +66,8 @@ func _physics_process(delta: float) -> void:
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
 		if attackReady:
-			body.takeDamage(damage,turretOwner)
+			body.hit.emit(damage,turretOwner,body,self)
 			attackReady = false
 			attackTimer.start()
 
@@ -88,23 +76,9 @@ func _on_attack_timer_timeout() -> void:
 	if enemy != null:
 		for x in $Area2D.get_overlapping_areas():
 			if x.get_parent() == enemy:
-				enemy.takeDamage(damage,turretOwner)
+				enemy.hit.emit(damage,turretOwner,x.get_parent(),self)
 				attackReady = false
 		attackTimer.start()
-
-func increaseStats():
-	var currentWave = GameManager.currentWave
-	
-	var statIncrease = (currentWave / 10) * .05
-	
-	health += GameManager.round_to_dec(health * statIncrease,2)
-	damage += GameManager.round_to_dec(damage * statIncrease,2)
-	attackTime -= GameManager.round_to_dec(attackTime * statIncrease,2)
-	speed += GameManager.round_to_dec(speed * statIncrease,2)
-
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.
 
 
 func _on_idle_timer_timeout() -> void:

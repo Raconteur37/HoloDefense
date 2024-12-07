@@ -33,7 +33,7 @@ func _input(event: InputEvent) -> void:
 				else:
 					selectedTurret = GameManager.getTurret(event.keycode - KEY_0).instantiate()
 					turretSelected = true
-					get_tree().root.current_scene.add_child(selectedTurret)
+					get_tree().current_scene.find_child("CanvasLayer").add_child(selectedTurret)
 					
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
@@ -59,13 +59,13 @@ func _input(event: InputEvent) -> void:
 				var popup = popupScene.instantiate()
 				popup.global_position = Vector2(get_viewport().size.x / 2, 200)
 				popup.insufficientFundsPopup()
-				get_tree().root.current_scene.find_child("CanvasLayer").add_child(popup)
+				get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 				selectedTurret.queue_free()
 				turretSelected = false
 				selectedTurret = null
 		else:
 			if inGame:
-				if not is_cell_occupied(get_tree().root.current_scene.get_global_mouse_position()):
+				if not is_cell_occupied(get_tree().current_scene.get_global_mouse_position()):
 					GameManager.closeAllMenus()
 				#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
 				#if occupied_cells.has(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position())):
@@ -97,7 +97,7 @@ func _process(delta: float) -> void:
 	
 	if turretSelected:
 		if not selectedTurret.isPlaced:
-			var mousePosition = get_tree().root.current_scene.get_global_mouse_position()
+			var mousePosition = get_tree().current_scene.get_global_mouse_position()
 
 			selectedTurret.global_position = get_snapped_position(mousePosition)
 			#global_position = world_pos

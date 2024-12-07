@@ -5,6 +5,9 @@ var selected : bool = false
 var shotReady : bool = true
 var isCollisionReady : bool = false
 
+signal hit(damage,turret)
+signal upgrade(turret)
+
 var enemiesInRange = []
 
 var currentParticlesMap = {}
@@ -19,14 +22,15 @@ var bodyCollisionShape
 #stats
 var kills : int = 0
 
-
 @onready var projectile = preload("res://Projectile Scenes/sentry bullet.tscn") # TODO CHANGE PER TURRET
 @onready var description = preload("res://Globals/Scene/TurretDescription/MiniSentryTurretDescription.tscn") # TODO CHANGE PER TURRET
 
 var menu
 
-@export var turretName : String = "Mini Sentry Turret"
-@export var turretType : String = "Mechanical"
+enum Rarity {Common}
+enum Type {Armory}
+
+const turretName : String = "Mini Sentry Turret"
 @export var price : int = 25
 @export var maxHealth : float = 25
 @export var baseDamage : float = 7
@@ -66,14 +70,17 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
+	
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
+		upgrade.emit(self)
 	
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(GameManager.getClosestEnemyFromSprite($"."))
+		shoot(EntityManager.getClosestEnemyFromSprite($"."))
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
@@ -117,22 +124,6 @@ func shoot(enemy):
 		topSprite.look_at(enemy.global_position)
 		topSprite.rotate(PI/2)
 
-
-func takeDamage(damage):
-	
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		
-		if health - damage <= 0:
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
-
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
@@ -146,9 +137,6 @@ func showRange():
 	
 func hideRange():
 	line2d.hide()
-
-func _on_area_2d_mouse_exited() -> void:
-	pass # Replace with function body.
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
@@ -167,37 +155,3 @@ func getCost():
 	
 func getName():
 	return turretName
-
-
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
-	if body.is_in_group("Enemy Projectile") and isPlaced:
-		takeDamage(body.damage)
-			
-func applyUpgradeTier(): # SAME
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
-	health = maxHealth
-	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
-	damage = baseDamage
-	baseProjectileSpeed += ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
-	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
-	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
-	reloadTime = baseReloadTime
-	
-	if energized:
-		if is_instance_valid(energizerTurret):
-			energizerTurret.applyEnergizerBuffsToTurret($".")
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-	reloadTimer.wait_time =  reloadTime
-
-func round_to_dec(num, digit): # SAME
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)

@@ -6,6 +6,9 @@ var shotReady : bool = true
 var isCollisionReady : bool = false
 var reloading : bool = false
 
+signal hit(damage,turret)
+signal upgrade(turret)
+
 var enemiesInRange = []
 
 var currentParticlesMap = {}
@@ -26,8 +29,10 @@ var kills : int = 0
 
 var menu
 
-@export var turretName : String = "Firework Turret"
-@export var turretType : String = "Unknown"
+enum Rarity {Rare}
+enum Type {Idk}
+
+const turretName : String = "Firework Turret"
 @export var price : int = 20
 @export var maxHealth : float = 45
 @export var baseDamage : float = 30
@@ -35,8 +40,8 @@ var menu
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 1.5
 @export var upgradeTier : int = 0
-@export var explosionDamage : float = 10
-@export var explosionRadius : float = 60
+@export var baseExplosionDamage : float = 10
+@export var baseExplosionRadius : float = 60
 @export var armor : int = 0
 @export var level : int = 1
 
@@ -45,6 +50,8 @@ var projectileSpeed
 var attackRange
 var reloadTime
 var shots = 3
+var explosionDamage
+var explosionRadius
 
 var health : float
 
@@ -69,14 +76,18 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	explosionDamage = baseExplosionDamage
+	explosionRadius = baseExplosionRadius
 	
 	
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
+	
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
-	
-	#scanCurrentEnemiesInRange()
+		upgrade.emit(self)
+
 	
 func getName():
 	return turretName
@@ -84,7 +95,7 @@ func getName():
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shotReady = false
-		shoot(GameManager.getClosestEnemyFromSprite($"."))
+		shoot(EntityManager.getClosestEnemyFromSprite($"."))
 		await get_tree().create_timer(.5).timeout
 		shotReady = true
 	if isPlaced and not isCollisionReady:
@@ -145,21 +156,6 @@ func reloadAnimation():
 				return
 			reloading = false
 
-func takeDamage(damage):
-	
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		
-		if health - damage <= 0:
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
-
 func openSelectedMenu():
 	if isPlaced:
 		menu = description.instantiate()
@@ -181,9 +177,6 @@ func showRange():
 func hideRange():
 	line2d.hide()
 
-func _on_area_2d_mouse_exited() -> void:
-	pass # Replace with function body.
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
@@ -200,35 +193,3 @@ func _on_reload_timer_timeout() -> void:
 
 func getCost():
 	return price
-
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
-
-func applyUpgradeTier():
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
-	health = maxHealth
-	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
-	damage = baseDamage
-	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
-	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
-	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
-	reloadTime = baseReloadTime
-	explosionDamage += 5
-	explosionRadius += 3
-	
-	if energized:
-		if is_instance_valid(energizerTurret):
-			energizerTurret.applyEnergizerBuffsToTurret($".")
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-
-func round_to_dec(num, digit):
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)

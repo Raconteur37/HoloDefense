@@ -5,6 +5,9 @@ var selected : bool = false
 var shotReady : bool = true
 var isCollisionReady : bool = false
 
+signal hit(damage,turret)
+signal upgrade(turret)
+
 var enemiesInRange = []
 
 var currentParticlesMap = {}
@@ -20,14 +23,15 @@ var bodyCollisionShape
 #stats
 var kills : int = 0
 
-
 @onready var projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
 @onready var description = preload("res://Globals/Scene/TurretDescription/RailgunDescription.tscn")
 
 var menu
 
-@export var turretName : String = "Railgun Turret"
-@export var turretType : String = "Heavy Weapons"
+enum Rarity {Rare}
+enum Type {Armory}
+
+const turretName : String = "Railgun Turret"
 @export var price : int = 75
 @export var maxHealth : float = 50
 @export var baseDamage : float = 100
@@ -37,13 +41,13 @@ var menu
 @export var upgradeTier : int = 0
 @export var armor : int = 30
 @export var level : int = 1
-@export var pierce : int = 2
-
+@export var basePierce : int = 2
 
 var damage
 var projectileSpeed
 var attackRange
 var reloadTime
+var pierce
 
 var health : float
 
@@ -70,21 +74,23 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	pierce = basePierce
 	
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
 	
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
+		upgrade.emit(self)
 	
-	#scanCurrentEnemiesInRange()
 	
 func getName():
 	return turretName
 	
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(GameManager.getClosestEnemyFromSprite($"."))
+		shoot(EntityManager.getClosestEnemyFromSprite($"."))
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
 		isCollisionReady = true
@@ -139,21 +145,6 @@ func reloadAnimation():
 		if x == 10:
 			topSprite.frame = 0
 		await get_tree().create_timer((reloadTime / 10)).timeout
-		
-func takeDamage(damage):
-	
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		
-		if health - damage <= 0:
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
 
 func openSelectedMenu():
 	if isPlaced:
@@ -176,55 +167,15 @@ func showRange():
 func hideRange():
 	line2d.hide()
 
-func _on_area_2d_mouse_exited() -> void:
-	pass # Replace with function body.
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
 
-
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
-
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func getCost():
 	return price
-
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
-
-func applyUpgradeTier():
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
-	health = maxHealth
-	baseDamage +=  ceil(baseDamage * GameManager.getUpgradeTierPercent())
-	damage = baseDamage
-	baseProjectileSpeed +=  ceil(baseProjectileSpeed * GameManager.getUpgradeTierPercent())
-	if baseProjectileSpeed > 250:
-		baseProjectileSpeed = 250
-	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
-	if baseAttackRange > 450:
-		baseAttackRange = 450
-	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * GameManager.getUpgradeTierPercent(),2)
-	reloadTime = baseReloadTime
-	
-	if energized:
-		if is_instance_valid(energizerTurret):
-			energizerTurret.applyEnergizerBuffsToTurret($".")
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-	reloadTimer.wait_time =  reloadTime
-
-func round_to_dec(num, digit):
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)

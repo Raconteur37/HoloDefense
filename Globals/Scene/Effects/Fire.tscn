@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" path="res://Globals/Scene/Effects/fire.gd" id="1_xdanp"]
 
-[node name="Fire" type="Node2D"]
+[node name="Fire" type="Node2D" groups=["Effect"]]
 script = ExtResource("1_xdanp")
 
 [node name="Total Time" type="Timer" parent="."]

@@ -18,7 +18,7 @@ func _ready() -> void:
 	var fireParticle = load("res://Particle Scenes/Effects/fire.tscn")
 	activeParticleEffect = fireParticle.instantiate()
 	activeParticleEffect.global_position = enemy.global_position
-	get_tree().root.current_scene.add_child(activeParticleEffect)
+	get_tree().current_scene.add_child(activeParticleEffect)
 
 
 func _process(delta: float) -> void:
@@ -43,7 +43,7 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
-	enemy.hit.emit(damage,turretApplier,enemy)
+	enemy.hit.emit(damage,turretApplier,enemy,self)
 	tickTimer.start()
 
 func _on_total_time_timeout() -> void:

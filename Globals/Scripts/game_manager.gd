@@ -24,8 +24,6 @@ var currentExperience = 0
 var upgradeTokens = 10
 var inGamePlayerLevel = 0
 
-var upgradeTierPercent = .02
-
 var inWave : bool = false
 var currentWave : int = 3
 
@@ -69,28 +67,28 @@ func summonEnemy(enemyName : String):
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Hexagon Mothership":
 			var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = Vector2(2100,540)
-			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Speedy Triangle":
 			var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 			
 		"Shooty Diamond":
 			var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
-			get_tree().root.current_scene.find_child("CanvasLayer").add_sibling(enemy)
+			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 
 func generateRandomPosition():
 	var side = randi_range(1,4)
@@ -254,9 +252,6 @@ func startWave():
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
-
-func getUpgradeTierPercent():
-	return upgradeTierPercent
 
 func getCurrentMoney():
 	return currentMoney

@@ -5,6 +5,9 @@ var selected : bool = false
 var shotReady : bool = true
 var isCollisionReady : bool = false
 
+signal hit(damage,turret)
+signal upgrade(turret)
+
 var enemiesInRange = []
 
 var currentParticlesMap = {}
@@ -27,8 +30,10 @@ var currentMinions = []
 
 var menu
 
-@export var turretName : String = "Royal Turret"
-@export var turretType : String = "Medieval"
+enum Rarity {SuperRare}
+enum Type {Medieval}
+
+const turretName : String = "Royal Turret"
 @export var price : int = 80
 @export var maxHealth : float = 20
 @export var baseAttackRange : float = 200
@@ -38,13 +43,15 @@ var menu
 @export var level : int = 1
 
 @export var maxKnights : int = 3
-@export var knightHealth : float  = 30
-@export var knightDamage : float = 10
+@export var baseKnightHealth : float  = 30
+@export var baseKnightDamage : float = 10
 
 var currentKnightAmount : int = 0
 
 var attackRange
 var summonTime
+var knightHealth
+var knightDamage
 
 var health : float
 
@@ -69,13 +76,17 @@ func _ready() -> void:
 	summonTime = baseSummonTime
 	summonTimer.wait_time = baseSummonTime
 	health = maxHealth
+	knightDamage = baseKnightDamage
+	knightHealth = baseKnightHealth
 	
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
+	
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
-	
-	#scanCurrentEnemiesInRange()
+		upgrade.emit(self)
+
 	
 func getName():
 	return turretName
@@ -104,23 +115,6 @@ func summonMinion():
 		
 		get_parent().add_child(knight)
 
-
-func takeDamage(damage):
-	
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		if health - damage <= 0:
-			for x in currentMinions:
-				x.queue_free()
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
-
 func openSelectedMenu():
 	if isPlaced:
 		menu = description.instantiate()
@@ -146,44 +140,14 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
 
-
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
-
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func getCost():
 	return price
-
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
-
-func applyUpgradeTier():
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
-	health = maxHealth
-	knightDamage +=  ceil(knightDamage * GameManager.getUpgradeTierPercent())
-	knightHealth += ceil(knightHealth * GameManager.getUpgradeTierPercent())
-	baseAttackRange +=  ceil(baseAttackRange * GameManager.getUpgradeTierPercent())
-	attackRange = baseAttackRange
-	summonTime -=  round_to_dec(summonTime * GameManager.getUpgradeTierPercent(),2)
-	
-	if energized:
-		if is_instance_valid(energizerTurret):
-			energizerTurret.applyEnergizerBuffsToTurret($".")
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-	summonTimer.wait_time = summonTime
-
-func round_to_dec(num, digit):
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
 func isEnemyTargeted(enemy):
 	for x in currentMinions:

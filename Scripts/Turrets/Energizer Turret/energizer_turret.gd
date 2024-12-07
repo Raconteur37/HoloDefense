@@ -5,6 +5,9 @@ var selected : bool = false
 var isCollisionReady : bool = false
 var scanTurretsFirstTime : bool = false
 
+signal hit(damage,turret)
+signal upgrade(turret)
+
 var turretsInRange = []
 
 var currentParticlesMap = {}
@@ -24,8 +27,10 @@ var turretsEnergized : int = 0
 
 var menu
 
-@export var turretName : String = "Energizer Turret"
-@export var turretType : String = "Support"
+enum Rarity {Rare}
+enum Type {Support}
+
+const turretName : String = "Energizer Turret"
 @export var price : int = 35
 @export var maxHealth : float = 20
 @export var baseAttackRange : float = 150
@@ -55,7 +60,7 @@ func _ready() -> void:
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
-	topSprite = $MiniSentryTurretTop # TODO CHANGE PER TURRET
+	topSprite = $TurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
 	energizeTimer = $EnergizeTimer
 	attackRange = baseAttackRange
@@ -64,10 +69,14 @@ func _ready() -> void:
 	health = maxHealth
 	
 	energizeTimer.wait_time = energizeTime
-	upgradeTier = GameManager.getUpgradeTier(turretName)
+	
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
+	
+	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
+		upgrade.emit(self)
 	
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
@@ -88,28 +97,6 @@ func openSelectedMenu(): # TODO CHANGE PER TURRET
 
 ########################################################### Stays the same
 
-
-func takeDamage(damage):
-	if armor > 0:
-		damage -= damage * .3
-		if armor - damage <= 0:
-			armor = 0
-		else:
-			armor -= damage
-	else:
-		
-		if health - damage <= 0:
-			for x in turretsInRange:
-				if is_instance_valid(x):
-					if x.energized:
-						x.currentParticlesMap.get("Energized").queue_free()
-						x.currentParticlesMap.erase("Energized")
-						removeEnergizerBuffsToTurret(x)
-						
-			GameManager.removeTurretFromGame(self)
-		else:
-			health = health - damage
-
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
@@ -124,12 +111,9 @@ func showRange():
 func hideRange():
 	line2d.hide()
 
-func _on_area_2d_mouse_exited() -> void:
-	pass # Replace with function body.
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if isPlaced:
-		if body.is_in_group("Turret") and not body.is_in_group("Energizer"):
+		if body.is_in_group("Turret"):
 			turretsInRange.append(body)
 	if isPlaced:
 		if energizeTimer.is_stopped():
@@ -146,36 +130,6 @@ func getCost():
 func getName():
 	return turretName
 
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			takeDamage(body.damage)
-			body.attackReady = false
-			body.attackTimer.start()
-			
-func applyUpgradeTier(): 
-	maxHealth += ceil(maxHealth * GameManager.getUpgradeTierPercent())
-	health = maxHealth
-	attackRange +=  ceil(attackRange * GameManager.getUpgradeTierPercent())
-	maxTurretsEnergized += 1
-	energizeTime -= round_to_dec(energizeTime * GameManager.getUpgradeTierPercent(),2)
-	energizerDamageBuff += GameManager.getUpgradeTierPercent()
-	energizerAttackRangeBuff += GameManager.getUpgradeTierPercent()
-	energizerProjctileSpeedBuff += GameManager.getUpgradeTierPercent()
-	energizerReloadTimeBuff += GameManager.getUpgradeTierPercent()
-	
-	for x in turretsInRange:
-		if is_instance_valid(x):
-			if x.energized:
-				applyEnergizerBuffsToTurret(x)
-		else:
-			turretsInRange.erase(x)
-	
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-		
 func applyEnergizerBuffsToTurret(turret):
 	if is_instance_valid(turret):
 		if not turret.energized:

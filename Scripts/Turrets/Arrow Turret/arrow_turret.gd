@@ -6,6 +6,7 @@ var shotReady : bool = true
 var isCollisionReady : bool = false
 
 signal hit(damage,turret)
+signal upgrade(turret)
 
 var enemiesInRange = []
 
@@ -28,8 +29,10 @@ var kills : int = 0
 
 var menu
 
-@export var turretName : String = "Arrow Turret"
-@export var turretType : String = "Medieval"
+enum Rarity {Common}
+enum Type {Midieval}
+
+const turretName : String = "Arrow Turret"
 @export var price : int = 20
 @export var maxHealth : float = 20
 @export var baseDamage : float = 20
@@ -51,7 +54,7 @@ var energized : bool = false
 var energizerTurret : CharacterBody2D
 var beaconBuffActive : bool = false
 
-# Called when the node enters the scene tree for the first time.
+
 func _ready() -> void:
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -71,15 +74,15 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	
-	hit.connect(EntityManager.turretTakeDamage)
+	hit.connect(EntityManager.entityTakeDamage)
+	upgrade.connect(EntityManager.applyUpgradeTier)
 	
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 	
 	for x in range(upgradeTier):
-		applyUpgradeTier()
-	
-	#scanCurrentEnemiesInRange()
-	
+		upgrade.emit(self)
+		
+		
 func getName():
 	return turretName
 	
@@ -146,9 +149,6 @@ func showRange():
 func hideRange():
 	line2d.hide()
 
-func _on_area_2d_mouse_exited() -> void:
-	pass # Replace with function body.
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
@@ -163,34 +163,3 @@ func _on_reload_timer_timeout() -> void:
 
 func getCost():
 	return price
-
-func _on_select_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Enemy") and isPlaced:
-		if body.attackReady:
-			hit.emit(body.damage,self)
-			body.attackReady = false
-			body.attackTimer.start()
-
-func applyUpgradeTier():
-	maxHealth += ceil(maxHealth * EntityManager.getUpgradeTierPercent())
-	health = maxHealth
-	baseDamage +=  ceil(baseDamage * EntityManager.getUpgradeTierPercent())
-	damage = baseDamage
-	baseProjectileSpeed +=  ceil(baseProjectileSpeed * EntityManager.getUpgradeTierPercent())
-	projectileSpeed = baseProjectileSpeed
-	baseAttackRange +=  ceil(baseAttackRange * EntityManager.getUpgradeTierPercent())
-	attackRange = baseAttackRange
-	baseReloadTime -=  round_to_dec(baseReloadTime * EntityManager.getUpgradeTierPercent(),2)
-	reloadTime = baseReloadTime
-	
-	if energized:
-		if is_instance_valid(energizerTurret):
-			energizerTurret.applyEnergizerBuffsToTurret($".")
-	beaconBuffActive = false
-	
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
-	rangeCollisionShape.shape.radius = attackRange
-	reloadTimer.wait_time =  reloadTime
-
-func round_to_dec(num, digit):
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)
