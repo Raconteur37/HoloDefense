@@ -153,10 +153,8 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
 
-
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
-
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true

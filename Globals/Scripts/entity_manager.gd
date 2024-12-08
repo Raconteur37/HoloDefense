@@ -224,9 +224,9 @@ func specializedUpgrade(turret):
 			turret.find_child("Flame Particle").process_material.set("initial_velocity",Vector2(turret.particleVelocity,turret.particleVelocity))
 
 		"Royal Turret":
-			turret.baseKnightHealth += ceil(turret.baseKnightHealth * .3)
+			turret.baseKnightHealth += ceil(turret.baseKnightHealth * .05)
 			turret.knightHealth = turret.baseKnightHealth
-			turret.baseKnightDamage += ceil(turret.baseKnightDamage * .3)
+			turret.baseKnightDamage += ceil(turret.baseKnightDamage * .05)
 			turret.knightDamage = turret.baseKnightDamage
 			turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
 
