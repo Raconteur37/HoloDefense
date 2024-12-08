@@ -18,6 +18,7 @@ var rangeIndicator
 var topSprite
 var selectArea
 var bodyCollisionShape
+var turretBeam
 
 #stats
 var kills : int = 0
@@ -63,6 +64,7 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
+	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -139,6 +141,6 @@ func _on_damage_tick_timer_timeout() -> void:
 	if shooting:
 		for x in $TurretTop/FlameArea.get_overlapping_areas():
 			if x.get_parent().is_in_group("Enemy"):
-				x.get_parent().hit.emit(damage,self,x.get_parent())
+				x.get_parent().hit.emit(damage,self,x.get_parent(),turretBeam)
 				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
 		$DamageTickTimer.start()

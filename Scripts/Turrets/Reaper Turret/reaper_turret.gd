@@ -38,7 +38,7 @@ const turretName : String = "Reaper Turret"
 @export var baseProjectileSpeed : float = 250
 @export var baseAttackRange : float = 250
 @export var baseReloadTime : float = 3
-@export var executionChance : float = 2
+@export var baseExecutionChance : float = 2
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
@@ -47,6 +47,7 @@ var damage
 var projectileSpeed
 var attackRange
 var reloadTime
+var executionChance
 
 var health : float
 
@@ -73,6 +74,7 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	executionChance = baseExecutionChance
 	
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)

@@ -1,0 +1,113 @@
+[gd_scene load_steps=16 format=3 uid="uid://hoeb26ao07r2"]
+
+[ext_resource type="Script" path="res://Scripts/Turrets/Spider Turret/spider_turret.gd" id="1_kglf0"]
+[ext_resource type="Texture2D" uid="uid://day3k6jiosk3h" path="res://Textures/Turrets/Spider Turret/Spider Turret Bottom.png" id="2_i0x6i"]
+[ext_resource type="Texture2D" uid="uid://cck1v2wcumg22" path="res://Textures/Turrets/Spider Turret/Spider Turret-Sheet.png" id="3_d80dl"]
+[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="4_15if1"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h0vxc"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_obv53"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fevyh"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x1eqo"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_jjdk8"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_igafw"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uipis"]
+atlas = ExtResource("3_d80dl")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h0vxc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_obv53")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fevyh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x1eqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_jjdk8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_igafw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uipis")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Spider Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(127, 65)
+collision_mask = 12
+script = ExtResource("1_kglf0")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("2_i0x6i")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("4_15if1")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="."]
+
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

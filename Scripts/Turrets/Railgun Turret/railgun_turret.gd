@@ -121,30 +121,35 @@ func shoot(enemy):
 		$RailgunTurretTop/RailgunShoot.emitting = true
 
 func reloadAnimation():
-	for x in range(10):
-		if x == 0:
-			topSprite.frame = 1
-		if x == 1:
-			topSprite.frame = 2
-		if x == 2:
-			topSprite.frame = 3
-		if x == 3:
-			topSprite.frame = 4
-		if x == 4:
-			topSprite.frame = 5
-		if x == 5:
-			topSprite.frame = 6
-		if x == 6:
-			topSprite.frame = 7
-		if x == 7:
-			topSprite.frame = 8
-		if x == 8:
-			topSprite.frame = 9
-		if x == 9:
-			topSprite.frame = 10
-		if x == 10:
-			topSprite.frame = 0
-		await get_tree().create_timer((reloadTime / 10)).timeout
+	
+	var frames : int = 10
+	
+	for x in range(frames):
+		
+		match x:
+			0:
+				topSprite.frame = 1
+			1:
+				topSprite.frame = 2
+			2:
+				topSprite.frame = 3
+			3:
+				topSprite.frame = 4
+			4:
+				topSprite.frame = 5
+			5:
+				topSprite.frame = 6
+			6:
+				topSprite.frame = 7
+			7:
+				topSprite.frame = 8
+			8:
+				topSprite.frame = 9
+			9:
+				topSprite.frame = 10
+			10:
+				topSprite.frame = 0
+		await get_tree().create_timer((reloadTime / frames)).timeout
 
 func openSelectedMenu():
 	if isPlaced:

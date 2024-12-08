@@ -1,0 +1,28 @@
+[gd_scene load_steps=3 format=3 uid="uid://dherktuyjveix"]
+
+[ext_resource type="Texture2D" uid="uid://rbvxaf2g6u1d" path="res://Particle Scenes/Effects/Poison/row_output.png" id="1_6qp2f"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mpnm5"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 18
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="Poison" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_mpnm5")
+position = Vector2(976, 458)
+amount = 2
+lifetime = 3.0
+speed_scale = 4.0
+texture = ExtResource("1_6qp2f")
+emission_shape = 1
+emission_sphere_radius = 10.0
+particle_flag_align_y = true
+gravity = Vector2(0, 0)
+radial_accel_min = 1.0
+radial_accel_max = 1.0
+scale_amount_min = 0.4
+scale_amount_max = 0.4
+anim_speed_min = 1.0
+anim_speed_max = 1.0

@@ -14,20 +14,25 @@ func takeDamage(damage,turret,enemy,damageType):
 	popup.global_position = enemy.global_position
 	popup.damagePopup(damage)
 	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
-	
+
 	if damageType.is_in_group("Turret Projectile"):
 		var projectile = damageType
 		if projectile.get("enterEffect") != null:
-			projectile.playEnterEffect(self)
-		if projectile.get("enemiesPierced") == null:
-			projectile.queue_free()
-		if damage > 99999:
-			ParticleManager.playExecutionParticle(enemy)
+			projectile.playEnterEffect(enemy)
+		if projectile.get("poison") != null:
+			if projectile.poison:
+				EffectManager.applyPoisonEffect(enemy,turret,projectile.poisonDamage,projectile.poisonTime)
+		if projectile.get("execution") != null:
+			if projectile.execution:
+				onKill(turret,enemy)
+				ParticleManager.playExecutionParticle(enemy)
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
+		if projectile.get("enemiesPierced") == null:
+			projectile.queue_free()
 			
 	if damageType.is_in_group("Minion"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
@@ -37,6 +42,13 @@ func takeDamage(damage,turret,enemy,damageType):
 			enemy.health = enemy.health - damage
 		
 	if damageType.is_in_group("Effect"):
+		if enemy.health - damage <= 0 and not enemy.isDead:
+			onKill(turret,enemy)
+			enemy.isDead = true
+		else:
+			enemy.health = enemy.health - damage
+			
+	if damageType.is_in_group("Turret Beam"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true

@@ -1,6 +1,6 @@
 extends Node2D
 
-var activeParticleEffect
+var particleEffect
 
 var effectName = "Poison"
 var damage = 0 # Default 0
@@ -14,26 +14,21 @@ var tickTime = .3
 func _ready() -> void:
 	tickTimer = $Tick
 	tickTimer.wait_time = tickTime
-	var poisonParticle = load("res://Particle Scenes/Effects/poison.tscn")
-	activeParticleEffect = poisonParticle.instantiate()
-	activeParticleEffect.global_position = enemy.global_position
-	get_tree().root.current_scene.add_child(activeParticleEffect)
-
+	particleEffect = $PoisonParticle
+	particleEffect.global_position = enemy.global_position
 
 func _process(delta: float) -> void:
 	if not is_instance_valid(enemy): # Somehow the enemy is removed without death
-		activeParticleEffect.queue_free()
 		queue_free()
 	else:
-		activeParticleEffect.global_position = enemy.global_position
+		particleEffect.global_position = enemy.global_position
 
-func applyData(turret,victim,fireDamage,time):
+func applyData(turret,victim,effectDamage,time):
 	turretApplier = turret
 	enemy = victim
-	damage = fireDamage
+	damage = effectDamage
 	$"Total Time".wait_time = time
 	$"Total Time".start()
-	# Instantiate the particle effect
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)
@@ -42,11 +37,12 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
+	print(enemy.health)
+	print(damage)
 	if enemy.health - damage > 0:
-		enemy.hit.emit(damage,turretApplier,enemy)
+		enemy.hit.emit(damage,turretApplier,enemy,self)
 	tickTimer.start()
 
 func _on_total_time_timeout() -> void:
-	activeParticleEffect.queue_free()
 	EffectManager.removeEffect(enemy,self)
 	queue_free()

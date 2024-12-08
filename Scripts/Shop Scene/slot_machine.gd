@@ -3,7 +3,8 @@ extends Control
 var turretTextures : Array = ["res://Textures/Turrets/Arrow Turret/ArrowTurret.png","res://Textures/Turrets/Energizer Turret/Energizer Turret.png",
 "res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png","res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png",
 "res://Textures/Turrets/Railgun Turret/RailgunTurret.png","res://Textures/Turrets/Reaper Turret/ReaperTurret.png",
-"res://Textures/Turrets/Royal Turret/RoyalTurret.png", "res://Textures/Turrets/Flame Turret/Flame Turret.png"]
+"res://Textures/Turrets/Royal Turret/RoyalTurret.png", "res://Textures/Turrets/Flame Turret/Flame Turret.png",
+"res://Textures/Turrets/Spider Turret/Spider Turret.png"]
 
 var textureListCloneOne
 var textureListCloneTwo
@@ -135,7 +136,7 @@ func loadWinningTurretTexture(slot):
 		slot.texture = load(winningTexture)
 		
 func pickCommonTurret():
-	var commonTurrets = ["Mini Sentry Turret"]
+	var commonTurrets = ["Mini Sentry Turret", "Spider Turret"]
 
 	winningTurret = commonTurrets.pick_random()
 
@@ -143,6 +144,9 @@ func pickCommonTurret():
 		
 		"Mini Sentry Turret":
 			winningTexture = "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png"
+			
+		"Spider Turret":
+			winningTexture = "res://Textures/Turrets/Spider Turret/Spider Turret.png"
 			
 func pickRareTurret():
 	var rareTurrets = ["Railgun Turret", "Firework Turret", "Energizer Turret", "Flame Turret"]

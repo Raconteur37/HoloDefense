@@ -54,7 +54,7 @@ func applyPoisonEffect(victim,turret,damage,time):
 	var poisonScene = load("res://Globals/Scene/Effects/Poison.tscn")
 	var effectScene = poisonScene.instantiate()
 	effectScene.applyData(turret,victim,damage,time)
-	get_tree().root.current_scene.add_child(effectScene)
+	get_tree().current_scene.add_child(effectScene)
 	if enemyCurrentEffects.has(victim):
 		enemyCurrentEffects[victim].append(effectScene)
 	else:

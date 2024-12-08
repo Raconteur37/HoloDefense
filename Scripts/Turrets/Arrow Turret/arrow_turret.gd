@@ -117,16 +117,20 @@ func shoot(enemy):
 		topSprite.rotate(PI/2)
 
 func reloadAnimation():
-	for x in range(4):
-		if x == 0:
-			topSprite.frame = 1
-		if x == 1:
-			topSprite.frame = 2
-		if x == 2:
-			topSprite.frame = 3
-		if x == 3:
-			topSprite.frame = 0
-		await get_tree().create_timer((reloadTime / 4)).timeout
+	
+	var frames : int = 4
+
+	for x in range(frames):
+		match x:
+			0:
+				topSprite.frame = 1
+			1:
+				topSprite.frame = 2
+			2:
+				topSprite.frame = 3
+			3:
+				topSprite.frame = 0
+		await get_tree().create_timer((reloadTime / frames)).timeout
 
 func openSelectedMenu():
 	if isPlaced:
