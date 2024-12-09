@@ -1,0 +1,79 @@
+[gd_scene load_steps=8 format=3 uid="uid://cmprcjfer6ni6"]
+
+[ext_resource type="Script" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
+[ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_t3iqf"]
+[ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_awkle"]
+[ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="4_drqio"]
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y06h5"]
+texture = ExtResource("2_t3iqf")
+
+[sub_resource type="LabelSettings" id="LabelSettings_cg50k"]
+shadow_color = Color(0, 0, 0, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_1jhwe"]
+resource_local_to_scene = true
+font_color = Color(0.817497, 0.000525395, 0.817492, 1)
+
+[node name="TurretDescriptionScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_t1rss")
+
+[node name="PanelContainer" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 1584.0
+offset_top = -269.0
+offset_right = 1749.0
+offset_bottom = -15.0
+grow_vertical = 2
+scale = Vector2(2, 2.01008)
+theme_override_styles/panel = SubResource("StyleBoxTexture_y06h5")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 4
+theme_override_constants/margin_bottom = 25
+
+[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="LabelMarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = -4
+
+[node name="Name Label" type="Label" parent="PanelContainer/MarginContainer/GridContainer/LabelMarginContainer"]
+layout_mode = 2
+text = "TURRET NAME"
+label_settings = SubResource("LabelSettings_cg50k")
+horizontal_alignment = 1
+
+[node name="TurretImageContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 60
+theme_override_constants/margin_top = -1
+theme_override_constants/margin_right = 60
+
+[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/GridContainer/TurretImageContainer"]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("3_awkle")
+
+[node name="TurretImage" type="TextureRect" parent="PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer"]
+layout_mode = 2
+texture = ExtResource("4_drqio")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer"]
+layout_mode = 2
+text = "Data: VAR"
+label_settings = SubResource("LabelSettings_1jhwe")
+horizontal_alignment = 1

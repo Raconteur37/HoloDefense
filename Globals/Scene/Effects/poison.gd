@@ -37,8 +37,6 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
-	print(enemy.health)
-	print(damage)
 	if enemy.health - damage > 0:
 		enemy.hit.emit(damage,turretApplier,enemy,self)
 	tickTimer.start()
