@@ -1,0 +1,6 @@
+[gd_resource type="StyleBoxTexture" load_steps=2 format=3 uid="uid://djjohepr4dbrv"]
+
+[ext_resource type="Texture2D" uid="uid://chgo5rbyrjwso" path="res://Textures/UI/Game/BottomGameBar.png" id="1_olcc5"]
+
+[resource]
+texture = ExtResource("1_olcc5")

@@ -1,17 +1,17 @@
-[gd_scene load_steps=20 format=3 uid="uid://vd4cup5gfb1x"]
+[gd_scene load_steps=19 format=3 uid="uid://vd4cup5gfb1x"]
 
 [ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="1_dj7dj"]
 [ext_resource type="Script" path="res://Scripts/Game Scene/game.gd" id="1_lgx4p"]
-[ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="1_phpu5"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="1_uj05e"]
 [ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="2_1qhv4"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="2_3p2mf"]
 [ext_resource type="LabelSettings" uid="uid://dljokcwqvby46" path="res://Labels/price_label.tres" id="2_8pt17"]
-[ext_resource type="Texture2D" uid="uid://cd35hdigrlsj1" path="res://Textures/UI/XPBar Empty.png" id="2_aqtek"]
+[ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="2_jaldy"]
 [ext_resource type="PackedScene" uid="uid://bela5hy1hxvvn" path="res://Game Scenes/beacon.tscn" id="2_wh51m"]
-[ext_resource type="Texture2D" uid="uid://dwj572bkerwca" path="res://Textures/UI/XPBar Full.png" id="3_d60aa"]
+[ext_resource type="Texture2D" uid="uid://cpss7ncveh4eb" path="res://Textures/UI/XP-Bar-Over.png" id="3_bcja4"]
 [ext_resource type="Script" path="res://Scripts/Tilemap/tile_map.gd" id="3_p434w"]
 [ext_resource type="Texture2D" uid="uid://cartwy3uejnvy" path="res://Textures/Turrets/Locked.png" id="5_a60xp"]
+[ext_resource type="StyleBox" uid="uid://djjohepr4dbrv" path="res://Styles/default.tres" id="8_y8wdo"]
 [ext_resource type="Texture2D" uid="uid://bhwanpjmc47wo" path="res://Textures/UI/Upgrade Button.png" id="11_gccv4"]
 [ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="13_tj326"]
 
@@ -33,9 +33,6 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_2e63p")
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_vfkyl"]
-texture = ExtResource("1_phpu5")
-
 [node name="Game" type="Node2D"]
 script = ExtResource("1_lgx4p")
 
@@ -44,22 +41,24 @@ environment = SubResource("Environment_q5x5b")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
-[node name="PanelContainer3" type="PanelContainer" parent="CanvasLayer"]
-offset_right = 128.0
-offset_bottom = 40.0
-scale = Vector2(7.95523, 1.91798)
-size_flags_horizontal = 3
-metadata/_edit_use_anchors_ = true
-
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer3"]
-layout_mode = 2
-
-[node name="XP Bar" type="TextureProgressBar" parent="CanvasLayer/PanelContainer3/MarginContainer"]
-layout_mode = 2
+[node name="XP Bar" type="TextureProgressBar" parent="CanvasLayer"]
+offset_left = 1.0
+offset_top = 1023.0
+offset_right = 909.0
+offset_bottom = 1079.0
 max_value = 10.0
 allow_greater = true
-texture_under = ExtResource("2_aqtek")
-texture_progress = ExtResource("3_d60aa")
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = ExtResource("2_jaldy")
+texture_over = ExtResource("3_bcja4")
+texture_progress = ExtResource("2_jaldy")
+tint_under = Color(7.33994e-07, 0.226841, 0.230742, 1)
+tint_over = Color(0, 0, 0.867, 1)
+tint_progress = Color(0.360784, 0.815686, 1, 1)
 
 [node name="PanelContainer2" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 1
@@ -124,6 +123,7 @@ rendering_quadrant_size = 32
 script = ExtResource("3_p434w")
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+visible = false
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -132,7 +132,7 @@ offset_right = 40.0
 offset_bottom = 28.0
 grow_vertical = 2
 scale = Vector2(2, 2)
-theme_override_styles/panel = SubResource("StyleBoxTexture_vfkyl")
+theme_override_styles/panel = ExtResource("8_y8wdo")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
@@ -235,11 +235,48 @@ layout_mode = 2
 text = "Locked"
 label_settings = ExtResource("2_8pt17")
 
+[node name="BottomUIContainer" type="PanelContainer" parent="CanvasLayer"]
+offset_left = 912.0
+offset_top = 863.0
+offset_right = 933.0
+offset_bottom = 932.0
+scale = Vector2(47.975, 3.11676)
+theme_override_styles/panel = ExtResource("8_y8wdo")
+
+[node name="Turret Button Grid" type="GridContainer" parent="CanvasLayer"]
+z_index = 1
+offset_left = 1185.0
+offset_top = 954.0
+offset_right = 1253.0
+offset_bottom = 994.0
+scale = Vector2(1.4, 1.4)
+columns = 7
+
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Turret Button Grid"]
+layout_mode = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="CanvasLayer/Turret Button Grid/MarginContainer"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Turret Button Grid/MarginContainer/PanelContainer3"]
+layout_mode = 2
+texture_normal = ExtResource("1_uj05e")
+
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Turret Button Grid"]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Turret Button Grid/MarginContainer2"]
+layout_mode = 2
+
+[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Turret Button Grid/MarginContainer2/PanelContainer"]
+layout_mode = 2
+texture_normal = ExtResource("13_tj326")
+
 [node name="BreakTimer" type="Timer" parent="."]
 wait_time = 5.0
 one_shot = true
 autostart = true
 
-[connection signal="value_changed" from="CanvasLayer/PanelContainer3/MarginContainer/XP Bar" to="." method="_on_xp_bar_value_changed"]
+[connection signal="value_changed" from="CanvasLayer/XP Bar" to="." method="_on_xp_bar_value_changed"]
 [connection signal="pressed" from="CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretOneMarginContainer/PanelContainer/UpgradeOneButton" to="." method="_on_upgrade_one_button_pressed"]
 [connection signal="timeout" from="BreakTimer" to="." method="_on_break_timer_timeout"]

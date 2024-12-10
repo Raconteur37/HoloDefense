@@ -19,11 +19,11 @@ func _ready() -> void:
 	await get_tree().create_timer(.05).timeout
 	for x in $Area2D.get_overlapping_areas():
 		if x.get_parent().is_in_group("Enemy"):
-			x.get_parent().takeDamage(explosionDamage,turretOwner)
+			x.get_parent().hit.emit(explosionDamage,turretOwner,x.get_parent(),self)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
-		body.takeDamage(explosionDamage,turretOwner)
+		body.hit.emit(explosionDamage,turretOwner,body,self)
 
 
 func _on_timer_timeout() -> void:

@@ -25,9 +25,9 @@ var upgradeTokens = 10
 var inGamePlayerLevel = 0
 
 var inWave : bool = false
-var currentWave : int = 3
+var currentWave : int = 60
 
-var pandemonium = false
+var pandemonium = true
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):

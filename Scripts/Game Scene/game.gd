@@ -13,7 +13,7 @@ var upgradeTurrentOneButton
 func _ready() -> void:
 	beacon = $CanvasLayer/Beacon
 	moneyLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer2/MoneyLabel
-	XPBar = $"CanvasLayer/PanelContainer3/MarginContainer/XP Bar"
+	XPBar = $"CanvasLayer/XP Bar"
 	upgradeTurrentOneButton = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretOneMarginContainer/PanelContainer/UpgradeOneButton
 	waveLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer4/Label
 	breakTimer = $BreakTimer
@@ -46,7 +46,7 @@ func _process(delta: float) -> void:
 func fullXpBar():
 	XPBar.value = 0
 	GameManager.inGamePlayerLevel
-	GameManager.onInGameLevelUp($"CanvasLayer/PanelContainer3/MarginContainer/XP Bar")
+	GameManager.onInGameLevelUp(XPBar)
 
 
 func _on_xp_bar_value_changed(value: float) -> void:

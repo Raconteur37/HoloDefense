@@ -13,7 +13,7 @@ particles_anim_loop = true
 [sub_resource type="CircleShape2D" id="CircleShape2D_2br81"]
 radius = 39.1152
 
-[node name="Node2D" type="Node2D"]
+[node name="Node2D" type="Node2D" groups=["Explosion"]]
 position = Vector2(330, 169)
 script = ExtResource("1_i46p3")
 

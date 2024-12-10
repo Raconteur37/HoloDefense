@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cd35hdigrlsj1"
-path="res://.godot/imported/XPBar Empty.png-a4bc6547062c3b522a9b89697143ae02.ctex"
+uid="uid://cpss7ncveh4eb"
+path="res://.godot/imported/XP-Bar-Over.png-176998b74527f97886aa6a682055fb58.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/XPBar Empty.png"
-dest_files=["res://.godot/imported/XPBar Empty.png-a4bc6547062c3b522a9b89697143ae02.ctex"]
+source_file="res://Textures/UI/XP-Bar-Over.png"
+dest_files=["res://.godot/imported/XP-Bar-Over.png-176998b74527f97886aa6a682055fb58.ctex"]
 
 [params]
 
