@@ -9,47 +9,63 @@ var scene
 
 func _ready() -> void:
 	scene = $"."
-	turretImageContainer = $PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer/TurretImage
-	nameLabel = $"PanelContainer/MarginContainer/GridContainer/LabelMarginContainer/Name Label"
-	marginContainer = $PanelContainer/MarginContainer/GridContainer/MarginContainer
-	gridContainer = $PanelContainer/MarginContainer/GridContainer
+	turretImageContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer/TurretImage
+	nameLabel = $"CanvasLayer/PanelContainer/MarginContainer/GridContainer/LabelMarginContainer/Name Label"
+	marginContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer
+	gridContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer
 
 func buildContainer(turret):
 	
 	nameLabel.text = str(turret.getName())
-	turretImageContainer.texture = findTurretTexture(turret.getName())
+	turretImageContainer.texture = GameManager.findTurretTexture(turret.getName())
 	
 	if turret.get("health") != null:
-		marginContainer.get_child(0).text = "Health: " + str(turret.health)
+		marginContainer.get_child(0).text = str(turret.health)
 	if turret.get("armor") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0).duplicate()
-		dupe.remove_child(get_child(0))
-		dupe.add_child(label)
-		label.set("custom_colors/font_color", Color(0, 1, 0))  # Set to green
+		var marginContainer = MarginContainer.new()
+		var label = Label.new()
+		marginContainer.add_child(label)
+		var color = Color.LIGHT_SLATE_GRAY
+		label.set("theme_override_colors/font_color",color)
 		label.text = "Armor: " + str(turret.armor)
-		gridContainer.add_child(dupe)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gridContainer.add_child(marginContainer)
 	if turret.get("damage") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
-		label.label_settings.font_color
+		var marginContainer = MarginContainer.new()
+		var label = Label.new()
+		marginContainer.add_child(label)
+		var color = Color.WEB_MAROON
+		label.set("theme_override_colors/font_color",color)
 		label.text = "Damage: " + str(turret.damage)
-		gridContainer.add_child(dupe)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gridContainer.add_child(marginContainer)
 	if turret.get("reloadTime") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
+		var marginContainer = MarginContainer.new()
+		var label = Label.new()
+		marginContainer.add_child(label)
+		var color = Color.KHAKI
+		label.set("theme_override_colors/font_color",color)
 		label.text = "Reload Time: " + str(turret.reloadTime)
-		gridContainer.add_child(dupe)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gridContainer.add_child(marginContainer)
 	if turret.get("projectileSpeed") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
+		var marginContainer = MarginContainer.new()
+		var label = Label.new()
+		marginContainer.add_child(label)
+		var color = Color.NAVAJO_WHITE
+		label.set("theme_override_colors/font_color",color)
 		label.text = "Projectile Spd.: " + str(turret.projectileSpeed)
-		gridContainer.add_child(dupe)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gridContainer.add_child(marginContainer)
 	if turret.get("attackRange") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
+		var marginContainer = MarginContainer.new()
+		var label = Label.new()
+		marginContainer.add_child(label)
+		var color = Color.DEEP_SKY_BLUE
+		label.set("theme_override_colors/font_color",color)
 		label.text = "Range: " + str(turret.attackRange)
-		gridContainer.add_child(dupe)
+		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		gridContainer.add_child(marginContainer)
 	if turret.get("explosionDamage") != null:
 		var dupe = marginContainer.duplicate()
 		var label = dupe.get_child(0)
@@ -70,12 +86,6 @@ func buildContainer(turret):
 	scene.show()
 	
 	
-func findTurretTexture(turretName):
-	
-	match turretName:
-		
-		"Spider Turret":
-			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
 	
 	
 

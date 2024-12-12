@@ -24,8 +24,9 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t1rss")
 
-[node name="PanelContainer" type="PanelContainer" parent="."]
-layout_mode = 1
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -37,43 +38,50 @@ grow_vertical = 2
 scale = Vector2(2, 2.01008)
 theme_override_styles/panel = SubResource("StyleBoxTexture_y06h5")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 4
 theme_override_constants/margin_bottom = 25
 
-[node name="GridContainer" type="GridContainer" parent="PanelContainer/MarginContainer"]
+[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
 layout_mode = 2
 
-[node name="LabelMarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+[node name="LabelMarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = -4
 
-[node name="Name Label" type="Label" parent="PanelContainer/MarginContainer/GridContainer/LabelMarginContainer"]
+[node name="Name Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/LabelMarginContainer"]
 layout_mode = 2
 text = "TURRET NAME"
 label_settings = SubResource("LabelSettings_cg50k")
 horizontal_alignment = 1
 
-[node name="TurretImageContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+[node name="TurretImageContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_top = -1
 theme_override_constants/margin_right = 60
 
-[node name="PanelContainer" type="PanelContainer" parent="PanelContainer/MarginContainer/GridContainer/TurretImageContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_awkle")
 
-[node name="TurretImage" type="TextureRect" parent="PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer"]
+[node name="TurretImage" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("4_drqio")
 
-[node name="MarginContainer" type="MarginContainer" parent="PanelContainer/MarginContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = -7
 
-[node name="Label" type="Label" parent="PanelContainer/MarginContainer/GridContainer/MarginContainer"]
+[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer"]
 layout_mode = 2
-text = "Data: VAR"
+text = "Health Data"
 label_settings = SubResource("LabelSettings_1jhwe")
 horizontal_alignment = 1
+
+[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer"]
+layout_mode = 2
+bbcode_enabled = true
+text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]"
+fit_content = true

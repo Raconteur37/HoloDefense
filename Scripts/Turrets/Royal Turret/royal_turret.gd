@@ -41,6 +41,7 @@ const turretName : String = "Royal Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 50
 @export var level : int = 1
+@export var buildTime : float = 25
 
 @export var maxKnights : int = 3
 @export var baseKnightHealth : float  = 30

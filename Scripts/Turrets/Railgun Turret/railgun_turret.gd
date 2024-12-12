@@ -42,6 +42,7 @@ const turretName : String = "Railgun Turret"
 @export var armor : int = 30
 @export var level : int = 1
 @export var basePierce : int = 2
+@export var buildTime : float = 20
 
 var damage
 var projectileSpeed

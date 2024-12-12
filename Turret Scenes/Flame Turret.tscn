@@ -79,8 +79,12 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 [node name="DamageTickTimer" type="Timer" parent="."]
 wait_time = 0.5
 
+[node name="ConstructionTimer" type="Timer" parent="."]
+one_shot = true
+
 [connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="DamageTickTimer" to="." method="_on_damage_tick_timer_timeout"]
+[connection signal="timeout" from="ConstructionTimer" to="." method="_on_construction_timer_timeout"]

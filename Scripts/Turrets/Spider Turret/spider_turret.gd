@@ -35,15 +35,16 @@ const turretName : String = "Spider Turret"
 @export var price : int = 10
 @export var maxHealth : float = 15
 @export var baseDamage : float = 5
-@export var baseProjectileSpeed : float = 450
+@export var baseProjectileSpeed : float = 600
 @export var baseAttackRange : float = 200
-@export var baseReloadTime : float = 2.75
+@export var baseReloadTime : float = 2.25
 @export var basePoisonChance : float = 7
 @export var basePoisonTime : float = 3
 @export var basePoisonDamage : float = .5
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
+@export var buildTime : float = 4
 
 var damage
 var projectileSpeed

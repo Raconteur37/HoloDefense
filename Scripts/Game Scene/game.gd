@@ -36,12 +36,6 @@ func _process(delta: float) -> void:
 		breakTimer.start()
 		GameManager.inWave = false
 	
-	if (GameManager.getUpgradeTokens() > 0):
-		upgradeTurrentOneButton.disabled = false
-		upgradeTurrentOneButton.show()
-	else:
-		upgradeTurrentOneButton.disabled = true
-		upgradeTurrentOneButton.hide()
 
 func fullXpBar():
 	XPBar.value = 0

@@ -40,10 +40,15 @@ const turretName : String = "Flame Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
+@export var baseBuildTime : float = 8
+
+var constructed = false
+var constructionTimer
 
 var particleVelocity = 200
 
 var damage
+var buildTime
 var attackRange
 var fireDamage
 var fireTime
@@ -65,6 +70,8 @@ func _ready() -> void:
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
+	constructionTimer = $ConstructionTimer
+	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -72,6 +79,8 @@ func _ready() -> void:
 	health = maxHealth
 	fireDamage = baseFireDamage
 	fireTime = baseFireTime
+	
+	constructionTimer.wait_time = buildTime
 	
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
@@ -144,3 +153,13 @@ func _on_damage_tick_timer_timeout() -> void:
 				x.get_parent().hit.emit(damage,self,x.get_parent(),turretBeam)
 				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
 		$DamageTickTimer.start()
+
+func startConstruction():
+	constructionTimer.start()
+
+func _on_constructing_timer_timeout() -> void:
+	constructed = true
+
+
+func _on_construction_timer_timeout() -> void:
+	pass # Replace with function body.

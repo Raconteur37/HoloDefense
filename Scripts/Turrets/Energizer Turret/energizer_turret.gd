@@ -37,7 +37,12 @@ const turretName : String = "Energizer Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
+@export var baseBuildTime : float = 15
 
+var constructed = false
+var constructionTimer
+
+var buildTime
 var health : float
 var attackRange
 
@@ -52,7 +57,6 @@ var beaconBuffActive : bool = false
 @export var energizerAttackRangeBuff : float = 0.02
 @export var energizerReloadTimeBuff : float = 0.02
 
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	line2d = $RangeArea/RangeIndicator
@@ -63,12 +67,15 @@ func _ready() -> void:
 	topSprite = $TurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
 	energizeTimer = $EnergizeTimer
+	constructionTimer = $ConstructingTimer
+	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange + 5)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
 	
 	energizeTimer.wait_time = energizeTime
+	constructionTimer.wait_time = buildTime
 	
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
@@ -194,4 +201,8 @@ func _on_energize_time_timeout() -> void:
 		if not checkAllTurretsEnergized():
 			energizeTimer.start()
 	
-# TODO WORK ON MAKING THE UI UPDATE WHILE ITS OPEN
+func startConstruction():
+	constructionTimer.start()
+
+func _on_constructing_timer_timeout() -> void:
+	constructed = true

@@ -40,12 +40,17 @@ const turretName : String = "Mini Sentry Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 30
 @export var level : int = 1
+@export var baseBuildTime : float = 3
 
 var health : float
 var damage
+var buildTime
 var reloadTime : float
 var attackRange
 var projectileSpeed
+
+var constructed = false
+var constructionTimer
 
 var energized : bool = false
 var energizerTurret
@@ -61,11 +66,14 @@ func _ready() -> void:
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $MiniSentryTurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
+	constructionTimer = $ConstructedTimer
+	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = baseAttackRange
 	reloadTime = baseReloadTime
 	reloadTimer.wait_time = baseReloadTime
+	constructionTimer.wait_time = buildTime
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
@@ -155,3 +163,12 @@ func getCost():
 	
 func getName():
 	return turretName
+
+func startConstruction():
+	constructionTimer.start()
+
+func _on_constructing_timer_timeout() -> void:
+	constructed = true
+
+func _on_constructed_timer_timeout() -> void:
+	pass # Replace with function body.

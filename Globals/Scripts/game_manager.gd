@@ -25,9 +25,9 @@ var upgradeTokens = 10
 var inGamePlayerLevel = 0
 
 var inWave : bool = false
-var currentWave : int = 60
+var currentWave : int = 1
 
-var pandemonium = true
+var pandemonium = false
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -188,6 +188,29 @@ func getTurret(number):
 			return load("res://Turret Scenes/Firework Turret.tscn")
 		"Spider Turret":
 			return load("res://Turret Scenes/Spider Turret.tscn")
+			
+func findTurretTexture(turretName):
+	
+	match turretName:
+		
+		"Arrow Turret":
+			return load("res://Textures/Turrets/Arrow Turret/ArrowTurret.png")
+		"Mini Sentry Turret":
+			return load("res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png")
+		"Energizer Turret":
+			return load("res://Textures/Turrets/Energizer Turret/Energizer Turret.png")
+		"Railgun Turret":
+			return load("res://Textures/Turrets/Railgun Turret/RailgunTurret.png")
+		"Reaper Turret":
+			return load("res://Textures/Turrets/Reaper Turret/ReaperTurret.png")
+		"Royal Turret":
+			return load("res://Textures/Turrets/Royal Turret/RoyalTurret.png")
+		"Flame Turret":
+			return load("res://Textures/Turrets/Flame Turret/Flame Turret.png")
+		"Firework Turret":
+			return load("res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png")
+		"Spider Turret":
+			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
 
 func getBeaconPosition():
 	return beacon.global_position
