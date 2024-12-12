@@ -22,6 +22,8 @@ var maxBuildingQueueSize  = 1
 var buildingItems = 0
 var buildingItemsQueue = []
 
+var turretsReady = []
+
 var storageDict = {}
 
 # Called when the node enters the scene tree for the first time.
@@ -53,7 +55,7 @@ func addTurretToConstructionQueue(turretIndex : int):
 		var turretTexture = GameManager.findTurretTexture(GameManager.turretsNameArray[turretIndex-1])
 		var turret = GameManager.getTurret(turretIndex).instantiate()
 		get_tree().current_scene.find_child("CanvasLayer").add_child(turret)
-		var turretBuildTime = turret.baseBuildTime
+		var turretBuildTime = turret.buildTime
 		
 		turret.startConstruction()
 		buildingItemsQueue.push_back(turret)
@@ -106,5 +108,6 @@ func _on_texture_button_10_pressed() -> void:
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Turret Conveyor Move":
 		buildingItems -= 1
-		for x in buildingItemsQueue:
-			print(x.constructed)
+
+func updateStorageList():
+	for turret in storageDict

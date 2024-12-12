@@ -176,8 +176,6 @@ func getCost():
 
 func startConstruction():
 	$ConstructingTimer.start()
-	print("got here")
 
 func _on_constructing_timer_timeout() -> void:
-	print("got here")
 	constructed = true
