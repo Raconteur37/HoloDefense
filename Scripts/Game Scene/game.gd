@@ -13,7 +13,7 @@ var upgradeTurrentOneButton
 func _ready() -> void:
 	beacon = $CanvasLayer/Beacon
 	moneyLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer2/MoneyLabel
-	XPBar = $"CanvasLayer/XP Bar"
+	XPBar = $"CanvasLayer/Bottom UI Control/XP Bar"
 	upgradeTurrentOneButton = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretOneMarginContainer/PanelContainer/UpgradeOneButton
 	waveLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer4/Label
 	breakTimer = $BreakTimer

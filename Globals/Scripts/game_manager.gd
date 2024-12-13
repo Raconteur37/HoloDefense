@@ -164,6 +164,29 @@ func summonEnemies():
 func getEnemiesAlive():
 	return enemiesAlive
 
+func getTurretByName(turretName):
+	
+	match turretName:
+		
+		"Arrow Turret":
+			return load("res://Turret Scenes/Arrow Turret.tscn")
+		"Mini Sentry Turret":
+			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
+		"Energizer Turret":
+			return load("res://Turret Scenes/Energizer Turret.tscn")
+		"Railgun Turret":
+			return load("res://Turret Scenes/Railgun Turret.tscn")
+		"Reaper Turret":
+			return load("res://Turret Scenes/Reaper Turret.tscn")
+		"Royal Turret":
+			return load("res://Turret Scenes/Royal Turret.tscn")
+		"Flame Turret":
+			return load("res://Turret Scenes/Flame Turret.tscn")
+		"Firework Turret":
+			return load("res://Turret Scenes/Firework Turret.tscn")
+		"Spider Turret":
+			return load("res://Turret Scenes/Spider Turret.tscn")
+
 func getTurret(number):
 	
 	var turretName = turretsNameArray[number-1]

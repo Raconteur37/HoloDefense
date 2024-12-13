@@ -44,9 +44,6 @@ const turretName : String = "Arrow Turret"
 @export var level : int = 1
 @export var baseBuildTime : float = 5
 
-var constructed = false
-var constructionTimer
-
 var damage
 var projectileSpeed
 var attackRange
@@ -70,14 +67,12 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
-	constructionTimer = $ConstructingTimer
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTime = baseReloadTime
 	reloadTimer.wait_time = reloadTime
-	constructionTimer.wait_time = buildTime
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
@@ -173,9 +168,3 @@ func _on_reload_timer_timeout() -> void:
 
 func getCost():
 	return price
-
-func startConstruction():
-	$ConstructingTimer.start()
-
-func _on_constructing_timer_timeout() -> void:
-	constructed = true

@@ -44,7 +44,7 @@ const turretName : String = "Spider Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
-@export var buildTime : float = 4
+@export var baseBuildTime : float = 4
 
 var damage
 var projectileSpeed

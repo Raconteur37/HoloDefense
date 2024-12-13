@@ -42,13 +42,16 @@ const turretName : String = "Reaper Turret"
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
-@export var buildTime : float = 9
+@export var baseBuildTime : float = 9
 
 var damage
 var projectileSpeed
 var attackRange
 var reloadTime
 var executionChance
+
+var constructed = false
+var constructionTimer
 
 var health : float
 

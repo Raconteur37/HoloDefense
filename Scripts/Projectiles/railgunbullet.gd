@@ -18,10 +18,10 @@ func _process(delta: float) -> void:
 
 func _on_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
-		if enemiesTouched.find(body) < 0:
-			body.hit.emit(damage,shooter,body)
-			enemiesTouched.append(body)
-			enemiesPierced += 1
-			if enemiesPierced >= maxEnemyPierce:
-				queue_free()
-		
+		if is_instance_valid(body):
+			if enemiesTouched.find(body) < 0:
+				body.hit.emit(damage,shooter,body,self)
+				enemiesTouched.append(body)
+				enemiesPierced += 1
+				if enemiesPierced >= maxEnemyPierce:
+					queue_free()

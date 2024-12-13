@@ -15,6 +15,15 @@ var selectedTurret
 
 var popupScene = load("res://Globals/Scene/Popup.tscn")
 
+func selectTurret(turretName):
+	if turretName != null:
+		selectedTurret = GameManager.getTurretByName(turretName).instantiate()
+		turretSelected = true
+		get_tree().current_scene.find_child("CanvasLayer").add_child(selectedTurret)
+	else:
+		turretSelected = false
+		selectedTurret = null
+
 func _input(event: InputEvent) -> void:
 	
 	if event is InputEventKey and event.is_pressed():
@@ -31,9 +40,7 @@ func _input(event: InputEvent) -> void:
 						var number_pressed = event.keycode - KEY_0
 						EntityManager.upgradeTurret(number_pressed)
 				else:
-					selectedTurret = GameManager.getTurret(event.keycode - KEY_0).instantiate()
-					turretSelected = true
-					get_tree().current_scene.find_child("CanvasLayer").add_child(selectedTurret)
+					selectTurret(get_tree().current_scene.find_child("Bottom UI Control").getTurretNameFromStorage(event.keycode - KEY_0))
 					
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
@@ -41,25 +48,15 @@ func _input(event: InputEvent) -> void:
 		
 	if event.is_action_pressed("turret_selected_place"):
 		if turretSelected:
-			if GameManager.getCurrentMoney() >= selectedTurret.getCost():
-				if place_item_in_cell(selectedTurret.position):
-					selectedTurret.isPlaced = true
-					selectedTurret.hideRange()
-					turretSelected = false
-					GameManager.addTurretToDict(selectedTurret)
-					GameManager.subtractMoney(selectedTurret.getCost())
-					selectedTurret = null
-				else:
-					print("Cannot place turret there!")
-					selectedTurret.queue_free()
-					turretSelected = false
-					selectedTurret = null
+			if place_item_in_cell(selectedTurret.position):
+				selectedTurret.isPlaced = true
+				selectedTurret.hideRange()
+				turretSelected = false
+				GameManager.addTurretToDict(selectedTurret)
+				get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
+				selectedTurret = null
 			else:
-				print("Not enough money!")
-				var popup = popupScene.instantiate()
-				popup.global_position = Vector2(get_viewport().size.x / 2, 200)
-				popup.insufficientFundsPopup()
-				get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+				print("Cannot place turret there!")
 				selectedTurret.queue_free()
 				turretSelected = false
 				selectedTurret = null

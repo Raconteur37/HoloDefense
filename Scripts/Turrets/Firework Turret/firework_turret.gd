@@ -46,14 +46,10 @@ const turretName : String = "Firework Turret"
 @export var level : int = 1
 @export var baseBuildTime : float = 10
 
-var constructed = false
-var constructionTimer
-
 var damage
 var projectileSpeed
 var attackRange
 var reloadTime
-var buildTime
 var shots = 3
 var explosionDamage
 var explosionRadius
@@ -74,12 +70,9 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
-	constructionTimer = $ConstructionTimer
-	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
-	constructionTimer.wait_time = buildTime
 	reloadTime = baseReloadTime
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
@@ -201,13 +194,3 @@ func _on_reload_timer_timeout() -> void:
 
 func getCost():
 	return price
-
-func startConstruction():
-	constructionTimer.start()
-
-func _on_constructing_timer_timeout() -> void:
-	constructed = true
-
-
-func _on_construction_timer_timeout() -> void:
-	pass # Replace with function body.

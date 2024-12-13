@@ -51,7 +51,6 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Arrow Turret" type="CharacterBody2D" groups=["Turret"]]
-visible = false
 position = Vector2(127, 65)
 collision_mask = 12
 script = ExtResource("2_mmj3o")
@@ -86,12 +85,8 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
 [node name="ReloadTimer" type="Timer" parent="."]
 
-[node name="ConstructingTimer" type="Timer" parent="."]
-one_shot = true
-
 [connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
-[connection signal="timeout" from="ConstructingTimer" to="." method="_on_constructing_timer_timeout"]

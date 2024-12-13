@@ -39,45 +39,6 @@ texture_region_size = Vector2i(32, 32)
 tile_size = Vector2i(32, 32)
 sources/0 = SubResource("TileSetAtlasSource_2e63p")
 
-[sub_resource type="Animation" id="Animation_pha5f"]
-resource_name = "Turret Conveyor Move"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Turret Conveyor Item:visible")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [true, false]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("Turret Conveyor Item:position")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Vector2(1513, 950), Vector2(1112, 950)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Turret Conveyor Item:material:shader_parameter/integrity")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 0.8]
-}
-
 [sub_resource type="Animation" id="Animation_vo5ca"]
 length = 0.001
 tracks/0/type = "value"
@@ -115,6 +76,45 @@ tracks/2/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
+}
+
+[sub_resource type="Animation" id="Animation_pha5f"]
+resource_name = "Turret Conveyor Move"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Turret Conveyor Item:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [true, false]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Turret Conveyor Item:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(1513, 950), Vector2(1112, 950)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Turret Conveyor Item:material:shader_parameter/integrity")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 0.8]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_3f4gn"]
@@ -225,6 +225,7 @@ offset_bottom = 40.0
 script = ExtResource("6_nd12a")
 
 [node name="XP Bar" type="TextureProgressBar" parent="CanvasLayer/Bottom UI Control"]
+layout_mode = 0
 offset_left = 1.0
 offset_top = 1023.0
 offset_right = 756.0
@@ -244,6 +245,7 @@ tint_over = Color(0, 0, 0.867, 1)
 tint_progress = Color(0.360784, 0.815686, 1, 1)
 
 [node name="FactoryBackgroundUI" type="PanelContainer" parent="CanvasLayer/Bottom UI Control"]
+layout_mode = 0
 offset_left = 760.0
 offset_top = 863.0
 offset_right = 784.0
@@ -253,6 +255,7 @@ theme_override_styles/panel = ExtResource("8_y8wdo")
 
 [node name="Turret Button Grid" type="GridContainer" parent="CanvasLayer/Bottom UI Control"]
 z_index = 1
+layout_mode = 0
 offset_left = 1600.0
 offset_top = 921.0
 offset_right = 1779.0
@@ -388,6 +391,7 @@ texture = ExtResource("1_uj05e")
 
 [node name="Storage Grid" type="GridContainer" parent="CanvasLayer/Bottom UI Control"]
 z_index = 1
+layout_mode = 0
 offset_left = 817.0
 offset_top = 901.0
 offset_right = 1173.0
@@ -395,115 +399,204 @@ offset_bottom = 1077.0
 scale = Vector2(1.4, 1.4)
 columns = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
+[node name="MarginContainer1" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
+layout_mode = 2
+
+[node name="PanelContainer3" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer1"]
+layout_mode = 2
+
+[node name="StorageTextureButton1" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer1/PanelContainer3"]
 visible = false
-layout_mode = 2
-
-[node name="PanelContainer3" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer"]
-layout_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer/PanelContainer3"]
 layout_mode = 2
 texture_normal = ExtResource("1_uj05e")
 
+[node name="Label1" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer1/PanelContainer3/StorageTextureButton1"]
+layout_mode = 0
+offset_left = 2.85716
+offset_top = 12.1429
+offset_right = 30.8572
+offset_bottom = 35.1429
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer2"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer2/PanelContainer"]
+[node name="StorageTextureButton2" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer2/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("13_tj326")
 
+[node name="Label2" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer2/PanelContainer/StorageTextureButton2"]
+layout_mode = 0
+offset_left = 2.5714
+offset_top = 11.4286
+offset_right = 30.5714
+offset_bottom = 34.4286
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer3"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer3/PanelContainer"]
+[node name="StorageTextureButton3" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer3/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("12_lkfxl")
 
+[node name="Label3" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer3/PanelContainer/StorageTextureButton3"]
+layout_mode = 0
+offset_left = 2.0
+offset_top = 11.0
+offset_right = 32.0
+offset_bottom = 34.0
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer4" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer4"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer4/PanelContainer"]
+[node name="StorageTextureButton4" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer4/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("13_ht8mn")
 
+[node name="Label4" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer4/PanelContainer/StorageTextureButton4"]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 11.0
+offset_right = 31.0
+offset_bottom = 34.0
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer5" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer5"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer5/PanelContainer"]
+[node name="StorageTextureButton5" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer5/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("14_0nm6x")
 
+[node name="Label5" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer5/PanelContainer/StorageTextureButton5"]
+layout_mode = 0
+offset_top = 10.0
+offset_right = 31.0
+offset_bottom = 33.0
+text = "  1"
+horizontal_alignment = 2
+
 [node name="MarginContainer6" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer6"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer6/PanelContainer"]
+[node name="StorageTextureButton6" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer6/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("15_qpud2")
 
+[node name="Label6" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer6/PanelContainer/StorageTextureButton6"]
+layout_mode = 0
+offset_left = 0.714268
+offset_top = 11.0
+offset_right = 30.7143
+offset_bottom = 34.0
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer7" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer7"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer7/PanelContainer"]
+[node name="StorageTextureButton7" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer7/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("16_18ms6")
 
+[node name="Label7" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer7/PanelContainer/StorageTextureButton7"]
+layout_mode = 0
+offset_left = 2.14285
+offset_top = 10.5714
+offset_right = 30.1428
+offset_bottom = 33.5714
+text = "1"
+horizontal_alignment = 2
+
 [node name="MarginContainer8" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer8"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer8/PanelContainer"]
+[node name="StorageTextureButton8" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer8/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("17_41455")
 
+[node name="Label8" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer8/PanelContainer/StorageTextureButton8"]
+layout_mode = 0
+offset_left = -5.28573
+offset_top = 10.5714
+offset_right = 30.7143
+offset_bottom = 33.5714
+text = "  999"
+horizontal_alignment = 2
+
 [node name="MarginContainer9" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer9"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer9/PanelContainer"]
+[node name="StorageTextureButton9" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer9/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("18_6po1o")
 
+[node name="Label9" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer9/PanelContainer/StorageTextureButton9"]
+layout_mode = 0
+offset_left = -4.85715
+offset_top = 10.5714
+offset_right = 31.1428
+offset_bottom = 33.5714
+text = " 1"
+horizontal_alignment = 2
+
 [node name="MarginContainer10" type="MarginContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid"]
-visible = false
 layout_mode = 2
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer10"]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer10/PanelContainer"]
+[node name="StorageTextureButton10" type="TextureButton" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer10/PanelContainer"]
+visible = false
 layout_mode = 2
 texture_normal = ExtResource("5_a60xp")
+
+[node name="Label10" type="Label" parent="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10"]
+layout_mode = 0
+offset_left = 0.714304
+offset_top = 12.2857
+offset_right = 32.7143
+offset_bottom = 35.2857
+text = " 1"
+horizontal_alignment = 2
 
 [node name="BreakTimer" type="Timer" parent="."]
 wait_time = 5.0
@@ -522,5 +615,14 @@ autostart = true
 [connection signal="pressed" from="CanvasLayer/Bottom UI Control/Turret Button Grid/MarginContainer9/PanelContainer/TextureButton9" to="CanvasLayer/Bottom UI Control" method="_on_texture_button_9_pressed"]
 [connection signal="pressed" from="CanvasLayer/Bottom UI Control/Turret Button Grid/MarginContainer10/PanelContainer/TextureButton10" to="CanvasLayer/Bottom UI Control" method="_on_texture_button_10_pressed"]
 [connection signal="animation_finished" from="CanvasLayer/Bottom UI Control/AnimationPlayer" to="CanvasLayer/Bottom UI Control" method="_on_animation_player_animation_finished"]
-[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer/PanelContainer3/TextureButton" to="CanvasLayer/Bottom UI Control" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer1/PanelContainer3/StorageTextureButton1" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_1_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer2/PanelContainer/StorageTextureButton2" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_2_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer3/PanelContainer/StorageTextureButton3" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_3_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer4/PanelContainer/StorageTextureButton4" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_4_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer5/PanelContainer/StorageTextureButton5" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_5_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer6/PanelContainer/StorageTextureButton6" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_6_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer7/PanelContainer/StorageTextureButton7" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_7_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer8/PanelContainer/StorageTextureButton8" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_8_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer9/PanelContainer/StorageTextureButton9" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_9_pressed"]
+[connection signal="pressed" from="CanvasLayer/Bottom UI Control/Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10" to="CanvasLayer/Bottom UI Control" method="_on_storage_texture_button_10_pressed"]
 [connection signal="timeout" from="BreakTimer" to="." method="_on_break_timer_timeout"]
