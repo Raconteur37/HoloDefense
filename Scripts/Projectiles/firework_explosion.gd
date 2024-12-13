@@ -5,17 +5,20 @@ var explosionRadius = 10 # This will be the particle emission sphere radius
 var explosionDamage = 10
 var turretOwner
 
+var fireworkExplosion
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	fireworkExplosion = $FireworkExplosion
 	if shotNumber == 3:
-		$FireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/red_explosion.png")
+		fireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/red_explosion.png")
 	if shotNumber == 2:
-		$FireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/white_explosion.png")
+		fireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/white_explosion.png")
 	if shotNumber == 1:
-		$FireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/blue_explosion.png")
+		fireworkExplosion.texture = load("res://Particle Scenes/Projectile/Firework/blue_explosion.png")
 	$Area2D/CollisionShape2D.shape.radius = explosionRadius
-	$FireworkExplosion.emission_sphere_radius = explosionRadius
-	$FireworkExplosion.amount = explosionRadius * .6
+	fireworkExplosion.emission_sphere_radius = explosionRadius
+	fireworkExplosion.amount = explosionRadius * .6
 	await get_tree().create_timer(.05).timeout
 	for x in $Area2D.get_overlapping_areas():
 		if x.get_parent().is_in_group("Enemy"):
