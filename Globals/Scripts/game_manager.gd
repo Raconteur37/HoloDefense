@@ -25,7 +25,7 @@ var upgradeTokens = 10
 var inGamePlayerLevel = 0
 
 var inWave : bool = false
-var currentWave : int = 1
+var currentWave : int = 4
 
 var pandemonium = false
 

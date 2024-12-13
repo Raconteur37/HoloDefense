@@ -39,10 +39,12 @@ var animationPlayer
 
 var storageGrid
 
+var fabricationStart
+
 var turretConveyorItem
 
 # Bro what why are there not queues in godot...I mean it's easy to implement your own but still.....
-var maxBuildingQueueSize  = 1
+var maxBuildingQueueSize  = 3
 var buildingItems = 0
 var buildingItemsQueue = []
 
@@ -84,6 +86,7 @@ func _ready() -> void:
 	storageButtonTen = $"Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10"
 	storageButtonTenLabel = $"Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10/Label10"
 	
+	fabricationStart = $FabricationStart
 	
 	animationPlayer = $AnimationPlayer
 	
@@ -121,17 +124,16 @@ func addTurretToConstructionQueue(turretIndex : int):
 			var turretBuildTime = turret.baseBuildTime
 			fabTurret.constructionTime = turretBuildTime
 			fabTurret.turretName = turret.getName()
+			fabTurret.global_position = fabricationStart.global_position
 			add_child(fabTurret)
+			fabTurret.turretConveyorItem.texture = turretTexture
 			
 			fabTurret.startConstruction()
 			
 			buildingItemsQueue.push_back(fabTurret)
 			
-			turretConveyorItem.texture = turretTexture
-			
-			animationPlayer.speed_scale = float(1 / turretBuildTime)
-			
-			animationPlayer.play("Turret Conveyor Move")
+			fabTurret.animationPlayer.speed_scale = float(1 / turretBuildTime)
+			fabTurret.animationPlayer.play("Play Conveyor Move")
 			
 		else:
 			var popupScene = load("res://Globals/Scene/Popup.tscn")
@@ -171,11 +173,6 @@ func _on_texture_button_9_pressed() -> void:
 
 func _on_texture_button_10_pressed() -> void:
 	addTurretToConstructionQueue(10)
-
-
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
-	if anim_name == "Turret Conveyor Move":
-		buildingItems -= 1
 
 func removeItemFromBuildQueue(item):
 	if buildingItemsQueue.has(item):
