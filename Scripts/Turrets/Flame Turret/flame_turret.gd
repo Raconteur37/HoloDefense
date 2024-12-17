@@ -19,6 +19,7 @@ var topSprite
 var selectArea
 var bodyCollisionShape
 var turretBeam
+var damageTickTimer
 
 #stats
 var kills : int = 0
@@ -37,6 +38,7 @@ const turretName : String = "Flame Turret"
 @export var baseAttackRange : float = 90
 @export var baseFireDamage : float = 2
 @export var baseFireTime : float = 3
+@export var baseDamageTickTime : float = .5
 @export var upgradeTier : int = 0
 @export var armor : int = 0
 @export var level : int = 1
@@ -48,6 +50,7 @@ var damage
 var attackRange
 var fireDamage
 var fireTime
+var damageTickTime
 
 var health : float
 
@@ -66,6 +69,7 @@ func _ready() -> void:
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
+	damageTickTimer = $DamageTickTimer
 	attackRange = baseAttackRange
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -73,6 +77,8 @@ func _ready() -> void:
 	health = maxHealth
 	fireDamage = baseFireDamage
 	fireTime = baseFireTime
+	damageTickTime = baseDamageTickTime
+	damageTickTimer.wait_time = damageTickTime
 	
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
@@ -144,4 +150,4 @@ func _on_damage_tick_timer_timeout() -> void:
 			if x.get_parent().is_in_group("Enemy"):
 				x.get_parent().hit.emit(damage,self,x.get_parent(),turretBeam)
 				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
-		$DamageTickTimer.start()
+		damageTickTimer.start()

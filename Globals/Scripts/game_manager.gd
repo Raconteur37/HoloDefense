@@ -6,7 +6,7 @@ var popupScene = load("res://Globals/Scene/Popup.tscn")
 
 # This array will be in order, so 0 will be 1 and so on
 var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
-"Flame Turret", "Firework Turret", "Spider Turret"]
+"Flame Turret", "Firework Turret", "Spider Turret","Tesla Turret"]
 
 var turretsPlaced = {}
 
@@ -186,6 +186,8 @@ func getTurretByName(turretName):
 			return load("res://Turret Scenes/Firework Turret.tscn")
 		"Spider Turret":
 			return load("res://Turret Scenes/Spider Turret.tscn")
+		"Tesla Turret":
+			return load("res://Turret Scenes/Tesla Turret.tscn")
 
 func getTurret(number):
 	
@@ -211,6 +213,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Firework Turret.tscn")
 		"Spider Turret":
 			return load("res://Turret Scenes/Spider Turret.tscn")
+		"Tesla Turret":
+			return load("res://Turret Scenes/Tesla Turret.tscn")
 			
 func findTurretTexture(turretName):
 	
@@ -234,6 +238,8 @@ func findTurretTexture(turretName):
 			return load("res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png")
 		"Spider Turret":
 			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
+		"Tesla Turret":
+			return load("res://Textures/Turrets/Tesla Turret/Tesla Turret.png")
 
 func getBeaconPosition():
 	return beacon.global_position

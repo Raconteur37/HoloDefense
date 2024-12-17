@@ -3,6 +3,6 @@
 [resource]
 resource_local_to_scene = true
 particles_animation = true
-particles_anim_h_frames = 9
+particles_anim_h_frames = 14
 particles_anim_v_frames = 1
 particles_anim_loop = true
