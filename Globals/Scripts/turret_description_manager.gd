@@ -24,20 +24,32 @@ func buildContainer(turret):
 	if turret.get("armor") != null:
 		var marginContainer = MarginContainer.new()
 		var label = Label.new()
-		marginContainer.add_child(label)
+		var richLabel = RichTextLabel.new()
+		richLabel.bbcode_enabled = true
+		richLabel.fit_content = true
+		richLabel.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		richLabel.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]"
 		var color = Color.LIGHT_SLATE_GRAY
 		label.set("theme_override_colors/font_color",color)
-		label.text = "Armor: " + str(turret.armor)
+		label.text = str(turret.armor)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		marginContainer.add_child(label)
+		marginContainer.add_child(richLabel)
 		gridContainer.add_child(marginContainer)
 	if turret.get("damage") != null:
 		var marginContainer = MarginContainer.new()
 		var label = Label.new()
-		marginContainer.add_child(label)
-		var color = Color.WEB_MAROON
+		var richLabel = RichTextLabel.new()
+		richLabel.bbcode_enabled = true
+		richLabel.fit_content = true
+		richLabel.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
+		richLabel.text = "[img=32x32]res://Textures/Icons/Damage Icon.png[/img]"
+		var color = Color.FIREBRICK
 		label.set("theme_override_colors/font_color",color)
-		label.text = "Damage: " + str(turret.damage)
+		label.text = str(turret.armor)
 		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		marginContainer.add_child(label)
+		marginContainer.add_child(richLabel)
 		gridContainer.add_child(marginContainer)
 	if turret.get("reloadTime") != null:
 		var marginContainer = MarginContainer.new()

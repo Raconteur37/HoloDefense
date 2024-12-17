@@ -61,6 +61,13 @@ func takeDamage(damage,turret,enemy,damageType):
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
+			
+	if damageType.is_in_group("Turret"):
+		if enemy.health - damage <= 0 and not enemy.isDead:
+			onKill(turret,enemy)
+			enemy.isDead = true
+		else:
+			enemy.health = enemy.health - damage
 		
 func entityTakeDamage(damage,entity):
 	

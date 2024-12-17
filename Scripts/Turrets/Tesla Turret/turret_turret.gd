@@ -30,7 +30,6 @@ var kills : int = 0
 
 
 @onready var projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
-@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
 
 var menu
 
@@ -41,7 +40,7 @@ const turretName : String = "Tesla Turret"
 @export var price : int = 50
 @export var maxHealth : float = 60
 @export var baseDamage : float = 9
-@export var baseAttackRange : float = 2000
+@export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 5
 @export var baseDamageTickTime : float = .5
 @export var baseAttackingTime : float = 5
@@ -117,7 +116,6 @@ func _process(delta: float) -> void:
 		BeaconManager.applyBeaconBuffs()
 	if not shooting:
 		damageTickTimer.stop()
-		#$"TurretTop/Flame Particle".emitting = false
 
 func reloadAnimation():
 	
@@ -144,9 +142,10 @@ func reloadAnimation():
 
 func openSelectedMenu():
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
 	
 func closeSelectMenu():
