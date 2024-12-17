@@ -41,7 +41,7 @@ const turretName : String = "Tesla Turret"
 @export var price : int = 50
 @export var maxHealth : float = 60
 @export var baseDamage : float = 9
-@export var baseAttackRange : float = 29999
+@export var baseAttackRange : float = 2000
 @export var baseReloadTime : float = 5
 @export var baseDamageTickTime : float = .5
 @export var baseAttackingTime : float = 5
@@ -181,10 +181,11 @@ func _on_damage_tick_timer_timeout() -> void:
 		for x in $RangeArea.get_overlapping_areas():
 			if x.get_parent().is_in_group("Enemy"):
 				var shockParticle = projectile.instantiate()
+				shockParticle.global_position = global_position
 
 				# Set the positions
-				var start_position = global_position + Vector2(50,50)
-				var end_position = x.get_parent().global_position
+				var start_position = Vector2(0,0)
+				var end_position = to_local(x.get_parent().global_position)
 				var points = [start_position,end_position]
 
 				shockParticle.points = points

@@ -4,10 +4,15 @@
 [ext_resource type="Script" path="res://Scripts/Turrets/Tesla Turret/electricity_shoot.gd" id="2_5eak8"]
 
 [node name="Line2D" type="Line2D"]
-z_index = 10
 position = Vector2(30, 29)
-scale = Vector2(3, 3)
-points = PackedVector2Array(0, 0, 33.6103, 0)
+width = 75.0
 texture = ExtResource("1_hx2ob")
 texture_mode = 1
+antialiased = true
 script = ExtResource("2_5eak8")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.3
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
