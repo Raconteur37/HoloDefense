@@ -27,6 +27,7 @@ script = ExtResource("1_t1rss")
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
+z_index = 13
 anchors_preset = 4
 anchor_top = 0.5
 anchor_bottom = 0.5
@@ -72,7 +73,6 @@ texture = ExtResource("4_drqio")
 
 [node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = -7
 
 [node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer"]
 layout_mode = 2
