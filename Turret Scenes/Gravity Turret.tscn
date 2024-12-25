@@ -1,0 +1,152 @@
+[gd_scene load_steps=20 format=3 uid="uid://bdo71jo6xfncr"]
+
+[ext_resource type="Script" path="res://Scripts/Turrets/Gravity Turret/gravity_turret.gd" id="1_j8a7r"]
+[ext_resource type="Texture2D" uid="uid://dsuwsnllkj4p0" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Bottom.png" id="2_uevgm"]
+[ext_resource type="Texture2D" uid="uid://cx36jiom42rfl" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Attacking-Sheet.png" id="3_gk4dt"]
+[ext_resource type="Texture2D" uid="uid://dy0q2mvkufysk" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Top.png" id="4_n6hc8"]
+[ext_resource type="PackedScene" uid="uid://d1c3ut203ttid" path="res://Particle Scenes/Turrets/Tesla Turret/Electricity Emit.tscn" id="5_1unnd"]
+[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="6_dunge"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sjg8c"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0mspq"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgv1w"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pjmih"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7e0vv"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ivlmi"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1odpp"]
+atlas = ExtResource("3_gk4dt")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qx62"]
+atlas = ExtResource("4_n6hc8")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sjg8c")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0mspq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fgv1w")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pjmih")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7e0vv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ivlmi")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1odpp")
+}],
+"loop": true,
+"name": &"Charging",
+"speed": 10.0
+}, {
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qx62")
+}],
+"loop": false,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m7jfm"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 14
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Gravity Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(99, 59)
+collision_mask = 12
+script = ExtResource("1_j8a7r")
+price = null
+maxHealth = null
+baseDamage = null
+baseAttackRange = null
+baseReloadTime = null
+baseDamageTickTime = null
+baseAttackingTime = null
+upgradeTier = null
+armor = null
+level = null
+baseBuildTime = null
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("2_uevgm")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="ElectricityEmit" parent="TurretTop" instance=ExtResource("5_1unnd")]
+material = SubResource("CanvasItemMaterial_m7jfm")
+position = Vector2(0, 0)
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("6_dunge")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="."]
+
+[node name="Charging Timer" type="Timer" parent="."]
+
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="Charging Timer" to="." method="_on_attacking_timer_timeout"]

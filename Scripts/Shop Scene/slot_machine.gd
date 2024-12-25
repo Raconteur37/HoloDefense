@@ -4,7 +4,7 @@ var turretTextures : Array = ["res://Textures/Turrets/Arrow Turret/ArrowTurret.p
 "res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png","res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png",
 "res://Textures/Turrets/Railgun Turret/RailgunTurret.png","res://Textures/Turrets/Reaper Turret/ReaperTurret.png",
 "res://Textures/Turrets/Royal Turret/RoyalTurret.png", "res://Textures/Turrets/Flame Turret/Flame Turret.png",
-"res://Textures/Turrets/Spider Turret/Spider Turret.png"]
+"res://Textures/Turrets/Spider Turret/Spider Turret.png","res://Textures/Turrets/Tesla Turret/Tesla Turret.png"]
 
 var textureListCloneOne
 var textureListCloneTwo
@@ -168,7 +168,7 @@ func pickRareTurret():
 			winningTexture = "res://Textures/Turrets/Flame Turret/Flame Turret.png"
 
 func pickSuperRareTurret():
-	var superRareTurrets = ["Reaper Turret", "Royal Turret"]
+	var superRareTurrets = ["Reaper Turret", "Royal Turret", "Tesla Turret"]
 	
 	winningTurret = superRareTurrets.pick_random()
 	
@@ -179,3 +179,6 @@ func pickSuperRareTurret():
 		
 		"Royal Turret":
 			winningTexture = "res://Textures/Turrets/Royal Turret/RoyalTurret.png"
+			
+		"Tesla Turret":
+			winningTexture = "res://Textures/Turrets/Tesla Turret/Tesla Turret.png"
