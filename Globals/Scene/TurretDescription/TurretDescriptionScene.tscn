@@ -1,12 +1,16 @@
-[gd_scene load_steps=8 format=3 uid="uid://cmprcjfer6ni6"]
+[gd_scene load_steps=10 format=3 uid="uid://cmprcjfer6ni6"]
 
 [ext_resource type="Script" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
-[ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_t3iqf"]
+[ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_7iae7"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_awkle"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="4_drqio"]
+[ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="5_ejtmj"]
+[ext_resource type="Texture2D" uid="uid://cpss7ncveh4eb" path="res://Textures/UI/XP-Bar-Over.png" id="6_5owpq"]
 
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_y06h5"]
-texture = ExtResource("2_t3iqf")
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05817"]
+texture = ExtResource("2_7iae7")
+axis_stretch_horizontal = 2
+region_rect = Rect2(0, 0, 64, 64)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cg50k"]
 shadow_color = Color(0, 0, 0, 1)
@@ -24,64 +28,133 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t1rss")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer"]
-z_index = 13
-anchors_preset = 4
-anchor_top = 0.5
-anchor_bottom = 0.5
-offset_left = 1584.0
-offset_top = -269.0
-offset_right = 1749.0
-offset_bottom = -15.0
-grow_vertical = 2
+[node name="Background Panel" type="PanelContainer" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -233.0
+offset_right = 959.0
+offset_bottom = -118.0
+grow_vertical = 0
 scale = Vector2(2, 2.01008)
-theme_override_styles/panel = SubResource("StyleBoxTexture_y06h5")
+theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer"]
+[node name="Modifier Container" type="MarginContainer" parent="Background Panel"]
 layout_mode = 2
-theme_override_constants/margin_left = 4
-theme_override_constants/margin_bottom = 25
+theme_override_constants/margin_left = 825
+theme_override_constants/margin_top = 6
 
-[node name="GridContainer" type="GridContainer" parent="CanvasLayer/PanelContainer/MarginContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Modifier Container"]
+layout_mode = 2
+theme_override_constants/margin_top = -92
+
+[node name="Label" type="Label" parent="Background Panel/Modifier Container/MarginContainer"]
+layout_mode = 2
+text = "Modifiers"
+
+[node name="GridContainer2" type="GridContainer" parent="Background Panel/Modifier Container"]
 layout_mode = 2
 
-[node name="LabelMarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="Stat Label Container" type="MarginContainer" parent="Background Panel"]
 layout_mode = 2
-theme_override_constants/margin_top = -4
+theme_override_constants/margin_left = 425
+theme_override_constants/margin_top = 5
 
-[node name="Name Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/LabelMarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stat Label Container"]
+layout_mode = 2
+bbcode_enabled = true
+text = "Stats"
+
+[node name="GridContainer" type="GridContainer" parent="Background Panel"]
+z_index = 2
+layout_mode = 2
+theme_override_constants/v_separation = 13
+
+[node name="LabelMarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
+layout_mode = 2
+theme_override_constants/margin_top = 6
+theme_override_constants/margin_bottom = 0
+
+[node name="Name Label" type="Label" parent="Background Panel/GridContainer/LabelMarginContainer"]
 layout_mode = 2
 text = "TURRET NAME"
 label_settings = SubResource("LabelSettings_cg50k")
 horizontal_alignment = 1
 
-[node name="TurretImageContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="TurretImageContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 60
-theme_override_constants/margin_top = -1
 theme_override_constants/margin_right = 60
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Background Panel/GridContainer/TurretImageContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_awkle")
 
-[node name="TurretImage" type="TextureRect" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer"]
+[node name="TurretImage" type="TextureRect" parent="Background Panel/GridContainer/TurretImageContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("4_drqio")
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
 layout_mode = 2
+theme_override_constants/margin_left = 3
 
-[node name="Label" type="Label" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer"]
+[node name="Label" type="Label" parent="Background Panel/GridContainer/MarginContainer"]
 layout_mode = 2
-text = "Health Data"
 label_settings = SubResource("LabelSettings_1jhwe")
 horizontal_alignment = 1
 
-[node name="RichTextLabel" type="RichTextLabel" parent="CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/GridContainer/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
 text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]"
 fit_content = true
+
+[node name="Health Bar" type="TextureProgressBar" parent="Background Panel/GridContainer/MarginContainer"]
+z_index = -1
+layout_mode = 2
+max_value = 10.0
+value = 9.0
+allow_greater = true
+nine_patch_stretch = true
+stretch_margin_left = 3
+stretch_margin_top = 3
+stretch_margin_right = 3
+stretch_margin_bottom = 3
+texture_under = ExtResource("5_ejtmj")
+texture_over = ExtResource("6_5owpq")
+texture_progress = ExtResource("5_ejtmj")
+tint_under = Color(0.254902, 0.231373, 0.231373, 1)
+tint_over = Color(0.503962, 2.75308e-05, 0.398372, 1)
+tint_progress = Color(1, 0.827451, 0.882353, 1)
+
+[node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
+layout_mode = 2
+theme_override_constants/margin_left = 250
+theme_override_constants/margin_top = 60
+
+[node name="GridContainer" type="GridContainer" parent="Background Panel/Stats Grid Container"]
+layout_mode = 2
+theme_override_constants/h_separation = 15
+columns = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Stats Grid Container/GridContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stats Grid Container/GridContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background Panel/Stats Grid Container/GridContainer/MarginContainer"]
+layout_mode = 2
+text = "info"
+
+[node name="MarginContainer2" type="MarginContainer" parent="Background Panel/Stats Grid Container/GridContainer"]
+layout_mode = 2
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stats Grid Container/GridContainer/MarginContainer2"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background Panel/Stats Grid Container/GridContainer/MarginContainer2"]
+layout_mode = 2
+text = "info"

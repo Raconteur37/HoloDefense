@@ -43,6 +43,10 @@ Effect=""
 "Turret Beam"=""
 Explosion=""
 
+[gui]
+
+theme/custom_font="res://Fonts/Hunger Games.ttf"
+
 [input]
 
 turret_one_select={
