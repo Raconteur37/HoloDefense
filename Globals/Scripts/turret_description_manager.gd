@@ -1,6 +1,6 @@
 extends Node
 
-var turretImageContainer
+var turretImage
 var nameLabel
 var marginContainer
 var gridContainer
@@ -9,15 +9,15 @@ var scene
 
 func _ready() -> void:
 	scene = $"."
-	turretImageContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/TurretImageContainer/PanelContainer/TurretImage
-	nameLabel = $"CanvasLayer/PanelContainer/MarginContainer/GridContainer/LabelMarginContainer/Name Label"
+	turretImage = $"SubViewportContainer/SubViewport/Background Panel/GridContainer/TurretImageContainer/PanelContainer/TurretImage"
+	nameLabel = $"SubViewportContainer/SubViewport/Background Panel/GridContainer/LabelMarginContainer/Name Label"
 	marginContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer/MarginContainer
 	gridContainer = $CanvasLayer/PanelContainer/MarginContainer/GridContainer
 
 func buildContainer(turret):
 	
 	nameLabel.text = str(turret.getName())
-	turretImageContainer.texture = GameManager.findTurretTexture(turret.getName())
+	turretImage.texture = GameManager.findTurretTexture(turret.getName())
 	
 	if turret.get("health") != null:
 		marginContainer.get_child(0).text = str(turret.health)
