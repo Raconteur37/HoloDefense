@@ -35,7 +35,42 @@ func buildStatContainer(type,turret):
 			label.text = str(turret.attackRange)
 			var color = Color.ALICE_BLUE
 			label.set("theme_override_colors/font_color",color)
-
+		"maxTurretsEnergized":
+			panelType = "maxTurretsEnergized"
+			texture.texture = load("res://Textures/Icons/Turrets Energized Icon.png")
+			label.text = str(turret.turretsEnergized) + "/" + str(turret.maxTurretsEnergized)
+			var color = Color.DARK_ORCHID
+			label.set("theme_override_colors/font_color",color)
+		"energizeTime":
+			panelType = "energizeTime"
+			texture.texture = load("res://Textures/Icons/Energize Time Icon.png")
+			label.text = str(turret.energizeTime)
+			var color = Color.INDIGO
+			label.set("theme_override_colors/font_color",color)
+		"energizerDamageBuff":
+			panelType = "energizerDamageBuff"
+			texture.texture = load("res://Textures/Icons/Energize Damage Icon.png")
+			label.text = str(turret.energizerDamageBuff)
+			var color = Color.MEDIUM_VIOLET_RED
+			label.set("theme_override_colors/font_color",color)
+		"energizerReloadTimeBuff":
+			panelType = "energizerReloadTimeBuff"
+			texture.texture = load("res://Textures/Icons/Energize Reload Time Icon.png")
+			label.text = str(turret.energizerReloadTimeBuff)
+			var color = Color.MEDIUM_VIOLET_RED
+			label.set("theme_override_colors/font_color",color)
+		"energizerAttackRangeBuff":
+			panelType = "energizerAttackRangeBuff"
+			texture.texture = load("res://Textures/Icons/Energize Range Icon.png")
+			label.text = str(turret.energizerAttackRangeBuff)
+			var color = Color.MEDIUM_VIOLET_RED
+			label.set("theme_override_colors/font_color",color)
+		"energizerProjctileSpeedBuff":
+			panelType = "energizerProjctileSpeedBuff"
+			texture.texture = load("res://Textures/Icons/Energize Projectile Speed.png")
+			label.text = str(turret.energizerProjctileSpeedBuff)
+			var color = Color.MEDIUM_VIOLET_RED
+			label.set("theme_override_colors/font_color",color)
 
 func _on_mouse_entered() -> void:
 	if not entered:

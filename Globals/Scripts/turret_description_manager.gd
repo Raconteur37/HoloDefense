@@ -70,6 +70,36 @@ func buildContainer(turret):
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("projectileSpeed",turret)
 		statHbox.add_child(statItem)
+	if turret.get("maxTurretsEnergized") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("maxTurretsEnergized",turret)
+		statHbox.add_child(statItem)
+	if turret.get("energizeTime") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("energizeTime",turret)
+		statHbox.add_child(statItem)
+	if turret.get("energizerDamageBuff") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("energizerDamageBuff",turret)
+		statHbox.add_child(statItem)
+	if turret.get("energizerReloadTimeBuff") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("energizerReloadTimeBuff",turret)
+		statHbox.add_child(statItem)
+	if turret.get("energizerAttackRangeBuff") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("energizerAttackRangeBuff",turret)
+		statHbox.add_child(statItem)
+	if turret.get("energizerProjctileSpeedBuff") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("energizerProjctileSpeedBuff",turret)
+		statHbox.add_child(statItem)
 	if turret.get("explosionDamagesdf") != null:
 		var dupe = marginContainer.duplicate()
 		var label = dupe.get_child(0)

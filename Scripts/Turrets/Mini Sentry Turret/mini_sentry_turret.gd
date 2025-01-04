@@ -23,7 +23,6 @@ var bodyCollisionShape
 var kills : int = 0
 
 @onready var projectile = preload("res://Projectile Scenes/sentry bullet.tscn") # TODO CHANGE PER TURRET
-@onready var description = preload("res://Globals/Scene/TurretDescription/MiniSentryTurretDescription.tscn") # TODO CHANGE PER TURRET
 
 var menu
 
@@ -100,9 +99,10 @@ func reloadAnimation():
 
 func openSelectedMenu(): # TODO CHANGE PER TURRET
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
 
 ########################################################### Stays the same

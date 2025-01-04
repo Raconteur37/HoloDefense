@@ -20,6 +20,19 @@ func buildStatInformation(slot : Rect2i, type):
 			$CanvasLayer/PopupPanel/MainLabel.text = "Range"
 		"projectileSpeed":
 			$CanvasLayer/PopupPanel/MainLabel.text = "Projectile Speed"
+		"maxTurretsEnergized":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Turrets Energized"
+		"energizeTime":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Time it takes to energize a turret"
+		"energizerDamageBuff":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Damage Buff"
+		"energizerReloadTimeBuff":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Reload Time Buff"
+		"energizerAttackRangeBuff":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Attack Range Buff"
+		"energizerProjctileSpeedBuff":
+			$CanvasLayer/PopupPanel/MainLabel.text = "Projectile Speed Buff"
+			
 			
 	%PopupPanel.popup(Rect2i(slot.position + correction, %PopupPanel.size))
 

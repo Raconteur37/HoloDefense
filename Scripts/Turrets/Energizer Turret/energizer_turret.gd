@@ -22,9 +22,6 @@ var energizeTimer
 #stats
 var turretsEnergized : int = 0
 
-
-@onready var description = preload("res://Globals/Scene/TurretDescription/EnergizerTurretDescription.tscn") # TODO CHANGE PER TURRET
-
 var menu
 
 enum Rarity {Rare}
@@ -90,9 +87,10 @@ func _process(delta: float) -> void:
 
 func openSelectedMenu(): # TODO CHANGE PER TURRET
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
 
 ########################################################### Stays the same
