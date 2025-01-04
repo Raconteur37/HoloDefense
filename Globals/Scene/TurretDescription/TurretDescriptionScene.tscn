@@ -1,4 +1,4 @@
-[gd_scene load_steps=19 format=3 uid="uid://cmprcjfer6ni6"]
+[gd_scene load_steps=18 format=3 uid="uid://cmprcjfer6ni6"]
 
 [ext_resource type="Script" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
 [ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_7iae7"]
@@ -35,17 +35,13 @@ region_rect = Rect2(0, 0, 64, 64)
 [sub_resource type="LabelSettings" id="LabelSettings_cg50k"]
 shadow_color = Color(0, 0, 0, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_1jhwe"]
-resource_local_to_scene = true
-font_color = Color(0.817497, 0.000525395, 0.817492, 1)
-
 [sub_resource type="Animation" id="Animation_dy0l2"]
 resource_name = "Appear"
 length = 0.7
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SubViewportContainer/SubViewport/Background Panel:material:shader_parameter/integrity")
+tracks/0/path = NodePath("Background Panel:material:shader_parameter/integrity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -57,7 +53,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Modifier Container:visible")
+tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -69,7 +65,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Stat Label Container:visible")
+tracks/2/path = NodePath("Background Panel/Stat Label Container:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -81,7 +77,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SubViewportContainer/SubViewport/Background Panel/GridContainer:visible")
+tracks/3/path = NodePath("Background Panel/GridContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -93,7 +89,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Stats Grid Container:visible")
+tracks/4/path = NodePath("Background Panel/Stats Grid Container:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -108,7 +104,7 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("SubViewportContainer/SubViewport/Background Panel:material:shader_parameter/integrity")
+tracks/0/path = NodePath("Background Panel:material:shader_parameter/integrity")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -120,7 +116,7 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Modifier Container:visible")
+tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -132,7 +128,7 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Stat Label Container:visible")
+tracks/2/path = NodePath("Background Panel/Stat Label Container:visible")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
@@ -144,7 +140,7 @@ tracks/2/keys = {
 tracks/3/type = "value"
 tracks/3/imported = false
 tracks/3/enabled = true
-tracks/3/path = NodePath("SubViewportContainer/SubViewport/Background Panel/GridContainer:visible")
+tracks/3/path = NodePath("Background Panel/GridContainer:visible")
 tracks/3/interp = 1
 tracks/3/loop_wrap = true
 tracks/3/keys = {
@@ -156,7 +152,7 @@ tracks/3/keys = {
 tracks/4/type = "value"
 tracks/4/imported = false
 tracks/4/enabled = true
-tracks/4/path = NodePath("SubViewportContainer/SubViewport/Background Panel/Stats Grid Container:visible")
+tracks/4/path = NodePath("Background Panel/Stats Grid Container:visible")
 tracks/4/interp = 1
 tracks/4/loop_wrap = true
 tracks/4/keys = {
@@ -181,105 +177,91 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_t1rss")
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 40.0
-
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
-handle_input_locally = false
-size = Vector2i(1920, 1080)
-render_target_update_mode = 4
-
-[node name="Background Panel" type="PanelContainer" parent="SubViewportContainer/SubViewport"]
+[node name="Background Panel" type="PanelContainer" parent="."]
 material = SubResource("ShaderMaterial_x4b2f")
+layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 2.0
-offset_top = -233.0
+offset_top = -234.0
 offset_right = 959.0
 offset_bottom = -118.0
 grow_vertical = 0
 scale = Vector2(2, 2.01008)
 theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
 
-[node name="Modifier Container" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel"]
+[node name="Modifier Container" type="MarginContainer" parent="Background Panel"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 825
 theme_override_constants/margin_top = 3
 
-[node name="MarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/Modifier Container"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Modifier Container"]
 layout_mode = 2
 theme_override_constants/margin_top = -92
 
-[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Background Panel/Modifier Container/MarginContainer"]
+[node name="Label" type="Label" parent="Background Panel/Modifier Container/MarginContainer"]
 layout_mode = 2
 text = "Modifiers"
 uppercase = true
 
-[node name="GridContainer2" type="GridContainer" parent="SubViewportContainer/SubViewport/Background Panel/Modifier Container"]
+[node name="GridContainer2" type="GridContainer" parent="Background Panel/Modifier Container"]
 layout_mode = 2
 
-[node name="Stat Label Container" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel"]
+[node name="Stat Label Container" type="MarginContainer" parent="Background Panel"]
 visible = false
 layout_mode = 2
 theme_override_constants/margin_left = 425
 theme_override_constants/margin_top = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Background Panel/Stat Label Container"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stat Label Container"]
 layout_mode = 2
 bbcode_enabled = true
 text = "STATS"
 
-[node name="GridContainer" type="GridContainer" parent="SubViewportContainer/SubViewport/Background Panel"]
+[node name="GridContainer" type="GridContainer" parent="Background Panel"]
 visible = false
 z_index = 2
 layout_mode = 2
 theme_override_constants/v_separation = 13
 
-[node name="LabelMarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer"]
+[node name="LabelMarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_top = 3
 theme_override_constants/margin_bottom = 0
 
-[node name="Name Label" type="Label" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/LabelMarginContainer"]
+[node name="Name Label" type="Label" parent="Background Panel/GridContainer/LabelMarginContainer"]
 layout_mode = 2
 text = "TURRET NAME"
 label_settings = SubResource("LabelSettings_cg50k")
 horizontal_alignment = 1
 uppercase = true
 
-[node name="TurretImageContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer"]
+[node name="TurretImageContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 60
 theme_override_constants/margin_right = 60
 
-[node name="PanelContainer" type="PanelContainer" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/TurretImageContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Background Panel/GridContainer/TurretImageContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_awkle")
 
-[node name="TurretImage" type="TextureRect" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/TurretImageContainer/PanelContainer"]
+[node name="TurretImage" type="TextureRect" parent="Background Panel/GridContainer/TurretImageContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("4_drqio")
 
-[node name="MarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 
-[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/MarginContainer"]
-layout_mode = 2
-label_settings = SubResource("LabelSettings_1jhwe")
-horizontal_alignment = 1
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/GridContainer/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
-text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]"
+text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img] "
 fit_content = true
 
-[node name="Health Bar" type="TextureProgressBar" parent="SubViewportContainer/SubViewport/Background Panel/GridContainer/MarginContainer"]
+[node name="Health Bar" type="TextureProgressBar" parent="Background Panel/GridContainer/MarginContainer"]
 z_index = -1
 layout_mode = 2
 max_value = 10.0
@@ -297,40 +279,14 @@ tint_under = Color(0.254902, 0.231373, 0.231373, 1)
 tint_over = Color(0.503962, 2.75308e-05, 0.398372, 1)
 tint_progress = Color(1, 0.827451, 0.882353, 1)
 
-[node name="Stats Grid Container" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel"]
+[node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
 visible = false
 layout_mode = 2
-theme_override_constants/margin_left = 250
+theme_override_constants/margin_left = 260
 theme_override_constants/margin_top = 60
 
-[node name="GridContainer" type="GridContainer" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container"]
+[node name="HBoxContainer" type="HBoxContainer" parent="Background Panel/Stats Grid Container"]
 layout_mode = 2
-theme_override_constants/h_separation = 15
-columns = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer"]
-layout_mode = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer/MarginContainer"]
-layout_mode = 2
-bbcode_enabled = true
-text = "[img=32x32]res://Textures/Icons/Damage Icon.png[/img]"
-
-[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer/MarginContainer"]
-layout_mode = 2
-text = "           "
-uppercase = true
-
-[node name="MarginContainer2" type="MarginContainer" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer"]
-layout_mode = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer/MarginContainer2"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="SubViewportContainer/SubViewport/Background Panel/Stats Grid Container/GridContainer/MarginContainer2"]
-layout_mode = 2
-text = "info"
-uppercase = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

@@ -24,6 +24,7 @@ BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 SoundManager="*res://Globals/Scene/SoundManager.tscn"
 EffectManager="*res://Globals/Scene/Effects.tscn"
 EntityManager="*res://Globals/Scripts/entity_manager.gd"
+StatisticPopup="*res://Globals/Scene/Statistic Popup.tscn"
 
 [display]
 
@@ -42,10 +43,6 @@ Minion=""
 Effect=""
 "Turret Beam"=""
 Explosion=""
-
-[gui]
-
-theme/custom_font="res://Fonts/AVAGENO Trial.ttf"
 
 [input]
 

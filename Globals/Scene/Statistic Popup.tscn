@@ -1,0 +1,29 @@
+[gd_scene load_steps=3 format=3 uid="uid://md6mk1o7rda"]
+
+[ext_resource type="Script" path="res://Globals/Scripts/statistic_popup.gd" id="1_btgby"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_1dkc3"]
+font_size = 12
+
+[node name="StatisticPopup" type="Control"]
+layout_mode = 3
+anchors_preset = 0
+script = ExtResource("1_btgby")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="PopupPanel" type="PopupPanel" parent="CanvasLayer"]
+unique_name_in_owner = true
+title = "Testing"
+position = Vector2i(100, 0)
+size = Vector2i(100, 50)
+
+[node name="MainLabel" type="Label" parent="CanvasLayer/PopupPanel"]
+offset_left = 4.0
+offset_top = 4.0
+offset_right = 96.0
+offset_bottom = 46.0
+text = "Debug Msg"
+label_settings = SubResource("LabelSettings_1dkc3")
+horizontal_alignment = 1
+autowrap_mode = 2
