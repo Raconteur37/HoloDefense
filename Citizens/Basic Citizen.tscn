@@ -1,0 +1,26 @@
+[gd_scene load_steps=5 format=3 uid="uid://cc1wtd6g7gm0q"]
+
+[ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
+[ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
+[ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
+radius = 3.60001
+height = 12.4
+
+[node name="BasicCitizen" type="Node2D" groups=["Citizen"]]
+position = Vector2(537, 491)
+scale = Vector2(4, 4)
+script = ExtResource("1_e01cn")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+position = Vector2(-0.75, -4.5)
+texture = ExtResource("2_6aq5k")
+
+[node name="Area2D" type="Area2D" parent="Sprite2D"]
+position = Vector2(0.4, 0.599994)
+script = ExtResource("3_58n5d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
+position = Vector2(0.599988, 0.200006)
+shape = SubResource("CapsuleShape2D_fwpx7")

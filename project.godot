@@ -43,6 +43,7 @@ Minion=""
 Effect=""
 "Turret Beam"=""
 Explosion=""
+Citizen=""
 
 [input]
 
@@ -87,6 +88,7 @@ turret_three_upgrade={
 [rendering]
 
 textures/canvas_textures/default_texture_filter=0
+textures/canvas_textures/default_texture_repeat=1
 environment/defaults/default_clear_color=Color(0.092397, 0.0923971, 0.092397, 1)
 viewport/hdr_2d=true
 2d/snap/snap_2d_transforms_to_pixel=true

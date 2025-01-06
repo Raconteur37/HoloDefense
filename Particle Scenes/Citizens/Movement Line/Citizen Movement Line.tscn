@@ -1,0 +1,16 @@
+[gd_scene load_steps=3 format=3 uid="uid://n01vcrnyoqii"]
+
+[ext_resource type="Material" uid="uid://7b6d4xc30my4" path="res://Shaders/new_shader_material.tres" id="1_1qkli"]
+[ext_resource type="Texture2D" uid="uid://7it5jgs84t7i" path="res://Textures/Citizens/UI/Movement Line.png" id="1_qb7wy"]
+
+[node name="CitizenMovementLine" type="Line2D"]
+z_index = 1
+material = ExtResource("1_1qkli")
+position = Vector2(126, 154)
+points = PackedVector2Array(0, 0, 100, 0)
+width = 2.0
+texture = ExtResource("1_qb7wy")
+texture_mode = 1
+joint_mode = 2
+begin_cap_mode = 2
+end_cap_mode = 2
