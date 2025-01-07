@@ -1,15 +1,117 @@
-[gd_scene load_steps=5 format=3 uid="uid://cc1wtd6g7gm0q"]
+[gd_scene load_steps=18 format=3 uid="uid://cc1wtd6g7gm0q"]
 
 [ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
+[ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
 radius = 3.60001
 height = 12.4
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(0, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_40db6"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(9, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_tifie"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(18, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e4tg6"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(27, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_stj8a"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(36, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1ljqo"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(45, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r6m4e"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(54, 0, 9, 13)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2j73r"]
+atlas = ExtResource("4_ovmnh")
+region = Rect2(63, 0, 9, 13)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fuy38"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mhx3l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_40db6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_tifie")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e4tg6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_stj8a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1ljqo")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r6m4e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2j73r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
+
+[sub_resource type="Animation" id="Animation_wmtxi"]
+resource_name = "Hop"
+length = 0.4
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
+"transitions": PackedFloat32Array(1, 1, 1, 1, 1),
+"update": 0,
+"values": [0.0, -0.261799, 0.0, 0.261799, 0.0]
+}
+
+[sub_resource type="Animation" id="Animation_ela80"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_711rl"]
+_data = {
+"Hop": SubResource("Animation_wmtxi"),
+"RESET": SubResource("Animation_ela80")
+}
+
 [node name="BasicCitizen" type="Node2D" groups=["Citizen"]]
-position = Vector2(737, 520)
+position = Vector2(736, 515)
 scale = Vector2(4, 4)
 script = ExtResource("1_e01cn")
 
@@ -25,4 +127,17 @@ script = ExtResource("3_58n5d")
 position = Vector2(0.599988, 0.200006)
 shape = SubResource("CapsuleShape2D_fwpx7")
 
+[node name="HoverBox" type="AnimatedSprite2D" parent="Sprite2D"]
+visible = false
+position = Vector2(0.25, -0.25)
+sprite_frames = SubResource("SpriteFrames_fuy38")
+autoplay = "default"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_711rl")
+}
+
 [connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_exited"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

@@ -1,6 +1,8 @@
 extends Node2D
 
-var visualBox
+var hoverBox
+var animationPlayer
+var sprite
 
 const speed = 300
 
@@ -10,7 +12,9 @@ var destination = null
 var destinationParticle = null
 
 var destinationReached : bool = false
+var moving : bool = false
 
+var inventory = []
 
 @onready var moveSelectParticle = load("res://Particle Scenes/Citizens/Movement Line/Movement Select.tscn")
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
@@ -18,14 +22,22 @@ var destinationReached : bool = false
 
 func _ready() -> void:
 	selected = false
-	visualBox = $Sprite2D/Area2D/VisualBox
+	animationPlayer = $AnimationPlayer
+	sprite = $Sprite2D
+	hoverBox = $Sprite2D/HoverBox
 
 func _process(delta: float) -> void:
 	if destination != null:
 		position = position.move_toward(destination, speed * delta)
+		moving = true
 		updateLine()
+	if moving and not destinationReached:
+		if not animationPlayer.is_playing():
+			animationPlayer.play("Hop")
 	if destination != null and global_position == destination and not destinationReached:
 		destinationReached = true
+		moving = false
+		destination = null
 		if is_instance_valid(destinationParticle):
 			destinationParticle.queue_free()
 	else:
@@ -35,18 +47,24 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
+				hoverBox.visible = true
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
-		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
-			if destinationParticle != null:
-				destinationParticle.queue_free()
-			if selected and moveLine != null:
+		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
+			if selected:
 				selected = false
-				destination = null
-				moveLine.queue_free()
-			elif selected and moveLine == null:
-				selected = false
-				destination = null
+				hoverBox.visible = false
+				#Close menu
+			#moving = false
+			#if destinationParticle != null:
+			#	destinationParticle.queue_free()
+			#if selected and moveLine != null:
+			#	selected = false
+			#	destination = null
+			#	moveLine.queue_free()
+			#elif selected and moveLine == null:
+			#	selected = false
+			#	destination = null
 
 func updateLine():
 	moveLine.clear_points()
@@ -94,3 +112,19 @@ func moveToMouse(mousePos):
 	moveLine = moveLineCurrent
 
 	add_child(moveLineCurrent)
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if moving:
+		animationPlayer.play("Hop")
+	else:
+		animationPlayer.stop()
+
+
+func _on_area_2d_mouse_entered() -> void:
+	hoverBox.visible = true
+
+
+func _on_area_2d_mouse_exited() -> void:
+	if not selected:
+		hoverBox.visible = false
