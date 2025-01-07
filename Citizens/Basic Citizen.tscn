@@ -9,7 +9,7 @@ radius = 3.60001
 height = 12.4
 
 [node name="BasicCitizen" type="Node2D" groups=["Citizen"]]
-position = Vector2(537, 491)
+position = Vector2(737, 520)
 scale = Vector2(4, 4)
 script = ExtResource("1_e01cn")
 
@@ -24,3 +24,5 @@ script = ExtResource("3_58n5d")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
 position = Vector2(0.599988, 0.200006)
 shape = SubResource("CapsuleShape2D_fwpx7")
+
+[connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]

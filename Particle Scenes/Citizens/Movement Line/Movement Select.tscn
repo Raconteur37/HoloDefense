@@ -1,0 +1,32 @@
+[gd_scene load_steps=4 format=3 uid="uid://vd7o337pmdrt"]
+
+[ext_resource type="Texture2D" uid="uid://mimy6mxphjqy" path="res://Particle Scenes/Citizens/Movement Line/row_output.png" id="1_gotfs"]
+[ext_resource type="Script" path="res://Particle Scenes/Citizens/Movement Line/movement_select.gd" id="2_0dkyv"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jejcs"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 10
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="MovementSelect" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_jejcs")
+position = Vector2(964, 414)
+scale = Vector2(2, 2)
+emitting = false
+amount = 1
+lifetime = 0.5
+one_shot = true
+texture = ExtResource("1_gotfs")
+particle_flag_align_y = true
+spread = 0.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+script = ExtResource("2_0dkyv")
+
+[node name="Timer" type="Timer" parent="."]
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
