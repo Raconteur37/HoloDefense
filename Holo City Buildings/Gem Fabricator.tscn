@@ -1,0 +1,43 @@
+[gd_scene load_steps=6 format=3 uid="uid://dmfouqdg4qq47"]
+
+[ext_resource type="Script" path="res://Scripts/Holo City Buildings/Gem Fabricator/gem_fabricator.gd" id="1_7vu04"]
+[ext_resource type="Texture2D" uid="uid://dwt36jlqai1te" path="res://Textures/Holo City/Gem Fabricator.png" id="2_hh28k"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_5j705"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_hh28k")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_julrh"]
+size = Vector2(88.25, 89.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0j4e"]
+size = Vector2(63.5, 63.5)
+
+[node name="Gem Fabricator" type="Node2D" groups=["Holo City Building"]]
+position = Vector2(916, 240)
+scale = Vector2(4, 4)
+script = ExtResource("1_7vu04")
+
+[node name="Fabricator Sprite" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_5j705")
+
+[node name="Work Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area"]
+position = Vector2(-0.5, 12.25)
+shape = SubResource("RectangleShape2D_julrh")
+debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
+
+[node name="Collision Area" type="Area2D" parent="."]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Collision Area"]
+position = Vector2(0, 0.25)
+shape = SubResource("RectangleShape2D_w0j4e")
+debug_color = Color(0.665128, 0.316256, 0.997179, 0.42)

@@ -3,8 +3,13 @@ extends Node2D
 var hoverBox
 var animationPlayer
 var sprite
+var selectUI = null
 
+
+var citName
 const speed = 300
+var jobBuilding = null
+var currentJob = null
 
 var selected
 var moveLine = null
@@ -25,6 +30,8 @@ func _ready() -> void:
 	animationPlayer = $AnimationPlayer
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
+	
+	citName = "Basic Citizen"
 
 func _process(delta: float) -> void:
 	if destination != null:
@@ -42,6 +49,14 @@ func _process(delta: float) -> void:
 			destinationParticle.queue_free()
 	else:
 		destinationReached = false
+	if selected and selectUI == null:
+		var ui = load("res://Citizens/Citizen Select UI.tscn")
+		var loadedUI = ui.instantiate()
+		#loadedUI.buildMenu(self)
+		selectUI = loadedUI
+		self.add_sibling(loadedUI)
+	elif not selected and selectUI != null:
+		selectUI.queue_free()
 
 func _input(event):
 	if event is InputEventMouseButton:

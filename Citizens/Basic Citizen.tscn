@@ -111,12 +111,12 @@ _data = {
 }
 
 [node name="BasicCitizen" type="Node2D" groups=["Citizen"]]
-position = Vector2(736, 515)
-scale = Vector2(4, 4)
+position = Vector2(514, 506)
 script = ExtResource("1_e01cn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
 position = Vector2(-0.75, -4.5)
+scale = Vector2(4, 4)
 texture = ExtResource("2_6aq5k")
 
 [node name="Area2D" type="Area2D" parent="Sprite2D"]
@@ -137,6 +137,8 @@ autoplay = "default"
 libraries = {
 "": SubResource("AnimationLibrary_711rl")
 }
+
+[node name="Work Timer" type="Timer" parent="."]
 
 [connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_exited"]
