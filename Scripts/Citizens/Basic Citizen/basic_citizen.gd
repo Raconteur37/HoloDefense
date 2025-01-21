@@ -1,4 +1,4 @@
-extends Node2D
+extends CharacterBody2D
 
 var hoverBox
 var animationPlayer
@@ -10,6 +10,8 @@ var citName
 const speed = 300
 var jobBuilding = null
 var currentJob = null
+
+var hasJob = false
 
 var selected
 var moveLine = null
@@ -62,6 +64,7 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
+				CityManager.citizenSelect(self)
 				hoverBox.visible = true
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
@@ -69,6 +72,7 @@ func _input(event):
 			if selected:
 				selected = false
 				hoverBox.visible = false
+				CityManager.citizenDeselect()
 				#Close menu
 			#moving = false
 			#if destinationParticle != null:
@@ -138,7 +142,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 
 func _on_area_2d_mouse_entered() -> void:
 	hoverBox.visible = true
-
 
 func _on_area_2d_mouse_exited() -> void:
 	if not selected:

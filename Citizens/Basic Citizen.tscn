@@ -1,13 +1,9 @@
-[gd_scene load_steps=18 format=3 uid="uid://cc1wtd6g7gm0q"]
+[gd_scene load_steps=19 format=3 uid="uid://cc1wtd6g7gm0q"]
 
 [ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
-
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
-radius = 3.60001
-height = 12.4
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
 atlas = ExtResource("4_ovmnh")
@@ -73,28 +69,35 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_wmtxi"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o0kfk"]
+size = Vector2(23, 41)
+
+[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
+radius = 3.60001
+height = 12.4
+
+[sub_resource type="Animation" id="Animation_8ged5"]
 resource_name = "Hop"
 length = 0.4
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0, 0.1, 0.2, 0.3, 0.4),
 "transitions": PackedFloat32Array(1, 1, 1, 1, 1),
 "update": 0,
-"values": [0.0, -0.261799, 0.0, 0.261799, 0.0]
+"values": [0.0, -0.434452, 0.0, 0.54161, 0.0]
 }
 
-[sub_resource type="Animation" id="Animation_ela80"]
+[sub_resource type="Animation" id="Animation_1o3yx"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:rotation")
+tracks/0/path = NodePath(".:rotation")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
@@ -104,28 +107,22 @@ tracks/0/keys = {
 "values": [0.0]
 }
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_711rl"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_45ah3"]
 _data = {
-"Hop": SubResource("Animation_wmtxi"),
-"RESET": SubResource("Animation_ela80")
+"Hop": SubResource("Animation_8ged5"),
+"RESET": SubResource("Animation_1o3yx")
 }
 
-[node name="BasicCitizen" type="Node2D" groups=["Citizen"]]
-position = Vector2(514, 506)
+[node name="CharacterBody2D" type="CharacterBody2D" groups=["Citizen"]]
+position = Vector2(955, 398)
+collision_layer = 16
+collision_mask = 48
 script = ExtResource("1_e01cn")
 
 [node name="Sprite2D" type="Sprite2D" parent="."]
-position = Vector2(-0.75, -4.5)
+position = Vector2(-2, -3)
 scale = Vector2(4, 4)
 texture = ExtResource("2_6aq5k")
-
-[node name="Area2D" type="Area2D" parent="Sprite2D"]
-position = Vector2(0.4, 0.599994)
-script = ExtResource("3_58n5d")
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Sprite2D/Area2D"]
-position = Vector2(0.599988, 0.200006)
-shape = SubResource("CapsuleShape2D_fwpx7")
 
 [node name="HoverBox" type="AnimatedSprite2D" parent="Sprite2D"]
 visible = false
@@ -133,13 +130,28 @@ position = Vector2(0.25, -0.25)
 sprite_frames = SubResource("SpriteFrames_fuy38")
 autoplay = "default"
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-"": SubResource("AnimationLibrary_711rl")
-}
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+position = Vector2(0.25, 0)
+shape = SubResource("RectangleShape2D_o0kfk")
+debug_color = Color(0.813515, 0.413999, 0.306186, 0.42)
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(-4, 0)
+scale = Vector2(4, 4)
+collision_layer = 16
+collision_mask = 48
+script = ExtResource("3_58n5d")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(0.599988, 0.200006)
+shape = SubResource("CapsuleShape2D_fwpx7")
 
 [node name="Work Timer" type="Timer" parent="."]
 
-[connection signal="mouse_entered" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="Sprite2D/Area2D" to="." method="_on_area_2d_mouse_exited"]
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+"": SubResource("AnimationLibrary_45ah3")
+}
+
+[connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

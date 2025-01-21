@@ -3,7 +3,7 @@ extends Area2D
 var citizen
 
 func _ready() -> void:
-	citizen = $"../.."
+	citizen = $".."
 
 func _input_event(viewport, event, shape_idx):
 	if event is InputEventMouseButton:
