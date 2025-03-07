@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://vkqtglh72g41"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/sentry_bullet.gd" id="1_6evfc"]
+[ext_resource type="Script" uid="uid://bud5bm655gtrh" path="res://Scripts/Projectiles/sentry_bullet.gd" id="1_6evfc"]
 [ext_resource type="Texture2D" uid="uid://1fg55wptqg7t" path="res://Textures/Projectiles/SentryBullet.png" id="2_gslp4"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]

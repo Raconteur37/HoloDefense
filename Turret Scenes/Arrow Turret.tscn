@@ -2,8 +2,8 @@
 
 [ext_resource type="Texture2D" uid="uid://ct8yl8b4gftr3" path="res://Textures/Turrets/Arrow Turret/ArrowTurretBase.png" id="1_n5hte"]
 [ext_resource type="Texture2D" uid="uid://dye2fvradso63" path="res://Textures/Turrets/Arrow Turret/ArrowTurret-Sheet.png" id="2_cgmib"]
-[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret.gd" id="2_mmj3o"]
-[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="3_p5pc0"]
+[ext_resource type="Script" uid="uid://dq8rf0kv1j0b0" path="res://Scripts/Turrets/Arrow Turret/arrow_turret.gd" id="2_mmj3o"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="3_p5pc0"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
 size = Vector2(30, 32)

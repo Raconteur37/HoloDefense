@@ -5,15 +5,13 @@ var animationPlayer
 var sprite
 var selectUI = null
 
-
-var citName
-const speed = 300
-var jobBuilding = null
+var citName : String
+const speed : float = 300
 var currentJob = null
 
-var hasJob = false
+var hasJob : bool = false
 
-var selected
+var selected : bool
 var moveLine = null
 var destination = null
 var destinationParticle = null
@@ -21,7 +19,15 @@ var destinationParticle = null
 var destinationReached : bool = false
 var moving : bool = false
 
-var inventory = []
+var inventory : Array = []
+
+var jobExperience : Dictionary[String,float] = {
+	"Holo Generator" : 0,
+	"Material Atomizer" : 0,
+	"Gem Scraper" : 0,
+	"Researcher" : 0,
+	"Fabricator" : 0
+}
 
 @onready var moveSelectParticle = load("res://Particle Scenes/Citizens/Movement Line/Movement Select.tscn")
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
@@ -32,6 +38,18 @@ func _ready() -> void:
 	animationPlayer = $AnimationPlayer
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
+	
+	# Check the level of the holo generator and increase chances of prefered citizen
+	# You'll be able to click on the holo generator and select the prefered citien type, and based on your city level
+	# it increases the chances of getting a certain citizen with that specialty
+	# every single action done by you and your citizizens increases your city level
+	
+	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
+	
+	for key in jobExperience:
+		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
+		
+	print(jobExperience)
 	
 	citName = "Basic Citizen"
 
@@ -64,7 +82,6 @@ func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
-				CityManager.citizenSelect(self)
 				hoverBox.visible = true
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
@@ -72,7 +89,6 @@ func _input(event):
 			if selected:
 				selected = false
 				hoverBox.visible = false
-				CityManager.citizenDeselect()
 				#Close menu
 			#moving = false
 			#if destinationParticle != null:
@@ -84,6 +100,22 @@ func _input(event):
 			#elif selected and moveLine == null:
 			#	selected = false
 			#	destination = null
+
+
+func setJob(job : String):
+	if currentJob != job:
+		if not hasJob:
+			hasJob = true
+		currentJob = job
+		
+		match currentJob:
+						
+			"Gem Scraper":
+				pass
+				
+
+
+# Rendering
 
 func updateLine():
 	moveLine.clear_points()
@@ -132,13 +164,11 @@ func moveToMouse(mousePos):
 
 	add_child(moveLineCurrent)
 
-
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if moving:
 		animationPlayer.play("Hop")
 	else:
 		animationPlayer.stop()
-
 
 func _on_area_2d_mouse_entered() -> void:
 	hoverBox.visible = true

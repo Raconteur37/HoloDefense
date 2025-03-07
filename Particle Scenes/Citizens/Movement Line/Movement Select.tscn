@@ -1,7 +1,7 @@
 [gd_scene load_steps=4 format=3 uid="uid://vd7o337pmdrt"]
 
 [ext_resource type="Texture2D" uid="uid://mimy6mxphjqy" path="res://Particle Scenes/Citizens/Movement Line/row_output.png" id="1_gotfs"]
-[ext_resource type="Script" path="res://Particle Scenes/Citizens/Movement Line/movement_select.gd" id="2_0dkyv"]
+[ext_resource type="Script" uid="uid://b7bhojwv7mtaq" path="res://Particle Scenes/Citizens/Movement Line/movement_select.gd" id="2_0dkyv"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_jejcs"]
 resource_local_to_scene = true

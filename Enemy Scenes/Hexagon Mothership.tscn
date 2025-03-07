@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://gygbrebhkc3s"]
 
-[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
-[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_shape_draw.gd" id="2_gllsc"]
-[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d_body.gd" id="2_skr1q"]
-[ext_resource type="Script" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d.gd" id="3_85gur"]
+[ext_resource type="Script" uid="uid://cenj3jsyuormk" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
+[ext_resource type="Script" uid="uid://dlyelumpl2118" path="res://Scripts/Enemies/hexagon_mothership_shape_draw.gd" id="2_gllsc"]
+[ext_resource type="Script" uid="uid://dgnnvwvx5c081" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d_body.gd" id="2_skr1q"]
+[ext_resource type="Script" uid="uid://bsy8hw7ku2avl" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d.gd" id="3_85gur"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(686, 432)

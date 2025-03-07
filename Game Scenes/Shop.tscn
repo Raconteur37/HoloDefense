@@ -1,6 +1,6 @@
 [gd_scene load_steps=12 format=3 uid="uid://bn4ajiuopc5lu"]
 
-[ext_resource type="Script" path="res://Scripts/Shop Scene/slot_machine.gd" id="1_c4eij"]
+[ext_resource type="Script" uid="uid://ckt65sif715xg" path="res://Scripts/Shop Scene/slot_machine.gd" id="1_c4eij"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_nn1d4"]
 [ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="3_ycuo2"]
 [ext_resource type="Texture2D" uid="uid://camtps7iscofx" path="res://Textures/Turrets/Railgun Turret/RailgunTurret.png" id="4_4wxbc"]
@@ -39,8 +39,8 @@ resource_name = "Spin"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_moqv8"]
 _data = {
-"RESET": SubResource("Animation_n7the"),
-"Spin": SubResource("Animation_j6ssx")
+&"RESET": SubResource("Animation_n7the"),
+&"Spin": SubResource("Animation_j6ssx")
 }
 
 [node name="Shop" type="Node2D"]

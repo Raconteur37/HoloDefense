@@ -2,7 +2,7 @@
 
 [ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
 [ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
-[ext_resource type="Script" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
+[ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vwhel"]
 font_size = 30
@@ -159,10 +159,10 @@ tracks/4/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
 _data = {
-"Damage Popup": SubResource("Animation_rf5yh"),
-"Insufficient Funds": SubResource("Animation_vigib"),
-"KillPopup": SubResource("Animation_7lca7"),
-"RESET": SubResource("Animation_fjn6v")
+&"Damage Popup": SubResource("Animation_rf5yh"),
+&"Insufficient Funds": SubResource("Animation_vigib"),
+&"KillPopup": SubResource("Animation_7lca7"),
+&"RESET": SubResource("Animation_fjn6v")
 }
 
 [sub_resource type="LabelSettings" id="LabelSettings_uk6by"]

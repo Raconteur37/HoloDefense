@@ -19,4 +19,4 @@ func _process(delta: float) -> void:
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Citizen"):
 		if not body.hasJob:
-			print("Doesnt have a job")
+			body.setJob("Gem Scraper")

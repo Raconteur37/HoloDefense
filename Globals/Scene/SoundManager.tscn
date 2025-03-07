@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://c4lr1r0hdtv5q"]
 
-[ext_resource type="Script" path="res://Globals/Scripts/sound_manager.gd" id="1_t2bua"]
+[ext_resource type="Script" uid="uid://dyvdtpov0oasd" path="res://Globals/Scripts/sound_manager.gd" id="1_t2bua"]
 [ext_resource type="AudioStream" uid="uid://bwpoyagaf7xah" path="res://Sounds/In Game Sounds/kill.mp3" id="2_a734v"]
 
 [node name="Node2D" type="Node2D"]

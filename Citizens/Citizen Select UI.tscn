@@ -1,7 +1,7 @@
 [gd_scene load_steps=16 format=3 uid="uid://ui346j8fxgh8"]
 
-[ext_resource type="Script" path="res://Scripts/Citizens/Citizen UI/citizen_select_ui.gd" id="1_bwppn"]
-[ext_resource type="Shader" path="res://Shaders/Game.gdshader" id="1_tyc1k"]
+[ext_resource type="Script" uid="uid://dp10ywjcelrla" path="res://Scripts/Citizens/Citizen UI/citizen_select_ui.gd" id="1_bwppn"]
+[ext_resource type="Shader" uid="uid://cp7aeybt3bbnc" path="res://Shaders/Game.gdshader" id="1_tyc1k"]
 [ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_c7i54"]
 [ext_resource type="Texture2D" uid="uid://d0qrxomr5jyyc" path="res://Textures/Citizens/UI/Destination Button.png" id="3_mbcbj"]
 [ext_resource type="Texture2D" uid="uid://c7f1kirvy486r" path="res://Textures/Citizens/UI/Job Inactive.png" id="4_6p0t5"]
@@ -23,10 +23,10 @@ noise = SubResource("FastNoiseLite_vv2ns")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_1n8jb"]
 resource_local_to_scene = true
 shader = ExtResource("1_tyc1k")
-shader_parameter/integrity = 1.0
-shader_parameter/burn_size = 1.3
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_w64fo")
 shader_parameter/burn_texture = SubResource("GradientTexture2D_41ifu")
+shader_parameter/integrity = 1.0
+shader_parameter/burn_size = 1.3
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_87q5u"]
 texture = ExtResource("2_c7i54")

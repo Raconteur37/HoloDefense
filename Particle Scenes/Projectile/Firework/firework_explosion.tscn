@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://5cj3h6pd7kg6"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/firework_explosion.gd" id="1_i46p3"]
+[ext_resource type="Script" uid="uid://3t77lwkfr0qu" path="res://Scripts/Projectiles/firework_explosion.gd" id="1_i46p3"]
 [ext_resource type="Texture2D" uid="uid://c0olfu2xm6t17" path="res://Particle Scenes/Projectile/Firework/red_explosion.png" id="2_1kyin"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dv8nh"]

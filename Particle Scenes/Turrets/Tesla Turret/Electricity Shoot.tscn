@@ -1,7 +1,7 @@
 [gd_scene load_steps=3 format=3 uid="uid://bdhxbgjthhwqg"]
 
 [ext_resource type="Texture2D" uid="uid://6ojk5c0mjtxr" path="res://Particle Scenes/Turrets/Tesla Turret/rotated_sprite_sheet.png" id="1_hx2ob"]
-[ext_resource type="Script" path="res://Scripts/Turrets/Tesla Turret/electricity_shoot.gd" id="2_5eak8"]
+[ext_resource type="Script" uid="uid://bagmrm5wlxn3h" path="res://Scripts/Turrets/Tesla Turret/electricity_shoot.gd" id="2_5eak8"]
 
 [node name="Line2D" type="Line2D"]
 position = Vector2(30, 29)

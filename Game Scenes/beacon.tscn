@@ -1,6 +1,6 @@
 [gd_scene load_steps=6 format=3 uid="uid://bela5hy1hxvvn"]
 
-[ext_resource type="Script" path="res://Scripts/Game Scene/beacon.gd" id="1_1yw4u"]
+[ext_resource type="Script" uid="uid://bs8cyhvr5khac" path="res://Scripts/Game Scene/beacon.gd" id="1_1yw4u"]
 [ext_resource type="Texture2D" uid="uid://focw1t1ptcll" path="res://Textures/Map/Beacon.png" id="2_jullh"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5pqjd"]

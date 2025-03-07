@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://cngtb3gajp1mg"]
 
-[ext_resource type="Script" path="res://Globals/Scene/Effects/poison.gd" id="1_ly55f"]
+[ext_resource type="Script" uid="uid://cfwwajyeuhsp8" path="res://Globals/Scene/Effects/poison.gd" id="1_ly55f"]
 [ext_resource type="PackedScene" uid="uid://dherktuyjveix" path="res://Particle Scenes/Effects/Poison/poison.tscn" id="2_h8csx"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_i5lr7"]

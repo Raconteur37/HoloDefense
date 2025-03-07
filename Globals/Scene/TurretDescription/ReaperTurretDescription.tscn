@@ -1,6 +1,6 @@
 [gd_scene load_steps=17 format=3 uid="uid://d00birk0ynctb"]
 
-[ext_resource type="Script" path="res://Globals/Scene/TurretDescription/reaper_turret_description.gd" id="1_endvs"]
+[ext_resource type="Script" uid="uid://de34mgohwk0wa" path="res://Globals/Scene/TurretDescription/reaper_turret_description.gd" id="1_endvs"]
 [ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_6ix2o"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_la2ym"]
 [ext_resource type="Texture2D" uid="uid://c1ghgvqdwe1ep" path="res://Textures/Turrets/Reaper Turret/ReaperTurret.png" id="4_3qg23"]
@@ -73,8 +73,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tr11p"]
 _data = {
-"Open": SubResource("Animation_am0gr"),
-"RESET": SubResource("Animation_hfbjl")
+&"Open": SubResource("Animation_am0gr"),
+&"RESET": SubResource("Animation_hfbjl")
 }
 
 [node name="Control" type="Control"]

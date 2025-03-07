@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://i45qcu1nmv3w"]
 
-[ext_resource type="Script" path="res://Scripts/Minions/knight_minion.gd" id="1_nytnq"]
+[ext_resource type="Script" uid="uid://nhy04fi26man" path="res://Scripts/Minions/knight_minion.gd" id="1_nytnq"]
 [ext_resource type="Texture2D" uid="uid://db5niu0hpstmg" path="res://Textures/Minions/Knight.png" id="2_ayjce"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]

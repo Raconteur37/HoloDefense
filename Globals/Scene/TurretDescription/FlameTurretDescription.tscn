@@ -1,6 +1,6 @@
 [gd_scene load_steps=16 format=3 uid="uid://cvgqrpvmiyysh"]
 
-[ext_resource type="Script" path="res://Globals/Scene/TurretDescription/flame_turret_description.gd" id="1_txprw"]
+[ext_resource type="Script" uid="uid://bx6q3exmp3kex" path="res://Globals/Scene/TurretDescription/flame_turret_description.gd" id="1_txprw"]
 [ext_resource type="Texture2D" uid="uid://deo5hvchmio8b" path="res://Textures/Style Boxs/Turret Select Menu.png" id="2_ypu0i"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_bplca"]
 [ext_resource type="Texture2D" uid="uid://dfs7mifnwtrqu" path="res://Textures/Turrets/Flame Turret/Flame Turret.png" id="4_ndf7v"]
@@ -69,8 +69,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_tr11p"]
 _data = {
-"Open": SubResource("Animation_am0gr"),
-"RESET": SubResource("Animation_hfbjl")
+&"Open": SubResource("Animation_am0gr"),
+&"RESET": SubResource("Animation_hfbjl")
 }
 
 [node name="Control" type="Control"]

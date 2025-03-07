@@ -1,6 +1,6 @@
 [gd_scene load_steps=3 format=3 uid="uid://bsyoc41ysierh"]
 
-[ext_resource type="Script" path="res://Globals/Scene/Effects/fire.gd" id="1_xdanp"]
+[ext_resource type="Script" uid="uid://cltqwi0nktsxq" path="res://Globals/Scene/Effects/fire.gd" id="1_xdanp"]
 [ext_resource type="PackedScene" uid="uid://coxmxtwthltwp" path="res://Particle Scenes/Effects/fire.tscn" id="2_kf51t"]
 
 [node name="Fire" type="Node2D" groups=["Effect"]]

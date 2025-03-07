@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dmec0p27kwjw7"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/sythe.gd" id="1_x4a2f"]
+[ext_resource type="Script" uid="uid://c6bpbreogds4l" path="res://Scripts/Projectiles/sythe.gd" id="1_x4a2f"]
 [ext_resource type="Texture2D" uid="uid://c0gawk1w8csi4" path="res://Textures/Projectiles/Sythe.png" id="2_ushgp"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]

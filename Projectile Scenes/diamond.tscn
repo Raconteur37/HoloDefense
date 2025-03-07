@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://xm1xrgntmknm"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/diamond.gd" id="1_eesbw"]
+[ext_resource type="Script" uid="uid://cvxd51ntw16hy" path="res://Scripts/Projectiles/diamond.gd" id="1_eesbw"]
 [ext_resource type="Texture2D" uid="uid://cdvhl765ggvt1" path="res://Textures/Projectiles/DiamondProjectile.png" id="2_uxlkx"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]

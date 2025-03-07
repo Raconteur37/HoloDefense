@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://dq8r764ghas4c"]
 
-[ext_resource type="Script" path="res://Scripts/Enemies/basic_square.gd" id="1_7qxr7"]
+[ext_resource type="Script" uid="uid://djpt348ugfkva" path="res://Scripts/Enemies/basic_square.gd" id="1_7qxr7"]
 [ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="1_e40kq"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]

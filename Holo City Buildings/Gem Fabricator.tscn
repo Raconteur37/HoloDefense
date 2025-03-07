@@ -1,8 +1,8 @@
 [gd_scene load_steps=8 format=3 uid="uid://dmfouqdg4qq47"]
 
-[ext_resource type="Script" path="res://Scripts/Holo City Buildings/Gem Fabricator/gem_fabricator.gd" id="1_7vu04"]
+[ext_resource type="Script" uid="uid://ds5vhqf8ag5hq" path="res://Scripts/Holo City Buildings/Gem Fabricator/gem_fabricator.gd" id="1_7vu04"]
 [ext_resource type="Texture2D" uid="uid://dwt36jlqai1te" path="res://Textures/Holo City/Gem Fabricator.png" id="2_hh28k"]
-[ext_resource type="Script" path="res://Scripts/Holo City Buildings/Gem Fabricator/select_area.gd" id="3_cgwyn"]
+[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Gem Fabricator/select_area.gd" id="3_cgwyn"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_w0j4e"]
 size = Vector2(63.5, 63.5)

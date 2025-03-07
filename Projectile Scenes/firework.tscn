@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://4wcm53unoyup"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/firework.gd" id="1_m8uln"]
+[ext_resource type="Script" uid="uid://jmq30bfkhnkn" path="res://Scripts/Projectiles/firework.gd" id="1_m8uln"]
 [ext_resource type="Texture2D" uid="uid://dsss8yliufwb7" path="res://Textures/Projectiles/Firework.png" id="2_hvtiv"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]

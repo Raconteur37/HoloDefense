@@ -1,11 +1,11 @@
 [gd_scene load_steps=20 format=3 uid="uid://bdo71jo6xfncr"]
 
-[ext_resource type="Script" path="res://Scripts/Turrets/Gravity Turret/gravity_turret.gd" id="1_j8a7r"]
+[ext_resource type="Script" uid="uid://bcr3ss3nbe0i3" path="res://Scripts/Turrets/Gravity Turret/gravity_turret.gd" id="1_j8a7r"]
 [ext_resource type="Texture2D" uid="uid://dsuwsnllkj4p0" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Bottom.png" id="2_uevgm"]
 [ext_resource type="Texture2D" uid="uid://cx36jiom42rfl" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Attacking-Sheet.png" id="3_gk4dt"]
 [ext_resource type="Texture2D" uid="uid://dy0q2mvkufysk" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Top.png" id="4_n6hc8"]
 [ext_resource type="PackedScene" uid="uid://d1c3ut203ttid" path="res://Particle Scenes/Turrets/Tesla Turret/Electricity Emit.tscn" id="5_1unnd"]
-[ext_resource type="Script" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="6_dunge"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="6_dunge"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
 size = Vector2(30, 32)

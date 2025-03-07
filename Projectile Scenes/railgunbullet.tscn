@@ -1,6 +1,6 @@
 [gd_scene load_steps=4 format=3 uid="uid://dsdp58jcdpbd3"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/railgunbullet.gd" id="1_8v0d5"]
+[ext_resource type="Script" uid="uid://ojqf431nvy02" path="res://Scripts/Projectiles/railgunbullet.gd" id="1_8v0d5"]
 [ext_resource type="Texture2D" uid="uid://dah1p117b5jqf" path="res://Textures/Projectiles/Railgun_Projectile.png" id="2_s8f1y"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_p2cj4"]

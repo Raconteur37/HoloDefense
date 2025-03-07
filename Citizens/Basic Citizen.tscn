@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://cc1wtd6g7gm0q"]
 
-[ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
+[ext_resource type="Script" uid="uid://cikuk4m8o6kxq" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
-[ext_resource type="Script" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
+[ext_resource type="Script" uid="uid://b0vf3vykicih8" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
@@ -109,8 +109,8 @@ tracks/0/keys = {
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_45ah3"]
 _data = {
-"Hop": SubResource("Animation_8ged5"),
-"RESET": SubResource("Animation_1o3yx")
+&"Hop": SubResource("Animation_8ged5"),
+&"RESET": SubResource("Animation_1o3yx")
 }
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Citizen"]]
@@ -150,7 +150,7 @@ shape = SubResource("CapsuleShape2D_fwpx7")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {
-"": SubResource("AnimationLibrary_45ah3")
+&"": SubResource("AnimationLibrary_45ah3")
 }
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

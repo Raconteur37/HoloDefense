@@ -1,6 +1,6 @@
 [gd_scene load_steps=5 format=3 uid="uid://brimtsldpsy3c"]
 
-[ext_resource type="Script" path="res://Scripts/Projectiles/poisondart.gd" id="1_h0fpa"]
+[ext_resource type="Script" uid="uid://dja3sve4qefbr" path="res://Scripts/Projectiles/poisondart.gd" id="1_h0fpa"]
 [ext_resource type="Texture2D" uid="uid://dm2mewgk37guq" path="res://Textures/Projectiles/Poison dart.png" id="2_ya48h"]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]
