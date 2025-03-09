@@ -1,14 +1,83 @@
-[gd_scene load_steps=11 format=3 uid="uid://b8jkae8udp5ox"]
+[gd_scene load_steps=22 format=3 uid="uid://b8jkae8udp5ox"]
 
 [ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
 [ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
 [ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
+[ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vwhel"]
 font_size = 30
 font_color = Color(1, 0, 0.388235, 1)
 outline_size = 9
 outline_color = Color(0.72549, 0.807843, 1, 0.721569)
+
+[sub_resource type="LabelSettings" id="LabelSettings_uk6by"]
+font_color = Color(1, 0.333333, 0.207843, 1)
+shadow_color = Color(1, 1, 1, 1)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vajk7"]
+atlas = ExtResource("4_el0df")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pyhfn"]
+atlas = ExtResource("4_el0df")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8qmfx"]
+atlas = ExtResource("4_el0df")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xrkco"]
+atlas = ExtResource("4_el0df")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8laiu"]
+atlas = ExtResource("4_el0df")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mmhyw"]
+atlas = ExtResource("4_el0df")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gsxj1"]
+atlas = ExtResource("4_el0df")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_f7hb4"]
+atlas = ExtResource("4_el0df")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_gxdpr"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vajk7")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pyhfn")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8qmfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xrkco")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8laiu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mmhyw")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gsxj1")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_f7hb4")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [sub_resource type="Animation" id="Animation_rf5yh"]
 resource_name = "Damage Popup"
@@ -93,6 +162,30 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../Money Label:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath(".:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
 
 [sub_resource type="Animation" id="Animation_fjn6v"]
 length = 0.001
@@ -156,20 +249,93 @@ tracks/4/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("../Money Label:visible")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath(".:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("../../CopperGem:visible")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("../../CopperGem:self_modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_x0wno"]
+resource_name = "CopperAnimation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("../../CopperGem:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("../../CopperGem:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
 _data = {
+&"CopperAnimation": SubResource("Animation_x0wno"),
 &"Damage Popup": SubResource("Animation_rf5yh"),
 &"Insufficient Funds": SubResource("Animation_vigib"),
 &"KillPopup": SubResource("Animation_7lca7"),
 &"RESET": SubResource("Animation_fjn6v")
 }
 
-[sub_resource type="LabelSettings" id="LabelSettings_uk6by"]
-font_color = Color(1, 0.333333, 0.207843, 1)
-shadow_color = Color(1, 1, 1, 1)
-
 [node name="Control" type="Control"]
+z_index = 3
 layout_mode = 3
 anchors_preset = 0
 offset_left = 930.0
@@ -195,6 +361,7 @@ text = "2 XP"
 label_settings = ExtResource("2_sjw7e")
 
 [node name="Insufficient Funds" type="Label" parent="."]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 1
 anchors_preset = 8
@@ -211,17 +378,8 @@ grow_vertical = 2
 text = "Not enough money!"
 label_settings = SubResource("LabelSettings_vwhel")
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.05
-autostart = true
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../Enemy Popup/Xp Label")
-libraries = {
-"": SubResource("AnimationLibrary_80hvi")
-}
-
 [node name="Damage Popup" type="Label" parent="."]
+visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 0
 offset_left = -20.0
@@ -230,6 +388,23 @@ offset_right = 20.0
 offset_bottom = 8.0
 text = "1000"
 label_settings = SubResource("LabelSettings_uk6by")
+
+[node name="CopperGem" type="AnimatedSprite2D" parent="."]
+self_modulate = Color(1, 1, 1, 0)
+scale = Vector2(2, 2)
+sprite_frames = SubResource("SpriteFrames_gxdpr")
+autoplay = "default"
+frame_progress = 0.0521694
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.05
+autostart = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+root_node = NodePath("../Enemy Popup/Xp Label")
+libraries = {
+&"": SubResource("AnimationLibrary_80hvi")
+}
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer" to="Enemy Popup" method="_on_timer_timeout"]

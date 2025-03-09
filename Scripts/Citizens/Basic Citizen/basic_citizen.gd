@@ -1,15 +1,21 @@
 extends CharacterBody2D
 
 var hoverBox
-var animationPlayer
+var animationPlayer : AnimationPlayer
 var sprite
 var selectUI = null
+
+var citizenSelectUi
 
 var citName : String
 const speed : float = 300
 var currentJob = null
 
 var hasJob : bool = false
+
+var currentState : String = "Idle"
+
+var workTimer : Timer = null
 
 var selected : bool
 var moveLine = null
@@ -32,26 +38,31 @@ var jobExperience : Dictionary[String,float] = {
 @onready var moveSelectParticle = load("res://Particle Scenes/Citizens/Movement Line/Movement Select.tscn")
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
+@onready var popup = preload("res://Globals/Scene/Popup.tscn")
 
 func _ready() -> void:
 	selected = false
 	animationPlayer = $AnimationPlayer
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
-	
+	citizenSelectUi =  $CitizenSelectUi
+
+	workTimer = $"Work Timer"
+
 	# Check the level of the holo generator and increase chances of prefered citizen
 	# You'll be able to click on the holo generator and select the prefered citien type, and based on your city level
 	# it increases the chances of getting a certain citizen with that specialty
 	# every single action done by you and your citizizens increases your city level
-	
+
+	# Generate random experience for each worker based on city level
+
 	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
-	
+
 	for key in jobExperience:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
-		
-	print(jobExperience)
 	
 	citName = "Basic Citizen"
+	currentState = "Idle"
 
 func _process(delta: float) -> void:
 	if destination != null:
@@ -62,33 +73,42 @@ func _process(delta: float) -> void:
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
 	if destination != null and global_position == destination and not destinationReached:
+		# Player has reached the destination
 		destinationReached = true
 		moving = false
 		destination = null
+		animationPlayer.stop()
 		if is_instance_valid(destinationParticle):
 			destinationParticle.queue_free()
+		if currentState == "Delivering":
+			currentState = "Idle"
+			setWorkDestination()
 	else:
 		destinationReached = false
-	if selected and selectUI == null:
-		var ui = load("res://Citizens/Citizen Select UI.tscn")
-		var loadedUI = ui.instantiate()
-		#loadedUI.buildMenu(self)
-		selectUI = loadedUI
-		self.add_sibling(loadedUI)
-	elif not selected and selectUI != null:
-		selectUI.queue_free()
+
+	if currentState == "Working":
+		if workTimer.is_stopped():
+			workTimer.start()
+
+	if currentState == "Delivering":
+		workTimer.stop()
+		destination = CityManager.getHoloGeneratorLocation()
+
+
 
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
 				hoverBox.visible = true
+				citizenSelectUi.show()
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
 			if selected:
 				selected = false
 				hoverBox.visible = false
+				citizenSelectUi.hide()
 				#Close menu
 			#moving = false
 			#if destinationParticle != null:
@@ -105,14 +125,43 @@ func _input(event):
 func setJob(job : String):
 	if currentJob != job:
 		if not hasJob:
+			currentState = "Working"
 			hasJob = true
+			
 		currentJob = job
+
+		updateJob()
+
+
+func updateJob():
+	match currentJob:
 		
-		match currentJob:
-						
-			"Gem Scraper":
-				pass
-				
+		"Gem Scraper":
+			workTimer.wait_time = 1#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
+
+
+func finishJob():
+	match currentJob:
+
+		"Gem Scraper":
+			currentState = "Delivering"
+			var currentPopup = popup.instantiate()
+			currentPopup.gemPopup("Copper")
+			currentPopup.global_position = global_position
+			#currentPopup.global_position.y += 5
+			add_child(currentPopup)
+
+
+func setWorkDestination():
+	match currentJob:
+
+		"Gem Scraper":
+			destination = CityManager.getGemScraperLocation()
+
+
+
+
+
 
 
 # Rendering
@@ -176,3 +225,7 @@ func _on_area_2d_mouse_entered() -> void:
 func _on_area_2d_mouse_exited() -> void:
 	if not selected:
 		hoverBox.visible = false
+
+
+func _on_work_timer_timeout() -> void:
+	finishJob()

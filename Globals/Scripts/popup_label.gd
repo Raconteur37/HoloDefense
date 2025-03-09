@@ -16,10 +16,19 @@ func damagePopup(damage):
 	$"Damage Popup".text = str(damage)
 	$AnimationPlayer.play("Damage Popup")
 
+func gemPopup(gemName):
+	
+	match gemName:
+		
+		"Copper":
+			$AnimationPlayer.play("CopperAnimation")
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "killPopup":
 		queue_free()
 	if anim_name == "Insufficient Funds":
 		queue_free()
 	if anim_name == "Damage Popup":
+		queue_free()
+	if anim_name == "CopperAnimation":
 		queue_free()

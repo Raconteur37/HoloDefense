@@ -2,6 +2,9 @@ extends Node
 
 var cityLevel : int = 1
 
+var holoGenerator 
+var gemScraper
+
 var cityExperienceCap : float = 100
 
 func generateBaseCitizenExperienceLevel():
@@ -16,3 +19,10 @@ func generateBaseCitizenExperienceLevel():
 	upper_bound = snappedf(upper_bound, 0.1)
 
 	return [lower_bound, upper_bound]
+
+func getHoloGeneratorLocation():
+	return Vector2(983,644)
+	#return holoGenerator.global_position
+
+func getGemScraperLocation():
+	return get_tree().current_scene.find_child("GemFabricator").global_position

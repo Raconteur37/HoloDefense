@@ -20,7 +20,7 @@ fill_to = Vector2(0.519031, 0)
 
 [node name="BasicCitizen" parent="CanvasLayer" instance=ExtResource("1_a5ly5")]
 z_index = 1
-position = Vector2(938, 626)
+position = Vector2(964, 648)
 
 [node name="GemFabricator" parent="CanvasLayer" instance=ExtResource("2_82jv5")]
 position = Vector2(965, 141)

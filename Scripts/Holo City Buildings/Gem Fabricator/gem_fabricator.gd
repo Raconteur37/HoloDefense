@@ -20,3 +20,6 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Citizen"):
 		if not body.hasJob:
 			body.setJob("Gem Scraper")
+		else:
+			if body.currentState != "Working" and body.currentJob == "Gem Scraper":
+				body.currentState = "Working"
