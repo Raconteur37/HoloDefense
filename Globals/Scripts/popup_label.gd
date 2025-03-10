@@ -21,7 +21,7 @@ func gemPopup(gemName):
 	match gemName:
 		
 		"Copper":
-			$AnimationPlayer.play("CopperAnimation")
+			$AnimationPlayer.play("GemAnimation")
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "killPopup":
@@ -30,5 +30,5 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 		queue_free()
 	if anim_name == "Damage Popup":
 		queue_free()
-	if anim_name == "CopperAnimation":
+	if anim_name == "GemAnimation":
 		queue_free()

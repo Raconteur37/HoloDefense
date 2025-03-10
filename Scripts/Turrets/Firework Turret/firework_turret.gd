@@ -25,7 +25,7 @@ var kills : int = 0
 
 
 @onready var projectile = preload("res://Projectile Scenes/firework.tscn")
-@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
+#@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
 
 var menu
 

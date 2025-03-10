@@ -13,7 +13,7 @@ var currentJob = null
 
 var hasJob : bool = false
 
-var currentState : String = "Idle"
+var currentState : String
 
 var workTimer : Timer = null
 
@@ -38,14 +38,13 @@ var jobExperience : Dictionary[String,float] = {
 @onready var moveSelectParticle = load("res://Particle Scenes/Citizens/Movement Line/Movement Select.tscn")
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
-@onready var popup = preload("res://Globals/Scene/Popup.tscn")
+@onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
 func _ready() -> void:
 	selected = false
 	animationPlayer = $AnimationPlayer
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
-	citizenSelectUi =  $CitizenSelectUi
 
 	workTimer = $"Work Timer"
 
@@ -101,25 +100,13 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
 				hoverBox.visible = true
-				citizenSelectUi.show()
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
 			if selected:
 				selected = false
 				hoverBox.visible = false
-				citizenSelectUi.hide()
 				#Close menu
-			#moving = false
-			#if destinationParticle != null:
-			#	destinationParticle.queue_free()
-			#if selected and moveLine != null:
-			#	selected = false
-			#	destination = null
-			#	moveLine.queue_free()
-			#elif selected and moveLine == null:
-			#	selected = false
-			#	destination = null
 
 
 func setJob(job : String):
@@ -145,11 +132,10 @@ func finishJob():
 
 		"Gem Scraper":
 			currentState = "Delivering"
-			var currentPopup = popup.instantiate()
-			currentPopup.gemPopup("Copper")
-			currentPopup.global_position = global_position
-			#currentPopup.global_position.y += 5
-			add_child(currentPopup)
+			var popup = popupScene.instantiate()
+			popup.global_position = self.global_position
+			popup.gemPopup("Copper")
+			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 
 
 func setWorkDestination():
@@ -157,9 +143,6 @@ func setWorkDestination():
 
 		"Gem Scraper":
 			destination = CityManager.getGemScraperLocation()
-
-
-
 
 
 
@@ -225,7 +208,6 @@ func _on_area_2d_mouse_entered() -> void:
 func _on_area_2d_mouse_exited() -> void:
 	if not selected:
 		hoverBox.visible = false
-
 
 func _on_work_timer_timeout() -> void:
 	finishJob()

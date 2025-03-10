@@ -1,10 +1,9 @@
-[gd_scene load_steps=21 format=3 uid="uid://cc1wtd6g7gm0q"]
+[gd_scene load_steps=20 format=3 uid="uid://cc1wtd6g7gm0q"]
 
 [ext_resource type="Script" uid="uid://cikuk4m8o6kxq" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Script" uid="uid://b0vf3vykicih8" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
-[ext_resource type="PackedScene" uid="uid://ui346j8fxgh8" path="res://Citizens/Citizen Select UI.tscn" id="5_ko03v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
 atlas = ExtResource("4_ovmnh")
@@ -93,6 +92,21 @@ tracks/0/keys = {
 "values": [0.0, -0.434452, 0.0, 0.54161, 0.0]
 }
 
+[sub_resource type="Animation" id="Animation_ko03v"]
+resource_name = "Idle"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:texture")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [ExtResource("2_6aq5k")]
+}
+
 [sub_resource type="Animation" id="Animation_1o3yx"]
 length = 0.001
 tracks/0/type = "value"
@@ -118,21 +132,6 @@ tracks/1/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [0.0]
-}
-
-[sub_resource type="Animation" id="Animation_ko03v"]
-resource_name = "Idle"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Sprite2D:texture")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [ExtResource("2_6aq5k")]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_45ah3"]
@@ -181,13 +180,6 @@ shape = SubResource("CapsuleShape2D_fwpx7")
 libraries = {
 &"": SubResource("AnimationLibrary_45ah3")
 }
-
-[node name="CitizenSelectUi" parent="." instance=ExtResource("5_ko03v")]
-visible = false
-offset_left = -957.0
-offset_top = 683.0
-offset_right = -957.0
-offset_bottom = 683.0
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

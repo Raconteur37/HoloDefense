@@ -1,11 +1,8 @@
-[gd_scene load_steps=8 format=3 uid="uid://dmfouqdg4qq47"]
+[gd_scene load_steps=7 format=3 uid="uid://dmfouqdg4qq47"]
 
-[ext_resource type="Script" uid="uid://ds5vhqf8ag5hq" path="res://Scripts/Holo City Buildings/Gem Fabricator/gem_fabricator.gd" id="1_7vu04"]
+[ext_resource type="Script" uid="uid://ds5vhqf8ag5hq" path="res://Scripts/Holo City Buildings/Gem Scraper/gem_scraper.gd" id="1_7vu04"]
 [ext_resource type="Texture2D" uid="uid://dwt36jlqai1te" path="res://Textures/Holo City/Gem Fabricator.png" id="2_hh28k"]
-[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Gem Fabricator/select_area.gd" id="3_cgwyn"]
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_w0j4e"]
-size = Vector2(63.5, 63.5)
+[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Gem Scraper/select_area.gd" id="3_cgwyn"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j705"]
 animations = [{
@@ -24,23 +21,16 @@ size = Vector2(88.25, 89.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jfbm1"]
 size = Vector2(276, 263)
 
-[node name="CharacterBody2D" type="CharacterBody2D" groups=["Holo City Building"]]
-position = Vector2(1017, 176)
-collision_layer = 32
-collision_mask = 48
+[node name="Node2D" type="Node2D" groups=["Holo City Building"]]
 script = ExtResource("1_7vu04")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(0, 1)
-scale = Vector2(4, 4)
-shape = SubResource("RectangleShape2D_w0j4e")
-debug_color = Color(0.665128, 0.316256, 0.997179, 0.42)
-
 [node name="Fabricator Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(1017, 176)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_5j705")
 
 [node name="Work Area" type="Area2D" parent="."]
+position = Vector2(1017, 176)
 scale = Vector2(4, 4)
 collision_layer = 32
 collision_mask = 48
@@ -51,12 +41,12 @@ shape = SubResource("RectangleShape2D_julrh")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
 [node name="Select Area" type="Area2D" parent="."]
+position = Vector2(1017, 176)
+collision_layer = 32
+collision_mask = 48
 script = ExtResource("3_cgwyn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area"]
 position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jfbm1")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)
-
-[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
-[connection signal="mouse_entered" from="Select Area" to="." method="_on_select_area_mouse_entered"]

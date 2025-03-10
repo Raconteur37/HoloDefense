@@ -5,6 +5,8 @@ var collisionArea
 
 var fabricatorSprite
 
+var currentWorkers : Array = [] # Make UI to track current workers that the station
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	workArea = $"Work Area"

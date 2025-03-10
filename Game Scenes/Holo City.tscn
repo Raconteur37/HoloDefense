@@ -1,7 +1,7 @@
 [gd_scene load_steps=5 format=3 uid="uid://bt48rpule0qcq"]
 
 [ext_resource type="PackedScene" uid="uid://cc1wtd6g7gm0q" path="res://Citizens/Basic Citizen.tscn" id="1_a5ly5"]
-[ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Fabricator.tscn" id="2_82jv5"]
+[ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Scraper.tscn" id="2_82jv5"]
 
 [sub_resource type="Gradient" id="Gradient_eoov6"]
 offsets = PackedFloat32Array(0.946667, 1)

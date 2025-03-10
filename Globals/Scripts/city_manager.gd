@@ -25,4 +25,4 @@ func getHoloGeneratorLocation():
 	#return holoGenerator.global_position
 
 func getGemScraperLocation():
-	return get_tree().current_scene.find_child("GemFabricator").global_position
+	return Vector2(get_tree().current_scene.find_child("GemFabricator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemFabricator").global_position.y)
