@@ -22,15 +22,16 @@ size = Vector2(88.25, 89.5)
 size = Vector2(276, 263)
 
 [node name="Node2D" type="Node2D" groups=["Holo City Building"]]
+position = Vector2(952, 316)
 script = ExtResource("1_7vu04")
 
 [node name="Fabricator Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(1017, 176)
+position = Vector2(1, 0)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_5j705")
 
 [node name="Work Area" type="Area2D" parent="."]
-position = Vector2(1017, 176)
+position = Vector2(1, 0)
 scale = Vector2(4, 4)
 collision_layer = 32
 collision_mask = 48
@@ -41,7 +42,7 @@ shape = SubResource("RectangleShape2D_julrh")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
 [node name="Select Area" type="Area2D" parent="."]
-position = Vector2(1017, 176)
+position = Vector2(1, 0)
 collision_layer = 32
 collision_mask = 48
 script = ExtResource("3_cgwyn")
@@ -50,3 +51,5 @@ script = ExtResource("3_cgwyn")
 position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jfbm1")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)
+
+[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]

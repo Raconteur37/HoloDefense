@@ -1,3 +1,56 @@
-[gd_scene format=3 uid="uid://cbt3hx5meq4g8"]
+[gd_scene load_steps=7 format=3 uid="uid://cbt3hx5meq4g8"]
+
+[ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
+[ext_resource type="Texture2D" uid="uid://ltlgil2l5uuw" path="res://Textures/Holo City/Holo Generator.png" id="2_tlq4f"]
+[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Gem Scraper/select_area.gd" id="3_v0sms"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_sc1hh"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("2_tlq4f")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8jlgm"]
+size = Vector2(82.6608, 102.54)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_8aw1o"]
+size = Vector2(276, 263)
 
 [node name="HoloGenerator" type="Node2D"]
+position = Vector2(875, 232)
+script = ExtResource("1_s0f2h")
+
+[node name="Sprite" type="AnimatedSprite2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_sc1hh")
+
+[node name="Work Area" type="Area2D" parent="."]
+position = Vector2(0, -1)
+scale = Vector2(5.12939, 3.74489)
+collision_layer = 32
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area"]
+position = Vector2(0.194992, 2.13625)
+scale = Vector2(1, 1)
+shape = SubResource("RectangleShape2D_8jlgm")
+debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
+
+[node name="Select Area" type="Area2D" parent="."]
+position = Vector2(0, -1)
+collision_layer = 32
+collision_mask = 48
+script = ExtResource("3_v0sms")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area"]
+position = Vector2(-1, 0.5)
+shape = SubResource("RectangleShape2D_8aw1o")
+debug_color = Color(0.306587, 0.494173, 1, 0.42)
+
+[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]

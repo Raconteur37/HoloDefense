@@ -20,9 +20,9 @@ func generateBaseCitizenExperienceLevel():
 
 	return [lower_bound, upper_bound]
 
+
 func getHoloGeneratorLocation():
-	return Vector2(983,644)
-	#return holoGenerator.global_position
+	return Vector2(get_tree().current_scene.find_child("HoloGenerator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("HoloGenerator").global_position.y)
 
 func getGemScraperLocation():
 	return Vector2(get_tree().current_scene.find_child("GemFabricator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemFabricator").global_position.y)

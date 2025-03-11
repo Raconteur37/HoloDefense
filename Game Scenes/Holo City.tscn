@@ -1,7 +1,8 @@
-[gd_scene load_steps=5 format=3 uid="uid://bt48rpule0qcq"]
+[gd_scene load_steps=6 format=3 uid="uid://bt48rpule0qcq"]
 
 [ext_resource type="PackedScene" uid="uid://cc1wtd6g7gm0q" path="res://Citizens/Basic Citizen.tscn" id="1_a5ly5"]
 [ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Scraper.tscn" id="2_82jv5"]
+[ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
 
 [sub_resource type="Gradient" id="Gradient_eoov6"]
 offsets = PackedFloat32Array(0.946667, 1)
@@ -20,10 +21,13 @@ fill_to = Vector2(0.519031, 0)
 
 [node name="BasicCitizen" parent="CanvasLayer" instance=ExtResource("1_a5ly5")]
 z_index = 1
-position = Vector2(964, 648)
+position = Vector2(971, 459)
 
 [node name="GemFabricator" parent="CanvasLayer" instance=ExtResource("2_82jv5")]
-position = Vector2(965, 141)
+position = Vector2(970, 135)
+
+[node name="HoloGenerator" parent="CanvasLayer" instance=ExtResource("3_mjf4j")]
+position = Vector2(967, 697)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 z_index = -1
