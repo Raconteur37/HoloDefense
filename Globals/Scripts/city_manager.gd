@@ -5,7 +5,18 @@ var cityLevel : int = 1
 var holoGenerator 
 var gemScraper
 
+var storage : Dictionary = {}
+
+var citizens : Array = []
+
 var cityExperienceCap : float = 100
+
+
+
+func openStorage():
+	print(storage)
+	# Loop through the dict and render the items as you find them
+
 
 func generateBaseCitizenExperienceLevel():
 	

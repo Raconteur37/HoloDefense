@@ -1,9 +1,10 @@
-[gd_scene load_steps=20 format=3 uid="uid://cc1wtd6g7gm0q"]
+[gd_scene load_steps=22 format=3 uid="uid://cc1wtd6g7gm0q"]
 
 [ext_resource type="Script" uid="uid://cikuk4m8o6kxq" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Script" uid="uid://b0vf3vykicih8" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
+[ext_resource type="Texture2D" uid="uid://dneb8py1phpyw" path="res://Textures/Citizens/itemDelivered.png" id="5_ko03v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
 atlas = ExtResource("4_ovmnh")
@@ -141,6 +142,13 @@ _data = {
 &"RESET": SubResource("Animation_1o3yx")
 }
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mqq4v"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 8
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Citizen"]]
 position = Vector2(955, 398)
 collision_layer = 16
@@ -180,6 +188,21 @@ shape = SubResource("CapsuleShape2D_fwpx7")
 libraries = {
 &"": SubResource("AnimationLibrary_45ah3")
 }
+
+[node name="Item Delivered" type="CPUParticles2D" parent="."]
+material = SubResource("CanvasItemMaterial_mqq4v")
+position = Vector2(0, 18)
+emitting = false
+amount = 1
+texture = ExtResource("5_ko03v")
+one_shot = true
+speed_scale = 1.4
+explosiveness = 1.0
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

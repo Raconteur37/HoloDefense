@@ -25,7 +25,7 @@ var destinationParticle = null
 var destinationReached : bool = false
 var moving : bool = false
 
-var inventory : Array = []
+var inventory : Dictionary[String,int] ={}
 
 var jobExperience : Dictionary[String,float] = {
 	"Holo Generator" : 0,
@@ -90,8 +90,9 @@ func _process(delta: float) -> void:
 			workTimer.start()
 
 	if currentState == "Delivering":
-		workTimer.stop()
-		destination = CityManager.getHoloGeneratorLocation()
+		if not workTimer.is_stopped():
+			workTimer.stop()
+			destination = CityManager.getHoloGeneratorLocation()
 
 
 
@@ -136,6 +137,7 @@ func finishJob():
 			popup.global_position = self.global_position
 			popup.gemPopup("Copper")
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+			addGemToInventory("Copper")
 
 
 func setWorkDestination():
@@ -144,8 +146,20 @@ func setWorkDestination():
 		"Gem Scraper":
 			destination = CityManager.getGemScraperLocation()
 
+func deliver():
+	# Play deliver effect
+	for key in inventory.keys():
+		if CityManager.storage.has(key):
+			CityManager.storage[key] = CityManager.storage.get(key) + inventory.get(key)
+		else:
+			CityManager.storage[key] = inventory.get(key)
 
 
+func addGemToInventory(gemName):
+	if inventory.has(gemName):
+		inventory[gemName] = inventory.get(gemName) + 1
+	else:
+		inventory[gemName] = 1
 
 # Rendering
 

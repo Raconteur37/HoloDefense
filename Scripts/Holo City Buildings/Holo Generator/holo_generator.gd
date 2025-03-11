@@ -18,4 +18,7 @@ func _process(delta: float) -> void:
 
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Citizen"):
-		print("hello")
+		if body.currentState == "Delivering":
+			body.currentState == "Idle"
+			body.setWorkDestination()
+			print("herer")
