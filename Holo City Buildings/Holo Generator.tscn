@@ -38,7 +38,6 @@ collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area"]
 position = Vector2(0, 0.80109)
-scale = Vector2(1, 1)
 shape = SubResource("RectangleShape2D_8jlgm")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 

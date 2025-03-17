@@ -8,7 +8,7 @@ var selectUI = null
 var citizenSelectUi
 
 var citName : String
-const speed : float = 300
+const speed : float = 150
 var currentJob = null
 
 var hasJob : bool = false
@@ -103,6 +103,7 @@ func _input(event):
 				hoverBox.visible = true
 				var mouse_pos = get_viewport().get_mouse_position()
 				moveToMouse(mouse_pos)
+				currentState = "Idle"
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
 			if selected:
 				selected = false
@@ -125,7 +126,7 @@ func updateJob():
 	match currentJob:
 		
 		"Gem Scraper":
-			workTimer.wait_time = 1#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
+			workTimer.wait_time = 5#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
 
 
 func finishJob():
