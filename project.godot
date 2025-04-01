@@ -26,6 +26,7 @@ EffectManager="*res://Globals/Scene/Effects.tscn"
 EntityManager="*res://Globals/Scripts/entity_manager.gd"
 StatisticPopup="*res://Globals/Scene/Statistic Popup.tscn"
 CityManager="*res://Globals/Scripts/city_manager.gd"
+DeveloperMode="*res://Globals/Scripts/developerMode.gd"
 
 [display]
 

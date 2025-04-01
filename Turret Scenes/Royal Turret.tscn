@@ -3,7 +3,8 @@
 [ext_resource type="Texture2D" uid="uid://c2fdw5buet72r" path="res://Textures/Turrets/Royal Turret/RoyalTurretBottom.png" id="1_e6223"]
 [ext_resource type="Script" uid="uid://c4gt02fc083k7" path="res://Scripts/Turrets/Royal Turret/royal_turret.gd" id="1_f7742"]
 [ext_resource type="Texture2D" uid="uid://cvt46co42dqqn" path="res://Textures/Turrets/Royal Turret/RoyalTurretTop.png" id="2_c33c0"]
-[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="4_aieaj"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_aieaj"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
 size = Vector2(30, 32)

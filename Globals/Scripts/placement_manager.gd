@@ -6,7 +6,7 @@ var tileMap
 
 var occupied_cells = {}
 
-var cell_size = Vector2(32, 32)  
+var cell_size = Vector2(32, 32)
 var grid_origin = Vector2(0, 0)
 
 var turretSelected : bool = false
@@ -25,13 +25,13 @@ func selectTurret(turretName):
 		selectedTurret = null
 
 func _input(event: InputEvent) -> void:
-	
+
 	if event is InputEventKey and event.is_pressed():
-		
+
 		if turretSelected:
 			selectedTurret.queue_free()
 			turretSelected = false
-		
+
 		match event.keycode:
 			KEY_0, KEY_1, KEY_2, KEY_3, KEY_4, KEY_5, KEY_6, KEY_7, KEY_8, KEY_9:
 				if Input.is_key_pressed(KEY_SHIFT):
@@ -41,11 +41,11 @@ func _input(event: InputEvent) -> void:
 						EntityManager.upgradeTurret(number_pressed)
 				else:
 					selectTurret(get_tree().current_scene.find_child("Bottom UI Control").getTurretNameFromStorage(event.keycode - KEY_0))
-					
+
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
 		turretSelected = false
-		
+
 	if event.is_action_pressed("turret_selected_place"):
 		if turretSelected:
 			if place_item_in_cell(selectedTurret.position):
@@ -61,14 +61,14 @@ func _input(event: InputEvent) -> void:
 				turretSelected = false
 				selectedTurret = null
 		else:
-			if inGame:
-				if not is_cell_occupied(get_tree().current_scene.get_global_mouse_position()):
-					GameManager.closeAllMenus()
+			if inGame or DeveloperMode.inDevMode:
+				#if not is_cell_occupied(get_tree().current_scene.get_global_mouse_position()):
+				GameManager.closeAllMenus()
 				#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
 				#if occupied_cells.has(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position())):
 					#var turret = occupied_cells.get(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
 					#turret.openSelectedMenu()
-				
+
 func is_cell_occupied(position: Vector2):
 	return occupied_cells.has(position)
 
@@ -85,20 +85,20 @@ func get_selected_cell(mouse_position: Vector2):
 	# Calculate the mouse position relative to the grid origin
 	var relative_position = mouse_position - grid_origin
 	var snapped_x = int(relative_position.x / cell_size.x)
-	
+
 	var snapped_y = int(relative_position.y / cell_size.y)
-	
+
 	return Vector2(snapped_x, snapped_y)
 
 func _process(delta: float) -> void:
-	
+
 	if turretSelected:
 		if not selectedTurret.isPlaced:
 			var mousePosition = get_tree().current_scene.get_global_mouse_position()
 
 			selectedTurret.global_position = get_snapped_position(mousePosition)
 			#global_position = world_pos
-	
+
 func get_snapped_position(mouse_position: Vector2):
 	# Calculate the grid cell position
 	var relative_position = mouse_position - grid_origin
@@ -115,16 +115,16 @@ func get_snapped_position(mouse_position: Vector2):
 
 func get_grid_world_position(selected_cell: Vector2):
 	return grid_origin + selected_cell * cell_size
-	
+
 func draw_range_cirle(line2d,attackRange):
-	
+
 	line2d.clear_points()
-	
+
 	for i in range(32):
 		var angle = (i / float(32)) * TAU
 		var point = Vector2(cos(angle), sin(angle)) * attackRange
 		line2d.add_point(point)
-		
+
 	line2d.add_point(Vector2(cos(0), sin(0)) * attackRange)
 	return line2d
 

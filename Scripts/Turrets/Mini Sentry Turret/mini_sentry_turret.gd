@@ -99,6 +99,7 @@ func reloadAnimation():
 
 func openSelectedMenu(): # TODO CHANGE PER TURRET
 	if isPlaced:
+		print("clicked")
 		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
 		get_parent().add_child(menu)

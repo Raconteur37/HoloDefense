@@ -4,7 +4,8 @@
 [ext_resource type="Texture2D" uid="uid://d2wd5qggs8klh" path="res://Textures/Turrets/Railgun Turret/RailgunTurretBottom.png" id="2_fhsni"]
 [ext_resource type="Texture2D" uid="uid://bg337slav2680" path="res://Textures/Turrets/Railgun Turret/RailgunTurretTop-Sheet.png" id="3_jwbw4"]
 [ext_resource type="PackedScene" uid="uid://c320ftnvgl5yp" path="res://Particle Scenes/Turrets/Railgun Turret/railgun_shoot.tscn" id="4_a7dtg"]
-[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/arrow_turret_area_2d.gd" id="4_b32nw"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_b32nw"]
+
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
 size = Vector2(30, 32)

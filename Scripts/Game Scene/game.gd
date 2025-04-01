@@ -11,6 +11,8 @@ var maxXp : bool = false
 var upgradeTurrentOneButton
 
 func _ready() -> void:
+
+	
 	beacon = $CanvasLayer/Beacon
 	moneyLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer2/MoneyLabel
 	XPBar = $"CanvasLayer/Bottom UI Control/XP Bar"
@@ -39,7 +41,6 @@ func _process(delta: float) -> void:
 
 func fullXpBar():
 	XPBar.value = 0
-	GameManager.inGamePlayerLevel
 	GameManager.onInGameLevelUp(XPBar)
 
 

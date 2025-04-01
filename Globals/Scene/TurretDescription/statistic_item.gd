@@ -13,7 +13,7 @@ func buildStatContainer(type,turret):
 		
 		"damage":
 			panelType = "damage"
-			texture.texture = load("res://Textures/Icons/Damage Icon.png")
+			#texture.texture = load("res://Textures/Icons/Damage Icon.png")
 			label.text = str(turret.damage)
 			var color = Color.FIREBRICK
 			label.set("theme_override_colors/font_color",color)

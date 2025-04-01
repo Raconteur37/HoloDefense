@@ -82,6 +82,11 @@ func _ready() -> void:
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
+
+	# Check if in devmode durring runtime
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
 		
 		
 func getName():
