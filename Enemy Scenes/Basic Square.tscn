@@ -10,7 +10,7 @@ size = Vector2(12, 12)
 size = Vector2(17, 16)
 
 [node name="Basic Square" type="CharacterBody2D" groups=["Enemy"]]
-position = Vector2(147, 92)
+position = Vector2(909, 508)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_7qxr7")

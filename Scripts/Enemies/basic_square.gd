@@ -10,7 +10,7 @@ var effects = []
 @export var health : float = 20
 @export var damage : float = 10
 @export var attackTime : float = 3
-@export var speed : float = 50 
+@export var speed : float = 50
 
 var attackTimer
 var attackReady : bool = true
@@ -19,12 +19,17 @@ var isDead : bool = false
 func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
-	destination = GameManager.getBeaconPosition()
+	if GameManager.inWave:
+		destination = GameManager.getBeaconPosition()
+	else:
+		if DeveloperMode.inDevMode:
+			destination = Vector2(960,540) # Center
+
 	hit.connect(EntityManager.takeDamage)
 	increaseStats()
 
 func _physics_process(delta: float) -> void:
-	
+
 	var direction = (destination - global_position).normalized()
 	# Set the velocity to move toward the center
 	velocity = direction * speed
@@ -66,14 +71,14 @@ func _on_attack_timer_timeout() -> void:
 
 func increaseStats():
 	var currentWave = GameManager.currentWave
-	
+
 	var statIncrease = (currentWave / 10) * .05
-	
+
 	health += GameManager.round_to_dec(health * statIncrease,2)
 	damage += GameManager.round_to_dec(damage * statIncrease,2)
 	attackTime -= GameManager.round_to_dec(attackTime * statIncrease,2)
 	speed += GameManager.round_to_dec(speed * statIncrease,2)
-	
+
 
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	pass # Replace with function body.

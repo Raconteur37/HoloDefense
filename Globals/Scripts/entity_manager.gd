@@ -9,11 +9,14 @@ var turretsUpgradeTier = {}
 var upgradeTierPercent = .02
 
 func takeDamage(damage,turret,enemy,damageType):
-	
+
 	var popup = popupScene.instantiate()
 	popup.global_position = enemy.global_position
 	popup.damagePopup(damage)
-	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+	if DeveloperMode.inDevMode:
+		get_tree().current_scene.add_child(popup)
+	else:
+		get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 
 	if damageType.is_in_group("Turret Projectile"):
 		var projectile = damageType
@@ -33,44 +36,44 @@ func takeDamage(damage,turret,enemy,damageType):
 			enemy.health = enemy.health - damage
 		if projectile.get("enemiesPierced") == null:
 			projectile.queue_free()
-			
+
 	if damageType.is_in_group("Minion"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
-		
+
 	if damageType.is_in_group("Effect"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
-			
+
 	if damageType.is_in_group("Turret Beam"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
-			
+
 	if damageType.is_in_group("Explosion"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
-			
+
 	if damageType.is_in_group("Turret"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
 		else:
 			enemy.health = enemy.health - damage
-		
+
 func entityTakeDamage(damage,entity):
-	
+
 	if entity.is_in_group("Turret"):
 		var turret = entity
 		if turret.armor > 0:
@@ -85,7 +88,7 @@ func entityTakeDamage(damage,entity):
 				GameManager.removeTurretFromGame(turret)
 			else:
 				turret.health = turret.health - damage
-	
+
 	if entity.is_in_group("Minion"):
 		var minion = entity
 		if minion.armor > 0:
@@ -99,13 +102,13 @@ func entityTakeDamage(damage,entity):
 				minion.turretOwner.removeMinion(minion)
 			else:
 				minion.health = minion.health - damage
-	
+
 func onDeath(turret):
-	
+
 	var turretName = turret.getName()
-	
+
 	match turretName:
-		
+
 		"Energizer Turret":
 			for x in turret.turretsInRange:
 				if is_instance_valid(x):
@@ -113,29 +116,34 @@ func onDeath(turret):
 						x.currentParticlesMap.get("Energized").queue_free()
 						x.currentParticlesMap.erase("Energized")
 						turret.removeEnergizerBuffsToTurret(x)
-						
+
 		"Royal Turret":
 			for x in turret.currentMinions:
 				x.queue_free()
-		
+
 
 func onKill(turret,enemy):
-	
+
 	var enemyName = enemy.getName()
-	
+
 	var moneyEarned = GameManager.calculateMoneyReward(enemyName)
 	var experienceEarned = GameManager.calculateExperienceReward(enemyName)
-	
+
 	GameManager.currentMoney += moneyEarned
 	GameManager.currentExperience += experienceEarned
-	
-	get_tree().current_scene.find_child("XP Bar").value += experienceEarned
-	
+
+	if not DeveloperMode.inDevMode:
+		get_tree().current_scene.find_child("XP Bar").value += experienceEarned
+
 	var popup = popupScene.instantiate()
 	popup.global_position = enemy.global_position
 	popup.killPopup(moneyEarned,experienceEarned)
-	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
-	
+
+	if DeveloperMode.inDevMode:
+		get_tree().current_scene.add_child(popup)
+	else:
+		get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)
 
@@ -149,21 +157,21 @@ func onKill(turret,enemy):
 		else:
 			turret.addKill()
 			addTurretXP(turret.getName(),experienceEarned)
-			
+
 func addTurretXP(turretName,xp):
-	
+
 	if (turretXpMap.has(turretName)):
 		turretXpMap[turretName] = turretXpMap.get(turretName) + xp
 	else:
 		turretXpMap[turretName] = xp
-		
+
 func updateTurretUpgradeTier(turretName):
-	
+
 	if turretsUpgradeTier.has(turretName):
 		turretsUpgradeTier[turretName] = turretsUpgradeTier.get(turretName) + 1
 	else:
 		turretsUpgradeTier[turretName] = 1
-		
+
 func applyUpgradeTier(turret):
 	if turret.get("maxHealth") != null:
 		turret.maxHealth += ceil(turret.maxHealth * upgradeTierPercent)
@@ -203,19 +211,19 @@ func applyUpgradeTier(turret):
 	if turret.energized:
 		if is_instance_valid(turret.energizerTurret):
 			turret.energizerTurret.applyEnergizerBuffsToTurret(turret)
-			
+
 	specializedUpgrade(turret)
 
 func upgradeTurret(turretNumber):
-	
+
 	if GameManager.turretsPlaced.size() > 0:
 		var turretName = GameManager.turretsNameArray[turretNumber-1]
-		
+
 		if GameManager.turretsPlaced.has(turretName):
 			var turretsList : Array = GameManager.turretsPlaced.get(turretName)
 			for x in turretsList:
 				x.upgrade.emit(x)
-				
+
 		updateTurretUpgradeTier(turretName)
 
 func getUpgradeTier(turretName):
@@ -223,7 +231,7 @@ func getUpgradeTier(turretName):
 		return turretsUpgradeTier.get(turretName)
 	else:
 		return 0
-		
+
 func getClosestEnemyFromSprite(turret):
 	var distance = 999999
 	var enemy = null
@@ -237,12 +245,12 @@ func getClosestEnemyFromSprite(turret):
 		return 0
 	else:
 		return enemy
-		
-		
+
+
 func specializedUpgrade(turret):
-	
+
 	match turret.getName():
-		
+
 		"Flame Turret":
 			turret.particleVelocity += 10
 			turret.find_child("FlameArea").position.x += .4

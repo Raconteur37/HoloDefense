@@ -109,7 +109,7 @@ func shoot(enemy):
 	if is_instance_valid(enemy) and isPlaced:
 		var proj = projectile.instantiate()
 		proj.position = position
-		proj.linear_velocity = (enemy.position - position).normalized() * projectileSpeed
+		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 		
 		var dif = self.global_position.angle_to_point(enemy.global_position)
 		

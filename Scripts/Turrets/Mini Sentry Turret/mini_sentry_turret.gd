@@ -77,6 +77,12 @@ func _ready() -> void:
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
+
+		# Check if in devmode durring runtime
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
+		health = 9999
 	
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
@@ -113,7 +119,7 @@ func shoot(enemy):
 	if is_instance_valid(enemy) and isPlaced:
 		var proj = projectile.instantiate()
 		proj.position = position
-		proj.linear_velocity = (enemy.position - position).normalized() * projectileSpeed
+		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 		var dif = self.global_position.angle_to_point(enemy.global_position)
 		proj.rotation = proj.rotation + dif
 		proj.damage = damage

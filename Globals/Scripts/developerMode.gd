@@ -7,6 +7,14 @@ func _input(event: InputEvent) -> void:
 	if event is InputEventKey and event.is_pressed():
 
 		match event.keycode:
+
+			KEY_S:
+				if inDevMode:
+					var enemy = preload("res://Enemy Scenes/Basic Square.tscn")
+					enemy = enemy.instantiate()
+					enemy.position = GameManager.generateRandomPosition()
+					get_tree().current_scene.add_child(enemy)
+
 			KEY_F1:
 				#if Input.is_key_pressed(KEY_SHIFT):
 				if inDevMode:

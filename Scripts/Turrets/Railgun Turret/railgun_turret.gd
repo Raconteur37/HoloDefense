@@ -104,7 +104,7 @@ func shoot(enemy):
 		var proj = projectile.instantiate()
 		proj.position = position
 		proj.maxEnemyPierce = pierce
-		proj.velocity = (enemy.global_position - position).normalized() * projectileSpeed
+		proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 		var dif = self.global_position.angle_to_point(enemy.global_position)
 		
 		proj.rotation = proj.rotation + dif
