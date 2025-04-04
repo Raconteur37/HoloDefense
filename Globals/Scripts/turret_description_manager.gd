@@ -100,21 +100,31 @@ func buildContainer(turret):
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizerProjctileSpeedBuff",turret)
 		statHbox.add_child(statItem)
-	if turret.get("explosionDamagesdf") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
-		label.text = "Explosion Damage: " + str(turret.explosionDamage)
-		gridContainer.add_child(dupe)
-	if turret.get("explosionRadiussdf") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
-		label.text = "Explosion Radius: " + str(turret.explosionRadius)
-		gridContainer.add_child(dupe)
-	if turret.get("piercesdf") != null:
-		var dupe = marginContainer.duplicate()
-		var label = dupe.get_child(0)
-		label.text = "Pierce: " + str(turret.pierce)
-		gridContainer.add_child(dupe)
+	if turret.get("explosionDamage") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("explosionDamage",turret)
+		statHbox.add_child(statItem)
+	if turret.get("explosionRadius") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("explosionRadius",turret)
+		statHbox.add_child(statItem)
+	if turret.get("pierce") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("pierce",turret)
+		statHbox.add_child(statItem)
+	if turret.get("fireDamage") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("fireDamage",turret)
+		statHbox.add_child(statItem)
+	if turret.get("fireTime") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("fireTime",turret)
+		statHbox.add_child(statItem)
 		
 	
 	scene.show()

@@ -89,6 +89,11 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
+		health = 9999
+
 
 func getName():
 	return turretName
@@ -159,9 +164,10 @@ func reloadAnimation():
 
 func openSelectedMenu():
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
 
 func closeSelectMenu():

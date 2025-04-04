@@ -24,8 +24,6 @@ var damageTickTimer
 #stats
 var kills : int = 0
 
-@onready var description = preload("res://Globals/Scene/TurretDescription/FlameTurretDescription.tscn")
-
 var menu
 
 enum Rarity {Rare}
@@ -84,8 +82,6 @@ func _ready() -> void:
 	upgrade.connect(EntityManager.applyUpgradeTier)
 	
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	upgradeTier = 100
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
@@ -121,9 +117,10 @@ func _process(delta: float) -> void:
 
 func openSelectedMenu():
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
 	
 func closeSelectMenu():

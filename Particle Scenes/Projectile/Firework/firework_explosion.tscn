@@ -13,17 +13,19 @@ particles_anim_loop = true
 [sub_resource type="CircleShape2D" id="CircleShape2D_2br81"]
 radius = 39.1152
 
-[node name="Node2D" type="Node2D" groups=["Explosion"]]
-position = Vector2(330, 169)
+[node name="CanvasLayer" type="CanvasLayer" groups=["Explosion"]]
 script = ExtResource("1_i46p3")
 
-[node name="FireworkExplosion" type="CPUParticles2D" parent="."]
+[node name="Node2D" type="Node2D" parent="."]
+position = Vector2(330, 169)
+
+[node name="FireworkExplosion" type="CPUParticles2D" parent="Node2D"]
 material = SubResource("CanvasItemMaterial_dv8nh")
 emitting = false
 amount = 10
+texture = ExtResource("2_1kyin")
 one_shot = true
 explosiveness = 1.0
-texture = ExtResource("2_1kyin")
 emission_shape = 1
 emission_sphere_radius = 25.0
 particle_flag_align_y = true
@@ -32,17 +34,17 @@ gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="Node2D"]
 collision_layer = 0
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Node2D/Area2D"]
 shape = SubResource("CircleShape2D_2br81")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="Node2D"]
 wait_time = 0.4
 one_shot = true
 autostart = true
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="body_entered" from="Node2D/Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="Node2D/Timer" to="." method="_on_timer_timeout"]

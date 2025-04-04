@@ -1,6 +1,8 @@
 extends Control
 
 func buildStatInformation(slot : Rect2i, type):
+
+	var panelLabel = $CanvasLayer/PopupPanel/MainLabel
 	
 	var mouse_pos = get_viewport().get_mouse_position()
 	var correction
@@ -13,26 +15,35 @@ func buildStatInformation(slot : Rect2i, type):
 	match type:
 		
 		"damage":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Damage"
+			panelLabel.text = "Damage"
 		"reloadTime":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Reload Speed"
+			panelLabel.text = "Reload Speed"
 		"attackRange":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Range"
+			panelLabel.text = "Range"
 		"projectileSpeed":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Projectile Speed"
+			panelLabel.text = "Projectile Speed"
 		"maxTurretsEnergized":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Turrets Energized"
+			panelLabel.text = "Turrets Energized"
 		"energizeTime":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Time it takes to energize a turret"
+			panelLabel.text = "Time it takes to energize a turret"
 		"energizerDamageBuff":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Damage Buff"
+			panelLabel.text = "Damage Buff"
 		"energizerReloadTimeBuff":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Reload Time Buff"
+			panelLabel.text = "Reload Time Buff"
 		"energizerAttackRangeBuff":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Attack Range Buff"
+			panelLabel.text = "Attack Range Buff"
 		"energizerProjctileSpeedBuff":
-			$CanvasLayer/PopupPanel/MainLabel.text = "Projectile Speed Buff"
-			
+			panelLabel.text = "Projectile Speed Buff"
+		"explosionDamage":
+			panelLabel.text = "Explosion Damage"
+		"explosionRadius":
+			panelLabel.text = "Explosion Radius"
+		"fireDamage":
+			panelLabel.text = "Fire Damage"
+		"fireTime":
+			panelLabel.text = "Fire Duration"
+		"pierce":
+			panelLabel.text = "Pierce"
 			
 	%PopupPanel.popup(Rect2i(slot.position + correction, %PopupPanel.size))
 

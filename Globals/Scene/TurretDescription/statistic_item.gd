@@ -71,6 +71,36 @@ func buildStatContainer(type,turret):
 			label.text = str(turret.energizerProjctileSpeedBuff)
 			var color = Color.MEDIUM_VIOLET_RED
 			label.set("theme_override_colors/font_color",color)
+		"explosionDamage":
+			panelType = "explosionDamage"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.explosionDamage)
+			var color = Color.MEDIUM_VIOLET_RED
+			label.set("theme_override_colors/font_color",color)
+		"explosionRadius":
+			panelType = "explosionRadius"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.explosionRadius)
+			var color = Color.DEEP_SKY_BLUE
+			label.set("theme_override_colors/font_color",color)
+		"fireDamage":
+			panelType = "fireDamage"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.fireDamage)
+			var color = Color.DARK_RED
+			label.set("theme_override_colors/font_color",color)
+		"fireTime":
+			panelType = "fireTime"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.fireTime)
+			var color = Color.DARK_BLUE
+			label.set("theme_override_colors/font_color",color)
+		"pierce":
+			panelType = "pierce"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.pierce)
+			var color = Color.GOLD
+			label.set("theme_override_colors/font_color",color)
 
 func _on_mouse_entered() -> void:
 	if not entered:
