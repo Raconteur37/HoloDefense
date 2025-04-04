@@ -11,12 +11,9 @@ var upgradeTierPercent = .02
 func takeDamage(damage,turret,enemy,damageType):
 
 	var popup = popupScene.instantiate()
-	popup.global_position = enemy.global_position
+	popup.setPosition(enemy.global_position)
 	popup.damagePopup(damage)
-	if DeveloperMode.inDevMode:
-		get_tree().current_scene.add_child(popup)
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+	get_tree().current_scene.add_child(popup)
 
 	if damageType.is_in_group("Turret Projectile"):
 		var projectile = damageType
@@ -136,13 +133,11 @@ func onKill(turret,enemy):
 		get_tree().current_scene.find_child("XP Bar").value += experienceEarned
 
 	var popup = popupScene.instantiate()
-	popup.global_position = enemy.global_position
+	popup.setPosition(enemy.global_position)
 	popup.killPopup(moneyEarned,experienceEarned)
 
-	if DeveloperMode.inDevMode:
-		get_tree().current_scene.add_child(popup)
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+
+	get_tree().current_scene.add_child(popup)
 
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)

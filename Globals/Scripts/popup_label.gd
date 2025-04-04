@@ -1,25 +1,28 @@
-extends Control
+extends CanvasLayer
 
 func _on_timer_timeout() -> void:
-	$".".position.y -= 1
+	$"BoxContainer".global_position.y -= 1
+
+func setPosition(position):
+	$"BoxContainer".global_position = position
 
 func killPopup(money : int, xp : int):
-	$"Enemy Popup/Money Label".text = "$" + str(money)
-	$"Enemy Popup/Xp Label".text = str(xp) + " XP"
+	$"BoxContainer/Enemy Popup/Money Label".text = "$" + str(money)
+	$"BoxContainer/Enemy Popup/Xp Label".text = str(xp) + " XP"
 	$AnimationPlayer.play("KillPopup")
-	
+
 func insufficientFundsPopup():
 	$AnimationPlayer.play("Insufficient Funds")
-	
+
 func damagePopup(damage):
-	$".".position.x += randi_range(-10,10)
-	$"Damage Popup".text = str(damage)
+	$"BoxContainer".position.x += randi_range(-10,10)
+	$"BoxContainer/Damage Popup".text = str(damage)
 	$AnimationPlayer.play("Damage Popup")
 
 func gemPopup(gemName):
-	
+
 	match gemName:
-		
+
 		"Copper":
 			$AnimationPlayer.play("GemAnimation")
 

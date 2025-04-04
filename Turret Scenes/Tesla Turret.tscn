@@ -7,7 +7,6 @@
 [ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_vkfnp"]
 [ext_resource type="PackedScene" uid="uid://d1c3ut203ttid" path="res://Particle Scenes/Turrets/Tesla Turret/Electricity Emit.tscn" id="5_57vlx"]
 
-
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
 size = Vector2(30, 32)
 
@@ -80,7 +79,7 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Tesla Turret" type="CharacterBody2D" groups=["Turret"]]
-position = Vector2(99, 59)
+position = Vector2(975, 514)
 collision_mask = 12
 script = ExtResource("1_dn28j")
 

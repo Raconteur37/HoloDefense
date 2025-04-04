@@ -52,6 +52,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 				body.hit.emit(damage,body)
 				attackReady = false
 				attackTimer.start()
+
 	if body.is_in_group("Minion"):
 		body.hit.emit(damage,body)
 		attackReady = false

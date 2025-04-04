@@ -15,10 +15,7 @@ func playDamageParticle(enemy):
 			var particle = basicSquareHurtParticle.instantiate()
 			particle.global_position = enemy.global_position
 			particle.emitting = true
-			if DeveloperMode.inDevMode:
-				get_tree().current_scene.add_child(particle)
-			else:
-				get_tree().current_scene.find_child("CanvasLayer").add_child(particle)
+			get_tree().current_scene.add_child(particle)
 			await get_tree().create_timer(5).timeout
 			particle.queue_free()
 
@@ -29,33 +26,20 @@ func playDeathParticle(enemy):
 
 		"Basic Square":
 			var particle = basicSquareDeathParticle.instantiate()
-			particle.global_position = enemy.global_position
-			particle.emitting = true
-			if DeveloperMode.inDevMode:
-				get_tree().current_scene.add_child(particle)
-			else:
-				get_tree().current_scene.find_child("CanvasLayer").add_child(particle)
-			await get_tree().create_timer(5).timeout
-			particle.queue_free()
+			particle.setPosition(enemy.global_position)
+			get_tree().current_scene.add_child(particle)
+
 
 func playExecutionParticle(enemy):
 
 	var particle = executionParticle.instantiate()
-	particle.global_position = enemy.global_position
-	particle.emitting = true
-	if DeveloperMode.inDevMode:
-		get_tree().current_scene.add_child(particle)
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").add_child(particle)
-	await get_tree().create_timer(5).timeout
-	particle.queue_free()
+	particle.setPosition(enemy.global_position)
+	get_tree().current_scene.add_child(particle)
+
 
 func playEnergizedParticle(turret):
 
 	var particle = energizedParticle.instantiate()
 	particle.global_position = turret.global_position
-	if DeveloperMode.inDevMode:
-		get_tree().current_scene.add_child(particle)
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").add_child(particle)
+	get_tree().current_scene.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle

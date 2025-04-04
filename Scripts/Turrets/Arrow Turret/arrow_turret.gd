@@ -74,12 +74,12 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -88,11 +88,11 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-		
-		
+
+
 func getName():
 	return turretName
-	
+
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shoot(EntityManager.getClosestEnemyFromSprite($"."))
@@ -101,7 +101,7 @@ func _process(delta: float) -> void:
 		isCollisionReady = true
 	if not beaconBuffActive:
 		BeaconManager.applyBeaconBuffs()
-	
+
 func shoot(enemy):
 	shotReady = false
 	if is_instance_valid(enemy) and isPlaced:
@@ -109,23 +109,23 @@ func shoot(enemy):
 		var proj = projectile.instantiate()
 		proj.position = position
 		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-		
+
 		var dif = self.global_position.angle_to_point(enemy.global_position)
-		
+
 		proj.rotation = proj.rotation + dif
 		proj.damage = damage
 		proj.shooter = self
 		get_parent().add_child(proj)
-		
+
 		reloadTimer.start()
 		reloadAnimation()
-		
+
 		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 		topSprite.look_at(enemy.global_position)
 		topSprite.rotate(PI/2)
 
 func reloadAnimation():
-	
+
 	var frames : int = 4
 
 	for x in range(frames):
@@ -147,18 +147,18 @@ func openSelectedMenu():
 		get_parent().add_child(menu)
 		menu.buildContainer(self)
 		showRange()
-	
+
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
 	hideRange()
-	
+
 func addKill():
 	kills += 1
 
 func showRange():
 	line2d.show()
-	
+
 func hideRange():
 	line2d.hide()
 

@@ -84,9 +84,16 @@ func _ready() -> void:
 	upgrade.connect(EntityManager.applyUpgradeTier)
 	
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
+
+	upgradeTier = 100
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
+
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
+		health = 9999
 	
 func getName():
 	return turretName

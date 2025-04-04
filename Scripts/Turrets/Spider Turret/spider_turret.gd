@@ -38,7 +38,7 @@ const turretName : String = "Spider Turret"
 @export var baseProjectileSpeed : float = 600
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 2.25
-@export var basePoisonChance : float = 7
+@export var basePoisonChance : float = 99
 @export var basePoisonTime : float = 3
 @export var basePoisonDamage : float = .5
 @export var upgradeTier : int = 0
@@ -90,6 +90,11 @@ func _ready() -> void:
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
+
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
+		health = 9999
 		
 		
 func getName():

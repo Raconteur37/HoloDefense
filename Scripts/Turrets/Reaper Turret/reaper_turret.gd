@@ -87,6 +87,11 @@ func _ready() -> void:
 	
 	for x in range(upgradeTier):
 		upgrade.emit(self)
+
+	if DeveloperMode.inDevMode:
+		isPlaced = true
+		GameManager.addTurretToDict(self)
+		health = 9999
 	
 func getName():
 	return turretName
