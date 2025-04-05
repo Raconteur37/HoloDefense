@@ -27,7 +27,7 @@ position = Vector2(971, 459)
 position = Vector2(970, 135)
 
 [node name="HoloGenerator" parent="CanvasLayer" instance=ExtResource("3_mjf4j")]
-position = Vector2(967, 697)
+position = Vector2(967, 946)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 z_index = -1

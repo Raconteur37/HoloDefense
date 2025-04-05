@@ -59,7 +59,7 @@ func _ready() -> void:
 
 	for key in jobExperience:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
-	
+
 	citName = "Basic Citizen"
 	currentState = "Idle"
 
@@ -116,7 +116,7 @@ func setJob(job : String):
 		if not hasJob:
 			currentState = "Working"
 			hasJob = true
-			
+
 		currentJob = job
 
 		updateJob()
@@ -124,7 +124,7 @@ func setJob(job : String):
 
 func updateJob():
 	match currentJob:
-		
+
 		"Gem Scraper":
 			workTimer.wait_time = 5#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
 
@@ -135,7 +135,7 @@ func finishJob():
 		"Gem Scraper":
 			currentState = "Delivering"
 			var popup = popupScene.instantiate()
-			popup.global_position = self.global_position
+			popup.setPosition(self.global_position)
 			popup.gemPopup("Copper")
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 			addGemToInventory("Copper")
@@ -174,35 +174,35 @@ func updateLine():
 	moveLine.points = points
 
 func moveToMouse(mousePos):
-	
+
 	var moveSelectParticleCurrent = moveSelectParticle.instantiate()
 	moveSelectParticleCurrent.global_position = mousePos
 	moveSelectParticleCurrent.emitting = true
 	add_sibling(moveSelectParticleCurrent)
-	
+
 	if destinationParticle != null:
 		destinationParticle.queue_free()
 
 	var desParticleCurrent = destinationParticleScene.instantiate()
 	desParticleCurrent.global_position = mousePos
 	desParticleCurrent.emitting = true
-	
+
 	destinationParticle = desParticleCurrent
-	
+
 	add_sibling(desParticleCurrent)
-	
+
 	if moveLine != null:
 		moveLine.queue_free()
-	
+
 	var moveLineCurrent = moveLineScene.instantiate()
-	
+
 	moveLineCurrent.global_position = to_local(global_position)
 
 	# Set the positions
 	var start_position = Vector2(0,0)
 	var end_position = to_local(mousePos)
 	var points = [start_position,end_position]
-	
+
 	destination = mousePos
 
 	moveLineCurrent.points = points

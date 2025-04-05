@@ -1,0 +1,234 @@
+[gd_scene load_steps=14 format=3 uid="uid://dayf8ub6u272m"]
+
+[ext_resource type="Shader" uid="uid://cp7aeybt3bbnc" path="res://Shaders/Game.gdshader" id="2_juekj"]
+[ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="3_5bhrf"]
+
+[sub_resource type="Gradient" id="Gradient_ue7b1"]
+colors = PackedColorArray(0, 0, 1, 1, 0.129412, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_rjlgh"]
+gradient = SubResource("Gradient_ue7b1")
+
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_8alla"]
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_rxu7q"]
+noise = SubResource("FastNoiseLite_8alla")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x4b2f"]
+resource_local_to_scene = true
+shader = ExtResource("2_juekj")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_rxu7q")
+shader_parameter/burn_texture = SubResource("GradientTexture2D_rjlgh")
+shader_parameter/integrity = 0.0
+shader_parameter/burn_size = 1.3
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05817"]
+texture = ExtResource("3_5bhrf")
+axis_stretch_horizontal = 2
+region_rect = Rect2(0, 0, 64, 64)
+
+[sub_resource type="Animation" id="Animation_dy0l2"]
+resource_name = "Appear"
+length = 0.7
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background Panel:material:shader_parameter/integrity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.7),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Background Panel/GridContainer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Background Panel/Stats Grid Container:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0, 0.6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="Animation" id="Animation_1odt2"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Background Panel:material:shader_parameter/integrity")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Background Panel/GridContainer:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("Background Panel/Stats Grid Container:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_35ibv"]
+_data = {
+&"Appear": SubResource("Animation_dy0l2"),
+&"RESET": SubResource("Animation_1odt2")
+}
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_ibl58"]
+bg_color = Color(0.560784, 0.6, 0.6, 1)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_blend = true
+
+[sub_resource type="LabelSettings" id="LabelSettings_d0458"]
+font_size = 11
+
+[node name="HoloGeneratorDescriptionScene" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = 830.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Background Panel" type="PanelContainer" parent="."]
+material = SubResource("ShaderMaterial_x4b2f")
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 2.0
+offset_top = -234.0
+offset_right = 959.0
+offset_bottom = -118.0
+grow_vertical = 0
+scale = Vector2(2, 2.01008)
+theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
+
+[node name="Modifier Container" type="MarginContainer" parent="Background Panel"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 825
+theme_override_constants/margin_top = 3
+
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Modifier Container"]
+layout_mode = 2
+theme_override_constants/margin_top = -92
+
+[node name="Label" type="Label" parent="Background Panel/Modifier Container/MarginContainer"]
+layout_mode = 2
+text = "Storage"
+uppercase = true
+
+[node name="GridContainer2" type="GridContainer" parent="Background Panel/Modifier Container"]
+layout_mode = 2
+
+[node name="GridContainer" type="GridContainer" parent="Background Panel"]
+visible = false
+z_index = 2
+layout_mode = 2
+theme_override_constants/v_separation = 13
+
+[node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
+visible = false
+layout_mode = 2
+theme_override_constants/margin_left = 260
+theme_override_constants/margin_top = 60
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Background Panel/Stats Grid Container"]
+layout_mode = 2
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+libraries = {
+&"": SubResource("AnimationLibrary_35ibv")
+}
+
+[node name="Control" type="Control" parent="."]
+anchors_preset = 0
+offset_left = 127.0
+offset_top = -64.0
+offset_right = 167.0
+offset_bottom = -24.0
+
+[node name="PanelContainer" type="PanelContainer" parent="Control"]
+layout_mode = 0
+offset_left = -20.0
+offset_right = 24.0
+offset_bottom = 40.0
+scale = Vector2(4.91783, 2.00837)
+theme_override_styles/panel = SubResource("StyleBoxFlat_ibl58")
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/PanelContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Control/PanelContainer/MarginContainer"]
+layout_mode = 2
+text = "Citizens"
+label_settings = SubResource("LabelSettings_d0458")
+horizontal_alignment = 1
+vertical_alignment = 1

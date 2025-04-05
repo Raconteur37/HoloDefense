@@ -24,7 +24,6 @@ var bodyCollisionShape
 var kills : int = 0
 
 @onready var projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
-@onready var description = preload("res://Globals/Scene/TurretDescription/RailgunDescription.tscn")
 
 var menu
 

@@ -39,7 +39,7 @@ const turretName : String = "Spider Turret"
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 2.25
 @export var basePoisonChance : float = 99
-@export var basePoisonTime : float = 3
+@export var basePoisonDuration : float = 3
 @export var basePoisonDamage : float = .5
 @export var upgradeTier : int = 0
 @export var armor : int = 0
@@ -51,7 +51,7 @@ var projectileSpeed
 var attackRange
 var reloadTime
 var poisonDamage
-var poisonTime
+var poisonDuration
 var poisonChance
 
 var health : float
@@ -81,7 +81,7 @@ func _ready() -> void:
 	health = maxHealth
 	poisonChance = basePoisonChance
 	poisonDamage = basePoisonDamage
-	poisonTime = basePoisonTime
+	poisonDuration = basePoisonDuration
 	
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
@@ -124,7 +124,7 @@ func shoot(enemy):
 		
 		proj.poisonChance = poisonChance
 		proj.poisonDamage = poisonDamage
-		proj.poisonTime = poisonTime
+		proj.poisonTime = poisonDuration
 		
 		
 		get_parent().add_child(proj)

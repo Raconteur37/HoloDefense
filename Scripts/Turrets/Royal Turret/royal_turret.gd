@@ -26,7 +26,6 @@ var kills : int = 0
 var currentMinions = []
 
 @onready var knightMinion = preload("res://Minion Scenes/Knight Minion.tscn")
-@onready var description = preload("res://Globals/Scene/TurretDescription/RoyalTurretDescription.tscn")
 
 var menu
 
@@ -79,12 +78,12 @@ func _ready() -> void:
 	health = maxHealth
 	knightDamage = baseKnightDamage
 	knightHealth = baseKnightHealth
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -93,10 +92,10 @@ func _ready() -> void:
 		GameManager.addTurretToDict(self)
 		health = 9999
 
-	
+
 func getName():
 	return turretName
-	
+
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
@@ -104,41 +103,42 @@ func _process(delta: float) -> void:
 		summonTimer.start()
 	if not beaconBuffActive:
 		BeaconManager.applyBeaconBuffs()
-	
+
 func summonMinion():
 	if currentKnightAmount < maxKnights:
 		var knight = knightMinion.instantiate()
 		knight.health = knightHealth
 		knight.damage = knightDamage
 		knight.turretOwner = self
-		
+
 		knight.position = position
 		knight.velocity = Vector2(randi_range(-1,1),randi_range(-1,1)).normalized() * 500
-		
+
 		currentMinions.append(knight)
-		
+
 		currentKnightAmount += 1
-		
+
 		get_parent().add_child(knight)
 
 func openSelectedMenu():
 	if isPlaced:
+		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
 		menu = description.instantiate()
-		menu.applyTurret(self)
 		get_parent().add_child(menu)
+		menu.buildContainer(self)
 		showRange()
-	
+
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
 	hideRange()
-	
+
 func addKill():
 	kills += 1
 
 func showRange():
 	line2d.show()
-	
+
 func hideRange():
 	line2d.hide()
 

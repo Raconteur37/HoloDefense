@@ -5,12 +5,12 @@ var panelType
 var entered : bool = false
 
 func buildStatContainer(type,turret):
-	
+
 	var texture = $GridContainer/MarginContainer/TextureRect
 	var label = $GridContainer/MarginContainer2/Label
-	
+
 	match type:
-		
+
 		"damage":
 			panelType = "damage"
 			#texture.texture = load("res://Textures/Icons/Damage Icon.png")
@@ -100,6 +100,30 @@ func buildStatContainer(type,turret):
 			texture.texture = load("res://Textures/Icons/Reload Icon.png")
 			label.text = str(turret.pierce)
 			var color = Color.GOLD
+			label.set("theme_override_colors/font_color",color)
+		"executionChance":
+			panelType = "executionChance"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.executionChance)
+			var color = Color.BLANCHED_ALMOND
+			label.set("theme_override_colors/font_color",color)
+		"poisonChance":
+			panelType = "poisonChance"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.poisonChance)
+			var color = Color.DARK_GREEN
+			label.set("theme_override_colors/font_color",color)
+		"poisonDamage":
+			panelType = "poisonDamage"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.poisonDamage)
+			var color = Color.LIME_GREEN
+			label.set("theme_override_colors/font_color",color)
+		"poisonDuration":
+			panelType = "poisonDuration"
+			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			label.text = str(turret.poisonDuration)
+			var color = Color.FOREST_GREEN
 			label.set("theme_override_colors/font_color",color)
 
 func _on_mouse_entered() -> void:

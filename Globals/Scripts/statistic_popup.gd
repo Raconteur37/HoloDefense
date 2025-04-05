@@ -44,6 +44,14 @@ func buildStatInformation(slot : Rect2i, type):
 			panelLabel.text = "Fire Duration"
 		"pierce":
 			panelLabel.text = "Pierce"
+		"executionChance":
+			panelLabel.text = "Execution Chance"
+		"poisonChance":
+			panelLabel.text = "Poison Chance"
+		"poisonDamage":
+			panelLabel.text = "Poison Damage"
+		"poisonDuration":
+			panelLabel.text = "Poison Duration"
 			
 	%PopupPanel.popup(Rect2i(slot.position + correction, %PopupPanel.size))
 

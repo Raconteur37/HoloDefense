@@ -125,6 +125,26 @@ func buildContainer(turret):
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("fireTime",turret)
 		statHbox.add_child(statItem)
+	if turret.get("executionChance") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("executionChance",turret)
+		statHbox.add_child(statItem)
+	if turret.get("poisonChance") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("poisonChance",turret)
+		statHbox.add_child(statItem)
+	if turret.get("poisonDamage") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("poisonDamage",turret)
+		statHbox.add_child(statItem)
+	if turret.get("poisonDuration") != null:
+		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		statItem = statItem.instantiate()
+		statItem.buildStatContainer("poisonDuration",turret)
+		statHbox.add_child(statItem)
 		
 	
 	scene.show()
