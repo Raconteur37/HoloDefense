@@ -1,0 +1,63 @@
+[gd_scene load_steps=8 format=3 uid="uid://cn427lnvanynn"]
+
+[ext_resource type="Script" uid="uid://duapf1sbfsvqk" path="res://Game Scenes/holo_citizen_generation_scene.gd" id="1_82qdc"]
+
+[sub_resource type="Gradient" id="Gradient_om41l"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_82qdc"]
+gradient = SubResource("Gradient_om41l")
+
+[sub_resource type="Gradient" id="Gradient_r1huu"]
+colors = PackedColorArray(0.244776, 0.244776, 0.244776, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5vkee"]
+gradient = SubResource("Gradient_r1huu")
+fill_from = Vector2(1, 0)
+
+[sub_resource type="Gradient" id="Gradient_n3mkr"]
+colors = PackedColorArray(0.300434, 0.931569, 0.648325, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_712gt"]
+gradient = SubResource("Gradient_n3mkr")
+fill_from = Vector2(1, 0)
+
+[node name="HoloCitizenGenerationScene" type="Control"]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -214.0
+offset_top = -35.0
+offset_right = -214.0
+offset_bottom = -35.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 2
+size_flags_vertical = 3
+script = ExtResource("1_82qdc")
+
+[node name="CitizenIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_right = 107.0
+offset_bottom = 103.0
+scale = Vector2(0.42564, 0.344585)
+texture = SubResource("GradientTexture2D_82qdc")
+
+[node name="GenerateProgressBar" type="TextureProgressBar" parent="."]
+layout_mode = 0
+offset_left = 46.0
+offset_right = 546.0
+offset_bottom = 64.0
+scale = Vector2(0.882276, 0.558776)
+step = 0.01
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_5vkee")
+texture_progress = SubResource("GradientTexture2D_712gt")
+
+[node name="Timer" type="Timer" parent="."]
+wait_time = 0.01
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

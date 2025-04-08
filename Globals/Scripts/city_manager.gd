@@ -9,6 +9,8 @@ var storage : Dictionary = {}
 
 var citizens : Array = []
 
+var citizensSelected : Array = []
+
 var cityExperienceCap : float = 100
 
 

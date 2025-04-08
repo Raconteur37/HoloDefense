@@ -95,20 +95,31 @@ func _process(delta: float) -> void:
 			destination = CityManager.getHoloGeneratorLocation()
 
 
-
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			if selected:
-				hoverBox.visible = true
-				var mouse_pos = get_viewport().get_mouse_position()
-				moveToMouse(mouse_pos)
-				currentState = "Idle"
+				if CityManager.citizensSelected.size() == 0:
+					move()
+				else:
+					await get_tree().create_timer((.05)).timeout
+					if CityManager.citizensSelected.size() == 0:
+						pass
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
-			if selected:
-				selected = false
-				hoverBox.visible = false
-				#Close menu
+			deselect()
+
+func move():
+	hoverBox.visible = true
+	var mouse_pos = get_viewport().get_mouse_position()
+	moveToMouse(mouse_pos)
+	currentState = "Idle"
+
+
+func deselect():
+	selected = false
+	hoverBox.visible = false
+	CityManager.citizensSelected.erase(self)
+	#Close menu
 
 
 func setJob(job : String):
