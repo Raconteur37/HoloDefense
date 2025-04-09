@@ -18,7 +18,3 @@ func _on_generate_button_pressed() -> void:
 	var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
 	var loadedScene = genScene.instantiate()
 	citizenGenGrid.add_child(loadedScene)
-
-
-func _on_generate_button_mouse_entered() -> void:
-	print("MOUSE GOTHERER")

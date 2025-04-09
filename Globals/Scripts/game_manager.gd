@@ -34,55 +34,55 @@ func addTurretToDict(turret):
 		turretsPlaced[turret.getName()].append(turret)
 	else:
 		turretsPlaced[turret.getName()] = [turret]
-		
+
 func removeTurretFromGame(turret):
 	var turretsList : Array = turretsPlaced.get(turret.getName())
 	turretsList.erase(turret)
 	turret.closeSelectMenu()
-	
+
 	if turret.energized:
 		turret.energizerTurret.turretsEnergized -= 1
 		turret.energizerTurret.turretsInRange.erase(turret)
-	
+
 	PlacementManager.occupied_cells.erase(PlacementManager.get_snapped_position(turret.position))
-	
+
 	for particle in turret.currentParticlesMap.values():
 		particle.queue_free()
-	
+
 	turret.queue_free()
 
 func removeEnemyFromGame(enemy : CharacterBody2D):
 	if (enemiesAlive.find(enemy) >= 0):
 		enemiesAlive.remove_at(enemiesAlive.find(enemy))
-		
+
 	EffectManager.clearEffects(enemy)
-		
+
 	enemy.queue_free()
-		
+
 func summonEnemy(enemyName : String):
 	match enemyName:
-		
+
 		"Basic Square":
 			var enemy = preload("res://Enemy Scenes/Basic Square.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
-			
+
 		"Hexagon Mothership":
 			var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = Vector2(2100,540)
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
-			
+
 		"Speedy Triangle":
 			var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
-			
+
 		"Shooty Diamond":
 			var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
 			enemy = enemy.instantiate()
@@ -92,12 +92,12 @@ func summonEnemy(enemyName : String):
 
 func generateRandomPosition():
 	var side = randi_range(1,4)
-	
+
 	var randX
 	var randY
-	
+
 	match side:
-		
+
 		1:
 			randX = randf_range(0, 1920)
 			randY = randf_range(0, 200)
@@ -110,33 +110,33 @@ func generateRandomPosition():
 		4:
 			randX = randf_range(-200,0)
 			randY = randf_range(0,1080)
-		
-		
+
+
 	return Vector2(randX,randY)
 
 
 func summonEnemies():
-	
+
 	summonDict = {}
 
 	var ln = log(currentWave / float(10)) / log(2.7182818)
 	var summonTime = -.5 * ln + 2
 	summonTime = round_to_dec(summonTime,2)
-	
+
 	if pandemonium:
 		summonTime = .2
-	
+
 	var squareAmount = int(40 * log(currentWave) + 10)
 	summonDict["Basic Square"] = squareAmount
-	
+
 	if currentWave >= enemyWaveCanAppear.get("Speedy Triangle"):
 		var triangleAmount = int(40 * log(currentWave) + 10)
 		summonDict["Speedy Triangle"] = triangleAmount
-		
+
 	if currentWave >= enemyWaveCanAppear.get("Shooty Diamond"):
 		var triangleAmount = int(40 * log(currentWave) + 10)
 		summonDict["Shooty Diamond"] = triangleAmount
-	
+
 	#summonEnemy("Hexagon Mothership")
 	if currentWave >= enemyWaveCanAppear.get("Hexagon Mothership"):
 		var rand = randi_range(1,10)
@@ -145,7 +145,7 @@ func summonEnemies():
 			hexagonMothershipCooldown = 10
 		else:
 			hexagonMothershipCooldown -= 1
-	
+
 
 	while true:
 		if summonDict.size() > 0:
@@ -160,14 +160,14 @@ func summonEnemies():
 		else:
 			break
 
-	
+
 func getEnemiesAlive():
 	return enemiesAlive
 
 func getTurretByName(turretName):
-	
+
 	match turretName:
-		
+
 		"Arrow Turret":
 			return load("res://Turret Scenes/Arrow Turret.tscn")
 		"Mini Sentry Turret":
@@ -190,11 +190,11 @@ func getTurretByName(turretName):
 			return load("res://Turret Scenes/Tesla Turret.tscn")
 
 func getTurret(number):
-	
+
 	var turretName = turretsNameArray[number-1]
-	
+
 	match turretName:
-		
+
 		"Arrow Turret":
 			return load("res://Turret Scenes/Arrow Turret.tscn")
 		"Mini Sentry Turret":
@@ -215,11 +215,11 @@ func getTurret(number):
 			return load("res://Turret Scenes/Spider Turret.tscn")
 		"Tesla Turret":
 			return load("res://Turret Scenes/Tesla Turret.tscn")
-			
+
 func findTurretTexture(turretName):
-	
+
 	match turretName:
-		
+
 		"Arrow Turret":
 			return load("res://Textures/Turrets/Arrow Turret/ArrowTurret.png")
 		"Mini Sentry Turret":
@@ -243,39 +243,39 @@ func findTurretTexture(turretName):
 
 func getBeaconPosition():
 	return beacon.global_position
-	
+
 func calculateMoneyReward(enemyName):
 	var baseMoney = 1 + (currentWave / 8)
-	
+
 	match enemyName:
-		
+
 		"Basic Square":
 			var extraMoney = randi_range(0,1) # 50%
 			if extraMoney > 0:
-				if randi_range(1,4) == 4: # 25%  
+				if randi_range(1,4) == 4: # 25%
 					extraMoney = extraMoney + randi_range(0,1) # 50%
 			baseMoney = baseMoney + extraMoney
-	
+
 		"Speedy Triangle":
 			var extraMoney = randi_range(0,2) # 50%
 			if extraMoney > 0:
-				if randi_range(1,4) == 4: # 25%  
+				if randi_range(1,4) == 4: # 25%
 					extraMoney = extraMoney + randi_range(0,3) # 50%
 			baseMoney = baseMoney + extraMoney
-			
+
 		"Shooty Diamond":
-			var extraMoney = randi_range(0,4) 
+			var extraMoney = randi_range(0,4)
 			if extraMoney > 3:
 				if randi_range(1,4) >= 3:
 					extraMoney = extraMoney + randi_range(0,5)
 			baseMoney = baseMoney + extraMoney
-	
+
 	return baseMoney
 
 func calculateExperienceReward(enemyName):
-	
+
 	match enemyName:
-		
+
 		"Basic Square":
 			return floor((.3 * currentWave + 2))
 		"Speedy Triangle":
@@ -297,10 +297,10 @@ func closeAllMenus():
 
 
 func startWave():
-	
+
 	currentWave += 1
 	inWave = true
-	
+
 	summonEnemies()
 
 
@@ -309,20 +309,20 @@ func round_to_dec(num, digit): # SAME
 
 func getCurrentMoney():
 	return currentMoney
-	
+
 func subtractMoney(amount):
 	currentMoney -= amount
 
 func getCurrentXP():
 	return currentExperience
-	
+
 func getUpgradeTokens():
 	return upgradeTokens
 
 func onInGameLevelUp(xpBar):
 	upgradeTokens += 1
 	inGamePlayerLevel += 1
-	
+
 	var nextLevelCost = ceil((inGamePlayerLevel+1) * 5.5 + 10)
 	xpBar.max_value = nextLevelCost
 

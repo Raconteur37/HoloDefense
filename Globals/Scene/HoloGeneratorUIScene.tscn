@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://dayf8ub6u272m"]
+[gd_scene load_steps=15 format=3 uid="uid://dayf8ub6u272m"]
 
 [ext_resource type="Script" uid="uid://dcuqhtf21gcxp" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator_ui_scene.gd" id="1_tx5cv"]
 [ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="3_5bhrf"]
@@ -19,6 +19,16 @@ border_blend = true
 [sub_resource type="LabelSettings" id="LabelSettings_d0458"]
 font_size = 11
 
+[sub_resource type="Gradient" id="Gradient_gc4lh"]
+colors = PackedColorArray(0.278431, 0.211765, 0.603922, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_fp7fb"]
+gradient = SubResource("Gradient_gc4lh")
+fill_from = Vector2(1, 0)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_4fmds"]
+texture = SubResource("GradientTexture2D_fp7fb")
+
 [sub_resource type="Gradient" id="Gradient_66fn0"]
 colors = PackedColorArray(0.330185, 0.608636, 1, 1, 0.196078, 1, 1, 1)
 
@@ -38,13 +48,13 @@ gradient = SubResource("Gradient_tx5cv")
 font_size = 12
 
 [node name="HoloGeneratorDescriptionScene" type="Control"]
+z_index = 1
 layout_mode = 3
-anchor_top = 0.782
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_top = 235.44
-offset_right = -1920.0
-grow_vertical = 0
+anchors_preset = 0
+offset_left = 4.0
+offset_top = 727.0
+offset_right = 4.0
+offset_bottom = 727.0
 script = ExtResource("1_tx5cv")
 
 [node name="Background Panel" type="PanelContainer" parent="."]
@@ -90,12 +100,11 @@ layout_mode = 2
 theme_override_constants/v_separation = 13
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 0
 offset_left = 55.0
-offset_top = -223.52
+offset_top = -309.0
 offset_right = 99.0
-offset_bottom = -183.52
+offset_bottom = -269.0
 scale = Vector2(4.91783, 2.00837)
 theme_override_styles/panel = SubResource("StyleBoxFlat_ibl58")
 
@@ -110,12 +119,11 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PanelContainer2" type="PanelContainer" parent="."]
-visible = false
 layout_mode = 0
-offset_left = 1647.0
-offset_top = -222.52
-offset_right = 1691.0
-offset_bottom = -182.52
+offset_left = 1648.0
+offset_top = -312.0
+offset_right = 1692.0
+offset_bottom = -272.0
 scale = Vector2(4.91783, 2.00837)
 theme_override_styles/panel = SubResource("StyleBoxFlat_ibl58")
 
@@ -128,6 +136,22 @@ text = "Storage"
 label_settings = SubResource("LabelSettings_d0458")
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="PanelContainer3" type="PanelContainer" parent="."]
+layout_mode = 0
+offset_left = 767.0
+offset_top = -318.0
+offset_right = 909.0
+offset_bottom = -278.0
+scale = Vector2(2, 2)
+theme_override_styles/panel = SubResource("StyleBoxTexture_4fmds")
+
+[node name="MarginContainer" type="MarginContainer" parent="PanelContainer3"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="PanelContainer3/MarginContainer"]
+layout_mode = 2
+text = "Generator Level: 1"
 
 [node name="GemValueLabel" type="Label" parent="."]
 layout_mode = 0
@@ -151,7 +175,7 @@ offset_left = 1081.0
 offset_top = -228.0
 offset_right = 1204.0
 offset_bottom = -205.667
-text = "Light Energy: $0"
+text = "Light Energy: 0"
 
 [node name="GenerateButton" type="TextureButton" parent="."]
 layout_mode = 0
@@ -179,9 +203,9 @@ autowrap_mode = 2
 [node name="CitizenGenerateGrid" type="GridContainer" parent="."]
 layout_mode = 0
 offset_left = 684.0
-offset_top = -194.0
+offset_top = -171.0
 offset_right = 1188.0
-offset_bottom = -114.0
+offset_bottom = -43.0
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 0
