@@ -25,6 +25,13 @@ var destinationParticle = null
 var destinationReached : bool = false
 var moving : bool = false
 
+var lastPosition : Vector2
+var timeSinceMove : float = 0
+var moveThresh : float = 1  # how far the unit must move to be moving
+var stuckTimeout : float = 1  # how many seconds before it's considered stuck
+
+var deliverParticle : CPUParticles2D
+
 var inventory : Dictionary[String,int] ={}
 
 var jobExperience : Dictionary[String,float] = {
@@ -48,6 +55,8 @@ func _ready() -> void:
 
 	workTimer = $"Work Timer"
 
+	deliverParticle = $"Item Delivered Particle"
+
 	# Check the level of the holo generator and increase chances of prefered citizen
 	# You'll be able to click on the holo generator and select the prefered citien type, and based on your city level
 	# it increases the chances of getting a certain citizen with that specialty
@@ -65,23 +74,33 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if destination != null:
-		position = position.move_toward(destination, speed * delta)
+		velocity = (destination - global_position).normalized() * speed
+		move_and_slide()
+		#move_and_collide(destination, speed * delta)
+		#position = position.move_and(destination, speed * delta)
 		moving = true
-		updateLine()
+
+		if is_instance_valid(moveLine):
+			updateLine()
+
+		# Stuck Mechanic
+		var distance_moved = global_position.distance_to(lastPosition)
+
+		if distance_moved > moveThresh:
+			timeSinceMove = 0.0
+			lastPosition = global_position
+		else:
+			timeSinceMove += delta
+
+		if timeSinceMove >= stuckTimeout:
+			destinationReachedFunc()
+
+
 	if moving and not destinationReached:
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
-	if destination != null and global_position == destination and not destinationReached:
-		# Player has reached the destination
-		destinationReached = true
-		moving = false
-		destination = null
-		animationPlayer.stop()
-		if is_instance_valid(destinationParticle):
-			destinationParticle.queue_free()
-		if currentState == "Delivering":
-			currentState = "Idle"
-			setWorkDestination()
+	if destination != null and round(global_position) == destination and not destinationReached:
+		destinationReachedFunc()
 	else:
 		destinationReached = false
 
@@ -97,16 +116,14 @@ func _process(delta: float) -> void:
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			if selected:
-				if CityManager.citizensSelected.size() == 0:
-					move()
-				else:
-					await get_tree().create_timer((.05)).timeout
-					if CityManager.citizensSelected.size() == 0:
-						pass
-		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
-			deselect()
+		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
+			move()
+		elif event.button_index == MOUSE_BUTTON_LEFT and event.pressed and selected:
+			var tempSize = CityManager.citizensSelected.size()
+			await get_tree().create_timer((.05)).timeout
+			if tempSize == CityManager.citizensSelected.size():
+				for cit in CityManager.citizensSelected:
+					cit.deselect()
 
 func move():
 	hoverBox.visible = true
@@ -118,9 +135,23 @@ func move():
 func deselect():
 	selected = false
 	hoverBox.visible = false
-	CityManager.citizensSelected.erase(self)
+	#CityManager.citizensSelected.erase(self)
 	#Close menu
 
+func destinationReachedFunc():
+	# Player has reached the destination
+	destinationReached = true
+	moving = false
+	destination = null
+	animationPlayer.stop()
+	if is_instance_valid(destinationParticle):
+		destinationParticle.queue_free()
+	if is_instance_valid(moveLine):
+		moveLine.queue_free()
+	if currentState == "Delivering":
+		currentState = "Idle"
+		setWorkDestination()
+	timeSinceMove = 0
 
 func setJob(job : String):
 	if currentJob != job:
@@ -158,8 +189,9 @@ func setWorkDestination():
 		"Gem Scraper":
 			destination = CityManager.getGemScraperLocation()
 
+
 func deliver():
-	# Play deliver effect
+	deliverParticle.emitting = true
 	for key in inventory.keys():
 		if CityManager.storage.has(key):
 			CityManager.storage[key] = CityManager.storage.get(key) + inventory.get(key)

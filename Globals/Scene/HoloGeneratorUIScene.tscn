@@ -39,26 +39,19 @@ font_size = 12
 
 [node name="HoloGeneratorDescriptionScene" type="Control"]
 layout_mode = 3
-anchor_top = 0.624
+anchor_top = 0.782
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_top = 318.6
-offset_right = -1700.0
-offset_bottom = -1.0
-grow_horizontal = 2
-grow_vertical = 2
+offset_top = 235.44
+offset_right = -1920.0
+grow_vertical = 0
 script = ExtResource("1_tx5cv")
 
 [node name="Background Panel" type="PanelContainer" parent="."]
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -234.0
-offset_right = 899.0
-offset_bottom = -118.0
-grow_vertical = 0
+layout_mode = 0
+offset_top = -238.0
+offset_right = 897.0
+offset_bottom = -122.0
 scale = Vector2(2.13741, 2.05084)
 theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
 
@@ -97,6 +90,7 @@ layout_mode = 2
 theme_override_constants/v_separation = 13
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 55.0
 offset_top = -223.52
@@ -116,6 +110,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="PanelContainer2" type="PanelContainer" parent="."]
+visible = false
 layout_mode = 0
 offset_left = 1647.0
 offset_top = -222.52
@@ -136,34 +131,34 @@ vertical_alignment = 1
 
 [node name="GemValueLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 612.0
-offset_top = -111.52
-offset_right = 723.0
-offset_bottom = -89.1867
+offset_left = 610.0
+offset_top = -229.0
+offset_right = 721.0
+offset_bottom = -206.667
 text = "Gem Value: $0"
 
 [node name="ScrapValueLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 841.0
-offset_top = -112.52
-offset_right = 958.0
-offset_bottom = -90.1867
+offset_left = 839.0
+offset_top = -230.0
+offset_right = 956.0
+offset_bottom = -207.667
 text = "Scrap Value: $0"
 
 [node name="LightEnergyLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 1083.0
-offset_top = -110.52
-offset_right = 1206.0
-offset_bottom = -88.1867
+offset_left = 1081.0
+offset_top = -228.0
+offset_right = 1204.0
+offset_bottom = -205.667
 text = "Light Energy: $0"
 
 [node name="GenerateButton" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 342.0
-offset_top = -78.52
-offset_right = 406.0
-offset_bottom = -14.52
+offset_left = 329.0
+offset_top = -188.0
+offset_right = 393.0
+offset_bottom = -124.0
 scale = Vector2(3.40678, 1.65574)
 texture_normal = SubResource("GradientTexture2D_tx5cv")
 
@@ -183,17 +178,17 @@ autowrap_mode = 2
 
 [node name="CitizenGenerateGrid" type="GridContainer" parent="."]
 layout_mode = 0
-offset_left = 686.0
-offset_top = -48.52
-offset_right = 1190.0
-offset_bottom = 31.48
+offset_left = 684.0
+offset_top = -194.0
+offset_right = 1188.0
+offset_bottom = -114.0
 
 [node name="TextureButton" type="TextureButton" parent="."]
 layout_mode = 0
-offset_left = 1320.0
-offset_top = -72.52
-offset_right = 1384.0
-offset_bottom = -8.52002
+offset_left = 1307.0
+offset_top = -195.0
+offset_right = 1371.0
+offset_bottom = -131.0
 scale = Vector2(3.40417, 1.65475)
 texture_normal = SubResource("GradientTexture2D_gc4lh")
 
@@ -206,4 +201,5 @@ Generator
 $100"
 label_settings = SubResource("LabelSettings_fp7fb")
 
-[connection signal="pressed" from="GenerateButton" to="." method="_on_texture_button_pressed"]
+[connection signal="mouse_entered" from="GenerateButton" to="." method="_on_generate_button_mouse_entered"]
+[connection signal="pressed" from="GenerateButton" to="." method="_on_generate_button_pressed"]

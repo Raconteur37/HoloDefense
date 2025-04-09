@@ -1,8 +1,9 @@
-[gd_scene load_steps=7 format=3 uid="uid://cbt3hx5meq4g8"]
+[gd_scene load_steps=8 format=3 uid="uid://cbt3hx5meq4g8"]
 
 [ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
 [ext_resource type="Texture2D" uid="uid://ltlgil2l5uuw" path="res://Textures/Holo City/Holo Generator.png" id="2_tlq4f"]
-[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Gem Scraper/select_area.gd" id="3_v0sms"]
+[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Holo Generator/select_area.gd" id="3_v0sms"]
+[ext_resource type="PackedScene" uid="uid://dayf8ub6u272m" path="res://Globals/Scene/HoloGeneratorUIScene.tscn" id="4_tlq4f"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_sc1hh"]
 animations = [{
@@ -22,7 +23,7 @@ size = Vector2(64.3351, 80.6432)
 size = Vector2(276, 263)
 
 [node name="HoloGenerator" type="Node2D"]
-position = Vector2(875, 232)
+position = Vector2(910, 363)
 script = ExtResource("1_s0f2h")
 
 [node name="Sprite" type="AnimatedSprite2D" parent="."]
@@ -51,5 +52,17 @@ script = ExtResource("3_v0sms")
 position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_8aw1o")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)
+
+[node name="HoloGeneratorDescriptionScene" parent="." instance=ExtResource("4_tlq4f")]
+visible = false
+anchors_preset = 0
+anchor_top = 0.0
+anchor_right = 0.0
+anchor_bottom = 0.0
+offset_left = -910.0
+offset_top = 718.0
+offset_right = -910.0
+offset_bottom = 718.0
+grow_vertical = 1
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]

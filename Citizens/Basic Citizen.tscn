@@ -71,8 +71,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
-radius = 3.60001
-height = 12.4
+radius = 3.25
+height = 11.0
 
 [sub_resource type="Animation" id="Animation_8ged5"]
 resource_name = "Hop"
@@ -183,14 +183,16 @@ libraries = {
 &"": SubResource("AnimationLibrary_45ah3")
 }
 
-[node name="Item Delivered" type="CPUParticles2D" parent="."]
+[node name="Item Delivered Particle" type="CPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_mqq4v")
+position = Vector2(0, -34)
 emitting = false
 amount = 1
 texture = ExtResource("5_ko03v")
 one_shot = true
 speed_scale = 1.4
 explosiveness = 1.0
+local_coords = true
 particle_flag_align_y = true
 direction = Vector2(0, 0)
 gravity = Vector2(0, 0)
