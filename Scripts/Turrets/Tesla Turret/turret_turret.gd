@@ -89,16 +89,16 @@ func _ready() -> void:
 	damageTickTimer.wait_time = damageTickTime
 	attackingTime = baseAttackingTime
 	attackingTimer.wait_time = attackingTime
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
-		
-		
+
+
 	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
@@ -106,7 +106,7 @@ func _ready() -> void:
 
 func getName():
 	return turretName
-	
+
 func _process(delta: float) -> void:
 	if enemiesInRange.size() > 0 and not shooting and attackingTimer.is_stopped() and shotReady and isPlaced:
 		topSprite.animation = "Attacking"
@@ -124,13 +124,13 @@ func _process(delta: float) -> void:
 		damageTickTimer.stop()
 
 func reloadAnimation():
-	
+
 	attackingTimer.stop()
-	
+
 	reloadTimer.start()
-	
+
 	topSprite.animation = "Ready"
-	
+
 	var frames : int = 4
 
 	for x in range(frames):
@@ -144,7 +144,7 @@ func reloadAnimation():
 			3:
 				topSprite.frame = 3
 		await get_tree().create_timer((reloadTime / frames)).timeout
-	
+
 
 func openSelectedMenu():
 	if isPlaced:
@@ -153,18 +153,18 @@ func openSelectedMenu():
 		get_parent().add_child(menu)
 		menu.buildContainer(self)
 		showRange()
-	
+
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
 	hideRange()
-	
+
 func addKill():
 	kills += 1
 
 func showRange():
 	line2d.show()
-	
+
 func hideRange():
 	line2d.hide()
 
@@ -197,7 +197,7 @@ func _on_damage_tick_timer_timeout() -> void:
 
 				# Add to the scene
 				get_parent().add_child(shockParticle)
-				
+
 				x.get_parent().hit.emit(damage,self,x.get_parent(),self) # Fix damage type
 		damageTickTimer.start()
 	else:

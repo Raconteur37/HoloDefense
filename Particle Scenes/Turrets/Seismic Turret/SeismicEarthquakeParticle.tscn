@@ -1,0 +1,23 @@
+[gd_scene load_steps=3 format=3 uid="uid://xxgq76thmwl4"]
+
+[ext_resource type="Texture2D" uid="uid://c160d8rj11dhr" path="res://Particle Scenes/Turrets/Seismic Turret/row_output.png" id="1_ugxe5"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oidyf"]
+particles_animation = true
+particles_anim_h_frames = 20
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="SeismicEarthquakeParticle" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_oidyf")
+position = Vector2(957, 479)
+emitting = false
+amount = 1
+texture = ExtResource("1_ugxe5")
+one_shot = true
+explosiveness = 1.0
+gravity = Vector2(0, 0)
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+anim_speed_min = 1.0
+anim_speed_max = 1.0

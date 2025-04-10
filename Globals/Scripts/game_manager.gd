@@ -188,6 +188,8 @@ func getTurretByName(turretName):
 			return load("res://Turret Scenes/Spider Turret.tscn")
 		"Tesla Turret":
 			return load("res://Turret Scenes/Tesla Turret.tscn")
+		"Seismic Turret":
+			return load("res://Turret Scenes/Seismic Turret.tscn")
 
 func getTurret(number):
 
@@ -215,6 +217,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Spider Turret.tscn")
 		"Tesla Turret":
 			return load("res://Turret Scenes/Tesla Turret.tscn")
+		"Seismic Turret":
+			return load("res://Turret Scenes/Seismic Turret.tscn")
 
 func findTurretTexture(turretName):
 
@@ -240,6 +244,8 @@ func findTurretTexture(turretName):
 			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
 		"Tesla Turret":
 			return load("res://Textures/Turrets/Tesla Turret/Tesla Turret.png")
+		"Seismic Turret":
+			return load("res://Textures/Turrets/Seismic Turret/SeismicTurret.png")
 
 func getBeaconPosition():
 	return beacon.global_position

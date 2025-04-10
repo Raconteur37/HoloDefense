@@ -25,12 +25,12 @@ func _ready() -> void:
 	healthRichLabelText = $"Background Panel/GridContainer/MarginContainer/RichTextLabel"
 
 func buildContainer(turret):
-	
+
 	animationPlayer.play("Appear")
-	
+
 	nameLabel.text = str(turret.getName())
 	turretImage.texture = GameManager.findTurretTexture(turret.getName())
-	
+
 	if turret.get("health") != null:
 		healthBar.max_value = turret.maxHealth
 		healthBar.value = turret.health
@@ -145,13 +145,13 @@ func buildContainer(turret):
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("poisonDuration",turret)
 		statHbox.add_child(statItem)
-		
-	
+
+
 	scene.show()
-	
-	
-	
-	
+
+
+
+
 
 func close():
 	queue_free()

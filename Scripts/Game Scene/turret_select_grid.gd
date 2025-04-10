@@ -64,7 +64,7 @@ func _ready() -> void:
 	turretButtonEight = $"Turret Button Grid/MarginContainer8/PanelContainer/TextureButton8"
 	turretButtonNine = $"Turret Button Grid/MarginContainer9/PanelContainer/TextureButton9"
 	turretButtonTen = $"Turret Button Grid/MarginContainer10/PanelContainer/TextureButton10"
-	
+
 	storageButtonOne = $"Storage Grid/MarginContainer1/PanelContainer3/StorageTextureButton1"
 	storageButtonOneLabel = $"Storage Grid/MarginContainer1/PanelContainer3/StorageTextureButton1/Label1"
 	storageButtonTwo = $"Storage Grid/MarginContainer2/PanelContainer/StorageTextureButton2"
@@ -85,19 +85,19 @@ func _ready() -> void:
 	storageButtonNineLabel = $"Storage Grid/MarginContainer9/PanelContainer/StorageTextureButton9/Label9"
 	storageButtonTen = $"Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10"
 	storageButtonTenLabel = $"Storage Grid/MarginContainer10/PanelContainer/StorageTextureButton10/Label10"
-	
+
 	fabricationStart = $FabricationStart
-	
+
 	animationPlayer = $AnimationPlayer
-	
+
 	turretConveyorItem = $"Turret Conveyor Item"
 
 	storageGrid = $"Storage Grid"
 
 func getTurretNameFromStorage(index):
-	
+
 	index = index - 1
-	
+
 	if index < storageDict.size():
 		var turretName = storageDict.keys()[index]
 		return turretName
@@ -105,21 +105,21 @@ func getTurretNameFromStorage(index):
 		return null
 
 func addTurretToConstructionQueue(turretIndex : int):
-	
+
 	if buildingItems < maxBuildingQueueSize:
-		
+
 		var turret = GameManager.getTurret(turretIndex).instantiate()
 		var turretCost = turret.getCost()
-		
+
 		if GameManager.getCurrentMoney() >= turretCost:
-			
+
 			GameManager.subtractMoney(turretCost)
-		
+
 			buildingItems += 1
-			
+
 			var fabTurret = fabricationTurret.instantiate()
 			fabTurret.turretNumber = turretIndex
-			
+
 			var turretTexture = GameManager.findTurretTexture(GameManager.turretsNameArray[turretIndex-1])
 			var turretBuildTime = turret.baseBuildTime
 			fabTurret.constructionTime = turretBuildTime
@@ -127,21 +127,21 @@ func addTurretToConstructionQueue(turretIndex : int):
 			fabTurret.global_position = fabricationStart.global_position
 			add_child(fabTurret)
 			fabTurret.turretConveyorItem.texture = turretTexture
-			
+
 			fabTurret.startConstruction()
-			
+
 			buildingItemsQueue.push_back(fabTurret)
-			
+
 			fabTurret.animationPlayer.speed_scale = float(1 / turretBuildTime)
 			fabTurret.animationPlayer.play("Play Conveyor Move")
-			
+
 		else:
 			var popupScene = load("res://Globals/Scene/Popup.tscn")
 			var popup = popupScene.instantiate()
 			popup.global_position = Vector2(get_viewport().size.x / 2, 200)
 			popup.insufficientFundsPopup()
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
-			
+
 		turret.queue_free()
 
 func _on_texture_button_1_pressed() -> void:
@@ -187,7 +187,7 @@ func addToStorageDict(turretName):
 
 func updateStorageList():
 	var uniqueTurrets = storageDict.keys().size()
-	
+
 	storageButtonOne.hide()
 	storageButtonTwo.hide()
 	storageButtonThree.hide()
@@ -198,11 +198,11 @@ func updateStorageList():
 	storageButtonEight.hide()
 	storageButtonNine.hide()
 	storageButtonTen.hide()
-	
-	
+
+
 	for index in range(uniqueTurrets):
 		match index:
-			
+
 			0:
 				storageButtonOne.texture_normal = GameManager.findTurretTexture(storageDict.keys()[index])
 				var turretAmount = storageDict.get(storageDict.keys()[index])
@@ -253,7 +253,7 @@ func updateStorageList():
 				var turretAmount = storageDict.get(storageDict.keys()[index])
 				storageButtonTenLabel.text = str(turretAmount)
 				storageButtonTen.show()
-				
+
 
 func turretPlaced(turretName):
 	if storageDict.has(turretName):
@@ -264,14 +264,14 @@ func turretPlaced(turretName):
 		updateStorageList()
 
 func takeTurretFromStorage(index):
-	
+
 	var turretAmount = storageDict.get(storageDict.keys()[index])
-	
+
 	if turretAmount > 0:
 		var turretName = storageDict.keys()[index]
-		
+
 		PlacementManager.selectTurret(turretName)
-		
+
 
 func _on_storage_texture_button_1_pressed() -> void:
 	takeTurretFromStorage(0)
