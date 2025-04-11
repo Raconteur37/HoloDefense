@@ -46,6 +46,7 @@ var jobExperience : Dictionary[String,float] = {
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
+@onready var ui = preload("res://Citizens/Citizen Select UI.tscn")
 
 func _ready() -> void:
 	selected = false
@@ -135,7 +136,7 @@ func move():
 func deselect():
 	selected = false
 	hoverBox.visible = false
-	#CityManager.citizensSelected.erase(self)
+	CityManager.citizensSelected.erase(self)
 	#Close menu
 
 func destinationReachedFunc():
@@ -253,6 +254,11 @@ func moveToMouse(mousePos):
 	moveLine = moveLineCurrent
 
 	add_child(moveLineCurrent)
+
+func openMenu():
+	var menu = ui.instantiate()
+	get_tree().current_scene.find_child("CanvasLayer").add_child(menu)
+	menu.buildMenu(self)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if moving:
