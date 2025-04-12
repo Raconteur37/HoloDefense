@@ -1,8 +1,13 @@
-[gd_scene load_steps=6 format=3 uid="uid://bt48rpule0qcq"]
+[gd_scene load_steps=7 format=3 uid="uid://bt48rpule0qcq"]
 
 [ext_resource type="PackedScene" uid="uid://cc1wtd6g7gm0q" path="res://Citizens/Basic Citizen.tscn" id="1_a5ly5"]
 [ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Scraper.tscn" id="2_82jv5"]
 [ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
+
+[sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
+vertices = PackedVector2Array(1912, 1068.01, 8.00781, 1070.98, 9.97656, 9.97656, 1912, 8.00781)
+polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 1922, -2, 1922, 1078, -2, 1081)])
 
 [sub_resource type="Gradient" id="Gradient_eoov6"]
 offsets = PackedFloat32Array(0.946667, 1)
@@ -16,6 +21,9 @@ fill_from = Vector2(0.536332, 1)
 fill_to = Vector2(0.534783, 0)
 
 [node name="Node2D" type="Node2D"]
+
+[node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

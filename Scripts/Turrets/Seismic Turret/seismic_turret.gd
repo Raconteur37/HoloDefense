@@ -105,10 +105,12 @@ func shoot():
 
 	attackParticle.emitting = true
 
-	for enemy in $RangeArea.get_overlapping_areas():
-		if enemy.get_parent().is_in_group("Enemy"):
+	for x in range(4):
+		for enemy in $RangeArea.get_overlapping_areas():
+			if enemy.get_parent().is_in_group("Enemy"):
 
-			enemy.get_parent().hit.emit(damage,self,enemy.get_parent(),self) # Fix damage type
+				enemy.get_parent().hit.emit(damage,self,enemy.get_parent(),self) # Fix damage type
+		await get_tree().create_timer((.3)).timeout
 
 	reloadTimer.start()
 	reloadAnimation()

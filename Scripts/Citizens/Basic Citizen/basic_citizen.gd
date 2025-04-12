@@ -32,6 +32,8 @@ var stuckTimeout : float = 1  # how many seconds before it's considered stuck
 
 var deliverParticle : CPUParticles2D
 
+var navAgent : NavigationAgent2D
+
 var inventory : Dictionary[String,int] ={}
 
 var jobExperience : Dictionary[String,float] = {
@@ -53,6 +55,7 @@ func _ready() -> void:
 	animationPlayer = $AnimationPlayer
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
+	navAgent = $NavigationAgent2D
 
 	workTimer = $"Work Timer"
 
@@ -73,9 +76,17 @@ func _ready() -> void:
 	citName = "Basic Citizen"
 	currentState = "Idle"
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if destination != null:
-		velocity = (destination - global_position).normalized() * speed
+		var nextPosition = navAgent.get_next_path_position()
+		var direction = (nextPosition - global_position).normalized()
+		var newVelocity = (direction * speed)
+
+		if navAgent.avoidance_enabled:
+			navAgent.set_velocity_forced(newVelocity)
+		else:
+			velocity = newVelocity
+
 		move_and_slide()
 		#move_and_collide(destination, speed * delta)
 		#position = position.move_and(destination, speed * delta)
@@ -96,14 +107,9 @@ func _process(delta: float) -> void:
 		if timeSinceMove >= stuckTimeout:
 			destinationReachedFunc()
 
-
-	if moving and not destinationReached:
+	if not navAgent.is_navigation_finished():
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
-	if destination != null and round(global_position) == destination and not destinationReached:
-		destinationReachedFunc()
-	else:
-		destinationReached = false
 
 	if currentState == "Working":
 		if workTimer.is_stopped():
@@ -113,6 +119,13 @@ func _process(delta: float) -> void:
 		if not workTimer.is_stopped():
 			workTimer.stop()
 			destination = CityManager.getHoloGeneratorLocation()
+			navAgent.target_position = destination
+
+	if navAgent.is_navigation_finished():
+		destinationReachedFunc()
+		return
+
+
 
 
 func _input(event):
@@ -141,8 +154,6 @@ func deselect():
 
 func destinationReachedFunc():
 	# Player has reached the destination
-	destinationReached = true
-	moving = false
 	destination = null
 	animationPlayer.stop()
 	if is_instance_valid(destinationParticle):
@@ -189,6 +200,7 @@ func setWorkDestination():
 
 		"Gem Scraper":
 			destination = CityManager.getGemScraperLocation()
+			navAgent.target_position = destination
 
 
 func deliver():
@@ -249,6 +261,8 @@ func moveToMouse(mousePos):
 
 	destination = mousePos
 
+	navAgent.target_position = destination
+
 	moveLineCurrent.points = points
 
 	moveLine = moveLineCurrent
@@ -257,7 +271,10 @@ func moveToMouse(mousePos):
 
 func openMenu():
 	var menu = ui.instantiate()
-	get_tree().current_scene.find_child("CanvasLayer").add_child(menu)
+	if DeveloperMode.inDevMode:
+		get_tree().current_scene.add_sibling(menu)
+	else:
+		get_tree().current_scene.find_child("CanvasLayer").add_child(menu)
 	menu.buildMenu(self)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
@@ -275,3 +292,7 @@ func _on_area_2d_mouse_exited() -> void:
 
 func _on_work_timer_timeout() -> void:
 	finishJob()
+
+
+func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
+	velocity = safe_velocity
