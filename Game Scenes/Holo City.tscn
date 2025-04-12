@@ -5,9 +5,9 @@
 [ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
-vertices = PackedVector2Array(1912, 1068.01, 8.00781, 1070.98, 9.97656, 9.97656, 1912, 8.00781)
+vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
-outlines = Array[PackedVector2Array]([PackedVector2Array(0, 0, 1922, -2, 1922, 1078, -2, 1081)])
+outlines = Array[PackedVector2Array]([PackedVector2Array(-2, -3, 1920, -1, 1920, 1077, -2, 1077)])
 
 [sub_resource type="Gradient" id="Gradient_eoov6"]
 offsets = PackedFloat32Array(0.946667, 1)
@@ -23,13 +23,15 @@ fill_to = Vector2(0.534783, 0)
 [node name="Node2D" type="Node2D"]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="."]
+visible = false
+position = Vector2(0, 2)
 navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 
 [node name="BasicCitizen" parent="CanvasLayer" instance=ExtResource("1_a5ly5")]
 z_index = 1
-position = Vector2(971, 459)
+position = Vector2(716, 441)
 
 [node name="GemFabricator" parent="CanvasLayer" instance=ExtResource("2_82jv5")]
 position = Vector2(970, 135)
@@ -43,3 +45,6 @@ z_index = -2
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_872co")
+
+[node name="CharacterBody2D" parent="CanvasLayer" instance=ExtResource("1_a5ly5")]
+position = Vector2(1207, 458)

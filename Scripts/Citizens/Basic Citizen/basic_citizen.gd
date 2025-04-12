@@ -8,7 +8,7 @@ var selectUI = null
 var citizenSelectUi
 
 var citName : String
-const speed : float = 150
+const speed : float = 200
 var currentJob = null
 
 var hasJob : bool = false
@@ -77,53 +77,60 @@ func _ready() -> void:
 	currentState = "Idle"
 
 func _physics_process(delta: float) -> void:
-	if destination != null:
-		var nextPosition = navAgent.get_next_path_position()
-		var direction = (nextPosition - global_position).normalized()
-		var newVelocity = (direction * speed)
 
-		if navAgent.avoidance_enabled:
-			navAgent.set_velocity_forced(newVelocity)
-		else:
-			velocity = newVelocity
+	if currentState == "Idle":
+		set_collision_mask_value(5,true)
+		navAgent.set_avoidance_mask_value(1,true)
+	else:
+		set_collision_mask_value(5,false)
+		navAgent.set_avoidance_mask_value(1,false)
 
-		move_and_slide()
-		#move_and_collide(destination, speed * delta)
-		#position = position.move_and(destination, speed * delta)
-		moving = true
+	if navAgent.is_navigation_finished():
+		if currentState == "Working":
+			if workTimer.is_stopped():
+				workTimer.start()
 
-		if is_instance_valid(moveLine):
-			updateLine()
+		#if currentState == "Delivering":
+		#	if not workTimer.is_stopped():
+		#		workTimer.stop()
+		#		destination = CityManager.getHoloGeneratorLocation()
+		#		navAgent.target_position = destination
 
-		# Stuck Mechanic
-		var distance_moved = global_position.distance_to(lastPosition)
+		destinationReachedFunc()
+		return
 
-		if distance_moved > moveThresh:
-			timeSinceMove = 0.0
-			lastPosition = global_position
-		else:
-			timeSinceMove += delta
+	var currentPos = global_position
+	var nextPosition = navAgent.get_next_path_position()
+	var newVelocity = currentPos.direction_to(nextPosition) * speed
 
-		if timeSinceMove >= stuckTimeout:
-			destinationReachedFunc()
+
+	navAgent.set_velocity(newVelocity)
+
+
+	move_and_slide()
+	#move_and_collide(destination, speed * delta)
+	#position = position.move_and(destination, speed * delta)
+	moving = true
+
+	if is_instance_valid(moveLine):
+		updateLine()
+
+	# Stuck Mechanic
+	var distance_moved = global_position.distance_to(lastPosition)
+
+	if distance_moved > moveThresh:
+		timeSinceMove = 0.0
+		lastPosition = global_position
+	else:
+		timeSinceMove += delta
+
+	if timeSinceMove >= stuckTimeout:
+		destinationReachedFunc()
 
 	if not navAgent.is_navigation_finished():
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
 
-	if currentState == "Working":
-		if workTimer.is_stopped():
-			workTimer.start()
-
-	if currentState == "Delivering":
-		if not workTimer.is_stopped():
-			workTimer.stop()
-			destination = CityManager.getHoloGeneratorLocation()
-			navAgent.target_position = destination
-
-	if navAgent.is_navigation_finished():
-		destinationReachedFunc()
-		return
 
 
 
@@ -133,11 +140,12 @@ func _input(event):
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
 			move()
 		elif event.button_index == MOUSE_BUTTON_LEFT and event.pressed and selected:
-			var tempSize = CityManager.citizensSelected.size()
-			await get_tree().create_timer((.05)).timeout
-			if tempSize == CityManager.citizensSelected.size():
-				for cit in CityManager.citizensSelected:
-					cit.deselect()
+			deselect()
+			#var tempSize = CityManager.citizensSelected.size()
+			#await get_tree().create_timer((.05)).timeout
+			#if tempSize == CityManager.citizensSelected.size():
+				#for cit in CityManager.citizensSelected:
+					#cit.deselect()
 
 func move():
 	hoverBox.visible = true
@@ -154,7 +162,7 @@ func deselect():
 
 func destinationReachedFunc():
 	# Player has reached the destination
-	destination = null
+	navAgent.target_position = global_position
 	animationPlayer.stop()
 	if is_instance_valid(destinationParticle):
 		destinationParticle.queue_free()
@@ -187,12 +195,13 @@ func finishJob():
 	match currentJob:
 
 		"Gem Scraper":
-			currentState = "Delivering"
 			var popup = popupScene.instantiate()
 			popup.setPosition(self.global_position)
 			popup.gemPopup("Copper")
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 			addGemToInventory("Copper")
+			deliverItems()
+
 
 
 func setWorkDestination():
@@ -202,8 +211,13 @@ func setWorkDestination():
 			destination = CityManager.getGemScraperLocation()
 			navAgent.target_position = destination
 
+func deliverItems():
+	currentState = "Delivering"
+	workTimer.stop()
+	destination = CityManager.getHoloGeneratorLocation()
+	navAgent.target_position = destination
 
-func deliver():
+func finishDelivery():
 	deliverParticle.emitting = true
 	for key in inventory.keys():
 		if CityManager.storage.has(key):

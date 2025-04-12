@@ -207,7 +207,7 @@ debug_color = Color(0.813515, 0.413999, 0.306186, 0.42)
 
 [node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
 avoidance_enabled = true
-debug_enabled = true
+radius = 22.0
 debug_use_custom = true
 debug_path_custom_color = Color(1, 1, 0.329412, 1)
 

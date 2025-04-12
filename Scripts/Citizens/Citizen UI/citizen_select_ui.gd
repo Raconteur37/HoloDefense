@@ -40,7 +40,9 @@ func _ready() -> void:
 
 func _input(event):
 	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and visible:
+		#if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and visible:
+			#queue_free()
+		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed and visible:
 			queue_free()
 
 func buildMenu(citizenPass):

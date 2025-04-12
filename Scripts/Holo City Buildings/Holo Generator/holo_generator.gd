@@ -26,4 +26,4 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 		if body.currentState == "Delivering":
 			body.currentState == "Idle"
 			body.setWorkDestination()
-			body.deliver()
+			body.finishDelivery()
