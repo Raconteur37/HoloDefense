@@ -1,0 +1,111 @@
+[gd_scene load_steps=15 format=3 uid="uid://b1yrhyp8l62s4"]
+
+[ext_resource type="Script" uid="uid://mxlmtyromv5a" path="res://Scripts/Turrets/Automated Sentry Turret/automated_sentry_turret.gd" id="1_u4qsv"]
+[ext_resource type="Texture2D" uid="uid://1gsww7jgfpxl" path="res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurretBottom.png" id="2_rkapj"]
+[ext_resource type="Texture2D" uid="uid://4r2by5y5i5wl" path="res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret-Sheet.png" id="3_pwnij"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_ou1vf"]
+[ext_resource type="PackedScene" uid="uid://cd1g7jifldb38" path="res://Particle Scenes/Turrets/Automated Sentry Turret/automatedSentryTurretFire.tscn" id="4_rkapj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ou1vf"]
+atlas = ExtResource("3_pwnij")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_i850p"]
+atlas = ExtResource("3_pwnij")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ut0yp"]
+atlas = ExtResource("3_pwnij")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_o7w5p"]
+atlas = ExtResource("3_pwnij")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_j2hre"]
+atlas = ExtResource("3_pwnij")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ou1vf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_i850p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ut0yp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_o7w5p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_j2hre")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Automated Sentry Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(940, 474)
+collision_mask = 12
+script = ExtResource("1_u4qsv")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("2_rkapj")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="AutomatedSentryTurretFire" parent="TurretTop" instance=ExtResource("4_rkapj")]
+position = Vector2(0, -22)
+rotation = 4.71239
+scale = Vector2(1.2, 1.2)
+lifetime = 0.2
+particle_flag_align_y = true
+spread = 0.0
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("4_ou1vf")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="."]
+
+[node name="ShootTimer" type="Timer" parent="."]
+one_shot = true
+
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

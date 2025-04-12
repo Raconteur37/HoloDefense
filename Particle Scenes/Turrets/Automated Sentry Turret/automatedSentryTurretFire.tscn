@@ -1,0 +1,21 @@
+[gd_scene load_steps=3 format=3 uid="uid://cd1g7jifldb38"]
+
+[ext_resource type="Texture2D" uid="uid://bfemdve8h7q7m" path="res://Particle Scenes/Turrets/Automated Sentry Turret/row_output.png" id="1_xhf56"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_3kj00"]
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="AutomatedSentryTurretFire" type="CPUParticles2D"]
+material = SubResource("CanvasItemMaterial_3kj00")
+position = Vector2(700, 240)
+emitting = false
+amount = 1
+texture = ExtResource("1_xhf56")
+lifetime = 0.5
+one_shot = true
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 2.0

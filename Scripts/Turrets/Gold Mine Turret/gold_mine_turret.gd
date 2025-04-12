@@ -165,7 +165,7 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func generateMoney():
-	var moneyGenerated = 2
+	var moneyGenerated : int = floor(pow(level,.5)) + 1
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
 
