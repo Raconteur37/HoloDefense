@@ -28,7 +28,6 @@ func applyData(turret,victim,effectDamage,time):
 	enemy = victim
 	damage = effectDamage
 	$"Total Time".wait_time = time
-	$"Total Time".start()
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)
@@ -37,9 +36,12 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
-	if enemy.health - damage > 0:
-		enemy.hit.emit(damage,turretApplier,enemy,self)
-	tickTimer.start()
+	if is_instance_valid(enemy):
+		if enemy.health - damage > 0:
+			enemy.hit.emit(damage,turretApplier,enemy,self)
+		tickTimer.start()
+	else:
+		EffectManager.removeEffect(enemy,self)
 
 func _on_total_time_timeout() -> void:
 	EffectManager.removeEffect(enemy,self)

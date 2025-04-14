@@ -14,6 +14,7 @@ particles_anim_loop = true
 script = ExtResource("1_ly55f")
 
 [node name="Total Time" type="Timer" parent="."]
+autostart = true
 
 [node name="Tick" type="Timer" parent="."]
 autostart = true

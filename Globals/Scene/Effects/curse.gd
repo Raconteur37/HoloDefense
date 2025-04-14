@@ -24,7 +24,6 @@ func applyData(turret,victim,time):
 	enemy.curseDamageAmp = turret.curseDamageAmp
 	$"Total Time".wait_time = time
 	enemy.effects.append("Curse")
-	$"Total Time".start()
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)
@@ -33,6 +32,5 @@ func getName():
 	return effectName
 
 func _on_total_time_timeout() -> void:
-	print("got hgerer")
 	EffectManager.removeEffect(enemy,self)
 	queue_free()

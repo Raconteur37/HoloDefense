@@ -29,12 +29,11 @@ func removeEffect(enemy,effect):
 	enemyCurrentEffects[enemy].erase(effect)
 	for effects in enemy.effects:
 		if enemy.effects.has(effect.effectName):
-			enemy.effects.remove(effect.effectName)
+			enemy.effects.erase(effect.effectName)
 		if effect.effectName == "Curse":
 			enemy.curseDamageAmp = 0
 
 func applyFireEffect(victim,turret,damage,time):
-	cleanDict()
 	if enemyCurrentEffects.has(victim):
 		for effect in enemyCurrentEffects[victim]:
 			if effect.getName() == "Fire":
@@ -51,7 +50,6 @@ func applyFireEffect(victim,turret,damage,time):
 
 
 func applyPoisonEffect(victim,turret,damage,time):
-	cleanDict()
 	if enemyCurrentEffects.has(victim):
 		for effect in enemyCurrentEffects[victim]:
 			if effect.getName() == "Poison":
@@ -67,7 +65,6 @@ func applyPoisonEffect(victim,turret,damage,time):
 		enemyCurrentEffects[victim] = [effectScene]
 
 func applyCurseEffect(victim,turret,time):
-	cleanDict()
 	if enemyCurrentEffects.has(victim):
 		for effect in enemyCurrentEffects[victim]:
 			if effect.getName() == "Curse":

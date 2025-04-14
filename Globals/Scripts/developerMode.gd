@@ -14,6 +14,30 @@ func _input(event: InputEvent) -> void:
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
+			KEY_R:
+				if inDevMode:
+					var enemy = preload("res://Enemy Scenes/Tanky Rectangle.tscn")
+					enemy = enemy.instantiate()
+					enemy.position = GameManager.generateRandomPosition()
+					get_tree().current_scene.add_child(enemy)
+			KEY_T:
+				if inDevMode:
+					var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
+					enemy = enemy.instantiate()
+					enemy.position = GameManager.generateRandomPosition()
+					get_tree().current_scene.add_child(enemy)
+			KEY_D:
+				if inDevMode:
+					var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
+					enemy = enemy.instantiate()
+					enemy.position = GameManager.generateRandomPosition()
+					get_tree().current_scene.add_child(enemy)
+			KEY_H:
+				if inDevMode:
+					var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
+					enemy = enemy.instantiate()
+					enemy.position = GameManager.generateRandomPosition()
+					get_tree().current_scene.add_child(enemy)
 
 			KEY_F1:
 				#if Input.is_key_pressed(KEY_SHIFT):

@@ -6,9 +6,11 @@ class_name Enemy
 
 signal hit(damageTaken,turret,enemy,damageType)
 
-var destination
+var destination = null
 
 var effects = []
+
+var curseDamageAmp
 
 @export var enemyName : String
 @export var health : float
@@ -20,20 +22,11 @@ var attackTimer
 var attackReady : bool = true
 var isDead : bool = false
 
-func _ready():
-	enemyName = "Debug"
-	health = -1
-	damage = -1
-	attackTime = -1
-	speed = -1
-	attackTimer = $AttackTimer
-	attackTimer.wait_time = attackTime
-
-	hit.connect(EntityManager.takeDamage)
-
-	EntityManager.increaseStats()
 
 func _physics_process(delta: float) -> void:
+
+	if destination == null:
+		getDestination()
 
 	var direction = (destination - global_position).normalized()
 	# Set the velocity to move toward the center
@@ -47,33 +40,8 @@ func _physics_process(delta: float) -> void:
 		velocity = Vector2.ZERO
 		global_position = destination
 
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
-	if body.is_in_group("Turret"):
-		if body.get("isPlaced") != null:
-			if body.isPlaced:
-				body.hit.emit(damage,body)
-				attackReady = false
-				attackTimer.start()
-
-	if body.is_in_group("Minion"):
-		body.hit.emit(damage,body)
-		attackReady = false
-		attackTimer.start()
-
 func getName():
 	return enemyName
-
-func _on_attack_timer_timeout() -> void:
-	attackReady = true
-	for x in $Area2D.get_overlapping_areas():
-		var entity = x.get_parent()
-		if entity.is_in_group("Turret") and x.name.contains("SelectArea"):
-			entity.hit.emit(damage,entity)
-			attackReady = false
-			attackTimer.start()
 
 func getDestination():
 	if GameManager.inWave:

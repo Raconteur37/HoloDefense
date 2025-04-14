@@ -15,6 +15,7 @@ position = Vector2(776, 354)
 script = ExtResource("1_wec37")
 
 [node name="Total Time" type="Timer" parent="."]
+autostart = true
 
 [node name="CurseParticle" parent="." instance=ExtResource("1_qjpcx")]
 material = SubResource("CanvasItemMaterial_wec37")
