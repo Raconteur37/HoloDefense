@@ -1,0 +1,113 @@
+[gd_scene load_steps=16 format=3 uid="uid://bqhovmjb1j03q"]
+
+[ext_resource type="Script" uid="uid://dto6331e3gc8g" path="res://Scripts/Turrets/Voodoo Turret/voodoo_turret.gd" id="1_eoqgw"]
+[ext_resource type="Texture2D" uid="uid://c5cnfmp5nhj5b" path="res://Textures/Turrets/Voodoo Turret/Voodoo Turret Bottom.png" id="2_5ad5u"]
+[ext_resource type="Texture2D" uid="uid://dn8kpw8j3u4nj" path="res://Textures/Turrets/Voodoo Turret/Voodoo Turret-Sheet.png" id="3_0aesp"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_e6kfx"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e6kfx"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_83367"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eavme"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0fp3a"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_2634p"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0s3n"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_nml2w"]
+atlas = ExtResource("3_0aesp")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e6kfx")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_83367")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eavme")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0fp3a")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_2634p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0s3n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_nml2w")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Voodoo Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(943, 517)
+collision_mask = 12
+script = ExtResource("1_eoqgw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("2_5ad5u")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("4_e6kfx")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="."]
+
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

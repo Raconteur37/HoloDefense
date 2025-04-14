@@ -1,0 +1,15 @@
+[gd_scene load_steps=3 format=3 uid="uid://c7ot7tcpm7mac"]
+
+[ext_resource type="Material" uid="uid://dwak4axnkxj7q" path="res://Particle Scenes/texture_animation_material.tres" id="1_1mydj"]
+[ext_resource type="Texture2D" uid="uid://dg8nnwix0s6mv" path="res://Particle Scenes/Effects/Curse/row_output.png" id="2_6m1e6"]
+
+[node name="CurseParticle" type="CPUParticles2D"]
+material = ExtResource("1_1mydj")
+position = Vector2(531, 202)
+amount = 1
+texture = ExtResource("2_6m1e6")
+lifetime = 1.4
+spread = 0.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0

@@ -82,12 +82,12 @@ func _ready() -> void:
 	poisonChance = basePoisonChance
 	poisonDamage = basePoisonDamage
 	poisonDuration = basePoisonDuration
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -95,11 +95,11 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-		
-		
+
+
 func getName():
 	return turretName
-	
+
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shoot(EntityManager.getClosestEnemyFromSprite($"."))
@@ -108,40 +108,40 @@ func _process(delta: float) -> void:
 		isCollisionReady = true
 	if not beaconBuffActive:
 		BeaconManager.applyBeaconBuffs()
-	
+
 func shoot(enemy):
 	shotReady = false
 	if is_instance_valid(enemy) and isPlaced:
 		var proj = projectile.instantiate()
 		proj.position = position
 		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-		
+
 		var dif = self.global_position.angle_to_point(enemy.global_position)
-		
+
 		proj.rotation = proj.rotation + dif
 		proj.damage = damage
 		proj.shooter = self
-		
+
 		proj.poisonChance = poisonChance
 		proj.poisonDamage = poisonDamage
 		proj.poisonTime = poisonDuration
-		
-		
+
+
 		get_parent().add_child(proj)
-		
+
 		reloadTimer.start()
 		reloadAnimation()
-		
+
 		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 		topSprite.look_at(enemy.global_position)
 		topSprite.rotate(PI/2)
 
 func reloadAnimation():
-	
+
 	var frames : int = 6
-	
+
 	for x in range(frames):
-		
+
 		match x:
 			0:
 				topSprite.frame = 1
@@ -164,18 +164,18 @@ func openSelectedMenu():
 		get_parent().add_child(menu)
 		menu.buildContainer(self)
 		showRange()
-	
+
 func closeSelectMenu():
 	if is_instance_valid(menu):
 		menu.close()
 	hideRange()
-	
+
 func addKill():
 	kills += 1
 
 func showRange():
 	line2d.show()
-	
+
 func hideRange():
 	line2d.hide()
 

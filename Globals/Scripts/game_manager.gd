@@ -192,6 +192,8 @@ func getTurretByName(turretName):
 			return load("res://Turret Scenes/Seismic Turret.tscn")
 		"Gold Mine Turret":
 			return load("res://Turret Scenes/Gold Mine Turret.tscn")
+		"Automated Sentry Turret":
+			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
 
 func getTurret(number):
 
@@ -223,6 +225,8 @@ func getTurret(number):
 			return load("res://Turret Scenes/Seismic Turret.tscn")
 		"Gold Mine Turret":
 			return load("res://Turret Scenes/Gold Mine Turret.tscn")
+		"Automated Sentry Turret":
+			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
 
 func findTurretTexture(turretName):
 
@@ -252,6 +256,8 @@ func findTurretTexture(turretName):
 			return load("res://Textures/Turrets/Seismic Turret/SeismicTurret.png")
 		"Gold Mine Turret":
 			return load("res://Textures/Turrets/Gold Mine Turret/Gold Mine Turret.png")
+		"Automated Sentry Turret":
+			return load("res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png")
 
 func getBeaconPosition():
 	return beacon.global_position
