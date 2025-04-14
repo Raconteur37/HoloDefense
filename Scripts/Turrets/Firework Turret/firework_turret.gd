@@ -1,67 +1,35 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
-var shotReady : bool = true
-var isCollisionReady : bool = false
+class_name FireworkTurret
+
 var reloading : bool = false
 
-signal hit(damage,turret)
-signal upgrade(turret)
 
-var enemiesInRange = []
-
-var currentParticlesMap = {}
-
-var line2d
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var selectArea
-var bodyCollisionShape
-
-#stats
-var kills : int = 0
-
-
-@onready var projectile = preload("res://Projectile Scenes/firework.tscn")
-#@onready var description = preload("res://Globals/Scene/TurretDescription/ArrowTurretDescription.tscn")
-
-var menu
-
-enum Rarity {Rare}
-enum Type {Idk}
-
-const turretName : String = "Firework Turret"
-@export var price : int = 20
-@export var maxHealth : float = 45
-@export var baseDamage : float = 30
-@export var baseProjectileSpeed : float = 600
-@export var baseAttackRange : float = 200
-@export var baseReloadTime : float = 1.5
-@export var upgradeTier : int = 0
 @export var baseExplosionDamage : float = 10
 @export var baseExplosionRadius : float = 60
-@export var armor : int = 0
-@export var level : int = 1
-@export var baseBuildTime : float = 10
 
-var damage
-var projectileSpeed
-var attackRange
-var reloadTime
 var shots = 3
 var explosionDamage
 var explosionRadius
 
-var health : float
-
-var energized : bool = false
-var energizerTurret : CharacterBody2D
-var beaconBuffActive : bool = false
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rarity = Rarity.RARE
+	type = Type.Idk
+
+	turretName = "Firework Turret"
+	price = 20
+	maxHealth = 45
+	baseDamage = 30
+	baseProjectileSpeed = 600
+	baseAttackRange = 200
+	baseReloadTime = 1.5
+	upgradeTier = 0
+	armor = 0
+	level = 1
+	baseBuildTime = 10
+	projectile = preload("res://Projectile Scenes/firework.tscn")
+
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
@@ -94,9 +62,6 @@ func _ready() -> void:
 		GameManager.addTurretToDict(self)
 		health = 9999
 
-
-func getName():
-	return turretName
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
@@ -162,41 +127,14 @@ func reloadAnimation():
 				return
 			reloading = false
 
-func openSelectedMenu():
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
-
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-
-func addKill():
-	kills += 1
-
-func showRange():
-	line2d.show()
-
-func hideRange():
-	line2d.hide()
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
-
 
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
 	if enemiesInRange.size() <= 0 and shots < 3:
 		reloadAnimation()
 
-
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
-
-func getCost():
-	return price

@@ -1,63 +1,36 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
+class_name FlameTurret
+
 var shooting : bool = false
-var isCollisionReady : bool = false
 
-signal hit(damage,turret)
-signal upgrade(turret)
-
-var enemiesInRange = []
-
-var currentParticlesMap = {}
-
-var line2d
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var selectArea
-var bodyCollisionShape
 var turretBeam
 var damageTickTimer
 
-#stats
-var kills : int = 0
-
-var menu
-
-enum Rarity {Rare}
-enum Type {Elemental}
-
-const turretName : String = "Flame Turret"
-@export var price : int = 20
-@export var maxHealth : float = 20
-@export var baseDamage : float = 3
-@export var baseAttackRange : float = 90
 @export var baseFireDamage : float = 2
 @export var baseFireTime : float = 3
 @export var baseDamageTickTime : float = .5
-@export var upgradeTier : int = 0
-@export var armor : int = 0
-@export var level : int = 1
-@export var baseBuildTime : float = 8
 
 var particleVelocity = 200
 
-var damage
-var attackRange
 var fireDamage
 var fireTime
 var damageTickTime
 
-var health : float
-
-var energized : bool = false
-var energizerTurret : CharacterBody2D
-var beaconBuffActive : bool = false
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rarity = Rarity.RARE
+	type = Type.Elemental
+
+	turretName = "Flame Turret"
+	price = 20
+	maxHealth = 20
+	baseDamage = 3
+	baseAttackRange = 90
+	upgradeTier = 0
+	armor = 0
+	level = 1
+	baseBuildTime = 8
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
@@ -77,12 +50,12 @@ func _ready() -> void:
 	fireTime = baseFireTime
 	damageTickTime = baseDamageTickTime
 	damageTickTimer.wait_time = damageTickTime
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -90,10 +63,8 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-	
-func getName():
-	return turretName
-	
+
+
 func _process(delta: float) -> void:
 	if enemiesInRange.size() > 0 and not shooting:
 		shooting = true
@@ -122,20 +93,6 @@ func openSelectedMenu():
 		get_parent().add_child(menu)
 		menu.buildContainer(self)
 		showRange()
-	
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-	
-func addKill():
-	kills += 1
-
-func showRange():
-	line2d.show()
-	
-func hideRange():
-	line2d.hide()
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
@@ -144,9 +101,6 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
-
-func getCost():
-	return price
 
 func _on_damage_tick_timer_timeout() -> void:
 	if shooting:

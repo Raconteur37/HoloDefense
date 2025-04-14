@@ -1,65 +1,29 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
-var shotReady : bool = true
-var isCollisionReady : bool = false
+class_name ReaperTurret
 
-signal hit(damage,turret)
-signal upgrade(turret)
-
-var enemiesInRange = []
-
-var currentParticlesMap = {}
-
-var line2d
-var reloadTimer
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var selectArea
-var bodyCollisionShape
-
-#stats
-var kills : int = 0
-
-@onready var projectile = preload("res://Projectile Scenes/sythe.tscn")
-
-var menu
-
-enum Rarity {SuperRare}
-enum Type {Death}
-
-const turretName : String = "Reaper Turret"
-@export var price : int = 35
-@export var maxHealth : float = 35
-@export var baseDamage : float = 15
-@export var baseProjectileSpeed : float = 250
-@export var baseAttackRange : float = 250
-@export var baseReloadTime : float = 3
 @export var baseExecutionChance : float = 2
-@export var upgradeTier : int = 0
-@export var armor : int = 0
-@export var level : int = 1
-@export var baseBuildTime : float = 9
 
-var damage
-var projectileSpeed
-var attackRange
-var reloadTime
 var executionChance
 
-var constructed = false
-var constructionTimer
-
-var health : float
-
-var energized : bool = false
-var energizerTurret : CharacterBody2D
-var beaconBuffActive : bool = false
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	projectile = preload("res://Projectile Scenes/sythe.tscn")
+
+	rarity = Rarity.SUPER_RARE
+	type = Type.Dark
+
+	turretName = "Reaper Turret"
+	price = 35
+	maxHealth = 35
+	baseDamage = 15
+	baseProjectileSpeed = 250
+	baseAttackRange = 250
+	baseReloadTime = 3
+	upgradeTier = 0
+	armor = 0
+	level = 1
+	baseBuildTime = 9
+
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -91,9 +55,6 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-
-func getName():
-	return turretName
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
@@ -131,28 +92,6 @@ func reloadAnimation():
 	await get_tree().create_timer((reloadTime)).timeout
 	topSprite.frame = 0
 
-func openSelectedMenu():
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
-
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-
-func addKill():
-	kills += 1
-
-func showRange():
-	line2d.show()
-
-func hideRange():
-	line2d.hide()
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
@@ -160,9 +99,5 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 func _on_range_area_body_exited(body: Node2D) -> void:
 	enemiesInRange.erase(body)
 
-
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
-
-func getCost():
-	return price

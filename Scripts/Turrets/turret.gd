@@ -31,7 +31,7 @@ var menu
 
 enum Rarity { COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
 var rarity : Rarity
-enum Type {Midieval, Modern}
+enum Type {Midieval, Modern, Future, Elemental, Armory, Dark, Biological, Magic, Idk}
 var type : Type
 
 var turretName : String = "None"

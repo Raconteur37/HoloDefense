@@ -1,58 +1,26 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
-var shotReady : bool = true
-var isCollisionReady : bool = false
-
-signal hit(damage,turret)
-signal upgrade(turret)
-
-var enemiesInRange = []
-
-var currentParticlesMap = {}
-
-var line2d
-var reloadTimer
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var bodyCollisionShape
-
-#stats
-var kills : int = 0
-
-@onready var projectile = preload("res://Projectile Scenes/sentry bullet.tscn") # TODO CHANGE PER TURRET
-
-var menu
-
-enum Rarity {Common}
-enum Type {Armory}
-
-const turretName : String = "Mini Sentry Turret"
-@export var price : int = 25
-@export var maxHealth : float = 25
-@export var baseDamage : float = 7
-@export var baseProjectileSpeed : float = 500
-@export var baseAttackRange : float = 100
-@export var baseReloadTime : float = .5
-@export var upgradeTier : int = 0
-@export var armor : int = 30
-@export var level : int = 1
-@export var baseBuildTime : float = 3
-
-var health : float
-var damage
-var reloadTime : float
-var attackRange
-var projectileSpeed
-
-var energized : bool = false
-var energizerTurret
-var beaconBuffActive : bool = false
+class_name MiniSentryTurret
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	projectile = preload("res://Projectile Scenes/sentry bullet.tscn")
+
+	rarity = Rarity.COMMON
+	type = Type.Armory
+
+	turretName = "Mini Sentry Turret"
+	price = 25
+	maxHealth = 25
+	baseDamage = 7
+	baseProjectileSpeed = 500
+	baseAttackRange = 100
+	baseReloadTime = .5
+	upgradeTier = 0
+	armor = 30
+	level = 1
+	baseBuildTime = 3
+
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -69,12 +37,12 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -83,7 +51,7 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-	
+
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shoot(EntityManager.getClosestEnemyFromSprite($"."))
@@ -103,16 +71,6 @@ func reloadAnimation():
 		await get_tree().create_timer((reloadTime / reloadFrames)).timeout
 
 
-func openSelectedMenu(): # TODO CHANGE PER TURRET
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
-
-########################################################### Stays the same
-
 func shoot(enemy):
 	shotReady = false
 	if is_instance_valid(enemy) and isPlaced:
@@ -124,26 +82,12 @@ func shoot(enemy):
 		proj.damage = damage
 		proj.shooter = self
 		get_parent().add_child(proj)
-		
+
 		reloadTimer.start()
 		reloadAnimation()
-		
+
 		topSprite.look_at(enemy.global_position)
 		topSprite.rotate(PI/2)
-
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-
-func addKill():
-	kills += 1
-
-func showRange():
-	line2d.show()
-	
-func hideRange():
-	line2d.hide()
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
@@ -156,9 +100,3 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
-
-func getCost():
-	return price
-	
-func getName():
-	return turretName

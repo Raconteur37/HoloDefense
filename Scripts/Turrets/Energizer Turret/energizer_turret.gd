@@ -1,47 +1,15 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
-var isCollisionReady : bool = false
+class_name EnergizerTurret
+
+
 var scanTurretsFirstTime : bool = false
-
-signal hit(damage,turret)
-signal upgrade(turret)
 
 var turretsInRange = []
 
-var currentParticlesMap = {}
-
-var line2d
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var bodyCollisionShape
 var energizeTimer
 
-#stats
 var turretsEnergized : int = 0
-
-var menu
-
-enum Rarity {Rare}
-enum Type {Support}
-
-const turretName : String = "Energizer Turret"
-@export var price : int = 35
-@export var maxHealth : float = 20
-@export var baseAttackRange : float = 150
-@export var upgradeTier : int = 0
-@export var armor : int = 0
-@export var level : int = 1
-@export var baseBuildTime : float = 15
-
-var health : float
-var attackRange
-
-var energized : bool = false
-var energizerTurret
-var beaconBuffActive : bool = false
 
 @export var maxTurretsEnergized : int = 5
 @export var energizeTime : float = 5
@@ -52,6 +20,17 @@ var beaconBuffActive : bool = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rarity = Rarity.RARE
+	type = Type.Future
+
+	turretName = "Energizer Turret"
+	price = 35
+	maxHealth = 20
+	baseAttackRange = 150
+	upgradeTier = 0
+	armor = 0
+	level = 1
+	baseBuildTime = 15
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
@@ -64,14 +43,14 @@ func _ready() -> void:
 	line2d = PlacementManager.draw_range_cirle(line2d,attackRange + 5)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
-	
+
 	energizeTimer.wait_time = energizeTime
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 	upgrade.connect(EntityManager.applyUpgradeTier)
-	
+
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
-	
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
@@ -79,7 +58,7 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
-	
+
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
@@ -90,29 +69,8 @@ func _process(delta: float) -> void:
 		scanTurretsFirstTime = true
 		scanCurrentTurretsInRange()
 
-func openSelectedMenu(): # TODO CHANGE PER TURRET
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
-
-########################################################### Stays the same
-
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-
 func addTurretBuffed():
 	turretsEnergized += 1
-
-func showRange():
-	line2d.show()
-	
-func hideRange():
-	line2d.hide()
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if isPlaced:
@@ -121,17 +79,11 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 	if isPlaced:
 		if energizeTimer.is_stopped():
 			energizeTimer.start(energizeTime)
-			
+
 
 func _on_range_area_body_exited(body: Node2D) -> void:
 	if isPlaced:
 		turretsInRange.erase(body)
-
-func getCost():
-	return price
-	
-func getName():
-	return turretName
 
 func applyEnergizerBuffsToTurret(turret):
 	if is_instance_valid(turret):
@@ -149,7 +101,7 @@ func applyEnergizerBuffsToTurret(turret):
 		if turret.get("reloadTime") != null:
 			turret.reloadTime -=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
 			turret.reloadTimer.wait_time = turret.reloadTime
-		
+
 func removeEnergizerBuffsToTurret(turret):
 	turret.energized = false
 	if turret.get("damage") != null:

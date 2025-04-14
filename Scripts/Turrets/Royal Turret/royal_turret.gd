@@ -1,46 +1,14 @@
-extends CharacterBody2D
+extends Turret
 
-var isPlaced : bool = false
-var selected : bool = false
-var shotReady : bool = true
-var isCollisionReady : bool = false
+class_name RoyalTurret
 
-signal hit(damage,turret)
-signal upgrade(turret)
-
-var enemiesInRange = []
-
-var currentParticlesMap = {}
-
-var line2d
 var summonTimer
-var rangeCollisionShape
-var rangeIndicator
-var topSprite
-var selectArea
-var bodyCollisionShape
-
-#stats
-var kills : int = 0
 
 var currentMinions = []
 
 @onready var knightMinion = preload("res://Minion Scenes/Knight Minion.tscn")
 
-var menu
-
-enum Rarity {SuperRare}
-enum Type {Medieval}
-
-const turretName : String = "Royal Turret"
-@export var price : int = 80
-@export var maxHealth : float = 20
-@export var baseAttackRange : float = 200
 @export var baseSummonTime : float = 5
-@export var upgradeTier : int = 0
-@export var armor : int = 50
-@export var level : int = 1
-@export var baseBuildTime : float = 25
 
 @export var maxKnights : int = 3
 @export var baseKnightHealth : float  = 30
@@ -48,19 +16,22 @@ const turretName : String = "Royal Turret"
 
 var currentKnightAmount : int = 0
 
-var attackRange
 var summonTime
 var knightHealth
 var knightDamage
 
-var health : float
-
-var energized : bool = false
-var energizerTurret : CharacterBody2D
-var beaconBuffActive : bool = false
-
-# Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	rarity = Rarity.SUPER_RARE
+	type = Type.Midieval
+	turretName = "Royal Turret"
+	price = 80
+	maxHealth = 20
+	baseAttackRange = 200
+	upgradeTier = 0
+	armor = 50
+	level = 1
+	baseBuildTime = 25
+
 	summonTimer = $SummonTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -92,10 +63,6 @@ func _ready() -> void:
 		GameManager.addTurretToDict(self)
 		health = 9999
 
-
-func getName():
-	return turretName
-
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
 		bodyCollisionShape.disabled = false
@@ -120,28 +87,6 @@ func summonMinion():
 
 		get_parent().add_child(knight)
 
-func openSelectedMenu():
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
-
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
-
-func addKill():
-	kills += 1
-
-func showRange():
-	line2d.show()
-
-func hideRange():
-	line2d.hide()
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
@@ -151,9 +96,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
-
-func getCost():
-	return price
 
 func isEnemyTargeted(enemy):
 	for x in currentMinions:
