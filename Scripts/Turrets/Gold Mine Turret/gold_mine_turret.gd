@@ -2,6 +2,7 @@ extends Turret
 
 class_name GoldMineTurret
 
+@export var baseGoldProduced : int = 2
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/gold coin.tscn")
@@ -105,7 +106,8 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func generateMoney():
-	var moneyGenerated : int = floor(pow(level,.5)) + 1
+	var moneyGenerated : int = floor(pow(level,.5)) + baseGoldProduced
+	GameManager.currentMoney += moneyGenerated
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
 
