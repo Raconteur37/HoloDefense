@@ -26,6 +26,11 @@ func takeDamage(damage,turret,enemy,damageType):
 			if projectile.execution:
 				onKill(turret,enemy)
 				ParticleManager.playExecutionParticle(enemy)
+		if projectile.get("curse") != null:
+			if projectile.curse:
+				EffectManager.applyCurseEffect(enemy,turret,projectile.curseTime)
+		if enemy.effects.has("Curse"): # Curse effect amplifies damage by 25%
+			damage += damage * enemy.curseDamageAmp
 		if enemy.health - damage <= 0 and not enemy.isDead:
 			onKill(turret,enemy)
 			enemy.isDead = true
@@ -33,6 +38,9 @@ func takeDamage(damage,turret,enemy,damageType):
 			enemy.health = enemy.health - damage
 		if projectile.get("enemiesPierced") == null:
 			projectile.queue_free()
+
+	if enemy.effects.has("Curse"): # Curse effect amplifies damage by 25%
+		damage += damage * enemy.curseDamageAmp
 
 	if damageType.is_in_group("Minion"):
 		if enemy.health - damage <= 0 and not enemy.isDead:
@@ -258,6 +266,16 @@ func specializedUpgrade(turret):
 			turret.baseKnightDamage += ceil(turret.baseKnightDamage * .05)
 			turret.knightDamage = turret.baseKnightDamage
 			turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
+
+func increaseEnemyStats(enemy):
+	var currentWave = GameManager.currentWave
+
+	var statIncrease = (currentWave / 10) * .05
+
+	enemy.health += GameManager.round_to_dec(enemy.health * statIncrease,2)
+	enemy.damage += GameManager.round_to_dec(enemy.damage * statIncrease,2)
+	enemy.attackTime -= GameManager.round_to_dec(enemy.attackTime * statIncrease,2)
+	enemy.speed += GameManager.round_to_dec(enemy.speed * statIncrease,2)
 
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)

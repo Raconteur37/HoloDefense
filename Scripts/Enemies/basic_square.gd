@@ -1,10 +1,14 @@
 extends CharacterBody2D
 
+# TODO REWORK FOR THIS TO HAVE INHERITANCE
+
 signal hit(damageTaken,turret,enemy,damageType)
 
 var destination
 
 var effects = []
+
+var curseDamageAmp
 
 @export var enemyName : String = "Basic Square"
 @export var health : float = 20
@@ -26,7 +30,8 @@ func _ready():
 			destination = Vector2(960,540) # Center
 
 	hit.connect(EntityManager.takeDamage)
-	increaseStats()
+
+	EntityManager.increaseEnemyStats(self)
 
 func _physics_process(delta: float) -> void:
 
@@ -69,16 +74,6 @@ func _on_attack_timer_timeout() -> void:
 			entity.hit.emit(damage,entity)
 			attackReady = false
 			attackTimer.start()
-
-func increaseStats():
-	var currentWave = GameManager.currentWave
-
-	var statIncrease = (currentWave / 10) * .05
-
-	health += GameManager.round_to_dec(health * statIncrease,2)
-	damage += GameManager.round_to_dec(damage * statIncrease,2)
-	attackTime -= GameManager.round_to_dec(attackTime * statIncrease,2)
-	speed += GameManager.round_to_dec(speed * statIncrease,2)
 
 
 func _on_area_2d_body_exited(body: Node2D) -> void:

@@ -33,13 +33,14 @@ enum Type {Magic}
 const turretName : String = "Voodoo Turret"
 @export var price : int = 20
 @export var maxHealth : float = 20
-@export var baseDamage : float = 10
+@export var baseDamage : float = 9
 @export var baseProjectileSpeed : float = 300
 @export var baseAttackRange : float = 200
 @export var baseReloadTime : float = 2
 @export var upgradeTier : int = 0
-@export var curseDuration : float = 3
-@export var curseChance : float = 40
+@export var curseDuration : float = .2
+@export var curseDamageAmp : float = .20
+@export var curseChance : float = 99
 @export var armor : int = 0
 @export var level : int = 1
 @export var baseBuildTime : float = 5
@@ -120,6 +121,7 @@ func shoot(enemy):
 
 		proj.curseChance = curseChance
 		proj.curseTime = curseDuration
+		proj.curseDamageAmp = curseDamageAmp
 
 
 		get_parent().add_child(proj)

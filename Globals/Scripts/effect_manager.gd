@@ -10,7 +10,7 @@ var enemyCurrentEffects = {} # Format is Enemy Scene : List of current effects
 # Bro I spent a solid ass 30 minutes trying to think of a more efficient way than an array of strings in a dict
 # I don't know im going insane I'll use this for now
 
-# Okay you know what fine ill make a scene for each effect since its a "class" but then 
+# Okay you know what fine ill make a scene for each effect since its a "class" but then
 # I have to instantiate it (bruh moment) and delete from memory where if I had a struct this would be so easy
 
 # New method... Enemy : [Effect Scene 1, Effect Scene 2,...]
@@ -24,8 +24,14 @@ func cleanDict():
 func clearEffects(enemy):
 	enemyCurrentEffects.erase(enemy)
 
+
 func removeEffect(enemy,effect):
 	enemyCurrentEffects[enemy].erase(effect)
+	for effects in enemy.effects:
+		if enemy.effects.has(effect.effectName):
+			enemy.effects.remove(effect.effectName)
+		if effect.effectName == "Curse":
+			enemy.curseDamageAmp = 0
 
 func applyFireEffect(victim,turret,damage,time):
 	cleanDict()
@@ -54,6 +60,22 @@ func applyPoisonEffect(victim,turret,damage,time):
 	var poisonScene = load("res://Globals/Scene/Effects/Poison.tscn")
 	var effectScene = poisonScene.instantiate()
 	effectScene.applyData(turret,victim,damage,time)
+	get_tree().current_scene.add_child(effectScene)
+	if enemyCurrentEffects.has(victim):
+		enemyCurrentEffects[victim].append(effectScene)
+	else:
+		enemyCurrentEffects[victim] = [effectScene]
+
+func applyCurseEffect(victim,turret,time):
+	cleanDict()
+	if enemyCurrentEffects.has(victim):
+		for effect in enemyCurrentEffects[victim]:
+			if effect.getName() == "Curse":
+				effect.restartTime(time)
+				return
+	var curseScene = load("res://Globals/Scene/Effects/Curse.tscn")
+	var effectScene = curseScene.instantiate()
+	effectScene.applyData(turret,victim,time)
 	get_tree().current_scene.add_child(effectScene)
 	if enemyCurrentEffects.has(victim):
 		enemyCurrentEffects[victim].append(effectScene)

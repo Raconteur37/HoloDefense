@@ -4,6 +4,7 @@ var shooter
 var damage
 var curseChance
 var curseTime
+var curseDamageAmp
 var curse = false
 
 func _on_despawn_timer_timeout() -> void:
