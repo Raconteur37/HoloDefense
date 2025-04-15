@@ -403,5 +403,5 @@ wait_time = 0.05
 autostart = true
 
 [connection signal="animation_finished" from="AnimationPlayer" to="BoxContainer/Enemy Popup" method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="Timer" to="BoxContainer/Enemy Popup" method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="BoxContainer/Enemy Popup" method="_on_timer_timeout"]

@@ -51,7 +51,7 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Arrow Turret" type="CharacterBody2D" groups=["Turret"]]
-position = Vector2(943, 517)
+position = Vector2(1399, 752)
 collision_mask = 12
 script = ExtResource("2_mmj3o")
 

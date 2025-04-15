@@ -14,11 +14,11 @@ func _ready() -> void:
 	maxHealth = 20
 	baseDamage = 20
 	baseProjectileSpeed = 400
-	baseAttackRange = 200
-	baseReloadTime = 3.5
+	baseAttackRange = 600
+	baseReloadTime = 1
 	upgradeTier = 0
 	armor = 0
-	level = 1
+	level = 2
 	baseBuildTime = 5
 
 
@@ -70,13 +70,20 @@ func shoot(enemy):
 
 		var proj = projectile.instantiate()
 		proj.position = position
-		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+
+
+		if level >= 2:
+			proj.target = enemy
+		else:
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+
 
 		var dif = self.global_position.angle_to_point(enemy.global_position)
 
 		proj.rotation = proj.rotation + dif
 		proj.damage = damage
 		proj.shooter = self
+		
 		get_parent().add_child(proj)
 
 		reloadTimer.start()
