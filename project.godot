@@ -93,6 +93,7 @@ turret_three_upgrade={
 2d_physics/layer_4="Enemy Projectiles"
 2d_physics/layer_5="Holo Citizen"
 2d_physics/layer_6="Holo City Building"
+2d_physics/layer_7="Minion"
 
 [rendering]
 

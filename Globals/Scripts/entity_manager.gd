@@ -9,6 +9,12 @@ var turretsUpgradeTier = {}
 var upgradeTierPercent = .02
 
 func takeDamage(damage,turret,enemy,damageType):
+	
+	if turret == null and enemy.health - damage <= 0 and not enemy.isDead:
+		onKill(null,enemy)
+	else:
+		if turret == null:
+			enemy.health = enemy.health - damage
 
 	var popup = popupScene.instantiate()
 	popup.setPosition(enemy.global_position)
