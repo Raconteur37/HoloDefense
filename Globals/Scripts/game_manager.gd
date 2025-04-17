@@ -2,8 +2,6 @@ extends Node
 
 var startingCash : int = 1000
 
-var popupScene = load("res://Globals/Scene/Popup.tscn")
-
 # This array will be in order, so 0 will be 1 and so on
 var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
 "Flame Turret", "Firework Turret", "Spider Turret","Tesla Turret"]
@@ -63,28 +61,28 @@ func summonEnemy(enemyName : String):
 	match enemyName:
 
 		"Basic Square":
-			var enemy = preload("res://Enemy Scenes/Basic Square.tscn")
+			var enemy = load("res://Enemy Scenes/Basic Square.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 
 		"Hexagon Mothership":
-			var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
+			var enemy = load("res://Enemy Scenes/Hexagon Mothership.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = Vector2(2100,540)
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 
 		"Speedy Triangle":
-			var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
+			var enemy = load("res://Enemy Scenes/Speedy Triangle.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
 			get_tree().current_scene.find_child("CanvasLayer").add_sibling(enemy)
 
 		"Shooty Diamond":
-			var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
+			var enemy = load("res://Enemy Scenes/Shooty Diamond.tscn")
 			enemy = enemy.instantiate()
 			enemiesAlive.append(enemy)
 			enemy.position = generateRandomPosition()
@@ -114,9 +112,8 @@ func generateRandomPosition():
 
 	return Vector2(randX,randY)
 
-
 func summonEnemies():
-
+	
 	summonDict = {}
 
 	var ln = log(currentWave / float(10)) / log(2.7182818)
@@ -160,110 +157,9 @@ func summonEnemies():
 		else:
 			break
 
-
 func getEnemiesAlive():
 	return enemiesAlive
 
-func getTurretByName(turretName):
-
-	match turretName:
-
-		"Arrow Turret":
-			return load("res://Turret Scenes/Arrow Turret.tscn")
-		"Mini Sentry Turret":
-			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
-		"Energizer Turret":
-			return load("res://Turret Scenes/Energizer Turret.tscn")
-		"Railgun Turret":
-			return load("res://Turret Scenes/Railgun Turret.tscn")
-		"Reaper Turret":
-			return load("res://Turret Scenes/Reaper Turret.tscn")
-		"Royal Turret":
-			return load("res://Turret Scenes/Royal Turret.tscn")
-		"Flame Turret":
-			return load("res://Turret Scenes/Flame Turret.tscn")
-		"Firework Turret":
-			return load("res://Turret Scenes/Firework Turret.tscn")
-		"Spider Turret":
-			return load("res://Turret Scenes/Spider Turret.tscn")
-		"Tesla Turret":
-			return load("res://Turret Scenes/Tesla Turret.tscn")
-		"Seismic Turret":
-			return load("res://Turret Scenes/Seismic Turret.tscn")
-		"Gold Mine Turret":
-			return load("res://Turret Scenes/Gold Mine Turret.tscn")
-		"Automated Sentry Turret":
-			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
-		"Voodoo Turret":
-			return load("res://Turret Scenes/Voodoo Turret.tscn")
-
-func getTurret(number):
-
-	var turretName = turretsNameArray[number-1]
-
-	match turretName:
-
-		"Arrow Turret":
-			return load("res://Turret Scenes/Arrow Turret.tscn")
-		"Mini Sentry Turret":
-			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
-		"Energizer Turret":
-			return load("res://Turret Scenes/Energizer Turret.tscn")
-		"Railgun Turret":
-			return load("res://Turret Scenes/Railgun Turret.tscn")
-		"Reaper Turret":
-			return load("res://Turret Scenes/Reaper Turret.tscn")
-		"Royal Turret":
-			return load("res://Turret Scenes/Royal Turret.tscn")
-		"Flame Turret":
-			return load("res://Turret Scenes/Flame Turret.tscn")
-		"Firework Turret":
-			return load("res://Turret Scenes/Firework Turret.tscn")
-		"Spider Turret":
-			return load("res://Turret Scenes/Spider Turret.tscn")
-		"Tesla Turret":
-			return load("res://Turret Scenes/Tesla Turret.tscn")
-		"Seismic Turret":
-			return load("res://Turret Scenes/Seismic Turret.tscn")
-		"Gold Mine Turret":
-			return load("res://Turret Scenes/Gold Mine Turret.tscn")
-		"Automated Sentry Turret":
-			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
-		"Voodoo Turret":
-			return load("res://Turret Scenes/Voodoo Turret.tscn")
-
-func findTurretTexture(turretName):
-
-	match turretName:
-
-		"Arrow Turret":
-			return load("res://Textures/Turrets/Arrow Turret/ArrowTurret.png")
-		"Mini Sentry Turret":
-			return load("res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png")
-		"Energizer Turret":
-			return load("res://Textures/Turrets/Energizer Turret/Energizer Turret.png")
-		"Railgun Turret":
-			return load("res://Textures/Turrets/Railgun Turret/RailgunTurret.png")
-		"Reaper Turret":
-			return load("res://Textures/Turrets/Reaper Turret/ReaperTurret.png")
-		"Royal Turret":
-			return load("res://Textures/Turrets/Royal Turret/RoyalTurret.png")
-		"Flame Turret":
-			return load("res://Textures/Turrets/Flame Turret/Flame Turret.png")
-		"Firework Turret":
-			return load("res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png")
-		"Spider Turret":
-			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
-		"Tesla Turret":
-			return load("res://Textures/Turrets/Tesla Turret/Tesla Turret.png")
-		"Seismic Turret":
-			return load("res://Textures/Turrets/Seismic Turret/SeismicTurret.png")
-		"Gold Mine Turret":
-			return load("res://Textures/Turrets/Gold Mine Turret/Gold Mine Turret.png")
-		"Automated Sentry Turret":
-			return load("res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png")
-		"Voodoo Turret":
-			return load("res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png")
 
 func getBeaconPosition():
 	return beacon.global_position

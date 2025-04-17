@@ -17,7 +17,7 @@ var popupScene = load("res://Globals/Scene/Popup.tscn")
 
 func selectTurret(turretName):
 	if turretName != null:
-		selectedTurret = GameManager.getTurretByName(turretName).instantiate()
+		selectedTurret = TurretManager.getTurretByName(turretName).instantiate()
 		turretSelected = true
 		get_tree().current_scene.find_child("CanvasLayer").add_child(selectedTurret)
 	else:
@@ -53,7 +53,7 @@ func _input(event: InputEvent) -> void:
 				selectedTurret.hideRange()
 				turretSelected = false
 				GameManager.addTurretToDict(selectedTurret)
-				get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
+				#get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
 				selectedTurret = null
 			else:
 				print("Cannot place turret there!")
@@ -89,8 +89,6 @@ func get_selected_cell(mouse_position: Vector2):
 	var snapped_y = int(relative_position.y / cell_size.y)
 
 	return Vector2(snapped_x, snapped_y)
-
-func _process(delta: float) -> void:
 
 	if turretSelected:
 		if not selectedTurret.isPlaced:

@@ -1,7 +1,5 @@
 extends Node
 
-var executionParticle = preload("res://Particle Scenes/Turrets/Reaper Turret/reaper_execute.tscn")
-
 var basicSquareHurtParticle = preload("res://Particle Scenes/Enemies/basic_square_hurt.tscn")
 var basicSquareDeathParticle = preload("res://Particle Scenes/Enemies/basic_square_death.tscn")
 
@@ -38,6 +36,7 @@ func playZombieTurnParticle(enemy):
 
 func playExecutionParticle(enemy):
 
+	var executionParticle = load("res://Particle Scenes/Turrets/Reaper Turret/reaper_execute.tscn")
 	var particle = executionParticle.instantiate()
 	particle.setPosition(enemy.global_position)
 	get_tree().current_scene.add_child(particle)

@@ -29,7 +29,7 @@ func buildContainer(turret):
 	animationPlayer.play("Appear")
 
 	nameLabel.text = str(turret.getName())
-	turretImage.texture = GameManager.findTurretTexture(turret.getName())
+	turretImage.texture = TurretManager.findTurretTexture(turret.getName())
 
 	if turret.get("health") != null:
 		healthBar.max_value = turret.maxHealth
@@ -148,9 +148,6 @@ func buildContainer(turret):
 
 
 	scene.show()
-
-
-
 
 
 func close():

@@ -15,7 +15,7 @@ func _ready() -> void:
 	turretName = "Zombie Turret"
 	price = 20
 	maxHealth = 90
-	damage = 1
+	baseDamage = 1
 	baseAttackRange = 30
 	upgradeTier = 0
 	armor = 0
@@ -49,7 +49,7 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
+	if DeveloperMode.inDevMode and not PlacementManager.inGame:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999

@@ -29,14 +29,14 @@ glow_hdr_threshold = 0.74
 
 [sub_resource type="LabelSettings" id="LabelSettings_68gyg"]
 
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_2e63p"]
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_idxuc"]
 texture = ExtResource("1_dj7dj")
 texture_region_size = Vector2i(32, 32)
 0:0/0 = 0
 
 [sub_resource type="TileSet" id="TileSet_x0qb8"]
 tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_2e63p")
+sources/0 = SubResource("TileSetAtlasSource_idxuc")
 
 [sub_resource type="Gradient" id="Gradient_7ot54"]
 colors = PackedColorArray(0, 0, 0, 1, 0.533037, 0.533037, 0.533037, 1)

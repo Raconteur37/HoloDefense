@@ -108,7 +108,7 @@ func addTurretToConstructionQueue(turretIndex : int):
 
 	if buildingItems < maxBuildingQueueSize:
 
-		var turret = GameManager.getTurret(turretIndex).instantiate()
+		var turret = TurretManager.getTurret(turretIndex).instantiate()
 		var turretCost = turret.getCost()
 
 		if GameManager.getCurrentMoney() >= turretCost:
@@ -120,7 +120,7 @@ func addTurretToConstructionQueue(turretIndex : int):
 			var fabTurret = fabricationTurret.instantiate()
 			fabTurret.turretNumber = turretIndex
 
-			var turretTexture = GameManager.findTurretTexture(GameManager.turretsNameArray[turretIndex-1])
+			var turretTexture = TurretManager.findTurretTexture(GameManager.turretsNameArray[turretIndex-1])
 			var turretBuildTime = turret.baseBuildTime
 			fabTurret.constructionTime = turretBuildTime
 			fabTurret.turretName = turret.getName()

@@ -19,7 +19,7 @@ config/features=PackedStringArray("4.4", "Forward Plus")
 GameManager="*res://Globals/Scripts/game_manager.gd"
 PlacementManager="*res://Globals/Scripts/placement_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
-PopupScene="*res://Globals/Scene/Popup.tscn"
+PopupScene="res://Globals/Scene/Popup.tscn"
 BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 SoundManager="*res://Globals/Scene/SoundManager.tscn"
 EffectManager="*res://Globals/Scene/Effects.tscn"
@@ -27,6 +27,7 @@ EntityManager="*res://Globals/Scripts/entity_manager.gd"
 StatisticPopup="*res://Globals/Scene/Statistic Popup.tscn"
 CityManager="*res://Globals/Scripts/city_manager.gd"
 DeveloperMode="*res://Globals/Scripts/developerMode.gd"
+TurretManager="*res://Globals/Scripts/turretManager.gd"
 
 [display]
 

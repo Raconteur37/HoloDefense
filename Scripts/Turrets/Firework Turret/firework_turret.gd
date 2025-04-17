@@ -57,7 +57,7 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode:
+	if DeveloperMode.inDevMode and not PlacementManager.inGame:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999

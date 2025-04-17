@@ -3,6 +3,9 @@ extends Turret
 class_name ArrowTurret
 
 func _ready() -> void:
+	
+	get_tree().set_auto_accept_quit(false)
+	get_tree().set_pause(true)
 
 	projectile = preload("res://Projectile Scenes/arrow.tscn")
 
@@ -50,12 +53,12 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
+	if DeveloperMode.inDevMode and not PlacementManager.inGame:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
 
-func _process(delta: float) -> void:
+func _physics_process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shoot(EntityManager.getClosestEnemyFromSprite($"."))
 	if isPlaced and not isCollisionReady:
