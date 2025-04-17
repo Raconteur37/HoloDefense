@@ -2,6 +2,8 @@ extends Node
 
 var startingCash : int = 1000
 
+var popupScene = preload("res://Globals/Scene/Popup.tscn")
+
 # This array will be in order, so 0 will be 1 and so on
 var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
 "Flame Turret", "Firework Turret", "Spider Turret","Tesla Turret"]
@@ -112,8 +114,9 @@ func generateRandomPosition():
 
 	return Vector2(randX,randY)
 
+
 func summonEnemies():
-	
+
 	summonDict = {}
 
 	var ln = log(currentWave / float(10)) / log(2.7182818)

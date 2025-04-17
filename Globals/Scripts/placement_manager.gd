@@ -90,6 +90,8 @@ func get_selected_cell(mouse_position: Vector2):
 
 	return Vector2(snapped_x, snapped_y)
 
+func _process(delta: float) -> void:
+
 	if turretSelected:
 		if not selectedTurret.isPlaced:
 			var mousePosition = get_tree().current_scene.get_global_mouse_position()

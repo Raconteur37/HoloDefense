@@ -11,9 +11,9 @@ func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
 
-	hit.connect(EntityManager.takeDamage)
+	#hit.connect(EntityManager.takeDamage)
 
-	EntityManager.increaseEnemyStats(self)
+	#EntityManager.increaseEnemyStats(self)
 
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

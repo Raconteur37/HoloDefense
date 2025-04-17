@@ -1,5 +1,6 @@
 extends Node2D
 
+
 # Is it more efficient to make seperate dicts for each effect? Or iterate through one dict.....
 
 var enemyCurrentEffects = {} # Format is Enemy Scene : List of current effects
