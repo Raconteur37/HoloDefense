@@ -82,10 +82,12 @@ func onZombieAreaEntered(body):
 			if randi_range(0,100) <= turnTurret.turnChance:
 				body.turnTurret = turnTurret
 				body.isZombie = true
+				ParticleManager.playZombieTurnParticle(self)
 		else:
 			if randi_range(0,100) <= 10:
 				body.turnTurret = turnTurret
 				body.isZombie = true
+				ParticleManager.playZombieTurnParticle(self)
 
 func onZombieAreaExit(body: Node2D):
 	pass

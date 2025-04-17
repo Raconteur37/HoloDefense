@@ -81,4 +81,5 @@ func _on_attack_timer_timeout() -> void:
 				if randi_range(0,100) <= turnChance:
 					enemy.isZombie = true
 					enemy.turnTurret = self
+					ParticleManager.playZombieTurnParticle(enemy)
 		attackTimer.start()

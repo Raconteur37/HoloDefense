@@ -7,6 +7,8 @@ var basicSquareDeathParticle = preload("res://Particle Scenes/Enemies/basic_squa
 
 var energizedParticle = preload("res://Particle Scenes/Turrets/Energizer Turret/energized.tscn")
 
+var zombieTurnParticle = preload("res://Particle Scenes/Effects/Zombie Turn/ZombieTurnParticle.tscn")
+
 func playDamageParticle(enemy):
 
 	match enemy.getName():
@@ -29,6 +31,10 @@ func playDeathParticle(enemy):
 			particle.setPosition(enemy.global_position)
 			get_tree().current_scene.add_child(particle)
 
+func playZombieTurnParticle(enemy):
+	var particle = zombieTurnParticle.instantiate()
+	particle.setPosition(enemy.global_position)
+	get_tree().current_scene.add_child(particle)
 
 func playExecutionParticle(enemy):
 
