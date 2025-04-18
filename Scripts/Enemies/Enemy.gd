@@ -41,7 +41,7 @@ func _physics_process(delta: float) -> void:
 	if global_position.distance_to(destination) < 5.0:
 		velocity = Vector2.ZERO
 		global_position = destination
-	
+
 	if isZombie and not initialTurn: # Turn them into a zombie
 		if is_instance_valid(self) and is_instance_valid(turnTurret):
 			initialTurn = true
@@ -49,10 +49,10 @@ func _physics_process(delta: float) -> void:
 			var timer = Timer.new()
 			timer.name = "ZombieTimer"
 			timer.timeout.connect(onZombieTimerTimeout.bind())
-			timer.wait_time = 3       
+			timer.wait_time = 3
 			timer.autostart = true
 			add_child(timer)
-			
+
 			var area = Area2D.new()
 			area.body_entered.connect(onZombieAreaEntered.bind())
 			area.body_exited.connect(onZombieAreaExit.bind())
@@ -65,9 +65,9 @@ func _physics_process(delta: float) -> void:
 			area.set_collision_mask_value(3,true)
 			area.add_child(shape)
 			add_child(area)
-			
+
 			var awayDirection = (to_local(global_position) - to_local(turnTurret.global_position)).normalized()
-			
+
 			destination = (to_local(global_position) - to_local(awayDirection)) * 300
 
 func onZombieTimerTimeout():
@@ -77,7 +77,7 @@ func onZombieTimerTimeout():
 		hit.emit(9999,null,self,null)
 
 func onZombieAreaEntered(body):
-	if body.is_in_group("Enemy"):
+	if body.is_in_group("Enemy") and not body.isZombie:
 		if turnTurret.get("turnChance") != null:
 			if randi_range(0,100) <= turnTurret.turnChance:
 				body.turnTurret = turnTurret

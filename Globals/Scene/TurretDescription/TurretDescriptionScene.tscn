@@ -276,9 +276,8 @@ stretch_margin_bottom = 3
 texture_under = ExtResource("5_ejtmj")
 texture_over = ExtResource("6_5owpq")
 texture_progress = ExtResource("5_ejtmj")
-tint_under = Color(0.254902, 0.231373, 0.231373, 1)
-tint_over = Color(0.503962, 2.75308e-05, 0.398372, 1)
-tint_progress = Color(1, 0.827451, 0.882353, 1)
+tint_under = Color(0.117324, 0.103928, 0.10393, 1)
+tint_progress = Color(0.191869, 1, 0.278604, 1)
 
 [node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
 visible = false

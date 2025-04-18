@@ -10,7 +10,3 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret"):
 		body.hit.emit(damage,body)
 		queue_free()
-
-
-func _on_area_2d_body_exited(body: Node2D) -> void:
-	pass # Replace with function body.

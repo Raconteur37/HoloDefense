@@ -226,6 +226,18 @@ tracks/3/keys = {
 "update": 1,
 "values": [true]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("../..:position")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 1.2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(918, 476), Vector2(918, 411)]
+}
 
 [sub_resource type="Animation" id="Animation_fjn6v"]
 length = 0.001
@@ -337,6 +349,18 @@ tracks/8/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0)]
 }
+tracks/9/type = "value"
+tracks/9/imported = false
+tracks/9/enabled = true
+tracks/9/path = NodePath("../..:position")
+tracks/9/interp = 1
+tracks/9/loop_wrap = true
+tracks/9/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(918, 476)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
 _data = {
@@ -352,9 +376,9 @@ script = ExtResource("3_dqdk6")
 
 [node name="BoxContainer" type="BoxContainer" parent="."]
 offset_left = 918.0
-offset_top = 477.0
-offset_right = 958.0
-offset_bottom = 517.0
+offset_top = 411.0
+offset_right = 1243.0
+offset_bottom = 459.0
 
 [node name="Enemy Popup" type="GridContainer" parent="BoxContainer"]
 z_index = 1
@@ -371,7 +395,6 @@ text = "2 XP"
 label_settings = ExtResource("2_sjw7e")
 
 [node name="Insufficient Funds" type="Label" parent="BoxContainer"]
-visible = false
 self_modulate = Color(1, 1, 1, 0)
 layout_mode = 2
 text = "Not enough money!"
@@ -398,10 +421,4 @@ libraries = {
 &"": SubResource("AnimationLibrary_80hvi")
 }
 
-[node name="Timer" type="Timer" parent="."]
-wait_time = 0.05
-autostart = true
-
 [connection signal="animation_finished" from="AnimationPlayer" to="BoxContainer/Enemy Popup" method="_on_animation_player_animation_finished"]
-[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
-[connection signal="timeout" from="Timer" to="BoxContainer/Enemy Popup" method="_on_timer_timeout"]

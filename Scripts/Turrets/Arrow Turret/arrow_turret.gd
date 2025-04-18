@@ -3,9 +3,6 @@ extends Turret
 class_name ArrowTurret
 
 func _ready() -> void:
-	
-	get_tree().set_auto_accept_quit(false)
-	get_tree().set_pause(true)
 
 	projectile = preload("res://Projectile Scenes/arrow.tscn")
 
@@ -13,7 +10,7 @@ func _ready() -> void:
 	type = Type.Midieval
 
 	turretName = "Arrow Turret"
-	price = 20
+	price = 15
 	maxHealth = 20
 	baseDamage = 20
 	baseProjectileSpeed = 400
@@ -86,7 +83,7 @@ func shoot(enemy):
 		proj.rotation = proj.rotation + dif
 		proj.damage = damage
 		proj.shooter = self
-		
+
 		get_parent().add_child(proj)
 
 		reloadTimer.start()

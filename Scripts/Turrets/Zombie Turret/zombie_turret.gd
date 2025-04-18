@@ -2,7 +2,7 @@ extends Turret
 
 class_name ZombieTurret
 
-@export var turnChance : float = 10
+@export var turnChance : float = 100
 
 var attackTimer : Timer
 @export var turnTime : float = 4
@@ -15,7 +15,7 @@ func _ready() -> void:
 	turretName = "Zombie Turret"
 	price = 20
 	maxHealth = 90
-	baseDamage = 1
+	baseDamage = 3
 	baseAttackRange = 30
 	upgradeTier = 0
 	armor = 0

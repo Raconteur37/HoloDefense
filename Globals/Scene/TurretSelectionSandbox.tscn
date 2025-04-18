@@ -14,7 +14,6 @@ offset_right = 40.0
 offset_bottom = 20.0
 grow_vertical = 2
 size_flags_horizontal = 0
-metadata/_edit_use_anchors_ = true
 
 [node name="ScrollContainer" type="ScrollContainer" parent="Panel"]
 layout_mode = 0

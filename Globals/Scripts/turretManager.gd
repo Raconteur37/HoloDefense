@@ -4,6 +4,10 @@ var unlockedTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","R
 ,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
 ,"Automated Sentry Turret","Voodoo Turret","Zombie Turret"]
 
+var allTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Royal Turret","Flame Turret"
+,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
+,"Automated Sentry Turret","Voodoo Turret","Zombie Turret"]
+
 func getTurretByName(turretName):
 
 	match turretName:

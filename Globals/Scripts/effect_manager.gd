@@ -26,12 +26,13 @@ func clearEffects(enemy):
 
 
 func removeEffect(enemy,effect):
-	enemyCurrentEffects[enemy].erase(effect)
-	for effects in enemy.effects:
-		if enemy.effects.has(effect.effectName):
-			enemy.effects.erase(effect.effectName)
-		if effect.effectName == "Curse":
-			enemy.curseDamageAmp = 0
+	if is_instance_valid(enemy):
+		enemyCurrentEffects[enemy].erase(effect)
+		for effects in enemy.effects:
+			if enemy.effects.has(effect.effectName):
+				enemy.effects.erase(effect.effectName)
+			if effect.effectName == "Curse":
+				enemy.curseDamageAmp = 0
 
 func applyFireEffect(victim,turret,damage,time):
 	if enemyCurrentEffects.has(victim):

@@ -19,11 +19,12 @@ func _process(delta: float) -> void:
 		particleEffect.global_position = enemy.global_position
 
 func applyData(turret,victim,time):
-	turretApplier = turret
-	enemy = victim
-	enemy.curseDamageAmp = turret.curseDamageAmp
-	$"Total Time".wait_time = time
-	enemy.effects.append("Curse")
+	if is_instance_valid(victim):
+		turretApplier = turret
+		enemy = victim
+		enemy.curseDamageAmp = turret.curseDamageAmp
+		$"Total Time".wait_time = time
+		enemy.effects.append("Curse")
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)

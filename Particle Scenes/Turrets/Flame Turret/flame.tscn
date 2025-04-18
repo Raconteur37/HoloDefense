@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://xxattf85xhev"]
+[gd_scene load_steps=6 format=3 uid="uid://xxattf85xhev"]
 
 [sub_resource type="Gradient" id="Gradient_twtfc"]
 offsets = PackedFloat32Array(0, 0.0207254, 1)
@@ -27,18 +27,7 @@ color_ramp = SubResource("GradientTexture1D_jymvj")
 turbulence_enabled = true
 turbulence_noise_scale = 3.0
 
-[sub_resource type="Environment" id="Environment_0w7mr"]
-background_mode = 3
-glow_enabled = true
-glow_intensity = 3.0
-glow_strength = 1.3
-glow_blend_mode = 0
-glow_hdr_scale = 0.7
-
 [node name="Flame" type="GPUParticles2D"]
 position = Vector2(818, 417)
 amount = 200
 process_material = SubResource("ParticleProcessMaterial_fbm8y")
-
-[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
-environment = SubResource("Environment_0w7mr")

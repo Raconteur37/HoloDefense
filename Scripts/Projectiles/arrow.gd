@@ -12,14 +12,14 @@ func _physics_process(delta):
 		return
 
 	var to_target = (target.global_position - global_position).normalized()
-	var forward = Vector2.UP.rotated(rotation)  
+	var forward = Vector2.UP.rotated(rotation)
 
 	var angle_diff = forward.angle_to(to_target)
 	var angle_step = turnSpeed * delta
 	angle_diff = clamp(angle_diff, -angle_step, angle_step)
 	rotation += angle_diff
 
-	apply_central_force(Vector2.UP.rotated(rotation) * speed) 
+	apply_central_force(Vector2.UP.rotated(rotation) * speed)
 
 func _on_despawn_timer_timeout() -> void:
 	queue_free()

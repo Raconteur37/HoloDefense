@@ -26,7 +26,7 @@ func selectTurret(turretName):
 
 func _input(event: InputEvent) -> void:
 
-	if event is InputEventKey and event.is_pressed():
+	if event is InputEventKey and event.is_pressed() and inGame:
 
 		if turretSelected:
 			selectedTurret.queue_free()
@@ -40,8 +40,8 @@ func _input(event: InputEvent) -> void:
 						var number_pressed = event.keycode - KEY_0
 						EntityManager.upgradeTurret(number_pressed)
 				else:
-					selectTurret(get_tree().current_scene.find_child("Bottom UI Control").getTurretNameFromStorage(event.keycode - KEY_0))
-
+					#selectTurret(get_tree().current_scene.find_child("Bottom UI Control").getTurretNameFromStorage(event.keycode - KEY_0))
+					selectTurret(TurretManager.allTurrets.pick_random())
 	if event.is_action_pressed("turret_selected_cancel") and turretSelected:
 		selectedTurret.queue_free()
 		turretSelected = false

@@ -1,0 +1,42 @@
+[gd_scene load_steps=2 format=3 uid="uid://c6pt70y32mppj"]
+
+[ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_yxbt0"]
+
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="TurretSelectionScroll" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 16.0
+offset_top = -68.0
+offset_right = 16.0
+offset_bottom = -68.0
+grow_vertical = 0
+script = ExtResource("1_yxbt0")
+
+[node name="Panel" type="Panel" parent="TurretSelectionScroll"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretSelectionScroll/Panel"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -3.0
+offset_right = 39.0
+offset_bottom = 37.0
+scale = Vector2(2.44544, 2.33681)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretSelectionScroll/Panel/ScrollContainer"]
+layout_mode = 2

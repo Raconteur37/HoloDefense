@@ -1,7 +1,5 @@
 extends Node
 
-var popupScene = load("res://Globals/Scene/Popup.tscn")
-
 var turretXpMap = {}
 
 var turretsUpgradeTier = {}
@@ -9,17 +7,12 @@ var turretsUpgradeTier = {}
 var upgradeTierPercent = .02
 
 func takeDamage(damage,turret,enemy,damageType):
-	
+
 	if turret == null and enemy.health - damage <= 0 and not enemy.isDead:
 		onKill(null,enemy)
 	else:
 		if turret == null:
 			enemy.health = enemy.health - damage
-
-	var popup = popupScene.instantiate()
-	popup.setPosition(enemy.global_position)
-	popup.damagePopup(damage)
-	get_tree().current_scene.add_child(popup)
 
 	if damageType.is_in_group("Turret Projectile"):
 		var projectile = damageType
@@ -145,13 +138,6 @@ func onKill(turret,enemy):
 
 	if not DeveloperMode.inDevMode:
 		get_tree().current_scene.find_child("XP Bar").value += experienceEarned
-
-	var popup = popupScene.instantiate()
-	popup.setPosition(enemy.global_position)
-	popup.killPopup(moneyEarned,experienceEarned)
-
-
-	get_tree().current_scene.add_child(popup)
 
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)

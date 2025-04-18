@@ -1,8 +1,5 @@
 extends CanvasLayer
 
-func _on_timer_timeout() -> void:
-	$"BoxContainer".global_position.y -= 1
-
 func setPosition(position):
 	$"BoxContainer".global_position = position
 

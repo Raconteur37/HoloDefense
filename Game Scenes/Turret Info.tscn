@@ -1,9 +1,146 @@
-[gd_scene format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=9 format=3 uid="uid://dw8klkwdc1mfr"]
+
+[ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
+[ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
+[ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="3_g24qp"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_g24qp"]
+font_size = 39
+
+[sub_resource type="LabelSettings" id="LabelSettings_bvhjd"]
+font_size = 35
+font_color = Color(0.442911, 0.442911, 0.442911, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_osgsa"]
+font_size = 39
+
+[sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
+font_size = 25
+
+[sub_resource type="LabelSettings" id="LabelSettings_ekhco"]
+font_size = 20
+font_color = Color(1, 0.760784, 0.337255, 1)
 
 [node name="TurretInfo" type="Control"]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
+offset_left = 3.0
+offset_top = 47.0
+offset_right = 3.0
+offset_bottom = 47.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="TurretSelectionScroll" type="Control" parent="."]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = -103.0
+offset_right = 28.0
+offset_bottom = -103.0
+grow_vertical = 0
+script = ExtResource("1_mxhls")
+
+[node name="Panel" type="Panel" parent="TurretSelectionScroll"]
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -20.0
+offset_top = -40.0
+offset_right = 20.0
+grow_horizontal = 2
+grow_vertical = 0
+size_flags_horizontal = 0
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretSelectionScroll/Panel"]
+layout_mode = 0
+offset_left = -1.0
+offset_top = -3.0
+offset_right = 39.0
+offset_bottom = 37.0
+scale = Vector2(2.44544, 2.33681)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretSelectionScroll/Panel/ScrollContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 140.0
+offset_top = 75.0
+offset_right = 612.0
+offset_bottom = 181.0
+alignment = 1
+
+[node name="TurretNameLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Arrow Turret"
+label_settings = SubResource("LabelSettings_g24qp")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RarityLabel" type="Label" parent="VBoxContainer2"]
+layout_mode = 2
+text = "Rarity"
+label_settings = SubResource("LabelSettings_bvhjd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretIcon" type="TextureRect" parent="."]
+layout_mode = 0
+offset_left = 275.0
+offset_top = 194.0
+offset_right = 315.0
+offset_bottom = 234.0
+scale = Vector2(5, 5)
+texture = ExtResource("2_mxhls")
+
+[node name="TurretDescriptionLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 1171.0
+offset_top = 120.0
+offset_right = 1669.0
+offset_bottom = 407.0
+text = "this is a description about something idek "
+label_settings = SubResource("LabelSettings_osgsa")
+autowrap_mode = 2
+
+[node name="TypeLabel" type="Label" parent="."]
+layout_mode = 0
+offset_left = 308.0
+offset_top = 402.0
+offset_right = 448.0
+offset_bottom = 436.896
+text = "Turret Type"
+label_settings = SubResource("LabelSettings_cxutq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 0
+offset_left = 317.0
+offset_top = 458.0
+offset_right = 481.0
+offset_bottom = 745.0
+scale = Vector2(1.5, 1.5)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="PriceIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("3_g24qp")
+
+[node name="PriceLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+text = "$50"
+label_settings = SubResource("LabelSettings_ekhco")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2

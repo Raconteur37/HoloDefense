@@ -10,7 +10,7 @@ var turretContainer
 var turretPlacement = 0
 
 func _ready() -> void:
-	
+
 	scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.custom_minimum_size = Vector2(100, 300)
 
@@ -21,8 +21,8 @@ func _ready() -> void:
 	rightColumn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	#leftColumn.custom_minimum_size = Vector2(150, 0)
 	#rightColumn.custom_minimum_size = Vector2(150, 0)
-	
-	
+
+
 	for turret in TurretManager.unlockedTurrets:
 		turretPlacement += 1
 		add_turret_button(turret)

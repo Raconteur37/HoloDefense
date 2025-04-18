@@ -27,7 +27,7 @@ func _ready():
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,projectile)
+		hit.emit(body.damage,body.shooter,self,body)
 
 func _on_attack_timer_timeout() -> void:
 	for x in turretsInRange:
@@ -38,7 +38,8 @@ func _on_attack_timer_timeout() -> void:
 		if is_instance_valid(turret):
 			var proj = projectile.instantiate()
 			proj.position = position
-			proj.linear_velocity = (turret.position - position).normalized() * projectileSpeed
+
+			proj.linear_velocity = (turret.global_position - global_position).normalized() * projectileSpeed
 
 			var dif = self.global_position.angle_to_point(turret.global_position)
 
@@ -50,3 +51,13 @@ func _on_attack_timer_timeout() -> void:
 		else:
 			turretsInRange.erase(turret)
 	$AttackTimer.start()
+
+
+func _on_area_2d_2_body_entered(body: Node2D) -> void:
+	if is_instance_valid(body) and body.is_in_group("Turret"):
+		turretsInRange.append(body)
+
+
+func _on_area_2d_2_body_exited(body: Node2D) -> void:
+	if is_instance_valid(body) and body.is_in_group("Turret") and turretsInRange.has(body):
+		turretsInRange.erase(body)

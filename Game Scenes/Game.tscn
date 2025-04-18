@@ -7,7 +7,7 @@
 [ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="2_jaldy"]
 [ext_resource type="PackedScene" uid="uid://bela5hy1hxvvn" path="res://Game Scenes/beacon.tscn" id="2_wh51m"]
 [ext_resource type="Texture2D" uid="uid://cpss7ncveh4eb" path="res://Textures/UI/XP-Bar-Over.png" id="3_bcja4"]
-[ext_resource type="Script" uid="uid://von11dbm60ro" path="res://Scripts/Tilemap/tile_map.gd" id="3_p434w"]
+[ext_resource type="Script" uid="uid://c22o4eg2h6tr8" path="res://Scripts/Tilemap/tile_map.gd" id="3_p434w"]
 [ext_resource type="Script" uid="uid://dod0sb7li6m60" path="res://Scripts/Game Scene/turret_select_grid.gd" id="6_nd12a"]
 [ext_resource type="StyleBox" uid="uid://djjohepr4dbrv" path="res://Styles/default.tres" id="8_y8wdo"]
 [ext_resource type="Texture2D" uid="uid://bua4f3k6x11b1" path="res://Textures/Turrets/Energizer Turret/Energizer Turret.png" id="12_lkfxl"]

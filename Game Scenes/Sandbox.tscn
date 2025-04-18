@@ -3,7 +3,7 @@
 [ext_resource type="PackedScene" uid="uid://cdwy4oqm40l4c" path="res://Globals/Scene/TurretSelectionSandbox.tscn" id="1_eem3d"]
 [ext_resource type="Script" uid="uid://d034o28c13ie" path="res://Game Scenes/sandbox.gd" id="1_j1ts0"]
 [ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="2_54dmj"]
-[ext_resource type="Script" uid="uid://von11dbm60ro" path="res://Scripts/Tilemap/tile_map.gd" id="3_j1ts0"]
+[ext_resource type="Script" uid="uid://c22o4eg2h6tr8" path="res://Scripts/Tilemap/tile_map.gd" id="3_j1ts0"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_wsh3r"]
 texture = ExtResource("2_54dmj")
@@ -16,6 +16,8 @@ sources/0 = SubResource("TileSetAtlasSource_wsh3r")
 
 [node name="Sandbox" type="Node2D"]
 script = ExtResource("1_j1ts0")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="."]
 

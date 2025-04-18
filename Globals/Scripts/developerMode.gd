@@ -10,31 +10,31 @@ func _input(event: InputEvent) -> void:
 
 			KEY_S:
 				if inDevMode:
-					var enemy = preload("res://Enemy Scenes/Basic Square.tscn")
+					var enemy = load("res://Enemy Scenes/Basic Square.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
 			KEY_R:
 				if inDevMode:
-					var enemy = preload("res://Enemy Scenes/Tanky Rectangle.tscn")
+					var enemy = load("res://Enemy Scenes/Tanky Rectangle.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
 			KEY_T:
 				if inDevMode:
-					var enemy = preload("res://Enemy Scenes/Speedy Triangle.tscn")
+					var enemy = load("res://Enemy Scenes/Speedy Triangle.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
 			KEY_D:
 				if inDevMode:
-					var enemy = preload("res://Enemy Scenes/Shooty Diamond.tscn")
+					var enemy = load("res://Enemy Scenes/Shooty Diamond.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
 			KEY_H:
 				if inDevMode:
-					var enemy = preload("res://Enemy Scenes/Hexagon Mothership.tscn")
+					var enemy = load("res://Enemy Scenes/Hexagon Mothership.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
