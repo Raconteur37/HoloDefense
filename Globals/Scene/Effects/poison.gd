@@ -24,10 +24,12 @@ func _process(delta: float) -> void:
 		particleEffect.global_position = enemy.global_position
 
 func applyData(turret,victim,effectDamage,time):
-	turretApplier = turret
-	enemy = victim
-	damage = effectDamage
-	$"Total Time".wait_time = time
+	if is_instance_valid(victim):
+		turretApplier = turret
+		enemy = victim
+		damage = effectDamage
+		$"Total Time".wait_time = time
+		victim.effects["Poison"] = self
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)
@@ -44,5 +46,4 @@ func _on_tick_timeout() -> void:
 		EffectManager.removeEffect(enemy,self)
 
 func _on_total_time_timeout() -> void:
-	EffectManager.removeEffect(enemy,self)
-	queue_free()
+	EffectManager.removeEffect(enemy,effectName)

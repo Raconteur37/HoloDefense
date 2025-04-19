@@ -20,6 +20,10 @@ var summonTime
 var knightHealth
 var knightDamage
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		removeAllMinions()
+
 func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Midieval
@@ -62,6 +66,12 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+	if GameManager.previewMode:
+		var dummy = load("res://Enemy Scenes/Dummy.tscn")
+		dummy = dummy.instantiate()
+		dummy.global_position = to_local(global_position)
+		dummy.global_position.x += 100
+		add_child(dummy)
 
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
@@ -101,6 +111,10 @@ func isEnemyTargeted(enemy):
 	for x in currentMinions:
 		if x.enemy == enemy:
 			return true
+
+func removeAllMinions():
+	for minion in currentMinions:
+		minion.queue_free()
 
 func removeMinion(minion):
 	currentMinions.erase(minion)

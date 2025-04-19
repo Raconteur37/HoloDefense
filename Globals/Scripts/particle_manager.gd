@@ -34,18 +34,18 @@ func playDeathParticle(enemy):
 func playZombieTurnParticle(enemy):
 	var particle = zombieTurnParticle.instantiate()
 	particle.setPosition(enemy.global_position)
-	get_tree().current_scene.add_child(particle)
+	enemy.add_child(particle)
 
 func playExecutionParticle(enemy):
 
 	var particle = executionParticle.instantiate()
 	particle.setPosition(enemy.global_position)
-	get_tree().current_scene.add_child(particle)
+	enemy.add_child(particle)
 
 
 func playEnergizedParticle(turret):
 
 	var particle = energizedParticle.instantiate()
-	particle.global_position = turret.global_position
-	get_tree().current_scene.add_child(particle)
+	particle.get_child(0).global_position = turret.global_position
+	turret.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle

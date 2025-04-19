@@ -13,8 +13,6 @@ var turretSelected : bool = false
 
 var selectedTurret
 
-var popupScene = load("res://Globals/Scene/Popup.tscn")
-
 func selectTurret(turretName):
 	if turretName != null:
 		selectedTurret = TurretManager.getTurretByName(turretName).instantiate()

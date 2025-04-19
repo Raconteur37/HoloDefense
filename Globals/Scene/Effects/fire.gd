@@ -30,6 +30,7 @@ func applyData(turret,victim,fireDamage,time):
 	enemy = victim
 	damage = fireDamage
 	$"Total Time".wait_time = time
+	victim.effects["Fire"] = self
 
 func restartTime(time):
 	$"Total Time".start($"Total Time".wait_time)

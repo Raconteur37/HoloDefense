@@ -7,15 +7,24 @@ var turretContainer
 
 @onready var turretIcon = $"../TurretIcon"
 @onready var turretNameLabel = $"../VBoxContainer2/TurretNameLabel"
-@onready var turretDescriptionLabel = $"../TurretDescriptionLabel"
+@onready var turretDescriptionLabel = $"../LevelContainer/LevelOneTexture/TurretDescriptionLabel"
 @onready var rarityLabel = $"../VBoxContainer2/RarityLabel"
 @onready var typeLabel = $"../TypeLabel"
 
 @onready var priceLabel = $"../VBoxContainer/HBoxContainer/PriceLabel"
 
+@onready var previewToggle = $"../PreviewButton"
+
+@onready var viewportContainer = $"../SubViewportContainer"
+@onready var viewPort = $"../SubViewportContainer/SubViewport"
+
 var turretData = {}
 
+var currentTurret : String
+
 func _ready() -> void:
+
+	GameManager.previewMode = true
 
 	#scroll.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	scroll.custom_minimum_size = Vector2(700,150)
@@ -47,7 +56,10 @@ func add_turret_button(turretName : String):
 
 func _on_turret_button_pressed(turretName: String):
 	turretIcon.texture = TurretManager.findTurretTexture(turretName)
+	previewToggle.icon = TurretManager.findTurretTexture(turretName)
+	previewToggle.button_pressed = false
 	turretNameLabel.text = turretName
+	currentTurret = turretName
 	turretDescriptionLabel.text = turretData[turretName].description
 	typeLabel.text = turretData[turretName].type
 
@@ -66,3 +78,19 @@ func _on_turret_button_pressed(turretName: String):
 
 
 	priceLabel.text = "$" + str(turretData[turretName].price)
+
+
+func _on_preview_button_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		turretIcon.visible = false
+		var turretScene = TurretManager.getTurretByName(currentTurret).instantiate()
+		turretScene.global_position.x = viewPort.size.x / 2
+		turretScene.global_position.y = viewPort.size.y / 2
+		viewPort.add_child(turretScene)
+		# Set the turret level based on config
+		viewportContainer.visible = true
+	else:
+		if viewPort.get_child_count(false) > 0:
+			viewPort.get_child(0).queue_free()
+		turretIcon.visible = true
+		viewportContainer.visible = false

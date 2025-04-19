@@ -1,8 +1,10 @@
-[gd_scene load_steps=9 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=11 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
 [ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="3_g24qp"]
+[ext_resource type="Texture2D" uid="uid://btoqr1le5id5g" path="res://Textures/UI/Turret Info/LevelOneInfo.png" id="3_osgsa"]
+[ext_resource type="Texture2D" uid="uid://cawpy7viw566g" path="res://Textures/UI/Turret Info/Locked.png" id="4_bvhjd"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_g24qp"]
 font_size = 39
@@ -27,9 +29,9 @@ anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 3.0
-offset_top = 47.0
+offset_top = 1.0
 offset_right = 3.0
-offset_bottom = 47.0
+offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
@@ -39,10 +41,11 @@ anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
-offset_top = -103.0
+offset_top = -54.0
 offset_right = 28.0
-offset_bottom = -103.0
+offset_bottom = -54.0
 grow_vertical = 0
+scale = Vector2(0.8, 0.8)
 script = ExtResource("1_mxhls")
 
 [node name="Panel" type="Panel" parent="TurretSelectionScroll"]
@@ -69,6 +72,20 @@ scale = Vector2(2.44544, 2.33681)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TurretSelectionScroll/Panel/ScrollContainer"]
 layout_mode = 2
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+layout_mode = 0
+offset_left = 123.0
+offset_top = 38.0
+offset_right = 635.0
+offset_bottom = 550.0
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+render_target_update_mode = 4
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="."]
 layout_mode = 0
@@ -101,21 +118,41 @@ offset_bottom = 234.0
 scale = Vector2(5, 5)
 texture = ExtResource("2_mxhls")
 
-[node name="TurretDescriptionLabel" type="Label" parent="."]
+[node name="LevelContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 1171.0
-offset_top = 120.0
-offset_right = 1669.0
-offset_bottom = 407.0
-text = "this is a description about something idek "
+offset_left = 1166.0
+offset_right = 2235.0
+offset_bottom = 1298.0
+scale = Vector2(0.704436, 0.736426)
+
+[node name="LevelOneTexture" type="TextureRect" parent="LevelContainer"]
+modulate = Color(1, 1, 1, 0.45098)
+layout_mode = 2
+texture = ExtResource("3_osgsa")
+
+[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelOneTexture"]
+layout_mode = 0
+offset_left = 113.0
+offset_top = 89.0
+offset_right = 960.0
+offset_bottom = 312.0
+text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
+[node name="LevelTwoTexture" type="TextureRect" parent="LevelContainer"]
+layout_mode = 2
+texture = ExtResource("4_bvhjd")
+
+[node name="LevelThreeTexture" type="TextureRect" parent="LevelContainer"]
+layout_mode = 2
+texture = ExtResource("4_bvhjd")
+
 [node name="TypeLabel" type="Label" parent="."]
 layout_mode = 0
-offset_left = 308.0
+offset_left = 305.0
 offset_top = 402.0
-offset_right = 448.0
+offset_right = 445.0
 offset_bottom = 436.896
 text = "Turret Type"
 label_settings = SubResource("LabelSettings_cxutq")
@@ -124,10 +161,10 @@ vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 317.0
-offset_top = 458.0
-offset_right = 481.0
-offset_bottom = 745.0
+offset_left = 12.0
+offset_top = 505.0
+offset_right = 523.0
+offset_bottom = 792.0
 scale = Vector2(1.5, 1.5)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
@@ -144,3 +181,13 @@ label_settings = SubResource("LabelSettings_ekhco")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="PreviewButton" type="CheckButton" parent="."]
+layout_mode = 0
+offset_left = 325.0
+offset_top = 442.0
+offset_right = 405.0
+offset_bottom = 482.0
+icon = ExtResource("2_mxhls")
+
+[connection signal="toggled" from="PreviewButton" to="TurretSelectionScroll" method="_on_preview_button_toggled"]

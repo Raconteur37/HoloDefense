@@ -1,0 +1,39 @@
+[gd_scene load_steps=5 format=3 uid="uid://rki0xi2b1e1p"]
+
+[ext_resource type="Script" uid="uid://cfsx0blktfk1g" path="res://Scripts/Enemies/dummy.gd" id="1_eph63"]
+[ext_resource type="Texture2D" uid="uid://6vib6l7erqxq" path="res://Textures/Enemies/TrainingDummy.png" id="2_78ujv"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
+size = Vector2(11, 12)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
+size = Vector2(22, 28)
+
+[node name="Dummy" type="CharacterBody2D" groups=["Enemy"]]
+position = Vector2(927, 511)
+collision_layer = 4
+collision_mask = 3
+script = ExtResource("1_eph63")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+visible = false
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_m5ss4")
+
+[node name="Sprite2D" type="Sprite2D" parent="."]
+self_modulate = Color(1.5, 1, 1, 1)
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("2_78ujv")
+
+[node name="Area2D" type="Area2D" parent="."]
+position = Vector2(1, -1)
+collision_layer = 4
+collision_mask = 3
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+position = Vector2(-1, 1)
+shape = SubResource("RectangleShape2D_o2fih")
+
+[node name="AttackTimer" type="Timer" parent="."]
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

@@ -6,7 +6,7 @@ signal hit(damageTaken,turret,enemy,damageType)
 
 var destination = null
 
-var effects = []
+var effects : Dictionary = {}
 
 var curseDamageAmp
 
@@ -23,7 +23,6 @@ var isZombie
 var attackTimer
 var attackReady : bool = true
 var isDead : bool = false
-
 
 func _physics_process(delta: float) -> void:
 
@@ -88,6 +87,21 @@ func onZombieAreaEntered(body):
 				body.turnTurret = turnTurret
 				body.isZombie = true
 				ParticleManager.playZombieTurnParticle(self)
+
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Turret Projectile"):
+		hit.emit(body.damage,body.shooter,self,body)
+	if body.is_in_group("Turret"):
+		if body.get("isPlaced") != null:
+			if body.isPlaced:
+				body.hit.emit(damage,body)
+				attackReady = false
+				attackTimer.start()
+
+	if body.is_in_group("Minion"):
+		body.hit.emit(damage,body)
+		attackReady = false
+		attackTimer.start()
 
 func onZombieAreaExit(body: Node2D):
 	pass

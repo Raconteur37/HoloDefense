@@ -2,6 +2,8 @@ extends Node
 
 var startingCash : int = 1000
 
+var previewMode : bool = false
+
 var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
 # This array will be in order, so 0 will be 1 and so on
@@ -54,8 +56,6 @@ func removeTurretFromGame(turret):
 func removeEnemyFromGame(enemy : CharacterBody2D):
 	if (enemiesAlive.find(enemy) >= 0):
 		enemiesAlive.remove_at(enemiesAlive.find(enemy))
-
-	EffectManager.clearEffects(enemy)
 
 	enemy.queue_free()
 

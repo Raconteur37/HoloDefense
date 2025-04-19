@@ -9,7 +9,10 @@ particles_anim_h_frames = 14
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="Energized" type="CPUParticles2D"]
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="Energized" type="CPUParticles2D" parent="."]
+z_index = 7
 material = SubResource("CanvasItemMaterial_yxu8x")
 position = Vector2(928, 383)
 scale = Vector2(0.7, 0.7)

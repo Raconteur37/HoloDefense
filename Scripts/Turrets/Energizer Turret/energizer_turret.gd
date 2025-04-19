@@ -18,6 +18,12 @@ var turretsEnergized : int = 0
 @export var energizerAttackRangeBuff : float = 0.02
 @export var energizerReloadTimeBuff : float = 0.02
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		for turret in turretsInRange:
+			if turret.energized:
+				removeEnergizerBuffsToTurret(turret)
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -58,6 +64,13 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+	if GameManager.previewMode:
+		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
+		turret = turret.instantiate()
+		turret.global_position = to_local(global_position)
+		turret.global_position.x += 100
+		turret.global_position.y -= 45
+		add_child(turret)
 
 func _process(delta: float) -> void:
 	if isPlaced and not isCollisionReady:
@@ -103,6 +116,8 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.reloadTimer.wait_time = turret.reloadTime
 
 func removeEnergizerBuffsToTurret(turret):
+	turret.currentParticlesMap["Energized"].queue_free()
+	turret.currentParticlesMap.erase("Energized")
 	turret.energized = false
 	if turret.get("damage") != null:
 		turret.damage -=  ceil(energizerDamageBuff * turret.baseDamage)
@@ -138,7 +153,7 @@ func _on_energize_time_timeout() -> void:
 		if not checkAllTurretsEnergized():
 			while true:
 				var turret = turretsInRange.pick_random()
-				if is_instance_valid(turret):
+				if is_instance_valid(turret) and turret != self:
 					if not turret.energized:
 						turret.energizerTurret = $"."
 						turretsEnergized += 1

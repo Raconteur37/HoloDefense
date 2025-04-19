@@ -51,6 +51,12 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+	if GameManager.previewMode:
+		var dummy = load("res://Enemy Scenes/Dummy.tscn")
+		dummy = dummy.instantiate()
+		dummy.global_position = to_local(global_position)
+		dummy.global_position.x += 50
+		add_child(dummy)
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:

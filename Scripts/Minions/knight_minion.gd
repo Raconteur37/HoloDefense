@@ -8,7 +8,7 @@ const minionName : String = "Knight"
 var health : float = 0
 var damage : float = 0
 @export var attackTime : float = 3
-@export var speed : float = 200 
+@export var speed : float = 200
 @export var armor : int = 10
 
 var attackTimer
@@ -32,14 +32,14 @@ func _ready():
 	velocity = direction * 200
 	await get_tree().create_timer(.2).timeout
 	velocity = Vector2(0,0)
-	
+
 	hit.connect(EntityManager.entityTakeDamage)
 
 func getName():
 	return minionName
 
 func _physics_process(delta: float) -> void:
-	
+
 	if enemy == null:
 		attackingEnemy = false
 		for z in turretOwner.get_node("RangeArea").get_overlapping_areas():
@@ -49,7 +49,7 @@ func _physics_process(delta: float) -> void:
 			enemy = enemiesList.pick_random()
 			attackingEnemy = true
 			enemiesList.clear()
-	
+
 	if attackingEnemy and enemy != null:
 		var direction = (enemy.global_position - global_position).normalized()
 		# Set the velocity to move toward the center
@@ -57,7 +57,7 @@ func _physics_process(delta: float) -> void:
 
 		# Move and Slide with the current velocity
 		move_and_slide()
-	
+
 	if not attackingEnemy:
 		if idleTimer.is_stopped():
 			idleTimer.start()
