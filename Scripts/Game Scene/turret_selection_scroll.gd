@@ -18,7 +18,22 @@ var turretContainer
 @onready var viewportContainer = $"../SubViewportContainer"
 @onready var viewPort = $"../SubViewportContainer/SubViewport"
 
+@onready var levelTwoProgressBar = $"../LevelContainer/LevelTwoTexture/LevelTwoProgress"
+@onready var levelTwoDescription = $"../LevelContainer/LevelTwoTexture/TurretDescriptionLabel"
+@onready var levelThreeProgressBar = $"../LevelContainer/LevelThreeTexture/LevelThreeProgress"
+@onready var levelThreeDescription = $"../LevelContainer/LevelThreeTexture/TurretDescriptionLabel"
+
+@onready var levelTwoTexture = $"../LevelContainer/LevelTwoTexture"
+@onready var levelThreeTexture = $"../LevelContainer/LevelThreeTexture"
+
+@onready var unlockedIcon = load("res://Textures/UI/Turret Info/LevelOneInfo.png")
+@onready var lockedIcon = load("res://Textures/UI/Turret Info/Locked.png")
+
+@onready var lockedRequiredText = $"../LevelContainer/LevelThreeTexture/RequiredText"
+
 var turretData = {}
+
+var turretXPData = {}
 
 var currentTurret : String
 
@@ -32,17 +47,21 @@ func _ready() -> void:
 	#hbox.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	#hbox.size_flags_vertical = Control.SIZE_EXPAND_FILL
 
-	for turret in TurretManager.allTurrets:
-		add_turret_button(turret)
+	#for turret in TurretManager.allTurrets:
+	#	add_turret_button(turret)
 
 	var file = FileAccess.open("res://Config/Turret Info.json",FileAccess.READ)
 	turretData = JSON.parse_string(file.get_as_text())
+	file.close()
+
+	file = FileAccess.open("res://Config/TurretXP.json",FileAccess.READ)
+	turretXPData = JSON.parse_string(file.get_as_text())
 
 	# Sorted by rarity ascending
-	#for rarity in ["Common","Rare","Super Rare","Legendary","Unseen"]:
-	#	for turret in TurretManager.allTurrets:
-	#		if turretData[turret].rarity == rarity:
-	#			add_turret_button(turret)
+	for rarity in ["Common","Rare","Super Rare","Legendary","Unseen"]:
+		for turret in TurretManager.allTurrets:
+			if turretData[turret].rarity == rarity:
+				add_turret_button(turret)
 
 func add_turret_button(turretName : String):
 	var btn = Button.new()
@@ -65,6 +84,34 @@ func _on_turret_button_pressed(turretName: String):
 
 	var rarity = turretData[turretName].rarity
 	rarityLabel.text = rarity
+
+	var turretLevel = turretXPData["Turret Level"].get(turretName)
+
+	if turretLevel == 1:
+		levelTwoDescription.hide()
+		levelThreeDescription.hide()
+		levelTwoProgressBar.show()
+		levelThreeProgressBar.hide()
+		lockedRequiredText.show()
+		levelTwoTexture.texture = lockedIcon
+		levelThreeTexture.texture = lockedIcon
+	if turretLevel == 2:
+		levelTwoDescription.show()
+		levelThreeDescription.hide()
+		levelTwoProgressBar.hide()
+		levelThreeProgressBar.show()
+		lockedRequiredText.hide()
+		levelTwoTexture.texture = unlockedIcon
+		levelThreeTexture.texture = lockedIcon
+	if turretLevel == 3:
+		levelTwoDescription.show()
+		levelThreeDescription.show()
+		levelThreeProgressBar.hide()
+		levelTwoProgressBar.hide()
+		lockedRequiredText.hide()
+		levelTwoTexture.texture = unlockedIcon
+		levelThreeTexture.texture = unlockedIcon
+
 	if rarity == "Common":
 		rarityLabel.label_settings.font_color = Color(Color.DIM_GRAY)
 	if rarity == "Rare":
@@ -76,6 +123,13 @@ func _on_turret_button_pressed(turretName: String):
 	if rarity == "Unseen":
 		rarityLabel.label_settings.font_color = Color(Color.HOT_PINK)
 
+	var levelTwoMaxXp = turretXPData["XP Maximum"].get(rarity).get("LevelTwoMaxXP")
+	levelTwoProgressBar.max_value = levelTwoMaxXp
+	levelThreeProgressBar.min_value = levelTwoMaxXp
+	levelThreeProgressBar.max_value = turretXPData["XP Maximum"].get(rarity).get("LevelThreeMaxXP")
+
+	levelTwoProgressBar.value = turretXPData["Turret XP"].get(turretName)
+	levelThreeProgressBar.value = turretXPData["Turret XP"].get(turretName)
 
 	priceLabel.text = "$" + str(turretData[turretName].price)
 

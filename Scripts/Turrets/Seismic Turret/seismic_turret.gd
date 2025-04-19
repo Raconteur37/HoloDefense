@@ -11,8 +11,8 @@ func _ready() -> void:
 	turretName = "Seismic Turret"
 	price = 20
 	maxHealth = 80
-	baseDamage = 35
-	baseAttackRange = 50
+	baseDamage = 50
+	baseAttackRange = 75
 	baseReloadTime = 4
 	upgradeTier = 0
 	armor = 25
@@ -51,6 +51,17 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+	if GameManager.previewMode:
+		var dummy = load("res://Enemy Scenes/Dummy.tscn")
+		dummy = dummy.instantiate()
+		dummy.global_position = to_local(global_position)
+		dummy.global_position.x += 50
+		add_child(dummy)
+		var dummy2 = load("res://Enemy Scenes/Dummy.tscn")
+		dummy2 = dummy2.instantiate()
+		dummy2.global_position = to_local(global_position)
+		dummy2.global_position.x -= 50
+		add_child(dummy2)
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:

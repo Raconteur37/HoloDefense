@@ -39,8 +39,8 @@ func playZombieTurnParticle(enemy):
 func playExecutionParticle(enemy):
 
 	var particle = executionParticle.instantiate()
-	particle.setPosition(enemy.global_position)
-	enemy.add_child(particle)
+	particle.get_child(0).global_position = enemy.global_position
+	get_tree().current_scene.add_child(particle)
 
 
 func playEnergizedParticle(turret):

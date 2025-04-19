@@ -12,11 +12,11 @@ var currentBullets
 
 
 func _ready() -> void:
-	rarity = Rarity.COMMON
-	type = Type.Modern
+	rarity = Rarity.RARE
+	type = Type.Armory
 
 	const turretName : String = "Automated Sentry Turret"
-	price = 20
+	price = 25
 	maxHealth = 20
 	baseDamage = 20
 	baseProjectileSpeed = 400
@@ -67,9 +67,14 @@ func _ready() -> void:
 		var dummy = load("res://Enemy Scenes/Dummy.tscn")
 		dummy = dummy.instantiate()
 		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
+		dummy.global_position.x += 150
 		add_child(dummy)
-
+		var dummy2 = load("res://Enemy Scenes/Dummy.tscn")
+		dummy2 = dummy2.instantiate()
+		dummy2.global_position = to_local(global_position)
+		dummy2.global_position.x += 190
+		dummy2.global_position.y -= 70
+		add_child(dummy2)
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shootTimer.is_stopped():

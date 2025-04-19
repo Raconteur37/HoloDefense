@@ -1,10 +1,17 @@
-[gd_scene load_steps=11 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=18 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
 [ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="3_g24qp"]
 [ext_resource type="Texture2D" uid="uid://btoqr1le5id5g" path="res://Textures/UI/Turret Info/LevelOneInfo.png" id="3_osgsa"]
 [ext_resource type="Texture2D" uid="uid://cawpy7viw566g" path="res://Textures/UI/Turret Info/Locked.png" id="4_bvhjd"]
+
+[sub_resource type="Gradient" id="Gradient_bvhjd"]
+colors = PackedColorArray(1.58831e-06, 0.460516, 0.464174, 1, 0.433155, 0.201588, 0.999643, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_cxutq"]
+gradient = SubResource("Gradient_bvhjd")
+fill_from = Vector2(0, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_g24qp"]
 font_size = 39
@@ -15,6 +22,22 @@ font_color = Color(0.442911, 0.442911, 0.442911, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_osgsa"]
 font_size = 39
+
+[sub_resource type="Gradient" id="Gradient_ekhco"]
+colors = PackedColorArray(1, 1, 1, 0, 0.779291, 0.779291, 0.779291, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_515np"]
+gradient = SubResource("Gradient_ekhco")
+
+[sub_resource type="Gradient" id="Gradient_du365"]
+colors = PackedColorArray(0.668316, 0.870408, 1, 1, 9.04858e-06, 0.739578, 0.837579, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_5l8ie"]
+gradient = SubResource("Gradient_du365")
+
+[sub_resource type="LabelSettings" id="LabelSettings_scggw"]
+font_size = 39
+font_color = Color(1, 0.188235, 0.141176, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
 font_size = 25
@@ -34,6 +57,13 @@ offset_right = 3.0
 offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
+
+[node name="Background" type="TextureRect" parent="."]
+visible = false
+layout_mode = 0
+offset_right = 1917.0
+offset_bottom = 1079.0
+texture = SubResource("GradientTexture2D_cxutq")
 
 [node name="TurretSelectionScroll" type="Control" parent="."]
 layout_mode = 1
@@ -144,9 +174,58 @@ autowrap_mode = 2
 layout_mode = 2
 texture = ExtResource("4_bvhjd")
 
+[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelTwoTexture"]
+visible = false
+offset_left = 113.0
+offset_top = 89.0
+offset_right = 960.0
+offset_bottom = 312.0
+text = "Debug Text"
+label_settings = SubResource("LabelSettings_osgsa")
+autowrap_mode = 2
+
+[node name="LevelTwoProgress" type="TextureProgressBar" parent="LevelContainer/LevelTwoTexture"]
+layout_mode = 0
+offset_left = 176.027
+offset_top = 265.324
+offset_right = 900.027
+offset_bottom = 305.324
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_515np")
+texture_progress = SubResource("GradientTexture2D_5l8ie")
+
 [node name="LevelThreeTexture" type="TextureRect" parent="LevelContainer"]
 layout_mode = 2
 texture = ExtResource("4_bvhjd")
+
+[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelThreeTexture"]
+visible = false
+offset_left = 113.0
+offset_top = 89.0
+offset_right = 960.0
+offset_bottom = 312.0
+text = "Debug Text"
+label_settings = SubResource("LabelSettings_osgsa")
+autowrap_mode = 2
+
+[node name="RequiredText" type="Label" parent="LevelContainer/LevelThreeTexture"]
+offset_left = 380.446
+offset_top = 250.918
+offset_right = 709.446
+offset_bottom = 314.918
+text = "Requires Level 2"
+label_settings = SubResource("LabelSettings_scggw")
+autowrap_mode = 2
+
+[node name="LevelThreeProgress" type="TextureProgressBar" parent="LevelContainer/LevelThreeTexture"]
+visible = false
+offset_left = 176.027
+offset_top = 265.324
+offset_right = 900.027
+offset_bottom = 305.324
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_515np")
+texture_progress = SubResource("GradientTexture2D_5l8ie")
 
 [node name="TypeLabel" type="Label" parent="."]
 layout_mode = 0

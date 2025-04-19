@@ -15,7 +15,7 @@ script = ExtResource("1_lcx4u")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_m72nu")
-position = Vector2(976, 458)
+position = Vector2(985, 501)
 emitting = false
 amount = 1
 texture = ExtResource("1_q42w1")

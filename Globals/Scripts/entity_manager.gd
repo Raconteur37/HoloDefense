@@ -130,6 +130,10 @@ func onKill(turret,enemy):
 
 	var enemyName = enemy.getName()
 
+	if enemyName == "Dummy":
+		enemy.queue_free()
+		return
+
 	var moneyEarned = GameManager.calculateMoneyReward(enemyName)
 	var experienceEarned = GameManager.calculateExperienceReward(enemyName)
 

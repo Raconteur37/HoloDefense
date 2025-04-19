@@ -9,18 +9,18 @@ var attackTimer : Timer
 
 func _ready() -> void:
 
-	rarity = Rarity.SUPER_RARE
+	rarity = Rarity.UNSEEN
 	type = Type.Dark
 
 	turretName = "Zombie Turret"
 	price = 20
 	maxHealth = 90
 	baseDamage = 3
-	baseAttackRange = 30
+	baseAttackRange = 40
 	upgradeTier = 0
 	armor = 0
 	level = 1
-	baseBuildTime = 5
+	baseBuildTime = 25
 
 
 	line2d = $RangeArea/RangeIndicator
@@ -53,6 +53,12 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+	if GameManager.previewMode:
+		var dummy = load("res://Enemy Scenes/Dummy.tscn")
+		dummy = dummy.instantiate()
+		dummy.global_position = to_local(global_position)
+		dummy.global_position.x += 30
+		add_child(dummy)
 
 func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and attackTimer.is_stopped():

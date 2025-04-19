@@ -1,0 +1,62 @@
+{
+	"XP Maximum": {
+
+		"Common": {
+			"LevelTwoMaxXP": 5000,
+			"LevelThreeMaxXP": 15000
+		},
+		"Rare": {
+			"LevelTwoMaxXP": 10000,
+			"LevelThreeMaxXP": 30000
+		},
+		"Super Rare": {
+			"LevelTwoMaxXP": 20000,
+			"LevelThreeMaxXP": 60000
+		},
+		"Legendary": {
+			"LevelTwoMaxXP": 50000,
+			"LevelThreeMaxXP": 150000
+		},
+		"Unseen": {
+			"LevelTwoMaxXP": 100000,
+			"LevelThreeMaxXP": 300000
+		}
+	},
+
+	"Turret XP": {
+		"Arrow Turret": 7500,
+		"Mini Sentry Turret": 0,
+		"Energizer Turret": 0,
+		"Railgun Turret": 0,
+		"Flame Turret": 0,
+		"Reaper Turret": 0,
+		"Royal Turret": 0,
+		"Firework Turret": 0,
+		"Tesla Turret": 0,
+		"Automated Sentry Turret": 0,
+		"Gold Mine Turret": 0,
+		"Seismic Turret": 0,
+		"Spider Turret": 0,
+		"Voodoo Turret": 0,
+		"Zombie Turret": 0
+	},
+
+	"Turret Level": {
+		"Arrow Turret": 2,
+		"Mini Sentry Turret": 3,
+		"Energizer Turret": 1,
+		"Railgun Turret": 1,
+		"Flame Turret": 1,
+		"Reaper Turret": 1,
+		"Royal Turret": 1,
+		"Firework Turret": 1,
+		"Tesla Turret": 1,
+		"Automated Sentry Turret": 1,
+		"Gold Mine Turret": 1,
+		"Seismic Turret": 1,
+		"Spider Turret": 1,
+		"Voodoo Turret": 1,
+		"Zombie Turret": 1
+	}
+
+}
