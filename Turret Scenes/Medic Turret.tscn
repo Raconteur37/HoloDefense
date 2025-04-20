@@ -101,7 +101,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = true
 
 [node name="Medic Turret" type="CharacterBody2D" groups=["Turret"]]
-position = Vector2(981, 547)
+position = Vector2(950, 532)
 collision_mask = 12
 script = ExtResource("1_r7f3q")
 
@@ -124,7 +124,6 @@ script = ExtResource("4_1uc85")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="."]
-collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
 shape = SubResource("CircleShape2D_pdpxq")
@@ -138,6 +137,7 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 [node name="HealingPulse" parent="." instance=ExtResource("5_45pyj")]
 material = SubResource("CanvasItemMaterial_nga60")
 position = Vector2(0, 0)
+speed_scale = 1.5
 scale_amount_min = 4.0
 scale_amount_max = 4.0
 

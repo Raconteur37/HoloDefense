@@ -60,6 +60,12 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
+		turret = turret.instantiate()
+		turret.global_position = to_local(global_position)
+		turret.global_position.x += 100
+		turret.global_position.y -= 45
+		add_child(turret)
 	if GameManager.previewMode:
 		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
 		turret = turret.instantiate()
@@ -78,17 +84,18 @@ func _process(delta: float) -> void:
 		scanTurretsFirstTime = true
 		scanCurrentTurretsInRange()
 	if healReady and isPlaced and turretsInRange.size() > 0:
-		healTurrets()
+		topSprite.play("Heal")
 		healReady = false
 		healingPulseTimer.start()
 	if topSprite.frame == 9:
+		healTurrets()
 		particle.emitting = true
 		topSprite.stop()
 
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if isPlaced:
-		if body.is_in_group("Turret"):
+		if body.is_in_group("Turret") and body != self:
 			turretsInRange.append(body)
 
 
@@ -97,7 +104,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 		turretsInRange.erase(body)
 
 func healTurrets():
-	topSprite.play("Heal")
 	for turret in turretsInRange:
 		if is_instance_valid(turret):
 			if turret.health < turret.maxHealth:
@@ -107,9 +113,10 @@ func healTurrets():
 
 
 func scanCurrentTurretsInRange():
-	print("got hererere")
-	for entity in $RangeArea.get_overlapping_bodies():
-		print(entity)
+	for entity in $RangeArea.get_overlapping_areas():
+		if entity.get_parent().is_in_group("Turret") and entity.name.contains("SelectArea") and entity.get_parent() != self:
+			entity = entity.get_parent()
+			turretsInRange.append(entity)
 	healingPulseTimer.start()
 
 

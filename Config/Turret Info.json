@@ -222,5 +222,20 @@
 		"projectileSpeed": "300",
 		"constructionTime": "25",
 		"turnChance": "10"
+	},
+	"Medic Turret": {
+		"description": "Heals all turrets in range periodically.",
+		"levelTwo": "Unknown yet",
+		"levelThree": "Unkown",
+		"rarity": "Rare",
+		"type": "Support",
+		"price": "20",
+		"armor": "0",
+		"reloadTime": "4",
+		"health": "45",
+		"range": "100",
+		"constructionTime": "15",
+		"healingTime": "5",
+		"healingAmount": "4"
 	}
 }
