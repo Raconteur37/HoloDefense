@@ -157,6 +157,13 @@ func onKill(turret,enemy):
 			turret.addKill()
 			addTurretXP(turret.getName(),experienceEarned)
 
+func healTurret(turret,amountHealed):
+	if turret.health + amountHealed > turret.maxHealth:
+		turret.health = turret.maxHealth
+	else:
+		turret.health += amountHealed
+	ParticleManager.playHealParticle(turret)
+
 func addTurretXP(turretName,xp):
 
 	if (turretXpMap.has(turretName)):

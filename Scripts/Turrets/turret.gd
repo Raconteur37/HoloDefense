@@ -18,7 +18,7 @@ var line2d
 var reloadTimer
 var rangeCollisionShape
 var rangeIndicator
-var topSprite
+var topSprite : AnimatedSprite2D
 var selectArea
 var bodyCollisionShape
 

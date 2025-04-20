@@ -2,11 +2,11 @@ extends Node
 
 var unlockedTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Royal Turret","Flame Turret"
 ,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
-,"Automated Sentry Turret","Voodoo Turret","Zombie Turret"]
+,"Automated Sentry Turret","Voodoo Turret","Zombie Turret","Medic Turret"]
 
 var allTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Royal Turret","Flame Turret"
 ,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
-,"Automated Sentry Turret","Voodoo Turret","Zombie Turret"]
+,"Automated Sentry Turret","Voodoo Turret","Zombie Turret","Medic Turret"]
 
 func getTurretByName(turretName):
 
@@ -42,6 +42,8 @@ func getTurretByName(turretName):
 			return load("res://Turret Scenes/Voodoo Turret.tscn")
 		"Zombie Turret":
 			return load("res://Turret Scenes/Zombie Turret.tscn")
+		"Medic Turret":
+			return load("res://Turret Scenes/Medic Turret.tscn")
 
 func findTurretTexture(turretName):
 
@@ -77,3 +79,5 @@ func findTurretTexture(turretName):
 			return load("res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png")
 		"Zombie Turret":
 			return load("res://Textures/Turrets/Zombie Turret/Zombie Turret.png")
+		"Medic Turret":
+			return load("res://Textures/Turrets/Healing Turret/Healing Turret.png")

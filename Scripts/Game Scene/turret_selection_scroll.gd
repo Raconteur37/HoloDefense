@@ -31,6 +31,8 @@ var turretContainer
 
 @onready var lockedRequiredText = $"../LevelContainer/LevelThreeTexture/RequiredText"
 
+@onready var animationPlayer = $"../AnimationPlayer"
+
 var turretData = {}
 
 var turretXPData = {}
@@ -74,6 +76,7 @@ func add_turret_button(turretName : String):
 	hbox.add_child(btn)
 
 func _on_turret_button_pressed(turretName: String):
+	animationPlayer.play("InfoAppear")
 	turretIcon.texture = TurretManager.findTurretTexture(turretName)
 	previewToggle.icon = TurretManager.findTurretTexture(turretName)
 	previewToggle.button_pressed = false

@@ -1,6 +1,6 @@
 [gd_resource type="ShaderMaterial" load_steps=2 format=3 uid="uid://7b6d4xc30my4"]
 
-[ext_resource type="Shader" path="res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.gdshader" id="1_rw8xa"]
+[ext_resource type="Shader" uid="uid://cu42gjmofin56" path="res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.gdshader" id="1_rw8xa"]
 
 [resource]
 shader = ExtResource("1_rw8xa")

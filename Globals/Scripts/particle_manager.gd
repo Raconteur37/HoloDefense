@@ -9,6 +9,8 @@ var energizedParticle = preload("res://Particle Scenes/Turrets/Energizer Turret/
 
 var zombieTurnParticle = preload("res://Particle Scenes/Effects/Zombie Turn/ZombieTurnParticle.tscn")
 
+var healParticle = preload("res://Particle Scenes/Effects/Heal/Heal.tscn")
+
 func playDamageParticle(enemy):
 
 	match enemy.getName():
@@ -42,10 +44,15 @@ func playExecutionParticle(enemy):
 	particle.get_child(0).global_position = enemy.global_position
 	get_tree().current_scene.add_child(particle)
 
-
 func playEnergizedParticle(turret):
 
 	var particle = energizedParticle.instantiate()
 	particle.get_child(0).global_position = turret.global_position
 	turret.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle
+
+func playHealParticle(entity):
+
+	var particle = healParticle.instantiate()
+	particle.setPosition(entity.global_position)
+	entity.add_child(particle)

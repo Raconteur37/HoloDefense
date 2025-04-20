@@ -1,0 +1,148 @@
+[gd_scene load_steps=21 format=3 uid="uid://djyfkdn52fcwg"]
+
+[ext_resource type="Script" uid="uid://cupl4ncimxbxi" path="res://Scripts/Turrets/Medic Turret/medic_turret.gd" id="1_r7f3q"]
+[ext_resource type="Texture2D" uid="uid://duw1kbcscxs0l" path="res://Textures/Turrets/Healing Turret/Healing Turret Bottom.png" id="2_45pyj"]
+[ext_resource type="Texture2D" uid="uid://dythra4vxxs1h" path="res://Textures/Turrets/Healing Turret/Healing Turret-Sheet.png" id="3_nga60"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_1uc85"]
+[ext_resource type="PackedScene" uid="uid://dyqnflc2q5bmi" path="res://Particle Scenes/Turrets/Healing Turret/HealingPulse.tscn" id="5_45pyj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1uc85"]
+atlas = ExtResource("3_nga60")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lespq"]
+atlas = ExtResource("3_nga60")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7wp6t"]
+atlas = ExtResource("3_nga60")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_yidsd"]
+atlas = ExtResource("3_nga60")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_byniq"]
+atlas = ExtResource("3_nga60")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fmk0v"]
+atlas = ExtResource("3_nga60")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1opxq"]
+atlas = ExtResource("3_nga60")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hgfjb"]
+atlas = ExtResource("3_nga60")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_adysp"]
+atlas = ExtResource("3_nga60")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qoa0w"]
+atlas = ExtResource("3_nga60")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1uc85")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lespq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7wp6t")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_yidsd")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_byniq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fmk0v")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1opxq")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hgfjb")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_adysp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qoa0w")
+}],
+"loop": true,
+"name": &"Heal",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_nga60"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 16
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="Medic Turret" type="CharacterBody2D" groups=["Turret"]]
+position = Vector2(981, 547)
+collision_mask = 12
+script = ExtResource("1_r7f3q")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+shape = SubResource("RectangleShape2D_11eqx")
+disabled = true
+
+[node name="TurretBottom" type="Sprite2D" parent="."]
+texture = ExtResource("2_45pyj")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Heal"
+
+[node name="SelectArea" type="Area2D" parent="."]
+collision_mask = 4
+script = ExtResource("4_1uc85")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="."]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="HealingPulseTimer" type="Timer" parent="."]
+
+[node name="HealingPulse" parent="." instance=ExtResource("5_45pyj")]
+material = SubResource("CanvasItemMaterial_nga60")
+position = Vector2(0, 0)
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="HealingPulseTimer" to="." method="_on_healing_pulse_timer_timeout"]
