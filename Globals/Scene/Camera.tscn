@@ -1,0 +1,8 @@
+[gd_scene load_steps=2 format=3 uid="uid://ci65b1fkjck04"]
+
+[ext_resource type="Script" uid="uid://cji1o1ukgo4oc" path="res://Globals/Scripts/camera.gd" id="1_030bc"]
+
+[node name="Camera" type="Camera2D"]
+position = Vector2(960, 540)
+position_smoothing_enabled = true
+script = ExtResource("1_030bc")

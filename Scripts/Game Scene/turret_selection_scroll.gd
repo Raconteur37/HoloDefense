@@ -7,7 +7,7 @@ var turretContainer
 
 @onready var turretIcon = $"../TurretIcon"
 @onready var turretNameLabel = $"../VBoxContainer2/TurretNameLabel"
-@onready var turretDescriptionLabel = $"../LevelContainer/LevelOneTexture/TurretDescriptionLabel"
+@onready var turretDescriptionLabel = $"../LevelContainer/LevelOneTexture/RichTextLabel"
 @onready var rarityLabel = $"../VBoxContainer2/RarityLabel"
 @onready var typeLabel = $"../TypeLabel"
 
@@ -136,6 +136,8 @@ func _on_turret_button_pressed(turretName: String):
 
 	priceLabel.text = "$" + str(turretData[turretName].price)
 
+	createTooltips()
+
 
 func _on_preview_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
@@ -151,3 +153,17 @@ func _on_preview_button_toggled(toggled_on: bool) -> void:
 			viewPort.get_child(0).queue_free()
 		turretIcon.visible = true
 		viewportContainer.visible = false
+
+
+func createTooltips():
+	turretDescriptionLabel.tooltip_text = ""
+	if turretDescriptionLabel.text.contains("poison"):
+		turretDescriptionLabel.tooltip_text += "Poison: Quickly ticks down health of enemies, but can't kill.\n"
+	if turretDescriptionLabel.text.contains("curse"):
+		turretDescriptionLabel.tooltip_text += "Curse: Increase the damage enemies take from all sources.\n"
+	if turretDescriptionLabel.text.contains("ignite"):
+		turretDescriptionLabel.tooltip_text += "Ignite: Sets enemies on fire, can kill.\n"
+	if turretDescriptionLabel.text.contains("zombify"):
+		turretDescriptionLabel.tooltip_text += "Zombify: Enemies turn into zombies, which take damage over time and infect other non zombified enemies.\n"
+	if turretDescriptionLabel.text.contains("execute"):
+		turretDescriptionLabel.tooltip_text += "Execute: Kills an enemy instasnty.\n"

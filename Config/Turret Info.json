@@ -70,7 +70,7 @@
 		"constructionTime": "25"
 	},
 	"Flame Turret": {
-		"description": "Uses a flamethrower to ignite them and burn them slowly.",
+		"description": "Uses a flamethrower to [color=orange]ignite[/color] enemies and burn them slowly.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",
 		"rarity": "Rare",
@@ -98,7 +98,7 @@
 		"constructionTime": "10"
 	},
 	"Reaper Turret": {
-		"description": "Launches sythes that have a chance to execute enemies, killing them instantly.",
+		"description": "Launches sythes that have a chance to [color=black]execute[/color] enemies.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",
 		"rarity": "Super Rare",
@@ -113,7 +113,7 @@
 		"constructionTime": "8"
 	},
 	"Spider Turret": {
-		"description": "Shoots darts that have a chance to poison enemies.",
+		"description": "Shoots darts that have a chance to [color=green]poison[/color] enemies.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",
 		"rarity": "Common",
@@ -190,7 +190,7 @@
 		"shotTime": ".1"
 	},
 	"Voodoo Turret": {
-		"description": "Throws a voodoo doll that has a chance to curse enemies, cursing them increases the damage they take.",
+		"description": "Throws a voodoo doll that has a chance to [color=magenta]curse[/color] enemies.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",
 		"rarity": "Common",
@@ -208,7 +208,7 @@
 		"curseChance": "20"
 	},
 	"Zombie Turret": {
-		"description": "Has a chance every few seconds to transform enemies in range into zombies that infect other non zombie enemies.",
+		"description": "Has a chance every few seconds to [color=olive]zombify[/color] enemies in range.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",
 		"rarity": "Unseen",

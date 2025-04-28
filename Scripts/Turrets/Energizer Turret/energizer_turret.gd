@@ -2,8 +2,8 @@ extends Turret
 
 class_name EnergizerTurret
 
-
 var scanTurretsFirstTime : bool = false
+var energizeReady : bool = false
 
 var turretsInRange = []
 
@@ -64,6 +64,12 @@ func _ready() -> void:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
+		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
+		turret = turret.instantiate()
+		turret.global_position = to_local(global_position)
+		turret.global_position.x += 100
+		turret.global_position.y -= 45
+		add_child(turret)
 	if GameManager.previewMode:
 		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
 		turret = turret.instantiate()
@@ -81,6 +87,16 @@ func _process(delta: float) -> void:
 	if isPlaced and not scanTurretsFirstTime:
 		scanTurretsFirstTime = true
 		scanCurrentTurretsInRange()
+	if energizeReady and isPlaced and turretsInRange.size() > 0:
+		energizeReady = false
+		for turret in turretsInRange:
+			if is_instance_valid(turret) and turret != self:
+				if not turret.energized:
+					turret.energizerTurret = $"."
+					turretsEnergized += 1
+					applyEnergizerBuffsToTurret(turret)
+			else:
+				turretsInRange.erase(turret)
 
 func addTurretBuffed():
 	turretsEnergized += 1
@@ -150,16 +166,7 @@ func checkAllTurretsEnergized():
 
 func _on_energize_time_timeout() -> void:
 	if turretsEnergized < maxTurretsEnergized:
-		if not checkAllTurretsEnergized():
-			while true:
-				var turret = turretsInRange.pick_random()
-				if is_instance_valid(turret) and turret != self:
-					if not turret.energized:
-						turret.energizerTurret = $"."
-						turretsEnergized += 1
-						applyEnergizerBuffsToTurret(turret)
-						break
-				else:
-					turretsInRange.erase(turret)
-		if not checkAllTurretsEnergized():
-			energizeTimer.start()
+		if turretsInRange.size() == 0:
+			scanCurrentTurretsInRange()
+		if not energizeReady:
+			energizeReady = true
