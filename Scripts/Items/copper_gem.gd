@@ -12,7 +12,9 @@ var amount = 0
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			itemPopup = load("res://Item Scenes/Common Item Popup.tscn")
+			itemPopup = load("res://Item Scenes/Item Popup.tscn")
 			itemPopup = itemPopup.instantiate()
 			itemPopup.set_position(get_global_mouse_position())
+			itemPopup.position.y -= 330
 			add_child(itemPopup)
+			itemPopup.buildItem("Copper Gem")

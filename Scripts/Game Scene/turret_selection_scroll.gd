@@ -58,6 +58,7 @@ func _ready() -> void:
 
 	file = FileAccess.open("res://Config/TurretXP.json",FileAccess.READ)
 	turretXPData = JSON.parse_string(file.get_as_text())
+	file.close()
 
 	# Sorted by rarity ascending
 	for rarity in ["Common","Rare","Super Rare","Legendary","Unseen"]:
