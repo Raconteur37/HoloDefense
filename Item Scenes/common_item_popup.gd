@@ -17,6 +17,9 @@ var oneItemValue
 @onready var itemAmountLabel = $TextureRect/AmountLabel
 @onready var itemValueLabel = $TextureRect/ValueLabel
 
+func _process(delta: float) -> void:
+	itemAmountLabel.text = "Amount: [color=gray]x" + str(itemAmount) + "[/color]"
+
 func buildItem(itemName : String):
 	match itemName:
 
