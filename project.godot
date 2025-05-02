@@ -10,7 +10,7 @@ config_version=5
 
 [application]
 
-config/name="Turret Defender"
+config/name="Holo Defense"
 run/main_scene="res://Game Scenes/Game.tscn"
 config/features=PackedStringArray("4.4", "Forward Plus")
 
@@ -51,7 +51,7 @@ Citizen=""
 
 [gui]
 
-theme/default_font_multichannel_signed_distance_field=true
+theme/custom_font="uid://0w61ya6atm22"
 
 [input]
 
@@ -103,3 +103,4 @@ textures/canvas_textures/default_texture_repeat=1
 viewport/hdr_2d=true
 environment/defaults/default_clear_color=Color(0.092397, 0.0923971, 0.092397, 1)
 2d/snap/snap_2d_transforms_to_pixel=true
+2d/snap/snap_2d_vertices_to_pixel=true

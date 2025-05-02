@@ -22,3 +22,5 @@ offset_bottom = 41.0
 text = "x1"
 label_settings = SubResource("LabelSettings_8pup7")
 horizontal_alignment = 2
+
+[connection signal="gui_input" from="." to="." method="_on_gui_input"]
