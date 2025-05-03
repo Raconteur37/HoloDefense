@@ -44,5 +44,5 @@ func _on_cancel_button_pressed() -> void:
 	sellMenu.hide()
 
 func _on_h_slider_value_changed(value: float) -> void:
-	sliderItemAmount.text = "[color=gray]x" + str(itemAmount - slider.value) + "[/color]"
+	sliderItemAmount.text = "[color=white]x" + str(itemAmount - slider.value) + "[/color]"
 	sellAmountText.text = "[color=gold]$" + str(oneItemValue * slider.value) + "[/color]"

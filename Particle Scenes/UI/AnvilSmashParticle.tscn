@@ -1,0 +1,10 @@
+[gd_scene load_steps=2 format=3 uid="uid://mxoacawjw0c3"]
+
+[ext_resource type="Texture2D" uid="uid://bvqk4bfe0pc1j" path="res://Particle Scenes/UI/anivil.png" id="1_8005c"]
+
+[node name="AnvilSmashParticle" type="CPUParticles2D"]
+position = Vector2(491, 146)
+amount = 1
+texture = ExtResource("1_8005c")
+spread = 0.0
+gravity = Vector2(0, 0)
