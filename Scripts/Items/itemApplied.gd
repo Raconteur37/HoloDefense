@@ -1,12 +1,16 @@
-extends TextureRect
+extends Item
 
-var itemName = "Copper Gem"
+@onready var amountLabel = $amountLabel
 
-var itemPopup = null
+func buildItem(itemNamePass):
+	match itemNamePass:
 
-var amount = 0
-
-@onready var amountLabel = $Label
+		"Copper Gem":
+			itemName = "Copper Gem"
+			rarity = Rarity.COMMON
+			actualItem = theItem.COPPER_GEM
+			type = Type.GEM
+			moneyValue = CityManager.getItemValue(itemName)
 
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -17,4 +21,4 @@ func _on_gui_input(event: InputEvent) -> void:
 			itemPopup.set_position(get_global_mouse_position())
 			itemPopup.position.y -= 330
 			add_child(itemPopup)
-			itemPopup.buildItem("Copper Gem")
+			itemPopup.setItem(itemName)

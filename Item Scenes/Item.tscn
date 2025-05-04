@@ -1,19 +1,20 @@
 [gd_scene load_steps=4 format=3 uid="uid://dfirc702uhxas"]
 
-[ext_resource type="Texture2D" uid="uid://c7otky8x8i1i0" path="res://Textures/Citizens/Gems/copperGem.png" id="1_gcpnq"]
-[ext_resource type="Script" uid="uid://3tpf5ymc0266" path="res://Scripts/Items/copper_gem.gd" id="2_gvtm8"]
+[ext_resource type="Texture2D" uid="uid://c7otky8x8i1i0" path="res://Textures/Citizens/Gems/copperGem.png" id="1_bxxym"]
+[ext_resource type="Script" uid="uid://8tsllmw04i2a" path="res://Scripts/Items/itemApplied.gd" id="2_bxxym"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_8pup7"]
 
-[node name="Copper Gem" type="TextureRect"]
+[node name="Item" type="TextureRect"]
 offset_left = 866.0
 offset_top = 514.0
 offset_right = 906.0
 offset_bottom = 554.0
-texture = ExtResource("1_gcpnq")
-script = ExtResource("2_gvtm8")
+texture = ExtResource("1_bxxym")
+script = ExtResource("2_bxxym")
 
 [node name="amountLabel" type="Label" parent="."]
+visible = false
 layout_mode = 0
 offset_left = -2.0
 offset_top = 18.0

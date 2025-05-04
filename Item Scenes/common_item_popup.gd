@@ -1,9 +1,6 @@
 extends Popup
 
-var itemName
-var itemAmount
-
-var oneItemValue
+var item : Item
 
 @onready var itemNameLabel = $"TextureRect/Item Name"
 
@@ -17,32 +14,43 @@ var oneItemValue
 @onready var itemAmountLabel = $TextureRect/AmountLabel
 @onready var itemValueLabel = $TextureRect/ValueLabel
 
-func _process(delta: float) -> void:
-	itemAmountLabel.text = "Amount: [color=gray]x" + str(itemAmount) + "[/color]"
+@onready var itemImage = $TextureRect/ItemImage
 
-func buildItem(itemName : String):
+func setItem(itemName):
+
+	item = CityManager.getStorageItem(itemName)
+
+	itemImage.texture = setItemImage(itemName)
+	itemNameLabel.text = item.itemName
+	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
+	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+
+func setItemImage(itemName):
+
 	match itemName:
 
 		"Copper Gem":
-			itemNameLabel.text = "Copper Gem"
-			self.itemName = "Copper Gem"
-			oneItemValue = CityManager.getItemValue(itemName)
-			itemAmount = CityManager.getStorageItemAmount(itemName)
-			itemValueLabel.text = "Value: [color=gold]$" + str(int(oneItemValue * itemAmount)) + "[/color]"
-
+			return load("res://Textures/Citizens/Gems/copperGem.png")
 
 func _on_popup_hide() -> void:
 	queue_free()
 
 func _on_selll_button_pressed() -> void:
-	$SellSliderBackground/AmountLabel.text = "[color=gray]x" + str(itemAmount) + "[/color]"
+	$SellSliderBackground/AmountLabel.text = "[color=gray]x" + str(item.amount) + "[/color]"
 	slider.value = 0
-	slider.max_value = itemAmount
+	slider.max_value = item.amount
 	sellMenu.show()
 
 func _on_cancel_button_pressed() -> void:
 	sellMenu.hide()
 
 func _on_h_slider_value_changed(value: float) -> void:
-	sliderItemAmount.text = "[color=white]x" + str(itemAmount - slider.value) + "[/color]"
-	sellAmountText.text = "[color=gold]$" + str(oneItemValue * slider.value) + "[/color]"
+	sliderItemAmount.text = "[color=white]x" + str(item.amount - slider.value) + "[/color]"
+	sellAmountText.text = "[color=gold]$" + str(item.moneyValue * slider.value) + "[/color]"
+
+
+func _on_sell_button_pressed() -> void:
+	item = CityManager.sellItem(item,slider.value)
+	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
+	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+	sellMenu.hide()
