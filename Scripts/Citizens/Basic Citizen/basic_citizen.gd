@@ -34,7 +34,7 @@ var deliverParticle : CPUParticles2D
 
 var navAgent : NavigationAgent2D
 
-var inventory : Dictionary[String,int] ={}
+var inventory = []
 
 var jobExperience : Dictionary[String,float] = {
 	"Holo Generator" : 0,
@@ -133,8 +133,6 @@ func _physics_process(delta: float) -> void:
 
 
 
-
-
 func _input(event):
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
@@ -197,9 +195,23 @@ func finishJob():
 		"Gem Scraper":
 			var popup = popupScene.instantiate()
 			popup.setPosition(self.global_position)
-			popup.gemPopup("Copper")
+			var randGem = randi_range(1,100)
+			if randGem >= 1 and randGem <= 50:
+				popup.gemPopup("Copper")
+				addGemToInventory("Copper Gem",1)
+			if randGem >= 51 and randGem <= 70:
+				popup.gemPopup("Quartz")
+				addGemToInventory("Quartz Gem",1)
+			if randGem >= 71 and randGem <= 85:
+				print("Generate Amethyst")
+				popup.gemPopup("Copper")
+				addGemToInventory("Copper Gem",1)
+			if randGem >= 86 and randGem <= 96:
+				print("Generate Diamond")
+			if randGem >= 97 and randGem <= 100:
+				print("Generate Galactite")
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
-			addGemToInventory("Copper")
+
 			deliverItems()
 
 
@@ -219,18 +231,22 @@ func deliverItems():
 
 func finishDelivery():
 	deliverParticle.emitting = true
-	for key in inventory.keys():
-		if CityManager.storage.has(key):
-			CityManager.storage[key] = CityManager.storage.get(key) + inventory.get(key)
-		else:
-			CityManager.storage[key] = inventory.get(key)
+	# Deliver all items in inventory
+	for item in inventory:
+		CityManager.addItem(item)
+	inventory.clear()
 
 
-func addGemToInventory(gemName):
-	if inventory.has(gemName):
-		inventory[gemName] = inventory.get(gemName) + 1
-	else:
-		inventory[gemName] = 1
+func addGemToInventory(gemName,amount):
+	for item in inventory:
+		if item.itemName == gemName:
+			item.amount += amount
+			return
+	var gem = load("res://Item Scenes/Item.tscn")
+	gem = gem.instantiate()
+	gem.buildItem(gemName)
+	gem.amount = amount
+	inventory.append(gem)
 
 # Rendering
 

@@ -1,6 +1,6 @@
 [gd_scene load_steps=20 format=3 uid="uid://kw50k4sl6dlv"]
 
-[ext_resource type="Script" uid="uid://dfrsfxnhcooj2" path="res://Item Scenes/common_item_popup.gd" id="1_v2auv"]
+[ext_resource type="Script" uid="uid://dfrsfxnhcooj2" path="res://Item Scenes/item_select_popup.gd" id="1_v2auv"]
 [ext_resource type="Texture2D" uid="uid://b1if8bcso72e8" path="res://Textures/UI/Item/Web 1920 – 1.png" id="2_1qfsm"]
 [ext_resource type="Texture2D" uid="uid://b2tv65n0aj7xw" path="res://Textures/UI/Item/Item Sell Button.png" id="3_qtdmd"]
 [ext_resource type="Texture2D" uid="uid://dk1dpdxdax1dx" path="res://Textures/UI/Item/Item Sell Button Hover.png" id="4_1qfsm"]
@@ -110,12 +110,12 @@ visible = true
 always_on_top = true
 script = ExtResource("1_v2auv")
 
-[node name="TextureRect" type="TextureRect" parent="."]
+[node name="MainBackground" type="TextureRect" parent="."]
 offset_right = 423.0
 offset_bottom = 332.0
 texture = ExtResource("2_1qfsm")
 
-[node name="Item Name" type="Label" parent="TextureRect"]
+[node name="Item Name" type="Label" parent="MainBackground"]
 layout_mode = 0
 offset_left = 112.0
 offset_top = 22.0
@@ -126,7 +126,7 @@ label_settings = SubResource("LabelSettings_ocneq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Rarity Label" type="Label" parent="TextureRect"]
+[node name="Rarity Label" type="Label" parent="MainBackground"]
 layout_mode = 0
 offset_left = 186.0
 offset_top = 155.0
@@ -135,7 +135,7 @@ offset_bottom = 171.75
 text = "Common"
 label_settings = SubResource("LabelSettings_bj0nr")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TextureRect"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainBackground"]
 layout_mode = 0
 offset_left = 57.0
 offset_top = 280.0
@@ -144,12 +144,12 @@ offset_bottom = 336.0
 scale = Vector2(0.75, 0.75)
 alignment = 1
 
-[node name="Selll Button" type="TextureButton" parent="TextureRect/HBoxContainer"]
+[node name="Selll Button" type="TextureButton" parent="MainBackground/HBoxContainer"]
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="Label" type="Label" parent="TextureRect/HBoxContainer/Selll Button"]
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer/Selll Button"]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 10.0
@@ -160,13 +160,13 @@ label_settings = SubResource("LabelSettings_qoc1r")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ConvertButton" type="TextureButton" parent="TextureRect/HBoxContainer"]
+[node name="ConvertButton" type="TextureButton" parent="MainBackground/HBoxContainer"]
 modulate = Color(0, 0.835294, 0.886275, 1)
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="Label" type="Label" parent="TextureRect/HBoxContainer/ConvertButton"]
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer/ConvertButton"]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 10.0
@@ -177,7 +177,7 @@ label_settings = SubResource("LabelSettings_qoc1r")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ItemImage" type="TextureRect" parent="TextureRect"]
+[node name="ItemImage" type="TextureRect" parent="MainBackground"]
 texture_filter = 1
 layout_mode = 0
 offset_left = 166.0
@@ -185,7 +185,7 @@ offset_top = 68.0
 offset_right = 258.0
 offset_bottom = 154.0
 
-[node name="ValueLabel" type="RichTextLabel" parent="TextureRect"]
+[node name="ValueLabel" type="RichTextLabel" parent="MainBackground"]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 223.0
@@ -196,7 +196,7 @@ bbcode_enabled = true
 text = "Value: [color=gold]$0[/color]"
 horizontal_alignment = 1
 
-[node name="AmountLabel" type="RichTextLabel" parent="TextureRect"]
+[node name="AmountLabel" type="RichTextLabel" parent="MainBackground"]
 layout_mode = 0
 offset_left = 92.0
 offset_top = 177.0
@@ -350,7 +350,7 @@ material = SubResource("CanvasItemMaterial_ms1ek")
 position = Vector2(172, 115)
 
 [connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
-[connection signal="pressed" from="TextureRect/HBoxContainer/Selll Button" to="." method="_on_selll_button_pressed"]
+[connection signal="pressed" from="MainBackground/HBoxContainer/Selll Button" to="." method="_on_selll_button_pressed"]
 [connection signal="value_changed" from="SellSliderBackground/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/SellButton" to="." method="_on_sell_button_pressed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

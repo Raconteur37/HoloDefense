@@ -50,11 +50,11 @@ font_size = 12
 [node name="HoloGeneratorDescriptionScene" type="Control"]
 z_index = 1
 layout_mode = 3
-anchors_preset = 0
-offset_left = 4.0
-offset_top = 727.0
-offset_right = 4.0
-offset_bottom = 727.0
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+grow_vertical = 0
+mouse_filter = 2
 script = ExtResource("1_tx5cv")
 
 [node name="Background Panel" type="PanelContainer" parent="."]
@@ -63,41 +63,8 @@ offset_top = -238.0
 offset_right = 897.0
 offset_bottom = -122.0
 scale = Vector2(2.13741, 2.05084)
+mouse_filter = 1
 theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
-
-[node name="Modifier Container" type="MarginContainer" parent="Background Panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 750
-theme_override_constants/margin_top = 10
-
-[node name="GridContainer2" type="GridContainer" parent="Background Panel/Modifier Container"]
-layout_mode = 2
-columns = 4
-
-[node name="Label" type="Label" parent="Background Panel/Modifier Container/GridContainer2"]
-layout_mode = 2
-text = "test"
-
-[node name="Label2" type="Label" parent="Background Panel/Modifier Container/GridContainer2"]
-layout_mode = 2
-text = "test"
-
-[node name="Label3" type="Label" parent="Background Panel/Modifier Container/GridContainer2"]
-layout_mode = 2
-text = "test"
-
-[node name="Label4" type="Label" parent="Background Panel/Modifier Container/GridContainer2"]
-layout_mode = 2
-text = "test"
-
-[node name="Label5" type="Label" parent="Background Panel/Modifier Container/GridContainer2"]
-layout_mode = 2
-text = "test"
-
-[node name="GridContainer" type="GridContainer" parent="Background Panel"]
-z_index = 2
-layout_mode = 2
-theme_override_constants/v_separation = 13
 
 [node name="PanelContainer" type="PanelContainer" parent="."]
 layout_mode = 0
@@ -225,5 +192,16 @@ Generator
 $100"
 label_settings = SubResource("LabelSettings_fp7fb")
 
+[node name="StorageGrid" type="GridContainer" parent="."]
+layout_mode = 2
+offset_left = 1635.0
+offset_top = -223.0
+offset_right = 1758.0
+offset_bottom = -116.0
+scale = Vector2(2, 2)
+theme_override_constants/h_separation = 9
+columns = 5
+
+[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
 [connection signal="mouse_entered" from="GenerateButton" to="." method="_on_generate_button_mouse_entered"]
 [connection signal="pressed" from="GenerateButton" to="." method="_on_generate_button_pressed"]

@@ -31,6 +31,8 @@ func setItemImage(itemName):
 
 		"Copper Gem":
 			return load("res://Textures/Citizens/Gems/copperGem.png")
+		"Quartz Gem":
+			return load("res://Textures/Citizens/Gems/Quartz.png")
 
 func _on_popup_hide() -> void:
 	queue_free()

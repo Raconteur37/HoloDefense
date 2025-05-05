@@ -1,9 +1,10 @@
-[gd_scene load_steps=22 format=3 uid="uid://b8jkae8udp5ox"]
+[gd_scene load_steps=32 format=3 uid="uid://b8jkae8udp5ox"]
 
 [ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
 [ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
 [ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
 [ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
+[ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vwhel"]
 font_size = 30
@@ -79,6 +80,70 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxdpr"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0wno"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_47nnp"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jntr"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv382"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_m31n0"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya2yj"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfr5e"]
+atlas = ExtResource("5_vajk7")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_g4oai"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxdpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0wno")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_47nnp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_8jntr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pv382")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_m31n0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ya2yj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mfr5e")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="Animation" id="Animation_rf5yh"]
 resource_name = "Damage Popup"
 length = 0.8
@@ -113,38 +178,38 @@ length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../Gem:visible")
+tracks/0/path = NodePath("../../CopperGem:self_modulate")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../../Gem:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
 "times": PackedFloat32Array(0, 1, 2),
 "transitions": PackedFloat32Array(1, 1, 1),
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("..:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("..:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("../../QuartzGem:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="Animation" id="Animation_vigib"]
@@ -328,38 +393,38 @@ tracks/6/keys = {
 tracks/7/type = "value"
 tracks/7/imported = false
 tracks/7/enabled = true
-tracks/7/path = NodePath("../../Gem:visible")
+tracks/7/path = NodePath("../../CopperGem:self_modulate")
 tracks/7/interp = 1
 tracks/7/loop_wrap = true
 tracks/7/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
 }
 tracks/8/type = "value"
 tracks/8/imported = false
 tracks/8/enabled = true
-tracks/8/path = NodePath("../../Gem:self_modulate")
+tracks/8/path = NodePath("../..:position")
 tracks/8/interp = 1
 tracks/8/loop_wrap = true
 tracks/8/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 0)]
+"values": [Vector2(918, 476)]
 }
 tracks/9/type = "value"
 tracks/9/imported = false
 tracks/9/enabled = true
-tracks/9/path = NodePath("../..:position")
+tracks/9/path = NodePath("../../QuartzGem:self_modulate")
 tracks/9/interp = 1
 tracks/9/loop_wrap = true
 tracks/9/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Vector2(918, 476)]
+"values": [Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
@@ -407,13 +472,20 @@ layout_mode = 2
 text = "1000"
 label_settings = SubResource("LabelSettings_uk6by")
 
-[node name="Gem" type="AnimatedSprite2D" parent="BoxContainer"]
+[node name="CopperGem" type="AnimatedSprite2D" parent="BoxContainer"]
 self_modulate = Color(1, 1, 1, 0)
 position = Vector2(12, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_gxdpr")
 autoplay = "default"
 frame_progress = 0.0521694
+
+[node name="QuartzGem" type="AnimatedSprite2D" parent="BoxContainer"]
+self_modulate = Color(1, 1, 1, 0)
+position = Vector2(12, 0)
+scale = Vector2(1.5, 1.5)
+sprite_frames = SubResource("SpriteFrames_g4oai")
+autoplay = "default"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 root_node = NodePath("../BoxContainer/Enemy Popup/Xp Label")

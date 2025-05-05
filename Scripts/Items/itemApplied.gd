@@ -2,6 +2,12 @@ extends Item
 
 @onready var amountLabel = $amountLabel
 
+func _ready() -> void:
+	#buildItem("Copper Gem")
+	#amount = 100
+	#CityManager.addItem(self)
+	pass
+
 func buildItem(itemNamePass):
 	match itemNamePass:
 
@@ -11,6 +17,14 @@ func buildItem(itemNamePass):
 			actualItem = theItem.COPPER_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getItemValue(itemName)
+			texture = load("res://Textures/Citizens/Gems/copperGem.png")
+		"Quartz Gem":
+			itemName = "Quartz Gem"
+			rarity = Rarity.RARE
+			actualItem = theItem.QUARTZ_GEM
+			type = Type.GEM
+			moneyValue = CityManager.getItemValue(itemName)
+			texture = load("res://Textures/Citizens/Gems/Quartz.png")
 
 
 func _on_gui_input(event: InputEvent) -> void:
@@ -20,5 +34,6 @@ func _on_gui_input(event: InputEvent) -> void:
 			itemPopup = itemPopup.instantiate()
 			itemPopup.set_position(get_global_mouse_position())
 			itemPopup.position.y -= 330
+			itemPopup.position.x -= 430
 			add_child(itemPopup)
 			itemPopup.setItem(itemName)

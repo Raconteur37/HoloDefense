@@ -15,21 +15,17 @@ var cityExperienceCap : float = 100
 
 func _ready() -> void:
 	# Testing
-	addItem("Copper Gem",100)
+	pass
 
 func openStorage():
 	print(storage)
 	# Loop through the dict and render the items as you find them
 
-func addItem(itemName,amount):
-	if storage.has(itemName):
-		storage[itemName].amount += amount
+func addItem(item):
+	if storage.has(item.itemName):
+		storage[item.itemName].amount += item.amount
 	else:
-		var item = load("res://Item Scenes/Item.tscn")
-		item = item.instantiate()
-		item.buildItem(itemName)
-		item.amount = amount
-		storage[itemName] = item
+		storage[item.itemName] = item
 
 
 
@@ -65,9 +61,9 @@ func getItemValue(itemName):
 func sellItem(item : Item,amount):
 	var itemName = item.itemName
 	if storage.has(itemName):
-		if item.amount <= amount:
+		if amount <= item.amount:
 			GameManager.currentMoney += storage[itemName].amount * storage[itemName].moneyValue
-			storage[itemName].amount = amount - storage[itemName].amount
+			storage[itemName].amount = storage[itemName].amount - amount
 			return storage[itemName]
 		else:
 			push_error("You are trying to sell more than what you have!")

@@ -2,6 +2,8 @@ extends TextureRect
 
 class_name Item
 
+var image
+
 var itemName = "None"
 
 var itemPopup = null
@@ -14,6 +16,6 @@ var actualItem : theItem
 
 enum Type {GEM, MATERIAL}
 enum Rarity {COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
-enum theItem {COPPER_GEM}
+enum theItem {COPPER_GEM, QUARTZ_GEM}
 
 var amount = 0

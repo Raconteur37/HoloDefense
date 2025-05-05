@@ -10,6 +10,7 @@ offset_left = 866.0
 offset_top = 514.0
 offset_right = 906.0
 offset_bottom = 554.0
+mouse_filter = 0
 texture = ExtResource("1_bxxym")
 script = ExtResource("2_bxxym")
 
