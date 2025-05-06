@@ -50,6 +50,8 @@ var jobExperience : Dictionary[String,float] = {
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
 @onready var ui = preload("res://Citizens/Citizen Select UI.tscn")
 
+@onready var holoGenerator = $"../HoloGenerator"
+
 func _ready() -> void:
 	selected = false
 	animationPlayer = $AnimationPlayer
@@ -199,6 +201,8 @@ func finishJob():
 			if randGem >= 1 and randGem <= 50:
 				popup.gemPopup("Copper")
 				addGemToInventory("Copper Gem",1)
+				popup.gemPopup("Quartz")
+				addGemToInventory("Quartz Gem",1)
 			if randGem >= 51 and randGem <= 70:
 				popup.gemPopup("Quartz")
 				addGemToInventory("Quartz Gem",1)
@@ -206,6 +210,8 @@ func finishJob():
 				print("Generate Amethyst")
 				popup.gemPopup("Copper")
 				addGemToInventory("Copper Gem",1)
+				popup.gemPopup("Quartz")
+				addGemToInventory("Quartz Gem",1)
 			if randGem >= 86 and randGem <= 96:
 				print("Generate Diamond")
 			if randGem >= 97 and randGem <= 100:
@@ -213,7 +219,6 @@ func finishJob():
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 
 			deliverItems()
-
 
 
 func setWorkDestination():

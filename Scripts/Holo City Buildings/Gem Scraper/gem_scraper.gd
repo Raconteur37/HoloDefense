@@ -10,7 +10,6 @@ var currentWorkers : Array = [] # Make UI to track current workers that the stat
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	workArea = $"Work Area"
-	collisionArea = $CollisionShape2D
 	fabricatorSprite = $"Fabricator Sprite"
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.

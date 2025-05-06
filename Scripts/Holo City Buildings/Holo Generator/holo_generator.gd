@@ -11,7 +11,6 @@ var generatorUI
 
 func _ready() -> void:
 	workArea = $"Work Area"
-	collisionArea = $CollisionShape2D
 	fabricatorSprite = $"Sprite"
 
 	generatorUI = $"HoloGeneratorDescriptionScene"

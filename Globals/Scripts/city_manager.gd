@@ -27,6 +27,10 @@ func addItem(item):
 	else:
 		storage[item.itemName] = item
 
+func removeItemFromStorage(itemName):
+	if storage.has(itemName):
+		storage[itemName].queue_free()
+		storage.erase(itemName)
 
 
 func generateBaseCitizenExperienceLevel():

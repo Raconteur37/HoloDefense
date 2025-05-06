@@ -2,7 +2,7 @@ extends Popup
 
 var item : Item
 
-@onready var itemNameLabel = $"TextureRect/Item Name"
+@onready var itemNameLabel = $"MainBackground/Item Name"
 
 @onready var slider = $SellSliderBackground/HSlider
 
@@ -11,10 +11,11 @@ var item : Item
 @onready var sliderItemAmount = $SellSliderBackground/AmountLabel
 @onready var sellAmountText = $SellSliderBackground/SellAmountText
 
-@onready var itemAmountLabel = $TextureRect/AmountLabel
-@onready var itemValueLabel = $TextureRect/ValueLabel
+@onready var itemAmountLabel = $MainBackground/AmountLabel
+@onready var itemValueLabel = $MainBackground/ValueLabel
 
-@onready var itemImage = $TextureRect/ItemImage
+@onready var itemImage = $MainBackground/ItemImage
+
 
 func setItem(itemName):
 
@@ -55,4 +56,6 @@ func _on_sell_button_pressed() -> void:
 	item = CityManager.sellItem(item,slider.value)
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+	if item.amount <= 0:
+		CityManager.removeItemFromStorage(item.itemName)
 	sellMenu.hide()
