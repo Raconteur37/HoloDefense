@@ -52,7 +52,7 @@ fill_to = Vector2(0.477064, 0)
 
 [node name="CitizenSelectUi" type="Control"]
 top_level = true
-z_index = 1
+z_index = 4
 layout_mode = 3
 anchor_left = -0.031
 anchor_top = 0.811

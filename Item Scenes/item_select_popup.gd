@@ -13,27 +13,37 @@ var item : Item
 
 @onready var itemAmountLabel = $MainBackground/AmountLabel
 @onready var itemValueLabel = $MainBackground/ValueLabel
+@onready var itemRarityLabel = $"MainBackground/Rarity Label"
 
 @onready var itemImage = $MainBackground/ItemImage
+@onready var mainBackground = $MainBackground
 
 
 func setItem(itemName):
 
 	item = CityManager.getStorageItem(itemName)
 
-	itemImage.texture = setItemImage(itemName)
+	setItemImage(item)
 	itemNameLabel.text = item.itemName
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+	if item.rarity == Item.Rarity.COMMON:
+		itemRarityLabel.text = "Common"
+	if item.rarity == Item.Rarity.RARE:
+		itemRarityLabel.text = "Rare"
+	
 
-func setItemImage(itemName):
+func setItemImage(item):
 
-	match itemName:
+	match item.actualItem:
 
-		"Copper Gem":
-			return load("res://Textures/Citizens/Gems/copperGem.png")
-		"Quartz Gem":
-			return load("res://Textures/Citizens/Gems/Quartz.png")
+		Item.theItem.COPPER_GEM:
+			itemImage.texture = load("res://Textures/Citizens/Gems/copperGem.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Common Item Popup.png")
+		Item.theItem.QUARTZ_GEM:
+			itemImage.texture = load("res://Textures/Citizens/Gems/Quartz.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Rare Item UI.png")
+			
 
 func _on_popup_hide() -> void:
 	queue_free()

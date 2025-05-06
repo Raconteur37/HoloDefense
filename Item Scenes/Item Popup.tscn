@@ -134,6 +134,8 @@ offset_right = 239.0
 offset_bottom = 171.75
 text = "Common"
 label_settings = SubResource("LabelSettings_bj0nr")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainBackground"]
 layout_mode = 0

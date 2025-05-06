@@ -60,6 +60,7 @@ shape = SubResource("RectangleShape2D_8aw1o")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)
 
 [node name="HoloGeneratorDescriptionScene" parent="." instance=ExtResource("4_tlq4f")]
+visible = false
 offset_left = -910.0
 offset_top = 718.0
 offset_right = -910.0

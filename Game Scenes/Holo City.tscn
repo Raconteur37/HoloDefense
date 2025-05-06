@@ -37,7 +37,7 @@ position = Vector2(716, 441)
 position = Vector2(970, 135)
 
 [node name="HoloGenerator" parent="CanvasLayer" instance=ExtResource("3_mjf4j")]
-position = Vector2(967, 946)
+position = Vector2(967, 957)
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer"]
 visible = false
