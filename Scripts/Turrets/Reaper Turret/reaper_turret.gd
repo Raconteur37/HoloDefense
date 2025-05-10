@@ -60,6 +60,7 @@ func _ready() -> void:
 		dummy = dummy.instantiate()
 		dummy.global_position = to_local(global_position)
 		dummy.global_position.x += 100
+		executionChance = 99
 		add_child(dummy)
 
 func _process(delta: float) -> void:

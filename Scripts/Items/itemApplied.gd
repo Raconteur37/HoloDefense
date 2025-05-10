@@ -25,6 +25,20 @@ func buildItem(itemNamePass):
 			type = Type.GEM
 			moneyValue = CityManager.getItemValue(itemName)
 			texture = load("res://Textures/Citizens/Gems/Quartz.png")
+		"Amethyst Gem":
+			itemName = "Amethyst Gem"
+			rarity = Rarity.SUPER_RARE
+			actualItem = theItem.AMETHYST_GEM
+			type = Type.GEM
+			moneyValue = CityManager.getItemValue(itemName)
+			texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
+		"Diamond Gem":
+			itemName = "Diamond Gem"
+			rarity = Rarity.LEGENDARY
+			actualItem = theItem.DIAMOND_GEM
+			type = Type.GEM
+			moneyValue = CityManager.getItemValue(itemName)
+			texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
 
 
 func _on_gui_input(event: InputEvent) -> void:

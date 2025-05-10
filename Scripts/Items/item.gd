@@ -16,6 +16,6 @@ var actualItem : theItem
 
 enum Type {GEM, MATERIAL}
 enum Rarity {COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
-enum theItem {COPPER_GEM, QUARTZ_GEM}
+enum theItem {COPPER_GEM, QUARTZ_GEM, AMETHYST_GEM, DIAMOND_GEM, GALACTITE_GEM}
 
 var amount = 0

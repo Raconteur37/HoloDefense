@@ -59,7 +59,7 @@ func getStorageItem(itemName):
 func getItemValue(itemName):
 	var file = FileAccess.open("res://Config/Item Value.json",FileAccess.READ)
 	var itemValueInfo = JSON.parse_string(file.get_as_text())
-	return itemValueInfo.get(itemName)
+	return itemValueInfo["Money"].get(itemName)
 	file.close()
 
 func sellItem(item : Item,amount):

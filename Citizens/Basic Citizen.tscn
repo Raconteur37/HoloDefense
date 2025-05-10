@@ -186,7 +186,6 @@ libraries = {
 
 [node name="Item Delivered Particle" type="CPUParticles2D" parent="."]
 material = SubResource("CanvasItemMaterial_mqq4v")
-position = Vector2(0, -34)
 emitting = false
 amount = 1
 texture = ExtResource("5_ko03v")

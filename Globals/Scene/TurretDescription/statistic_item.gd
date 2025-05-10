@@ -1,4 +1,4 @@
-extends PanelContainer
+extends TextureRect
 
 var panelType
 
@@ -6,20 +6,20 @@ var entered : bool = false
 
 func buildStatContainer(type,turret):
 
-	var texture = $GridContainer/MarginContainer/TextureRect
-	var label = $GridContainer/MarginContainer2/Label
+	var texture = $"."
+	var label = $Label
 
 	match type:
 
 		"damage":
 			panelType = "damage"
-			#texture.texture = load("res://Textures/Icons/Damage Icon.png")
+			texture.texture = load("res://Textures/Icons/Damage Icon.png")
 			label.text = str(turret.damage)
 			var color = Color.FIREBRICK
 			label.set("theme_override_colors/font_color",color)
 		"reloadTime":
 			panelType = "reloadTime"
-			texture.texture = load("res://Textures/Icons/Reload Icon.png")
+			texture.texture = load("res://Textures/Icons/Reload Time Icon.png")
 			label.text = str(turret.reloadTime)
 			var color = Color.DARK_GRAY
 			label.set("theme_override_colors/font_color",color)

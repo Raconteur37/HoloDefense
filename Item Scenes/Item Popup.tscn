@@ -13,7 +13,7 @@
 font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_bj0nr"]
-font_size = 12
+font_size = 11
 font_color = Color(0.877616, 0.877616, 0.877616, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_qoc1r"]
@@ -104,7 +104,7 @@ particles_anim_loop = true
 
 [node name="ItemPopup" type="Popup"]
 title = "Common Item"
-position = Vector2i(153, 0)
+position = Vector2i(148, 0)
 size = Vector2i(423, 332)
 visible = true
 always_on_top = true
@@ -136,6 +136,7 @@ text = "Common"
 label_settings = SubResource("LabelSettings_bj0nr")
 horizontal_alignment = 1
 vertical_alignment = 1
+autowrap_mode = 2
 
 [node name="HBoxContainer" type="HBoxContainer" parent="MainBackground"]
 layout_mode = 0

@@ -1,10 +1,11 @@
-[gd_scene load_steps=32 format=3 uid="uid://b8jkae8udp5ox"]
+[gd_scene load_steps=43 format=3 uid="uid://b8jkae8udp5ox"]
 
 [ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
 [ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
 [ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
 [ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
 [ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
+[ext_resource type="Texture2D" uid="uid://b2sr682c4upkh" path="res://Textures/Citizens/Gems/Amethyst-Sheet.png" id="6_pyhfn"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_vwhel"]
 font_size = 30
@@ -142,6 +143,77 @@ animations = [{
 "loop": true,
 "name": &"default",
 "speed": 5.0
+}]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4oai"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4xew"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_sn1b8"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_e8rm8"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vxds3"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_4tni6"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_0po6f"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5y12r"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_u31r0"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(128, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t255x"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4oai")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4xew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sn1b8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_e8rm8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vxds3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_4tni6")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_0po6f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5y12r")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_u31r0")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
 }]
 
 [sub_resource type="Animation" id="Animation_rf5yh"]
@@ -485,6 +557,10 @@ self_modulate = Color(1, 1, 1, 0)
 position = Vector2(12, 0)
 scale = Vector2(1.5, 1.5)
 sprite_frames = SubResource("SpriteFrames_g4oai")
+autoplay = "default"
+
+[node name="AmethystGem" type="AnimatedSprite2D" parent="BoxContainer"]
+sprite_frames = SubResource("SpriteFrames_t255x")
 autoplay = "default"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]

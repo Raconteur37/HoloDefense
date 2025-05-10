@@ -1,5 +1,6 @@
 extends CanvasLayer
 
+
 func setPosition(position):
 	$"BoxContainer".global_position = position
 
@@ -23,9 +24,15 @@ func gemPopup(gemName):
 		"Copper":
 			$AnimationPlayer.play("GemAnimation")
 			$BoxContainer/QuartzGem.visible = false
+			$BoxContainer/AmethystGem.visible = false
 		"Quartz":
 			$AnimationPlayer.play("GemAnimation")
 			$BoxContainer/CopperGem.visible = false
+			$BoxContainer/AmethystGem.visible = false
+		"Amethyst":
+			$AnimationPlayer.play("GemAnimation")
+			$BoxContainer/CopperGem.visible = false
+			$BoxContainer/QuartzGem.visible = false
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "killPopup":

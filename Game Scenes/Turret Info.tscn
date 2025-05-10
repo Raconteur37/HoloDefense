@@ -1,11 +1,13 @@
-[gd_scene load_steps=23 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=25 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
 [ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="3_g24qp"]
 [ext_resource type="Texture2D" uid="uid://btoqr1le5id5g" path="res://Textures/UI/Turret Info/LevelOneInfo.png" id="3_osgsa"]
 [ext_resource type="Texture2D" uid="uid://cawpy7viw566g" path="res://Textures/UI/Turret Info/Locked.png" id="4_bvhjd"]
+[ext_resource type="Texture2D" uid="uid://qx5r7vlgql11" path="res://Textures/Icons/Damage Icon.png" id="6_515np"]
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
+[ext_resource type="Texture2D" uid="uid://cvjoxesptao17" path="res://Textures/Icons/Group 2.svg" id="7_515np"]
 
 [sub_resource type="Gradient" id="Gradient_bvhjd"]
 colors = PackedColorArray(1.58831e-06, 0.460516, 0.464174, 1, 0.433155, 0.201588, 0.999643, 1)
@@ -317,20 +319,35 @@ offset_right = 523.0
 offset_bottom = 792.0
 scale = Vector2(1.5, 1.5)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Price" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
 
-[node name="PriceIcon" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+[node name="PriceIcon" type="TextureRect" parent="VBoxContainer/Price"]
 layout_mode = 2
 texture = ExtResource("3_g24qp")
 
-[node name="PriceLabel" type="Label" parent="VBoxContainer/HBoxContainer"]
+[node name="PriceLabel" type="Label" parent="VBoxContainer/Price"]
 layout_mode = 2
 text = "$50"
 label_settings = SubResource("LabelSettings_ekhco")
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Damage" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Damage"]
+layout_mode = 2
+texture = ExtResource("6_515np")
+
+[node name="Label" type="Label" parent="VBoxContainer/Damage"]
+layout_mode = 2
+text = "500"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+texture = ExtResource("7_515np")
 
 [node name="PreviewButton" type="CheckButton" parent="."]
 layout_mode = 0

@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cqf0qpd2yl8gj"
-path="res://.godot/imported/Reload Icon.png-c5e32230a0174e36956b1ccddb132f5f.ctex"
+uid="uid://c3ax5ige4orgk"
+path="res://.godot/imported/Diamond Item UI.png-6c2565c71d481d619f7548a3fe97dfea.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Icons/Reload Icon.png"
-dest_files=["res://.godot/imported/Reload Icon.png-c5e32230a0174e36956b1ccddb132f5f.ctex"]
+source_file="res://Textures/UI/Item/Diamond Item UI.png"
+dest_files=["res://.godot/imported/Diamond Item UI.png-6c2565c71d481d619f7548a3fe97dfea.ctex"]
 
 [params]
 

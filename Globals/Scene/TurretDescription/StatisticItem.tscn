@@ -1,29 +1,19 @@
-[gd_scene load_steps=2 format=3 uid="uid://bpk7bdr8b52mx"]
+[gd_scene load_steps=3 format=3 uid="uid://bpk7bdr8b52mx"]
 
+[ext_resource type="Texture2D" uid="uid://dgg4n5a0oif5x" path="res://Textures/Icons/Reload Time Icon.png" id="1_0dlw1"]
 [ext_resource type="Script" uid="uid://d3ht653v1l3hj" path="res://Globals/Scene/TurretDescription/statistic_item.gd" id="1_bu1rt"]
 
-[node name="PanelContainer" type="PanelContainer"]
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="TextureRect" type="TextureRect"]
+offset_right = 256.0
+offset_bottom = 256.0
+scale = Vector2(0.00271937, 0.00249149)
+texture = ExtResource("1_0dlw1")
+stretch_mode = 2
 script = ExtResource("1_bu1rt")
 
-[node name="GridContainer" type="GridContainer" parent="."]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="GridContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="GridContainer/MarginContainer"]
-layout_mode = 2
-
-[node name="MarginContainer2" type="MarginContainer" parent="GridContainer"]
-layout_mode = 2
-
-[node name="Label" type="Label" parent="GridContainer/MarginContainer2"]
-layout_mode = 2
-text = "5"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[connection signal="mouse_entered" from="." to="." method="_on_mouse_entered"]
-[connection signal="mouse_exited" from="." to="." method="_on_mouse_exited"]
+[node name="Label" type="Label" parent="."]
+layout_mode = 0
+offset_left = 100.0
+offset_top = 260.0
+offset_right = 140.0
+offset_bottom = 282.333

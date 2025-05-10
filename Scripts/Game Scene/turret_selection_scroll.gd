@@ -11,7 +11,7 @@ var turretContainer
 @onready var rarityLabel = $"../VBoxContainer2/RarityLabel"
 @onready var typeLabel = $"../TypeLabel"
 
-@onready var priceLabel = $"../VBoxContainer/HBoxContainer/PriceLabel"
+@onready var priceLabel = $"../VBoxContainer/Price/PriceLabel"
 
 @onready var previewToggle = $"../PreviewButton"
 

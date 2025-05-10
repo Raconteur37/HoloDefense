@@ -31,7 +31,10 @@ func setItem(itemName):
 		itemRarityLabel.text = "Common"
 	if item.rarity == Item.Rarity.RARE:
 		itemRarityLabel.text = "Rare"
-	
+	if item.rarity == Item.Rarity.SUPER_RARE:
+		itemRarityLabel.text = "Super Rare"
+	if item.rarity == Item.Rarity.LEGENDARY:
+		itemRarityLabel.text = "Legendary"
 
 func setItemImage(item):
 
@@ -39,11 +42,16 @@ func setItemImage(item):
 
 		Item.theItem.COPPER_GEM:
 			itemImage.texture = load("res://Textures/Citizens/Gems/copperGem.png")
-			mainBackground.texture = load("res://Textures/UI/Item/Common Item Popup.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.QUARTZ_GEM:
 			itemImage.texture = load("res://Textures/Citizens/Gems/Quartz.png")
-			mainBackground.texture = load("res://Textures/UI/Item/Rare Item UI.png")
-			
+			mainBackground.texture = load("res://Textures/UI/Item/Quartz Item Popup.png")
+		Item.theItem.AMETHYST_GEM:
+			itemImage.texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Amethyst Item Popup.png")
+		Item.theItem.DIAMOND_GEM:
+			itemImage.texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Diamond Item UI.png")
 
 func _on_popup_hide() -> void:
 	queue_free()
