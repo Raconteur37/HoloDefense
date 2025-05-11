@@ -1,4 +1,4 @@
-[gd_scene load_steps=18 format=3 uid="uid://cmprcjfer6ni6"]
+[gd_scene load_steps=19 format=3 uid="uid://cmprcjfer6ni6"]
 
 [ext_resource type="Script" uid="uid://dnb12wxx7oibl" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
 [ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_7iae7"]
@@ -24,7 +24,7 @@ resource_local_to_scene = true
 shader = ExtResource("2_e4ckr")
 shader_parameter/noise_texture = SubResource("NoiseTexture2D_rxu7q")
 shader_parameter/burn_texture = SubResource("GradientTexture2D_rjlgh")
-shader_parameter/integrity = 0.0
+shader_parameter/integrity = 1.0
 shader_parameter/burn_size = 1.3
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05817"]
@@ -111,7 +111,7 @@ tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [0.0]
+"values": [1.0]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
@@ -147,7 +147,7 @@ tracks/3/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
+"values": [true]
 }
 tracks/4/type = "value"
 tracks/4/imported = false
@@ -162,9 +162,13 @@ tracks/4/keys = {
 "values": [false]
 }
 
+[sub_resource type="Animation" id="Animation_8gt2y"]
+resource_name = "Damage"
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_35ibv"]
 _data = {
 &"Appear": SubResource("Animation_dy0l2"),
+&"Damage": SubResource("Animation_8gt2y"),
 &"RESET": SubResource("Animation_1odt2")
 }
 
@@ -222,7 +226,6 @@ bbcode_enabled = true
 text = "STATS"
 
 [node name="GridContainer" type="GridContainer" parent="Background Panel"]
-visible = false
 z_index = 2
 layout_mode = 2
 theme_override_constants/v_separation = 13
@@ -277,7 +280,8 @@ texture_under = ExtResource("5_ejtmj")
 texture_over = ExtResource("6_5owpq")
 texture_progress = ExtResource("5_ejtmj")
 tint_under = Color(0.117324, 0.103928, 0.10393, 1)
-tint_progress = Color(0.191869, 1, 0.278604, 1)
+tint_over = Color(1, 0.184314, 1, 1)
+tint_progress = Color(0.996078, 0.396078, 0.682353, 1)
 
 [node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
 visible = false

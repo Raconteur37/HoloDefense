@@ -12,12 +12,12 @@ func _ready() -> void:
 	turretName = "Arrow Turret"
 	price = 15
 	maxHealth = 20
-	baseDamage = 20
+	baseDamage = 50
 	baseProjectileSpeed = 400
 	baseAttackRange = 200
 	baseReloadTime = 2.5
 	upgradeTier = 0
-	armor = 0
+	armor = 5
 	level = 1
 	baseBuildTime = 5
 

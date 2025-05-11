@@ -11,6 +11,7 @@ var animationPlayer
 var healthBar
 var healthRichLabelText
 
+var turret
 
 func _ready() -> void:
 	scene = $"."
@@ -25,6 +26,8 @@ func _ready() -> void:
 	healthRichLabelText = $"Background Panel/GridContainer/MarginContainer/RichTextLabel"
 
 func buildContainer(turret):
+	
+	self.turret = turret
 
 	animationPlayer.play("Appear")
 
@@ -35,21 +38,13 @@ func buildContainer(turret):
 		healthBar.max_value = turret.maxHealth
 		healthBar.value = turret.health
 		healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]     " + str(turret.health) + "/" + str(turret.maxHealth)
-	if turret.get("blahblah") != null: # SHould be armor
-		var marginContainer = MarginContainer.new()
-		var label = Label.new()
-		var richLabel = RichTextLabel.new()
-		richLabel.bbcode_enabled = true
-		richLabel.fit_content = true
-		richLabel.autowrap_mode = TextServer.AUTOWRAP_WORD_SMART
-		richLabel.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]"
-		var color = Color.LIGHT_SLATE_GRAY
-		label.set("theme_override_colors/font_color",color)
-		label.text = str(turret.armor)
-		label.horizontal_alignment = HORIZONTAL_ALIGNMENT_CENTER
-		marginContainer.add_child(label)
-		marginContainer.add_child(richLabel)
-		gridContainer.add_child(marginContainer)
+		healthBar.tint_progress = Color.DEEP_PINK
+	if turret.get("armor") != null: 
+		if turret.armor > 0:
+			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]          " + str(turret.armor)
+			healthBar.max_value = turret.armor
+			healthBar.value = turret.armor
+			healthBar.tint_progress = Color.DARK_GRAY
 	if turret.get("damage") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
@@ -146,9 +141,20 @@ func buildContainer(turret):
 		statItem.buildStatContainer("poisonDuration",turret)
 		statHbox.add_child(statItem)
 
-
 	scene.show()
 
+func healthUpdate():
+	if turret.get("health") != null:
+			healthBar.max_value = turret.maxHealth
+			healthBar.value = turret.health
+			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]     " + str(turret.health) + "/" + str(turret.maxHealth)
+			healthBar.tint_progress = Color.DEEP_PINK
+	if turret.get("armor") != null: 
+		if turret.armor > 0:
+			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]          " + str(turret.armor)
+			healthBar.max_value = turret.armor
+			healthBar.value = turret.armor
+			healthBar.tint_progress = Color.DARK_GRAY
 
 func close():
 	queue_free()

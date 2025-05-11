@@ -92,6 +92,8 @@ func entityTakeDamage(damage,entity):
 				GameManager.removeTurretFromGame(turret)
 			else:
 				turret.health = turret.health - damage
+		if is_instance_valid(turret.menu):
+			turret.menu.healthUpdate()
 
 	if entity.is_in_group("Minion"):
 		var minion = entity
@@ -163,6 +165,8 @@ func healTurret(turret,amountHealed):
 	else:
 		turret.health += amountHealed
 	ParticleManager.playHealParticle(turret)
+	if is_instance_valid(turret.menu):
+		turret.menu.healthUpdate()
 
 func addTurretXP(turretName,xp):
 
