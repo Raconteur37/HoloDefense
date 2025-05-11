@@ -3,7 +3,7 @@ extends Enemy
 class_name SpeedyTriangle
 
 func _ready():
-	enemyName = "Hexagon Mothership"
+	enemyName = "Speedy Triangle"
 	health = 30
 	damage = 20
 	attackTime = .5

@@ -1,9 +1,9 @@
 [gd_scene load_steps=5 format=3 uid="uid://c8hxqwse75gq3"]
 
 [ext_resource type="Script" uid="uid://dblb3j7ra7ci3" path="res://Scripts/Enemies/speedy_triangle.gd" id="1_nhcdp"]
-[ext_resource type="Script" uid="uid://cicaj3frri4j3" path="res://Scripts/Enemies/speed_triangle_collision_polygon_2d.gd" id="2_pqsdf"]
-[ext_resource type="Script" uid="uid://cww7xat0hpaxd" path="res://Scripts/Enemies/speed_triangle_polygon_2d.gd" id="3_28s7i"]
-[ext_resource type="Script" uid="uid://evjsa7mnmnv4" path="res://Scripts/Enemies/speedy_triangle_collision_polygon_2d.gd" id="4_x7tq0"]
+[ext_resource type="Script" uid="uid://v8vwlwrnsieh" path="res://Scripts/Enemies/speed_triangle_collision_polygon_2d.gd" id="2_pqsdf"]
+[ext_resource type="Script" uid="uid://dtaxuywgnjdp1" path="res://Scripts/Enemies/speed_triangle_polygon_2d.gd" id="3_28s7i"]
+[ext_resource type="Script" uid="uid://2hxf2p0m5tud" path="res://Scripts/Enemies/speedy_triangle_collision_polygon_2d.gd" id="4_x7tq0"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemy"]]
 position = Vector2(686, 432)

@@ -4,6 +4,7 @@ var executionParticle = preload("res://Particle Scenes/Turrets/Reaper Turret/rea
 
 var basicSquareHurtParticle = preload("res://Particle Scenes/Enemies/basic_square_hurt.tscn")
 var basicSquareDeathParticle = preload("res://Particle Scenes/Enemies/basic_square_death.tscn")
+var speedyTriangleDeathParticle = preload("res://Particle Scenes/Enemies/speedy_triangle_death.tscn")
 
 var energizedParticle = preload("res://Particle Scenes/Turrets/Energizer Turret/energized.tscn")
 
@@ -30,6 +31,11 @@ func playDeathParticle(enemy):
 
 		"Basic Square":
 			var particle = basicSquareDeathParticle.instantiate()
+			particle.setPosition(enemy.global_position)
+			get_tree().current_scene.add_child(particle)
+	
+		"Speedy Triangle":
+			var particle = speedyTriangleDeathParticle.instantiate()
 			particle.setPosition(enemy.global_position)
 			get_tree().current_scene.add_child(particle)
 
