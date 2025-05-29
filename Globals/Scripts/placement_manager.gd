@@ -48,11 +48,13 @@ func _input(event: InputEvent) -> void:
 		if turretSelected:
 			if place_item_in_cell(selectedTurret.position):
 				selectedTurret.isPlaced = true
+				selectedTurret.bodyCollisionShape.disabled = false
 				selectedTurret.hideRange()
 				turretSelected = false
 				GameManager.addTurretToDict(selectedTurret)
 				#get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
 				selectedTurret = null
+
 			else:
 				print("Cannot place turret there!")
 				selectedTurret.queue_free()

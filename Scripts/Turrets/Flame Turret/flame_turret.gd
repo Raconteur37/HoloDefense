@@ -83,11 +83,6 @@ func _process(delta: float) -> void:
 		topSprite.look_at(enemy.global_position)
 		#topSprite.rotate(PI/2)
 		$"TurretTop/Flame Particle".emitting = true
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 	if not shooting:
 		$DamageTickTimer.stop()
 		$"TurretTop/Flame Particle".emitting = false

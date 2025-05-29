@@ -91,11 +91,6 @@ func _process(delta: float) -> void:
 		attackingTimer.start()
 		if damageTickTimer.is_stopped():
 			damageTickTimer.start()
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 	if not shooting:
 		damageTickTimer.stop()
 

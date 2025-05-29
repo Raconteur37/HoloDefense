@@ -68,37 +68,32 @@ func _ready() -> void:
 		dummy2.global_position.x += 150
 		add_child(dummy2)
 
-func _process(delta: float) -> void:
+func attack():
+
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(EntityManager.getClosestEnemyFromSprite($"."))
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
+		var enemy = EntityManager.getClosestEnemyFromSprite($".")
 
-func shoot(enemy):
-	shotReady = false
-	if is_instance_valid(enemy) and isPlaced:
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.maxEnemyPierce = pierce
-		proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-		var dif = self.global_position.angle_to_point(enemy.global_position)
+		shotReady = false
+		if is_instance_valid(enemy) and isPlaced:
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.maxEnemyPierce = pierce
+			proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			var dif = self.global_position.angle_to_point(enemy.global_position)
 
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
-		get_parent().add_child(proj)
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+			get_parent().add_child(proj)
 
-		reloadTimer.start()
-		reloadAnimation()
+			reloadTimer.start()
+			reloadAnimation()
 
-		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
-		topSprite.look_at(enemy.global_position)
-		topSprite.rotate(PI/2)
+			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
+			topSprite.look_at(enemy.global_position)
+			topSprite.rotate(PI/2)
 
-		$RailgunTurretTop/RailgunShoot.emitting = true
+			$RailgunTurretTop/RailgunShoot.emitting = true
 
 func reloadAnimation():
 

@@ -61,33 +61,27 @@ func _ready() -> void:
 		dummy.global_position.x += 100
 		add_child(dummy)
 
+func attack():
 
-func _process(delta: float) -> void:
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(EntityManager.getClosestEnemyFromSprite($"."))
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
+		var enemy = EntityManager.getClosestEnemyFromSprite($".")
 
-func shoot(enemy):
-	shotReady = false
-	if is_instance_valid(enemy) and isPlaced:
+		shotReady = false
+		if is_instance_valid(enemy) and isPlaced:
 
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 
-		var dif = self.global_position.angle_to_point(enemy.global_position)
+			var dif = self.global_position.angle_to_point(enemy.global_position)
 
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
-		get_parent().add_child(proj)
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+			get_parent().add_child(proj)
 
-		reloadTimer.start()
-		reloadAnimation()
+			reloadTimer.start()
+			reloadAnimation()
 
 func reloadAnimation():
 

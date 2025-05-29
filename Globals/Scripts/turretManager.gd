@@ -1,5 +1,8 @@
 extends Node
 
+func _process(delta: float) -> void:
+	get_tree().call_group("Turret", "attack")
+
 var unlockedTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Royal Turret","Flame Turret"
 ,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
 ,"Automated Sentry Turret","Voodoo Turret","Zombie Turret","Medic Turret"]

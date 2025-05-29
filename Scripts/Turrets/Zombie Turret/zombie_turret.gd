@@ -60,15 +60,9 @@ func _ready() -> void:
 		dummy.global_position.x += 30
 		add_child(dummy)
 
-func _process(delta: float) -> void:
+func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and attackTimer.is_stopped():
 		attackTimer.start()
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
-
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):

@@ -63,29 +63,23 @@ func _ready() -> void:
 		dummy2.global_position.x -= 50
 		add_child(dummy2)
 
-func _process(delta: float) -> void:
+func attack():
+
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot()
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 
-func shoot():
-	shotReady = false
+		shotReady = false
 
-	attackParticle.emitting = true
+		attackParticle.emitting = true
 
-	for x in range(4):
-		for enemy in $RangeArea.get_overlapping_areas():
-			if enemy.get_parent().is_in_group("Enemy"):
+		for x in range(4):
+			for enemy in $RangeArea.get_overlapping_areas():
+				if enemy.get_parent().is_in_group("Enemy"):
 
-				enemy.get_parent().hit.emit(damage,self,enemy.get_parent(),self) # Fix damage type
-		await get_tree().create_timer((.3)).timeout
+					enemy.get_parent().hit.emit(damage,self,enemy.get_parent(),self) # Fix damage type
+			await get_tree().create_timer((.3)).timeout
 
-	reloadTimer.start()
-	reloadAnimation()
+		reloadTimer.start()
+		reloadAnimation()
 
 
 func reloadAnimation():

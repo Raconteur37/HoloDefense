@@ -8,6 +8,8 @@ var reloading : bool = false
 @export var baseExplosionDamage : float = 10
 @export var baseExplosionRadius : float = 60
 
+var shotDelay : float = .5
+
 var shots = 3
 var explosionDamage
 var explosionRadius
@@ -68,52 +70,44 @@ func _ready() -> void:
 		dummy.global_position.x += 100
 		add_child(dummy)
 
-
-func _process(delta: float) -> void:
+func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shotReady = false
-		shoot(EntityManager.getClosestEnemyFromSprite($"."))
-		await get_tree().create_timer(.5).timeout
+		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+		await get_tree().create_timer(shotDelay).timeout
 		shotReady = true
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
+		if is_instance_valid(enemy) and isPlaced:
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+
+			var dif = self.global_position.angle_to_point(enemy.global_position)
+
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+			proj.explosionDmg = explosionDamage
+			proj.explosionSize = explosionRadius
+			proj.shotNumber = shots
+			get_parent().add_child(proj)
+
+			shots -= 1
+			if shots == 0:
+				topSprite.frame = 3
+			if shots == 1:
+				topSprite.frame = 2
+			if shots == 2:
+				topSprite.frame = 1
+
+
+			if shots == 0:
+				reloadAnimation()
+
+			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
+			topSprite.look_at(enemy.global_position)
+			topSprite.rotate(PI/2)
 	if shots <= 0:
 		shotReady = false
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
-
-func shoot(enemy):
-	if is_instance_valid(enemy) and isPlaced:
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-
-		var dif = self.global_position.angle_to_point(enemy.global_position)
-
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
-		proj.explosionDmg = explosionDamage
-		proj.explosionSize = explosionRadius
-		proj.shotNumber = shots
-		get_parent().add_child(proj)
-
-		shots -= 1
-		if shots == 0:
-			topSprite.frame = 3
-		if shots == 1:
-			topSprite.frame = 2
-		if shots == 2:
-			topSprite.frame = 1
-
-
-		if shots == 0:
-			reloadAnimation()
-
-		#dif = topSprite.global_position.angle_to_point(enemy.global_position)
-		topSprite.look_at(enemy.global_position)
-		topSprite.rotate(PI/2)
 
 func reloadAnimation():
 	if not reloading:

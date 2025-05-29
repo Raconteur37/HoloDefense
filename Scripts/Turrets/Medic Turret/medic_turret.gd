@@ -75,11 +75,6 @@ func _ready() -> void:
 		add_child(turret)
 
 func _process(delta: float) -> void:
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 	if isPlaced and not scanTurretsFirstTime:
 		scanTurretsFirstTime = true
 		scanCurrentTurretsInRange()

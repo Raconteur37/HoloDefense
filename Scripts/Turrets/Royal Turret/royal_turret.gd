@@ -2,7 +2,7 @@ extends Turret
 
 class_name RoyalTurret
 
-var summonTimer
+var summonTimer : Timer
 
 var currentMinions = []
 
@@ -74,12 +74,8 @@ func _ready() -> void:
 		add_child(dummy)
 
 func _process(delta: float) -> void:
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
+	if summonTimer.is_stopped() and currentKnightAmount < maxKnights:
 		summonTimer.start()
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 
 func summonMinion():
 	if currentKnightAmount < maxKnights:

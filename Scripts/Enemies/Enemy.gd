@@ -14,6 +14,8 @@ var initialTurn = false
 var turnTurret
 var isZombie
 
+var targeted : bool = false
+
 @export var enemyName : String
 @export var health : float
 @export var damage : float

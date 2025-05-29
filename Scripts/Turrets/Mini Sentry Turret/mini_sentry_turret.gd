@@ -58,15 +58,6 @@ func _ready() -> void:
 		dummy.global_position.x += 50
 		add_child(dummy)
 
-func _process(delta: float) -> void:
-	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(EntityManager.getClosestEnemyFromSprite($"."))
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
-
 func reloadAnimation():
 	var reloadFrames : int = 2
 	for x in range(reloadFrames):
@@ -77,23 +68,28 @@ func reloadAnimation():
 		await get_tree().create_timer((reloadTime / reloadFrames)).timeout
 
 
-func shoot(enemy):
-	shotReady = false
-	if is_instance_valid(enemy) and isPlaced:
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-		var dif = self.global_position.angle_to_point(enemy.global_position)
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
-		get_parent().add_child(proj)
+func attack():
 
-		reloadTimer.start()
-		reloadAnimation()
+	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 
-		topSprite.look_at(enemy.global_position)
-		topSprite.rotate(PI/2)
+		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+
+		shotReady = false
+		if is_instance_valid(enemy) and isPlaced:
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			var dif = self.global_position.angle_to_point(enemy.global_position)
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+			get_parent().add_child(proj)
+
+			reloadTimer.start()
+			reloadAnimation()
+
+			topSprite.look_at(enemy.global_position)
+			topSprite.rotate(PI/2)
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):

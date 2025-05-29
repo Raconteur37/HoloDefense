@@ -63,38 +63,34 @@ func _ready() -> void:
 		dummy.global_position.x += 100
 		add_child(dummy)
 
-func _process(delta: float) -> void:
+func attack():
+
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shoot(EntityManager.getClosestEnemyFromSprite($"."))
-	if isPlaced and not isCollisionReady:
-		bodyCollisionShape.disabled = false
-		isCollisionReady = true
-	if not beaconBuffActive:
-		BeaconManager.applyBeaconBuffs()
 
-func shoot(enemy):
-	shotReady = false
-	if is_instance_valid(enemy) and isPlaced:
+		var enemy = EntityManager.getClosestEnemyFromSprite($".")
 
-		var proj = projectile.instantiate()
-		proj.position = position
-		proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+		shotReady = false
+		if is_instance_valid(enemy) and isPlaced:
 
-		var dif = self.global_position.angle_to_point(enemy.global_position)
+			var proj = projectile.instantiate()
+			proj.position = position
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 
-		proj.rotation = proj.rotation + dif
-		proj.damage = damage
-		proj.shooter = self
+			var dif = self.global_position.angle_to_point(enemy.global_position)
 
-		proj.curseChance = curseChance
-		proj.curseTime = curseDuration
-		proj.curseDamageAmp = curseDamageAmp
+			proj.rotation = proj.rotation + dif
+			proj.damage = damage
+			proj.shooter = self
+
+			proj.curseChance = curseChance
+			proj.curseTime = curseDuration
+			proj.curseDamageAmp = curseDamageAmp
 
 
-		get_parent().add_child(proj)
+			get_parent().add_child(proj)
 
-		reloadTimer.start()
-		reloadAnimation()
+			reloadTimer.start()
+			reloadAnimation()
 
 
 func reloadAnimation():
