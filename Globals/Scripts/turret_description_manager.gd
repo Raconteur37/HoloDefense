@@ -26,7 +26,7 @@ func _ready() -> void:
 	healthRichLabelText = $"Background Panel/GridContainer/MarginContainer/RichTextLabel"
 
 func buildContainer(turret):
-	
+
 	self.turret = turret
 
 	animationPlayer.play("Appear")
@@ -39,7 +39,7 @@ func buildContainer(turret):
 		healthBar.value = turret.health
 		healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]     " + str(turret.health) + "/" + str(turret.maxHealth)
 		healthBar.tint_progress = Color.DEEP_PINK
-	if turret.get("armor") != null: 
+	if turret.get("armor") != null:
 		if turret.armor > 0:
 			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]          " + str(turret.armor)
 			healthBar.max_value = turret.armor
@@ -149,7 +149,7 @@ func healthUpdate():
 			healthBar.value = turret.health
 			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img]     " + str(turret.health) + "/" + str(turret.maxHealth)
 			healthBar.tint_progress = Color.DEEP_PINK
-	if turret.get("armor") != null: 
+	if turret.get("armor") != null:
 		if turret.armor > 0:
 			healthRichLabelText.text = "[img=32x32]res://Textures/Icons/Shield Icon.png[/img]          " + str(turret.armor)
 			healthBar.max_value = turret.armor

@@ -4,7 +4,7 @@ var particleEffect
 
 var effectName = "Fire"
 var damage = 0 # Default 0
-var turretApplier = null # Need this to be null in case I forgot to apply the turret
+var applier = null # Need this to be null in case I forgot to apply the turret
 var enemy = null # same for this
 
 var tickTimer
@@ -18,15 +18,14 @@ func _ready() -> void:
 	particleEffect.global_position = enemy.global_position
 
 
-
 func _process(delta: float) -> void:
 	if not is_instance_valid(enemy): # Somehow the enemy is removed without death
 		queue_free()
 	else:
 		particleEffect.global_position = enemy.global_position
 
-func applyData(turret,victim,fireDamage,time):
-	turretApplier = turret
+func applyData(applier,victim,fireDamage,time):
+	applier = applier
 	enemy = victim
 	damage = fireDamage
 	$"Total Time".wait_time = time

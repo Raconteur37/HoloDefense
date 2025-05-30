@@ -124,7 +124,8 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.rangeCollisionShape.shape.radius = turret.attackRange
 		if turret.get("reloadTime") != null:
 			turret.reloadTime -=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
-			turret.reloadTimer.wait_time = turret.reloadTime
+			if turret.has_nodes("ReloadTimer"):
+				turret.reloadTimer.wait_time = turret.reloadTime
 
 func removeEnergizerBuffsToTurret(turret):
 	turret.currentParticlesMap["Energized"].queue_free()

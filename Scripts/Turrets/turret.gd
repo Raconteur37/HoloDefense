@@ -12,6 +12,8 @@ signal upgrade(turret)
 
 var enemiesInRange = []
 
+var effects : Dictionary = {}
+
 var currentParticlesMap = {}
 
 var line2d
@@ -55,7 +57,6 @@ var buildTime
 var health : float
 
 var energized : bool = false
-var energizerTurret : CharacterBody2D
 var beaconBuffActive : bool = false
 
 func addKill():

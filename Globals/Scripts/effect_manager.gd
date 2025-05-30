@@ -1,20 +1,20 @@
 extends Node2D
 
 
-func removeEffect(enemy,effectName):
-	if enemy.effects.has(effectName):
-		enemy.effects[effectName].queue_free()
-		enemy.effects.erase(effectName)
+func removeEffect(victim,effectName):
+	if victim.effects.has(effectName):
+		victim.effects[effectName].queue_free()
+		victim.effects.erase(effectName)
 	if effectName == "Curse":
-		enemy.curseDamageAmp = 0
+		victim.curseDamageAmp = 0
 
-func applyFireEffect(victim,turret,damage,time):
+func applyFireEffect(victim,attacker,damage,time):
 	if victim.effects.has("Fire"):
 		victim.effects.get("Fire").restartTime(time)
 		return
 	var fireScene = load("res://Globals/Scene/Effects/Fire.tscn")
 	var effectScene = fireScene.instantiate()
-	effectScene.applyData(turret,victim,damage,time)
+	effectScene.applyData(attacker,victim,damage,time)
 	victim.add_child(effectScene)
 
 
