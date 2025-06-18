@@ -130,7 +130,7 @@ texture = ExtResource("4_4wxbc")
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Slot Machine"]
 libraries = {
-"": SubResource("AnimationLibrary_moqv8")
+&"": SubResource("AnimationLibrary_moqv8")
 }
 
 [node name="Roll Timer" type="Timer" parent="CanvasLayer/Slot Machine"]

@@ -99,6 +99,9 @@ tracks/4/keys = {
 "values": [false, true]
 }
 
+[sub_resource type="Animation" id="Animation_8gt2y"]
+resource_name = "Damage"
+
 [sub_resource type="Animation" id="Animation_1odt2"]
 length = 0.001
 tracks/0/type = "value"
@@ -161,9 +164,6 @@ tracks/4/keys = {
 "update": 1,
 "values": [false]
 }
-
-[sub_resource type="Animation" id="Animation_8gt2y"]
-resource_name = "Damage"
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_35ibv"]
 _data = {
