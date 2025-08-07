@@ -1,4 +1,4 @@
-[gd_scene load_steps=25 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=29 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
@@ -7,7 +7,9 @@
 [ext_resource type="Texture2D" uid="uid://cawpy7viw566g" path="res://Textures/UI/Turret Info/Locked.png" id="4_bvhjd"]
 [ext_resource type="Texture2D" uid="uid://qx5r7vlgql11" path="res://Textures/Icons/Damage Icon.png" id="6_515np"]
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
-[ext_resource type="Texture2D" uid="uid://cvjoxesptao17" path="res://Textures/Icons/Group 2.svg" id="7_515np"]
+[ext_resource type="Theme" uid="uid://fxp75am1t2sl" path="res://Themes/Icon Panel.tres" id="7_5l8ie"]
+[ext_resource type="Texture2D" uid="uid://b186lwas8ruth" path="res://Textures/Icons/Reload Time.png" id="8_du365"]
+[ext_resource type="Texture2D" uid="uid://cjtooa4c5mvog" path="res://Textures/UI/Game/Icon Panel.png" id="8_scggw"]
 
 [sub_resource type="Gradient" id="Gradient_bvhjd"]
 colors = PackedColorArray(1.58831e-06, 0.460516, 0.464174, 1, 0.433155, 0.201588, 0.999643, 1)
@@ -46,8 +48,20 @@ font_color = Color(1, 0.188235, 0.141176, 1)
 font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_ekhco"]
-font_size = 20
+font_size = 100
 font_color = Color(1, 0.760784, 0.337255, 1)
+
+[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jeivb"]
+texture = ExtResource("8_scggw")
+texture_margin_left = 14.0
+texture_margin_top = 13.0
+texture_margin_right = 14.0
+texture_margin_bottom = 14.0
+expand_margin_bottom = 350.0
+region_rect = Rect2(52, 50, 154, 143)
+
+[sub_resource type="LabelSettings" id="LabelSettings_5l8ie"]
+font_size = 75
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
@@ -313,11 +327,11 @@ vertical_alignment = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="."]
 layout_mode = 0
-offset_left = 12.0
+offset_left = 7.0
 offset_top = 505.0
-offset_right = 523.0
+offset_right = 518.0
 offset_bottom = 792.0
-scale = Vector2(1.5, 1.5)
+scale = Vector2(0.4, 0.4)
 
 [node name="Price" type="HBoxContainer" parent="VBoxContainer"]
 layout_mode = 2
@@ -342,12 +356,25 @@ texture = ExtResource("6_515np")
 layout_mode = 2
 text = "500"
 
-[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="VBoxContainer"]
 layout_mode = 2
+theme = ExtResource("7_5l8ie")
+theme_override_styles/panel = SubResource("StyleBoxTexture_jeivb")
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/HBoxContainer"]
+[node name="Reload Time" type="HBoxContainer" parent="VBoxContainer/Panel"]
 layout_mode = 2
-texture = ExtResource("7_515np")
+offset_top = 4.0
+offset_right = 511.0
+offset_bottom = 260.0
+
+[node name="ReloadIcon" type="TextureRect" parent="VBoxContainer/Panel/Reload Time"]
+layout_mode = 2
+texture = ExtResource("8_du365")
+
+[node name="ReloadLabel" type="Label" parent="VBoxContainer/Panel/Reload Time"]
+layout_mode = 2
+text = "5s"
+label_settings = SubResource("LabelSettings_5l8ie")
 
 [node name="PreviewButton" type="CheckButton" parent="."]
 layout_mode = 0

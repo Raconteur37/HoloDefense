@@ -123,7 +123,7 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.rangeCollisionShape.shape.radius = turret.attackRange
 		if turret.get("reloadTime") != null:
 			turret.reloadTime -=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
-			if turret.has_nodes("ReloadTimer"):
+			if turret.get("reloadTimer") != null:
 				turret.reloadTimer.wait_time = turret.reloadTime
 
 func removeEnergizerBuffsToTurret(turret):

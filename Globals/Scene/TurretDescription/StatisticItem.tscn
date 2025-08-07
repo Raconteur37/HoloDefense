@@ -1,13 +1,14 @@
 [gd_scene load_steps=3 format=3 uid="uid://bpk7bdr8b52mx"]
 
-[ext_resource type="Texture2D" uid="uid://dgg4n5a0oif5x" path="res://Textures/Icons/Reload Time Icon.png" id="1_0dlw1"]
 [ext_resource type="Script" uid="uid://d3ht653v1l3hj" path="res://Globals/Scene/TurretDescription/statistic_item.gd" id="1_bu1rt"]
+
+[sub_resource type="CompressedTexture2D" id="CompressedTexture2D_sbc56"]
 
 [node name="TextureRect" type="TextureRect"]
 offset_right = 256.0
 offset_bottom = 256.0
 scale = Vector2(0.00271937, 0.00249149)
-texture = ExtResource("1_0dlw1")
+texture = SubResource("CompressedTexture2D_sbc56")
 stretch_mode = 2
 script = ExtResource("1_bu1rt")
 

@@ -1,0 +1,17 @@
+[gd_scene load_steps=4 format=3 uid="uid://de6imd28ta15i"]
+
+[ext_resource type="Script" uid="uid://k6wq3xec7tuw" path="res://FX/basic_projectile_trail.gd" id="1_1u7rl"]
+
+[sub_resource type="Curve" id="Curve_1u7rl"]
+_data = [Vector2(0, 1), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[sub_resource type="Gradient" id="Gradient_ln3o7"]
+colors = PackedColorArray(0.895688, 0.329878, 0.294194, 1, 0.717647, 0.831373, 1, 1)
+
+[node name="BasicProjectileTrail" type="Line2D"]
+top_level = true
+width_curve = SubResource("Curve_1u7rl")
+gradient = SubResource("Gradient_ln3o7")
+script = ExtResource("1_1u7rl")
+MAX_LENGTH = 20
