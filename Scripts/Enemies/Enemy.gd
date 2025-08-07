@@ -13,6 +13,7 @@ var curseDamageAmp
 var initialTurn = false
 var turnTurret
 var isZombie
+var zombieFollowTarget : Enemy = null
 
 var targeted : bool = false
 
@@ -30,6 +31,13 @@ func _physics_process(delta: float) -> void:
 
 	if destination == null:
 		getDestination()
+	if zombieFollowTarget != null:
+		if zombieFollowTarget.isZombie:
+			if GameManager.enemiesAlive.is_empty():
+				hit.emit(9999,turnTurret,self,turnTurret) # Damage, Turret, Enemy, Damage Type
+			zombieFollowTarget = GameManager.getRandomEnemyAlive()
+		else:
+			destination = zombieFollowTarget.global_position
 
 	var direction = (destination - global_position).normalized()
 	# Set the velocity to move toward the center
@@ -45,6 +53,7 @@ func _physics_process(delta: float) -> void:
 
 	if isZombie and not initialTurn: # Turn them into a zombie
 		if is_instance_valid(self) and is_instance_valid(turnTurret):
+			GameManager.enemiesAlive.erase(self)
 			initialTurn = true
 			modulate = Color('#00ba00')
 			var timer = Timer.new()
@@ -67,9 +76,12 @@ func _physics_process(delta: float) -> void:
 			area.add_child(shape)
 			add_child(area)
 
-			var awayDirection = (to_local(global_position) - to_local(turnTurret.global_position)).normalized()
-
-			destination = (to_local(global_position) - to_local(awayDirection)) * 300
+			if not is_instance_valid(zombieFollowTarget):
+				if not GameManager.enemiesAlive.is_empty():
+					zombieFollowTarget = GameManager.getRandomEnemyAlive()
+					destination = zombieFollowTarget.global_position
+				else:
+					destination = GameManager.generateRandomPosition()
 
 func onZombieTimerTimeout():
 	if is_instance_valid(turnTurret):

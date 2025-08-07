@@ -87,7 +87,6 @@ func _process(delta: float) -> void:
 		for turret in turretsInRange:
 			if is_instance_valid(turret) and turret != self:
 				if not turret.energized:
-					turret.energizerTurret = $"."
 					turretsEnergized += 1
 					applyEnergizerBuffsToTurret(turret)
 			else:

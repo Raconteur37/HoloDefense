@@ -102,17 +102,17 @@ func generateRandomPosition():
 	match side:
 
 		1:
-			randX = randf_range(0, 1920)
-			randY = randf_range(0, 200)
+			randX = -990
+			randY = randf_range(-540, 540)
 		2:
-			randX = randf_range(1920, 2120)
-			randY = randf_range(0, 1080)
+			randX = randf_range(-960, 960)
+			randY = 550
 		3:
-			randX = randf_range(0,1920)
-			randY = randf_range(-200, 0)
+			randX = randf_range(-960, 960)
+			randY = -550
 		4:
-			randX = randf_range(-200,0)
-			randY = randf_range(0,1080)
+			randX = 990
+			randY = randf_range(-540, 540)
 
 
 	return Vector2(randX,randY)
@@ -254,3 +254,16 @@ func onInGameLevelUp(xpBar):
 
 func removeUpgradeToken():
 	upgradeTokens -= 1
+
+func getRandomEnemyAlive():
+	return enemiesAlive.pick_random()
+
+func summonEnemyToCurrentScene(enemyName):
+	match enemyName:
+
+		"Basic Square":
+			var enemy = load("res://Enemy Scenes/Basic Square.tscn")
+			enemy = enemy.instantiate()
+			enemy.position = generateRandomPosition()
+			enemiesAlive.append(enemy)
+			get_tree().current_scene.add_child(enemy)

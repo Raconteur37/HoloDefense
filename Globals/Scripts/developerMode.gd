@@ -10,10 +10,7 @@ func _input(event: InputEvent) -> void:
 
 			KEY_S:
 				if inDevMode:
-					var enemy = load("res://Enemy Scenes/Basic Square.tscn")
-					enemy = enemy.instantiate()
-					enemy.position = GameManager.generateRandomPosition()
-					get_tree().current_scene.add_child(enemy)
+					GameManager.summonEnemyToCurrentScene("Basic Square")
 			KEY_R:
 				if inDevMode:
 					var enemy = load("res://Enemy Scenes/Tanky Rectangle.tscn")

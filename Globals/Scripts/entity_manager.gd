@@ -6,7 +6,7 @@ var turretsUpgradeTier = {}
 
 var upgradeTierPercent = .02
 
-func takeDamage(damage,turret,enemy,damageType):
+func takeDamage(damage:int,turret:Turret,enemy:Enemy,damageType):
 
 	if turret == null and enemy.health - damage <= 0 and not enemy.isDead:
 		onKill(null,enemy)
