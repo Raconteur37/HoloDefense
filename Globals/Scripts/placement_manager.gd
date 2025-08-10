@@ -54,7 +54,6 @@ func _input(event: InputEvent) -> void:
 				GameManager.addTurretToDict(selectedTurret)
 				#get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
 				selectedTurret = null
-
 			else:
 				print("Cannot place turret there!")
 				selectedTurret.queue_free()

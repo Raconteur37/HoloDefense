@@ -110,7 +110,8 @@ func isEnemyTargeted(enemy):
 
 func removeAllMinions():
 	for minion in currentMinions:
-		minion.queue_free()
+		if is_instance_valid(minion):
+			minion.queue_free()
 
 func removeMinion(minion):
 	currentMinions.erase(minion)

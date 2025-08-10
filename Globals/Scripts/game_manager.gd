@@ -117,7 +117,6 @@ func generateRandomPosition():
 
 	return Vector2(randX,randY)
 
-
 func summonEnemies():
 
 	summonDict = {}
@@ -267,4 +266,4 @@ func summonEnemyToCurrentScene(enemyName):
 			enemy = enemy.instantiate()
 			enemy.position = generateRandomPosition()
 			enemiesAlive.append(enemy)
-			get_tree().current_scene.add_sibling(enemy)
+			get_tree().current_scene.add_child(enemy)
