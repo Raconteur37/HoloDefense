@@ -75,7 +75,7 @@ sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
 [node name="AutomatedSentryTurretFire" parent="TurretTop" instance=ExtResource("4_rkapj")]
-position = Vector2(0, 0)
+position = Vector2(1, -35)
 rotation = 4.71239
 scale = Vector2(1.2, 1.2)
 lifetime = 0.2

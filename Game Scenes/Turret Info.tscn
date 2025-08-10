@@ -11,6 +11,22 @@
 [ext_resource type="Texture2D" uid="uid://b186lwas8ruth" path="res://Textures/Icons/Reload Time.png" id="8_du365"]
 [ext_resource type="Texture2D" uid="uid://cjtooa4c5mvog" path="res://Textures/UI/Game/Icon Panel.png" id="8_scggw"]
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
+shader = ExtResource("6_cxutq")
+shader_parameter/vhs_resolution = Vector2(300, 200)
+shader_parameter/samples = 2
+shader_parameter/crease_noise = 0.3
+shader_parameter/crease_opacity = 0.2
+shader_parameter/filter_intensity = 0.1
+shader_parameter/tape_crease_smear = 0.2
+shader_parameter/tape_crease_intensity = 0.1
+shader_parameter/tape_crease_jitter = 0.1
+shader_parameter/tape_crease_speed = 0.1
+shader_parameter/tape_crease_discoloration = 1.0
+shader_parameter/bottom_border_thickness = 6.0
+shader_parameter/bottom_border_jitter = 6.0
+shader_parameter/noise_intensity = 0.2
+
 [sub_resource type="Gradient" id="Gradient_bvhjd"]
 colors = PackedColorArray(1.58831e-06, 0.460516, 0.464174, 1, 0.433155, 0.201588, 0.999643, 1)
 
@@ -63,22 +79,6 @@ region_rect = Rect2(52, 50, 154, 143)
 [sub_resource type="LabelSettings" id="LabelSettings_5l8ie"]
 font_size = 75
 
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
-shader = ExtResource("6_cxutq")
-shader_parameter/vhs_resolution = Vector2(300, 200)
-shader_parameter/samples = 2
-shader_parameter/crease_noise = 0.3
-shader_parameter/crease_opacity = 0.2
-shader_parameter/filter_intensity = 0.1
-shader_parameter/tape_crease_smear = 0.2
-shader_parameter/tape_crease_intensity = 0.1
-shader_parameter/tape_crease_jitter = 0.1
-shader_parameter/tape_crease_speed = 0.1
-shader_parameter/tape_crease_discoloration = 1.0
-shader_parameter/bottom_border_thickness = 6.0
-shader_parameter/bottom_border_jitter = 6.0
-shader_parameter/noise_intensity = 0.2
-
 [sub_resource type="Animation" id="Animation_bvhjd"]
 resource_name = "InfoAppear"
 tracks/0/type = "value"
@@ -115,7 +115,20 @@ _data = {
 &"RESET": SubResource("Animation_cxutq")
 }
 
-[node name="TurretInfo" type="Control"]
+[node name="CanvasLayer" type="CanvasLayer"]
+
+[node name="ScreenFilter" type="ColorRect" parent="."]
+visible = false
+show_behind_parent = true
+material = SubResource("ShaderMaterial_ekhco")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="TurretInfo" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -127,14 +140,14 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Background" type="TextureRect" parent="."]
+[node name="Background" type="TextureRect" parent="TurretInfo"]
 visible = false
 layout_mode = 0
 offset_right = 1917.0
 offset_bottom = 1079.0
 texture = SubResource("GradientTexture2D_cxutq")
 
-[node name="TurretSelectionScroll" type="Control" parent="."]
+[node name="TurretSelectionScroll" type="Control" parent="TurretInfo"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -147,7 +160,7 @@ grow_vertical = 0
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_mxhls")
 
-[node name="Panel" type="Panel" parent="TurretSelectionScroll"]
+[node name="Panel" type="Panel" parent="TurretInfo/TurretSelectionScroll"]
 layout_mode = 1
 anchors_preset = 7
 anchor_left = 0.5
@@ -161,7 +174,7 @@ grow_horizontal = 2
 grow_vertical = 0
 size_flags_horizontal = 0
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TurretSelectionScroll/Panel"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll/Panel"]
 layout_mode = 0
 offset_left = -1.0
 offset_top = -3.0
@@ -169,24 +182,24 @@ offset_right = 39.0
 offset_bottom = 37.0
 scale = Vector2(2.44544, 2.33681)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TurretSelectionScroll/Panel/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/Panel/ScrollContainer"]
 layout_mode = 2
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="."]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 123.0
 offset_top = 38.0
 offset_right = 635.0
 offset_bottom = 550.0
 
-[node name="SubViewport" type="SubViewport" parent="SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="TurretInfo/SubViewportContainer"]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 gui_disable_input = true
 render_target_update_mode = 4
 
-[node name="VBoxContainer2" type="VBoxContainer" parent="."]
+[node name="VBoxContainer2" type="VBoxContainer" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 140.0
 offset_top = 75.0
@@ -194,21 +207,21 @@ offset_right = 612.0
 offset_bottom = 181.0
 alignment = 1
 
-[node name="TurretNameLabel" type="Label" parent="VBoxContainer2"]
+[node name="TurretNameLabel" type="Label" parent="TurretInfo/VBoxContainer2"]
 layout_mode = 2
 text = "Arrow Turret"
 label_settings = SubResource("LabelSettings_g24qp")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RarityLabel" type="Label" parent="VBoxContainer2"]
+[node name="RarityLabel" type="Label" parent="TurretInfo/VBoxContainer2"]
 layout_mode = 2
 text = "Rarity"
 label_settings = SubResource("LabelSettings_bvhjd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="TurretIcon" type="TextureRect" parent="."]
+[node name="TurretIcon" type="TextureRect" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 275.0
 offset_top = 194.0
@@ -217,19 +230,19 @@ offset_bottom = 234.0
 scale = Vector2(5, 5)
 texture = ExtResource("2_mxhls")
 
-[node name="LevelContainer" type="VBoxContainer" parent="."]
+[node name="LevelContainer" type="VBoxContainer" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 1166.0
 offset_right = 2235.0
 offset_bottom = 1298.0
 scale = Vector2(0.704436, 0.736426)
 
-[node name="LevelOneTexture" type="TextureRect" parent="LevelContainer"]
+[node name="LevelOneTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 modulate = Color(1, 1, 1, 0.45098)
 layout_mode = 2
 texture = ExtResource("3_osgsa")
 
-[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelOneTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelOneTexture"]
 visible = false
 layout_mode = 0
 offset_left = 113.0
@@ -242,7 +255,7 @@ text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="LevelContainer/LevelOneTexture"]
+[node name="RichTextLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelOneTexture"]
 layout_mode = 0
 offset_left = 114.0
 offset_top = 94.0
@@ -253,11 +266,11 @@ bbcode_enabled = true
 text = "Debug Text"
 fit_content = true
 
-[node name="LevelTwoTexture" type="TextureRect" parent="LevelContainer"]
+[node name="LevelTwoTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
 texture = ExtResource("4_bvhjd")
 
-[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelTwoTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
 visible = false
 layout_mode = 0
 offset_left = 113.0
@@ -268,7 +281,7 @@ text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
-[node name="LevelTwoProgress" type="TextureProgressBar" parent="LevelContainer/LevelTwoTexture"]
+[node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
 layout_mode = 0
 offset_left = 176.027
 offset_top = 265.324
@@ -278,11 +291,11 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
-[node name="LevelThreeTexture" type="TextureRect" parent="LevelContainer"]
+[node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
 texture = ExtResource("4_bvhjd")
 
-[node name="TurretDescriptionLabel" type="Label" parent="LevelContainer/LevelThreeTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
 visible = false
 layout_mode = 0
 offset_left = 113.0
@@ -293,7 +306,7 @@ text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
-[node name="RequiredText" type="Label" parent="LevelContainer/LevelThreeTexture"]
+[node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
 layout_mode = 0
 offset_left = 380.446
 offset_top = 250.918
@@ -303,7 +316,7 @@ text = "Requires Level 2"
 label_settings = SubResource("LabelSettings_scggw")
 autowrap_mode = 2
 
-[node name="LevelThreeProgress" type="TextureProgressBar" parent="LevelContainer/LevelThreeTexture"]
+[node name="LevelThreeProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
 visible = false
 layout_mode = 0
 offset_left = 176.027
@@ -314,7 +327,7 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
-[node name="TypeLabel" type="Label" parent="."]
+[node name="TypeLabel" type="Label" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 305.0
 offset_top = 402.0
@@ -325,7 +338,7 @@ label_settings = SubResource("LabelSettings_cxutq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="VBoxContainer" type="VBoxContainer" parent="."]
+[node name="VBoxContainer" type="VBoxContainer" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 7.0
 offset_top = 505.0
@@ -333,50 +346,50 @@ offset_right = 518.0
 offset_bottom = 792.0
 scale = Vector2(0.4, 0.4)
 
-[node name="Price" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Price" type="HBoxContainer" parent="TurretInfo/VBoxContainer"]
 layout_mode = 2
 
-[node name="PriceIcon" type="TextureRect" parent="VBoxContainer/Price"]
+[node name="PriceIcon" type="TextureRect" parent="TurretInfo/VBoxContainer/Price"]
 layout_mode = 2
 texture = ExtResource("3_g24qp")
 
-[node name="PriceLabel" type="Label" parent="VBoxContainer/Price"]
+[node name="PriceLabel" type="Label" parent="TurretInfo/VBoxContainer/Price"]
 layout_mode = 2
 text = "$50"
 label_settings = SubResource("LabelSettings_ekhco")
 
-[node name="Damage" type="HBoxContainer" parent="VBoxContainer"]
+[node name="Damage" type="HBoxContainer" parent="TurretInfo/VBoxContainer"]
 layout_mode = 2
 
-[node name="TextureRect" type="TextureRect" parent="VBoxContainer/Damage"]
+[node name="TextureRect" type="TextureRect" parent="TurretInfo/VBoxContainer/Damage"]
 layout_mode = 2
 texture = ExtResource("6_515np")
 
-[node name="Label" type="Label" parent="VBoxContainer/Damage"]
+[node name="Label" type="Label" parent="TurretInfo/VBoxContainer/Damage"]
 layout_mode = 2
 text = "500"
 
-[node name="Panel" type="Panel" parent="VBoxContainer"]
+[node name="Panel" type="Panel" parent="TurretInfo/VBoxContainer"]
 layout_mode = 2
 theme = ExtResource("7_5l8ie")
 theme_override_styles/panel = SubResource("StyleBoxTexture_jeivb")
 
-[node name="Reload Time" type="HBoxContainer" parent="VBoxContainer/Panel"]
+[node name="Reload Time" type="HBoxContainer" parent="TurretInfo/VBoxContainer/Panel"]
 layout_mode = 2
 offset_top = 4.0
 offset_right = 511.0
 offset_bottom = 260.0
 
-[node name="ReloadIcon" type="TextureRect" parent="VBoxContainer/Panel/Reload Time"]
+[node name="ReloadIcon" type="TextureRect" parent="TurretInfo/VBoxContainer/Panel/Reload Time"]
 layout_mode = 2
 texture = ExtResource("8_du365")
 
-[node name="ReloadLabel" type="Label" parent="VBoxContainer/Panel/Reload Time"]
+[node name="ReloadLabel" type="Label" parent="TurretInfo/VBoxContainer/Panel/Reload Time"]
 layout_mode = 2
 text = "5s"
 label_settings = SubResource("LabelSettings_5l8ie")
 
-[node name="PreviewButton" type="CheckButton" parent="."]
+[node name="PreviewButton" type="CheckButton" parent="TurretInfo"]
 layout_mode = 0
 offset_left = 325.0
 offset_top = 442.0
@@ -384,22 +397,9 @@ offset_right = 405.0
 offset_bottom = 482.0
 icon = ExtResource("2_mxhls")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-visible = false
-
-[node name="ScreenFilter" type="ColorRect" parent="CanvasLayer"]
-show_behind_parent = true
-material = SubResource("ShaderMaterial_ekhco")
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TurretInfo"]
 libraries = {
 &"": SubResource("AnimationLibrary_ekhco")
 }
 
-[connection signal="toggled" from="PreviewButton" to="TurretSelectionScroll" method="_on_preview_button_toggled"]
+[connection signal="toggled" from="TurretInfo/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]

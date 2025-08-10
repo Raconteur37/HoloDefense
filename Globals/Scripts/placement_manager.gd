@@ -60,7 +60,7 @@ func _input(event: InputEvent) -> void:
 				turretSelected = false
 				selectedTurret = null
 		else:
-			if inGame or DeveloperMode.inDevMode:
+			if inGame or DeveloperMode.inDevMode and not GameManager.previewMode:
 				if not is_cell_occupied(get_tree().current_scene.get_global_mouse_position()):
 					GameManager.closeAllMenus()
 				#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))

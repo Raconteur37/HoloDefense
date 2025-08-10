@@ -19,4 +19,4 @@ func playEnterEffect(enemy):
 	activeParticle.explosionDamage = explosionDmg
 	activeParticle.setPosition(enemy.global_position)
 	activeParticle.find_child("FireworkExplosion").emitting = true
-	enemy.add_child(activeParticle)
+	get_tree().current_scene.add_child(activeParticle)
