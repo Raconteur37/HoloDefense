@@ -94,6 +94,7 @@ func _process(delta: float) -> void:
 
 	if turretSelected:
 		if not selectedTurret.isPlaced:
+
 			var mousePosition = get_tree().current_scene.get_global_mouse_position()
 
 			selectedTurret.global_position = get_snapped_position(mousePosition)

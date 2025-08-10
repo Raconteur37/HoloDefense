@@ -89,6 +89,7 @@ func _process(delta: float) -> void:
 				if not turret.energized:
 					turretsEnergized += 1
 					applyEnergizerBuffsToTurret(turret)
+					break
 			else:
 				turretsInRange.erase(turret)
 
@@ -111,6 +112,7 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func applyEnergizerBuffsToTurret(turret):
 	if is_instance_valid(turret):
 		if not turret.energized:
+			turret.energizerTurret = self
 			turret.energized = true
 			ParticleManager.playEnergizedParticle(turret)
 		if turret.get("damage") != null:
@@ -127,8 +129,6 @@ func applyEnergizerBuffsToTurret(turret):
 				turret.reloadTimer.wait_time = turret.reloadTime
 
 func removeEnergizerBuffsToTurret(turret):
-	turret.currentParticlesMap["Energized"].queue_free()
-	turret.currentParticlesMap.erase("Energized")
 	turret.energized = false
 	if turret.get("damage") != null:
 		turret.damage -=  ceil(energizerDamageBuff * turret.baseDamage)
@@ -160,6 +160,7 @@ func checkAllTurretsEnergized():
 	return true
 
 func _on_energize_time_timeout() -> void:
+	print("got gerer")
 	if turretsEnergized < maxTurretsEnergized:
 		if turretsInRange.size() == 0:
 			scanCurrentTurretsInRange()

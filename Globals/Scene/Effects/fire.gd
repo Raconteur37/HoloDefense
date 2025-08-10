@@ -38,7 +38,7 @@ func getName():
 	return effectName
 
 func _on_tick_timeout() -> void:
-	enemy.hit.emit(damage,turretApplier,enemy,self)
+	enemy.hit.emit(damage,applier,enemy,self)
 	tickTimer.start()
 
 func _on_total_time_timeout() -> void:

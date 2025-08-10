@@ -256,7 +256,8 @@ func removeUpgradeToken():
 	upgradeTokens -= 1
 
 func getRandomEnemyAlive():
-	return enemiesAlive.pick_random()
+	if not enemiesAlive.is_empty():
+		return enemiesAlive.pick_random()
 
 func summonEnemyToCurrentScene(enemyName):
 	match enemyName:
@@ -266,4 +267,4 @@ func summonEnemyToCurrentScene(enemyName):
 			enemy = enemy.instantiate()
 			enemy.position = generateRandomPosition()
 			enemiesAlive.append(enemy)
-			get_tree().current_scene.add_child(enemy)
+			get_tree().current_scene.add_sibling(enemy)

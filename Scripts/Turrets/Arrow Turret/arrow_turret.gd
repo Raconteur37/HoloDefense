@@ -14,8 +14,8 @@ func _ready() -> void:
 	maxHealth = 20
 	baseDamage = 50
 	baseProjectileSpeed = 400
-	baseAttackRange = 2000 # 200
-	baseReloadTime = .5 # 2.5
+	baseAttackRange = 200 # 200
+	baseReloadTime = 2.5 # 2.5
 	upgradeTier = 0
 	armor = 5
 	level = 1

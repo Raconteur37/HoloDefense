@@ -59,6 +59,8 @@ var health : float
 var energized : bool = false
 var beaconBuffActive : bool = false
 
+var energizerTurret : Turret = null
+
 func addKill():
 	kills += 1
 
