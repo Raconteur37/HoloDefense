@@ -1,64 +1,64 @@
 {
-	"XP Maximum": {
+	"xp_maximum": {
 
-		"Common": {
+		"common": {
 			"LevelTwoMaxXP": 5000,
 			"LevelThreeMaxXP": 15000
 		},
-		"Rare": {
+		"rare": {
 			"LevelTwoMaxXP": 10000,
 			"LevelThreeMaxXP": 30000
 		},
-		"Super Rare": {
+		"super_rare": {
 			"LevelTwoMaxXP": 20000,
 			"LevelThreeMaxXP": 60000
 		},
-		"Legendary": {
+		"legendary": {
 			"LevelTwoMaxXP": 50000,
 			"LevelThreeMaxXP": 150000
 		},
-		"Unseen": {
+		"unseen": {
 			"LevelTwoMaxXP": 100000,
 			"LevelThreeMaxXP": 300000
 		}
 	},
 
-	"Turret XP": {
-		"Arrow Turret": 7500,
-		"Mini Sentry Turret": 0,
-		"Energizer Turret": 0,
-		"Railgun Turret": 0,
-		"Flame Turret": 0,
-		"Reaper Turret": 0,
-		"Royal Turret": 0,
-		"Firework Turret": 0,
-		"Tesla Turret": 0,
-		"Automated Sentry Turret": 0,
-		"Gold Mine Turret": 0,
-		"Seismic Turret": 0,
-		"Spider Turret": 0,
-		"Voodoo Turret": 0,
-		"Zombie Turret": 0,
-		"Medic Turret": 0
+	"turret_xp": {
+		"arrow_turret": 7500,
+		"mini_sentry_turret": 0,
+		"energizer_turret": 0,
+		"railgun_turret": 0,
+		"flame_turret": 0,
+		"reaper_turret": 0,
+		"royal_turret": 0,
+		"firework_turret": 0,
+		"tesla_turret": 0,
+		"automated_sentry_turret": 0,
+		"gold_mine_turret": 0,
+		"seismic_turret": 0,
+		"spider_turret": 0,
+		"voodoo_turret": 0,
+		"zombie_turret": 0,
+		"medic_turret": 0
 	},
 
-	"Turret Level": {
-		"Arrow Turret": 2,
-		"Mini Sentry Turret": 3,
-		"Energizer Turret": 2,
-		"Railgun Turret": 1,
-		"Flame Turret": 1,
-		"Reaper Turret": 1,
-		"Royal Turret": 1,
-		"Firework Turret": 1,
-		"Tesla Turret": 1,
-		"Automated Sentry Turret": 1,
-		"Gold Mine Turret": 1,
-		"Seismic Turret": 1,
-		"Spider Turret": 1,
-		"Voodoo Turret": 1,
-		"Zombie Turret": 1,
-		"Medic Turret": 1
+	"turret_level": {
+		"arrow_turret": 2,
+		"mini_sentry_turret": 3,
+		"energizer_turret": 2,
+		"railgun_turret": 1,
+		"flame_turret": 1,
+		"reaper_turret": 1,
+		"royal_turret": 1,
+		"firework_turret": 1,
+		"tesla_turret": 1,
+		"automated_sentry_turret": 1,
+		"gold_mine_turret": 1,
+		"seismic_turret": 1,
+		"spider_turret": 1,
+		"voodoo_turret": 1,
+		"zombie_turret": 1,
+		"medic_turret": 1
 	}
 
 }

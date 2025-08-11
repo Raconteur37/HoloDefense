@@ -33,8 +33,6 @@ var turretContainer
 
 @onready var animationPlayer = $"../AnimationPlayer"
 
-var turretData = {}
-
 var turretXPData = {}
 
 var currentTurret : String
@@ -52,18 +50,10 @@ func _ready() -> void:
 	#for turret in TurretManager.allTurrets:
 	#	add_turret_button(turret)
 
-	var file = FileAccess.open("res://Config/Turret Info.json",FileAccess.READ)
-	turretData = JSON.parse_string(file.get_as_text())
-	file.close()
-
-	file = FileAccess.open("res://Config/TurretXP.json",FileAccess.READ)
-	turretXPData = JSON.parse_string(file.get_as_text())
-	file.close()
-
 	# Sorted by rarity ascending
 	for rarity in ["Common","Rare","Super Rare","Legendary","Unseen"]:
 		for turret in TurretManager.allTurrets:
-			if turretData[turret].rarity == rarity:
+			if TurretManager.getTurretStat(turret,"rarity") == rarity:
 				add_turret_button(turret)
 
 func add_turret_button(turretName : String):
@@ -80,16 +70,16 @@ func _on_turret_button_pressed(turretName: String):
 	animationPlayer.play("InfoAppear")
 	turretIcon.texture = TurretManager.findTurretTexture(turretName)
 	previewToggle.icon = TurretManager.findTurretTexture(turretName)
+	currentTurret = turretName
 	previewToggle.button_pressed = false
 	turretNameLabel.text = turretName
-	currentTurret = turretName
-	turretDescriptionLabel.text = turretData[turretName].description
-	typeLabel.text = turretData[turretName].type
+	turretDescriptionLabel.text = TurretManager.getTurretStat(turretName,"description")
+	typeLabel.text = TurretManager.getTurretStat(turretName,"type")
 
-	var rarity = turretData[turretName].rarity
+	var rarity = TurretManager.getTurretStat(turretName,"rarity")
 	rarityLabel.text = rarity
 
-	var turretLevel = turretXPData["Turret Level"].get(turretName)
+	var turretLevel = TurretManager.getTurretLevel(turretName)
 
 	if turretLevel == 1:
 		levelTwoDescription.hide()
@@ -127,15 +117,15 @@ func _on_turret_button_pressed(turretName: String):
 	if rarity == "Unseen":
 		rarityLabel.label_settings.font_color = Color(Color.HOT_PINK)
 
-	var levelTwoMaxXp = turretXPData["XP Maximum"].get(rarity).get("LevelTwoMaxXP")
+	var levelTwoMaxXp = TurretManager.getMaxXp(rarity,2)
 	levelTwoProgressBar.max_value = levelTwoMaxXp
 	levelThreeProgressBar.min_value = levelTwoMaxXp
-	levelThreeProgressBar.max_value = turretXPData["XP Maximum"].get(rarity).get("LevelThreeMaxXP")
+	levelThreeProgressBar.max_value = TurretManager.getMaxXp(rarity,3)
 
-	levelTwoProgressBar.value = turretXPData["Turret XP"].get(turretName)
-	levelThreeProgressBar.value = turretXPData["Turret XP"].get(turretName)
+	levelTwoProgressBar.value = TurretManager.getTurretXp(turretName)
+	levelThreeProgressBar.value = TurretManager.getTurretXp(turretName)
 
-	priceLabel.text = "$" + str(turretData[turretName].price)
+	priceLabel.text = "$" + str(TurretManager.getTurretStat(turretName,"price"))
 
 	createTooltips()
 
