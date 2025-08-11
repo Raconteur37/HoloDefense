@@ -7,9 +7,9 @@ var shooting : bool = false
 var turretBeam
 var damageTickTimer
 
-@export var baseFireDamage : float = 2
-@export var baseFireTime : float = 3
-@export var baseDamageTickTime : float = .5
+@export var baseFireDamage : float
+@export var baseFireTime : float
+@export var baseDamageTickTime : float
 
 var particleVelocity = 200
 
@@ -22,15 +22,19 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
 
-	turretName = "Flame Turret"
-	price = 20
-	maxHealth = 20
-	baseDamage = 3
-	baseAttackRange = 90
-	upgradeTier = 0
-	armor = 0
+	turretName = TurretManager.getTurretStat("flame_turret","name")
+	price = TurretManager.getTurretStat("flame_turret","price")
+	maxHealth = TurretManager.getTurretStat("flame_turret","health")
+	baseDamage = TurretManager.getTurretStat("flame_turret","damage")
+	baseAttackRange = TurretManager.getTurretStat("flame_turret","range")
+	armor = TurretManager.getTurretStat("flame_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("flame_turret","constructionTime")
+	baseFireDamage = TurretManager.getTurretStat("flame_turret","baseFireDamage")
+	baseFireTime = TurretManager.getTurretStat("flame_turret","baseFireTime")
+	baseDamageTickTime = TurretManager.getTurretStat("flame_turret","fireTickTime")
 	level = 1
-	baseBuildTime = 8
+	upgradeTier = 0
+
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D

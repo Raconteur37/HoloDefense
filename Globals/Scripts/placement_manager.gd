@@ -15,7 +15,8 @@ var selectedTurret
 
 func selectTurret(turretName):
 	if turretName != null:
-		selectedTurret = TurretManager.getTurretByName(turretName).instantiate()
+		selectedTurret = load("res://Globals/Scene/TurretSelectedScene.tscn").instantiate()
+		selectedTurret.buildSelectedTurret(turretName,TurretManager.getTurretRange(turretName))
 		turretSelected = true
 		get_tree().current_scene.find_child("CanvasLayer").add_child(selectedTurret)
 	else:

@@ -1,5 +1,7 @@
 {
-	"Arrow Turret": {
+	"arrow_turret": {
+		"id": 1,
+		"name": "Arrow Turret",
 		"description": "The arrow turret is a sturdy and well versitile turret that shoots individual arrows at enemies.",
 		"levelTwo": "Arrows that are fired from the turret track enemies so they never miss.",
 		"levelThree": "Shots now pierce infinitely.",
@@ -14,7 +16,9 @@
 		"projectileSpeed": 400,
 		"constructionTime": 5
 	},
-	"Mini Sentry Turret": {
+	"mini_sentry_turret": {
+		"id": 2,
+		"name": "Mini Sentry Turret",
 		"description": "A rapid fire turret that doesn't need to reload. Overall good for standing groud.",
 		"levelTwo": "Decreases the time it takes each shot after a kill, but goes away quickly if no enemies are killed.",
 		"levelThree": "After not taking damage for a certain time, slowly repair any lost armor.",
@@ -25,11 +29,13 @@
 		"health": 15,
 		"damage": 7,
 		"range": 100,
-		"reloadTime": 0,
+		"reloadTime": 0.5,
 		"projectileSpeed": 500,
 		"constructionTime": 3
 	},
-	"Railgun Turret": {
+	"railgun_turret": {
+		"id": 3,
+		"name": "Railgun Turret",
 		"description": "Fires a strong piercing projectile with high damage and range, but high reload time.",
 		"levelTwo": "Deal double damage to bosses.",
 		"levelThree": "When attacked, decrease reload time by .4s for the current reload",
@@ -42,9 +48,12 @@
 		"range": 500,
 		"reloadTime": 10,
 		"projectileSpeed": 150,
-		"constructionTime": 20
+		"constructionTime": 20,
+		"pierce": 2
 	},
-	"Energizer Turret": {
+	"energizer_turret": {
+		"id": 4,
+		"name": "Energizer Turret",
 		"description": "Buffs the damage, range, reload time, and projectile speed of a certain amount of turrets in range.",
 		"levelTwo": "When energizing a turret, it has a chance to energize another turret anywhere on the map without taking a energized slot.",
 		"levelThree": "When a turret dies while energized, it explodes for massive damage.",
@@ -55,9 +64,16 @@
 		"health": 30,
 		"range": 150,
 		"energizeTime": 5,
-		"constructionTime": 15
+		"constructionTime": 15,
+		"maxTurretsEnergized": 5,
+		"energizerDamageBuff": 0.02,
+		"energizerProjctileSpeedBuff": 0.02,
+		"energizerAttackRangeBuff": 0.02,
+		"energizerReloadTimeBuff": 0.02
 	},
-	"Royal Turret": {
+	"royal_turret": {
+		"id": 5,
+		"name": "Royal Turret",
 		"description": "Creates 3 knights that attack enemies too close to the king.",
 		"levelTwo": "Creates 2 archers that attack enemies.",
 		"levelThree": "When a knight or archer defeats an enemy, heal for some health.",
@@ -67,9 +83,13 @@
 		"armor": 50,
 		"health": 20,
 		"range": 200,
-		"constructionTime": 25
+		"constructionTime": 25,
+		"summonTime": 5,
+		"maxKnights": 3
 	},
-	"Flame Turret": {
+	"flame_turret": {
+		"id": 6,
+		"name": "Flame Turret",
 		"description": "Uses a flamethrower to [color=orange]ignite[/color] enemies and burn them slowly.",
 		"levelTwo": "Enemies that die ignited, [color=orange]ignite[/color] other enemies nearby.",
 		"levelThree": "When an enemy dies that this turret ignited, gain armor.",
@@ -80,9 +100,14 @@
 		"armor": 10,
 		"health": 20,
 		"range": 90,
-		"constructionTime": 8
+		"constructionTime": 8,
+		"fireDamage": 2,
+		"fireTime": 3,
+		"fireTickTime": 0.5
 	},
-	"Firework Turret": {
+	"firework_turret": {
+		"id": 7,
+		"name": "Firework Turret",
 		"description": "Launches a 3 burst of fireworks in a quick succession that do area damage.",
 		"levelTwo": "Firework explosions [color=orange]ignite[/color] enemies.",
 		"levelThree": "Enemies that die to the firework explosion half the reload time of the next firework.",
@@ -95,9 +120,14 @@
 		"reloadTime": 1.5,
 		"range": 200,
 		"projectileSpeed": 600,
-		"constructionTime": 10
+		"constructionTime": 10,
+		"explosionDamage": 10,
+		"explosionRadius": 60,
+		"shotDelay": 0.5
 	},
-	"Reaper Turret": {
+	"reaper_turret": {
+		"id": 8,
+		"name": "Reaper Turret",
 		"description": "Launches sythes that have a chance to [color=black]execute[/color] enemies.",
 		"levelTwo": "For every enemy hit that wasn't executed, increase the [color=black]execute[/color] chance.",
 		"levelThree": "Reaper turret can now [color=black]execute[/color] bosses, but the chance is halved.",
@@ -110,9 +140,12 @@
 		"reloadTime": 3,
 		"range": 250,
 		"projectileSpeed": 250,
-		"constructionTime": 8
+		"constructionTime": 8,
+		"executionChance": 5
 	},
-	"Spider Turret": {
+	"spider_turret": {
+		"id": 9,
+		"name": "Spider Turret",
 		"description": "Shoots darts that have a chance to [color=green]poison[/color] enemies.",
 		"levelTwo": "Darts have a chance to trap enemies in a web and stun them.",
 		"levelThree": "Enemies caught in the web are now poisoned, if an enemy was poisoned before the web, extend the poison time.",
@@ -125,9 +158,14 @@
 		"reloadTime": 3,
 		"range": 250,
 		"projectileSpeed": 600,
-		"constructionTime": 4
+		"constructionTime": 4,
+		"poisonChance": 30,
+		"poisonDuration": 3,
+		"poisonDamage": 0.5
 	},
-	"Tesla Turret": {
+	"tesla_turret": {
+		"id": 10,
+		"name": "Tesla Turret",
 		"description": "Builds up charge then shocks all enemies around it for high damage.",
 		"levelTwo": "Enemies hit by the tesla turret are stunned slightly.",
 		"levelThree": "Electricity now chains to nearby enemies that aren't in range",
@@ -139,9 +177,13 @@
 		"health": 40,
 		"reloadTime": 5,
 		"range": 250,
-		"constructionTime": 20
+		"constructionTime": 20,
+		"attackingTime": 5,
+		"damageTickTime": 0.5
 	},
-	"Seismic Turret": {
+	"seismic_turret": {
+		"id": 11,
+		"name": "Seismic Turret",
 		"description": "Rumbles the ground with a shockwave, destroying all enemies in a close range.",
 		"levelTwo": "While the turret is reloading, it creates a mini shockwave that continuously does damage.",
 		"levelThree": "When an enemy is killed my a shockwave, it creates another shockwave that chains to other enemies.",
@@ -152,10 +194,12 @@
 		"armor": 25,
 		"reloadTime": 4,
 		"health": 80,
-		"range": 75,
+		"range": 50,
 		"constructionTime": 10
 	},
-	"Gold Mine Turret": {
+	"gold_mine_turret": {
+		"id": 12,
+		"name": "Gold Mine Turret",
 		"description": "Generates you money over time, killing an enemy speeds up this generation time.",
 		"levelTwo": "When this turret kills an enemy, get triple the money you would usually get.",
 		"levelThree": "When this turret generates money, it has a chance to double the amount.",
@@ -172,7 +216,9 @@
 		"baseGoldProduced": 2,
 		"generateTime": 5
 	},
-	"Automated Sentry Turret": {
+	"automated_sentry_turret": {
+		"id": 13,
+		"name": "Automated Sentry Turret",
 		"description": "Mass fire bullets but there's a long reload time and it's not very accurate.",
 		"levelTwo": "While firing, regenerate a small amount of ammo.",
 		"levelThree": "While not firing, regenerate a small amount of ammo.",
@@ -189,7 +235,9 @@
 		"maxBullets": 150,
 		"shotTime": 0.1
 	},
-	"Voodoo Turret": {
+	"voodoo_turret": {
+		"id": 14,
+		"name": "Voodoo Turret",
 		"description": "Throws a voodoo doll that has a chance to [color=magenta]curse[/color] enemies.",
 		"levelTwo": "When a cursed enemy dies, [color=magenta]curse[/color] all enemies around them.",
 		"levelThree": "Enemies cursed by this turret now do 30% less damage.",
@@ -207,7 +255,9 @@
 		"curseDamageAmp": 0.20,
 		"curseChance": 20
 	},
-	"Zombie Turret": {
+	"zombie_turret": {
+		"id": 15,
+		"name": "Zombie Turret",
 		"description": "Has a chance every few seconds to [color=olive]zombify[/color] enemies in range.",
 		"levelTwo": "While zombies rot, they have a chance to heal the zombie turret.",
 		"levelThree": "Zombies now activley hunt down enemies to attempt to [color=olive]zombify[/color] them",
@@ -221,9 +271,12 @@
 		"range": 40,
 		"projectileSpeed": 300,
 		"constructionTime": 25,
-		"turnChance": 10
+		"turnChance": 10,
+		"turnTime": 4
 	},
-	"Medic Turret": {
+	"medic_turret": {
+		"id": 16,
+		"name": "Medic Turret",
 		"description": "Heals all turrets in range periodically.",
 		"levelTwo": "Unknown yet",
 		"levelThree": "Unkown",

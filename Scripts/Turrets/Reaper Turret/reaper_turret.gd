@@ -2,7 +2,7 @@ extends Turret
 
 class_name ReaperTurret
 
-@export var baseExecutionChance : float = 5
+@export var baseExecutionChance : float
 
 var executionChance
 
@@ -12,17 +12,19 @@ func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Dark
 
-	turretName = "Reaper Turret"
-	price = 35
-	maxHealth = 35
-	baseDamage = 15
-	baseProjectileSpeed = 250
-	baseAttackRange = 250
-	baseReloadTime = 3
+	turretName = TurretManager.getTurretStat("reaper_turret","name")
+	price = TurretManager.getTurretStat("reaper_turret","price")
+	maxHealth = TurretManager.getTurretStat("reaper_turret","health")
+	baseDamage = TurretManager.getTurretStat("reaper_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("reaper_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("reaper_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("reaper_turret","reloadTime")
+	armor = TurretManager.getTurretStat("reaper_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("reaper_turret","constructionTime")
+	baseExecutionChance = TurretManager.getTurretStat("reaper_turret","executionChance")
+
 	upgradeTier = 0
-	armor = 0
 	level = 1
-	baseBuildTime = 9
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

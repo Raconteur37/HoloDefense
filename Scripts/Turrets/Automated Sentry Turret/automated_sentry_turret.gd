@@ -5,27 +5,30 @@ class_name AutomatedSentryTurret
 var shootTimer : Timer
 var particle
 
-@export var maxBullets : int = 150 # Bullets shot before needing to reload
-@export var shotTime : float = .1 # The interval of which each bullet will be shot
+@export var maxBullets : int # Bullets shot before needing to reload
+@export var shotTime : float # The interval of which each bullet will be shot
 
 var currentBullets
-
 
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Armory
 
-	const turretName : String = "Automated Sentry Turret"
-	price = 25
-	maxHealth = 20
-	baseDamage = 20
-	baseProjectileSpeed = 400
-	baseAttackRange  = 200
-	baseReloadTime = 3.5
-	upgradeTier = 0
-	armor = 0
+	turretName = TurretManager.getTurretStat("automated_sentry_turret","name")
+	price = TurretManager.getTurretStat("automated_sentry_turret","price")
+	maxHealth = TurretManager.getTurretStat("automated_sentry_turret","health")
+	baseDamage = TurretManager.getTurretStat("automated_sentry_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("automated_sentry_turret","projectileSpeed")
+	baseAttackRange  = TurretManager.getTurretStat("automated_sentry_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("automated_sentry_turret","reloadTime")
+	armor = TurretManager.getTurretStat("automated_sentry_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("automated_sentry_turret","constructionTime")
 	level = 1
-	baseBuildTime = 5
+	upgradeTier = 0
+
+	maxBullets = TurretManager.getTurretStat("automated_sentry_turret","maxBullets")
+	shotTime = TurretManager.getTurretStat("automated_sentry_turret","shotTime")
+
 	projectile = preload("res://Projectile Scenes/sentry bullet.tscn")
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

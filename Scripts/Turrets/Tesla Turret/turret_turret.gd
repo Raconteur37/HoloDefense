@@ -8,8 +8,8 @@ var electricityParticle
 
 var frameOne = false
 
-@export var baseDamageTickTime : float = .5
-@export var baseAttackingTime : float = 5
+@export var baseDamageTickTime : float
+@export var baseAttackingTime : float
 
 var damageTickTime
 var attackingTime
@@ -22,16 +22,19 @@ func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Elemental
 
-	turretName = "Tesla Turret"
-	price = 50
-	maxHealth = 60
-	baseDamage = 9
-	baseAttackRange = 200
-	baseReloadTime = 5
+	turretName = TurretManager.getTurretStat("tesla_turret","name")
+	price = TurretManager.getTurretStat("tesla_turret","price")
+	maxHealth = TurretManager.getTurretStat("tesla_turret","health")
+	baseDamage = TurretManager.getTurretStat("tesla_turret","damage")
+	baseAttackRange = TurretManager.getTurretStat("tesla_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("tesla_turret","reloadTime")
+	armor = TurretManager.getTurretStat("tesla_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("tesla_turret","constructionTime")
+	baseDamageTickTime = TurretManager.getTurretStat("tesla_turret","damageTickTime")
+	baseAttackingTime = TurretManager.getTurretStat("tesla_turret","attackingTime")
+
 	upgradeTier = 0
-	armor = 20
 	level = 1
-	baseBuildTime = 1
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

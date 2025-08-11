@@ -2,26 +2,28 @@ extends Turret
 
 class_name ZombieTurret
 
-@export var turnChance : float = 100
+@export var turnChance : float
+@export var turnTime : float
 
 var attackTimer : Timer
-@export var turnTime : float = 4
 
 func _ready() -> void:
 
 	rarity = Rarity.UNSEEN
 	type = Type.Dark
 
-	turretName = "Zombie Turret"
-	price = 20
-	maxHealth = 90
-	baseDamage = 3
-	baseAttackRange = 40
-	upgradeTier = 0
-	armor = 0
-	level = 1
-	baseBuildTime = 25
+	turretName = TurretManager.getTurretStat("zombie_turret","name")
+	price = TurretManager.getTurretStat("zombie_turret","price")
+	maxHealth = TurretManager.getTurretStat("zombie_turret","health")
+	baseDamage = TurretManager.getTurretStat("zombie_turret","damage")
+	baseAttackRange = TurretManager.getTurretStat("zombie_turret","range")
+	armor = TurretManager.getTurretStat("zombie_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("zombie_turret","constructionTime")
+	turnChance = TurretManager.getTurretStat("zombie_turret","turnChance")
+	turnTime = TurretManager.getTurretStat("zombie_turret","turnTime")
 
+	upgradeTier = 0
+	level = 1
 
 	line2d = $RangeArea/RangeIndicator
 	attackTimer = $AttackTimer

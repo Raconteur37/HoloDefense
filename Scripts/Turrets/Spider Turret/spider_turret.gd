@@ -3,9 +3,9 @@ extends Turret
 class_name SpiderTurret
 
 
-@export var basePoisonChance : float = 99
-@export var basePoisonDuration : float = 3
-@export var basePoisonDamage : float = .5
+@export var basePoisonChance : float
+@export var basePoisonDuration : float
+@export var basePoisonDamage : float
 
 var poisonDamage
 var poisonDuration
@@ -15,17 +15,22 @@ func _ready() -> void:
 	rarity = Rarity.COMMON
 	type = Type.Biological
 
-	turretName = "Spider Turret"
-	price = 10
-	maxHealth = 15
-	baseDamage = 5
-	baseProjectileSpeed = 600
-	baseAttackRange = 200
-	baseReloadTime = 1.5
-	upgradeTier = 0
-	armor = 0
+	turretName = TurretManager.getTurretStat("spider_turret","name")
+	price = TurretManager.getTurretStat("spider_turret","price")
+	maxHealth = TurretManager.getTurretStat("spider_turret","health")
+	baseDamage = TurretManager.getTurretStat("spider_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("spider_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("spider_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("spider_turret","reloadTime")
+	armor = TurretManager.getTurretStat("spider_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("spider_turret","constructionTime")
+	poisonChance = TurretManager.getTurretStat("spider_turret","poisonChance")
+	poisonDuration = TurretManager.getTurretStat("spider_turret","poisonDuration")
+	poisonDamage = TurretManager.getTurretStat("spider_turret","poisonDamage")
+
 	level = 1
-	baseBuildTime = 4
+	upgradeTier = 0
+
 	projectile = preload("res://Projectile Scenes/poisondart.tscn")
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

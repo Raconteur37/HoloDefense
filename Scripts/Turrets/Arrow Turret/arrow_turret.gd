@@ -9,18 +9,18 @@ func _ready() -> void:
 	rarity = Rarity.COMMON
 	type = Type.Midieval
 
-	turretName = "Arrow Turret"
-	price = 15
-	maxHealth = 20
-	baseDamage = 50
-	baseProjectileSpeed = 400
-	baseAttackRange = 200 # 200
-	baseReloadTime = 2.5 # 2.5
-	upgradeTier = 0
-	armor = 5
-	level = 1
-	baseBuildTime = 5
+	turretName = TurretManager.getTurretStat("arrow_turret","name")
+	price = TurretManager.getTurretStat("arrow_turret","price")
+	maxHealth = TurretManager.getTurretStat("arrow_turret","health")
+	baseDamage = TurretManager.getTurretStat("arrow_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("arrow_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("arrow_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("arrow_turret","reloadTime")
+	armor = TurretManager.getTurretStat("arrow_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("arrow_turret","constructionTime")
 
+	upgradeTier = 0
+	level = 1
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

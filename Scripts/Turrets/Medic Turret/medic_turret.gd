@@ -12,8 +12,8 @@ var healingPulseTimer
 
 var particle : CPUParticles2D
 
-@export var healingTime : int = 5 # How long it takes before each healing pulse
-@export var healingAmount : float = 4
+@export var healingTime : int # How long it takes before each healing pulse
+@export var healingAmount : float
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -24,14 +24,18 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Future
 
-	turretName = "Medic Turret"
-	price = 45
-	maxHealth = 45
-	baseAttackRange = 100
+	turretName = TurretManager.getTurretStat("medic_turret","name")
+	price = TurretManager.getTurretStat("medic_turret","price")
+	maxHealth = TurretManager.getTurretStat("medic_turret","health")
+	baseAttackRange = TurretManager.getTurretStat("medic_turret","range")
+	armor = TurretManager.getTurretStat("medic_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("medic_turret","constructionTime")
+	healingTime = TurretManager.getTurretStat("medic_turret","healingTime")
+	healingAmount = TurretManager.getTurretStat("medic_turret","healingAmount")
+
 	upgradeTier = 0
-	armor = 0
 	level = 1
-	baseBuildTime = 15
+
 	particle = $HealingPulse
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()

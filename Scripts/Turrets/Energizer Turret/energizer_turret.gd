@@ -11,12 +11,12 @@ var energizeTimer
 
 var turretsEnergized : int = 0
 
-@export var maxTurretsEnergized : int = 5
-@export var energizeTime : float = 5
-@export var energizerDamageBuff : float = 0.02
-@export var energizerProjctileSpeedBuff : float = 0.02
-@export var energizerAttackRangeBuff : float = 0.02
-@export var energizerReloadTimeBuff : float = 0.02
+@export var maxTurretsEnergized : int
+@export var energizeTime : float
+@export var energizerDamageBuff : float
+@export var energizerProjctileSpeedBuff : float
+@export var energizerAttackRangeBuff : float
+@export var energizerReloadTimeBuff : float
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -29,14 +29,22 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Future
 
-	turretName = "Energizer Turret"
-	price = 35
-	maxHealth = 20
-	baseAttackRange = 150
-	upgradeTier = 0
-	armor = 0
+	turretName = TurretManager.getTurretStat("energizer_turret","name")
+	price = TurretManager.getTurretStat("energizer_turret","price")
+	maxHealth = TurretManager.getTurretStat("energizer_turret","health")
+	baseAttackRange = TurretManager.getTurretStat("energizer_turret","range")
+	armor = TurretManager.getTurretStat("energizer_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("energizer_turret","contructionTime")
+	maxTurretsEnergized = TurretManager.getTurretStat("energizer_turret","maxTurretsEnergized")
+	energizeTime = TurretManager.getTurretStat("energizer_turret","energizeTime")
+	energizerDamageBuff = TurretManager.getTurretStat("energizer_turret","energizerDamageBuff")
+	energizerProjctileSpeedBuff = TurretManager.getTurretStat("energizer_turret","energizerProjectileSpeedBuff")
+	energizerAttackRangeBuff = TurretManager.getTurretStat("energizer_turret","energizerAttackRangeBuff")
+	energizerReloadTimeBuff = TurretManager.getTurretStat("energizer_turret","energizerReloadTimeBuff")
+
 	level = 1
-	baseBuildTime = 15
+	upgradeTier = 0
+
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D

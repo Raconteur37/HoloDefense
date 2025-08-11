@@ -9,17 +9,18 @@ func _ready() -> void:
 	rarity = Rarity.COMMON
 	type = Type.Armory
 
-	turretName = "Mini Sentry Turret"
-	price = 25
-	maxHealth = 25
-	baseDamage = 7
-	baseProjectileSpeed = 500
-	baseAttackRange = 100
-	baseReloadTime = .5
+	turretName = TurretManager.getTurretStat("mini_sentry_turret","name")
+	price = TurretManager.getTurretStat("mini_sentry_turret","price")
+	maxHealth = TurretManager.getTurretStat("mini_sentry_turret","health")
+	baseDamage = TurretManager.getTurretStat("mini_sentry_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("mini_sentry_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("mini_sentry_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("mini_sentry_turret","reloadTime")
+	armor = TurretManager.getTurretStat("mini_sentry_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("mini_sentry_turret","constructionTime")
+
 	upgradeTier = 0
-	armor = 30
 	level = 1
-	baseBuildTime = 3
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

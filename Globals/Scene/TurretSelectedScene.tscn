@@ -1,0 +1,20 @@
+[gd_scene load_steps=4 format=3 uid="uid://chxcxiqc33oyk"]
+
+[ext_resource type="Script" uid="uid://cly8sfdgtoepm" path="res://Globals/Scene/turret_selected_scene.gd" id="1_we5vi"]
+
+[sub_resource type="Gradient" id="Gradient_we5vi"]
+colors = PackedColorArray(0.690196, 0.0235294, 0.607843, 1, 0.364706, 0.298039, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_3b0a2"]
+gradient = SubResource("Gradient_we5vi")
+width = 32
+height = 32
+
+[node name="TurretSelectedScene" type="Sprite2D"]
+position = Vector2(912, 514)
+texture = SubResource("GradientTexture2D_3b0a2")
+script = ExtResource("1_we5vi")
+
+[node name="Line2D" type="Line2D" parent="."]
+width = 2.0
+default_color = Color(0.462291, 0.462291, 0.462291, 1)

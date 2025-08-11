@@ -2,7 +2,7 @@ extends Turret
 
 class_name RailgunTurret
 
-@export var basePierce : int = 2
+@export var basePierce : int
 
 var pierce
 
@@ -13,17 +13,19 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Armory
 
-	const turretName : String = "Railgun Turret"
-	price = 75
-	maxHealth = 50
-	baseDamage = 100
-	baseProjectileSpeed = 150
-	baseAttackRange = 500
-	baseReloadTime = 10.0
+	turretName = TurretManager.getTurretStat("railgun_turret","name")
+	price = TurretManager.getTurretStat("railgun_turret","price")
+	maxHealth = TurretManager.getTurretStat("railgun_turret","health")
+	baseDamage = TurretManager.getTurretStat("railgun_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("railgun_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("railgun_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("railgun_turret","reloadTime")
+	armor = TurretManager.getTurretStat("railgun_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("railgun_turret","constructionTime")
+	basePierce = TurretManager.getTurretStat("railgun_turret","pierce")
+
 	upgradeTier = 0
-	armor = 30
 	level = 1
-	baseBuildTime = 20
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

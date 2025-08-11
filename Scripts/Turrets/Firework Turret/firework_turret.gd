@@ -5,10 +5,10 @@ class_name FireworkTurret
 var reloading : bool = false
 
 
-@export var baseExplosionDamage : float = 10
-@export var baseExplosionRadius : float = 60
+@export var baseExplosionDamage : float
+@export var baseExplosionRadius : float
 
-var shotDelay : float = .5
+var shotDelay : float
 
 var shots = 3
 var explosionDamage
@@ -19,17 +19,22 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Idk
 
-	turretName = "Firework Turret"
-	price = 20
-	maxHealth = 45
-	baseDamage = 30
-	baseProjectileSpeed = 600
-	baseAttackRange = 200
-	baseReloadTime = 1.5
-	upgradeTier = 0
-	armor = 0
+	turretName = TurretManager.getTurretStat("firework_turret","name")
+	price = TurretManager.getTurretStat("firework_turret","price")
+	maxHealth = TurretManager.getTurretStat("firework_turret","health")
+	baseDamage = TurretManager.getTurretStat("firework_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("firework_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("firework_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("firework_turret","reloadTime")
+	armor = TurretManager.getTurretStat("firework_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("firework_turret","constructionTime")
+	baseExplosionDamage = TurretManager.getTurretStat("firework_turret","explosionDamage")
+	baseExplosionRadius = TurretManager.getTurretStat("firework_turret","explosionRadius")
+	shotDelay = TurretManager.getTurretStat("firework_turret","shotDelay")
+
 	level = 1
-	baseBuildTime = 10
+	upgradeTier = 0
+
 	projectile = preload("res://Projectile Scenes/firework.tscn")
 
 	line2d = $RangeArea/RangeIndicator

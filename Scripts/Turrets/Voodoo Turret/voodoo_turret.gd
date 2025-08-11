@@ -2,9 +2,9 @@ extends Turret
 
 class_name VoodooTurret
 
-@export var curseDuration : float = 3
-@export var curseDamageAmp : float = .20
-@export var curseChance : float = 99
+@export var curseDuration : float
+@export var curseDamageAmp : float
+@export var curseChance : float
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/voodoodoll.tscn")
@@ -12,17 +12,21 @@ func _ready() -> void:
 	rarity = Rarity.COMMON
 	type = Type.Magic
 
-	turretName = "Voodoo Turret"
-	price = 20
-	maxHealth = 20
-	baseDamage = 9
-	baseProjectileSpeed = 300
-	baseAttackRange = 200
-	baseReloadTime = 2.5
+	turretName = TurretManager.getTurretStat("voodoo_turret","name")
+	price = TurretManager.getTurretStat("voodoo_turret","price")
+	maxHealth = TurretManager.getTurretStat("voodoo_turret","health")
+	baseDamage = TurretManager.getTurretStat("voodoo_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("voodoo_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("voodoo_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("voodoo_turret","reloadTime")
+	armor = TurretManager.getTurretStat("voodoo_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("voodoo_turret","constructionTime")
+	curseDuration = TurretManager.getTurretStat("voodoo_turret","curseDuration")
+	curseDamageAmp = TurretManager.getTurretStat("voodoo_turret","curseDamageAmp")
+	curseChance = TurretManager.getTurretStat("voodoo_turret","curseChance")
+
 	upgradeTier = 0
-	armor = 0
 	level = 1
-	baseBuildTime = 5
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

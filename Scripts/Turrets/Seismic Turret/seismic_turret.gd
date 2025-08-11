@@ -8,16 +8,17 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
 
-	turretName = "Seismic Turret"
-	price = 20
-	maxHealth = 80
-	baseDamage = 50
-	baseAttackRange = 75
-	baseReloadTime = 4
+	turretName =  TurretManager.getTurretStat("seismic_turret","name")
+	price = TurretManager.getTurretStat("seismic_turret","price")
+	maxHealth = TurretManager.getTurretStat("seismic_turret","health")
+	baseDamage = TurretManager.getTurretStat("seismic_turret","damage")
+	baseAttackRange = TurretManager.getTurretStat("seismic_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("seismic_turret","reloadTime")
+	armor = TurretManager.getTurretStat("seismic_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("seismic_turret","constructionTime")
+
 	upgradeTier = 0
-	armor = 25
 	level = 1
-	baseBuildTime = 5
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

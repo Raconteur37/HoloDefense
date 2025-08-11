@@ -8,9 +8,9 @@ var currentMinions = []
 
 @onready var knightMinion = preload("res://Minion Scenes/Knight Minion.tscn")
 
-@export var baseSummonTime : float = 5
+@export var baseSummonTime : float
 
-@export var maxKnights : int = 3
+@export var maxKnights : int
 @export var baseKnightHealth : float  = 30
 @export var baseKnightDamage : float = 10
 
@@ -27,14 +27,18 @@ func _notification(what: int) -> void:
 func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Midieval
-	turretName = "Royal Turret"
-	price = 80
-	maxHealth = 20
-	baseAttackRange = 200
-	upgradeTier = 0
-	armor = 50
+
+	turretName = TurretManager.getTurretStat("royal_turret","name")
+	price = TurretManager.getTurretStat("royal_turret","price")
+	maxHealth = TurretManager.getTurretStat("royal_turret","health")
+	baseAttackRange = TurretManager.getTurretStat("royal_turret","range")
+	armor = TurretManager.getTurretStat("royal_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("royal_turret","constructionTime")
+	baseSummonTime = TurretManager.getTurretStat("royal_turret","summonTime")
+	maxKnights =  TurretManager.getTurretStat("royal_turret","maxKnights")
+
 	level = 1
-	baseBuildTime = 25
+	upgradeTier = 0
 
 	summonTimer = $SummonTimer
 	line2d = $RangeArea/RangeIndicator

@@ -2,7 +2,8 @@ extends Turret
 
 class_name GoldMineTurret
 
-@export var baseGoldProduced : int = 2
+@export var baseGoldProduced : int
+@export var goldProductionTime: int
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/gold coin.tscn")
@@ -10,17 +11,21 @@ func _ready() -> void:
 	rarity = Rarity.LEGENDARY
 	type = Type.Midieval
 
-	turretName = "Gold Mine Turret"
-	price = 45
-	maxHealth = 15
-	baseDamage = 5
-	baseProjectileSpeed = 300
-	baseAttackRange = 150
-	baseReloadTime = 3
-	upgradeTier = 0
-	armor = 20
+	turretName = TurretManager.getTurretStat("gold_mine_turret","name")
+	price = TurretManager.getTurretStat("gold_mine_turret","price")
+	maxHealth = TurretManager.getTurretStat("gold_mine_turret","health")
+	baseDamage = TurretManager.getTurretStat("gold_mine_turret","damage")
+	baseProjectileSpeed = TurretManager.getTurretStat("gold_mine_turret","projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat("gold_mine_turret","range")
+	baseReloadTime = TurretManager.getTurretStat("gold_mine_turret","reloadTime")
+	armor = TurretManager.getTurretStat("gold_mine_turret","armor")
+	baseBuildTime = TurretManager.getTurretStat("gold_mine_turret","constructionTime")
+
+	baseGoldProduced = TurretManager.getTurretStat("gold_mine_turret","baseGoldProduced")
+	goldProductionTime = TurretManager.getTurretStat("gold_mine_turret","generateTime")
+
 	level = 1
-	baseBuildTime = 5
+	upgradeTier = 0
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
