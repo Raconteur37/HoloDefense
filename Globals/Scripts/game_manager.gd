@@ -41,6 +41,7 @@ func addTurretToDict(turret):
 		turretsPlaced[turret.getName()] = [turret]
 
 func removeTurretFromGame(turret):
+	print(turretsPlaced)
 	var turretsList : Array = turretsPlaced.get(turret.getName())
 	turretsList.erase(turret)
 	turret.closeSelectMenu()

@@ -46,6 +46,8 @@ func _ready() -> void:
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
+	hideRange()
+
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 

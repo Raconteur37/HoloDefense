@@ -13,9 +13,24 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
 
-var unlockedTurrets = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Royal Turret","Flame Turret"
-,"Reaper Turret","Firework Turret","Spider Turret","Tesla Turret","Seismic Turret","Gold Mine Turret"
-,"Automated Sentry Turret","Voodoo Turret","Zombie Turret","Medic Turret"]
+var unlockedTurrets = [
+	"arrow_turret",
+	"mini_sentry_turret",
+	"energizer_turret",
+	"railgun_turret",
+	"royal_turret",
+	"flame_turret",
+	"reaper_turret",
+	"firework_turret",
+	"spider_turret",
+	"tesla_turret",
+	"seismic_turret",
+	"gold_mine_turret",
+	"automated_sentry_turret",
+	"voodoo_turret",
+	"zombie_turret",
+	"medic_turret"
+]
 
 var allTurrets = [
 	"arrow_turret",
@@ -37,7 +52,7 @@ var allTurrets = [
 ]
 
 
-func getTurretByName(turretName):
+func loadTurretByName(turretName):
 
 	match turretName:
 		"arrow_turret":

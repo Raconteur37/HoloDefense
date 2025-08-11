@@ -1,11 +1,13 @@
 extends Sprite2D
 
 var line2d
+var turretName
 
-func buildSelectedTurret(turretName,attackRange):
+func buildSelectedTurret(turrName):
+	turretName = turrName
 	texture = TurretManager.findTurretTexture(turretName)
 	line2d = $Line2D
-	draw_range_cirle(attackRange)
+	draw_range_cirle(TurretManager.getTurretStat(turretName,"range"))
 
 func draw_range_cirle(attackRange):
 
