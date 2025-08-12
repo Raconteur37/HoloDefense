@@ -52,8 +52,8 @@ func _input(event: InputEvent) -> void:
 				loadedTurret.position = selectedTurret.position
 				loadedTurret.isPlaced = true
 				turretSelected = false
-				GameManager.addTurretToDict(loadedTurret)
 				get_tree().current_scene.find_child("CanvasLayer").add_child(loadedTurret)
+				GameManager.addTurretToDict(loadedTurret)
 				loadedTurret.bodyCollisionShape.disabled = false
 				selectedTurret.queue_free()
 				#get_tree().current_scene.find_child("Bottom UI Control").turretPlaced(selectedTurret.getName())
@@ -92,14 +92,6 @@ func get_selected_cell(mouse_position: Vector2):
 	var snapped_y = int(relative_position.y / cell_size.y)
 
 	return Vector2(snapped_x, snapped_y)
-
-func _process(delta: float) -> void:
-
-	if turretSelected:
-		var mousePosition = get_tree().current_scene.get_global_mouse_position()
-
-		selectedTurret.global_position = get_snapped_position(mousePosition)
-		#global_position = world_pos
 
 func get_snapped_position(mouse_position: Vector2):
 	# Calculate the grid cell position

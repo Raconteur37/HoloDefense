@@ -133,7 +133,7 @@ func _on_turret_button_pressed(turretName: String):
 func _on_preview_button_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		turretIcon.visible = false
-		var turretScene = TurretManager.getTurretByName(currentTurret).instantiate()
+		var turretScene = TurretManager.loadTurretByName(currentTurret).instantiate()
 		turretScene.global_position.x = viewPort.size.x / 2
 		turretScene.global_position.y = viewPort.size.y / 2
 		viewPort.add_child(turretScene)
