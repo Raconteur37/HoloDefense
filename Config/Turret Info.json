@@ -123,7 +123,7 @@
 		"constructionTime": 10,
 		"explosionDamage": 10,
 		"explosionRadius": 60,
-		"shotDelay": 0.5
+		"shotDelay": 0.3
 	},
 	"reaper_turret": {
 		"id": 8,

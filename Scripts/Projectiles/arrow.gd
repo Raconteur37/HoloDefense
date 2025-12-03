@@ -16,15 +16,15 @@ func _physics_process(delta):
 		return
 
 	var direction_to_target = (target.global_position - global_position).normalized()
-	
+
 	# Apply acceleration toward target
 	var acceleration = direction_to_target * tracking_force
 	velocity += acceleration * delta
-	
+
 	# Optional: clamp max speed
 	if velocity.length() > max_speed:
 		velocity = velocity.normalized() * max_speed
-	
+
 	# Move the projectile
 	position += velocity * delta
 

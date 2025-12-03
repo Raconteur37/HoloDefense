@@ -1,8 +1,8 @@
 [gd_scene load_steps=19 format=3 uid="uid://cmprcjfer6ni6"]
 
 [ext_resource type="Script" uid="uid://dnb12wxx7oibl" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
-[ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_7iae7"]
 [ext_resource type="Shader" uid="uid://cp7aeybt3bbnc" path="res://Shaders/Game.gdshader" id="2_e4ckr"]
+[ext_resource type="Texture2D" uid="uid://b6x30pnnv5ex8" path="res://Textures/UI/Turret Info/Turret Background Panel.jpg" id="3_8gt2y"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_awkle"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="4_drqio"]
 [ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="5_ejtmj"]
@@ -28,9 +28,7 @@ shader_parameter/integrity = 1.0
 shader_parameter/burn_size = 1.3
 
 [sub_resource type="StyleBoxTexture" id="StyleBoxTexture_05817"]
-texture = ExtResource("2_7iae7")
-axis_stretch_horizontal = 2
-region_rect = Rect2(0, 0, 64, 64)
+texture = ExtResource("3_8gt2y")
 
 [sub_resource type="LabelSettings" id="LabelSettings_cg50k"]
 shadow_color = Color(0, 0, 0, 1)
@@ -53,46 +51,10 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
+tracks/1/path = NodePath("Background Panel/Main HBox/Left Grid Container:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Background Panel/Stat Label Container:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Background Panel/GridContainer:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 0.6),
-"transitions": PackedFloat32Array(1, 1),
-"update": 1,
-"values": [false, true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Background Panel/Stats Grid Container:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
 "times": PackedFloat32Array(0, 0.6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
@@ -119,50 +81,14 @@ tracks/0/keys = {
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("Background Panel/Modifier Container:visible")
+tracks/1/path = NodePath("Background Panel/Main HBox/Left Grid Container:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("Background Panel/Stat Label Container:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("Background Panel/GridContainer:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
 "values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("Background Panel/Stats Grid Container:visible")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_35ibv"]
@@ -174,12 +100,10 @@ _data = {
 
 [node name="TurretDescriptionScene" type="Control"]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
+anchors_preset = 2
+anchor_top = 1.0
 anchor_bottom = 1.0
-offset_top = 830.0
-grow_horizontal = 2
-grow_vertical = 2
+grow_vertical = 0
 script = ExtResource("1_t1rss")
 
 [node name="Background Panel" type="PanelContainer" parent="."]
@@ -188,84 +112,57 @@ layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
 anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -234.0
-offset_right = 959.0
-offset_bottom = -118.0
+offset_top = -114.0
+offset_right = 893.0
 grow_vertical = 0
-scale = Vector2(2, 2.01008)
 theme_override_styles/panel = SubResource("StyleBoxTexture_05817")
+metadata/_edit_use_anchors_ = true
 
-[node name="Modifier Container" type="MarginContainer" parent="Background Panel"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 825
-theme_override_constants/margin_top = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Modifier Container"]
-layout_mode = 2
-theme_override_constants/margin_top = -92
-
-[node name="Label" type="Label" parent="Background Panel/Modifier Container/MarginContainer"]
-layout_mode = 2
-text = "Modifiers"
-uppercase = true
-
-[node name="GridContainer2" type="GridContainer" parent="Background Panel/Modifier Container"]
+[node name="Main HBox" type="HBoxContainer" parent="Background Panel"]
 layout_mode = 2
 
-[node name="Stat Label Container" type="MarginContainer" parent="Background Panel"]
-visible = false
-layout_mode = 2
-theme_override_constants/margin_left = 425
-theme_override_constants/margin_top = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stat Label Container"]
-layout_mode = 2
-bbcode_enabled = true
-text = "STATS"
-
-[node name="GridContainer" type="GridContainer" parent="Background Panel"]
+[node name="Left Grid Container" type="GridContainer" parent="Background Panel/Main HBox"]
 z_index = 2
 layout_mode = 2
 theme_override_constants/v_separation = 13
 
-[node name="LabelMarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="Background Panel/Main HBox/Left Grid Container"]
 layout_mode = 2
-theme_override_constants/margin_top = 3
-theme_override_constants/margin_bottom = 0
+theme_override_constants/separation = 14
 
-[node name="Name Label" type="Label" parent="Background Panel/GridContainer/LabelMarginContainer"]
+[node name="Name Label" type="Label" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer"]
 layout_mode = 2
 text = "TURRET NAME"
 label_settings = SubResource("LabelSettings_cg50k")
 horizontal_alignment = 1
 uppercase = true
 
-[node name="TurretImageContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
+[node name="TurretImageContainer" type="MarginContainer" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer"]
 layout_mode = 2
-theme_override_constants/margin_left = 60
-theme_override_constants/margin_right = 60
+theme_override_constants/margin_left = 58
+theme_override_constants/margin_top = 0
+theme_override_constants/margin_right = 57
+theme_override_constants/margin_bottom = 0
 
-[node name="PanelContainer" type="PanelContainer" parent="Background Panel/GridContainer/TurretImageContainer"]
+[node name="PanelContainer" type="PanelContainer" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer/TurretImageContainer"]
 layout_mode = 2
 theme_override_styles/panel = ExtResource("3_awkle")
 
-[node name="TurretImage" type="TextureRect" parent="Background Panel/GridContainer/TurretImageContainer/PanelContainer"]
+[node name="TurretImage" type="TextureRect" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer/TurretImageContainer/PanelContainer"]
 layout_mode = 2
 texture = ExtResource("4_drqio")
 
-[node name="MarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer"]
 layout_mode = 2
 theme_override_constants/margin_left = 3
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/GridContainer/MarginContainer"]
+[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer/MarginContainer"]
 layout_mode = 2
 bbcode_enabled = true
 text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img] "
 fit_content = true
 
-[node name="Health Bar" type="TextureProgressBar" parent="Background Panel/GridContainer/MarginContainer"]
+[node name="Health Bar" type="TextureProgressBar" parent="Background Panel/Main HBox/Left Grid Container/VBoxContainer/MarginContainer"]
 z_index = -1
 layout_mode = 2
 max_value = 10.0
@@ -283,14 +180,45 @@ tint_under = Color(0.117324, 0.103928, 0.10393, 1)
 tint_over = Color(1, 0.184314, 1, 1)
 tint_progress = Color(0.996078, 0.396078, 0.682353, 1)
 
-[node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
-visible = false
+[node name="Middle Grid Container" type="GridContainer" parent="Background Panel/Main HBox"]
 layout_mode = 2
-theme_override_constants/margin_left = 260
-theme_override_constants/margin_top = 60
 
-[node name="HBoxContainer" type="HBoxContainer" parent="Background Panel/Stats Grid Container"]
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Main HBox/Middle Grid Container"]
 layout_mode = 2
+theme_override_constants/margin_left = 280
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background Panel/Main HBox/Middle Grid Container/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background Panel/Main HBox/Middle Grid Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Stats"
+
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Main HBox/Middle Grid Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = -100
+
+[node name="Stats Grid Container" type="GridContainer" parent="Background Panel/Main HBox/Middle Grid Container/MarginContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+columns = 3
+
+[node name="Right Grid Container" type="GridContainer" parent="Background Panel/Main HBox"]
+layout_mode = 2
+
+[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Main HBox/Right Grid Container"]
+layout_mode = 2
+theme_override_constants/margin_left = 345
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background Panel/Main HBox/Right Grid Container/MarginContainer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="Background Panel/Main HBox/Right Grid Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+text = "Modifiers"
+
+[node name="Modifier Grid Container" type="GridContainer" parent="Background Panel/Main HBox/Right Grid Container/MarginContainer/VBoxContainer"]
+layout_mode = 2
+columns = 3
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="."]
 libraries = {

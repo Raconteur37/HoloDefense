@@ -20,7 +20,7 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat("arrow_turret","constructionTime")
 
 	upgradeTier = 0
-	level = 1
+	level = 2
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

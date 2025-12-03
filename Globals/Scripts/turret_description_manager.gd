@@ -2,28 +2,22 @@ extends Node
 
 var turretImage
 var nameLabel
-var marginContainer
-var gridContainer
-var statGridContainer
-var statHbox
 var scene
 var animationPlayer
 var healthBar
 var healthRichLabelText
+var statBox
 
 var turret
 
 func _ready() -> void:
 	scene = $"."
-	turretImage = $"Background Panel/GridContainer/TurretImageContainer/PanelContainer/TurretImage"
-	nameLabel = $"Background Panel/GridContainer/LabelMarginContainer/Name Label"
-	marginContainer = $"Background Panel/GridContainer/MarginContainer"
-	gridContainer = $"Background Panel/GridContainer"
-	statGridContainer = $"Background Panel/Stats Grid Container"
-	statHbox = $"Background Panel/Stats Grid Container/HBoxContainer"
+	turretImage = $"Background Panel/Main HBox/Left Grid Container/VBoxContainer/TurretImageContainer/PanelContainer/TurretImage"
+	nameLabel = $"Background Panel/Main HBox/Left Grid Container/VBoxContainer/Name Label"
+	statBox = $"Background Panel/Main HBox/Middle Grid Container/MarginContainer/VBoxContainer/MarginContainer/Stats Grid Container"
 	animationPlayer = $AnimationPlayer
-	healthBar = $"Background Panel/GridContainer/MarginContainer/Health Bar"
-	healthRichLabelText = $"Background Panel/GridContainer/MarginContainer/RichTextLabel"
+	healthBar = $"Background Panel/Main HBox/Left Grid Container/VBoxContainer/MarginContainer/Health Bar"
+	healthRichLabelText = $"Background Panel/Main HBox/Left Grid Container/VBoxContainer/MarginContainer/RichTextLabel"
 
 func buildContainer(turret):
 
@@ -46,100 +40,112 @@ func buildContainer(turret):
 			healthBar.value = turret.armor
 			healthBar.tint_progress = Color.DARK_GRAY
 	if turret.get("damage") != null:
-		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
-		statItem = statItem.instantiate()
-		statItem.buildStatContainer("damage",turret)
-		statHbox.add_child(statItem)
+		#var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		#statItem = statItem.instantiate()
+		#statItem.buildStatContainer("damage",turret)
+		#statHbox.add_child(statItem)
+		var label = Label.new()
+		label.text = "Damage: " + str(turret.damage)
+		label.add_theme_color_override("font_color", Color.RED)
+		label.add_theme_font_size_override("font_size", 10)
+		statBox.add_child(label)
 	if turret.get("reloadTime") != null:
-		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
-		statItem = statItem.instantiate()
-		statItem.buildStatContainer("reloadTime",turret)
-		statHbox.add_child(statItem)
+		#var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+		#statItem = statItem.instantiate()
+		#statItem.buildStatContainer("reloadTime",turret)
+		#statHbox.add_child(statItem)
+		var label = Label.new()
+		label.text = "Reload Time: " + str(turret.reloadTime) + "s"
+		label.add_theme_color_override("font_color", Color.CORAL)
+		label.add_theme_font_size_override("font_size", 10)
+		statBox.add_child(label)
 	if turret.get("attackRange") != null:
-		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
-		statItem = statItem.instantiate()
-		statItem.buildStatContainer("attackRange",turret)
-		statHbox.add_child(statItem)
+		var label = Label.new()
+		label.text = "Range: " + str(turret.attackRange)
+		label.add_theme_color_override("font_color", Color.SKY_BLUE)
+		label.add_theme_font_size_override("font_size", 10)
+		statBox.add_child(label)
 	if turret.get("projectileSpeed") != null:
-		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
-		statItem = statItem.instantiate()
-		statItem.buildStatContainer("projectileSpeed",turret)
-		statHbox.add_child(statItem)
+		var label = Label.new()
+		label.text = "Projectile Speed: " + str(turret.projectileSpeed)
+		label.add_theme_color_override("font_color", Color.CADET_BLUE)
+		label.add_theme_font_size_override("font_size", 10)
+		statBox.add_child(label)
 	if turret.get("maxTurretsEnergized") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("maxTurretsEnergized",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("energizeTime") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizeTime",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("energizerDamageBuff") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizerDamageBuff",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("energizerReloadTimeBuff") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizerReloadTimeBuff",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("energizerAttackRangeBuff") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizerAttackRangeBuff",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("energizerProjctileSpeedBuff") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("energizerProjctileSpeedBuff",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("explosionDamage") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("explosionDamage",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("explosionRadius") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("explosionRadius",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("pierce") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("pierce",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("fireDamage") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("fireDamage",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("fireTime") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("fireTime",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("executionChance") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("executionChance",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("poisonChance") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("poisonChance",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("poisonDamage") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("poisonDamage",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 	if turret.get("poisonDuration") != null:
 		var statItem = load("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 		statItem = statItem.instantiate()
 		statItem.buildStatContainer("poisonDuration",turret)
-		statHbox.add_child(statItem)
+		statBox.add_child(statItem)
 
 	scene.show()
 

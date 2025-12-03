@@ -3,17 +3,17 @@ extends Control
 func buildStatInformation(slot : Rect2i, type):
 
 	var panelLabel = $CanvasLayer/PopupPanel/MainLabel
-	
+
 	var mouse_pos = get_viewport().get_mouse_position()
 	var correction
-	
+
 	if mouse_pos.x <= get_viewport_rect().size.x/2:
 		correction = Vector2i(slot.size.x, 0)
 	else:
 		correction = Vector2i(%PopupPanel.size.x, 0)
-	
+
 	match type:
-		
+
 		"damage":
 			panelLabel.text = "Damage"
 		"reloadTime":
@@ -52,7 +52,7 @@ func buildStatInformation(slot : Rect2i, type):
 			panelLabel.text = "Poison Damage"
 		"poisonDuration":
 			panelLabel.text = "Poison Duration"
-			
+
 	%PopupPanel.popup(Rect2i(slot.position + correction, %PopupPanel.size))
 
 func exitPopup():

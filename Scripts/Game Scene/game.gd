@@ -12,7 +12,7 @@ var upgradeTurrentOneButton
 
 func _ready() -> void:
 
-	
+
 	beacon = $CanvasLayer/Beacon
 	moneyLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer2/MoneyLabel
 	XPBar = $"CanvasLayer/Bottom UI Control/XP Bar"
@@ -20,24 +20,23 @@ func _ready() -> void:
 	waveLabel = $CanvasLayer/PanelContainer2/MarginContainer/GridContainer/MarginContainer4/Label
 	breakTimer = $BreakTimer
 	GameManager.beacon = beacon
-	beacon.global_position = get_viewport().size / 2
-	
+
 	PlacementManager.inGame = true
-	
+
 	breakTimer.start()
-	
-	
-	
-	
+
+
+
+
 func _process(delta: float) -> void:
-	
+
 	moneyLabel.text = "$" +  str(GameManager.getCurrentMoney())
 	waveLabel.text = str(GameManager.currentWave)
-	
+
 	if GameManager.enemiesAlive.size() <= 0 and GameManager.summonDict.size() <= 0 and GameManager.inWave:
 		breakTimer.start()
 		GameManager.inWave = false
-	
+
 
 func fullXpBar():
 	XPBar.value = 0

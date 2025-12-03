@@ -11,6 +11,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = true
 
 [node name="CanvasLayer" type="CanvasLayer"]
+follow_viewport_enabled = true
 script = ExtResource("1_lcx4u")
 
 [node name="CPUParticles2D" type="CPUParticles2D" parent="."]
@@ -24,7 +25,5 @@ one_shot = true
 speed_scale = 2.0
 particle_flag_align_y = true
 gravity = Vector2(0, 0)
-scale_amount_min = 1.01
-scale_amount_max = 1.01
 anim_speed_min = 1.0
 anim_speed_max = 1.0

@@ -157,4 +157,4 @@ func createTooltips():
 	if turretDescriptionLabel.text.contains("zombify"):
 		turretDescriptionLabel.tooltip_text += "Zombify: Enemies turn into zombies, which take damage over time and infect other non zombified enemies.\n"
 	if turretDescriptionLabel.text.contains("execute"):
-		turretDescriptionLabel.tooltip_text += "Execute: Kills an enemy instasnty.\n"
+		turretDescriptionLabel.tooltip_text += "Execute: Kills an enemy instantly.\n"
