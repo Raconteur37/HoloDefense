@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://dnb12wxx7oibl" path="res://Globals/Scripts/turret_description_manager.gd" id="1_t1rss"]
 [ext_resource type="Shader" uid="uid://cp7aeybt3bbnc" path="res://Shaders/Game.gdshader" id="2_e4ckr"]
-[ext_resource type="Texture2D" uid="uid://b6x30pnnv5ex8" path="res://Textures/UI/Turret Info/Turret Background Panel.jpg" id="3_8gt2y"]
+[ext_resource type="Texture2D" uid="uid://dsprfb87xsyas" path="res://Textures/UI/Game/007.png" id="3_8gt2y"]
 [ext_resource type="StyleBox" uid="uid://b5fhcy4ahttlr" path="res://Themes/TurretStyleBox.tres" id="3_awkle"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="4_drqio"]
 [ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="5_ejtmj"]

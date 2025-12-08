@@ -10,8 +10,9 @@ func _ready() -> void:
 	loadTurretXpData()
 	loadXpMaximum()
 
-func _process(delta: float) -> void:
-	get_tree().call_group("Turret", "attack")
+func _process(_delta: float) -> void:
+	if PlacementManager.inGame:
+		get_tree().call_group("Turret", "attack")
 
 var unlockedTurrets = [
 	"arrow_turret",
@@ -176,7 +177,7 @@ func getTurretXp(turret_name):
 func getTurretLevel(turret_name):
 	if turretLevel.has(turret_name):
 		return turretLevel[turret_name]
-	push_error("Turret not found: %s" % turret_name)
+	push_error("Turret not found: " + turret_name)
 	return -1
 
 func getMaxXp(rarity: String, level: int):
@@ -190,3 +191,12 @@ func getMaxXp(rarity: String, level: int):
 	else:
 		push_error("Invalid rarity: %s" % rarity)
 	return -1
+
+func getListOfProperties(turret_name):
+	var tracker : int = 0
+	var properties : Array = []
+	for key in turretData.get(turret_name): # This is a weird way of doing it but I get all the items below the basic ones for random data that may be added later
+		tracker += 1
+		if tracker >= 8:
+			properties.push_back(key)
+	return properties

@@ -1,45 +1,18 @@
-[gd_scene load_steps=29 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=20 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
+[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_515np"]
+[ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="2_ekhco"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
-[ext_resource type="Texture2D" uid="uid://clbg1n11b3dr6" path="res://Textures/Map/MoneyLogo.png" id="3_g24qp"]
-[ext_resource type="Texture2D" uid="uid://btoqr1le5id5g" path="res://Textures/UI/Turret Info/LevelOneInfo.png" id="3_osgsa"]
-[ext_resource type="Texture2D" uid="uid://cawpy7viw566g" path="res://Textures/UI/Turret Info/Locked.png" id="4_bvhjd"]
-[ext_resource type="Texture2D" uid="uid://qx5r7vlgql11" path="res://Textures/Icons/Damage Icon.png" id="6_515np"]
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
-[ext_resource type="Theme" uid="uid://fxp75am1t2sl" path="res://Themes/Icon Panel.tres" id="7_5l8ie"]
-[ext_resource type="Texture2D" uid="uid://b186lwas8ruth" path="res://Textures/Icons/Reload Time.png" id="8_du365"]
-[ext_resource type="Texture2D" uid="uid://cjtooa4c5mvog" path="res://Textures/UI/Game/Icon Panel.png" id="8_scggw"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_du365"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
-shader_parameter/vhs_resolution = Vector2(300, 200)
-shader_parameter/samples = 2
-shader_parameter/crease_noise = 0.3
-shader_parameter/crease_opacity = 0.2
-shader_parameter/filter_intensity = 0.1
-shader_parameter/tape_crease_smear = 0.2
-shader_parameter/tape_crease_intensity = 0.1
-shader_parameter/tape_crease_jitter = 0.1
-shader_parameter/tape_crease_speed = 0.1
-shader_parameter/tape_crease_discoloration = 1.0
-shader_parameter/bottom_border_thickness = 6.0
-shader_parameter/bottom_border_jitter = 6.0
-shader_parameter/noise_intensity = 0.2
-
-[sub_resource type="Gradient" id="Gradient_bvhjd"]
-colors = PackedColorArray(1.58831e-06, 0.460516, 0.464174, 1, 0.433155, 0.201588, 0.999643, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_cxutq"]
-gradient = SubResource("Gradient_bvhjd")
-fill_from = Vector2(0, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_g24qp"]
-font_size = 39
-
-[sub_resource type="LabelSettings" id="LabelSettings_bvhjd"]
-font_size = 35
-font_color = Color(0.442911, 0.442911, 0.442911, 1)
+shader_parameter/highlight_color = Vector4(0, 0.8, 1, 0.6)
+shader_parameter/scan_speed = 1.0
+shader_parameter/noise_intensity = 0.05
+shader_parameter/base_transparency = 0.9
 
 [sub_resource type="LabelSettings" id="LabelSettings_osgsa"]
 font_size = 39
@@ -59,25 +32,6 @@ gradient = SubResource("Gradient_du365")
 [sub_resource type="LabelSettings" id="LabelSettings_scggw"]
 font_size = 39
 font_color = Color(1, 0.188235, 0.141176, 1)
-
-[sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
-font_size = 25
-
-[sub_resource type="LabelSettings" id="LabelSettings_ekhco"]
-font_size = 100
-font_color = Color(1, 0.760784, 0.337255, 1)
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_jeivb"]
-texture = ExtResource("8_scggw")
-texture_margin_left = 14.0
-texture_margin_top = 13.0
-texture_margin_right = 14.0
-texture_margin_bottom = 14.0
-expand_margin_bottom = 350.0
-region_rect = Rect2(52, 50, 154, 143)
-
-[sub_resource type="LabelSettings" id="LabelSettings_5l8ie"]
-font_size = 75
 
 [sub_resource type="Animation" id="Animation_bvhjd"]
 resource_name = "InfoAppear"
@@ -115,11 +69,22 @@ _data = {
 &"RESET": SubResource("Animation_cxutq")
 }
 
+[sub_resource type="LabelSettings" id="LabelSettings_g24qp"]
+font_size = 39
+
+[sub_resource type="LabelSettings" id="LabelSettings_bvhjd"]
+font_size = 35
+font_color = Color(0.442911, 0.442911, 0.442911, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
+font_size = 25
+
 [node name="CanvasLayer" type="CanvasLayer"]
 
 [node name="ScreenFilter" type="ColorRect" parent="."]
 visible = false
 show_behind_parent = true
+z_index = 2
 material = SubResource("ShaderMaterial_ekhco")
 anchors_preset = 15
 anchor_right = 1.0
@@ -140,160 +105,165 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
+[node name="Info Background" type="TextureRect" parent="TurretInfo"]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.007
+anchor_top = 0.015000001
+anchor_right = 0.476
+anchor_bottom = 0.76500005
+offset_left = 9.559999
+offset_top = 9.799999
+offset_right = 9.079956
+offset_bottom = 9.799927
+texture = ExtResource("2_515np")
+
 [node name="Background" type="TextureRect" parent="TurretInfo"]
-visible = false
-layout_mode = 0
-offset_right = 1917.0
-offset_bottom = 1079.0
-texture = SubResource("GradientTexture2D_cxutq")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -3.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_ekhco")
 
 [node name="TurretSelectionScroll" type="Control" parent="TurretInfo"]
 layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
+anchor_top = 0.896
+anchor_right = 1.0
 anchor_bottom = 1.0
 offset_left = 28.0
-offset_top = -54.0
-offset_right = 28.0
+offset_top = 58.319946
+offset_right = -1892.0
 offset_bottom = -54.0
 grow_vertical = 0
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_mxhls")
 
-[node name="Panel" type="Panel" parent="TurretInfo/TurretSelectionScroll"]
-layout_mode = 1
-anchors_preset = 7
-anchor_left = 0.5
-anchor_top = 1.0
-anchor_right = 0.5
-anchor_bottom = 1.0
-offset_left = -20.0
-offset_top = -40.0
-offset_right = 20.0
-grow_horizontal = 2
-grow_vertical = 0
-size_flags_horizontal = 0
-
-[node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll/Panel"]
+[node name="TextureRect" type="TextureRect" parent="TurretInfo/TurretSelectionScroll"]
 layout_mode = 0
-offset_left = -1.0
-offset_top = -3.0
-offset_right = 39.0
-offset_bottom = 37.0
+offset_left = -38.749992
+offset_top = -1283.7498
+offset_right = 1.2500076
+offset_bottom = -1243.7498
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll"]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 4.964
+anchor_bottom = 1.09
+offset_left = -20.999998
+offset_top = -43.0
+offset_right = -20.999998
+offset_bottom = -43.0
 scale = Vector2(2.44544, 2.33681)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/Panel/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/ScrollContainer"]
 layout_mode = 2
-
-[node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 123.0
-offset_top = 38.0
-offset_right = 635.0
-offset_bottom = 550.0
-
-[node name="SubViewport" type="SubViewport" parent="TurretInfo/SubViewportContainer"]
-disable_3d = true
-transparent_bg = true
-handle_input_locally = false
-gui_disable_input = true
-render_target_update_mode = 4
 
 [node name="VBoxContainer2" type="VBoxContainer" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 140.0
-offset_top = 75.0
-offset_right = 612.0
-offset_bottom = 181.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07300001
+anchor_top = 0.069000006
+anchor_right = 0.319
+anchor_bottom = 0.16800001
+offset_left = -0.16001892
+offset_top = 0.47999573
+offset_right = -0.47998047
+offset_bottom = -0.4400177
 alignment = 1
 
-[node name="TurretNameLabel" type="Label" parent="TurretInfo/VBoxContainer2"]
-layout_mode = 2
-text = "Arrow Turret"
-label_settings = SubResource("LabelSettings_g24qp")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="RarityLabel" type="Label" parent="TurretInfo/VBoxContainer2"]
-layout_mode = 2
-text = "Rarity"
-label_settings = SubResource("LabelSettings_bvhjd")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TurretIcon" type="TextureRect" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 275.0
-offset_top = 194.0
-offset_right = 315.0
-offset_bottom = 234.0
-scale = Vector2(5, 5)
-texture = ExtResource("2_mxhls")
-
 [node name="LevelContainer" type="VBoxContainer" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 1166.0
-offset_right = 2235.0
-offset_bottom = 1298.0
-scale = Vector2(0.704436, 0.736426)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.60700005
+anchor_top = 0.065000005
+anchor_right = 1.0
+anchor_bottom = 0.642
+offset_left = -228.44006
+offset_top = 0.7999954
+offset_right = 86.0
+offset_bottom = 333.63995
+scale = Vector2(0.9, 0.9)
 
 [node name="LevelOneTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 modulate = Color(1, 1, 1, 0.45098)
 layout_mode = 2
-texture = ExtResource("3_osgsa")
+texture = ExtResource("6_du365")
 
 [node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelOneTexture"]
 visible = false
-layout_mode = 0
-offset_left = 113.0
-offset_top = 89.0
-offset_right = 960.0
-offset_bottom = 312.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.051000003
+anchor_top = 0.133
+anchor_right = 0.95000005
+anchor_bottom = 0.85800004
+offset_left = 0.48099518
+offset_top = -0.027999878
+offset_right = 0.44995117
+offset_bottom = -0.12802124
 tooltip_auto_translate_mode = 1
 mouse_filter = 0
 text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelOneTexture"]
-layout_mode = 0
-offset_left = 114.0
-offset_top = 94.0
-offset_right = 950.0
-offset_bottom = 309.0
-theme_override_font_sizes/normal_font_size = 35
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.067
+anchor_top = 0.179
+anchor_right = 0.95500004
+anchor_bottom = 0.83300006
+offset_left = -0.5118561
+offset_top = 0.1026535
+offset_right = 0.21612549
+offset_bottom = 0.10531616
 bbcode_enabled = true
-text = "Debug Text"
-fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="LevelTwoTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
-texture = ExtResource("4_bvhjd")
+texture = ExtResource("6_du365")
 
 [node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
-visible = false
 layout_mode = 0
-offset_left = 113.0
-offset_top = 89.0
-offset_right = 960.0
-offset_bottom = 312.0
+offset_left = 119.0
+offset_top = 46.0
+offset_right = 966.0
+offset_bottom = 269.0
 text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
+horizontal_alignment = 1
+vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
-layout_mode = 0
-offset_left = 176.027
-offset_top = 265.324
-offset_right = 900.027
-offset_bottom = 305.324
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.165
+anchor_top = 0.61700004
+anchor_right = 0.84200007
+anchor_bottom = 0.71000004
+offset_left = -0.35801697
+offset_top = 0.013977051
+offset_right = -0.07110596
+offset_bottom = 0.023986816
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
 [node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
-texture = ExtResource("4_bvhjd")
+texture = ExtResource("6_du365")
 
 [node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
 visible = false
@@ -307,11 +277,16 @@ label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
 [node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
-layout_mode = 0
-offset_left = 380.446
-offset_top = 250.918
-offset_right = 709.446
-offset_bottom = 314.918
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.356
+anchor_top = 0.58400005
+anchor_right = 0.66400003
+anchor_bottom = 0.73200005
+offset_left = -0.11798096
+offset_top = -0.20202637
+offset_right = -0.36999512
+offset_bottom = 0.1579895
 text = "Requires Level 2"
 label_settings = SubResource("LabelSettings_scggw")
 autowrap_mode = 2
@@ -327,79 +302,100 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
-[node name="TypeLabel" type="Label" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 305.0
-offset_top = 402.0
-offset_right = 445.0
-offset_bottom = 436.896
-text = "Turret Type"
-label_settings = SubResource("LabelSettings_cxutq")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="VBoxContainer" type="VBoxContainer" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 7.0
-offset_top = 505.0
-offset_right = 518.0
-offset_bottom = 792.0
-scale = Vector2(0.4, 0.4)
-
-[node name="Price" type="HBoxContainer" parent="TurretInfo/VBoxContainer"]
-layout_mode = 2
-
-[node name="PriceIcon" type="TextureRect" parent="TurretInfo/VBoxContainer/Price"]
-layout_mode = 2
-texture = ExtResource("3_g24qp")
-
-[node name="PriceLabel" type="Label" parent="TurretInfo/VBoxContainer/Price"]
-layout_mode = 2
-text = "$50"
-label_settings = SubResource("LabelSettings_ekhco")
-
-[node name="Damage" type="HBoxContainer" parent="TurretInfo/VBoxContainer"]
-layout_mode = 2
-
-[node name="TextureRect" type="TextureRect" parent="TurretInfo/VBoxContainer/Damage"]
-layout_mode = 2
-texture = ExtResource("6_515np")
-
-[node name="Label" type="Label" parent="TurretInfo/VBoxContainer/Damage"]
-layout_mode = 2
-text = "500"
-
-[node name="Panel" type="Panel" parent="TurretInfo/VBoxContainer"]
-layout_mode = 2
-theme = ExtResource("7_5l8ie")
-theme_override_styles/panel = SubResource("StyleBoxTexture_jeivb")
-
-[node name="Reload Time" type="HBoxContainer" parent="TurretInfo/VBoxContainer/Panel"]
-layout_mode = 0
-offset_top = 4.0
-offset_right = 511.0
-offset_bottom = 260.0
-
-[node name="ReloadIcon" type="TextureRect" parent="TurretInfo/VBoxContainer/Panel/Reload Time"]
-layout_mode = 2
-texture = ExtResource("8_du365")
-
-[node name="ReloadLabel" type="Label" parent="TurretInfo/VBoxContainer/Panel/Reload Time"]
-layout_mode = 2
-text = "5s"
-label_settings = SubResource("LabelSettings_5l8ie")
-
-[node name="PreviewButton" type="CheckButton" parent="TurretInfo"]
-layout_mode = 0
-offset_left = 325.0
-offset_top = 442.0
-offset_right = 405.0
-offset_bottom = 482.0
-icon = ExtResource("2_mxhls")
+[node name="Info Labels Container" type="GridContainer" parent="TurretInfo"]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.024729172
+anchor_top = 0.5172593
+anchor_right = 0.34166667
+anchor_bottom = 0.74803716
+offset_left = 0.519989
+offset_top = 0.35992432
+offset_right = 38.0
+offset_bottom = 0.11993408
+theme_override_constants/h_separation = 35
+columns = 3
+metadata/_edit_use_anchors_ = true
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="TurretInfo"]
 libraries = {
 &"": SubResource("AnimationLibrary_ekhco")
 }
 
-[connection signal="toggled" from="TurretInfo/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="TurretInfo"]
+z_index = 1
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.17964584
+anchor_top = 0.041
+anchor_right = 0.32745835
+anchor_bottom = 0.624
+offset_left = -0.9200134
+offset_top = -0.2800026
+offset_right = -0.72003174
+offset_bottom = 0.079956055
+metadata/_edit_use_anchors_ = true
+
+[node name="TurretNameLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+layout_mode = 2
+text = "Arrow Turret"
+label_settings = SubResource("LabelSettings_g24qp")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="RarityLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+layout_mode = 2
+text = "Rarity"
+label_settings = SubResource("LabelSettings_bvhjd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Viewport Holder" type="Control" parent="TurretInfo/VBoxContainer3"]
+custom_minimum_size = Vector2(100, 256)
+layout_mode = 2
+
+[node name="TurretIcon" type="TextureRect" parent="TurretInfo/VBoxContainer3/Viewport Holder"]
+z_index = 1
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_mxhls")
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo/VBoxContainer3/Viewport Holder"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+metadata/_edit_use_anchors_ = true
+
+[node name="SubViewport" type="SubViewport" parent="TurretInfo/VBoxContainer3/Viewport Holder/SubViewportContainer"]
+disable_3d = true
+transparent_bg = true
+handle_input_locally = false
+gui_disable_input = true
+render_target_update_mode = 4
+
+[node name="TypeLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+layout_mode = 2
+text = "Turret Type"
+label_settings = SubResource("LabelSettings_cxutq")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PreviewButton" type="CheckButton" parent="TurretInfo/VBoxContainer3"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+alignment = 1
+
+[connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]

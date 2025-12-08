@@ -1,104 +1,50 @@
 shader_type canvas_item;
+render_mode blend_mix, unshaded; // Add unshaded render mode for cleaner color overlay
 
-// TODO: Add uniforms for tape crease discoloration and image jiggle
+// --- NEW LINE ADDED TO FIX SCREEN_TEXTURE ERROR ---
+uniform sampler2D screen_texture : hint_screen_texture; 
 
-uniform sampler2D screen_texture: hint_screen_texture, filter_linear_mipmap, repeat_disable;
+// Color for the glowing highlights (the holographic effect color)
+uniform vec4 highlight_color = vec4(0.0, 0.8, 1.0, 0.6); // Slightly more transparent
+// Speed and direction of the noise/scanline effect
+uniform float scan_speed = 1.0; // Increased speed for more movement
+// Intensity of the flickering noise effect
+uniform float noise_intensity = 0.05;
+// Transparency of the underlying UI (0.0=Invisible, 1.0=Fully Opaque)
+uniform float base_transparency = 0.9; // Make underlying UI slightly more opaque
 
-uniform vec2 vhs_resolution = vec2(300.0, 200.0);
-
-uniform int samples = 2;
-uniform float crease_noise: hint_range(0.0, 2.0, 0.1) = 1.0;
-uniform float crease_opacity: hint_range(0.0, 1.0, 0.1) = 0.5;
-uniform float filter_intensity: hint_range(0.0, 1.0, 0.1) = 0.1;
-
-group_uniforms tape_crease;
-uniform float tape_crease_smear: hint_range(0.0, 2.0, 0.1) = 0.2;
-uniform float tape_crease_intensity: hint_range(0.0, 1.0, 0.1) = 0.2;
-uniform float tape_crease_jitter: hint_range(0.0, 1.0, 0.01) = 0.10;
-uniform float tape_crease_speed: hint_range(-2.0, 2.0, 0.1) = 0.5;
-uniform float tape_crease_discoloration: hint_range(0.0, 2.0, 0.1) = 1.0;
-
-group_uniforms bottom_border;
-uniform float bottom_border_thickness: hint_range(0.0,32.0, 0.1) = 6.0;
-uniform float bottom_border_jitter: hint_range(0.0, 24.0, 0.5) = 6.0;
-
-group_uniforms noise;
-uniform float noise_intensity: hint_range(0.0, 1.0, 0.1) = 0.1;
-uniform sampler2D noise_texture: filter_linear_mipmap, repeat_enable;
-
-float v2random(vec2 uv) {
-	return texture(noise_texture, mod(uv, vec2(1.0))).x;
-}
-
-mat2 rotate2D(float t) {
-	return mat2(vec2(cos(t), sin(t)), vec2(-sin(t), cos(t)));
-}
-
-vec3 rgb2yiq(vec3 rgb) {
-	return mat3(vec3(0.299, 0.596, 0.211), vec3(0.587, -0.274, -0.523), vec3(0.114, -0.322, 0.312)) * rgb;
-}
-
-vec3 yiq2rgb(vec3 yiq) {
-	return mat3(vec3(1.0, 1.0, 1.0), vec3(0.956, -0.272, -1.106), vec3(0.621, -0.647, 1.703)) * yiq;
-}
-
-vec3 vhx_tex_2D(sampler2D tex, vec2 uv, float rot) {
-	vec3 yiq = vec3(0.0);
-	for (int i = 0; i < samples; i++) {
-		yiq += rgb2yiq(texture(tex, uv - vec2(float(i), 0.0) / vhs_resolution).xyz) *
-				vec2(float(i), float(samples - 1 - i)).yxx / float(samples - 1)
-				/ float(samples) * 2.0;
-	}
-	if (rot != 0.0) {
-		yiq.yz *= rotate2D(rot * tape_crease_discoloration);
-	}
-	return yiq2rgb(yiq);
-}
-
+// --- Main Fragment Function ---
 void fragment() {
-	vec2 uvn = UV;
-	vec3 col = vec3(0.0, 0.0, 0.0);
+    // 1. Get the underlying color from the screen (the UI elements beneath this ColorRect)
+    vec4 existing_color = texture(screen_texture, SCREEN_UV); 
 
-	// Tape wave.
-	uvn.x += (v2random(vec2(uvn.y / 10.0, TIME / 10.0) / 1.0) - 0.5) / vhs_resolution.x * 1.0;
-	uvn.x += (v2random(vec2(uvn.y, TIME * 10.0)) - 0.5) / vhs_resolution.x * 1.0;
+    // 2. Setup UV Coordinates (using SCREEN_UV for screen-space effects)
+    vec2 uv = SCREEN_UV;
+    
+    // --- Grid Calculation REMOVED ---
+    
+    // 3. Add Dynamic Noise/Scanline Effect
+    
+    // Scanline Effect (moves vertically, creating a subtle horizontal line wipe)
+    float scan = sin(uv.y * 30.0 + TIME * scan_speed);
+    // Amplify the effect in the 0-1 range
+    scan = (scan + 1.0) * 0.5; 
 
-	// tape crease
-	float tc_phase = smoothstep(0.9, 0.96, sin(uvn.y * 8.0 - (TIME * tape_crease_speed + tape_crease_jitter * v2random(TIME * vec2(0.67, 0.59))) * PI * 1.2));
-	float tc_noise = smoothstep(0.3, 1.0, v2random(vec2(uvn.y * 4.77, TIME)));
-	float tc = tc_phase * tc_noise;
-	uvn.x = uvn.x - tc / vhs_resolution.x * 8.0 * tape_crease_smear;
+    // Flickering Noise/Static Effect
+    // TEXTURE is used as a generic noise source (ensure this ColorRect has a default texture or uses TEXTURE_PIXEL_SIZE)
+    // We use uv * 100.0 to make the noise pattern fine and tight.
+    float noise = texture(TEXTURE, uv * 100.0).r;
+    noise = clamp(noise * noise_intensity, 0.0, 1.0); // Control the intensity
 
-	// switching noise
-	float sn_phase = smoothstep(1.0 - bottom_border_thickness / vhs_resolution.y, 1.0, uvn.y);
-	uvn.x += sn_phase * (v2random(vec2(UV.y * 100.0, TIME * 10.0)) - 0.5) / vhs_resolution.x * bottom_border_jitter;
+    // 4. Combine and Mix Colors
+    // The final factor determines where the holographic color is applied
+    float final_factor = scan * noise * 2.0; // Combine scan and noise for flickering lines
+    
+    // Apply the holographic color as a subtle, flickering layer over the existing color
+    // Use the final_factor to control the blending.
+    vec4 highlight_overlay = mix(existing_color, highlight_color, final_factor);
 
-	// fetch
-	col = vhx_tex_2D(screen_texture, uvn, tc_phase * 0.2 + sn_phase * 2.0);
-
-	// crease noise
-	float cn = tc_noise * crease_noise * (0.7 * tc_phase * tape_crease_intensity + 0.3);
-	if (0.29 < cn) {
-		vec2 V = vec2(0.0, crease_opacity);
-		vec2 uvt = (uvn + V.yx * v2random(vec2(uvn.y, TIME))) * vec2(0.1, 1.0);
-		float n0 = v2random(uvt);
-		float n1 = v2random(uvt + V.yx / vhs_resolution.x);
-		if (n1 < n0) {
-			col = mix(col, 2.0 * V.yyy, pow(n0, 10.0));
-		}
-	}
-
-	// ac beat
-	col *= 1.0 + 0.1 * smoothstep(0.4, 0.6, v2random(vec2(0.0, 0.1 * (UV.y + TIME * 0.2)) / 10.0));
-
-	// color noise
-	col *= 1.0 - noise_intensity * 0.5 + noise_intensity * texture(noise_texture, mod(uvn * vec2(1.0, 1.0) + TIME * vec2(5.97, 4.45), vec2(1.0))).xyz;
-	col = clamp(col, 0.0, 1.0);
-
-	// yiq
-	col = rgb2yiq(col);
-	col = vec3(0.9, 1.1, 1.5) * col + vec3(0.1, -0.1, 0.0) * filter_intensity;
-	col = yiq2rgb(col);
-
-	COLOR = vec4(col, 1.0);
+    // Set the final color and transparency
+    COLOR.rgb = highlight_overlay.rgb;
+    COLOR.a = existing_color.a * base_transparency;
 }
