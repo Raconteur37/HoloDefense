@@ -11,8 +11,7 @@ func _ready() -> void:
 	loadXpMaximum()
 
 func _process(_delta: float) -> void:
-	if PlacementManager.inGame:
-		get_tree().call_group("Turret", "attack")
+	get_tree().call_group("Turret", "attack")
 
 var unlockedTurrets = [
 	"arrow_turret",

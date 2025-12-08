@@ -128,7 +128,7 @@
 	"reaper_turret": {
 		"id": 8,
 		"name": "Reaper Turret",
-		"description": "Launches sythes that have a chance to [color=black]execute[/color] enemies.",
+		"description": "Launches scythes that have a chance to [color=black]execute[/color] enemies.",
 		"levelTwo": "For every enemy hit that wasn't executed, increase the [color=black]execute[/color] chance.",
 		"levelThree": "Reaper turret can now [color=black]execute[/color] bosses, but the chance is halved.",
 		"rarity": "Super Rare",

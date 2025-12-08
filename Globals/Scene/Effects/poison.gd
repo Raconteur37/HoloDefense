@@ -17,7 +17,7 @@ func _ready() -> void:
 	particleEffect = $PoisonParticle
 	particleEffect.global_position = enemy.global_position
 
-func _process(delta: float) -> void:
+func _process(_delta: float) -> void:
 	if not is_instance_valid(enemy): # Somehow the enemy is removed without death
 		queue_free()
 	else:
@@ -31,7 +31,7 @@ func applyData(turret,victim,effectDamage,time):
 		$"Total Time".wait_time = time
 		victim.effects["Poison"] = self
 
-func restartTime(time):
+func restartTime(_time):
 	$"Total Time".start($"Total Time".wait_time)
 
 func getName():

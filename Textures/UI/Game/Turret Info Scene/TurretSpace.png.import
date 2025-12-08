@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://cpdxgwd3lo4bk"
-path="res://.godot/imported/TurrentSpace.png-2642bc5acb3a8d9296a4b016aeccc7c7.ctex"
+uid="uid://b0gysmre53p2f"
+path="res://.godot/imported/TurretSpace.png-a6b55506f5cce0e62f125152754389fd.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Game/Turret Info Scene/TurrentSpace.png"
-dest_files=["res://.godot/imported/TurrentSpace.png-2642bc5acb3a8d9296a4b016aeccc7c7.ctex"]
+source_file="res://Textures/UI/Game/Turret Info Scene/TurretSpace.png"
+dest_files=["res://.godot/imported/TurretSpace.png-a6b55506f5cce0e62f125152754389fd.ctex"]
 
 [params]
 

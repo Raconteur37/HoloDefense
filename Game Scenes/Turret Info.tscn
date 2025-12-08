@@ -1,21 +1,35 @@
-[gd_scene load_steps=20 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene load_steps=26 format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_515np"]
+[ext_resource type="Shader" uid="uid://bh1y6lhvvabth" path="res://Game Scenes/TurretInfo2.gdshader" id="2_du365"]
 [ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="2_ekhco"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_mxhls"]
+[ext_resource type="Texture2D" uid="uid://b0gysmre53p2f" path="res://Textures/UI/Game/Turret Info Scene/TurretSpace.png" id="6_5l8ie"]
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_du365"]
+[ext_resource type="Texture2D" uid="uid://blhjeflcd08w8" path="res://Textures/UI/Game/Turret Info Scene/LockedButton.png" id="7_515np"]
+[ext_resource type="AudioStream" uid="uid://bs5dry30xukqj" path="res://Sounds/UI Sounds/Turret Select Sound.mp3" id="10_5l8ie"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
-shader_parameter/highlight_color = Vector4(0, 0.8, 1, 0.6)
-shader_parameter/scan_speed = 1.0
-shader_parameter/noise_intensity = 0.05
-shader_parameter/base_transparency = 0.9
+shader_parameter/orb_count = 100
+shader_parameter/orb_radius = 0.0010000000475
+shader_parameter/speed = 0.2690000127775
+shader_parameter/orb_color = Color(0.7490196, 0.77254903, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_5l8ie"]
+shader = ExtResource("2_du365")
+shader_parameter/progress = 0.0
+shader_parameter/block_size = 200.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_osgsa"]
 font_size = 39
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_scggw"]
+shader = ExtResource("2_du365")
+shader_parameter/progress = 0.0
+shader_parameter/block_size = 100.0
 
 [sub_resource type="Gradient" id="Gradient_ekhco"]
 colors = PackedColorArray(1, 1, 1, 0, 0.779291, 0.779291, 0.779291, 1)
@@ -47,6 +61,18 @@ tracks/0/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
 }
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelContainer/LevelOneTexture/RichTextLabel:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.73333335),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
 
 [sub_resource type="Animation" id="Animation_cxutq"]
 length = 0.001
@@ -61,6 +87,18 @@ tracks/0/keys = {
 "transitions": PackedFloat32Array(1),
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("LevelContainer/LevelOneTexture/RichTextLabel:material:shader_parameter/progress")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [0.0]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_ekhco"]
@@ -82,10 +120,20 @@ font_size = 25
 [node name="CanvasLayer" type="CanvasLayer"]
 
 [node name="ScreenFilter" type="ColorRect" parent="."]
-visible = false
 show_behind_parent = true
 z_index = 2
 material = SubResource("ShaderMaterial_ekhco")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenFilter2" type="ColorRect" parent="."]
+show_behind_parent = true
+z_index = 3
+material = SubResource("ShaderMaterial_5l8ie")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
@@ -145,10 +193,12 @@ script = ExtResource("1_mxhls")
 
 [node name="TextureRect" type="TextureRect" parent="TurretInfo/TurretSelectionScroll"]
 layout_mode = 0
-offset_left = -38.749992
-offset_top = -1283.7498
-offset_right = 1.2500076
-offset_bottom = -1243.7498
+offset_left = -35.000004
+offset_top = -51.250015
+offset_right = 1815.0
+offset_bottom = 148.74998
+scale = Vector2(1.2885971, 0.55000305)
+texture = ExtResource("6_5l8ie")
 
 [node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll"]
 layout_mode = 1
@@ -163,19 +213,6 @@ scale = Vector2(2.44544, 2.33681)
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/ScrollContainer"]
 layout_mode = 2
-
-[node name="VBoxContainer2" type="VBoxContainer" parent="TurretInfo"]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.07300001
-anchor_top = 0.069000006
-anchor_right = 0.319
-anchor_bottom = 0.16800001
-offset_left = -0.16001892
-offset_top = 0.47999573
-offset_right = -0.47998047
-offset_bottom = -0.4400177
-alignment = 1
 
 [node name="LevelContainer" type="VBoxContainer" parent="TurretInfo"]
 layout_mode = 1
@@ -216,6 +253,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelOneTexture"]
+material = SubResource("ShaderMaterial_scggw")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.067
@@ -226,15 +264,18 @@ offset_left = -0.5118561
 offset_top = 0.1026535
 offset_right = 0.21612549
 offset_bottom = 0.10531616
+theme_override_font_sizes/normal_font_size = 30
 bbcode_enabled = true
+text = "blah blah blah blhalh sad as"
 horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="LevelTwoTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
-texture = ExtResource("6_du365")
+texture = ExtResource("7_515np")
 
 [node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
+visible = false
 layout_mode = 0
 offset_left = 119.0
 offset_top = 46.0
@@ -247,6 +288,7 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.165
@@ -263,7 +305,7 @@ texture_progress = SubResource("GradientTexture2D_5l8ie")
 
 [node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
 layout_mode = 2
-texture = ExtResource("6_du365")
+texture = ExtResource("7_515np")
 
 [node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
 visible = false
@@ -277,6 +319,7 @@ label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
 [node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
+visible = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.356
@@ -369,9 +412,15 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo/VBoxContainer3/Viewport Holder"]
 layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = -1
+anchor_left = -0.40100002
+anchor_top = -0.5
+anchor_right = 1.401
+anchor_bottom = 1.5000001
+offset_left = 113.884
+offset_top = 128.0
+offset_right = -113.884
+offset_bottom = -128.00003
 grow_horizontal = 2
 grow_vertical = 2
 size_flags_horizontal = 4
@@ -397,5 +446,8 @@ layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 1
+
+[node name="TurretSelectSound" type="AudioStreamPlayer2D" parent="."]
+stream = ExtResource("10_5l8ie")
 
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]

@@ -26,14 +26,16 @@ var turretContainer
 @onready var levelTwoTexture = $"../LevelContainer/LevelTwoTexture"
 @onready var levelThreeTexture = $"../LevelContainer/LevelThreeTexture"
 
-@onready var unlockedIcon = load("res://Textures/UI/Turret Info/InfoPanel.png")
-@onready var lockedIcon = load("res://Textures/UI/Turret Info/InfoPanel.png")
+@onready var unlockedIcon = load("res://Textures/UI/Game/Turret Info Scene/GenericButton.png")
+@onready var lockedIcon = load("res://Textures/UI/Game/Turret Info Scene/LockedButton.png")
 
 @onready var lockedRequiredText = $"../LevelContainer/LevelThreeTexture/RequiredText"
 
 @onready var animationPlayer = $"../AnimationPlayer"
 
 @onready var turretLabel = preload("res://Labels/turret_info_label.tres")
+
+@onready var soundPlayer = $"../../TurretSelectSound"
 
 var turretXPData = {}
 
@@ -71,6 +73,7 @@ func add_turret_button(turretName : String):
 	hbox.add_child(btn)
 
 func _on_turret_button_pressed(turretName: String):
+	soundPlayer.play()
 	animationPlayer.play("InfoAppear")
 	turretIcon.texture = TurretManager.findTurretTexture(turretName)
 	previewToggle.icon = TurretManager.findTurretTexture(turretName)
@@ -113,9 +116,9 @@ func _on_turret_button_pressed(turretName: String):
 	if rarity == "Common":
 		rarityLabel.label_settings.font_color = Color(Color.DIM_GRAY)
 	if rarity == "Rare":
-		rarityLabel.label_settings.font_color = Color(Color.DARK_BLUE)
+		rarityLabel.label_settings.font_color = Color(Color.DARK_TURQUOISE)
 	if rarity == "Super Rare":
-		rarityLabel.label_settings.font_color = Color(Color.REBECCA_PURPLE)
+		rarityLabel.label_settings.font_color = Color(Color.MEDIUM_PURPLE)
 	if rarity == "Legendary":
 		rarityLabel.label_settings.font_color = Color(Color.GOLDENROD)
 	if rarity == "Unseen":
@@ -175,8 +178,6 @@ func createAndInsertPropertiesLabels(propertyList,turretName):
 
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
-
-	print(propertyList)
 
 	for item in propertyList:
 		var label = Label.new()

@@ -1,50 +1,55 @@
 shader_type canvas_item;
-render_mode blend_mix, unshaded; // Add unshaded render mode for cleaner color overlay
 
-// --- NEW LINE ADDED TO FIX SCREEN_TEXTURE ERROR ---
-uniform sampler2D screen_texture : hint_screen_texture; 
+// Number of orbs
+uniform int orb_count : hint_range(1, 100) = 12;
 
-// Color for the glowing highlights (the holographic effect color)
-uniform vec4 highlight_color = vec4(0.0, 0.8, 1.0, 0.6); // Slightly more transparent
-// Speed and direction of the noise/scanline effect
-uniform float scan_speed = 1.0; // Increased speed for more movement
-// Intensity of the flickering noise effect
-uniform float noise_intensity = 0.05;
-// Transparency of the underlying UI (0.0=Invisible, 1.0=Fully Opaque)
-uniform float base_transparency = 0.9; // Make underlying UI slightly more opaque
+// Orb radius in normalized UV space (0–1)
+uniform float orb_radius : hint_range(0.001, 0.2) = 0.05;
 
-// --- Main Fragment Function ---
+// Movement speed
+uniform float speed : hint_range(0.0, 5.0) = 1.0;
+
+// Color of holographic glow
+uniform vec4 orb_color : source_color = vec4(0.3, 0.9, 1.0, 0.45);
+
+
+// Simple pseudo-random generator
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453123);
+}
+
+// Soft-edged circle (0 at edge, 1 at center)
+float soft_circle(vec2 uv, vec2 center, float radius) {
+    float d = distance(uv, center);
+    return smoothstep(radius, radius * 0.7, d); 
+}
+
 void fragment() {
-    // 1. Get the underlying color from the screen (the UI elements beneath this ColorRect)
-    vec4 existing_color = texture(screen_texture, SCREEN_UV); 
+    vec2 uv = UV;   // 0–1 UVs across the UI element
 
-    // 2. Setup UV Coordinates (using SCREEN_UV for screen-space effects)
-    vec2 uv = SCREEN_UV;
-    
-    // --- Grid Calculation REMOVED ---
-    
-    // 3. Add Dynamic Noise/Scanline Effect
-    
-    // Scanline Effect (moves vertically, creating a subtle horizontal line wipe)
-    float scan = sin(uv.y * 30.0 + TIME * scan_speed);
-    // Amplify the effect in the 0-1 range
-    scan = (scan + 1.0) * 0.5; 
+    float glow = 0.0;
 
-    // Flickering Noise/Static Effect
-    // TEXTURE is used as a generic noise source (ensure this ColorRect has a default texture or uses TEXTURE_PIXEL_SIZE)
-    // We use uv * 100.0 to make the noise pattern fine and tight.
-    float noise = texture(TEXTURE, uv * 100.0).r;
-    noise = clamp(noise * noise_intensity, 0.0, 1.0); // Control the intensity
+    for (int i = 0; i < orb_count; i++) {
 
-    // 4. Combine and Mix Colors
-    // The final factor determines where the holographic color is applied
-    float final_factor = scan * noise * 2.0; // Combine scan and noise for flickering lines
-    
-    // Apply the holographic color as a subtle, flickering layer over the existing color
-    // Use the final_factor to control the blending.
-    vec4 highlight_overlay = mix(existing_color, highlight_color, final_factor);
+        float id = float(i);
 
-    // Set the final color and transparency
-    COLOR.rgb = highlight_overlay.rgb;
-    COLOR.a = existing_color.a * base_transparency;
+        // Base pseudo-random position
+        vec2 seed = vec2(hash(vec2(id, id * 13.1)), 
+                         hash(vec2(id * 7.3, id)));
+
+        vec2 pos = seed;
+
+        // Floating animation
+        float t = TIME * speed;
+        pos.x += sin(t + id * 3.1) * 0.04;
+        pos.y += cos(t * 0.7 + id * 4.7) * 0.04;
+
+        // Add this orb's glow
+        glow += soft_circle(uv, pos, orb_radius);
+    }
+
+    // Clamp glow to prevent blowing out
+    glow = clamp(glow, 0.0, 1.0);
+
+    COLOR = orb_color * glow;
 }
