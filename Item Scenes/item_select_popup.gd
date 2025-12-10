@@ -23,7 +23,10 @@ func setItem(itemName):
 
 	item = CityManager.getStorageItem(itemName)
 
-	setItemImage(item)
+	CityManager.currentItemPopup = self
+	CityManager.currentItemName = itemName
+
+	setItemImage()
 	itemNameLabel.text = item.itemName
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
@@ -36,7 +39,7 @@ func setItem(itemName):
 	if item.rarity == Item.Rarity.LEGENDARY:
 		itemRarityLabel.text = "Legendary"
 
-func setItemImage(item):
+func setItemImage():
 
 	match item.actualItem:
 
@@ -77,3 +80,17 @@ func _on_sell_button_pressed() -> void:
 	if item.amount <= 0:
 		CityManager.removeItemFromStorage(item.itemName)
 	sellMenu.hide()
+
+func refresh():
+	item = CityManager.getStorageItem(CityManager.currentItemName)
+	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
+	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+
+func _notification(what):
+	if what == NOTIFICATION_PREDELETE:
+		CityManager.currentItemPopup = null
+		CityManager.currentItemName = null
+	if what == NOTIFICATION_VISIBILITY_CHANGED:
+		if not is_visible():
+			CityManager.currentItemPopup = null
+			CityManager.currentItemName = null

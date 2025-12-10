@@ -31,7 +31,7 @@ navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
 [node name="BasicCitizen" parent="CanvasLayer" instance=ExtResource("1_a5ly5")]
 z_index = 1
-position = Vector2(716, 441)
+position = Vector2(874, 541)
 
 [node name="GemFabricator" parent="CanvasLayer" instance=ExtResource("2_82jv5")]
 position = Vector2(970, 135)

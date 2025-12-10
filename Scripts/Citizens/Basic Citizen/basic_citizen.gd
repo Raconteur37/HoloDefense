@@ -234,6 +234,10 @@ func finishDelivery():
 	# Deliver all items in inventory
 	for item in inventory:
 		CityManager.addItem(item)
+		if CityManager.currentItemPopup != null:
+			CityManager.currentItemPopup.refresh()
+		if CityManager.currentHoloGeneratorUI != null:
+			CityManager.currentHoloGeneratorUI.refresh()
 	inventory.clear()
 
 
@@ -307,7 +311,7 @@ func openMenu():
 		get_tree().current_scene.find_child("CanvasLayer").add_child(menu)
 	menu.buildMenu(self)
 
-func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if moving:
 		animationPlayer.play("Hop")
 	else:

@@ -103,6 +103,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = true
 
 [node name="ItemPopup" type="Popup"]
+oversampling_override = 1.0
 title = "Common Item"
 position = Vector2i(148, 0)
 size = Vector2i(423, 332)

@@ -58,7 +58,6 @@ Citizen=""
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
-theme/custom_font="uid://d1sdr3pepfn2o"
 
 [input]
 

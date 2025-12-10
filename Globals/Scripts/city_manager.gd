@@ -5,6 +5,11 @@ var cityLevel : int = 1
 var holoGenerator
 var gemScraper
 
+var currentItemPopup = null
+var currentItemName = null
+
+var currentHoloGeneratorUI = null
+
 var storage : Dictionary = {}
 
 var citizens : Array = []

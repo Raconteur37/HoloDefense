@@ -51,3 +51,5 @@ func _on_gui_input(event: InputEvent) -> void:
 			itemPopup.position.x -= 430
 			add_child(itemPopup)
 			itemPopup.setItem(itemName)
+			CityManager.currentItemPopup = itemPopup
+			CityManager.currentItemName = itemName

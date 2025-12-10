@@ -1,40 +1,7 @@
-[gd_scene load_steps=20 format=3 uid="uid://ui346j8fxgh8"]
+[gd_scene load_steps=7 format=3 uid="uid://ui346j8fxgh8"]
 
 [ext_resource type="Script" uid="uid://dp10ywjcelrla" path="res://Scripts/Citizens/Citizen UI/citizen_select_ui.gd" id="1_bwppn"]
-[ext_resource type="Shader" uid="uid://cp7aeybt3bbnc" path="res://Shaders/Game.gdshader" id="1_tyc1k"]
-[ext_resource type="Texture2D" uid="uid://o6vjv2q44a8c" path="res://Textures/UI/Game/Turret Info Plate background.png" id="2_c7i54"]
-[ext_resource type="Texture2D" uid="uid://d0qrxomr5jyyc" path="res://Textures/Citizens/UI/Destination Button.png" id="3_mbcbj"]
-[ext_resource type="Texture2D" uid="uid://c7f1kirvy486r" path="res://Textures/Citizens/UI/Job Inactive.png" id="4_6p0t5"]
-[ext_resource type="Texture2D" uid="uid://c2gdt527j4aas" path="res://Textures/Citizens/UI/Debug Location.png" id="5_7025l"]
-[ext_resource type="StyleBox" uid="uid://cnxwufmy1b6g4" path="res://Styles/Citizen Select UI.tres" id="6_x5e6b"]
-[ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="7_27g5e"]
-
-[sub_resource type="Gradient" id="Gradient_082hf"]
-colors = PackedColorArray(0, 0, 1, 1, 0.129412, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_41ifu"]
-gradient = SubResource("Gradient_082hf")
-
-[sub_resource type="FastNoiseLite" id="FastNoiseLite_vv2ns"]
-
-[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_w64fo"]
-noise = SubResource("FastNoiseLite_vv2ns")
-
-[sub_resource type="ShaderMaterial" id="ShaderMaterial_1n8jb"]
-resource_local_to_scene = true
-shader = ExtResource("1_tyc1k")
-shader_parameter/noise_texture = SubResource("NoiseTexture2D_w64fo")
-shader_parameter/burn_texture = SubResource("GradientTexture2D_41ifu")
-shader_parameter/integrity = 1.0
-shader_parameter/burn_size = 1.3
-
-[sub_resource type="StyleBoxTexture" id="StyleBoxTexture_87q5u"]
-texture = ExtResource("2_c7i54")
-axis_stretch_horizontal = 2
-region_rect = Rect2(0, 0, 64, 64)
-
-[sub_resource type="LabelSettings" id="LabelSettings_25432"]
-shadow_color = Color(0, 0, 0, 1)
+[ext_resource type="Texture2D" uid="uid://baoscpaj8i07i" path="res://Textures/UI/Game/BottomUI15Plain.png" id="2_6yos2"]
 
 [sub_resource type="Gradient" id="Gradient_tfm22"]
 colors = PackedColorArray(0.364706, 0, 0, 1, 0.427451, 0.47451, 1, 1)
@@ -51,140 +18,26 @@ fill_from = Vector2(0, 0.0183486)
 fill_to = Vector2(0.477064, 0)
 
 [node name="CitizenSelectUi" type="Control"]
-top_level = true
-z_index = 4
+z_index = 5
 layout_mode = 3
-anchor_left = -0.031
-anchor_top = 0.811
+anchor_left = 0.003
+anchor_top = 0.77800006
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = 64.52
-offset_top = -35.8801
+offset_left = -0.76000404
+offset_top = -0.24017334
 offset_right = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_bwppn")
 
-[node name="Background Panel" type="PanelContainer" parent="."]
-material = SubResource("ShaderMaterial_1n8jb")
-layout_mode = 1
-anchors_preset = 2
-anchor_top = 1.0
-anchor_bottom = 1.0
-offset_left = 2.0
-offset_top = -234.0
-offset_right = 959.0
-offset_bottom = -118.0
-grow_vertical = 0
-scale = Vector2(2, 2.01008)
-theme_override_styles/panel = SubResource("StyleBoxTexture_87q5u")
-
-[node name="Location Container" type="MarginContainer" parent="Background Panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 825
-theme_override_constants/margin_top = 3
-
-[node name="MarginContainer" type="MarginContainer" parent="Background Panel/Location Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 83
-theme_override_constants/margin_top = 97
-
-[node name="Destination Button" type="TextureButton" parent="Background Panel/Location Container/MarginContainer"]
-layout_mode = 2
-texture_normal = ExtResource("3_mbcbj")
-
-[node name="MarginContainer2" type="MarginContainer" parent="Background Panel/Location Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 17
-theme_override_constants/margin_top = 97
-
-[node name="Job Button" type="TextureButton" parent="Background Panel/Location Container/MarginContainer2"]
-layout_mode = 2
-texture_normal = ExtResource("4_6p0t5")
-
-[node name="MarginContainer3" type="MarginContainer" parent="Background Panel/Location Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 66
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 16
-
-[node name="Destination Image" type="TextureRect" parent="Background Panel/Location Container/MarginContainer3"]
-layout_mode = 2
-texture = ExtResource("5_7025l")
-
-[node name="MarginContainer4" type="MarginContainer" parent="Background Panel/Location Container"]
-layout_mode = 2
-theme_override_constants/margin_left = 0
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 66
-theme_override_constants/margin_bottom = 16
-
-[node name="Job Image" type="TextureRect" parent="Background Panel/Location Container/MarginContainer4"]
-layout_mode = 2
-texture = ExtResource("5_7025l")
-
-[node name="Stat Label Container" type="MarginContainer" parent="Background Panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 425
-theme_override_constants/margin_top = 2
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Background Panel/Stat Label Container"]
-layout_mode = 2
-bbcode_enabled = true
-text = "STATS"
-
-[node name="GridContainer" type="GridContainer" parent="Background Panel"]
-z_index = 2
-layout_mode = 2
-theme_override_constants/v_separation = 13
-
-[node name="LabelMarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 10
-theme_override_constants/margin_top = 0
-theme_override_constants/margin_right = 0
-theme_override_constants/margin_bottom = 0
-
-[node name="Name Label" type="Label" parent="Background Panel/GridContainer/LabelMarginContainer"]
-layout_mode = 2
-text = "citizen name"
-label_settings = SubResource("LabelSettings_25432")
-horizontal_alignment = 1
-uppercase = true
-
-[node name="MarginContainer" type="MarginContainer" parent="Background Panel/GridContainer"]
-layout_mode = 2
-theme_override_constants/margin_left = 38
-theme_override_constants/margin_top = -8
-theme_override_constants/margin_right = 30
-theme_override_constants/margin_bottom = 0
-
-[node name="PanelContainer" type="PanelContainer" parent="Background Panel/GridContainer/MarginContainer"]
-layout_mode = 2
-theme_override_styles/panel = ExtResource("6_x5e6b")
-
-[node name="Panel" type="Panel" parent="Background Panel/GridContainer/MarginContainer/PanelContainer"]
-layout_mode = 2
-
-[node name="MarginContainer" type="MarginContainer" parent="Background Panel/GridContainer/MarginContainer/PanelContainer/Panel"]
+[node name="TextureRect" type="TextureRect" parent="."]
 layout_mode = 0
-offset_left = -8.5
-offset_top = 20.679
-offset_right = 31.5
-offset_bottom = 60.679
-theme_override_constants/margin_top = -30
-
-[node name="TextureRect" type="TextureRect" parent="Background Panel/GridContainer/MarginContainer/PanelContainer/Panel/MarginContainer"]
-layout_mode = 2
-texture = ExtResource("7_27g5e")
-
-[node name="Stats Grid Container" type="MarginContainer" parent="Background Panel"]
-layout_mode = 2
-theme_override_constants/margin_left = 260
-theme_override_constants/margin_top = 60
-
-[node name="HBoxContainer" type="HBoxContainer" parent="Background Panel/Stats Grid Container"]
-layout_mode = 2
+offset_left = -3.9999962
+offset_top = -74.99988
+offset_right = 1916.0
+offset_bottom = 239.00012
+texture = ExtResource("2_6yos2")
 
 [node name="DestinationText" type="Label" parent="."]
 layout_mode = 0
@@ -209,11 +62,16 @@ vertical_alignment = 1
 autowrap_mode = 2
 
 [node name="HoloGeneratorText" type="Label" parent="."]
-layout_mode = 0
-offset_left = 471.0
-offset_top = 58.0
-offset_right = 609.0
-offset_bottom = 80.3333
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.246
+anchor_top = 0.24200001
+anchor_right = 0.31800002
+anchor_bottom = 0.335
+offset_left = -0.33599854
+offset_top = -0.08003235
+offset_right = -0.2880249
+offset_bottom = -0.06674194
 text = "Holo Generator: 0"
 
 [node name="MaterialAtomizerText" type="Label" parent="."]

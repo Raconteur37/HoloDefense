@@ -50,9 +50,11 @@ font_size = 12
 [node name="HoloGeneratorDescriptionScene" type="Control"]
 z_index = 1
 layout_mode = 3
-anchors_preset = 2
-anchor_top = 1.0
+anchor_top = 0.70900005
+anchor_right = 1.0
 anchor_bottom = 1.0
+offset_top = 314.27997
+offset_right = -1920.0
 grow_vertical = 0
 mouse_filter = 2
 script = ExtResource("1_tx5cv")
@@ -193,7 +195,7 @@ $100"
 label_settings = SubResource("LabelSettings_fp7fb")
 
 [node name="StorageGrid" type="GridContainer" parent="."]
-layout_mode = 2
+layout_mode = 0
 offset_left = 1635.0
 offset_top = -223.0
 offset_right = 1758.0
