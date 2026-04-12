@@ -1,10 +1,11 @@
-[gd_scene load_steps=22 format=3 uid="uid://cc1wtd6g7gm0q"]
+[gd_scene format=3 uid="uid://cc1wtd6g7gm0q"]
 
 [ext_resource type="Script" uid="uid://cikuk4m8o6kxq" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Script" uid="uid://b0vf3vykicih8" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
 [ext_resource type="Texture2D" uid="uid://dneb8py1phpyw" path="res://Textures/Citizens/itemDelivered.png" id="5_ko03v"]
+[ext_resource type="Script" uid="uid://j0eka8k2cycj" path="res://Scripts/Citizens/Citizen UI/select_ui.gd" id="6_mqq4v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
 atlas = ExtResource("4_ovmnh")
@@ -71,8 +72,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
-radius = 3.25
-height = 11.0
+radius = 4.75
+height = 13.5
 
 [sub_resource type="Animation" id="Animation_8ged5"]
 resource_name = "Hop"
@@ -149,42 +150,55 @@ particles_anim_loop = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o0kfk"]
 size = Vector2(23, 41)
 
-[node name="CharacterBody2D" type="CharacterBody2D" groups=["Citizen"]]
-position = Vector2(993, 561)
+[sub_resource type="Gradient" id="Gradient_1ya0r"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_xbon3"]
+gradient = SubResource("Gradient_1ya0r")
+fill_from = Vector2(0, 1)
+fill_to = Vector2(0.005376344, 0.97849464)
+
+[sub_resource type="Gradient" id="Gradient_visa0"]
+colors = PackedColorArray(0.64147717, 0.28639132, 0.93964046, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_aapq8"]
+gradient = SubResource("Gradient_visa0")
+fill_to = Vector2(0, 0)
+
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=145350999 groups=["Citizen"]]
+position = Vector2(1017, 535)
 collision_layer = 16
 collision_mask = 48
 script = ExtResource("1_e01cn")
+speed = 800.0
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=202216112]
 position = Vector2(-2, -3)
 scale = Vector2(4, 4)
 texture = ExtResource("2_6aq5k")
 
-[node name="HoverBox" type="AnimatedSprite2D" parent="Sprite2D"]
+[node name="HoverBox" type="AnimatedSprite2D" parent="Sprite2D" unique_id=580968153]
 visible = false
 position = Vector2(0.25, -0.25)
 sprite_frames = SubResource("SpriteFrames_fuy38")
 autoplay = "default"
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1193700785]
 scale = Vector2(4, 4)
 collision_layer = 16
-collision_mask = 16
+collision_mask = 48
 script = ExtResource("3_58n5d")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1742391671]
 position = Vector2(-2.86102e-06, -6.21378e-06)
 shape = SubResource("CapsuleShape2D_fwpx7")
 
-[node name="Work Timer" type="Timer" parent="."]
+[node name="Work Timer" type="Timer" parent="." unique_id=1405268777]
 wait_time = 90.0
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-libraries = {
-&"": SubResource("AnimationLibrary_45ah3")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1665946193]
+libraries/ = SubResource("AnimationLibrary_45ah3")
 
-[node name="Item Delivered Particle" type="CPUParticles2D" parent="."]
+[node name="Item Delivered Particle" type="CPUParticles2D" parent="." unique_id=709621063]
 material = SubResource("CanvasItemMaterial_mqq4v")
 emitting = false
 amount = 1
@@ -199,16 +213,44 @@ gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1740304057]
 visible = false
 shape = SubResource("RectangleShape2D_o0kfk")
 debug_color = Color(0.813515, 0.413999, 0.306186, 0.42)
 
-[node name="NavigationAgent2D" type="NavigationAgent2D" parent="."]
+[node name="NavigationAgent2D" type="NavigationAgent2D" parent="." unique_id=1584390057]
 avoidance_enabled = true
 radius = 22.0
 debug_use_custom = true
 debug_path_custom_color = Color(1, 1, 0.329412, 1)
+
+[node name="SelectUI" type="Control" parent="." unique_id=545598827]
+layout_mode = 3
+anchors_preset = 0
+offset_left = -55.0
+offset_top = -53.0
+offset_bottom = 16.0
+script = ExtResource("6_mqq4v")
+
+[node name="Label" type="Label" parent="SelectUI" unique_id=352333501]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "test"
+
+[node name="WorkProgressBar" type="TextureProgressBar" parent="SelectUI" unique_id=1142361318]
+layout_mode = 0
+offset_left = 49.00003
+offset_top = 15.0
+offset_right = 49.977707
+offset_bottom = 33.29712
+scale = Vector2(12.274, 0.655841)
+step = 0.05
+fill_mode = 4
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_xbon3")
+texture_progress = SubResource("GradientTexture2D_aapq8")
+tint_progress = Color(0.6431373, 0.28627452, 0.9411765, 1)
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

@@ -1,38 +1,48 @@
 extends Item
 
 @onready var amountLabel = $amountLabel
+@onready var itemPopup = $ItemPopup
 
 func _ready() -> void:
-	#buildItem("Copper Gem")
+	#buildItem(Item.theItem.COPPER_GEM)
 	#amount = 100
-	#CityManager.addItem(self)
+	#itemPopup.item = self
+	#CityManager.addItem(Item.theItem.COPPER_GEM)
+	itemPopup.item = self
+	itemPopup.buildItemDisplay()
 	pass
 
-func buildItem(itemNamePass):
-	match itemNamePass:
+func _process(delta: float) -> void:
+	amountLabel.text = str(amount)
 
-		"Copper Gem":
+func setAmount(amount):
+	self.amount = amount
+
+func buildItem(item):
+	match item:
+
+		Item.theItem.COPPER_GEM:
 			itemName = "Copper Gem"
 			rarity = Rarity.COMMON
 			actualItem = theItem.COPPER_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getItemValue(itemName)
 			texture = load("res://Textures/Citizens/Gems/copperGem.png")
-		"Quartz Gem":
+		Item.theItem.QUARTZ_GEM:
 			itemName = "Quartz Gem"
 			rarity = Rarity.RARE
 			actualItem = theItem.QUARTZ_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getItemValue(itemName)
 			texture = load("res://Textures/Citizens/Gems/Quartz.png")
-		"Amethyst Gem":
+		Item.theItem.AMETHYST_GEM:
 			itemName = "Amethyst Gem"
 			rarity = Rarity.SUPER_RARE
 			actualItem = theItem.AMETHYST_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getItemValue(itemName)
 			texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
-		"Diamond Gem":
+		Item.theItem.DIAMOND_GEM:
 			itemName = "Diamond Gem"
 			rarity = Rarity.LEGENDARY
 			actualItem = theItem.DIAMOND_GEM
@@ -44,12 +54,8 @@ func buildItem(itemNamePass):
 func _on_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
-			itemPopup = load("res://Item Scenes/Item Popup.tscn")
-			itemPopup = itemPopup.instantiate()
+			itemPopup.buildItemDisplay()
 			itemPopup.set_position(get_global_mouse_position())
 			itemPopup.position.y -= 330
 			itemPopup.position.x -= 430
-			add_child(itemPopup)
-			itemPopup.setItem(itemName)
-			CityManager.currentItemPopup = itemPopup
-			CityManager.currentItemName = itemName
+			itemPopup.show()

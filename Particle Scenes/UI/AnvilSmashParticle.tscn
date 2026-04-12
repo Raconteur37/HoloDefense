@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://mxoacawjw0c3"]
+[gd_scene format=3 uid="uid://mxoacawjw0c3"]
 
 [ext_resource type="Texture2D" uid="uid://bvqk4bfe0pc1j" path="res://Particle Scenes/UI/anivil.png" id="1_8005c"]
 
@@ -9,7 +9,7 @@ particles_anim_h_frames = 9
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="AnvilSmashParticle" type="CPUParticles2D"]
+[node name="AnvilSmashParticle" type="CPUParticles2D" unique_id=1679695447]
 material = SubResource("CanvasItemMaterial_8005c")
 position = Vector2(475, 182)
 scale = Vector2(-1.24, 1)

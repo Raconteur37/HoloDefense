@@ -1,4 +1,4 @@
-[gd_scene load_steps=6 format=3 uid="uid://dmfouqdg4qq47"]
+[gd_scene format=3 uid="uid://dmfouqdg4qq47"]
 
 [ext_resource type="Script" uid="uid://ds5vhqf8ag5hq" path="res://Scripts/Holo City Buildings/Gem Scraper/gem_scraper.gd" id="1_7vu04"]
 [ext_resource type="Texture2D" uid="uid://dwt36jlqai1te" path="res://Textures/Holo City/Gem Fabricator.png" id="2_hh28k"]
@@ -20,32 +20,32 @@ size = Vector2(88.25, 89.5)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_jfbm1"]
 size = Vector2(276, 263)
 
-[node name="Node2D" type="Node2D" groups=["Holo City Building"]]
+[node name="Node2D" type="Node2D" unique_id=426262678 groups=["Holo City Building"]]
 position = Vector2(952, 316)
 script = ExtResource("1_7vu04")
 
-[node name="Fabricator Sprite" type="AnimatedSprite2D" parent="."]
+[node name="Fabricator Sprite" type="AnimatedSprite2D" parent="." unique_id=229710290]
 position = Vector2(1, 0)
 scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_5j705")
 
-[node name="Work Area" type="Area2D" parent="."]
+[node name="Work Area" type="Area2D" parent="." unique_id=1577580633]
 position = Vector2(1, 0)
 scale = Vector2(4, 4)
 collision_layer = 32
 collision_mask = 48
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=895185504]
 position = Vector2(-0.5, 12.25)
 shape = SubResource("RectangleShape2D_julrh")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
-[node name="Select Area" type="Area2D" parent="."]
+[node name="Select Area" type="Area2D" parent="." unique_id=1428813278]
 position = Vector2(1, 0)
 collision_layer = 32
 collision_mask = 48
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=2041551092]
 position = Vector2(-1, 0.5)
 shape = SubResource("RectangleShape2D_jfbm1")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)

@@ -1,5 +1,13 @@
 extends Node
 
+var startingCash : int = 1000
+var startingEnergy : int = 100
+var startingScrap : int = 50
+
+var currentMoney = startingCash
+var currentEnergy = startingEnergy
+var currentScrap = startingScrap
+
 var cityLevel : int = 1
 
 var holoGenerator
@@ -7,8 +15,6 @@ var gemScraper
 
 var currentItemPopup = null
 var currentItemName = null
-
-var currentHoloGeneratorUI = null
 
 var storage : Dictionary = {}
 
@@ -22,19 +28,14 @@ func _ready() -> void:
 	# Testing
 	pass
 
-func openStorage():
-	print(storage)
-	# Loop through the dict and render the items as you find them
-
 func addItem(item):
-	if storage.has(item.itemName):
-		storage[item.itemName].amount += item.amount
+	if storage.has(item):
+		storage[item] += 1
 	else:
-		storage[item.itemName] = item
+		storage[item] = 1
 
 func removeItemFromStorage(itemName):
 	if storage.has(itemName):
-		storage[itemName].queue_free()
 		storage.erase(itemName)
 
 
@@ -52,7 +53,7 @@ func generateBaseCitizenExperienceLevel():
 	return [lower_bound, upper_bound]
 
 func getHoloGeneratorLocation():
-	return Vector2(get_tree().current_scene.find_child("HoloGenerator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("HoloGenerator").global_position.y)
+	return Vector2(get_tree().current_scene.find_child("HoloGenerator").find_child("Work Area").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("HoloGenerator").find_child("Work Area").global_position.y)
 
 func getGemScraperLocation():
 	return Vector2(get_tree().current_scene.find_child("GemFabricator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemFabricator").global_position.y)
@@ -61,19 +62,29 @@ func getStorageItem(itemName):
 	if storage.has(itemName):
 		return storage.get(itemName)
 
-func getItemValue(itemName):
+func getItemValue(itemName): # This is shit I should do it once on load and never again but not rn cus im lazy
 	var file = FileAccess.open("res://Config/Item Value.json",FileAccess.READ)
 	var itemValueInfo = JSON.parse_string(file.get_as_text())
 	return itemValueInfo["Money"].get(itemName)
 	file.close()
 
-func sellItem(item : Item,amount):
-	var itemName = item.itemName
-	if storage.has(itemName):
-		if amount <= item.amount:
-			GameManager.currentMoney += storage[itemName].amount * storage[itemName].moneyValue
-			storage[itemName].amount = storage[itemName].amount - amount
-			return storage[itemName]
+func sellItem(item : Item,amountSelling : int):
+	if storage.has(item.theItem):
+		print("herer")
+		if amountSelling <= item.amount:
+			#GameManager.currentMoney += storage[itemName].amount * storage[itemName].moneyValue
+			#storage[itemName].amount = storage[itemName].amount - amount
+			#return storage[itemName]
+			pass
 		else:
-			push_error("You are trying to sell more than what you have!")
-	push_error(itemName + " doesn't exist in the storage!")
+			push_error("selling more than what you have")
+
+
+func getCurrentMoney():
+	return currentMoney
+
+func getCurrentEnergy():
+	return currentEnergy
+
+func getCurrentScrap():
+	return currentScrap

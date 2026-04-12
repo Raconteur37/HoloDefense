@@ -18,9 +18,9 @@ func _process(delta: float) -> void:
 
 
 func _on_work_area_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Citizen"):
+	if body is Citizen:
 		if not body.hasJob:
-			body.setJob("Gem Scraper")
+			body.setJob(Citizen.Job.GEM_SCRAPER)
 		else:
-			if body.currentState != "Working" and body.currentJob == "Gem Scraper":
-				body.currentState = "Working"
+			if body.currentState != Citizen.State.WORKING and body.currentJob == Citizen.Job.GEM_SCRAPER:
+				body.currentState = Citizen.State.WORKING

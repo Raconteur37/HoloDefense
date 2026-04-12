@@ -1,4 +1,4 @@
-[gd_scene load_steps=4 format=3 uid="uid://cdwv5vsr88rm6"]
+[gd_scene format=3 uid="uid://cdwv5vsr88rm6"]
 
 [ext_resource type="Texture2D" uid="uid://246p2c1np6yy" path="res://Particle Scenes/Effects/Zombie Turn/row_0.png" id="2_dbkf4"]
 [ext_resource type="Script" uid="uid://dq3lv3co1o1iu" path="res://Particle Scenes/Effects/Zombie Turn/zombie_turn_particle.gd" id="3_dbkf4"]
@@ -10,10 +10,10 @@ particles_anim_h_frames = 6
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1894775960]
 script = ExtResource("3_dbkf4")
 
-[node name="ZombieTurnParticle" type="CPUParticles2D" parent="."]
+[node name="ZombieTurnParticle" type="CPUParticles2D" parent="." unique_id=392051342]
 material = SubResource("CanvasItemMaterial_frirj")
 position = Vector2(932, 496)
 emitting = false

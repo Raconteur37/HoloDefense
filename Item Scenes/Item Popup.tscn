@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://kw50k4sl6dlv"]
+[gd_scene format=3 uid="uid://kw50k4sl6dlv"]
 
 [ext_resource type="Script" uid="uid://dfrsfxnhcooj2" path="res://Item Scenes/item_select_popup.gd" id="1_v2auv"]
 [ext_resource type="Texture2D" uid="uid://b1if8bcso72e8" path="res://Textures/UI/Item/Web 1920 – 1.png" id="2_1qfsm"]
@@ -95,14 +95,14 @@ _data = {
 &"RESET": SubResource("Animation_ms1ek")
 }
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ms1ek"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2nmeg"]
 resource_local_to_scene = true
 particles_animation = true
 particles_anim_h_frames = 9
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="ItemPopup" type="Popup"]
+[node name="ItemPopup" type="Popup" unique_id=1373946898]
 oversampling_override = 1.0
 title = "Common Item"
 position = Vector2i(148, 0)
@@ -111,12 +111,12 @@ visible = true
 always_on_top = true
 script = ExtResource("1_v2auv")
 
-[node name="MainBackground" type="TextureRect" parent="."]
+[node name="MainBackground" type="TextureRect" parent="." unique_id=1553903246]
 offset_right = 423.0
 offset_bottom = 332.0
 texture = ExtResource("2_1qfsm")
 
-[node name="Item Name" type="Label" parent="MainBackground"]
+[node name="Item Name" type="Label" parent="MainBackground" unique_id=1938639928]
 layout_mode = 0
 offset_left = 112.0
 offset_top = 22.0
@@ -127,7 +127,7 @@ label_settings = SubResource("LabelSettings_ocneq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Rarity Label" type="Label" parent="MainBackground"]
+[node name="Rarity Label" type="Label" parent="MainBackground" unique_id=2102002815]
 layout_mode = 0
 offset_left = 186.0
 offset_top = 155.0
@@ -139,7 +139,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="HBoxContainer" type="HBoxContainer" parent="MainBackground"]
+[node name="HBoxContainer" type="HBoxContainer" parent="MainBackground" unique_id=89699362]
 layout_mode = 0
 offset_left = 57.0
 offset_top = 280.0
@@ -148,12 +148,12 @@ offset_bottom = 336.0
 scale = Vector2(0.75, 0.75)
 alignment = 1
 
-[node name="Selll Button" type="TextureButton" parent="MainBackground/HBoxContainer"]
+[node name="Selll Button" type="TextureButton" parent="MainBackground/HBoxContainer" unique_id=2071198992]
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="Label" type="Label" parent="MainBackground/HBoxContainer/Selll Button"]
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer/Selll Button" unique_id=1606116726]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 10.0
@@ -164,13 +164,13 @@ label_settings = SubResource("LabelSettings_qoc1r")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ConvertButton" type="TextureButton" parent="MainBackground/HBoxContainer"]
+[node name="ConvertButton" type="TextureButton" parent="MainBackground/HBoxContainer" unique_id=1601017898]
 modulate = Color(0, 0.835294, 0.886275, 1)
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="Label" type="Label" parent="MainBackground/HBoxContainer/ConvertButton"]
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer/ConvertButton" unique_id=4615295]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 10.0
@@ -181,7 +181,7 @@ label_settings = SubResource("LabelSettings_qoc1r")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="ItemImage" type="TextureRect" parent="MainBackground"]
+[node name="ItemImage" type="TextureRect" parent="MainBackground" unique_id=1935488791]
 texture_filter = 1
 layout_mode = 0
 offset_left = 166.0
@@ -189,7 +189,7 @@ offset_top = 68.0
 offset_right = 258.0
 offset_bottom = 154.0
 
-[node name="ValueLabel" type="RichTextLabel" parent="MainBackground"]
+[node name="ValueLabel" type="RichTextLabel" parent="MainBackground" unique_id=303202599]
 layout_mode = 0
 offset_left = 78.0
 offset_top = 223.0
@@ -200,7 +200,7 @@ bbcode_enabled = true
 text = "Value: [color=gold]$0[/color]"
 horizontal_alignment = 1
 
-[node name="AmountLabel" type="RichTextLabel" parent="MainBackground"]
+[node name="AmountLabel" type="RichTextLabel" parent="MainBackground" unique_id=2006703190]
 layout_mode = 0
 offset_left = 92.0
 offset_top = 177.0
@@ -211,7 +211,7 @@ bbcode_enabled = true
 text = "Amount: [color=gray]0[/color]"
 horizontal_alignment = 1
 
-[node name="SellSliderBackground" type="TextureRect" parent="."]
+[node name="SellSliderBackground" type="TextureRect" parent="." unique_id=1548243255]
 visible = false
 modulate = Color(1, 1, 1, 0.788235)
 anchors_preset = 8
@@ -227,7 +227,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = SubResource("GradientTexture2D_qtdmd")
 
-[node name="HSlider" type="HSlider" parent="SellSliderBackground"]
+[node name="HSlider" type="HSlider" parent="SellSliderBackground" unique_id=582438010]
 top_level = true
 layout_mode = 0
 offset_left = 16.0
@@ -236,7 +236,7 @@ offset_right = 412.0
 offset_bottom = 251.0
 rounded = true
 
-[node name="HBoxContainer" type="HBoxContainer" parent="SellSliderBackground"]
+[node name="HBoxContainer" type="HBoxContainer" parent="SellSliderBackground" unique_id=1790870940]
 top_level = true
 layout_mode = 0
 offset_left = 22.0
@@ -245,13 +245,13 @@ offset_right = 450.0
 offset_bottom = 328.0
 scale = Vector2(0.9, 0.9)
 
-[node name="SellButton" type="TextureButton" parent="SellSliderBackground/HBoxContainer"]
+[node name="SellButton" type="TextureButton" parent="SellSliderBackground/HBoxContainer" unique_id=1152026945]
 modulate = Color(0, 1, 0.592157, 1)
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="SellLabel" type="Label" parent="SellSliderBackground/HBoxContainer/SellButton"]
+[node name="SellLabel" type="Label" parent="SellSliderBackground/HBoxContainer/SellButton" unique_id=153234469]
 layout_mode = 0
 offset_left = 26.0
 offset_top = 9.0
@@ -262,12 +262,12 @@ label_settings = SubResource("LabelSettings_qtdmd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="CancelButton" type="TextureButton" parent="SellSliderBackground/HBoxContainer"]
+[node name="CancelButton" type="TextureButton" parent="SellSliderBackground/HBoxContainer" unique_id=396615272]
 layout_mode = 2
 texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
-[node name="CancelLabel" type="Label" parent="SellSliderBackground/HBoxContainer/CancelButton"]
+[node name="CancelLabel" type="Label" parent="SellSliderBackground/HBoxContainer/CancelButton" unique_id=1849690489]
 layout_mode = 0
 offset_left = 14.7778
 offset_top = 7.77778
@@ -278,7 +278,7 @@ label_settings = SubResource("LabelSettings_1qfsm")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="AmountPlate" type="TextureRect" parent="SellSliderBackground"]
+[node name="AmountPlate" type="TextureRect" parent="SellSliderBackground" unique_id=1245467975]
 top_level = true
 texture_filter = 1
 layout_mode = 0
@@ -289,7 +289,7 @@ offset_bottom = 119.0
 scale = Vector2(0.5, 0.5)
 texture = ExtResource("7_1qfsm")
 
-[node name="AmountLabel" type="RichTextLabel" parent="SellSliderBackground"]
+[node name="AmountLabel" type="RichTextLabel" parent="SellSliderBackground" unique_id=1279814674]
 top_level = true
 layout_mode = 0
 offset_left = 86.0
@@ -301,7 +301,7 @@ bbcode_enabled = true
 text = "[color=white]x100[/color]"
 horizontal_alignment = 1
 
-[node name="SellAmountText" type="RichTextLabel" parent="SellSliderBackground"]
+[node name="SellAmountText" type="RichTextLabel" parent="SellSliderBackground" unique_id=1048981790]
 top_level = true
 layout_mode = 0
 offset_left = 2.0
@@ -313,7 +313,7 @@ bbcode_enabled = true
 text = "[color=gold]$0[/color]"
 horizontal_alignment = 1
 
-[node name="Conversion Hammer" type="TextureRect" parent="SellSliderBackground"]
+[node name="Conversion Hammer" type="TextureRect" parent="SellSliderBackground" unique_id=2132584412]
 top_level = true
 texture_filter = 1
 layout_mode = 1
@@ -332,13 +332,11 @@ scale = Vector2(0.8, 0.8)
 pivot_offset = Vector2(55, 55)
 texture = ExtResource("7_2nmeg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="SellSliderBackground"]
-libraries = {
-&"": SubResource("AnimationLibrary_0vfj8")
-}
-autoplay = "Hammer Swing"
+[node name="AnimationPlayer" type="AnimationPlayer" parent="SellSliderBackground" unique_id=1470612697]
+libraries/ = SubResource("AnimationLibrary_0vfj8")
+autoplay = &"Hammer Swing"
 
-[node name="Anvil" type="TextureRect" parent="SellSliderBackground"]
+[node name="Anvil" type="TextureRect" parent="SellSliderBackground" unique_id=713981299]
 top_level = true
 texture_filter = 1
 layout_mode = 0
@@ -349,8 +347,8 @@ offset_bottom = 156.0
 scale = Vector2(1.4, 1.4)
 texture = ExtResource("8_2nmeg")
 
-[node name="AnvilSmashParticle" parent="SellSliderBackground" instance=ExtResource("9_8v2ix")]
-material = SubResource("CanvasItemMaterial_ms1ek")
+[node name="AnvilSmashParticle" parent="SellSliderBackground" unique_id=1342467981 instance=ExtResource("9_8v2ix")]
+material = SubResource("CanvasItemMaterial_2nmeg")
 position = Vector2(172, 115)
 
 [connection signal="popup_hide" from="." to="." method="_on_popup_hide"]

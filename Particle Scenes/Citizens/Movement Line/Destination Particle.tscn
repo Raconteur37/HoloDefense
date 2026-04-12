@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://ckdqy078m5b8e"]
+[gd_scene format=3 uid="uid://ckdqy078m5b8e"]
 
 [ext_resource type="Texture2D" uid="uid://1wojq04snq6" path="res://Particle Scenes/Citizens/Movement Line/destination texutre.png" id="1_vq7ox"]
 
@@ -9,7 +9,7 @@ particles_anim_h_frames = 10
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="DestinationParticle" type="CPUParticles2D"]
+[node name="DestinationParticle" type="CPUParticles2D" unique_id=210327947]
 material = SubResource("CanvasItemMaterial_nc68a")
 position = Vector2(606, 247)
 emitting = false

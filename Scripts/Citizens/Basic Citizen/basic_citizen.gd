@@ -1,5 +1,10 @@
 extends CharacterBody2D
 
+class_name Citizen
+
+enum State {IDLE, WORKING, DELIVERING}
+enum Job {NONE, GEM_SCRAPER, MATERIAL_ATOMIZER, RESEARCHER, FABRICATOR}
+
 var hoverBox
 var animationPlayer : AnimationPlayer
 var sprite
@@ -8,12 +13,12 @@ var selectUI = null
 var citizenSelectUi
 
 var citName : String
-const speed : float = 200
-var currentJob = null
+@export var speed : float = 200
+var currentJob : Job = Job.NONE
 
 var hasJob : bool = false
 
-var currentState : String
+var currentState : State
 
 var workTimer : Timer = null
 
@@ -34,10 +39,9 @@ var deliverParticle : CPUParticles2D
 
 var navAgent : NavigationAgent2D
 
-var inventory = []
+var inventory : Dictionary = {} # This holds an enum then int like so [enum,int]
 
 var jobExperience : Dictionary[String,float] = {
-	"Holo Generator" : 0,
 	"Material Atomizer" : 0,
 	"Gem Scraper" : 0,
 	"Researcher" : 0,
@@ -48,9 +52,8 @@ var jobExperience : Dictionary[String,float] = {
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
-@onready var ui = preload("res://Citizens/Citizen Select UI.tscn")
+@onready var ui = $SelectUI
 
-@onready var holoGenerator = $"../HoloGenerator"
 
 func _ready() -> void:
 	selected = false
@@ -76,11 +79,11 @@ func _ready() -> void:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
 
 	citName = "Basic Citizen"
-	currentState = "Idle"
+	currentState = State.IDLE
 
 func _physics_process(delta: float) -> void:
 
-	if currentState == "Idle":
+	if currentState == State.IDLE:
 		set_collision_mask_value(5,true)
 		navAgent.set_avoidance_mask_value(1,true)
 	else:
@@ -88,7 +91,7 @@ func _physics_process(delta: float) -> void:
 		navAgent.set_avoidance_mask_value(1,false)
 
 	if navAgent.is_navigation_finished():
-		if currentState == "Working":
+		if currentState == State.WORKING:
 			if workTimer.is_stopped():
 				workTimer.start()
 
@@ -132,6 +135,7 @@ func _physics_process(delta: float) -> void:
 	if not navAgent.is_navigation_finished():
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
+	
 
 
 
@@ -151,7 +155,7 @@ func move():
 	hoverBox.visible = true
 	var mouse_pos = get_viewport().get_mouse_position()
 	moveToMouse(mouse_pos)
-	currentState = "Idle"
+	currentState = State.IDLE
 
 
 func deselect():
@@ -168,15 +172,15 @@ func destinationReachedFunc():
 		destinationParticle.queue_free()
 	if is_instance_valid(moveLine):
 		moveLine.queue_free()
-	if currentState == "Delivering":
-		currentState = "Idle"
+	if currentState == State.DELIVERING:
+		currentState = State.IDLE
 		setWorkDestination()
 	timeSinceMove = 0
 
-func setJob(job : String):
+func setJob(job : Job):
 	if currentJob != job:
 		if not hasJob:
-			currentState = "Working"
+			currentState = State.WORKING
 			hasJob = true
 
 		currentJob = job
@@ -187,28 +191,28 @@ func setJob(job : String):
 func updateJob():
 	match currentJob:
 
-		"Gem Scraper":
-			workTimer.wait_time = 5#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
+		Job.GEM_SCRAPER:
+			workTimer.wait_time = .5#round(float(10.3 / (1+jobExperience.get("Gem Scraper")*.03) * 100)) / 100
 
 
 func finishJob():
 	match currentJob:
 
-		"Gem Scraper":
+		Job.GEM_SCRAPER:
 			var popup = popupScene.instantiate()
 			popup.setPosition(self.global_position)
 			var randGem = randi_range(1,100)
 			if randGem >= 1 and randGem <= 50:
 				popup.gemPopup("Copper")
-				addGemToInventory("Copper Gem",1)
+				addItemToInventory(Item.theItem.COPPER_GEM,1)
 			if randGem >= 51 and randGem <= 70:
 				popup.gemPopup("Quartz")
-				addGemToInventory("Quartz Gem",1)
+				addItemToInventory(Item.theItem.QUARTZ_GEM,1)
 			if randGem >= 71 and randGem <= 85:
 				popup.gemPopup("Amethyst")
-				addGemToInventory("Amethyst Gem",1)
+				addItemToInventory(Item.theItem.AMETHYST_GEM,1)
 			if randGem >= 86 and randGem <= 96:
-				addGemToInventory("Diamond Gem",1)
+				addItemToInventory(Item.theItem.DIAMOND_GEM,1)
 			if randGem >= 97 and randGem <= 100:
 				print("Generate Galactite")
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
@@ -219,12 +223,12 @@ func finishJob():
 func setWorkDestination():
 	match currentJob:
 
-		"Gem Scraper":
+		Job.GEM_SCRAPER:
 			destination = CityManager.getGemScraperLocation()
 			navAgent.target_position = destination
 
 func deliverItems():
-	currentState = "Delivering"
+	currentState = State.DELIVERING
 	workTimer.stop()
 	destination = CityManager.getHoloGeneratorLocation()
 	navAgent.target_position = destination
@@ -232,27 +236,17 @@ func deliverItems():
 func finishDelivery():
 	deliverParticle.emitting = true
 	# Deliver all items in inventory
-	for item in inventory:
+	for item in inventory.keys():
 		CityManager.addItem(item)
-		if CityManager.currentItemPopup != null:
-			CityManager.currentItemPopup.refresh()
-		if CityManager.currentHoloGeneratorUI != null:
-			CityManager.currentHoloGeneratorUI.refresh()
 	inventory.clear()
 
 
-func addGemToInventory(gemName,amount):
-	for item in inventory:
-		if item.itemName == gemName:
-			item.amount += amount
-			return
-	var gem = load("res://Item Scenes/Item.tscn")
-	gem = gem.instantiate()
-	gem.buildItem(gemName)
-	gem.amount = amount
-	inventory.append(gem)
+func addItemToInventory(item,amount):
+	if inventory.has(item):
+		inventory[item] += amount
+	else:
+		inventory[item] = amount
 
-# Rendering
 
 func updateLine():
 	moveLine.clear_points()
@@ -303,13 +297,9 @@ func moveToMouse(mousePos):
 
 	add_child(moveLineCurrent)
 
-func openMenu():
-	var menu = ui.instantiate()
-	if DeveloperMode.inDevMode:
-		get_tree().current_scene.add_sibling(menu)
-	else:
-		get_tree().current_scene.find_child("CanvasLayer").add_child(menu)
-	menu.buildMenu(self)
+func openMenu(): # Fuck it we just build it here in the citizen idc anymore EDIT: no we dont 
+	ui.show()
+	ui.refreshMenu()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if moving:

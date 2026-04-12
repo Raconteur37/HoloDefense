@@ -168,7 +168,6 @@ func checkAllTurretsEnergized():
 	return true
 
 func _on_energize_time_timeout() -> void:
-	print("got gerer")
 	if turretsEnergized < maxTurretsEnergized:
 		if turretsInRange.size() == 0:
 			scanCurrentTurretsInRange()

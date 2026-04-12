@@ -19,12 +19,7 @@ var item : Item
 @onready var mainBackground = $MainBackground
 
 
-func setItem(itemName):
-
-	item = CityManager.getStorageItem(itemName)
-
-	CityManager.currentItemPopup = self
-	CityManager.currentItemName = itemName
+func buildItemDisplay():
 
 	setItemImage()
 	itemNameLabel.text = item.itemName
@@ -56,8 +51,6 @@ func setItemImage():
 			itemImage.texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Diamond Item UI.png")
 
-func _on_popup_hide() -> void:
-	queue_free()
 
 func _on_selll_button_pressed() -> void:
 	$SellSliderBackground/AmountLabel.text = "[color=gray]x" + str(item.amount) + "[/color]"
@@ -75,11 +68,11 @@ func _on_h_slider_value_changed(value: float) -> void:
 
 func _on_sell_button_pressed() -> void:
 	item = CityManager.sellItem(item,slider.value)
-	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
-	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
-	if item.amount <= 0:
-		CityManager.removeItemFromStorage(item.itemName)
-	sellMenu.hide()
+	#itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
+	#itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+	#if item.amount <= 0:
+#		CityManager.removeItemFromStorage(item.itemName)
+#	sellMenu.hide()
 
 func refresh():
 	item = CityManager.getStorageItem(CityManager.currentItemName)

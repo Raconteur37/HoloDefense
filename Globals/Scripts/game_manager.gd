@@ -1,7 +1,5 @@
 extends Node
 
-var startingCash : int = 1000
-var startingEnergy : float = 100.0
 
 var previewMode : bool = false
 
@@ -22,8 +20,6 @@ var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
 var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Shooty Diamond" : 10,"Hexagon Mothership" : 30}
 
-var currentMoney = startingCash
-var currentEnergy = startingEnergy
 
 var currentExperience = 0
 var upgradeTokens = 10
@@ -231,12 +227,6 @@ func startWave():
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
-
-func getCurrentMoney():
-	return currentMoney
-
-func subtractMoney(amount):
-	currentMoney -= amount
 
 func getCurrentXP():
 	return currentExperience

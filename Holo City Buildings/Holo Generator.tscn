@@ -1,82 +1,109 @@
-[gd_scene load_steps=11 format=3 uid="uid://cbt3hx5meq4g8"]
+[gd_scene format=3 uid="uid://cbt3hx5meq4g8"]
 
 [ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
-[ext_resource type="Texture2D" uid="uid://ltlgil2l5uuw" path="res://Textures/Holo City/Holo Generator.png" id="2_tlq4f"]
-[ext_resource type="Script" uid="uid://cm27dkwhhv2i5" path="res://Scripts/Holo City Buildings/Holo Generator/select_area.gd" id="3_v0sms"]
-[ext_resource type="PackedScene" uid="uid://dayf8ub6u272m" path="res://Globals/Scene/HoloGeneratorUIScene.tscn" id="4_tlq4f"]
-[ext_resource type="FontFile" uid="uid://h1sjx08i7t3k" path="res://Fonts/Hunger Games.ttf" id="5_sc1hh"]
-[ext_resource type="Script" uid="uid://ddn0lmieuyv15" path="res://Holo City Buildings/stat_label.gd" id="6_8jlgm"]
-
-[sub_resource type="SpriteFrames" id="SpriteFrames_sc1hh"]
-animations = [{
-"frames": [{
-"duration": 1.0,
-"texture": ExtResource("2_tlq4f")
-}],
-"loop": true,
-"name": &"default",
-"speed": 5.0
-}]
+[ext_resource type="Texture2D" uid="uid://dhte7r37pnrhr" path="res://Textures/UI/Game/background_alt.png" id="2_s0f2h"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_tlq4f"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jlgm"]
-size = Vector2(64.3351, 80.6432)
+size = Vector2(374.70343, 80.6432)
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_8aw1o"]
-size = Vector2(276, 263)
-
-[sub_resource type="LabelSettings" id="LabelSettings_8aw1o"]
-font = ExtResource("5_sc1hh")
-font_color = Color(1, 0.745098, 0.137255, 1)
-
-[node name="HoloGenerator" type="Node2D"]
-position = Vector2(910, 363)
+[node name="Control" type="Control" unique_id=19108219]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 script = ExtResource("1_s0f2h")
 
-[node name="Sprite" type="AnimatedSprite2D" parent="."]
-position = Vector2(0, -1)
-scale = Vector2(4, 4)
-sprite_frames = SubResource("SpriteFrames_sc1hh")
-
-[node name="Work Area" type="Area2D" parent="."]
-position = Vector2(0, -1)
+[node name="Work Area" type="Area2D" parent="." unique_id=1606951692]
+position = Vector2(910, 928)
 scale = Vector2(5.12939, 3.74489)
 collision_layer = 32
 collision_mask = 48
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area"]
-position = Vector2(0, 0.80109)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1828887416]
+position = Vector2(9.552795, 0.80109406)
+scale = Vector2(1.0000001, 1)
 shape = SubResource("RectangleShape2D_8jlgm")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
-[node name="Select Area" type="Area2D" parent="."]
-position = Vector2(0, -1)
-collision_layer = 32
-collision_mask = 48
-script = ExtResource("3_v0sms")
+[node name="BackgroundImage" type="TextureRect" parent="." unique_id=1607710391]
+layout_mode = 0
+offset_left = -4.0
+offset_top = 781.0
+offset_right = 1922.0
+offset_bottom = 1076.0
+texture = ExtResource("2_s0f2h")
+expand_mode = 1
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area"]
-position = Vector2(-1, 0.5)
-shape = SubResource("RectangleShape2D_8aw1o")
-debug_color = Color(0.306587, 0.494173, 1, 0.42)
+[node name="GenerateCitizenButton" type="TextureButton" parent="." unique_id=186647963]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.30100003
+anchor_top = 0.87500006
+anchor_right = 0.377
+anchor_bottom = 0.984
+offset_left = -0.92004395
+offset_top = -6.1035156e-05
+offset_right = -82.84003
+offset_bottom = -53.71997
+scale = Vector2(0.16014232, 0.37258214)
+texture_normal = ExtResource("3_tlq4f")
 
-[node name="HoloGeneratorDescriptionScene" parent="." instance=ExtResource("4_tlq4f")]
-visible = false
-offset_left = -910.0
-offset_top = 718.0
-offset_right = -910.0
-offset_bottom = 718.0
+[node name="CitizenGenerateGrid" type="GridContainer" parent="." unique_id=389767941]
+layout_mode = 0
+offset_left = 726.0
+offset_top = 933.0
+offset_right = 1230.0
+offset_bottom = 1061.0
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
 
-[node name="StatLabel" type="Label" parent="."]
-offset_left = -39.0
-offset_top = -19.0
-offset_right = 1.0
-offset_bottom = 6.99999
-scale = Vector2(2, 2)
-text = "$0"
-label_settings = SubResource("LabelSettings_8aw1o")
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1318568930]
+layout_mode = 0
+offset_left = 813.0
+offset_top = 807.0
+offset_right = 1105.0
+offset_bottom = 829.0
+theme_override_constants/separation = 40
+alignment = 1
+
+[node name="MoneyLabel" type="Label" parent="HBoxContainer" unique_id=1222069122]
+layout_mode = 2
+text = "Money: $0"
 horizontal_alignment = 1
 vertical_alignment = 1
-autowrap_mode = 2
-script = ExtResource("6_8jlgm")
+
+[node name="EnergyLabel" type="Label" parent="HBoxContainer" unique_id=1387212802]
+layout_mode = 2
+text = "Energy: 0"
+
+[node name="ScrapLabel" type="Label" parent="HBoxContainer" unique_id=606313914]
+layout_mode = 2
+text = "Scrap: 0"
+
+[node name="GenCitLabel" type="Label" parent="." unique_id=522591073]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.307
+anchor_top = 0.90700006
+anchor_right = 0.374
+anchor_bottom = 0.952
+offset_left = -1.4400024
+offset_top = 0.4399414
+offset_right = -1.0800171
+offset_bottom = -0.49328613
+text = "Generate Citizen
+Energy: 100"
+
+[node name="GemGridContainer" type="GridContainer" parent="." unique_id=1547950966]
+layout_mode = 0
+offset_left = 1597.0
+offset_top = 800.0
+offset_right = 1680.0
+offset_bottom = 1062.0
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
+[connection signal="pressed" from="GenerateCitizenButton" to="." method="_on_generate_citizen_button_pressed"]
