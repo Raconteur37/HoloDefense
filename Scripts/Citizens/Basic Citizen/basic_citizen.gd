@@ -240,7 +240,6 @@ func finishDelivery():
 		CityManager.addItem(item)
 	inventory.clear()
 
-
 func addItemToInventory(item,amount):
 	if inventory.has(item):
 		inventory[item] += amount

@@ -18,6 +18,8 @@ var item : Item
 @onready var itemImage = $MainBackground/ItemImage
 @onready var mainBackground = $MainBackground
 
+func _ready() -> void:
+	CityManager.storageChanged.connect(refresh)
 
 func buildItemDisplay():
 
@@ -67,23 +69,13 @@ func _on_h_slider_value_changed(value: float) -> void:
 
 
 func _on_sell_button_pressed() -> void:
-	item = CityManager.sellItem(item,slider.value)
+	CityManager.sellItem(item,slider.value,item.moneyValue)
 	#itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	#itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
 	#if item.amount <= 0:
 #		CityManager.removeItemFromStorage(item.itemName)
-#	sellMenu.hide()
+	sellMenu.hide()
 
 func refresh():
-	item = CityManager.getStorageItem(CityManager.currentItemName)
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
-
-func _notification(what):
-	if what == NOTIFICATION_PREDELETE:
-		CityManager.currentItemPopup = null
-		CityManager.currentItemName = null
-	if what == NOTIFICATION_VISIBILITY_CHANGED:
-		if not is_visible():
-			CityManager.currentItemPopup = null
-			CityManager.currentItemName = null

@@ -20,6 +20,9 @@ var generatorUI
 var citizensGenerated : int = 0
 
 func _ready() -> void:
+	
+	CityManager.storageChanged.connect(updateStorage)
+	
 	workArea = $"Work Area"
 	citizenGenGrid = $CitizenGenerateGrid
 	gemGridContainer = $GemGridContainer
@@ -47,10 +50,10 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 			body.currentState = Citizen.State.IDLE
 			body.setWorkDestination()
 			body.finishDelivery()
-			updateStorage()
 
 func updateStorage():
 	# update our item dict before displaying
+	# The item dict tracks the actual item object itself
 	for item in CityManager.storage.keys():
 		if itemDict.has(item):
 			itemDict.get(item).amount = CityManager.storage.get(item)
@@ -61,7 +64,6 @@ func updateStorage():
 			if itemCreated.type == Item.Type.GEM:
 				gemGridContainer.add_child(itemCreated)
 			itemDict[item] = itemCreated
-
 
 func _on_generate_citizen_button_pressed() -> void:
 	# Check cost and all that

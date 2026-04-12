@@ -1,5 +1,8 @@
 extends Node
 
+# A signal is the only way ik how a global script like this can communicate to buildings
+signal storageChanged()
+
 var startingCash : int = 1000
 var startingEnergy : int = 100
 var startingScrap : int = 50
@@ -33,6 +36,7 @@ func addItem(item):
 		storage[item] += 1
 	else:
 		storage[item] = 1
+	storageChanged.emit()
 
 func removeItemFromStorage(itemName):
 	if storage.has(itemName):
@@ -65,19 +69,17 @@ func getStorageItem(itemName):
 func getItemValue(itemName): # This is shit I should do it once on load and never again but not rn cus im lazy
 	var file = FileAccess.open("res://Config/Item Value.json",FileAccess.READ)
 	var itemValueInfo = JSON.parse_string(file.get_as_text())
-	return itemValueInfo["Money"].get(itemName)
 	file.close()
+	return itemValueInfo["Money"].get(itemName)
 
-func sellItem(item : Item,amountSelling : int):
-	if storage.has(item.theItem):
-		print("herer")
+func sellItem(item : Item,amountSelling : int,sellValue: int):
+	if storage.has(item.actualItem):
 		if amountSelling <= item.amount:
-			#GameManager.currentMoney += storage[itemName].amount * storage[itemName].moneyValue
-			#storage[itemName].amount = storage[itemName].amount - amount
-			#return storage[itemName]
-			pass
+			currentMoney += amountSelling * sellValue
+			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
+			storageChanged.emit()
 		else:
-			push_error("selling more than what you have")
+			push_error("selling more than what you have") # crash the game cus fuck you
 
 
 func getCurrentMoney():

@@ -10,13 +10,14 @@ func _ready() -> void:
 	#CityManager.addItem(Item.theItem.COPPER_GEM)
 	itemPopup.item = self
 	itemPopup.buildItemDisplay()
+	CityManager.storageChanged.connect(updateUI)
 	pass
-
-func _process(delta: float) -> void:
-	amountLabel.text = str(amount)
 
 func setAmount(amount):
 	self.amount = amount
+
+func updateUI():
+	amountLabel.text = str(amount)
 
 func buildItem(item):
 	match item:
