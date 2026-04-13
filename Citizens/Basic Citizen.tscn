@@ -2,7 +2,6 @@
 
 [ext_resource type="Script" uid="uid://cikuk4m8o6kxq" path="res://Scripts/Citizens/Basic Citizen/basic_citizen.gd" id="1_e01cn"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
-[ext_resource type="Script" uid="uid://b0vf3vykicih8" path="res://Scripts/Citizens/Basic Citizen/area_2d.gd" id="3_58n5d"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
 [ext_resource type="Texture2D" uid="uid://dneb8py1phpyw" path="res://Textures/Citizens/itemDelivered.png" id="5_ko03v"]
 [ext_resource type="Script" uid="uid://j0eka8k2cycj" path="res://Scripts/Citizens/Citizen UI/select_ui.gd" id="6_mqq4v"]
@@ -186,7 +185,6 @@ autoplay = "default"
 scale = Vector2(4, 4)
 collision_layer = 16
 collision_mask = 48
-script = ExtResource("3_58n5d")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1742391671]
 position = Vector2(-2.86102e-06, -6.21378e-06)

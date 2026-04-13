@@ -135,21 +135,7 @@ func _physics_process(delta: float) -> void:
 	if not navAgent.is_navigation_finished():
 		if not animationPlayer.is_playing():
 			animationPlayer.play("Hop")
-	
 
-
-
-func _input(event):
-	if event is InputEventMouseButton:
-		if event.button_index == MOUSE_BUTTON_RIGHT and event.pressed and selected:
-			move()
-		elif event.button_index == MOUSE_BUTTON_LEFT and event.pressed and selected:
-			deselect()
-			#var tempSize = CityManager.citizensSelected.size()
-			#await get_tree().create_timer((.05)).timeout
-			#if tempSize == CityManager.citizensSelected.size():
-				#for cit in CityManager.citizensSelected:
-					#cit.deselect()
 
 func move():
 	hoverBox.visible = true
