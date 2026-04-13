@@ -5,14 +5,20 @@ signal storageChanged()
 signal citizenSpawned(citizen)
 
 var startingCash : int = 1000
-var startingEnergy : int = 100
+var startingEnergy : float = 100
 var startingScrap : int = 50
+
+var moneyGenerated : int = 1
+var energyGenerated : float = 1.5
+var scrapGenerated : int = 2
 
 var currentMoney = startingCash
 var currentEnergy = startingEnergy
 var currentScrap = startingScrap
 
-var cityLevel : int = 1
+var generatorLevel : int = 1
+var gemScraperLevel : int = 1
+var cityLevel : int = 1 # This will increase as you generate more wealth and have more citizens and upgrade generators
 
 var holoGenerator
 var gemScraper
@@ -91,3 +97,14 @@ func getCurrentEnergy():
 
 func getCurrentScrap():
 	return currentScrap
+
+func generateResources():
+	currentMoney += moneyGenerated
+	currentEnergy += energyGenerated
+	currentScrap += scrapGenerated
+
+func upgradeGenerator():
+	generatorLevel += 1
+	moneyGenerated += ceil(1*(pow(1.10,(generatorLevel-1))))
+	energyGenerated += round((1*(pow(1.07,(generatorLevel-1))))*100) / 100
+	scrapGenerated += ceil(1*(pow(1.08,(generatorLevel-1))))

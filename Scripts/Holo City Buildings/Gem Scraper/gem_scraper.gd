@@ -12,10 +12,6 @@ func _ready() -> void:
 	workArea = $"Work Area"
 	fabricatorSprite = $"Fabricator Sprite"
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
 
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:

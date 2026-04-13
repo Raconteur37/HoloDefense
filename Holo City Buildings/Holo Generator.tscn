@@ -3,9 +3,36 @@
 [ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
 [ext_resource type="Texture2D" uid="uid://dhte7r37pnrhr" path="res://Textures/UI/Game/background_alt.png" id="2_s0f2h"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_tlq4f"]
+[ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="4_tlq4f"]
+[ext_resource type="Texture2D" uid="uid://ccxb6l8sby55i" path="res://Shaders/electricityNoise.tres" id="5_v0sms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jlgm"]
 size = Vector2(374.70343, 80.6432)
+
+[sub_resource type="Gradient" id="Gradient_s0f2h"]
+colors = PackedColorArray(0.36327183, 0.56077576, 1, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tlq4f"]
+gradient = SubResource("Gradient_s0f2h")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v0sms"]
+shader = ExtResource("4_tlq4f")
+shader_parameter/noise_texture = ExtResource("5_v0sms")
+shader_parameter/electric_color = Color(0.64146924, 0.89874434, 1, 1)
+shader_parameter/speed = 0.746000035435
+shader_parameter/distortion_strength = 1.0
+shader_parameter/sparkle_strength = 0.670000031825
+
+[sub_resource type="Gradient" id="Gradient_v0sms"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sc1hh"]
+gradient = SubResource("Gradient_v0sms")
+
+[sub_resource type="Gradient" id="Gradient_8aw1o"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sbyn0"]
+gradient = SubResource("Gradient_8aw1o")
+fill_to = Vector2(0.0053380784, 0.008896797)
 
 [node name="Control" type="Control" unique_id=19108219]
 layout_mode = 3
@@ -54,10 +81,10 @@ texture_normal = ExtResource("3_tlq4f")
 
 [node name="CitizenGenerateGrid" type="GridContainer" parent="." unique_id=389767941]
 layout_mode = 0
-offset_left = 726.0
-offset_top = 933.0
-offset_right = 1230.0
-offset_bottom = 1061.0
+offset_left = 744.0
+offset_top = 911.0
+offset_right = 1248.0
+offset_bottom = 1039.0
 theme_override_constants/h_separation = 1
 theme_override_constants/v_separation = 1
 
@@ -120,5 +147,93 @@ offset_right = 532.0
 offset_bottom = 1049.0
 columns = 10
 
+[node name="UpgradeGeneratorButton" type="TextureButton" parent="." unique_id=462530250]
+layout_mode = 0
+offset_left = 586.0
+offset_top = 869.0
+offset_right = 626.0
+offset_bottom = 909.0
+scale = Vector2(2.0886664, 1.1596049)
+texture_normal = SubResource("GradientTexture2D_tlq4f")
+
+[node name="UpgradeGenLabel" type="Label" parent="." unique_id=2089786568]
+layout_mode = 0
+offset_left = 577.0
+offset_top = 870.0
+offset_right = 727.0
+offset_bottom = 968.3333
+text = "Upgrade 
+Generator
+100 Energy
+"
+horizontal_alignment = 1
+
+[node name="ResourceGenerationBar" type="TextureProgressBar" parent="." unique_id=1255447373]
+material = SubResource("ShaderMaterial_v0sms")
+layout_mode = 0
+offset_left = 780.0
+offset_top = 846.0
+offset_right = 820.0
+offset_bottom = 886.0
+scale = Vector2(5.4657316, 0.44272083)
+step = 0.01
+texture_under = SubResource("GradientTexture2D_sc1hh")
+texture_progress = SubResource("GradientTexture2D_sbyn0")
+
+[node name="GenerateResourcesTimer" type="Timer" parent="." unique_id=34087572]
+autostart = true
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1959444231]
+layout_mode = 0
+offset_left = 332.0
+offset_top = 831.0
+offset_right = 738.0
+offset_bottom = 887.0
+
+[node name="moneyGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=1124409747]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "money gen: 0"
+
+[node name="energyGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=686464049]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "energy gen: 0"
+
+[node name="scrapGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=1864302185]
+layout_mode = 2
+size_flags_horizontal = 3
+bbcode_enabled = true
+text = "scrap gen: 0"
+
+[node name="moneyGenLabel3" type="Label" parent="HBoxContainer2" unique_id=1726087656]
+visible = false
+layout_mode = 2
+text = "money gen: 0"
+
+[node name="energyGenLabel2" type="Label" parent="HBoxContainer2" unique_id=670064007]
+visible = false
+layout_mode = 2
+text = "energy gen: 0"
+
+[node name="scrapGenLabel2" type="Label" parent="HBoxContainer2" unique_id=293048082]
+visible = false
+layout_mode = 2
+text = "scrap gen: 0"
+
+[node name="GeneratorLevelLabel" type="Label" parent="." unique_id=1896402463]
+layout_mode = 0
+offset_left = 466.0
+offset_top = 804.0
+offset_right = 608.0
+offset_bottom = 827.0
+text = "Generator Level: 1"
+
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="pressed" from="GenerateCitizenButton" to="." method="_on_generate_citizen_button_pressed"]
+[connection signal="mouse_entered" from="UpgradeGeneratorButton" to="." method="_on_upgrade_generator_button_mouse_entered"]
+[connection signal="mouse_exited" from="UpgradeGeneratorButton" to="." method="_on_upgrade_generator_button_mouse_exited"]
+[connection signal="pressed" from="UpgradeGeneratorButton" to="." method="_on_upgrade_generator_button_pressed"]
+[connection signal="timeout" from="GenerateResourcesTimer" to="." method="_on_generate_resources_timer_timeout"]
