@@ -1,21 +1,60 @@
-[gd_scene load_steps=43 format=3 uid="uid://b8jkae8udp5ox"]
+[gd_scene format=3 uid="uid://b8jkae8udp5ox"]
 
-[ext_resource type="LabelSettings" uid="uid://behun068vnsft" path="res://Labels/money_label.tres" id="1_hienb"]
-[ext_resource type="LabelSettings" uid="uid://di1fhad1vpm4w" path="res://Labels/xp_label.tres" id="2_sjw7e"]
 [ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
 [ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
+[ext_resource type="Texture2D" uid="uid://c7djqtb2f7vvc" path="res://Textures/Citizens/Gems/Diamond Gem-Sheet-export.png" id="5_pyhfn"]
 [ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
 [ext_resource type="Texture2D" uid="uid://b2sr682c4upkh" path="res://Textures/Citizens/Gems/Amethyst-Sheet.png" id="6_pyhfn"]
 
-[sub_resource type="LabelSettings" id="LabelSettings_vwhel"]
-font_size = 30
-font_color = Color(1, 0, 0.388235, 1)
-outline_size = 9
-outline_color = Color(0.72549, 0.807843, 1, 0.721569)
+[sub_resource type="AtlasTexture" id="AtlasTexture_t255x"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="LabelSettings" id="LabelSettings_uk6by"]
-font_color = Color(1, 0.333333, 0.207843, 1)
-shadow_color = Color(1, 1, 1, 1)
+[sub_resource type="AtlasTexture" id="AtlasTexture_sx27n"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_xweoh"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_g3imp"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_s613l"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7dgxp"]
+atlas = ExtResource("5_pyhfn")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_fxkhy"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_t255x")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_sx27n")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_xweoh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g3imp")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_s613l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7dgxp")
+}],
+"loop": true,
+"name": &"default",
+"speed": 10.0
+}]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vajk7"]
 atlas = ExtResource("4_el0df")
@@ -81,44 +120,41 @@ animations = [{
 "speed": 10.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gxdpr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0wno"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(0, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0wno"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_47nnp"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(16, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_47nnp"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_8jntr"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(32, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_8jntr"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_pv382"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(48, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_pv382"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_m31n0"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(64, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_m31n0"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_ya2yj"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(80, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_ya2yj"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_mfr5e"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(96, 0, 16, 16)
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_mfr5e"]
+[sub_resource type="AtlasTexture" id="AtlasTexture_g4oai"]
 atlas = ExtResource("5_vajk7")
 region = Rect2(112, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_g4oai"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_r4xew"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gxdpr")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_x0wno")
 }, {
@@ -139,57 +175,54 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_mfr5e")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_g4oai")
 }],
 "loop": true,
 "name": &"default",
-"speed": 5.0
+"speed": 10.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g4oai"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r4xew"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_sn1b8"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(32, 0, 16, 16)
+region = Rect2(0, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_e8rm8"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(48, 0, 16, 16)
+region = Rect2(16, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_vxds3"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(64, 0, 16, 16)
+region = Rect2(32, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_4tni6"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(80, 0, 16, 16)
+region = Rect2(48, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_0po6f"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(96, 0, 16, 16)
+region = Rect2(64, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_5y12r"]
 atlas = ExtResource("6_pyhfn")
-region = Rect2(112, 0, 16, 16)
+region = Rect2(80, 0, 16, 16)
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_u31r0"]
 atlas = ExtResource("6_pyhfn")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fxkhy"]
+atlas = ExtResource("6_pyhfn")
+region = Rect2(112, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_eiqtn"]
+atlas = ExtResource("6_pyhfn")
 region = Rect2(128, 0, 16, 16)
 
-[sub_resource type="SpriteFrames" id="SpriteFrames_t255x"]
+[sub_resource type="SpriteFrames" id="SpriteFrames_ka2rg"]
 animations = [{
 "frames": [{
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g4oai")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r4xew")
-}, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_sn1b8")
 }, {
@@ -210,202 +243,64 @@ animations = [{
 }, {
 "duration": 1.0,
 "texture": SubResource("AtlasTexture_u31r0")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fxkhy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_eiqtn")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
 
-[sub_resource type="Animation" id="Animation_rf5yh"]
-resource_name = "Damage Popup"
-length = 0.8
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../Damage Popup:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.4, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_x0wno"]
+[sub_resource type="Animation" id="Animation_vajk7"]
 resource_name = "GemAnimation"
 length = 2.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../../CopperGem:self_modulate")
+tracks/0/path = NodePath("HBoxContainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../../QuartzGem:self_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("../../AmethystGem:modulate")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_vigib"]
-resource_name = "Insufficient Funds"
-length = 2.0
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("../../Insufficient Funds:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1, 2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("..:visible")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [false]
-}
-
-[sub_resource type="Animation" id="Animation_7lca7"]
-resource_name = "KillPopup"
-length = 1.2
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath(".:self_modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0.433333, 0.8, 1.2),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/1/type = "value"
-tracks/1/imported = false
-tracks/1/enabled = true
-tracks/1/path = NodePath("../Money Label:self_modulate")
-tracks/1/interp = 1
-tracks/1/loop_wrap = true
-tracks/1/keys = {
-"times": PackedFloat32Array(0, 0.433333, 0.8),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../Money Label:visible")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath(".:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../..:position")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0, 1.2),
+"times": PackedFloat32Array(0, 2),
 "transitions": PackedFloat32Array(1, 1),
 "update": 0,
-"values": [Vector2(918, 476), Vector2(918, 411)]
+"values": [Vector2(0, 0), Vector2(0, -20)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("HBoxContainer:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
-[sub_resource type="Animation" id="Animation_fjn6v"]
+[sub_resource type="Animation" id="Animation_pyhfn"]
 length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("../Money Label:self_modulate")
+tracks/0/path = NodePath("HBoxContainer:position")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 0,
-"values": [Color(1, 1, 1, 1)]
+"values": [Vector2(0, 0)]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath(".:self_modulate")
+tracks/1/path = NodePath("HBoxContainer:modulate")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
@@ -414,184 +309,49 @@ tracks/1/keys = {
 "update": 0,
 "values": [Color(1, 1, 1, 1)]
 }
-tracks/2/type = "value"
-tracks/2/imported = false
-tracks/2/enabled = true
-tracks/2/path = NodePath("../../Insufficient Funds:self_modulate")
-tracks/2/interp = 1
-tracks/2/loop_wrap = true
-tracks/2/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/3/type = "value"
-tracks/3/imported = false
-tracks/3/enabled = true
-tracks/3/path = NodePath("..:visible")
-tracks/3/interp = 1
-tracks/3/loop_wrap = true
-tracks/3/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/4/type = "value"
-tracks/4/imported = false
-tracks/4/enabled = true
-tracks/4/path = NodePath("../../Damage Popup:self_modulate")
-tracks/4/interp = 1
-tracks/4/loop_wrap = true
-tracks/4/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/5/type = "value"
-tracks/5/imported = false
-tracks/5/enabled = true
-tracks/5/path = NodePath("../Money Label:visible")
-tracks/5/interp = 1
-tracks/5/loop_wrap = true
-tracks/5/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/6/type = "value"
-tracks/6/imported = false
-tracks/6/enabled = true
-tracks/6/path = NodePath(".:visible")
-tracks/6/interp = 1
-tracks/6/loop_wrap = true
-tracks/6/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 1,
-"values": [true]
-}
-tracks/7/type = "value"
-tracks/7/imported = false
-tracks/7/enabled = true
-tracks/7/path = NodePath("../../CopperGem:self_modulate")
-tracks/7/interp = 1
-tracks/7/loop_wrap = true
-tracks/7/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/8/type = "value"
-tracks/8/imported = false
-tracks/8/enabled = true
-tracks/8/path = NodePath("../..:position")
-tracks/8/interp = 1
-tracks/8/loop_wrap = true
-tracks/8/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Vector2(918, 476)]
-}
-tracks/9/type = "value"
-tracks/9/imported = false
-tracks/9/enabled = true
-tracks/9/path = NodePath("../../QuartzGem:self_modulate")
-tracks/9/interp = 1
-tracks/9/loop_wrap = true
-tracks/9/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
-tracks/10/type = "value"
-tracks/10/imported = false
-tracks/10/enabled = true
-tracks/10/path = NodePath("../../AmethystGem:modulate")
-tracks/10/interp = 1
-tracks/10/loop_wrap = true
-tracks/10/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
-}
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_80hvi"]
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_pyhfn"]
 _data = {
-&"Damage Popup": SubResource("Animation_rf5yh"),
-&"GemAnimation": SubResource("Animation_x0wno"),
-&"Insufficient Funds": SubResource("Animation_vigib"),
-&"KillPopup": SubResource("Animation_7lca7"),
-&"RESET": SubResource("Animation_fjn6v")
+&"GemAnimation": SubResource("Animation_vajk7"),
+&"RESET": SubResource("Animation_pyhfn")
 }
 
-[node name="Canvas" type="CanvasLayer"]
+[node name="Control" type="Control" unique_id=2013081201]
+layout_mode = 3
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
 script = ExtResource("3_dqdk6")
 
-[node name="BoxContainer" type="BoxContainer" parent="."]
-offset_left = 918.0
-offset_top = 476.0
-offset_right = 1243.0
-offset_bottom = 524.0
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1024454592]
+layout_mode = 0
+offset_right = 33.0
+offset_bottom = 24.0
 
-[node name="Enemy Popup" type="GridContainer" parent="BoxContainer"]
-z_index = 1
+[node name="Control" type="Control" parent="HBoxContainer" unique_id=695390399]
 layout_mode = 2
+size_flags_horizontal = 3
 
-[node name="Money Label" type="Label" parent="BoxContainer/Enemy Popup"]
-layout_mode = 2
-text = "$3"
-label_settings = ExtResource("1_hienb")
-
-[node name="Xp Label" type="Label" parent="BoxContainer/Enemy Popup"]
-layout_mode = 2
-text = "2 XP"
-label_settings = ExtResource("2_sjw7e")
-
-[node name="Insufficient Funds" type="Label" parent="BoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-text = "Not enough money!"
-label_settings = SubResource("LabelSettings_vwhel")
-
-[node name="Damage Popup" type="Label" parent="BoxContainer"]
+[node name="DiamondGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=793479634]
 visible = false
-self_modulate = Color(1, 1, 1, 0)
-layout_mode = 2
-text = "1000"
-label_settings = SubResource("LabelSettings_uk6by")
+sprite_frames = SubResource("SpriteFrames_fxkhy")
+autoplay = "default"
+frame_progress = 0.45926243
 
-[node name="CopperGem" type="AnimatedSprite2D" parent="BoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
-position = Vector2(12, 0)
-scale = Vector2(1.5, 1.5)
+[node name="CopperGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=938714551]
+visible = false
 sprite_frames = SubResource("SpriteFrames_gxdpr")
 autoplay = "default"
-frame_progress = 0.0521694
 
-[node name="QuartzGem" type="AnimatedSprite2D" parent="BoxContainer"]
-self_modulate = Color(1, 1, 1, 0)
-position = Vector2(12, 0)
-scale = Vector2(1.5, 1.5)
-sprite_frames = SubResource("SpriteFrames_g4oai")
-autoplay = "default"
+[node name="QuartzGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=1015820198]
+visible = false
+sprite_frames = SubResource("SpriteFrames_r4xew")
 
-[node name="AmethystGem" type="AnimatedSprite2D" parent="BoxContainer"]
-modulate = Color(1, 1, 1, 0)
-sprite_frames = SubResource("SpriteFrames_t255x")
-autoplay = "default"
+[node name="AmethystGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=1067825778]
+visible = false
+sprite_frames = SubResource("SpriteFrames_ka2rg")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="."]
-root_node = NodePath("../BoxContainer/Enemy Popup/Xp Label")
-libraries = {
-&"": SubResource("AnimationLibrary_80hvi")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=733320023]
+libraries/ = SubResource("AnimationLibrary_pyhfn")
 
-[connection signal="animation_finished" from="AnimationPlayer" to="BoxContainer/Enemy Popup" method="_on_animation_player_animation_finished"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

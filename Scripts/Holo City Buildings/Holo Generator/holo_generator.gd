@@ -14,20 +14,18 @@ var gemGridContainer : GridContainer
 var itemDict : Dictionary = {}
 
 var citGenLabel : Label
-var generatorLevelLabel : Label
 var upgradeGenLabel : Label
 var moneyLabel : Label
 var energyLabel : Label
 var scrapLabel : Label
 
+var generatorLevelLabel : RichTextLabel
 var moneyGenLabel : RichTextLabel
 var energyGenLabel : RichTextLabel
 var scrapGenLabel : RichTextLabel
 
 var itemScene = preload("res://Item Scenes/Item.tscn")
 var portraitScene = preload("res://Game Scenes/Citizen Portrait.tscn")
-
-var generatorUI
 
 var citizensGenerated : int = 0
 
@@ -55,8 +53,6 @@ func _ready() -> void:
 	
 	citGenLabel = $GenCitLabel
 	
-	generatorUI = $"HoloGeneratorDescriptionScene"
-
 	moneyLabel = $HBoxContainer/MoneyLabel
 	energyLabel = $HBoxContainer/EnergyLabel
 	scrapLabel = $HBoxContainer/ScrapLabel
@@ -73,8 +69,7 @@ func _process(_delta: float) -> void:
 	energyLabel.text = "Energy: " + str(CityManager.getCurrentEnergy())
 	scrapLabel.text = "Scrap: " + str(CityManager.getCurrentScrap())
 	
-	generatorLevelLabel.text = "Generator Level " + str(CityManager.generatorLevel)
-
+	
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:
 		if body.currentState == Citizen.State.DELIVERING:
@@ -119,19 +114,22 @@ func _on_upgrade_generator_button_pressed() -> void:
 	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
+	generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
+	_on_upgrade_generator_button_mouse_entered()
 
 func _on_generate_resources_timer_timeout() -> void:
 	CityManager.generateResources()
 
 
 func _on_upgrade_generator_button_mouse_entered() -> void:
-	print(CityManager.generatorLevel)
 	moneyGenLabel.text = "Money Gen: [color=green]" + str(CityManager.moneyGenerated + ceil(1*(pow(1.10,((CityManager.generatorLevel+1)-1))))) + "[/color]"
 	energyGenLabel.text = "Energy Gen: [color=green]" + str(CityManager.energyGenerated + round((1*(pow(1.07,((CityManager.generatorLevel+1)-1))))*100) / 100) + "[/color]"
 	scrapGenLabel.text = "Scrap Gen: [color=green]" + str(CityManager.scrapGenerated + ceil(1*(pow(1.08,((CityManager.generatorLevel+1)-1))))) + "[/color]"
+	generatorLevelLabel.text = "Generator Level: [color=green]" + str(CityManager.generatorLevel + 1) + "[/color]"
 
 
 func _on_upgrade_generator_button_mouse_exited() -> void:
 	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated)
+	generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)

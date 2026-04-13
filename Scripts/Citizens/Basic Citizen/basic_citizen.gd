@@ -156,6 +156,7 @@ func finishJob():
 	match currentJob:
 		Job.GEM_SCRAPER:
 			var popup = popupScene.instantiate()
+			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 			popup.setPosition(self.global_position)
 			var randGem = randi_range(1,100)
 			if randGem >= 1 and randGem <= 50:
@@ -168,9 +169,9 @@ func finishJob():
 				popup.gemPopup("Amethyst")
 				addItemToInventory(Item.theItem.AMETHYST_GEM,1)
 			elif randGem >= 86 and randGem <= 96:
+				popup.gemPopup("Diamond")
 				addItemToInventory(Item.theItem.DIAMOND_GEM,1)
 			
-			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 			deliverItems()
 
 func setWorkDestination():

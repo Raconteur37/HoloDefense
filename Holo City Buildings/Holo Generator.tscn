@@ -208,28 +208,15 @@ size_flags_horizontal = 3
 bbcode_enabled = true
 text = "scrap gen: 0"
 
-[node name="moneyGenLabel3" type="Label" parent="HBoxContainer2" unique_id=1726087656]
-visible = false
-layout_mode = 2
-text = "money gen: 0"
-
-[node name="energyGenLabel2" type="Label" parent="HBoxContainer2" unique_id=670064007]
-visible = false
-layout_mode = 2
-text = "energy gen: 0"
-
-[node name="scrapGenLabel2" type="Label" parent="HBoxContainer2" unique_id=293048082]
-visible = false
-layout_mode = 2
-text = "scrap gen: 0"
-
-[node name="GeneratorLevelLabel" type="Label" parent="." unique_id=1896402463]
+[node name="GeneratorLevelLabel" type="RichTextLabel" parent="." unique_id=1265718958]
 layout_mode = 0
-offset_left = 466.0
-offset_top = 804.0
-offset_right = 608.0
-offset_bottom = 827.0
+offset_left = 430.0
+offset_top = 798.0
+offset_right = 617.0
+offset_bottom = 838.0
+bbcode_enabled = true
 text = "Generator Level: 1"
+horizontal_alignment = 1
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="pressed" from="GenerateCitizenButton" to="." method="_on_generate_citizen_button_pressed"]
