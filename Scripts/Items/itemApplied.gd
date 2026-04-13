@@ -17,7 +17,7 @@ func setAmount(amount):
 	self.amount = amount
 
 func updateUI():
-	amountLabel.text = str(amount)
+	amountLabel.text = "x" + str(amount)
 
 func buildItem(item):
 	match item:

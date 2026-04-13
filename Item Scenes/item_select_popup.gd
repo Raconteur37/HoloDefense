@@ -77,5 +77,7 @@ func _on_sell_button_pressed() -> void:
 	sellMenu.hide()
 
 func refresh():
+	$SellSliderBackground/AmountLabel.text = "[color=white]x" + str(item.amount) + "[/color]"
+	slider.max_value = item.amount
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"

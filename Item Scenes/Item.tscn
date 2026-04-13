@@ -7,20 +7,28 @@
 [sub_resource type="LabelSettings" id="LabelSettings_8pup7"]
 
 [node name="Item" type="TextureRect" unique_id=1103650210]
-offset_left = 866.0
-offset_top = 514.0
-offset_right = 906.0
-offset_bottom = 554.0
+custom_minimum_size = Vector2(50, 50)
+anchors_preset = -1
+anchor_left = 0.45100003
+anchor_top = 0.476
+anchor_right = 0.47700003
+anchor_bottom = 0.522
+offset_left = 0.079956055
+offset_top = -0.08001709
+offset_right = -9.840027
+offset_bottom = -9.76001
 mouse_filter = 0
 texture = ExtResource("1_bxxym")
 script = ExtResource("2_bxxym")
 
 [node name="amountLabel" type="Label" parent="." unique_id=933828453]
-layout_mode = 0
-offset_left = -2.0
-offset_top = 18.0
-offset_right = 38.0
-offset_bottom = 41.0
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.5
+anchor_top = 0.70000005
+anchor_right = 0.90000004
+anchor_bottom = 1.1470001
+offset_bottom = -10.850006
 text = "x1"
 label_settings = SubResource("LabelSettings_8pup7")
 horizontal_alignment = 2
