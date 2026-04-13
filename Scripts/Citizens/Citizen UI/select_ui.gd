@@ -16,7 +16,6 @@ func refreshMenu():
 	print("refreshing menu")
 	
 	
-	
 # Maybe a constant update? slowly?
 func _process(delta: float) -> void:
 	if citizen.currentState == Citizen.State.WORKING:

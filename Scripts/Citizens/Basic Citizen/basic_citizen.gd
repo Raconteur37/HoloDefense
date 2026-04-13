@@ -8,7 +8,7 @@ enum Job {NONE, GEM_SCRAPER, MATERIAL_ATOMIZER, RESEARCHER, FABRICATOR}
 var hoverBox
 var animationPlayer : AnimationPlayer
 var sprite
-var selectUI = null
+var selectUI
 
 var citizenSelectUi
 
@@ -46,6 +46,7 @@ var navAgent : NavigationAgent2D
 
 var inventory : Dictionary = {} # This holds an enum then int like so [enum,int]
 
+
 var jobExperience : Dictionary[String,float] = {
 	"Material Atomizer" : 0,
 	"Gem Scraper" : 0,
@@ -64,9 +65,12 @@ func _ready() -> void:
 	sprite = $Sprite2D
 	hoverBox = $Sprite2D/HoverBox
 	navAgent = $NavigationAgent2D
+	selectUI = $SelectUI
 
 	workTimer = $"Work Timer"
 	deliverParticle = $"Item Delivered Particle"
+	
+	CityManager.citizenSpawned.emit(self)
 
 	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
 
@@ -246,10 +250,12 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_area_2d_mouse_entered() -> void:
 	hoverBox.visible = true
+	selectUI.show()
 
 func _on_area_2d_mouse_exited() -> void:
 	if not selected:
 		hoverBox.visible = false
+	selectUI.hide()
 
 func _on_work_timer_timeout() -> void:
 	finishJob()

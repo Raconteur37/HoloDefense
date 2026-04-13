@@ -5,6 +5,7 @@ var collisionArea
 
 var citizenGenGrid : GridContainer
 var gemGridContainer : GridContainer
+@onready var portraitContainer = $CitizenGridContainer
 
 var itemDict : Dictionary = {}
 
@@ -14,6 +15,7 @@ var energyLabel : Label
 var scrapLabel : Label
 
 var itemScene = preload("res://Item Scenes/Item.tscn")
+var portraitScene = preload("res://Game Scenes/Citizen Portrait.tscn")
 
 var generatorUI
 
@@ -21,7 +23,9 @@ var citizensGenerated : int = 0
 
 func _ready() -> void:
 	
+	# i love you signals
 	CityManager.storageChanged.connect(updateStorage)
+	CityManager.citizenSpawned.connect(onCitizenSpawn)
 	
 	workArea = $"Work Area"
 	citizenGenGrid = $CitizenGenerateGrid
@@ -71,3 +75,10 @@ func _on_generate_citizen_button_pressed() -> void:
 	var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
 	var loadedScene = genScene.instantiate()
 	citizenGenGrid.add_child(loadedScene)
+
+func onCitizenSpawn(citizen):
+	var portrait = portraitScene.instantiate()
+	
+	portrait.linkCitizen(citizen)
+	
+	portraitContainer.add_child(portrait)

@@ -2,6 +2,7 @@ extends Node
 
 # A signal is the only way ik how a global script like this can communicate to buildings
 signal storageChanged()
+signal citizenSpawned(citizen)
 
 var startingCash : int = 1000
 var startingEnergy : int = 100

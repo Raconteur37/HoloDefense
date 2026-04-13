@@ -223,18 +223,13 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 1, 0.329412, 1)
 
 [node name="SelectUI" type="Control" parent="." unique_id=545598827]
+visible = false
 layout_mode = 3
 anchors_preset = 0
 offset_left = -55.0
 offset_top = -53.0
 offset_bottom = 16.0
 script = ExtResource("6_mqq4v")
-
-[node name="Label" type="Label" parent="SelectUI" unique_id=352333501]
-layout_mode = 0
-offset_right = 40.0
-offset_bottom = 23.0
-text = "test"
 
 [node name="WorkProgressBar" type="TextureProgressBar" parent="SelectUI" unique_id=1142361318]
 layout_mode = 0

@@ -111,5 +111,14 @@ offset_right = -0.36010742
 offset_bottom = 0.35992432
 theme_override_constants/h_separation = 20
 
+[node name="CitizenGridContainer" type="GridContainer" parent="." unique_id=958587711]
+custom_minimum_size = Vector2(100, 100)
+layout_mode = 0
+offset_left = 33.0
+offset_top = 824.0
+offset_right = 532.0
+offset_bottom = 1049.0
+columns = 10
+
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="pressed" from="GenerateCitizenButton" to="." method="_on_generate_citizen_button_pressed"]
