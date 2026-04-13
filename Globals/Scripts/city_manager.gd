@@ -4,6 +4,9 @@ extends Node
 signal storageChanged()
 signal citizenSpawned(citizen)
 
+var itemMoneyValueDict : Dictionary = {}
+var itemEnergyValueDict : Dictionary = {}
+
 var startingCash : int = 1000
 var startingEnergy : float = 100
 var startingScrap : int = 50
@@ -73,11 +76,11 @@ func getStorageItem(itemName):
 	if storage.has(itemName):
 		return storage.get(itemName)
 
-func getItemValue(itemName): # This is shit I should do it once on load and never again but not rn cus im lazy
-	var file = FileAccess.open("res://Config/Item Value.json",FileAccess.READ)
-	var itemValueInfo = JSON.parse_string(file.get_as_text())
-	file.close()
-	return itemValueInfo["Money"].get(itemName)
+func getMoneyItemValue(itemEnum):
+	if itemMoneyValueDict.has(itemEnum):
+		return itemMoneyValueDict.get(itemEnum)
+	else:
+		return -999999
 
 func sellItem(item : Item,amountSelling : int,sellValue: int):
 	if storage.has(item.actualItem):

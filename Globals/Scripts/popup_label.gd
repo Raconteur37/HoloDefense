@@ -4,6 +4,7 @@ extends Control
 @onready var diamondSprite = $HBoxContainer/Control/DiamondGem
 @onready var amethystSprite = $HBoxContainer/Control/AmethystGem
 @onready var quartzSprite = $HBoxContainer/Control/QuartzGem
+@onready var galactiteSprite = $HBoxContainer/Control/GalactiteGem
 
 @onready var boxContainer = $HBoxContainer
 
@@ -26,6 +27,8 @@ func gemPopup(gemName):
 			amethystSprite.visible = true
 		"Diamond":
 			diamondSprite.visible = true
+		"Galactite":
+			galactiteSprite.visible = true
 		
 	animationPlayer.play("GemAnimation")
 

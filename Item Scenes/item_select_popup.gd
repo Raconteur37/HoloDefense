@@ -35,6 +35,8 @@ func buildItemDisplay():
 		itemRarityLabel.text = "Super Rare"
 	if item.rarity == Item.Rarity.LEGENDARY:
 		itemRarityLabel.text = "Legendary"
+	if item.rarity == Item.Rarity.UNSEEN:
+		itemRarityLabel.text = "Unseen"
 
 func setItemImage():
 
@@ -52,6 +54,9 @@ func setItemImage():
 		Item.theItem.DIAMOND_GEM:
 			itemImage.texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Diamond Item UI.png")
+		Item.theItem.GALACTITE_GEM:
+			itemImage.texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 
 
 func _on_selll_button_pressed() -> void:

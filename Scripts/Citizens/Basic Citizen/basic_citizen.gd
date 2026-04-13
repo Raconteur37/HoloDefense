@@ -159,18 +159,22 @@ func finishJob():
 			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 			popup.setPosition(self.global_position)
 			var randGem = randi_range(1,100)
-			if randGem >= 1 and randGem <= 50:
+			if randGem >= 1 and randGem <= 60:
 				popup.gemPopup("Copper")
 				addItemToInventory(Item.theItem.COPPER_GEM,1)
-			elif randGem >= 51 and randGem <= 70:
+			elif randGem >= 61 and randGem <= 80:
 				popup.gemPopup("Quartz")
 				addItemToInventory(Item.theItem.QUARTZ_GEM,1)
-			elif randGem >= 71 and randGem <= 85:
+			elif randGem >= 81 and randGem <= 91:
 				popup.gemPopup("Amethyst")
 				addItemToInventory(Item.theItem.AMETHYST_GEM,1)
-			elif randGem >= 86 and randGem <= 96:
+			elif randGem >= 92 and randGem <= 98:
 				popup.gemPopup("Diamond")
 				addItemToInventory(Item.theItem.DIAMOND_GEM,1)
+			else:
+				popup.gemPopup("Galactite")
+				addItemToInventory(Item.theItem.GALACTITE_GEM,1)
+
 			
 			deliverItems()
 

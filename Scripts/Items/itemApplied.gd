@@ -27,29 +27,36 @@ func buildItem(item):
 			rarity = Rarity.COMMON
 			actualItem = theItem.COPPER_GEM
 			type = Type.GEM
-			moneyValue = CityManager.getItemValue(itemName)
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/copperGem.png")
 		Item.theItem.QUARTZ_GEM:
 			itemName = "Quartz Gem"
 			rarity = Rarity.RARE
 			actualItem = theItem.QUARTZ_GEM
 			type = Type.GEM
-			moneyValue = CityManager.getItemValue(itemName)
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Quartz.png")
 		Item.theItem.AMETHYST_GEM:
 			itemName = "Amethyst Gem"
 			rarity = Rarity.SUPER_RARE
 			actualItem = theItem.AMETHYST_GEM
 			type = Type.GEM
-			moneyValue = CityManager.getItemValue(itemName)
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
 		Item.theItem.DIAMOND_GEM:
 			itemName = "Diamond Gem"
 			rarity = Rarity.LEGENDARY
 			actualItem = theItem.DIAMOND_GEM
 			type = Type.GEM
-			moneyValue = CityManager.getItemValue(itemName)
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
+		Item.theItem.GALACTITE_GEM:
+			itemName = "Galactite"
+			rarity = Rarity.UNSEEN
+			actualItem = theItem.GALACTITE_GEM
+			type = Type.GEM
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
 
 
 func _on_gui_input(event: InputEvent) -> void:

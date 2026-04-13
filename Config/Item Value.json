@@ -2,13 +2,15 @@
 	"Money": {
 		"Copper Gem": 1,
 		"Quartz Gem": 3,
-		"Amethyst Gem": 7,
-		"Diamond Gem": 20
+		"Amethyst Gem": 10,
+		"Diamond Gem": 20,
+		"Galactite Gem": 50
 	},
 	"Energy": {
 		"Copper Gem": 0.2,
 		"Quartz Gem": 0.7,
 		"Amethyst Gem": 1,
-		"Diamond Gem": 3
+		"Diamond Gem": 3,
+		"Galactite Gem": 10
 	}
 }

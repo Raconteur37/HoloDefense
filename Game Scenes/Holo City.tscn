@@ -37,7 +37,10 @@ z_index = 1
 position = Vector2(874, 541)
 
 [node name="GemFabricator" parent="CanvasLayer" unique_id=308009221 instance=ExtResource("2_82jv5")]
-position = Vector2(970, 135)
+offset_left = 703.0
+offset_top = 131.0
+offset_right = 743.0
+offset_bottom = 171.0
 
 [node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=925984537]
 visible = false

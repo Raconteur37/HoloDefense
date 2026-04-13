@@ -4,6 +4,7 @@
 [ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
 [ext_resource type="Texture2D" uid="uid://c7djqtb2f7vvc" path="res://Textures/Citizens/Gems/Diamond Gem-Sheet-export.png" id="5_pyhfn"]
 [ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
+[ext_resource type="Texture2D" uid="uid://cbl8gfbtogqa1" path="res://Textures/Citizens/Gems/Sprite-0001-Sheet.png" id="6_8qmfx"]
 [ext_resource type="Texture2D" uid="uid://b2sr682c4upkh" path="res://Textures/Citizens/Gems/Amethyst-Sheet.png" id="6_pyhfn"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_t255x"]
@@ -255,6 +256,63 @@ animations = [{
 "speed": 10.0
 }]
 
+[sub_resource type="AtlasTexture" id="AtlasTexture_gxdpr"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(0, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_r4xew"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(16, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ka2rg"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(32, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_smhoj"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(48, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wwijh"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(64, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_mt0hf"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(80, 0, 16, 16)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uv57r"]
+atlas = ExtResource("6_8qmfx")
+region = Rect2(96, 0, 16, 16)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_tfjku"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gxdpr")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_r4xew")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ka2rg")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_smhoj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wwijh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_mt0hf")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uv57r")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
 [sub_resource type="Animation" id="Animation_vajk7"]
 resource_name = "GemAnimation"
 length = 2.0
@@ -336,7 +394,7 @@ size_flags_horizontal = 3
 visible = false
 sprite_frames = SubResource("SpriteFrames_fxkhy")
 autoplay = "default"
-frame_progress = 0.45926243
+frame_progress = 0.6002332
 
 [node name="CopperGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=938714551]
 visible = false
@@ -350,6 +408,11 @@ sprite_frames = SubResource("SpriteFrames_r4xew")
 [node name="AmethystGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=1067825778]
 visible = false
 sprite_frames = SubResource("SpriteFrames_ka2rg")
+
+[node name="GalactiteGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=213868487]
+visible = false
+sprite_frames = SubResource("SpriteFrames_tfjku")
+autoplay = "default"
 
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=733320023]
 libraries/ = SubResource("AnimationLibrary_pyhfn")
