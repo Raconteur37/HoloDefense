@@ -11,13 +11,14 @@ func _ready() -> void:
 	itemPopup.item = self
 	itemPopup.buildItemDisplay()
 	CityManager.storageChanged.connect(updateUI)
-	pass
 
 func setAmount(amount):
 	self.amount = amount
 
 func updateUI():
 	amountLabel.text = "x" + str(amount)
+	if amount <= 0:
+		queue_free()
 
 func buildItem(item):
 	match item:
@@ -28,6 +29,7 @@ func buildItem(item):
 			actualItem = theItem.COPPER_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			energyValue = CityManager.getEnergyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/copperGem.png")
 		Item.theItem.QUARTZ_GEM:
 			itemName = "Quartz Gem"
@@ -35,6 +37,7 @@ func buildItem(item):
 			actualItem = theItem.QUARTZ_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			energyValue = CityManager.getEnergyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Quartz.png")
 		Item.theItem.AMETHYST_GEM:
 			itemName = "Amethyst Gem"
@@ -42,6 +45,7 @@ func buildItem(item):
 			actualItem = theItem.AMETHYST_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			energyValue = CityManager.getEnergyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
 		Item.theItem.DIAMOND_GEM:
 			itemName = "Diamond Gem"
@@ -49,6 +53,7 @@ func buildItem(item):
 			actualItem = theItem.DIAMOND_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			energyValue = CityManager.getEnergyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
 		Item.theItem.GALACTITE_GEM:
 			itemName = "Galactite"
@@ -56,7 +61,15 @@ func buildItem(item):
 			actualItem = theItem.GALACTITE_GEM
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			energyValue = CityManager.getEnergyItemValue(actualItem)
 			texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
+		Item.theItem.COMMON_SCRAP:
+			itemName = "Basic Scrap"
+			rarity = Rarity.COMMON
+			actualItem = theItem.COMMON_SCRAP
+			type = Type.MATERIAL
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Gems/copperGem.png")
 
 
 func _on_gui_input(event: InputEvent) -> void:

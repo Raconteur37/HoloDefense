@@ -82,14 +82,20 @@ func updateStorage():
 	# The item dict tracks the actual item object itself
 	for item in CityManager.storage.keys():
 		if itemDict.has(item):
-			itemDict.get(item).amount = CityManager.storage.get(item)
+			if is_instance_valid(itemDict.get(item)):
+				itemDict.get(item).amount = CityManager.storage.get(item)
+			else:
+				itemDict.erase(item)
+				updateStorage() # recursive call after removing the freed item because im a genius...jk ik checking instance valid is bleh but idc
+				return
 		else:
-			var itemCreated = itemScene.instantiate()
-			itemCreated.buildItem(item)
-			itemCreated.amount = 1
-			if itemCreated.type == Item.Type.GEM:
-				gemGridContainer.add_child(itemCreated)
-			itemDict[item] = itemCreated
+			if CityManager.storage.get(item) > 0: # Keeps the recursion from duplicating items
+				var itemCreated = itemScene.instantiate()
+				itemCreated.buildItem(item)
+				itemCreated.amount = 1
+				if itemCreated.type == Item.Type.GEM:
+					gemGridContainer.add_child(itemCreated)
+				itemDict[item] = itemCreated
 
 func _on_generate_citizen_button_pressed() -> void:
 	# Check cost and all that

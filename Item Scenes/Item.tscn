@@ -34,6 +34,5 @@ label_settings = SubResource("LabelSettings_8pup7")
 horizontal_alignment = 2
 
 [node name="ItemPopup" parent="." unique_id=1552263881 instance=ExtResource("3_xsxut")]
-visible = false
 
 [connection signal="gui_input" from="." to="." method="_on_gui_input"]

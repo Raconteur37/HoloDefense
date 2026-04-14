@@ -18,6 +18,13 @@ var item : Item
 @onready var itemImage = $MainBackground/ItemImage
 @onready var mainBackground = $MainBackground
 
+@onready var convertMenu = $ConvertSliderBackground
+@onready var convertAmountPlateText = $ConvertSliderBackground/AmountLabel
+@onready var convertAmountText = $ConvertSliderBackground/ConvertAmountText
+@onready var convertSlider = $ConvertSliderBackground/convertHSlider
+
+
+
 func _ready() -> void:
 	CityManager.storageChanged.connect(refresh)
 
@@ -75,10 +82,6 @@ func _on_h_slider_value_changed(value: float) -> void:
 
 func _on_sell_button_pressed() -> void:
 	CityManager.sellItem(item,slider.value,item.moneyValue)
-	#itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
-	#itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
-	#if item.amount <= 0:
-#		CityManager.removeItemFromStorage(item.itemName)
 	sellMenu.hide()
 
 func refresh():
@@ -86,3 +89,24 @@ func refresh():
 	slider.max_value = item.amount
 	itemAmountLabel.text = "Amount: [color=gray]x" + str(item.amount) + "[/color]"
 	itemValueLabel.text = "Value: [color=gold]$" + str(int(item.moneyValue * item.amount)) + "[/color]"
+
+
+func _on_convert_button_pressed() -> void:
+	convertAmountPlateText.text = "[color=white]x" + str(item.amount) + "[/color]"
+	convertSlider.value = 0
+	convertSlider.max_value = item.amount
+	convertMenu.show()
+
+
+func _on_convert_h_slider_value_changed(value: float) -> void:
+	convertAmountPlateText.text = "[color=white]x" + str(item.amount - convertSlider.value) + "[/color]"
+	convertAmountText.text = "[color=blue]Energy: " + str(item.energyValue * convertSlider.value) + "[/color]"
+
+
+func _on_cancel_convert_button_pressed() -> void:
+	convertMenu.hide()
+
+
+func _on_convert_confirm_button_pressed() -> void:
+	CityManager.convertItem(item,convertSlider.value,item.energyValue)
+	convertMenu.hide()

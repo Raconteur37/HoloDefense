@@ -17,3 +17,11 @@ func _on_pressed() -> void:
 		citizen.selected = true
 		if not CityManager.citizensSelected.has(citizen):
 			CityManager.citizensSelected.append(citizen)
+
+
+func _on_mouse_entered() -> void:
+	citizen._on_area_2d_mouse_entered()
+
+
+func _on_mouse_exited() -> void:
+	citizen._on_area_2d_mouse_exited()

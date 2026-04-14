@@ -8,6 +8,7 @@
 [ext_resource type="Texture2D" uid="uid://cu630iypyrixh" path="res://Textures/UI/Item/ConversionHammer.png" id="7_2nmeg"]
 [ext_resource type="Texture2D" uid="uid://dysehamvvc6ej" path="res://Textures/UI/Item/Anvil.png" id="8_2nmeg"]
 [ext_resource type="PackedScene" uid="uid://mxoacawjw0c3" path="res://Particle Scenes/UI/AnvilSmashParticle.tscn" id="9_8v2ix"]
+[ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="9_ms1ek"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_ocneq"]
 font_size = 25
@@ -102,12 +103,34 @@ particles_anim_h_frames = 9
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
+[sub_resource type="FastNoiseLite" id="FastNoiseLite_d173q"]
+noise_type = 5
+frequency = 0.0376
+fractal_type = 2
+
+[sub_resource type="NoiseTexture2D" id="NoiseTexture2D_0vfj8"]
+noise = SubResource("FastNoiseLite_d173q")
+seamless = true
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_v8n4k"]
+shader = ExtResource("9_ms1ek")
+shader_parameter/noise_texture = SubResource("NoiseTexture2D_0vfj8")
+shader_parameter/electric_color = Color(0.19497651, 0.3194529, 0.9470512, 1)
+shader_parameter/speed = 2.9190001386524997
+shader_parameter/distortion_strength = 1.0
+shader_parameter/sparkle_strength = 2.0
+
+[sub_resource type="Gradient" id="Gradient_2nmeg"]
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8v2ix"]
+gradient = SubResource("Gradient_2nmeg")
+fill_from = Vector2(1, 0)
+
 [node name="ItemPopup" type="Popup" unique_id=1373946898]
 oversampling_override = 1.0
 title = "Common Item"
 position = Vector2i(148, 0)
 size = Vector2i(423, 332)
-visible = true
 always_on_top = true
 script = ExtResource("1_v2auv")
 
@@ -349,10 +372,107 @@ texture = ExtResource("8_2nmeg")
 
 [node name="AnvilSmashParticle" parent="SellSliderBackground" unique_id=1342467981 instance=ExtResource("9_8v2ix")]
 material = SubResource("CanvasItemMaterial_2nmeg")
-position = Vector2(172, 115)
+position = Vector2(170, 115)
+local_coords = true
+
+[node name="ConvertSliderBackground" type="TextureRect" parent="." unique_id=1504589914]
+visible = false
+material = SubResource("ShaderMaterial_v8n4k")
+offset_right = 423.0
+offset_bottom = 332.0
+texture = SubResource("GradientTexture2D_8v2ix")
+
+[node name="convertHSlider" type="HSlider" parent="ConvertSliderBackground" unique_id=859153401]
+layout_mode = 0
+offset_left = 16.0
+offset_top = 229.0
+offset_right = 412.0
+offset_bottom = 251.0
+rounded = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConvertSliderBackground" unique_id=750759554]
+top_level = true
+layout_mode = 0
+offset_left = 22.0
+offset_top = 270.0
+offset_right = 450.0
+offset_bottom = 328.0
+scale = Vector2(0.9, 0.9)
+
+[node name="ConvertConfirmButton" type="TextureButton" parent="ConvertSliderBackground/HBoxContainer" unique_id=609446460]
+modulate = Color(0, 0.4392157, 0.5921569, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="ConvertLabel" type="Label" parent="ConvertSliderBackground/HBoxContainer/ConvertConfirmButton" unique_id=94892389]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 9.0
+offset_right = 188.0
+offset_bottom = 50.0
+text = "Convert"
+label_settings = SubResource("LabelSettings_qtdmd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CancelConvertButton" type="TextureButton" parent="ConvertSliderBackground/HBoxContainer" unique_id=807303988]
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="CancelLabel" type="Label" parent="ConvertSliderBackground/HBoxContainer/CancelConvertButton" unique_id=330629816]
+layout_mode = 0
+offset_left = 14.7778
+offset_top = 7.77778
+offset_right = 195.778
+offset_bottom = 46.8611
+text = "Cancel"
+label_settings = SubResource("LabelSettings_1qfsm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmountPlate" type="TextureRect" parent="ConvertSliderBackground" unique_id=248851540]
+top_level = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 111.0
+offset_top = 8.0
+offset_right = 520.0
+offset_bottom = 119.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_1qfsm")
+
+[node name="AmountLabel" type="RichTextLabel" parent="ConvertSliderBackground" unique_id=390353410]
+top_level = true
+layout_mode = 0
+offset_left = 86.0
+offset_top = 11.0
+offset_right = 210.0
+offset_bottom = 34.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[color=white]x100[/color]"
+horizontal_alignment = 1
+
+[node name="ConvertAmountText" type="RichTextLabel" parent="ConvertSliderBackground" unique_id=179886786]
+top_level = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 179.0
+offset_right = 214.0
+offset_bottom = 205.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[color=blue]Energy: 0[/color]"
+horizontal_alignment = 1
 
 [connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
 [connection signal="pressed" from="MainBackground/HBoxContainer/Selll Button" to="." method="_on_selll_button_pressed"]
+[connection signal="pressed" from="MainBackground/HBoxContainer/ConvertButton" to="." method="_on_convert_button_pressed"]
 [connection signal="value_changed" from="SellSliderBackground/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/SellButton" to="." method="_on_sell_button_pressed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
+[connection signal="value_changed" from="ConvertSliderBackground/convertHSlider" to="." method="_on_convert_h_slider_value_changed"]
+[connection signal="pressed" from="ConvertSliderBackground/HBoxContainer/ConvertConfirmButton" to="." method="_on_convert_confirm_button_pressed"]
+[connection signal="pressed" from="ConvertSliderBackground/HBoxContainer/CancelConvertButton" to="." method="_on_cancel_convert_button_pressed"]

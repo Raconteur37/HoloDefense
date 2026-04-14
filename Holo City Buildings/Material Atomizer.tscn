@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://cbuod6sley3us"]
 
 [ext_resource type="Texture2D" uid="uid://cl1w315ytgevd" path="res://Textures/Holo City/material atomizer.png" id="1_825rj"]
+[ext_resource type="Script" uid="uid://drtdd34x6jorj" path="res://Scripts/Holo City Buildings/Material Atomizer/material_atomizer.gd" id="1_hjxic"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")
@@ -17,13 +18,31 @@ animations = [{
 "speed": 5.0
 }]
 
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_825rj"]
+size = Vector2(17.25, 24.5)
+
 [node name="MaterialAtomizer" type="Control" unique_id=226652734]
 layout_mode = 3
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
+script = ExtResource("1_hjxic")
 
 [node name="BuildSprite" type="AnimatedSprite2D" parent="." unique_id=1781376721]
 sprite_frames = SubResource("SpriteFrames_3ivlo")
+
+[node name="Work Area" type="Area2D" parent="." unique_id=21073896]
+scale = Vector2(4, 4)
+collision_layer = 32
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1359918280]
+position = Vector2(-0.375, 4.25)
+shape = SubResource("RectangleShape2D_825rj")
+debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
+
+[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]

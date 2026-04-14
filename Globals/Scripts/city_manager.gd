@@ -82,6 +82,12 @@ func getMoneyItemValue(itemEnum):
 	else:
 		return -999999
 
+func getEnergyItemValue(itemEnum):
+	if itemEnergyValueDict.has(itemEnum):
+		return itemEnergyValueDict.get(itemEnum)
+	else:
+		return -999999
+
 func sellItem(item : Item,amountSelling : int,sellValue: int):
 	if storage.has(item.actualItem):
 		if amountSelling <= item.amount:
@@ -91,6 +97,14 @@ func sellItem(item : Item,amountSelling : int,sellValue: int):
 		else:
 			push_error("selling more than what you have") # crash the game cus fuck you
 
+func convertItem(item : Item,amountSelling : int,convertValue: float):
+	if storage.has(item.actualItem):
+		if amountSelling <= item.amount:
+			currentEnergy += amountSelling * convertValue
+			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
+			storageChanged.emit()
+		else:
+			push_error("converting more than what you have") # crash the game cus fuck you
 
 func getCurrentMoney():
 	return currentMoney
