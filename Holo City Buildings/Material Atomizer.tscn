@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://cbuod6sley3us"]
+
+[ext_resource type="Texture2D" uid="uid://cl1w315ytgevd" path="res://Textures/Holo City/material atomizer.png" id="1_825rj"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
+atlas = ExtResource("1_825rj")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_3ivlo"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_hjxic")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[node name="MaterialAtomizer" type="Control" unique_id=226652734]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="BuildSprite" type="AnimatedSprite2D" parent="." unique_id=1781376721]
+sprite_frames = SubResource("SpriteFrames_3ivlo")
