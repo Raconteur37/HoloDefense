@@ -60,6 +60,22 @@ var scraperStartWeights = []
 var scraperEndWeights = []
 var maxScraperLevel = []
 
+@onready var autoSellMap = {
+	Item.theItem.COPPER_GEM: "autoSellCommonGem",
+	Item.theItem.QUARTZ_GEM: "autoSellRareGem",
+	Item.theItem.AMETHYST_GEM: "autoSellSuperRareGem",
+	Item.theItem.DIAMOND_GEM: "autoSellLegendaryGem",
+	Item.theItem.GALACTITE_GEM: "autoSellUnseenGem"
+}
+
+@onready var autoConvertMap = {
+	Item.theItem.COPPER_GEM: "autoConvertCommonGem",
+	Item.theItem.QUARTZ_GEM: "autoConvertRareGem",
+	Item.theItem.AMETHYST_GEM: "autoConvertSuperRareGem",
+	Item.theItem.DIAMOND_GEM: "autoConvertLegendaryGem",
+	Item.theItem.GALACTITE_GEM: "autoConvertUnseenGem"
+}
+
 func _ready() -> void:
 	# Testing
 	currentMoney = startingCash
@@ -69,8 +85,16 @@ func _ready() -> void:
 	pass
 
 func addItem(item):
-	#if autoSellCommonGem:
-		#autoSell()
+	if autoSellMap.has(item): # Auto sell based on map booleans
+		var varName = autoSellMap[item]
+		if get(varName) == true:
+			autoSell(item)
+			return
+	if autoConvertMap.has(item): 
+		var varName = autoConvertMap[item]
+		if get(varName) == true:
+			autoConvert(item)
+			return
 	if storage.has(item):
 		storage[item] += 1
 	else:
@@ -127,8 +151,25 @@ func sellItem(item : Item,amountSelling : int,sellValue: int):
 			push_error("selling more than what you have") # crash the game cus screw	 you
 
 # creating a special auto sell cus its easier for now
-func autoSell(rarity : Item.Rarity):
-	pass
+func autoSell(item):
+	currentMoney += itemMoneyValueDict.get(item)
+
+func autoConvert(item):
+	currentEnergy += itemEnergyValueDict.get(item)
+
+func massAutoSell(item : Item.theItem):
+	if storage.get(item) != null:
+		var amount = storage.get(item)
+		currentMoney += itemMoneyValueDict.get(item) * amount
+		storage[item] = 0
+		storageChanged.emit()
+
+func massAutoConvert(item : Item.theItem):
+	if storage.get(item) != null:
+		var amount = storage.get(item)
+		currentEnergy += itemEnergyValueDict.get(item) * amount
+		storage[item] = 0
+		storageChanged.emit()
 
 func convertItem(item : Item,amountSelling : int,convertValue: float):
 	if storage.has(item.actualItem):
@@ -166,6 +207,39 @@ func updateGemChanceWeights():
 	for i in range(keys.size()):
 		gemChances[keys[i]] = weights[i]
 	
+	#print(gemChances)
+	#print("LEVEL: ", gemScraperLevel, " PROGRESS: ", progress)
+	#print("WEIGHTS: ", weights)
+
+func calcGemChanceWeights(cityLevelTest):
+	var weights = [0.0, 0.0, 0.0, 0.0, 0.0]
+	
+	var progress = float(cityLevelTest - 1) / 49.0
+	#print("PROGRESS VALUE: ", progress)
+	
+	var startDistribution = scraperStartWeights
+	var endDistribution = scraperEndWeights
+
+	for i in range(5):
+		# linear interpolate so we can slowly move to the final points on the graph (end dist)
+		weights[i] = lerp(startDistribution[i], endDistribution[i], progress)
+
+	# normalize the distribution so it adds up to 100%
+	var totalWeight = 0.0
+	for w in weights:
+		totalWeight += w
+
+	for i in range(5):
+		weights[i] = snapped((weights[i] / totalWeight) * 100.0, 0.01)
+	
+	var keys = gemChances.keys()
+
+	var chancesCopy = gemChances.duplicate()
+
+	for i in range(keys.size()):
+		chancesCopy[keys[i]] = weights[i]
+	
+	return chancesCopy
 	#print(gemChances)
 	#print("LEVEL: ", gemScraperLevel, " PROGRESS: ", progress)
 	#print("WEIGHTS: ", weights)

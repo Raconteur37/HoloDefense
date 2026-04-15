@@ -29,6 +29,8 @@ var diamondEnergyValueLabel
 var galactiteMoneyValueLabel
 var galactiteEnergyValueLabel
 
+var upgradeButton
+
 func _ready() -> void:
 	workArea = $"Work Area"
 	fabricatorSprite = $"Fabricator Sprite"
@@ -53,6 +55,7 @@ func _ready() -> void:
 	galactiteMoneyValueLabel =$menuControl/fabricatorMenuBackground/valueContainer/galactiteValueContainer/moneyValue
 	galactiteEnergyValueLabel =$menuControl/fabricatorMenuBackground/valueContainer/galactiteValueContainer/energyValue
 
+	upgradeButton = $menuControl/fabricatorMenuBackground/TextureButton
 
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:
@@ -99,6 +102,7 @@ func _on_popup_visibility_changed() -> void:
 func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		CityManager.autoSellCommonGem = true
+		CityManager.massAutoSell(Item.theItem.COPPER_GEM)
 	else:
 		CityManager.autoSellCommonGem = false
 
@@ -106,6 +110,7 @@ func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
 func _on_quartz_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		CityManager.autoSellRareGem = true
+		CityManager.massAutoSell(Item.theItem.QUARTZ_GEM)
 	else:
 		CityManager.autoSellRareGem = false
 
@@ -113,6 +118,7 @@ func _on_quartz_money_switch_toggled(toggled_on: bool) -> void:
 func _on_amethyst_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		CityManager.autoSellSuperRareGem = true
+		CityManager.massAutoSell(Item.theItem.AMETHYST_GEM)
 	else:
 		CityManager.autoSellSuperRareGem = false
 
@@ -120,6 +126,7 @@ func _on_amethyst_money_switch_toggled(toggled_on: bool) -> void:
 func _on_diamond_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		CityManager.autoSellLegendaryGem = true
+		CityManager.massAutoSell(Item.theItem.DIAMOND_GEM)
 	else:
 		CityManager.autoSelllegendaryGem = false
 
@@ -127,5 +134,64 @@ func _on_diamond_money_switch_toggled(toggled_on: bool) -> void:
 func _on_galactite_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
 		CityManager.autoSellUnseenGem = true
+		CityManager.massAutoSell(Item.theItem.GALACTITE_GEM)
 	else:
 		CityManager.autoSellUnseenGem = false
+
+
+func _on_copper_convert_switch_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		CityManager.autoConvertCommonGem = true
+		CityManager.massAutoConvert(Item.theItem.COPPER_GEM)
+	else:
+		CityManager.autoConvertCommonGem = false
+
+
+func _on_quartz_convert_switch_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		CityManager.autoConvertRareGem = true
+		CityManager.massAutoConvert(Item.theItem.QUARTZ_GEM)
+	else:
+		CityManager.autoConvertRareGem = false
+
+
+func _on_amethyst_convert_switch_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		CityManager.autoConvertSuperRareGem = true
+		CityManager.massAutoConvert(Item.theItem.AMETHYST_GEM)
+	else:
+		CityManager.autoConvertSuperRareGem = false
+
+
+func _on_diamond_convert_switch_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		CityManager.autoConvertLegendaryGem= true
+		CityManager.massAutoConvert(Item.theItem.DIAMOND_GEM)
+	else:
+		CityManager.autoConvertLegendaryGem = false
+
+
+func _on_galactite_convert_switch_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		CityManager.autoConvertUnseenGem = true
+		CityManager.massAutoConvert(Item.theItem.GALACTITE_GEM)
+	else:
+		CityManager.autoConvertUnseenGem = false
+
+
+func _on_texture_button_mouse_entered() -> void:
+	var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
+	
+	var chances = CityManager.calcGemChanceWeights(CityManager.gemScraperLevel+1)
+	
+	for i in range(5):
+		labelList[i].add_theme_color_override("font_color", Color.GREEN)
+		labelList[i].text = str(chances[i]) + "%"
+
+
+func _on_texture_button_mouse_exited() -> void:
+	var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
+	
+	for i in range(5):
+		labelList[i].add_theme_color_override("font_color", Color.WHITE)
+		labelList[i].text = str(CityManager.gemChances[i]) + "%"
