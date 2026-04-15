@@ -7,17 +7,29 @@ signal citizenSpawned(citizen)
 var itemMoneyValueDict : Dictionary = {}
 var itemEnergyValueDict : Dictionary = {}
 
-var startingCash : int = 1000
-var startingEnergy : float = 100
-var startingScrap : int = 50
+var autoSellCommonGem : bool = false
+var autoSellRareGem : bool = false
+var autoSellSuperRareGem : bool = false
+var autoSellLegendaryGem : bool = false
+var autoSellUnseenGem : bool = false
 
-var moneyGenerated : int = 1
-var energyGenerated : float = 1.5
-var scrapGenerated : int = 2
+var autoConvertCommonGem : bool = false
+var autoConvertRareGem : bool = false
+var autoSellConvertRareGem : bool = false
+var autoConvertLegendaryGem : bool = false
+var autoConvertUnseenGem : bool = false
 
-var currentMoney = startingCash
-var currentEnergy = startingEnergy
-var currentScrap = startingScrap
+var startingCash
+var startingEnergy
+var startingScrap
+
+var moneyGenerated
+var energyGenerated
+var scrapGenerated
+
+var currentMoney
+var currentEnergy
+var currentScrap
 
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
@@ -37,11 +49,28 @@ var citizensSelected : Array = []
 
 var cityExperienceCap : float = 100
 
+var gemChances = {
+Item.theItem.COPPER_GEM : -1,
+Item.theItem.QUARTZ_GEM : -1,
+Item.theItem.AMETHYST_GEM : -1,
+Item.theItem.DIAMOND_GEM : -1,
+Item.theItem.GALACTITE_GEM : -1}
+
+var scraperStartWeights = []
+var scraperEndWeights = []
+var maxScraperLevel = []
+
 func _ready() -> void:
 	# Testing
+	currentMoney = startingCash
+	currentEnergy = startingEnergy
+	currentScrap = startingScrap
+	updateGemChanceWeights()
 	pass
 
 func addItem(item):
+	#if autoSellCommonGem:
+		#autoSell()
 	if storage.has(item):
 		storage[item] += 1
 	else:
@@ -95,7 +124,11 @@ func sellItem(item : Item,amountSelling : int,sellValue: int):
 			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
 			storageChanged.emit()
 		else:
-			push_error("selling more than what you have") # crash the game cus fuck you
+			push_error("selling more than what you have") # crash the game cus screw	 you
+
+# creating a special auto sell cus its easier for now
+func autoSell(rarity : Item.Rarity):
+	pass
 
 func convertItem(item : Item,amountSelling : int,convertValue: float):
 	if storage.has(item.actualItem):
@@ -105,6 +138,40 @@ func convertItem(item : Item,amountSelling : int,convertValue: float):
 			storageChanged.emit()
 		else:
 			push_error("converting more than what you have") # crash the game cus fuck you
+
+# need to create a probability distribution (linear) that is skewed right as you upgrade it
+func updateGemChanceWeights():
+	var weights = [0.0, 0.0, 0.0, 0.0, 0.0]
+	
+	var progress = float(gemScraperLevel - 1) / 49.0
+	#print("PROGRESS VALUE: ", progress)
+	
+	var startDistribution = scraperStartWeights
+	var endDistribution = scraperEndWeights
+
+	for i in range(5):
+		# linear interpolate so we can slowly move to the final points on the graph (end dist)
+		weights[i] = lerp(startDistribution[i], endDistribution[i], progress)
+
+	# normalize the distribution so it adds up to 100%
+	var totalWeight = 0.0
+	for w in weights:
+		totalWeight += w
+
+	for i in range(5):
+		weights[i] = snapped((weights[i] / totalWeight) * 100.0, 0.01)
+	
+	var keys = gemChances.keys()
+
+	for i in range(keys.size()):
+		gemChances[keys[i]] = weights[i]
+	
+	#print(gemChances)
+	#print("LEVEL: ", gemScraperLevel, " PROGRESS: ", progress)
+	#print("WEIGHTS: ", weights)
+
+func addCitizen(cit : Citizen):
+	citizens.append(cit)
 
 func getCurrentMoney():
 	return currentMoney

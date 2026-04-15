@@ -9,36 +9,56 @@ var itemLookupDict : Dictionary = {
 	"Galactite Gem" : Item.theItem.GALACTITE_GEM,
 }
 
-# This script loads when the game loads and properly sets up everything
-
 func _ready() -> void:
 	setupCityManagerItemDictionaries()
 
-# Setup CityManager item value dictionaries
 func setupCityManagerItemDictionaries(): 
-	var file = FileAccess.open("res://Config/Item Value.json", FileAccess.READ)
+	var file = FileAccess.open("res://Config/Holo City Info.json", FileAccess.READ)
 	if not file:
 		print("Error: Could not find config file!")
 		return
 		
 	var json_data = JSON.parse_string(file.get_as_text())
+	if json_data == null:
+		print("Error: Failed to parse JSON!")
+		return
+
+
+	var citySettings = json_data.get("HoloCitySettings", {})
+	if not citySettings.is_empty():
+		CityManager.startingCash = citySettings.get("StartingCash", 1000)
+		CityManager.startingEnergy = citySettings.get("StartingEnergy", 100.0)
+		CityManager.startingScrap = citySettings.get("StartingScrap", 50)
+		CityManager.moneyGenerated = citySettings.get("MoneyGenerated", 1)
+		CityManager.energyGenerated = citySettings.get("EnergyGenerated", 1.5)
+		CityManager.scrapGenerated = citySettings.get("ScrapGenerated", 2)
+
+	# -=HANDLE GEM VALUES=-
+	var gemValues = json_data.get("GemValues", {})
 	
 	var moneyValues = {}
 	var energyValues = {}
 	
-	var moneyData = json_data.get("Money", {})
+	# Parse Money
+	var moneyData = gemValues.get("Money", {})
 	for itemName in moneyData.keys():
 		if itemLookupDict.has(itemName):
 			moneyValues[itemLookupDict[itemName]] = moneyData[itemName]
 			
-	var energyData = json_data.get("Energy", {})
+	# Parse Energy
+	var energyData = gemValues.get("Energy", {})
 	for itemName in energyData.keys():
 		if itemLookupDict.has(itemName):
 			energyValues[itemLookupDict[itemName]] = energyData[itemName]
-			
-	#print("Money Table (Enum keys): ", moneyValues)
-	#print("Energy Table (Enum keys): ", energyValues)
 	
-	CityManager.itemMoneyValueDict = moneyValues.duplicate()
-	CityManager.itemEnergyValueDict = energyValues.duplicate()
-	
+	CityManager.itemMoneyValueDict = moneyValues
+	CityManager.itemEnergyValueDict = energyValues
+
+	# -=HANDLE SCRAPER SETTINGS=-
+	var scraperSettings = json_data.get("ScraperSettings", {})
+	if not scraperSettings.is_empty():
+		CityManager.scraperStartWeights = scraperSettings.get("StartWeights", [])
+		CityManager.scraperEndWeights = scraperSettings.get("EndWeights", [])
+		CityManager.maxScraperLevel = scraperSettings.get("MaxLevel", 50)
+
+	print("Config setup done no errors")

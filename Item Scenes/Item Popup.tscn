@@ -96,7 +96,7 @@ _data = {
 &"RESET": SubResource("Animation_ms1ek")
 }
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_2nmeg"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8v2ix"]
 resource_local_to_scene = true
 particles_animation = true
 particles_anim_h_frames = 9
@@ -131,6 +131,7 @@ oversampling_override = 1.0
 title = "Common Item"
 position = Vector2i(148, 0)
 size = Vector2i(423, 332)
+visible = true
 always_on_top = true
 script = ExtResource("1_v2auv")
 
@@ -371,7 +372,7 @@ scale = Vector2(1.4, 1.4)
 texture = ExtResource("8_2nmeg")
 
 [node name="AnvilSmashParticle" parent="SellSliderBackground" unique_id=1342467981 instance=ExtResource("9_8v2ix")]
-material = SubResource("CanvasItemMaterial_2nmeg")
+material = SubResource("CanvasItemMaterial_8v2ix")
 position = Vector2(170, 115)
 local_coords = true
 

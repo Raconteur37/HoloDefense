@@ -9,6 +9,8 @@ var hoverBox
 var animationPlayer : AnimationPlayer
 var sprite
 var selectUI
+@onready var canvasLayer = get_tree().current_scene.find_child("CanvasLayer")
+
 
 var citizenSelectUi
 
@@ -46,6 +48,15 @@ var navAgent : NavigationAgent2D
 
 var inventory : Dictionary = {} # This holds an enum then int like so [enum,int]
 
+var gemKeys = [
+	Item.theItem.COPPER_GEM,
+	Item.theItem.QUARTZ_GEM,
+	Item.theItem.AMETHYST_GEM,
+	Item.theItem.DIAMOND_GEM,
+	Item.theItem.GALACTITE_GEM
+]
+
+var gemNames = ["Copper", "Quartz", "Amethyst", "Diamond", "Galactite"]
 
 var jobExperience : Dictionary[String,float] = {
 	"Material Atomizer" : 0,
@@ -79,6 +90,8 @@ func _ready() -> void:
 
 	citName = "Basic Citizen"
 	currentState = State.IDLE
+	
+	CityManager.addCitizen(self)
 
 func _physics_process(delta: float) -> void:
 	if currentState == State.IDLE:
@@ -156,25 +169,26 @@ func finishJob():
 	match currentJob:
 		Job.GEM_SCRAPER:
 			var popup = popupScene.instantiate()
-			get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+			canvasLayer.add_child(popup)
 			popup.setPosition(self.global_position)
-			var randGem = randi_range(1,100)
-			if randGem >= 1 and randGem <= 60:
-				popup.gemPopup("Copper")
-				addItemToInventory(Item.theItem.COPPER_GEM,1)
-			elif randGem >= 61 and randGem <= 80:
-				popup.gemPopup("Quartz")
-				addItemToInventory(Item.theItem.QUARTZ_GEM,1)
-			elif randGem >= 81 and randGem <= 91:
-				popup.gemPopup("Amethyst")
-				addItemToInventory(Item.theItem.AMETHYST_GEM,1)
-			elif randGem >= 92 and randGem <= 98:
-				popup.gemPopup("Diamond")
-				addItemToInventory(Item.theItem.DIAMOND_GEM,1)
-			else:
-				popup.gemPopup("Galactite")
-				addItemToInventory(Item.theItem.GALACTITE_GEM,1)
+			
+			var roll = randf_range(0.0, 100.0)
+			var cumulativeWeight = 0.0
+			var selectedGem = null
 
+			for i in range(gemKeys.size()):
+				var gemKey = gemKeys[i]
+				cumulativeWeight += CityManager.gemChances[gemKey]
+				if roll <= cumulativeWeight:
+					selectedGem = gemKey
+					popup.gemPopup(gemNames[i])
+					addItemToInventory(gemKey, 1)
+					break
+					
+			if selectedGem == null:
+				var lastIndex = gemKeys.size() - 1
+				popup.gemPopup(gemNames[lastIndex])
+				addItemToInventory(gemKeys[lastIndex], 1)
 			
 			deliverItems()
 

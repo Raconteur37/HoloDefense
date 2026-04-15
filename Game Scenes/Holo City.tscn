@@ -32,10 +32,6 @@ navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
 [node name="HoloGenerator" parent="CanvasLayer" unique_id=117961982 instance=ExtResource("3_mjf4j")]
 
-[node name="BasicCitizen" parent="CanvasLayer" unique_id=429321666 instance=ExtResource("1_a5ly5")]
-z_index = 1
-position = Vector2(874, 541)
-
 [node name="GemFabricator" parent="CanvasLayer" unique_id=308009221 instance=ExtResource("2_82jv5")]
 offset_left = 703.0
 offset_top = 131.0
@@ -48,6 +44,10 @@ z_index = -2
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_872co")
+
+[node name="BasicCitizen" parent="CanvasLayer" unique_id=429321666 instance=ExtResource("1_a5ly5")]
+z_index = 1
+position = Vector2(874, 541)
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")

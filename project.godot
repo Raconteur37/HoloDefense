@@ -20,6 +20,7 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 [autoload]
 
+ConfigLoader="*uid://b18nntm27lr8w"
 GameManager="*res://Globals/Scripts/game_manager.gd"
 PlacementManager="*res://Globals/Scripts/placement_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
@@ -32,7 +33,6 @@ StatisticPopup="*res://Globals/Scene/Statistic Popup.tscn"
 CityManager="*res://Globals/Scripts/city_manager.gd"
 DeveloperMode="*res://Globals/Scripts/developerMode.gd"
 TurretManager="*res://Globals/Scripts/turretManager.gd"
-ConfigLoader="*uid://b18nntm27lr8w"
 
 [display]
 
