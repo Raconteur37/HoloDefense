@@ -1,0 +1,574 @@
+[gd_scene format=3 uid="uid://cxke0ql4vpvx1"]
+
+[ext_resource type="Script" uid="uid://de3gh4w04a8un" path="res://Scripts/Holo City Buildings/Research Lab/research_lab.gd" id="1_5y3gc"]
+[ext_resource type="Texture2D" uid="uid://cq85cxsd63ci5" path="res://Textures/Holo City/research lab.png" id="2_dyfhl"]
+[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="3_dyfhl"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="4_fgskl"]
+[ext_resource type="Texture2D" uid="uid://yng6e6uyedcd" path="res://Textures/Holo City/empty research slot.png" id="5_140bg"]
+[ext_resource type="Texture2D" uid="uid://cf2xtwq3msmmc" path="res://Textures/Holo City/empty research slot locked.png" id="6_h127d"]
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_fgskl"]
+atlas = ExtResource("2_dyfhl")
+region = Rect2(0, 0, 64, 64)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_et5tp"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_fgskl")
+}],
+"loop": true,
+"name": &"default",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_140bg"]
+size = Vector2(325, 311)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_h127d"]
+size = Vector2(257, 256)
+
+[sub_resource type="Gradient" id="Gradient_pc4d0"]
+colors = PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_tl608"]
+gradient = SubResource("Gradient_pc4d0")
+
+[node name="ResearchLab" type="Control" unique_id=2132881313]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 29.0
+offset_top = -16.0
+offset_right = 29.0
+offset_bottom = -16.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5y3gc")
+
+[node name="AnimatedSprite2D" type="AnimatedSprite2D" parent="." unique_id=103759008]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_et5tp")
+
+[node name="Work Area" type="Area2D" parent="." unique_id=1969926413]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1852964236]
+position = Vector2(2.5, 27.5)
+shape = SubResource("RectangleShape2D_140bg")
+
+[node name="Select Area" type="Area2D" parent="." unique_id=1925091346]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=1171680810]
+position = Vector2(-0.5, 0)
+shape = SubResource("RectangleShape2D_h127d")
+debug_color = Color(3.3210217e-06, 0.6322815, 0.4566033, 0.41960785)
+
+[node name="menuControl" type="Popup" parent="." unique_id=1472452155]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(1644, 1172)
+visible = true
+
+[node name="LabBackground" type="TextureRect" parent="menuControl" unique_id=1134678360]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -405.0
+offset_right = 450.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("3_dyfhl")
+
+[node name="Title" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1346148788]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25800002
+anchor_right = 0.74200004
+anchor_bottom = 0.054
+offset_left = -0.2000122
+offset_top = 3.0
+offset_right = 0.19995117
+offset_bottom = 7.2599983
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[font_size=32][color=blue]Research Lab[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1175998161]
+layout_mode = 0
+offset_left = 161.0
+offset_top = 76.0
+offset_right = 803.0
+offset_bottom = 133.0
+bbcode_enabled = true
+text = "[font_size=16][color=white]Station citizens here to do research. Starting research costs energy, and the more citizens here, the faster it goes. Research turrets to upgrade them automatically.[/color][/font_size]"
+
+[node name="PurchaseLabel" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=379065043]
+layout_mode = 0
+offset_left = 372.0
+offset_top = 715.0
+offset_right = 586.0
+offset_bottom = 779.0
+bbcode_enabled = true
+text = "[font_size=16][color=white]Purchase Research Slot[/color]
+[color=gold]                     $100[/color][/font_size]"
+
+[node name="CurrentWorkersLabel" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1263686757]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 48.0
+offset_right = 557.0
+offset_bottom = 81.0
+bbcode_enabled = true
+text = "Current Workers: 0"
+horizontal_alignment = 1
+
+[node name="purchaseSlotsButton" type="TextureButton" parent="menuControl/LabBackground" unique_id=1905381993]
+modulate = Color(1, 1, 1, 0.42745098)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -92.0
+offset_top = -108.0
+offset_right = 828.0
+offset_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25825343, 0.28350347)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="ResearchSlotGrid" type="GridContainer" parent="menuControl/LabBackground" unique_id=502927849]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 513.0
+offset_right = 458.0
+offset_bottom = 581.0
+scale = Vector2(2, 2)
+theme_override_constants/h_separation = 50
+columns = 5
+
+[node name="ResearchSlot1" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=275203878]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot1" unique_id=122597066]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot2" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=1886521385]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot2" unique_id=469136814]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot3" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=1638185564]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot3" unique_id=431245104]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot4" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=45214892]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot4" unique_id=2032908310]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot5" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=134333709]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot5" unique_id=1270237824]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot6" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=408414514]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot6" unique_id=1381384438]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot7" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=120680408]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot7" unique_id=1233661414]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot8" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=409160570]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot8" unique_id=954052438]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot9" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=1897134919]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot9" unique_id=150409429]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="ResearchSlot10" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=288407851]
+layout_mode = 2
+texture = ExtResource("6_h127d")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot10" unique_id=810002963]
+layout_mode = 0
+offset_left = 1.0
+offset_top = 0.5
+offset_right = 65.0
+offset_bottom = 64.5
+scale = Vector2(0.46590325, 0.46515593)
+fill_mode = 4
+texture_progress = SubResource("GradientTexture2D_tl608")
+
+[node name="CurrentTurretsSlotGrid" type="GridContainer" parent="menuControl/LabBackground" unique_id=389995619]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 133.0
+offset_right = 458.0
+offset_bottom = 225.0
+scale = Vector2(2, 2)
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 28
+columns = 5
+
+[node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1181017836]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=1043854387]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=719425246]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot2" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=159475645]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=1606840508]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=988240707]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot3" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1356940862]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=632379813]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=979542132]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot4" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=856072881]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=788038659]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=723387708]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot5" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=462248121]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=1676037486]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=580168944]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot6" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1208253308]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1179527161]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1508198164]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot7" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1893956083]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=1558191760]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=149453187]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot8" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1195063884]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=698426542]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1949649206]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot9" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=829580914]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=1857218306]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=445160651]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="CurrentTurretSlot10" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=86068186]
+layout_mode = 2
+texture = ExtResource("5_140bg")
+
+[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1676382927]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_fgskl")
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1408273542]
+layout_mode = 0
+offset_left = 1.5
+offset_top = 36.5
+offset_right = 41.5
+offset_bottom = 51.5
+bbcode_enabled = true
+text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
