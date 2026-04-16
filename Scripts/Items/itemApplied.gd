@@ -11,12 +11,20 @@ func _ready() -> void:
 	
 	itemPopup.item = self
 	itemPopup.buildItemDisplay()
-	CityManager.storageChanged.connect(updateUI)
+	CityManager.storageChanged.connect(update)
 
 func setAmount(amount):
 	self.amount = amount
 
-func updateUI():
+func update():
+	
+	if type == Type.MATERIAL:
+		moneyValue = CityManager.itemMoneyValueDict.get(actualItem)
+		scrapValue = CityManager.itemScrapValueDict.get(actualItem)
+	if type == Type.GEM:
+		moneyValue = CityManager.itemMoneyValueDict.get(actualItem)
+		energyValue = CityManager.itemEnergyValueDict.get(actualItem)
+	
 	amountLabel.text = "x" + str(amount)
 	if amount <= 0:
 		queue_free()

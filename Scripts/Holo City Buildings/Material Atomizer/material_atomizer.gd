@@ -29,6 +29,9 @@ var superRareScrapValue
 var legendaryScrapValue
 var unseenScrapValue
 
+var upgradeButton
+var upgradeLabel
+
 func _ready() -> void:
 	workArea = $"Work Area"
 	atomizerSprite = $BuildSprite
@@ -55,6 +58,11 @@ func _ready() -> void:
 	superRareScrapValue = $menuControl/AtomizerMenuBackground/valueContainer/superRareValueContainer/scrapValue
 	legendaryScrapValue = $menuControl/AtomizerMenuBackground/valueContainer/legendaryValueContainer/scrapValue
 	unseenScrapValue = $menuControl/AtomizerMenuBackground/valueContainer/unseenValueContainer/scrapValue
+
+	upgradeButton = $menuControl/AtomizerMenuBackground/TextureButton
+	upgradeLabel = $menuControl/AtomizerMenuBackground/upgradeAtomizerLabel
+	
+	upgradeLabel.text = "Upgrade\n $" + str(CityManager.atomizerUpgradeCost)
 
 func buildMenu():
 	levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)
@@ -99,17 +107,21 @@ func _on_menu_control_visibility_changed() -> void:
 
 
 func _on_texture_button_pressed() -> void:
-	CityManager.materialAtomizerLevel += 1
-	levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)
-	CityManager.updateScrapChanceWeights()
-	var labelList = [commonChanceLabel,rareChanceLabel,superRareChanceLabel,legendaryChanceLabel,unseenChanceLabel]
-	for i in range(5):
-		labelList[i].text = str(CityManager.scrapChances.values()[i]) + "%"
-	_on_texture_button_mouse_entered()
-	
-	if CityManager.materialAtomizerLevel >= CityManager.maxAtomizerLevel:
-		$menuControl/AtomizerMenuBackground/TextureButton.queue_free()
-		$menuControl/AtomizerMenuBackground/upgradeAtomizerLabel.queue_free()
+	if CityManager.currentMoney >= CityManager.atomizerUpgradeCost:
+		# CityManager.currentMoney -= CityManager.atomizerUpgradeCost
+		CityManager.materialAtomizerLevel += 1
+		levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)
+		CityManager.updateAtomizerUpgradeCost()
+		CityManager.updateScrapChanceWeights()
+		upgradeLabel.text = "Upgrade\n $" + str(CityManager.atomizerUpgradeCost)
+		var labelList = [commonChanceLabel,rareChanceLabel,superRareChanceLabel,legendaryChanceLabel,unseenChanceLabel]
+		for i in range(5):
+			labelList[i].text = str(CityManager.scrapChances.values()[i]) + "%"
+		_on_texture_button_mouse_entered()
+		
+		if CityManager.materialAtomizerLevel >= CityManager.maxAtomizerLevel:
+			upgradeButton.queue_free()
+			upgradeLabel.queue_free()
 
 
 func _on_texture_button_mouse_entered() -> void:

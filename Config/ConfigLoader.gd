@@ -31,12 +31,22 @@ func setupCityManagerItemDictionaries():
 
 	var citySettings = json_data.get("HoloCitySettings", {})
 	if not citySettings.is_empty():
-		CityManager.startingCash = citySettings.get("StartingCash", 1000)
+		CityManager.startingCash = citySettings.get("StartingCash", -99)
 		CityManager.startingEnergy = citySettings.get("StartingEnergy", 100.0)
 		CityManager.startingScrap = citySettings.get("StartingScrap", 50)
 		CityManager.moneyGenerated = citySettings.get("MoneyGenerated", 1)
 		CityManager.energyGenerated = citySettings.get("EnergyGenerated", 1.5)
 		CityManager.scrapGenerated = citySettings.get("ScrapGenerated", 2)
+		CityManager.moneyScale = citySettings.get("MoneyScale", -99)
+		CityManager.energyScale = citySettings.get("EnergyScale", -99)
+		CityManager.scrapScale = citySettings.get("ScrapScale",-99)
+		CityManager.baseCitizenGenCost = citySettings.get("BaseGenerateCitizenCost",-99)
+		CityManager.citizenCostMultiplier = citySettings.get("CitizenGenerateCostScale",-99)
+		CityManager.itemScaleFactor = citySettings.get("ItemScaleFactor",-99)
+		CityManager.baseGeneratorUpgradeCost = citySettings.get("GeneratorUpgradeBaseCost", -99)
+		CityManager.generatorCostMultiplier = citySettings.get("GeneratorUpgradeCostScale", -99)
+	
+	print(CityManager.moneyScale)
 
 	# -=HANDLE GEM VALUES=-
 	var gemValues = json_data.get("GemValues", {})
@@ -84,6 +94,9 @@ func setupCityManagerItemDictionaries():
 		CityManager.scraperStartWeights = scraperSettings.get("StartWeights", [])
 		CityManager.scraperEndWeights = scraperSettings.get("EndWeights", [])
 		CityManager.maxScraperLevel = scraperSettings.get("MaxLevel", 50)
+		CityManager.baseScraperUpgradeCost = scraperSettings.get("BaseUpgradeCost",-99)
+		CityManager.scraperCostMultiplier = scraperSettings.get("CostScaling",99)
+
 
 	# -=HANDLE ATOMZIER SETTINGS=-
 	var atomzierSettings = json_data.get("AtomizerSettings", {})
@@ -91,5 +104,7 @@ func setupCityManagerItemDictionaries():
 		CityManager.atomizerStartWeights = atomzierSettings.get("StartWeights", [])
 		CityManager.atomizerEndWeights = atomzierSettings.get("EndWeights", [])
 		CityManager.maxAtomizerLevel = atomzierSettings.get("MaxLevel", 50)
+		CityManager.baseAtomizerUpgradeCost = scraperSettings.get("BaseUpgradeCost",-99)
+		CityManager.atomizerCostMultiplier = scraperSettings.get("CostScaling",99)
 
 	print("Config setup done no errors")

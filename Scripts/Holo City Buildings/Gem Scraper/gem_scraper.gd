@@ -30,6 +30,7 @@ var galactiteMoneyValueLabel
 var galactiteEnergyValueLabel
 
 var upgradeButton
+var upgradeLabel
 
 func _ready() -> void:
 	workArea = $"Work Area"
@@ -56,6 +57,10 @@ func _ready() -> void:
 	galactiteEnergyValueLabel =$menuControl/fabricatorMenuBackground/valueContainer/galactiteValueContainer/energyValue
 
 	upgradeButton = $menuControl/fabricatorMenuBackground/TextureButton
+	upgradeLabel = $menuControl/fabricatorMenuBackground/upgradeScraperLabel
+	
+	upgradeLabel.text = "Upgrade\n $"+str(CityManager.scraperUpgradeCost)
+
 
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:
@@ -204,14 +209,19 @@ func _on_texture_button_mouse_exited() -> void:
 
 
 func _on_texture_button_pressed() -> void:
-	CityManager.gemScraperLevel += 1
-	levelLabel.text = "Level: " + str(CityManager.gemScraperLevel)
-	CityManager.updateGemChanceWeights()
-	var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
-	for i in range(5):
-		labelList[i].text = str(CityManager.gemChances[i]) + "%"
-	_on_texture_button_mouse_entered()
+	if CityManager.currentMoney >= CityManager.scraperUpgradeCost:
+		#CityManager.currentMoney -= CityManager.scraperUpgradeCost
+		CityManager.gemScraperLevel += 1
+		CityManager.updateScraperUpgradeCost()
+		levelLabel.text = "Level: " + str(CityManager.gemScraperLevel)
+		CityManager.updateGemChanceWeights()
+		var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
+		for i in range(5):
+			labelList[i].text = str(CityManager.gemChances[i]) + "%"
+			
+		upgradeLabel.text = "Upgrade\n $"+str(CityManager.scraperUpgradeCost)
+		_on_texture_button_mouse_entered()
 	
 	if CityManager.gemScraperLevel >= CityManager.maxScraperLevel:
-		$menuControl/fabricatorMenuBackground/TextureButton.queue_free()
-		$menuControl/fabricatorMenuBackground/upgradeScraperLabel.queue_free()
+		upgradeButton.queue_free()
+		upgradeLabel.queue_free()

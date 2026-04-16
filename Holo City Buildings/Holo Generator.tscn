@@ -58,6 +58,15 @@ scale = Vector2(1.0000001, 1)
 shape = SubResource("RectangleShape2D_8jlgm")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
+[node name="cityLevelLabel" type="Label" parent="." unique_id=913661031]
+layout_mode = 0
+offset_left = 921.0
+offset_top = 756.0
+offset_right = 1013.0
+offset_bottom = 779.0
+text = "City Level: 1"
+horizontal_alignment = 1
+
 [node name="BackgroundImage" type="TextureRect" parent="." unique_id=1607710391]
 layout_mode = 0
 offset_left = -4.0
@@ -120,10 +129,10 @@ anchor_left = 0.307
 anchor_top = 0.90700006
 anchor_right = 0.374
 anchor_bottom = 0.952
-offset_left = -1.4400024
-offset_top = 0.4399414
-offset_right = -1.0800171
-offset_bottom = -0.49328613
+offset_left = -3.4400024
+offset_top = -14.560059
+offset_right = -3.080017
+offset_bottom = 9.839966
 text = "Generate Citizen
 Energy: 100"
 
@@ -169,11 +178,10 @@ texture_normal = SubResource("GradientTexture2D_tlq4f")
 [node name="UpgradeGenLabel" type="Label" parent="." unique_id=2089786568]
 layout_mode = 0
 offset_left = 577.0
-offset_top = 870.0
+offset_top = 873.0
 offset_right = 727.0
-offset_bottom = 968.3333
-text = "Upgrade 
-Generator
+offset_bottom = 971.3333
+text = "Upgrade Generator
 100 Energy
 "
 horizontal_alignment = 1

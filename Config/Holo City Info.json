@@ -1,8 +1,8 @@
 {
   "GemValues": {
 	"Money": {
-	  "Copper Gem": 1,
-	  "Quartz Gem": 3,
+	  "Copper Gem": 2,
+	  "Quartz Gem": 4,
 	  "Amethyst Gem": 10,
 	  "Diamond Gem": 20,
 	  "Galactite Gem": 50
@@ -34,12 +34,20 @@
   },
 
 "HoloCitySettings": {
-	"StartingCash": 1000,
+	"StartingCash": 100,
+	"MoneyScale": 1.10,
 	"StartingEnergy": 100,
+	"EnergyScale": 1.07,
 	"StartingScrap": 50,
+	"ScrapScale": 1.08,
 	"MoneyGenerated": 1,
 	"EnergyGenerated": 1.5,
-	"ScrapGenerated": 2
+	"ScrapGenerated": 2,
+	"BaseGenerateCitizenCost" : 25,
+	"CitizenGenerateCostScale" : 1.15,
+	"ItemScaleFactor": 0.20,
+	"GeneratorUpgradeBaseCost": 50,
+	"GeneratorUpgradeCostScale": 1.10
 },
 
   "ScraperSettings": {

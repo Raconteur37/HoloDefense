@@ -60,9 +60,13 @@ func _ready() -> void:
 	scrapLabel = $HBoxContainer/ScrapLabel
 	upgradeGenLabel = $UpgradeGenLabel
 	
+	upgradeGenLabel.text = "Upgrade\n Generator\n Energy: " + str(CityManager.generatorUpgradeCost)
 	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
+	
+	citGenLabel.text = "Generate Citizen \nEnergy: " + str(CityManager.citizenGenCost)
+
 
 func _process(_delta: float) -> void:
 	# Edit labels and such
@@ -103,11 +107,14 @@ func updateStorage():
 
 func _on_generate_citizen_button_pressed() -> void:
 	# Check cost and all that
-	citGenLabel.text = "Generate Citizen \nEnergy: " + str(100 + (citizensGenerated * 10))
-	citizensGenerated += 1
-	var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
-	var loadedScene = genScene.instantiate()
-	citizenGenGrid.add_child(loadedScene)
+	if CityManager.currentEnergy >= CityManager.citizenGenCost:
+		CityManager.citizensGenerated += 1
+		CityManager.currentEnergy -= CityManager.citizenGenCost
+		CityManager.updateGenCitizenCost()
+		citGenLabel.text = "Generate Citizen \nEnergy: " + str(round((round(100 * CityManager.citizenGenCost)/100)))
+		var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
+		var loadedScene = genScene.instantiate()
+		citizenGenGrid.add_child(loadedScene)
 
 func onCitizenSpawn(citizen):
 	var portrait = portraitScene.instantiate()
@@ -118,18 +125,19 @@ func onCitizenSpawn(citizen):
 
 
 func _on_upgrade_generator_button_pressed() -> void:
-	# Check cost and all that
-	CityManager.upgradeGenerator()
-	upgradeGenLabel.text = "Upgrade\n Generator \nEnergy: " + str(100 + (CityManager.generatorLevel * 10))
-	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
-	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
-	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
-	generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
-	_on_upgrade_generator_button_mouse_entered()
-	
-	if CityManager.generatorLevel >= 50:
-		$UpgradeGeneratorButton.queue_free()
-		$UpgradeGenLabel.queue_free()
+	if CityManager.currentEnergy >= CityManager.generatorUpgradeCost:
+		CityManager.currentEnergy -= CityManager.generatorUpgradeCost
+		CityManager.upgradeGenerator()
+		upgradeGenLabel.text = "Upgrade\n Generator \nEnergy: " + str(CityManager.generatorUpgradeCost)
+		moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
+		energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
+		scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
+		generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
+		_on_upgrade_generator_button_mouse_entered()
+		
+		if CityManager.generatorLevel >= 50:
+			$UpgradeGeneratorButton.queue_free()
+			$UpgradeGenLabel.queue_free()
 
 func _on_generate_resources_timer_timeout() -> void:
 	CityManager.generateResources()

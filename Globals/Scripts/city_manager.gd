@@ -8,6 +8,10 @@ var itemMoneyValueDict : Dictionary = {}
 var itemEnergyValueDict : Dictionary = {}
 var itemScrapValueDict : Dictionary = {}
 
+var baseItemMoneyValueDict : Dictionary = {}
+var baseItemEnergyValueDict : Dictionary = {}
+var baseItemScrapValueDict : Dictionary = {}
+
 var autoSellCommonGem : bool = false
 var autoSellRareGem : bool = false
 var autoSellSuperRareGem : bool = false
@@ -44,6 +48,12 @@ var currentMoney
 var currentEnergy
 var currentScrap
 
+var moneyScale
+var energyScale
+var scrapScale
+
+var itemScaleFactor
+
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
 var materialAtomizerLevel : int = 1
@@ -57,11 +67,29 @@ var currentItemName = null
 
 var storage : Dictionary = {}
 
+var citizensGenerated = 0
+
 var citizens : Array = []
 
 var citizensSelected : Array = []
 
 var cityExperienceCap : float = 100
+
+var baseCitizenGenCost
+var citizenGenCost
+var citizenCostMultiplier
+
+var baseGeneratorUpgradeCost
+var generatorUpgradeCost
+var generatorCostMultiplier
+
+var baseScraperUpgradeCost
+var scraperUpgradeCost
+var scraperCostMultiplier
+
+var baseAtomizerUpgradeCost
+var atomizerUpgradeCost
+var atomizerCostMultiplier
 
 var gemChances = {
 Item.theItem.COPPER_GEM : -1,
@@ -121,7 +149,15 @@ func _ready() -> void:
 	currentScrap = startingScrap
 	updateGemChanceWeights()
 	updateScrapChanceWeights()
-	pass
+	citizenGenCost = baseCitizenGenCost
+	generatorUpgradeCost = baseGeneratorUpgradeCost
+	scraperUpgradeCost = baseScraperUpgradeCost
+	atomizerUpgradeCost = baseAtomizerUpgradeCost
+	#updateGenCitizenCost()
+	#updateGeneratorUpgradeCost()
+	baseItemMoneyValueDict = itemMoneyValueDict.duplicate()
+	baseItemEnergyValueDict = itemEnergyValueDict.duplicate()
+	baseItemScrapValueDict = itemScrapValueDict.duplicate()
 
 func addItem(item):
 	if autoSellMap.has(item): # Auto sell based on map booleans
@@ -392,6 +428,40 @@ func generateResources():
 
 func upgradeGenerator():
 	generatorLevel += 1
-	moneyGenerated += ceil(1*(pow(1.10,(generatorLevel-1))))
-	energyGenerated += round((1*(pow(1.07,(generatorLevel-1))))*100) / 100
-	scrapGenerated += ceil(1*(pow(1.08,(generatorLevel-1))))
+	moneyGenerated += ceil(1*(pow(moneyScale,(generatorLevel-1))))
+	energyGenerated += round((1*(pow(energyScale,(generatorLevel-1))))*100) / 100
+	scrapGenerated += ceil(1*(pow(scrapScale,(generatorLevel-1))))
+	updateGeneratorUpgradeCost()
+
+func updateGenCitizenCost():
+	citizenGenCost = round(round(100 * (baseCitizenGenCost * (pow(citizenCostMultiplier,citizensGenerated)))) / 100)
+
+func updateGeneratorUpgradeCost():
+	generatorUpgradeCost = round(round(100 * (baseGeneratorUpgradeCost * (pow(generatorCostMultiplier,generatorLevel)))) / 100)
+
+func updateScraperUpgradeCost():
+	scraperUpgradeCost = round(round(100 * (baseScraperUpgradeCost * (pow(scraperCostMultiplier,gemScraperLevel)))) / 100)
+
+func updateAtomizerUpgradeCost():
+	atomizerUpgradeCost = round(round(100 * (baseAtomizerUpgradeCost * (pow(atomizerCostMultiplier,materialAtomizerLevel)))) / 100)
+
+func updateAllItemValues(): 
+	
+	for item in baseItemMoneyValueDict.keys():
+		var boost = 1.0 + (cityLevel * itemScaleFactor)
+		itemMoneyValueDict[item] = int(baseItemMoneyValueDict[item] * boost)
+		
+
+	for item in baseItemScrapValueDict.keys():
+		var boost = 1.0 + (cityLevel * itemScaleFactor)
+		itemScrapValueDict[item] = int(baseItemScrapValueDict[item] * boost)
+		
+
+	for item in baseItemEnergyValueDict.keys():
+		var boost = 1.0 + (cityLevel * itemScaleFactor)
+		itemEnergyValueDict[item] = baseItemEnergyValueDict[item] * boost
+
+func cityLevelUp():
+	cityLevel += 1
+	updateAllItemValues()
+	storageChanged.emit()
