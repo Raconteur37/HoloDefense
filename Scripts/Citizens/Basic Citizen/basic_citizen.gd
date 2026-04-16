@@ -56,6 +56,14 @@ var gemKeys = [
 	Item.theItem.GALACTITE_GEM
 ]
 
+var scrapKeys = [
+	Item.theItem.COMMON_SCRAP,
+	Item.theItem.RARE_SCRAP,
+	Item.theItem.SUPER_RARE_SCRAP,
+	Item.theItem.LEGENDARY_SCRAP,
+	Item.theItem.UNSEEN_SCRAP
+]
+
 var gemNames = ["Copper", "Quartz", "Amethyst", "Diamond", "Galactite"]
 
 var jobExperience : Dictionary[String,float] = {
@@ -69,6 +77,7 @@ var jobExperience : Dictionary[String,float] = {
 @onready var destinationParticleScene = preload("res://Particle Scenes/Citizens/Movement Line/Destination Particle.tscn")
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
+@onready var scrapParticle = preload("res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn")
 @onready var ui = $SelectUI
 
 func _ready() -> void:
@@ -184,38 +193,28 @@ func finishJob():
 				if roll <= cumulativeWeight:
 					selectedGem = gemKey
 					popup.gemPopup(gemNames[i])
-					addItemToInventory(gemKey, 1)
+					addItemToInventory(selectedGem, 1)
 					break
-					
-			if selectedGem == null:
-				var lastIndex = gemKeys.size() - 1
-				popup.gemPopup(gemNames[lastIndex])
-				addItemToInventory(gemKeys[lastIndex], 1)
-			
 			deliverItems()
+			
 		Job.MATERIAL_ATOMIZER:
-			var popup = popupScene.instantiate()
-			canvasLayer.add_child(popup)
-			popup.setPosition(self.global_position)
+			var particle = scrapParticle.instantiate()
+			particle.setPosition(self.global_position)
 			
 			var roll = randf_range(0.0, 100.0)
 			var cumulativeWeight = 0.0
-			var selectedGem = null
+			var selectedScrap = null
 
-			for i in range(gemKeys.size()):
-				var gemKey = gemKeys[i]
-				cumulativeWeight += CityManager.gemChances[gemKey]
+			for i in range(scrapKeys.size()):
+				var scrapKey = scrapKeys[i]
+				cumulativeWeight += CityManager.scrapChances[scrapKey]
 				if roll <= cumulativeWeight:
-					selectedGem = gemKey
-					popup.gemPopup(gemNames[i])
-					addItemToInventory(gemKey, 1)
+					selectedScrap = scrapKey
+					particle.setTexture(selectedScrap)
+					addItemToInventory(selectedScrap, 1)
 					break
-					
-			if selectedGem == null:
-				var lastIndex = gemKeys.size() - 1
-				popup.gemPopup(gemNames[lastIndex])
-				addItemToInventory(gemKeys[lastIndex], 1)
-			
+			canvasLayer.add_child(particle)
+			particle.emitting = true
 			deliverItems()
 
 func setWorkDestination():

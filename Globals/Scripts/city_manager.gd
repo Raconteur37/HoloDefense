@@ -20,6 +20,18 @@ var autoConvertSuperRareGem : bool = false
 var autoConvertLegendaryGem : bool = false
 var autoConvertUnseenGem : bool = false
 
+var autoSellCommonScrap : bool = false
+var autoSellRareScrap : bool = false
+var autoSellSuperRareScrap : bool = false
+var autoSellLegendaryScrap : bool = false
+var autoSellUnseenScrap : bool = false
+
+var autoConvertCommonScrap : bool = false
+var autoConvertRareScrap : bool = false
+var autoConvertSuperRareScrap : bool = false
+var autoConvertLegendaryScrap : bool = false
+var autoConvertUnseenScrap : bool = false
+
 var startingCash
 var startingEnergy
 var startingScrap
@@ -78,7 +90,12 @@ var maxAtomizerLevel
 	Item.theItem.QUARTZ_GEM: "autoSellRareGem",
 	Item.theItem.AMETHYST_GEM: "autoSellSuperRareGem",
 	Item.theItem.DIAMOND_GEM: "autoSellLegendaryGem",
-	Item.theItem.GALACTITE_GEM: "autoSellUnseenGem"
+	Item.theItem.GALACTITE_GEM: "autoSellUnseenGem",
+	Item.theItem.COMMON_SCRAP: "autoSellCommonScrap",
+	Item.theItem.RARE_SCRAP: "autoSellRareScrap",
+	Item.theItem.SUPER_RARE_SCRAP: "autoSellSuperRareScrap",
+	Item.theItem.LEGENDARY_SCRAP: "autoSellLegendaryScrap",
+	Item.theItem.UNSEEN_SCRAP: "autoSellUnseenScrap"
 }
 
 @onready var autoConvertMap = {
@@ -86,7 +103,15 @@ var maxAtomizerLevel
 	Item.theItem.QUARTZ_GEM: "autoConvertRareGem",
 	Item.theItem.AMETHYST_GEM: "autoConvertSuperRareGem",
 	Item.theItem.DIAMOND_GEM: "autoConvertLegendaryGem",
-	Item.theItem.GALACTITE_GEM: "autoConvertUnseenGem"
+	Item.theItem.GALACTITE_GEM: "autoConvertUnseenGem",
+}
+
+@onready var autoScrapMap = {
+	Item.theItem.COMMON_SCRAP: "autoConvertCommonScrap",
+	Item.theItem.RARE_SCRAP: "autoConvertRareScrap",
+	Item.theItem.SUPER_RARE_SCRAP: "autoConvertSuperRareScrap",
+	Item.theItem.LEGENDARY_SCRAP: "autoConvertLegendaryScrap",
+	Item.theItem.UNSEEN_SCRAP: "autoConvertUnseenScrap"
 }
 
 func _ready() -> void:
@@ -108,6 +133,11 @@ func addItem(item):
 		var varName = autoConvertMap[item]
 		if get(varName) == true:
 			autoConvert(item)
+			return
+	if autoScrapMap.has(item): 
+		var varName = autoScrapMap[item]
+		if get(varName) == true:
+			autoScrap(item)
 			return
 	if storage.has(item):
 		storage[item] += 1
@@ -171,7 +201,7 @@ func scrapItem(item : Item,amountScrapping : int,scrapValue: int):
 			storage[item.actualItem] = storage.get(item.actualItem) - amountScrapping
 			storageChanged.emit()
 		else:
-			push_error("selling more than what you have")
+			push_error("scrapping more than what you have")
 
 func sellItem(item : Item,amountSelling : int,sellValue: int):
 	if storage.has(item.actualItem):
@@ -189,6 +219,9 @@ func autoSell(item):
 func autoConvert(item):
 	currentEnergy += itemEnergyValueDict.get(item)
 
+func autoScrap(item):
+	currentScrap += itemScrapValueDict.get(item)
+
 func massAutoSell(item : Item.theItem):
 	if storage.get(item) != null:
 		var amount = storage.get(item)
@@ -200,6 +233,13 @@ func massAutoConvert(item : Item.theItem):
 	if storage.get(item) != null:
 		var amount = storage.get(item)
 		currentEnergy += itemEnergyValueDict.get(item) * amount
+		storage[item] = 0
+		storageChanged.emit()
+
+func massAutoScrap(item : Item.theItem):
+	if storage.get(item) != null:
+		var amount = storage.get(item)
+		currentScrap += itemScrapValueDict.get(item) * amount
 		storage[item] = 0
 		storageChanged.emit()
 
@@ -300,6 +340,38 @@ func updateScrapChanceWeights():
 	for i in range(keys.size()):
 		scrapChances[keys[i]] = weights[i]
 
+func calcAtomizerChanceWeights(cityLevelTest):
+	var weights = [0.0, 0.0, 0.0, 0.0, 0.0]
+	
+	var progress = float(cityLevelTest - 1) / 49.0
+	#print("PROGRESS VALUE: ", progress)
+	
+	var startDistribution = atomizerStartWeights
+	var endDistribution = atomizerEndWeights
+
+	for i in range(5):
+		# linear interpolate so we can slowly move to the final points on the graph (end dist)
+		weights[i] = lerp(startDistribution[i], endDistribution[i], progress)
+
+	# normalize the distribution so it adds up to 100%
+	var totalWeight = 0.0
+	for w in weights:
+		totalWeight += w
+
+	for i in range(5):
+		weights[i] = snapped((weights[i] / totalWeight) * 100.0, 0.01)
+	
+	var keys = scrapChances.keys()
+
+	var chancesCopy = scrapChances.duplicate()
+
+	for i in range(keys.size()):
+		chancesCopy[keys[i]] = weights[i]
+	
+	return chancesCopy
+	#print(gemChances)
+	#print("LEVEL: ", gemScraperLevel, " PROGRESS: ", progress)
+	#print("WEIGHTS: ", weights)
 
 func addCitizen(cit : Citizen):
 	citizens.append(cit)

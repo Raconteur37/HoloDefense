@@ -127,6 +127,14 @@ offset_bottom = -0.49328613
 text = "Generate Citizen
 Energy: 100"
 
+[node name="MaterialGridContainer" type="GridContainer" parent="." unique_id=1159347093]
+layout_mode = 0
+offset_left = 1702.0
+offset_top = 800.0
+offset_right = 1702.0
+offset_bottom = 800.0
+theme_override_constants/h_separation = 20
+
 [node name="GemGridContainer" type="GridContainer" parent="." unique_id=1547950966]
 layout_mode = 1
 anchors_preset = -1

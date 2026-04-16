@@ -2,6 +2,12 @@
 
 [ext_resource type="Texture2D" uid="uid://cl1w315ytgevd" path="res://Textures/Holo City/material atomizer.png" id="1_825rj"]
 [ext_resource type="Script" uid="uid://drtdd34x6jorj" path="res://Scripts/Holo City Buildings/Material Atomizer/material_atomizer.gd" id="1_hjxic"]
+[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="3_s38yo"]
+[ext_resource type="Texture2D" uid="uid://1662bpbnnxh3" path="res://Textures/Citizens/Scrap/Common Scrap.png" id="4_s38yo"]
+[ext_resource type="Texture2D" uid="uid://lbmpbra6w8sv" path="res://Textures/Citizens/Scrap/Rare Scrap.png" id="5_6tu65"]
+[ext_resource type="Texture2D" uid="uid://c1hlg2cxbnqtb" path="res://Textures/Citizens/Scrap/Super Rare Scrap.png" id="6_4gpin"]
+[ext_resource type="Texture2D" uid="uid://brsdd1jhlp5ir" path="res://Textures/Citizens/Scrap/Legendary Scrap.png" id="7_wf6c0"]
+[ext_resource type="Texture2D" uid="uid://dh201h6a6n18x" path="res://Textures/Citizens/Scrap/Unseen Scrap.png" id="8_5eexy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")
@@ -21,7 +27,27 @@ animations = [{
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_825rj"]
 size = Vector2(68, 91)
 
-[node name="MaterialAtomizer" type="Control" unique_id=226652734]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_4g1ch"]
+size = Vector2(256, 255)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ps0om"]
+font_size = 32
+font_color = Color(0.39817658, 0.5493776, 1, 1)
+
+[sub_resource type="Gradient" id="Gradient_c3e4m"]
+colors = PackedColorArray(0.6839604, 0.7890422, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_87rhe"]
+gradient = SubResource("Gradient_c3e4m")
+fill_from = Vector2(1, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fhcxf"]
+font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_yp0bg"]
+font_color = Color(0.6770492, 0.61158365, 0.3231002, 1)
+
+[node name="MaterialAtomizer" type="Control" unique_id=226652734 groups=["Holo City Building"]]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -46,4 +72,307 @@ position = Vector2(-0.25, 13.5)
 shape = SubResource("RectangleShape2D_825rj")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
+[node name="Select Area" type="Area2D" parent="." unique_id=1415036842]
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=1768044518]
+position = Vector2(0, 0.5)
+shape = SubResource("RectangleShape2D_4g1ch")
+
+[node name="menuControl" type="Popup" parent="." unique_id=2123108104]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(900, 810)
+
+[node name="AtomizerMenuBackground" type="TextureRect" parent="menuControl" unique_id=1712362783]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -405.0
+offset_right = 450.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("3_s38yo")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=615835762]
+layout_mode = 0
+offset_left = 318.0
+offset_top = 29.0
+offset_right = 605.0
+offset_bottom = 132.0
+mouse_filter = 0
+
+[node name="titleLabel" type="Label" parent="menuControl/AtomizerMenuBackground/VBoxContainer" unique_id=246211238]
+layout_mode = 2
+text = "Material Atomizer"
+label_settings = SubResource("LabelSettings_ps0om")
+horizontal_alignment = 1
+
+[node name="levelLabel" type="Label" parent="menuControl/AtomizerMenuBackground/VBoxContainer" unique_id=56682558]
+layout_mode = 2
+text = "Level: 1"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="currentWorkersLabel" type="Label" parent="menuControl/AtomizerMenuBackground/VBoxContainer" unique_id=329763005]
+layout_mode = 2
+text = "Current Workers: 0"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ScrapDisplayContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=1057324217]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.13000001
+anchor_top = 0.19100001
+anchor_right = 0.61
+anchor_bottom = 0.29000002
+offset_top = 33.289993
+offset_right = -92.0
+offset_bottom = -6.9000244
+scale = Vector2(2, 2)
+mouse_filter = 0
+theme_override_constants/separation = 35
+
+[node name="commonImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=246598507]
+layout_mode = 2
+texture = ExtResource("4_s38yo")
+expand_mode = 2
+
+[node name="rareImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1459962014]
+layout_mode = 2
+texture = ExtResource("5_6tu65")
+expand_mode = 2
+
+[node name="superRareImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1829621510]
+layout_mode = 2
+texture = ExtResource("6_4gpin")
+expand_mode = 2
+
+[node name="legendaryImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=739962533]
+layout_mode = 2
+texture = ExtResource("7_wf6c0")
+expand_mode = 2
+
+[node name="unseenImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1185081127]
+layout_mode = 2
+texture = ExtResource("8_5eexy")
+expand_mode = 2
+
+[node name="ScrapChanceDisplayContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=693695137]
+layout_mode = 0
+offset_left = 127.0
+offset_top = 269.0
+offset_right = 772.0
+offset_bottom = 309.0
+mouse_filter = 0
+theme_override_constants/separation = 110
+
+[node name="commonChanceLabel" type="Label" parent="menuControl/AtomizerMenuBackground/ScrapChanceDisplayContainer" unique_id=481945601]
+layout_mode = 2
+text = "99%"
+horizontal_alignment = 1
+
+[node name="rareChanceLabel" type="Label" parent="menuControl/AtomizerMenuBackground/ScrapChanceDisplayContainer" unique_id=1438899187]
+layout_mode = 2
+text = "17.5%"
+horizontal_alignment = 1
+
+[node name="superRareGemChanceLabel" type="Label" parent="menuControl/AtomizerMenuBackground/ScrapChanceDisplayContainer" unique_id=190770871]
+layout_mode = 2
+text = "99%"
+horizontal_alignment = 1
+
+[node name="legendaryGemChanceLabel" type="Label" parent="menuControl/AtomizerMenuBackground/ScrapChanceDisplayContainer" unique_id=1475597832]
+layout_mode = 2
+text = "99%"
+horizontal_alignment = 1
+
+[node name="unseenGemChanceLabel" type="Label" parent="menuControl/AtomizerMenuBackground/ScrapChanceDisplayContainer" unique_id=1893761174]
+layout_mode = 2
+text = "99%"
+horizontal_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="menuControl/AtomizerMenuBackground" unique_id=1824000834]
+layout_mode = 0
+offset_left = 322.0
+offset_top = 525.0
+offset_right = 386.0
+offset_bottom = 589.0
+scale = Vector2(4.535829, 1.4520546)
+texture_normal = SubResource("GradientTexture2D_87rhe")
+
+[node name="upgradeAtomizerLabel" type="Label" parent="menuControl/AtomizerMenuBackground" unique_id=1433643961]
+layout_mode = 0
+offset_left = 382.0
+offset_top = 545.0
+offset_right = 552.0
+offset_bottom = 592.6667
+text = "Upgrade Material Scraper
+100 Money"
+horizontal_alignment = 1
+
+[node name="autoSellContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=235288745]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 363.0
+offset_right = 779.0
+offset_bottom = 403.0
+tooltip_text = "When enabled, auto sell the respective gem for money when delivered to the generator."
+mouse_filter = 0
+theme_override_constants/separation = 107
+
+[node name="commonMoneySwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoSellContainer" unique_id=1797602157]
+layout_mode = 2
+
+[node name="rareMoneySwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoSellContainer" unique_id=278746676]
+layout_mode = 2
+
+[node name="superRareMoneySwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoSellContainer" unique_id=1364552100]
+layout_mode = 2
+
+[node name="legendaryMoneySwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoSellContainer" unique_id=1291518932]
+layout_mode = 2
+
+[node name="unseenMoneySwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoSellContainer" unique_id=2130487105]
+layout_mode = 2
+
+[node name="autoConvertContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=281879265]
+layout_mode = 0
+offset_left = 131.0
+offset_top = 398.0
+offset_right = 779.0
+offset_bottom = 438.0
+tooltip_text = "When enabled, auto convert the respective gem to energy when delivered to the generator."
+mouse_filter = 0
+theme_override_constants/separation = 107
+
+[node name="commonConvertSwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoConvertContainer" unique_id=1931320295]
+layout_mode = 2
+
+[node name="rareConvertSwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoConvertContainer" unique_id=1060510368]
+layout_mode = 2
+
+[node name="superRareConvertSwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoConvertContainer" unique_id=237917519]
+layout_mode = 2
+
+[node name="legendaryConvertSwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoConvertContainer" unique_id=402134705]
+layout_mode = 2
+
+[node name="unseenConvertSwitch" type="CheckButton" parent="menuControl/AtomizerMenuBackground/autoConvertContainer" unique_id=1562714173]
+layout_mode = 2
+
+[node name="autoLabelContainer" type="VBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=953092395]
+layout_mode = 0
+offset_left = 6.0
+offset_top = 378.0
+offset_right = 117.0
+offset_bottom = 427.0
+
+[node name="autoSellLabel" type="Label" parent="menuControl/AtomizerMenuBackground/autoLabelContainer" unique_id=1805905716]
+layout_mode = 2
+text = "Auto Sell: "
+
+[node name="autoConvertLabel" type="Label" parent="menuControl/AtomizerMenuBackground/autoLabelContainer" unique_id=2010338468]
+layout_mode = 2
+text = "Auto Scrap: "
+
+[node name="valueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=852738249]
+layout_mode = 0
+offset_left = 126.0
+offset_top = 297.0
+offset_right = 783.0
+offset_bottom = 337.0
+theme_override_constants/separation = 94
+
+[node name="commonValueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/valueContainer" unique_id=1171310373]
+layout_mode = 2
+theme_override_constants/separation = 15
+
+[node name="moneyValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/commonValueContainer" unique_id=1157280729]
+layout_mode = 2
+text = "$99"
+label_settings = SubResource("LabelSettings_fhcxf")
+
+[node name="scrapValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/commonValueContainer" unique_id=399030788]
+layout_mode = 2
+text = "99"
+label_settings = SubResource("LabelSettings_yp0bg")
+
+[node name="rareValueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/valueContainer" unique_id=721141337]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="moneyValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/rareValueContainer" unique_id=1246400794]
+layout_mode = 2
+text = "$99"
+label_settings = SubResource("LabelSettings_fhcxf")
+
+[node name="scrapValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/rareValueContainer" unique_id=1424210984]
+layout_mode = 2
+text = "99"
+label_settings = SubResource("LabelSettings_yp0bg")
+
+[node name="superRareValueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/valueContainer" unique_id=86470884]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="moneyValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/superRareValueContainer" unique_id=117529700]
+layout_mode = 2
+text = "$99"
+label_settings = SubResource("LabelSettings_fhcxf")
+
+[node name="scrapValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/superRareValueContainer" unique_id=515928838]
+layout_mode = 2
+text = "99"
+label_settings = SubResource("LabelSettings_yp0bg")
+
+[node name="legendaryValueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/valueContainer" unique_id=1638796373]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="moneyValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/legendaryValueContainer" unique_id=34769679]
+layout_mode = 2
+text = "$99"
+label_settings = SubResource("LabelSettings_fhcxf")
+
+[node name="scrapValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/legendaryValueContainer" unique_id=1290278962]
+layout_mode = 2
+text = "99"
+label_settings = SubResource("LabelSettings_yp0bg")
+
+[node name="unseenValueContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/valueContainer" unique_id=1057151107]
+layout_mode = 2
+theme_override_constants/separation = 10
+
+[node name="moneyValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/unseenValueContainer" unique_id=262102709]
+layout_mode = 2
+text = "$99"
+label_settings = SubResource("LabelSettings_fhcxf")
+
+[node name="scrapValue" type="Label" parent="menuControl/AtomizerMenuBackground/valueContainer/unseenValueContainer" unique_id=1979086134]
+layout_mode = 2
+text = "99"
+label_settings = SubResource("LabelSettings_yp0bg")
+
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
+[connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="visibility_changed" from="menuControl" to="." method="_on_menu_control_visibility_changed"]
+[connection signal="mouse_entered" from="menuControl/AtomizerMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_entered"]
+[connection signal="mouse_exited" from="menuControl/AtomizerMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_exited"]
+[connection signal="pressed" from="menuControl/AtomizerMenuBackground/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoSellContainer/commonMoneySwitch" to="." method="_on_common_money_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoSellContainer/rareMoneySwitch" to="." method="_on_rare_money_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoSellContainer/superRareMoneySwitch" to="." method="_on_super_rare_money_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoSellContainer/legendaryMoneySwitch" to="." method="_on_legendary_money_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoSellContainer/unseenMoneySwitch" to="." method="_on_unseen_money_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoConvertContainer/commonConvertSwitch" to="." method="_on_common_convert_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoConvertContainer/rareConvertSwitch" to="." method="_on_rare_convert_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoConvertContainer/superRareConvertSwitch" to="." method="_on_super_rare_convert_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoConvertContainer/legendaryConvertSwitch" to="." method="_on_legendary_convert_switch_toggled"]
+[connection signal="toggled" from="menuControl/AtomizerMenuBackground/autoConvertContainer/unseenConvertSwitch" to="." method="_on_unseen_convert_switch_toggled"]

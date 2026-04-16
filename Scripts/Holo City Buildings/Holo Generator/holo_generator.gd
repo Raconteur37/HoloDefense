@@ -6,6 +6,7 @@ var collisionArea
 
 var citizenGenGrid : GridContainer
 var gemGridContainer : GridContainer
+var materialGridContainer : GridContainer
 # Needs to be prio loaded in case citizen spawns before generator when loading game
 @onready var portraitContainer = $CitizenGridContainer
 @onready var resourceTimer : Timer = $GenerateResourcesTimer
@@ -48,6 +49,7 @@ func _ready() -> void:
 	workArea = $"Work Area"
 	citizenGenGrid = $CitizenGenerateGrid
 	gemGridContainer = $GemGridContainer
+	materialGridContainer = $MaterialGridContainer
 	
 	resourceBar = $ResourceGenerationBar
 	
@@ -95,6 +97,8 @@ func updateStorage():
 				itemCreated.amount = 1
 				if itemCreated.type == Item.Type.GEM:
 					gemGridContainer.add_child(itemCreated)
+				if itemCreated.type == Item.Type.MATERIAL:
+					materialGridContainer.add_child(itemCreated)
 				itemDict[item] = itemCreated
 
 func _on_generate_citizen_button_pressed() -> void:

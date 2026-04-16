@@ -57,6 +57,9 @@ func buildItemDisplay():
 	if item.type == item.Type.MATERIAL:
 		scrapButtonContainer.show()
 		gemButtonContainer.hide()
+	if item.type == item.Type.GEM:
+		scrapButtonContainer.hide()
+		gemButtonContainer.show()
 
 func setItemImage():
 

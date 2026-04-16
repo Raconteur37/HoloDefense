@@ -30,11 +30,11 @@ size = Vector2(276, 263)
 font_size = 32
 font_color = Color(0.9314016, 0.0007899219, 0.9453239, 1)
 
-[sub_resource type="Gradient" id="Gradient_c3e4m"]
+[sub_resource type="Gradient" id="Gradient_t7b75"]
 colors = PackedColorArray(0.6839604, 0.7890422, 1, 1, 1, 1, 1, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_o844s"]
-gradient = SubResource("Gradient_c3e4m")
+gradient = SubResource("Gradient_t7b75")
 fill_from = Vector2(1, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_t7b75"]

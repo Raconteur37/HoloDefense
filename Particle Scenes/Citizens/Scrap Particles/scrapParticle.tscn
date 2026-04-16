@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://fbv4xq8oy5aj"]
+
+[ext_resource type="Texture2D" uid="uid://1662bpbnnxh3" path="res://Textures/Citizens/Scrap/Common Scrap.png" id="1_q1fjq"]
+[ext_resource type="Script" uid="uid://dp5ekmtjamv4f" path="res://Particle Scenes/Citizens/Scrap Particles/scrap_particle.gd" id="2_qss1m"]
+
+[sub_resource type="Gradient" id="Gradient_qss1m"]
+colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
+
+[node name="ScrapParticle" type="CPUParticles2D" unique_id=1393696331]
+position = Vector2(755, 309)
+emitting = false
+amount = 3
+texture = ExtResource("1_q1fjq")
+lifetime = 0.5
+one_shot = true
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 16.23
+particle_flag_align_y = true
+spread = 180.0
+gravity = Vector2(0, -800)
+radial_accel_min = 18.35
+radial_accel_max = 18.35
+color_ramp = SubResource("Gradient_qss1m")
+script = ExtResource("2_qss1m")
+
+[connection signal="finished" from="." to="." method="_on_finished"]
