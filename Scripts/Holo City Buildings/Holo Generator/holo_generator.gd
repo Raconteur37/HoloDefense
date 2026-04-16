@@ -108,6 +108,7 @@ func updateStorage():
 func _on_generate_citizen_button_pressed() -> void:
 	# Check cost and all that
 	if CityManager.currentEnergy >= CityManager.citizenGenCost:
+		CityManager.addCityXp("spawn_citizen")
 		CityManager.citizensGenerated += 1
 		CityManager.currentEnergy -= CityManager.citizenGenCost
 		CityManager.updateGenCitizenCost()
@@ -127,6 +128,7 @@ func onCitizenSpawn(citizen):
 func _on_upgrade_generator_button_pressed() -> void:
 	if CityManager.currentEnergy >= CityManager.generatorUpgradeCost:
 		CityManager.currentEnergy -= CityManager.generatorUpgradeCost
+		CityManager.addCityXp("purchase_upgrade")
 		CityManager.upgradeGenerator()
 		upgradeGenLabel.text = "Upgrade\n Generator \nEnergy: " + str(CityManager.generatorUpgradeCost)
 		moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)

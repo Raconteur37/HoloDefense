@@ -28,7 +28,7 @@ func setupCityManagerItemDictionaries():
 		print("Error: Failed to parse JSON!")
 		return
 
-
+	# -= CITY DATA =-
 	var citySettings = json_data.get("HoloCitySettings", {})
 	if not citySettings.is_empty():
 		CityManager.startingCash = citySettings.get("StartingCash", -99)
@@ -45,8 +45,11 @@ func setupCityManagerItemDictionaries():
 		CityManager.itemScaleFactor = citySettings.get("ItemScaleFactor",-99)
 		CityManager.baseGeneratorUpgradeCost = citySettings.get("GeneratorUpgradeBaseCost", -99)
 		CityManager.generatorCostMultiplier = citySettings.get("GeneratorUpgradeCostScale", -99)
-	
-	print(CityManager.moneyScale)
+		CityManager.milestoneMoneyMax = citySettings.get("MilestoneMoneyMax", -99)
+		CityManager.milestoneEnergyMax = citySettings.get("MilestoneEnergyMax", -99)
+		CityManager.milestoneScrapMax = citySettings.get("MilestoneScrapMax",-99)
+		CityManager.baseMaxCityXp = citySettings.get("BaseMaxCityXp",-99)
+		CityManager.cityMaxXpScale = citySettings.get("CityXpScale",99)
 
 	# -=HANDLE GEM VALUES=-
 	var gemValues = json_data.get("GemValues", {})

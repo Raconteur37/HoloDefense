@@ -63,6 +63,19 @@ func _ready() -> void:
 	upgradeLabel = $menuControl/AtomizerMenuBackground/upgradeAtomizerLabel
 	
 	upgradeLabel.text = "Upgrade\n $" + str(CityManager.atomizerUpgradeCost)
+	
+	CityManager.storageChanged.connect(refresh)
+
+func refresh():
+	if atomizerMenu.visible:
+		var labelList = [commonMoneyValue,rareMoneyValue,superRareMoneyValue,legendaryMoneyValue,unseenMoneyValue]
+		for i in range(5):
+			labelList[i].text = "$" + str(int(CityManager.itemMoneyValueDict.get(CityManager.scrapChances.keys()[i])))
+		
+		#setup scrap value
+		labelList = [commonScrapValue,rareScrapValue,superRareScrapValue,legendaryScrapValue,unseenScrapValue]
+		for i in range(5):
+			labelList[i].text = str(int(CityManager.itemScrapValueDict.get(CityManager.scrapChances.keys()[i])))
 
 func buildMenu():
 	levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)
@@ -109,6 +122,7 @@ func _on_menu_control_visibility_changed() -> void:
 func _on_texture_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.atomizerUpgradeCost:
 		# CityManager.currentMoney -= CityManager.atomizerUpgradeCost
+		CityManager.addCityXp("purchase_upgrade")
 		CityManager.materialAtomizerLevel += 1
 		levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)
 		CityManager.updateAtomizerUpgradeCost()

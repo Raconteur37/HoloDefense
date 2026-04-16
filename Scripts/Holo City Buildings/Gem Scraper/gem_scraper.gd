@@ -61,6 +61,18 @@ func _ready() -> void:
 	
 	upgradeLabel.text = "Upgrade\n $"+str(CityManager.scraperUpgradeCost)
 
+	CityManager.storageChanged.connect(refresh)
+
+func refresh():
+	if menu.visible:
+		var labelList = [copperMoneyValueLabel,quartzMoneyValueLabel,amethystMoneyValueLabel,diamondMoneyValueLabel,galactiteMoneyValueLabel]
+		for i in range(5):
+			labelList[i].text = "$" + str(int(CityManager.itemMoneyValueDict.get(CityManager.gemChances.keys()[i])))
+		
+		#setup energy value
+		labelList = [copperEnergyValueLabel,quartzEnergyValueLabel,amethystEnergyValueLabel,diamondEnergyValueLabel,galactiteEnergyValueLabel]
+		for i in range(5):
+			labelList[i].text = str(float(CityManager.itemEnergyValueDict.get(CityManager.gemChances.keys()[i])))
 
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:
@@ -211,6 +223,7 @@ func _on_texture_button_mouse_exited() -> void:
 func _on_texture_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.scraperUpgradeCost:
 		#CityManager.currentMoney -= CityManager.scraperUpgradeCost
+		CityManager.addCityXp("purchase_upgrade")
 		CityManager.gemScraperLevel += 1
 		CityManager.updateScraperUpgradeCost()
 		levelLabel.text = "Level: " + str(CityManager.gemScraperLevel)

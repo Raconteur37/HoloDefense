@@ -216,6 +216,7 @@ func finishJob():
 			canvasLayer.add_child(particle)
 			particle.emitting = true
 			deliverItems()
+	CityManager.addCityXp("generate_resource")
 
 func setWorkDestination():
 	match currentJob:
@@ -252,7 +253,7 @@ func updateLine():
 	var points = [start_position,end_position]
 	moveLine.points = points
 
-# CHANGED: Now accepts a target position directly
+
 func moveToMouse(targetPos: Vector2 = get_global_mouse_position()):
 	currentState = State.IDLE
 	

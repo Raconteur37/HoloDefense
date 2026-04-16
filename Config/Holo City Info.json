@@ -47,7 +47,12 @@
 	"CitizenGenerateCostScale" : 1.15,
 	"ItemScaleFactor": 0.20,
 	"GeneratorUpgradeBaseCost": 50,
-	"GeneratorUpgradeCostScale": 1.10
+	"GeneratorUpgradeCostScale": 1.10,
+	"MilestoneMoneyMax": 100,
+	"MilestoneEnergyMax": 50,
+	"MilestoneScrapMax": 75,
+	"BaseMaxCityXp": 100,
+	"CityXpScale": 1.4
 },
 
   "ScraperSettings": {

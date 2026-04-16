@@ -10,6 +10,8 @@ extends Control
 
 @onready var animationPlayer = $AnimationPlayer
 
+@onready var cityLevelUpLabel = $cityLevelUpLabel
+
 
 func setPosition(position):
 	self.global_position = position
@@ -32,6 +34,12 @@ func gemPopup(gemName):
 		
 	animationPlayer.play("GemAnimation")
 
+func cityLevelUp():
+	cityLevelUpLabel.show()
+	animationPlayer.play("CityLevelUp")
+
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "GemAnimation":
+		queue_free()
+	if anim_name == "CityLevelUp":
 		queue_free()

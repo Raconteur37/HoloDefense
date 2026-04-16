@@ -91,6 +91,26 @@ var baseAtomizerUpgradeCost
 var atomizerUpgradeCost
 var atomizerCostMultiplier
 
+var milestoneMoney
+var milestoneEnergy
+var milestoneScrap
+
+var milestoneMoneyMax
+var milestoneEnergyMax
+var milestoneScrapMax
+
+var cityXpWeights = {
+	"purchase_upgrade": 50,
+	"spawn_citizen": 20,
+	"milestone": 10,
+	"generate_resource": .1
+}
+
+var cityXP = 0
+var baseMaxCityXp
+var cityMaxXpScale
+var cityMaxXP
+
 var gemChances = {
 Item.theItem.COPPER_GEM : -1,
 Item.theItem.QUARTZ_GEM : -1,
@@ -158,6 +178,13 @@ func _ready() -> void:
 	baseItemMoneyValueDict = itemMoneyValueDict.duplicate()
 	baseItemEnergyValueDict = itemEnergyValueDict.duplicate()
 	baseItemScrapValueDict = itemScrapValueDict.duplicate()
+	
+	cityMaxXP = baseMaxCityXp
+	
+	cityXP = 0
+	milestoneMoney = 0
+	milestoneEnergy = 0
+	milestoneScrap = 0
 
 func addItem(item):
 	if autoSellMap.has(item): # Auto sell based on map booleans
@@ -233,7 +260,9 @@ func getScrapItemValue(itemEnum):
 func scrapItem(item : Item,amountScrapping : int,scrapValue: int):
 	if storage.has(item.actualItem):
 		if amountScrapping <= item.amount:
-			currentScrap += amountScrapping * scrapValue
+			var val = amountScrapping * scrapValue
+			currentScrap += val
+			manageMilestone("scrap",val)
 			storage[item.actualItem] = storage.get(item.actualItem) - amountScrapping
 			storageChanged.emit()
 		else:
@@ -242,7 +271,9 @@ func scrapItem(item : Item,amountScrapping : int,scrapValue: int):
 func sellItem(item : Item,amountSelling : int,sellValue: int):
 	if storage.has(item.actualItem):
 		if amountSelling <= item.amount:
-			currentMoney += amountSelling * sellValue
+			var val = amountSelling * sellValue
+			currentMoney += val
+			manageMilestone("money",val)
 			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
 			storageChanged.emit()
 		else:
@@ -250,39 +281,53 @@ func sellItem(item : Item,amountSelling : int,sellValue: int):
 
 # creating a special auto sell cus its easier for now
 func autoSell(item):
-	currentMoney += itemMoneyValueDict.get(item)
+	var moneyVal = itemMoneyValueDict.get(item)
+	currentMoney += moneyVal
+	manageMilestone("money",moneyVal)
 
 func autoConvert(item):
-	currentEnergy += itemEnergyValueDict.get(item)
+	var energyVal = itemEnergyValueDict.get(item)
+	currentEnergy += energyVal
+	manageMilestone("energy",energyVal)
 
 func autoScrap(item):
-	currentScrap += itemScrapValueDict.get(item)
+	var scrapVal = itemScrapValueDict.get(item)
+	currentScrap += scrapVal
+	manageMilestone("scrap",scrapVal)
 
 func massAutoSell(item : Item.theItem):
 	if storage.get(item) != null:
 		var amount = storage.get(item)
-		currentMoney += itemMoneyValueDict.get(item) * amount
+		var val = itemMoneyValueDict.get(item) * amount
+		currentMoney += val
+		manageMilestone("money",val)
 		storage[item] = 0
 		storageChanged.emit()
 
 func massAutoConvert(item : Item.theItem):
 	if storage.get(item) != null:
 		var amount = storage.get(item)
-		currentEnergy += itemEnergyValueDict.get(item) * amount
+		var val = itemEnergyValueDict.get(item) * amount
+		currentEnergy += val
+		manageMilestone("energy",val)
 		storage[item] = 0
 		storageChanged.emit()
 
 func massAutoScrap(item : Item.theItem):
 	if storage.get(item) != null:
 		var amount = storage.get(item)
-		currentScrap += itemScrapValueDict.get(item) * amount
+		var val = itemScrapValueDict.get(item) * amount
+		currentScrap += val
+		manageMilestone("scrap",val)
 		storage[item] = 0
 		storageChanged.emit()
 
 func convertItem(item : Item,amountSelling : int,convertValue: float):
 	if storage.has(item.actualItem):
 		if amountSelling <= item.amount:
-			currentEnergy += amountSelling * convertValue
+			var val = amountSelling * convertValue
+			currentEnergy += val
+			manageMilestone("energy",val)
 			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
 			storageChanged.emit()
 		else:
@@ -461,7 +506,44 @@ func updateAllItemValues():
 		var boost = 1.0 + (cityLevel * itemScaleFactor)
 		itemEnergyValueDict[item] = baseItemEnergyValueDict[item] * boost
 
+func manageMilestone(type : String, val):
+	if type == "money":
+		milestoneMoney += val
+		if milestoneMoney >= milestoneMoneyMax:
+			addCityXp("milestone")
+			milestoneMoney = milestoneMoney - milestoneMoneyMax
+	if type == "energy":
+		milestoneEnergy += val
+		if milestoneEnergy >= milestoneEnergyMax:
+			addCityXp("milestone")
+			milestoneEnergy = milestoneEnergy - milestoneEnergyMax
+	if type == "scrap":
+		milestoneScrap += val
+		if milestoneScrap >= milestoneScrapMax:
+			addCityXp("milestone")
+			milestoneScrap = milestoneScrap - milestoneScrapMax
+
+func addCityXp(type : String):
+	var xpAmount = cityXpWeights.get(type)
+
+	cityXP += xpAmount
+	
+	if cityXP >= cityMaxXP:
+		cityXP = cityMaxXP - cityXP
+		cityLevelUp()
+		updateCityMaxXP()
+
+func updateCityMaxXP():
+	cityMaxXP = baseMaxCityXp * pow(cityLevel, cityMaxXpScale)
+
 func cityLevelUp():
 	cityLevel += 1
 	updateAllItemValues()
 	storageChanged.emit()
+	
+	# play popup and sound
+	var popup = load("res://Globals/Scene/Popup.tscn")
+	popup = popup.instantiate()
+	
+	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+	popup.cityLevelUp()
