@@ -13,6 +13,7 @@ var itemName = "None"
 
 var moneyValue : int
 var energyValue : float
+var scrapValue : int
 
 var rarity : Rarity
 var type : Type

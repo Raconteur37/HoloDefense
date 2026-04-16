@@ -16,6 +16,23 @@
 	}
   },
 
+"ScrapValues": {
+	"Money": {
+	  "Common Scrap": 1,
+	  "Rare Scrap": 2,
+	  "Super Rare Scrap": 5,
+	  "Legendary Scrap": 10,
+	  "Unseen Scrap": 25
+	},
+	"Scrap": {
+	  "Common Scrap": 1,
+	  "Rare Scrap": 3,
+	  "Super Rare Scrap": 10,
+	  "Legendary Scrap": 20,
+	  "Unseen Scrap": 50
+	}
+  },
+
 "HoloCitySettings": {
 	"StartingCash": 1000,
 	"StartingEnergy": 100,
@@ -26,6 +43,13 @@
 },
 
   "ScraperSettings": {
+	"MaxLevel": 50,
+	"StartWeights": [76.0, 17.5, 5.5, 0.95, 0.05],
+	"EndWeights": [10.0, 15.0, 25.0, 30.0, 20.0],
+	"BaseUpgradeCost": 100,
+	"CostScaling": 1.15
+  },
+  "AtomizerSettings": {
 	"MaxLevel": 50,
 	"StartWeights": [76.0, 17.5, 5.5, 0.95, 0.05],
 	"EndWeights": [10.0, 15.0, 25.0, 30.0, 20.0],

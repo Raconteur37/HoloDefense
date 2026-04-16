@@ -4,6 +4,7 @@
 [ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Scraper.tscn" id="2_82jv5"]
 [ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
 [ext_resource type="Script" uid="uid://l45wpphqpcmg" path="res://Globals/Scripts/selection_manager.gd" id="4_5wlxu"]
+[ext_resource type="PackedScene" uid="uid://cbuod6sley3us" path="res://Holo City Buildings/Material Atomizer.tscn" id="4_6jm4f"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
 vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
@@ -48,6 +49,12 @@ texture = SubResource("GradientTexture2D_872co")
 [node name="BasicCitizen" parent="CanvasLayer" unique_id=429321666 instance=ExtResource("1_a5ly5")]
 z_index = 1
 position = Vector2(874, 541)
+
+[node name="MaterialAtomizer" parent="CanvasLayer" unique_id=226652734 instance=ExtResource("4_6jm4f")]
+offset_left = 298.0
+offset_top = -411.0
+offset_right = 298.0
+offset_bottom = -411.0
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")

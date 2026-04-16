@@ -6,6 +6,7 @@ signal citizenSpawned(citizen)
 
 var itemMoneyValueDict : Dictionary = {}
 var itemEnergyValueDict : Dictionary = {}
+var itemScrapValueDict : Dictionary = {}
 
 var autoSellCommonGem : bool = false
 var autoSellRareGem : bool = false
@@ -15,7 +16,7 @@ var autoSellUnseenGem : bool = false
 
 var autoConvertCommonGem : bool = false
 var autoConvertRareGem : bool = false
-var autoSellConvertRareGem : bool = false
+var autoConvertSuperRareGem : bool = false
 var autoConvertLegendaryGem : bool = false
 var autoConvertUnseenGem : bool = false
 
@@ -33,6 +34,7 @@ var currentScrap
 
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
+var materialAtomizerLevel : int = 1
 var cityLevel : int = 1 # This will increase as you generate more wealth and have more citizens and upgrade generators
 
 var holoGenerator
@@ -56,9 +58,20 @@ Item.theItem.AMETHYST_GEM : -1,
 Item.theItem.DIAMOND_GEM : -1,
 Item.theItem.GALACTITE_GEM : -1}
 
+var scrapChances = {
+Item.theItem.COMMON_SCRAP : -1,
+Item.theItem.RARE_SCRAP : -1,
+Item.theItem.SUPER_RARE_SCRAP : -1,
+Item.theItem.LEGENDARY_SCRAP : -1,
+Item.theItem.UNSEEN_SCRAP : -1}
+
 var scraperStartWeights = []
 var scraperEndWeights = []
-var maxScraperLevel = []
+var maxScraperLevel
+
+var atomizerStartWeights = []
+var atomizerEndWeights = []
+var maxAtomizerLevel
 
 @onready var autoSellMap = {
 	Item.theItem.COPPER_GEM: "autoSellCommonGem",
@@ -82,6 +95,7 @@ func _ready() -> void:
 	currentEnergy = startingEnergy
 	currentScrap = startingScrap
 	updateGemChanceWeights()
+	updateScrapChanceWeights()
 	pass
 
 func addItem(item):
@@ -125,6 +139,9 @@ func getHoloGeneratorLocation():
 func getGemScraperLocation():
 	return Vector2(get_tree().current_scene.find_child("GemFabricator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemFabricator").global_position.y)
 
+func getMaterialAtomizerLocation():
+	return Vector2(get_tree().current_scene.find_child("MaterialAtomizer").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("MaterialAtomizer").global_position.y)
+
 func getStorageItem(itemName):
 	if storage.has(itemName):
 		return storage.get(itemName)
@@ -140,6 +157,21 @@ func getEnergyItemValue(itemEnum):
 		return itemEnergyValueDict.get(itemEnum)
 	else:
 		return -999999
+
+func getScrapItemValue(itemEnum):
+	if itemScrapValueDict.has(itemEnum):
+		return itemScrapValueDict.get(itemEnum)
+	else:
+		return -999999
+
+func scrapItem(item : Item,amountScrapping : int,scrapValue: int):
+	if storage.has(item.actualItem):
+		if amountScrapping <= item.amount:
+			currentScrap += amountScrapping * scrapValue
+			storage[item.actualItem] = storage.get(item.actualItem) - amountScrapping
+			storageChanged.emit()
+		else:
+			push_error("selling more than what you have")
 
 func sellItem(item : Item,amountSelling : int,sellValue: int):
 	if storage.has(item.actualItem):
@@ -184,7 +216,7 @@ func convertItem(item : Item,amountSelling : int,convertValue: float):
 func updateGemChanceWeights():
 	var weights = [0.0, 0.0, 0.0, 0.0, 0.0]
 	
-	var progress = float(gemScraperLevel - 1) / 49.0
+	var progress = float(gemScraperLevel - 1) / (maxScraperLevel-1)
 	#print("PROGRESS VALUE: ", progress)
 	
 	var startDistribution = scraperStartWeights
@@ -243,6 +275,31 @@ func calcGemChanceWeights(cityLevelTest):
 	#print(gemChances)
 	#print("LEVEL: ", gemScraperLevel, " PROGRESS: ", progress)
 	#print("WEIGHTS: ", weights)
+
+func updateScrapChanceWeights():
+	var weights = [0.0, 0.0, 0.0, 0.0, 0.0]
+	
+	var progress = float(materialAtomizerLevel - 1) / (maxAtomizerLevel-1)
+	#print("PROGRESS VALUE: ", progress)
+	
+	var startDistribution = atomizerStartWeights
+	var endDistribution = atomizerEndWeights
+
+	for i in range(5):
+		weights[i] = lerp(startDistribution[i], endDistribution[i], progress)
+
+	var totalWeight = 0.0
+	for w in weights:
+		totalWeight += w
+
+	for i in range(5):
+		weights[i] = snapped((weights[i] / totalWeight) * 100.0, 0.01)
+	
+	var keys = scrapChances.keys()
+
+	for i in range(keys.size()):
+		scrapChances[keys[i]] = weights[i]
+
 
 func addCitizen(cit : Citizen):
 	citizens.append(cit)

@@ -19,7 +19,7 @@ animations = [{
 }]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_825rj"]
-size = Vector2(17.25, 24.5)
+size = Vector2(68, 91)
 
 [node name="MaterialAtomizer" type="Control" unique_id=226652734]
 layout_mode = 3
@@ -33,6 +33,7 @@ grow_vertical = 2
 script = ExtResource("1_hjxic")
 
 [node name="BuildSprite" type="AnimatedSprite2D" parent="." unique_id=1781376721]
+scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_3ivlo")
 
 [node name="Work Area" type="Area2D" parent="." unique_id=21073896]
@@ -41,7 +42,7 @@ collision_layer = 32
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1359918280]
-position = Vector2(-0.375, 4.25)
+position = Vector2(-0.25, 13.5)
 shape = SubResource("RectangleShape2D_825rj")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 

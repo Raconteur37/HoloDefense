@@ -128,7 +128,7 @@ func _on_diamond_money_switch_toggled(toggled_on: bool) -> void:
 		CityManager.autoSellLegendaryGem = true
 		CityManager.massAutoSell(Item.theItem.DIAMOND_GEM)
 	else:
-		CityManager.autoSelllegendaryGem = false
+		CityManager.autoSellLegendaryGem = false
 
 
 func _on_galactite_money_switch_toggled(toggled_on: bool) -> void:
@@ -184,14 +184,34 @@ func _on_texture_button_mouse_entered() -> void:
 	
 	var chances = CityManager.calcGemChanceWeights(CityManager.gemScraperLevel+1)
 	
+	levelLabel.text = "Level: " + str(CityManager.gemScraperLevel + 1)
+	levelLabel.add_theme_color_override("font_color", Color.GREEN)
+	
 	for i in range(5):
 		labelList[i].add_theme_color_override("font_color", Color.GREEN)
 		labelList[i].text = str(chances[i]) + "%"
 
 
 func _on_texture_button_mouse_exited() -> void:
+	levelLabel.text = "Level: " + str(CityManager.gemScraperLevel)
+	levelLabel.add_theme_color_override("font_color", Color.WHITE)
+	
 	var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
 	
 	for i in range(5):
 		labelList[i].add_theme_color_override("font_color", Color.WHITE)
 		labelList[i].text = str(CityManager.gemChances[i]) + "%"
+
+
+func _on_texture_button_pressed() -> void:
+	CityManager.gemScraperLevel += 1
+	levelLabel.text = "Level: " + str(CityManager.gemScraperLevel)
+	CityManager.updateGemChanceWeights()
+	var labelList = [copGemChanceLabel,quartzGemChanceLabel,amethystGemChanceLabel,diamondGemChanceLabel,galactiteGemChanceLabel]
+	for i in range(5):
+		labelList[i].text = str(CityManager.gemChances[i]) + "%"
+	_on_texture_button_mouse_entered()
+	
+	if CityManager.gemScraperLevel >= CityManager.maxScraperLevel:
+		$menuControl/fabricatorMenuBackground/TextureButton.queue_free()
+		$menuControl/fabricatorMenuBackground/upgradeScraperLabel.queue_free()

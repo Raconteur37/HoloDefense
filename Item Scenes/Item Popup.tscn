@@ -126,6 +126,13 @@ shader_parameter/sparkle_strength = 2.0
 gradient = SubResource("Gradient_2nmeg")
 fill_from = Vector2(1, 0)
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_ms1ek"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
 [node name="ItemPopup" type="Popup" unique_id=1373946898]
 oversampling_override = 1.0
 title = "Common Item"
@@ -195,6 +202,48 @@ texture_normal = ExtResource("3_qtdmd")
 texture_hover = ExtResource("4_1qfsm")
 
 [node name="Label" type="Label" parent="MainBackground/HBoxContainer/ConvertButton" unique_id=4615295]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 10.0
+offset_right = 179.0
+offset_bottom = 48.0
+text = "Convert"
+label_settings = SubResource("LabelSettings_qoc1r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="MainBackground" unique_id=959444789]
+layout_mode = 0
+offset_left = 57.0
+offset_top = 280.0
+offset_right = 479.0
+offset_bottom = 336.0
+scale = Vector2(0.75, 0.75)
+alignment = 1
+
+[node name="Selll Button" type="TextureButton" parent="MainBackground/HBoxContainer2" unique_id=771833907]
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer2/Selll Button" unique_id=1422387146]
+layout_mode = 0
+offset_left = 29.0
+offset_top = 10.0
+offset_right = 179.0
+offset_bottom = 48.0
+text = "Sell"
+label_settings = SubResource("LabelSettings_qoc1r")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="ConvertScrapButton" type="TextureButton" parent="MainBackground/HBoxContainer2" unique_id=1723558034]
+modulate = Color(1, 0.8745098, 0, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="Label" type="Label" parent="MainBackground/HBoxContainer2/ConvertScrapButton" unique_id=1636182278]
 layout_mode = 0
 offset_left = 29.0
 offset_top = 10.0
@@ -468,12 +517,158 @@ bbcode_enabled = true
 text = "[color=blue]Energy: 0[/color]"
 horizontal_alignment = 1
 
+[node name="ConvertScrapbackground" type="TextureRect" parent="." unique_id=1519667787]
+visible = false
+modulate = Color(1, 1, 1, 0.788235)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -211.5
+offset_top = -166.0
+offset_right = 211.5
+offset_bottom = 166.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_qtdmd")
+
+[node name="scrapSlider" type="HSlider" parent="ConvertScrapbackground" unique_id=1387847003]
+top_level = true
+layout_mode = 0
+offset_left = 16.0
+offset_top = 229.0
+offset_right = 412.0
+offset_bottom = 251.0
+rounded = true
+
+[node name="HBoxContainer" type="HBoxContainer" parent="ConvertScrapbackground" unique_id=1433624649]
+top_level = true
+layout_mode = 0
+offset_left = 22.0
+offset_top = 270.0
+offset_right = 450.0
+offset_bottom = 328.0
+scale = Vector2(0.9, 0.9)
+
+[node name="ScrapButton" type="TextureButton" parent="ConvertScrapbackground/HBoxContainer" unique_id=2116928990]
+modulate = Color(0, 1, 0.592157, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="SellLabel" type="Label" parent="ConvertScrapbackground/HBoxContainer/ScrapButton" unique_id=957625528]
+layout_mode = 0
+offset_left = 26.0
+offset_top = 9.0
+offset_right = 188.0
+offset_bottom = 50.0
+text = "Scrap"
+label_settings = SubResource("LabelSettings_qtdmd")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CancelButton" type="TextureButton" parent="ConvertScrapbackground/HBoxContainer" unique_id=1347644307]
+layout_mode = 2
+texture_normal = ExtResource("3_qtdmd")
+texture_hover = ExtResource("4_1qfsm")
+
+[node name="CancelLabel" type="Label" parent="ConvertScrapbackground/HBoxContainer/CancelButton" unique_id=919179349]
+layout_mode = 0
+offset_left = 14.7778
+offset_top = 7.77778
+offset_right = 195.778
+offset_bottom = 46.8611
+text = "Cancel"
+label_settings = SubResource("LabelSettings_1qfsm")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AmountPlate" type="TextureRect" parent="ConvertScrapbackground" unique_id=1332111463]
+top_level = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 111.0
+offset_top = 8.0
+offset_right = 520.0
+offset_bottom = 119.0
+scale = Vector2(0.5, 0.5)
+texture = ExtResource("7_1qfsm")
+
+[node name="ScrapAmountPlateLabel" type="RichTextLabel" parent="ConvertScrapbackground" unique_id=249800820]
+top_level = true
+layout_mode = 0
+offset_left = 86.0
+offset_top = 11.0
+offset_right = 210.0
+offset_bottom = 34.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[color=white]x100[/color]"
+horizontal_alignment = 1
+
+[node name="ScrapAmountText" type="RichTextLabel" parent="ConvertScrapbackground" unique_id=2683360]
+top_level = true
+layout_mode = 0
+offset_left = 2.0
+offset_top = 179.0
+offset_right = 214.0
+offset_bottom = 205.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[color=yellow]Scrap: x0[/color]"
+horizontal_alignment = 1
+
+[node name="Conversion Hammer" type="TextureRect" parent="ConvertScrapbackground" unique_id=1424008835]
+top_level = true
+texture_filter = 1
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -15.5
+offset_top = -111.0
+offset_right = 52.5
+offset_bottom = -45.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.8, 0.8)
+pivot_offset = Vector2(55, 55)
+texture = ExtResource("7_2nmeg")
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="ConvertScrapbackground" unique_id=1579449186]
+libraries/ = SubResource("AnimationLibrary_0vfj8")
+autoplay = &"Hammer Swing"
+
+[node name="Anvil" type="TextureRect" parent="ConvertScrapbackground" unique_id=1935955215]
+top_level = true
+texture_filter = 1
+layout_mode = 0
+offset_left = 182.0
+offset_top = 116.0
+offset_right = 222.0
+offset_bottom = 156.0
+scale = Vector2(1.4, 1.4)
+texture = ExtResource("8_2nmeg")
+
+[node name="AnvilSmashParticle" parent="ConvertScrapbackground" unique_id=1679695447 instance=ExtResource("9_8v2ix")]
+material = SubResource("CanvasItemMaterial_ms1ek")
+position = Vector2(170, 115)
+local_coords = true
+
 [connection signal="popup_hide" from="." to="." method="_on_popup_hide"]
 [connection signal="pressed" from="MainBackground/HBoxContainer/Selll Button" to="." method="_on_selll_button_pressed"]
 [connection signal="pressed" from="MainBackground/HBoxContainer/ConvertButton" to="." method="_on_convert_button_pressed"]
+[connection signal="pressed" from="MainBackground/HBoxContainer2/Selll Button" to="." method="_on_selll_button_pressed"]
+[connection signal="pressed" from="MainBackground/HBoxContainer2/ConvertScrapButton" to="." method="_on_convert_scrap_button_pressed"]
 [connection signal="value_changed" from="SellSliderBackground/HSlider" to="." method="_on_h_slider_value_changed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/SellButton" to="." method="_on_sell_button_pressed"]
 [connection signal="pressed" from="SellSliderBackground/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]
 [connection signal="value_changed" from="ConvertSliderBackground/convertHSlider" to="." method="_on_convert_h_slider_value_changed"]
 [connection signal="pressed" from="ConvertSliderBackground/HBoxContainer/ConvertConfirmButton" to="." method="_on_convert_confirm_button_pressed"]
 [connection signal="pressed" from="ConvertSliderBackground/HBoxContainer/CancelConvertButton" to="." method="_on_cancel_convert_button_pressed"]
+[connection signal="value_changed" from="ConvertScrapbackground/scrapSlider" to="." method="_on_scrap_slider_value_changed"]
+[connection signal="pressed" from="ConvertScrapbackground/HBoxContainer/ScrapButton" to="." method="_on_scrap_button_pressed"]
+[connection signal="pressed" from="ConvertScrapbackground/HBoxContainer/CancelButton" to="." method="_on_cancel_button_pressed"]

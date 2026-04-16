@@ -7,6 +7,11 @@ var itemLookupDict : Dictionary = {
 	"Amethyst Gem" : Item.theItem.AMETHYST_GEM,
 	"Diamond Gem" : Item.theItem.DIAMOND_GEM,
 	"Galactite Gem" : Item.theItem.GALACTITE_GEM,
+	"Common Scrap": Item.theItem.COMMON_SCRAP,
+	"Rare Scrap": Item.theItem.RARE_SCRAP,
+	"Super Rare Scrap": Item.theItem.SUPER_RARE_SCRAP,
+	"Legendary Scrap": Item.theItem.LEGENDARY_SCRAP,
+	"Unseen Scrap": Item.theItem.UNSEEN_SCRAP,
 }
 
 func _ready() -> void:
@@ -39,13 +44,11 @@ func setupCityManagerItemDictionaries():
 	var moneyValues = {}
 	var energyValues = {}
 	
-	# Parse Money
 	var moneyData = gemValues.get("Money", {})
 	for itemName in moneyData.keys():
 		if itemLookupDict.has(itemName):
 			moneyValues[itemLookupDict[itemName]] = moneyData[itemName]
 			
-	# Parse Energy
 	var energyData = gemValues.get("Energy", {})
 	for itemName in energyData.keys():
 		if itemLookupDict.has(itemName):
@@ -54,11 +57,39 @@ func setupCityManagerItemDictionaries():
 	CityManager.itemMoneyValueDict = moneyValues
 	CityManager.itemEnergyValueDict = energyValues
 
+	# -=HANDLE SCRAP VALUES=-
+	var scrapValues = json_data.get("ScrapValues", {})
+
+	var sMoneyValues = {}
+	var sScrapValues = {}
+
+	# Parse Scrap -> Money values
+	var scrapMoneyData = scrapValues.get("Money", {})
+	for itemName in scrapMoneyData.keys():
+		if itemLookupDict.has(itemName):
+			sMoneyValues[itemLookupDict[itemName]] = scrapMoneyData[itemName]
+			
+	# Parse Scrap -> Scrap resource values
+	var scrapResourceData = scrapValues.get("Scrap", {})
+	for itemName in scrapResourceData.keys():
+		if itemLookupDict.has(itemName):
+			sScrapValues[itemLookupDict[itemName]] = scrapResourceData[itemName]
+
+	CityManager.itemMoneyValueDict.merge(sMoneyValues)
+	CityManager.itemScrapValueDict = sScrapValues
+
 	# -=HANDLE SCRAPER SETTINGS=-
 	var scraperSettings = json_data.get("ScraperSettings", {})
 	if not scraperSettings.is_empty():
 		CityManager.scraperStartWeights = scraperSettings.get("StartWeights", [])
 		CityManager.scraperEndWeights = scraperSettings.get("EndWeights", [])
 		CityManager.maxScraperLevel = scraperSettings.get("MaxLevel", 50)
+
+	# -=HANDLE ATOMZIER SETTINGS=-
+	var atomzierSettings = json_data.get("AtomizerSettings", {})
+	if not atomzierSettings.is_empty():
+		CityManager.atomizerStartWeights = atomzierSettings.get("StartWeights", [])
+		CityManager.atomizerEndWeights = atomzierSettings.get("EndWeights", [])
+		CityManager.maxAtomizerLevel = atomzierSettings.get("MaxLevel", 50)
 
 	print("Config setup done no errors")

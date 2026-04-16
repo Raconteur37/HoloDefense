@@ -4,10 +4,11 @@ extends Item
 @onready var itemPopup = $ItemPopup
 
 func _ready() -> void:
-	#buildItem(Item.theItem.COPPER_GEM)
+	#buildItem(Item.theItem.UNSEEN_SCRAP)
 	#amount = 100
 	#itemPopup.item = self
-	#CityManager.addItem(Item.theItem.COPPER_GEM)
+	#CityManager.addItem(Item.theItem.UNSEEN_SCRAP)
+	
 	itemPopup.item = self
 	itemPopup.buildItemDisplay()
 	CityManager.storageChanged.connect(updateUI)
@@ -69,7 +70,40 @@ func buildItem(item):
 			actualItem = theItem.COMMON_SCRAP
 			type = Type.MATERIAL
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/copperGem.png")
+			scrapValue = CityManager.getScrapItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Scrap/Common Scrap.png")
+		Item.theItem.RARE_SCRAP:
+			itemName = "Rare Scrap"
+			rarity = Rarity.RARE
+			actualItem = theItem.RARE_SCRAP
+			type = Type.MATERIAL
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			scrapValue = CityManager.getScrapItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Scrap/Rare Scrap.png")
+		Item.theItem.SUPER_RARE_SCRAP:
+			itemName = "Super Rare Scrap"
+			rarity = Rarity.SUPER_RARE
+			actualItem = theItem.SUPER_RARE_SCRAP
+			type = Type.MATERIAL
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			scrapValue = CityManager.getScrapItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Scrap/Super Rare Scrap.png")
+		Item.theItem.LEGENDARY_SCRAP:
+			itemName = "Legendary Scrap"
+			rarity = Rarity.LEGENDARY
+			actualItem = theItem.LEGENDARY_SCRAP
+			type = Type.MATERIAL
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			scrapValue = CityManager.getScrapItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Scrap/Legendary Scrap.png")
+		Item.theItem.UNSEEN_SCRAP:
+			itemName = "Unseen Scrap"
+			rarity = Rarity.UNSEEN
+			actualItem = theItem.UNSEEN_SCRAP
+			type = Type.MATERIAL
+			moneyValue = CityManager.getMoneyItemValue(actualItem)
+			scrapValue = CityManager.getScrapItemValue(actualItem)
+			texture = load("res://Textures/Citizens/Scrap/Unseen Scrap.png")
 
 
 func _on_gui_input(event: InputEvent) -> void:

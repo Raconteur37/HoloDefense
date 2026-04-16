@@ -96,14 +96,7 @@ func updateStorage():
 				if itemCreated.type == Item.Type.GEM:
 					gemGridContainer.add_child(itemCreated)
 				itemDict[item] = itemCreated
-	if CityManager.autoSellCommonGem:
-		var copper_enum = Item.theItem.COPPER_GEM
-		var amount_in_storage = CityManager.storage.get(copper_enum, 0)
 
-		if amount_in_storage > 0:
-			var copper_node = itemDict.get(copper_enum)
-			if is_instance_valid(copper_node):
-				CityManager.sellItem(copper_node, amount_in_storage, copper_node.moneyValue)
 func _on_generate_citizen_button_pressed() -> void:
 	# Check cost and all that
 	citGenLabel.text = "Generate Citizen \nEnergy: " + str(100 + (citizensGenerated * 10))
@@ -129,6 +122,10 @@ func _on_upgrade_generator_button_pressed() -> void:
 	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
 	generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
 	_on_upgrade_generator_button_mouse_entered()
+	
+	if CityManager.generatorLevel >= 50:
+		$UpgradeGeneratorButton.queue_free()
+		$UpgradeGenLabel.queue_free()
 
 func _on_generate_resources_timer_timeout() -> void:
 	CityManager.generateResources()

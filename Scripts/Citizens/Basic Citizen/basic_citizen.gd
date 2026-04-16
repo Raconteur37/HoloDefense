@@ -164,10 +164,36 @@ func updateJob():
 	match currentJob:
 		Job.GEM_SCRAPER:
 			workTimer.wait_time = .5
+		Job.MATERIAL_ATOMIZER:
+			workTimer.wait_time = .5
 
 func finishJob():
 	match currentJob:
 		Job.GEM_SCRAPER:
+			var popup = popupScene.instantiate()
+			canvasLayer.add_child(popup)
+			popup.setPosition(self.global_position)
+			
+			var roll = randf_range(0.0, 100.0)
+			var cumulativeWeight = 0.0
+			var selectedGem = null
+
+			for i in range(gemKeys.size()):
+				var gemKey = gemKeys[i]
+				cumulativeWeight += CityManager.gemChances[gemKey]
+				if roll <= cumulativeWeight:
+					selectedGem = gemKey
+					popup.gemPopup(gemNames[i])
+					addItemToInventory(gemKey, 1)
+					break
+					
+			if selectedGem == null:
+				var lastIndex = gemKeys.size() - 1
+				popup.gemPopup(gemNames[lastIndex])
+				addItemToInventory(gemKeys[lastIndex], 1)
+			
+			deliverItems()
+		Job.MATERIAL_ATOMIZER:
 			var popup = popupScene.instantiate()
 			canvasLayer.add_child(popup)
 			popup.setPosition(self.global_position)
@@ -196,7 +222,11 @@ func setWorkDestination():
 	match currentJob:
 		Job.GEM_SCRAPER:
 			destination = CityManager.getGemScraperLocation()
-			navAgent.target_position = destination
+
+		Job.MATERIAL_ATOMIZER:
+			destination = CityManager.getMaterialAtomizerLocation()
+			
+	navAgent.target_position = destination
 
 func deliverItems():
 	currentState = State.DELIVERING

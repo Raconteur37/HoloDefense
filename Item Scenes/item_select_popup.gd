@@ -23,10 +23,20 @@ var item : Item
 @onready var convertAmountText = $ConvertSliderBackground/ConvertAmountText
 @onready var convertSlider = $ConvertSliderBackground/convertHSlider
 
+@onready var gemButtonContainer = $MainBackground/HBoxContainer
 
+@onready var scrapButtonContainer = $MainBackground/HBoxContainer2
+@onready var scrapButtonSell = $"MainBackground/HBoxContainer2/Selll Button"
+@onready var scarpButtonConvert = $MainBackground/HBoxContainer2/ConvertScrapButton
+
+@onready var convertScrapBackground = $ConvertScrapbackground
+@onready var scrapAmountText = $ConvertScrapbackground/ScrapAmountText
+@onready var scrapSlider = $ConvertScrapbackground/scrapSlider
+@onready var scrapAmountPlateLabel = $ConvertScrapbackground/ScrapAmountPlateLabel
 
 func _ready() -> void:
 	CityManager.storageChanged.connect(refresh)
+
 
 func buildItemDisplay():
 
@@ -44,6 +54,9 @@ func buildItemDisplay():
 		itemRarityLabel.text = "Legendary"
 	if item.rarity == Item.Rarity.UNSEEN:
 		itemRarityLabel.text = "Unseen"
+	if item.type == item.Type.MATERIAL:
+		scrapButtonContainer.show()
+		gemButtonContainer.hide()
 
 func setItemImage():
 
@@ -64,6 +77,21 @@ func setItemImage():
 		Item.theItem.GALACTITE_GEM:
 			itemImage.texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
+		Item.theItem.COMMON_SCRAP:
+			itemImage.texture = load("res://Textures/Citizens/Scrap/Common Scrap.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
+		Item.theItem.RARE_SCRAP:
+			itemImage.texture = load("res://Textures/Citizens/Scrap/Rare Scrap.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
+		Item.theItem.SUPER_RARE_SCRAP:
+			itemImage.texture = load("res://Textures/Citizens/Scrap/Super Rare Scrap.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
+		Item.theItem.LEGENDARY_SCRAP:
+			itemImage.texture = load("res://Textures/Citizens/Scrap/Legendary Scrap.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
+		Item.theItem.UNSEEN_SCRAP:
+			itemImage.texture = load("res://Textures/Citizens/Scrap/Unseen Scrap.png")
+			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 
 
 func _on_selll_button_pressed() -> void:
@@ -74,6 +102,7 @@ func _on_selll_button_pressed() -> void:
 
 func _on_cancel_button_pressed() -> void:
 	sellMenu.hide()
+	convertScrapBackground.hide()
 
 func _on_h_slider_value_changed(value: float) -> void:
 	sliderItemAmount.text = "[color=white]x" + str(item.amount - slider.value) + "[/color]"
@@ -110,3 +139,21 @@ func _on_cancel_convert_button_pressed() -> void:
 func _on_convert_confirm_button_pressed() -> void:
 	CityManager.convertItem(item,convertSlider.value,item.energyValue)
 	convertMenu.hide()
+
+
+func _on_convert_scrap_button_pressed() -> void:
+	scrapAmountPlateLabel.text = "[color=gray]x" + str(item.amount) + "[/color]"
+	scrapSlider.value = 0
+	scrapSlider.max_value = item.amount
+	convertScrapBackground.show()
+
+
+
+func _on_scrap_button_pressed() -> void:
+	CityManager.scrapItem(item,scrapSlider.value,item.scrapValue)
+	convertScrapBackground.hide()
+
+
+func _on_scrap_slider_value_changed(value: float) -> void:
+	scrapAmountPlateLabel.text = "[color=white]x" + str(item.amount - scrapSlider.value) + "[/color]"
+	scrapAmountText.text = "[color=yellow]Scrap: " + str(item.scrapValue * scrapSlider.value) + "[/color]"
