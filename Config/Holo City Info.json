@@ -8,11 +8,11 @@
 	  "Galactite Gem": 50
 	},
 	"Energy": {
-	  "Copper Gem": 0.2,
-	  "Quartz Gem": 0.7,
-	  "Amethyst Gem": 1.0,
-	  "Diamond Gem": 3.0,
-	  "Galactite Gem": 10.0
+	  "Copper Gem": 1,
+	  "Quartz Gem": 3,
+	  "Amethyst Gem": 6.5,
+	  "Diamond Gem": 16,
+	  "Galactite Gem": 35.5
 	}
   },
 

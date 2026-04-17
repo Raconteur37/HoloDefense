@@ -187,6 +187,7 @@ func _ready() -> void:
 	milestoneScrap = 0
 
 func addItem(item):
+	#cityLevelUp()
 	if autoSellMap.has(item): # Auto sell based on map booleans
 		var varName = autoSellMap[item]
 		if get(varName) == true:
@@ -537,6 +538,7 @@ func updateCityMaxXP():
 	cityMaxXP = baseMaxCityXp * pow(cityLevel, cityMaxXpScale)
 
 func cityLevelUp():
+	SoundManager.cityLevelUp()
 	cityLevel += 1
 	updateAllItemValues()
 	storageChanged.emit()

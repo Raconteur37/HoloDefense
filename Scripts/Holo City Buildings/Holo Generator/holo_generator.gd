@@ -25,6 +25,8 @@ var moneyGenLabel : RichTextLabel
 var energyGenLabel : RichTextLabel
 var scrapGenLabel : RichTextLabel
 
+var cityLevelLabel : Label
+
 var itemScene = preload("res://Item Scenes/Item.tscn")
 var portraitScene = preload("res://Game Scenes/Citizen Portrait.tscn")
 
@@ -60,6 +62,8 @@ func _ready() -> void:
 	scrapLabel = $HBoxContainer/ScrapLabel
 	upgradeGenLabel = $UpgradeGenLabel
 	
+	cityLevelLabel = $cityLevelLabel
+	
 	upgradeGenLabel.text = "Upgrade\n Generator\n Energy: " + str(CityManager.generatorUpgradeCost)
 	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
@@ -74,6 +78,7 @@ func _process(_delta: float) -> void:
 	moneyLabel.text = "Money: " + str(CityManager.getCurrentMoney())
 	energyLabel.text = "Energy: " + str(CityManager.getCurrentEnergy())
 	scrapLabel.text = "Scrap: " + str(CityManager.getCurrentScrap())
+	cityLevelLabel.text = "Ctiy Level: " + str(CityManager.cityLevel)
 	
 	
 func _on_work_area_body_entered(body: Node2D) -> void:
