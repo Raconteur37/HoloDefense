@@ -107,7 +107,15 @@ func setupCityManagerItemDictionaries():
 		CityManager.atomizerStartWeights = atomzierSettings.get("StartWeights", [])
 		CityManager.atomizerEndWeights = atomzierSettings.get("EndWeights", [])
 		CityManager.maxAtomizerLevel = atomzierSettings.get("MaxLevel", 50)
-		CityManager.baseAtomizerUpgradeCost = scraperSettings.get("BaseUpgradeCost",-99)
-		CityManager.atomizerCostMultiplier = scraperSettings.get("CostScaling",99)
+		CityManager.baseAtomizerUpgradeCost = atomzierSettings.get("BaseUpgradeCost",-99)
+		CityManager.atomizerCostMultiplier = atomzierSettings.get("CostScaling",99)
 
+	# -=HANDLE LAB SETTINGS=-
+	var labSettings = json_data.get("ResearchLabSettings", {})
+	if not labSettings.is_empty():
+		CityManager.researchLabCostMultiplier = labSettings.get("CostScaling")
+		CityManager.baseResearchLabSlotCost = labSettings.get("BaseSlotCost", 50)
+		CityManager.researchMaxLevel = labSettings.get("ResearchMaxLevel",-99)
+		CityManager.researchBaseCost = labSettings.get("ResearchBaseCost")
+		CityManager.researchCostScaling = labSettings.get("ResearchCostScaling")
 	print("Config setup done no errors")

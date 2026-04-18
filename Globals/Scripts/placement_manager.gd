@@ -66,7 +66,7 @@ func _input(event: InputEvent) -> void:
 		else:
 			if inGame or DeveloperMode.inDevMode and not GameManager.previewMode:
 				if not is_cell_occupied(get_tree().current_scene.get_global_mouse_position()):
-					GameManager.closeAllMenus()
+					pass
 				#print(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))
 				#if occupied_cells.has(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position())):
 					#var turret = occupied_cells.get(get_snapped_position(get_tree().root.get_node("/root/Game").get_global_mouse_position()))

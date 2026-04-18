@@ -7,6 +7,27 @@ var selected : bool = false
 var shotReady : bool = true
 var isCollisionReady : bool = false
 
+enum TurretID {
+	NONE,
+	ARROW_TURRET,
+	SENTRY_TURRET,
+	ENERGIZER_TURRET,
+	FIREWORK_TURRET,
+	FLAME_TURRET,
+	GOLD_MINE_TURRET,
+	GRAVITY_TURRET,
+	MEDIC_TURRET,
+	MINI_SENTRY_TURRET,
+	RAILGUN_TURRET,
+	REAPER_TURRET,
+	ROYAL_TURRET,
+	SEISMIC_TURRET,
+	SPIDER_TURRET,
+	VOODOO_TURRET,
+	TESLA_TURRET,
+	ZOMBIE_TURRET
+}
+
 signal hit(damage,turret)
 signal upgrade(turret)
 
@@ -35,6 +56,9 @@ enum Rarity { COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
 var rarity : Rarity
 enum Type {Midieval, Modern, Future, Elemental, Armory, Dark, Biological, Magic, Idk}
 var type : Type
+var turretID : TurretID
+
+var scaleFactor : float
 
 var turretName : String = "None"
 @export var price : int = 20

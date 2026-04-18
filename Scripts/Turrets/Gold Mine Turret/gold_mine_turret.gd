@@ -10,7 +10,7 @@ func _ready() -> void:
 
 	rarity = Rarity.LEGENDARY
 	type = Type.Midieval
-
+	turretID = TurretID.GOLD_MINE_TURRET
 	turretName = TurretManager.getTurretStat("gold_mine_turret","name")
 	price = TurretManager.getTurretStat("gold_mine_turret","price")
 	maxHealth = TurretManager.getTurretStat("gold_mine_turret","health")

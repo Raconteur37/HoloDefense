@@ -8,7 +8,7 @@ func _ready() -> void:
 
 	rarity = Rarity.COMMON
 	type = Type.Armory
-
+	turretID = TurretID.MINI_SENTRY_TURRET
 	turretName = TurretManager.getTurretStat("mini_sentry_turret","name")
 	price = TurretManager.getTurretStat("mini_sentry_turret","price")
 	maxHealth = TurretManager.getTurretStat("mini_sentry_turret","health")

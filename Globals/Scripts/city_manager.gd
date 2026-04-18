@@ -57,6 +57,7 @@ var itemScaleFactor
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
 var materialAtomizerLevel : int = 1
+var researchLabLevel : int = 1
 var cityLevel : int = 1 # This will increase as you generate more wealth and have more citizens and upgrade generators
 
 var holoGenerator
@@ -90,6 +91,13 @@ var scraperCostMultiplier
 var baseAtomizerUpgradeCost
 var atomizerUpgradeCost
 var atomizerCostMultiplier
+
+var baseResearchLabSlotCost
+var researchLabSlotCost
+var researchLabCostMultiplier
+var researchMaxLevel
+var researchBaseCost
+var researchCostScaling
 
 var milestoneMoney
 var milestoneEnergy
@@ -173,6 +181,7 @@ func _ready() -> void:
 	generatorUpgradeCost = baseGeneratorUpgradeCost
 	scraperUpgradeCost = baseScraperUpgradeCost
 	atomizerUpgradeCost = baseAtomizerUpgradeCost
+	researchLabSlotCost = baseResearchLabSlotCost
 	#updateGenCitizenCost()
 	#updateGeneratorUpgradeCost()
 	baseItemMoneyValueDict = itemMoneyValueDict.duplicate()

@@ -7,7 +7,7 @@ var attackParticle
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
-
+	turretID = TurretID.SEISMIC_TURRET
 	turretName =  TurretManager.getTurretStat("seismic_turret","name")
 	price = TurretManager.getTurretStat("seismic_turret","price")
 	maxHealth = TurretManager.getTurretStat("seismic_turret","health")

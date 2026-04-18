@@ -14,7 +14,8 @@
 		"range": 200,
 		"reloadTime": 2.5,
 		"projectileSpeed": 400,
-		"constructionTime": 5
+		"constructionTime": 5,
+		"scaleFactor": 0.06
 	},
 	"mini_sentry_turret": {
 		"id": 2,
@@ -31,7 +32,8 @@
 		"range": 100,
 		"reloadTime": 0.5,
 		"projectileSpeed": 500,
-		"constructionTime": 3
+		"constructionTime": 3,
+		"scaleFactor": 0.04
 	},
 	"railgun_turret": {
 		"id": 3,
@@ -49,7 +51,8 @@
 		"reloadTime": 10,
 		"projectileSpeed": 150,
 		"constructionTime": 20,
-		"pierce": 2
+		"pierce": 2,
+		"scaleFactor": 0.08
 	},
 	"energizer_turret": {
 		"id": 4,
@@ -69,7 +72,8 @@
 		"energizerDamageBuff": 0.02,
 		"energizerProjectileSpeedBuff": 0.02,
 		"energizerAttackRangeBuff": 0.02,
-		"energizerReloadTimeBuff": 0.02
+		"energizerReloadTimeBuff": 0.02,
+		"scaleFactor": 0.05
 	},
 	"royal_turret": {
 		"id": 5,
@@ -85,7 +89,8 @@
 		"range": 200,
 		"constructionTime": 25,
 		"summonTime": 5,
-		"maxKnights": 3
+		"maxKnights": 3,
+		"scaleFactor": 0.05
 	},
 	"flame_turret": {
 		"id": 6,
@@ -103,7 +108,8 @@
 		"constructionTime": 8,
 		"fireDamage": 2,
 		"fireTime": 3,
-		"fireTickTime": 0.5
+		"fireTickTime": 0.5,
+		"scaleFactor": 0.06
 	},
 	"firework_turret": {
 		"id": 7,
@@ -123,7 +129,8 @@
 		"constructionTime": 10,
 		"explosionDamage": 10,
 		"explosionRadius": 60,
-		"shotDelay": 0.3
+		"shotDelay": 0.3,
+		"scaleFactor": 0.07
 	},
 	"reaper_turret": {
 		"id": 8,
@@ -141,7 +148,8 @@
 		"reloadTime": 3,
 		"projectileSpeed": 250,
 		"constructionTime": 8,
-		"executionChance": 5
+		"executionChance": 5,
+		"scaleFactor": 0.08
 	},
 	"spider_turret": {
 		"id": 9,
@@ -161,7 +169,8 @@
 		"constructionTime": 4,
 		"poisonChance": 30,
 		"poisonDuration": 3,
-		"poisonDamage": 0.5
+		"poisonDamage": 0.5,
+		"scaleFactor": 0.04
 	},
 	"tesla_turret": {
 		"id": 10,
@@ -179,7 +188,8 @@
 		"reloadTime": 5,
 		"constructionTime": 20,
 		"attackingTime": 5,
-		"damageTickTime": 0.5
+		"damageTickTime": 0.5,
+		"scaleFactor": 0.06
 	},
 	"seismic_turret": {
 		"id": 11,
@@ -195,7 +205,8 @@
 		"damage": 30,
 		"range": 50,
 		"reloadTime": 4,
-		"constructionTime": 10
+		"constructionTime": 10,
+		"scaleFactor": 0.07
 	},
 	"gold_mine_turret": {
 		"id": 12,
@@ -214,7 +225,8 @@
 		"projectileSpeed": 300,
 		"constructionTime": 15,
 		"baseGoldProduced": 2,
-		"generateTime": 5
+		"generateTime": 5,
+		"scaleFactor": 0.10
 	},
 	"automated_sentry_turret": {
 		"id": 13,
@@ -233,7 +245,8 @@
 		"projectileSpeed": 300,
 		"constructionTime": 15,
 		"maxBullets": 150,
-		"shotTime": 0.1
+		"shotTime": 0.1,
+		"scaleFactor": 0.06
 	},
 	"voodoo_turret": {
 		"id": 14,
@@ -253,7 +266,8 @@
 		"constructionTime": 5,
 		"curseDuration": 3,
 		"curseDamageAmp": 0.20,
-		"curseChance": 20
+		"curseChance": 20,
+		"scaleFactor": 0.04
 	},
 	"zombie_turret": {
 		"id": 15,
@@ -272,7 +286,8 @@
 		"projectileSpeed": 300,
 		"constructionTime": 25,
 		"turnChance": 10,
-		"turnTime": 4
+		"turnTime": 4,
+		"scaleFactor": 0.09
 	},
 	"medic_turret": {
 		"id": 16,
@@ -289,6 +304,7 @@
 		"reloadTime": 4,
 		"constructionTime": 15,
 		"healingTime": 5,
-		"healingAmount": 4
+		"healingAmount": 4,
+		"scaleFactor": 0.05
 	}
 }

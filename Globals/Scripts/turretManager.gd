@@ -5,6 +5,26 @@ var turretXpData = {}
 var turretLevel = {}
 var xpMaxData = {}
 
+# Use the enum from the Turret class for the array type
+var unlockedTurrets: Array[Turret.TurretID] = [
+	Turret.TurretID.ARROW_TURRET,
+	Turret.TurretID.MINI_SENTRY_TURRET,
+	Turret.TurretID.ENERGIZER_TURRET,
+	Turret.TurretID.RAILGUN_TURRET,
+	Turret.TurretID.ROYAL_TURRET,
+	Turret.TurretID.FLAME_TURRET,
+	Turret.TurretID.REAPER_TURRET,
+	Turret.TurretID.FIREWORK_TURRET,
+	Turret.TurretID.SPIDER_TURRET,
+	Turret.TurretID.TESLA_TURRET,
+	Turret.TurretID.SEISMIC_TURRET,
+	Turret.TurretID.GOLD_MINE_TURRET,
+	Turret.TurretID.SENTRY_TURRET,
+	Turret.TurretID.VOODOO_TURRET,
+	Turret.TurretID.ZOMBIE_TURRET,
+	Turret.TurretID.MEDIC_TURRET
+]
+
 func _ready() -> void:
 	loadTurretData()
 	loadTurretXpData()
@@ -13,117 +33,109 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
 
-var unlockedTurrets = [
-	"arrow_turret",
-	"mini_sentry_turret",
-	"energizer_turret",
-	"railgun_turret",
-	"royal_turret",
-	"flame_turret",
-	"reaper_turret",
-	"firework_turret",
-	"spider_turret",
-	"tesla_turret",
-	"seismic_turret",
-	"gold_mine_turret",
-	"automated_sentry_turret",
-	"voodoo_turret",
-	"zombie_turret",
-	"medic_turret"
-]
+func get_turret_string(id: Turret.TurretID) -> String:
+	return Turret.TurretID.keys()[id].to_lower()
 
-var allTurrets = [
-	"arrow_turret",
-	"mini_sentry_turret",
-	"energizer_turret",
-	"railgun_turret",
-	"royal_turret",
-	"flame_turret",
-	"reaper_turret",
-	"firework_turret",
-	"spider_turret",
-	"tesla_turret",
-	"seismic_turret",
-	"gold_mine_turret",
-	"automated_sentry_turret",
-	"voodoo_turret",
-	"zombie_turret",
-	"medic_turret"
-]
-
-
-func loadTurretByName(turretName):
-
-	match turretName:
-		"arrow_turret":
+func loadTurretByID(id: Turret.TurretID):
+	match id:
+		Turret.TurretID.ARROW_TURRET:
 			return load("res://Turret Scenes/Arrow Turret.tscn")
-		"mini_sentry_turret":
+		Turret.TurretID.MINI_SENTRY_TURRET:
 			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
-		"energizer_turret":
+		Turret.TurretID.ENERGIZER_TURRET:
 			return load("res://Turret Scenes/Energizer Turret.tscn")
-		"railgun_turret":
+		Turret.TurretID.RAILGUN_TURRET:
 			return load("res://Turret Scenes/Railgun Turret.tscn")
-		"reaper_turret":
+		Turret.TurretID.REAPER_TURRET:
 			return load("res://Turret Scenes/Reaper Turret.tscn")
-		"royal_turret":
+		Turret.TurretID.ROYAL_TURRET:
 			return load("res://Turret Scenes/Royal Turret.tscn")
-		"flame_turret":
+		Turret.TurretID.FLAME_TURRET:
 			return load("res://Turret Scenes/Flame Turret.tscn")
-		"firework_turret":
+		Turret.TurretID.FIREWORK_TURRET:
 			return load("res://Turret Scenes/Firework Turret.tscn")
-		"spider_turret":
+		Turret.TurretID.SPIDER_TURRET:
 			return load("res://Turret Scenes/Spider Turret.tscn")
-		"tesla_turret":
+		Turret.TurretID.TESLA_TURRET:
 			return load("res://Turret Scenes/Tesla Turret.tscn")
-		"seismic_turret":
+		Turret.TurretID.SEISMIC_TURRET:
 			return load("res://Turret Scenes/Seismic Turret.tscn")
-		"gold_mine_turret":
+		Turret.TurretID.GOLD_MINE_TURRET:
 			return load("res://Turret Scenes/Gold Mine Turret.tscn")
-		"automated_sentry_turret":
+		Turret.TurretID.SENTRY_TURRET:
 			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
-		"voodoo_turret":
+		Turret.TurretID.VOODOO_TURRET:
 			return load("res://Turret Scenes/Voodoo Turret.tscn")
-		"zombie_turret":
+		Turret.TurretID.ZOMBIE_TURRET:
 			return load("res://Turret Scenes/Zombie Turret.tscn")
-		"medic_turret":
+		Turret.TurretID.MEDIC_TURRET:
 			return load("res://Turret Scenes/Medic Turret.tscn")
+		_:
+			push_error("Turret ID not mapped to scene")
 
-func findTurretTexture(turretName):
-
-	match turretName:
-
-		"arrow_turret":
+func getTurretTexture(id: Turret.TurretID):
+	match id:
+		Turret.TurretID.ARROW_TURRET:
 			return load("res://Textures/Turrets/Arrow Turret/ArrowTurret.png")
-		"mini_sentry_turret":
+		Turret.TurretID.MINI_SENTRY_TURRET:
 			return load("res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png")
-		"energizer_turret":
+		Turret.TurretID.ENERGIZER_TURRET:
 			return load("res://Textures/Turrets/Energizer Turret/Energizer Turret.png")
-		"railgun_turret":
+		Turret.TurretID.RAILGUN_TURRET:
 			return load("res://Textures/Turrets/Railgun Turret/RailgunTurret.png")
-		"reaper_turret":
+		Turret.TurretID.REAPER_TURRET:
 			return load("res://Textures/Turrets/Reaper Turret/ReaperTurret.png")
-		"royal_turret":
+		Turret.TurretID.ROYAL_TURRET:
 			return load("res://Textures/Turrets/Royal Turret/RoyalTurret.png")
-		"flame_turret":
+		Turret.TurretID.FLAME_TURRET:
 			return load("res://Textures/Turrets/Flame Turret/Flame Turret.png")
-		"firework_turret":
+		Turret.TurretID.FIREWORK_TURRET:
 			return load("res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png")
-		"spider_turret":
+		Turret.TurretID.SPIDER_TURRET:
 			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
-		"tesla_turret":
+		Turret.TurretID.TESLA_TURRET:
 			return load("res://Textures/Turrets/Tesla Turret/Tesla Turret.png")
-		"seismic_turret":
+		Turret.TurretID.SEISMIC_TURRET:
 			return load("res://Textures/Turrets/Seismic Turret/SeismicTurret.png")
-		"gold_mine_turret":
+		Turret.TurretID.GOLD_MINE_TURRET:
 			return load("res://Textures/Turrets/Gold Mine Turret/Gold Mine Turret.png")
-		"automated_sentry_turret":
+		Turret.TurretID.SENTRY_TURRET:
 			return load("res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png")
-		"voodoo_turret":
+		Turret.TurretID.VOODOO_TURRET:
 			return load("res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png")
-		"zombie_turret":
+		Turret.TurretID.ZOMBIE_TURRET:
 			return load("res://Textures/Turrets/Zombie Turret/Zombie Turret.png")
-		"medic_turret":
+		Turret.TurretID.MEDIC_TURRET:
 			return load("res://Textures/Turrets/Healing Turret/Healing Turret.png")
+
+func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
+	var key = get_turret_string(id)
+	if turretData.has(key) and turretData[key].has(stat_name):
+		return turretData[key][stat_name]
+	return default
+
+func getTurretXp(id: Turret.TurretID):
+	var key = get_turret_string(id)
+	if turretXpData.has(key):
+		return turretXpData[key]
+	return -1
+
+func getTurretLevel(id: Turret.TurretID):
+	var key = get_turret_string(id)
+	if turretLevel.has(key):
+		return turretLevel[key]
+	return -1
+
+func getListOfProperties(id: Turret.TurretID):
+	var key = get_turret_string(id)
+	var tracker : int = 0
+	var properties : Array = []
+	if turretData.has(key):
+		for prop in turretData[key]:
+			tracker += 1
+			if tracker >= 8:
+				properties.push_back(prop)
+	return properties
 
 func loadTurretData():
 	var file = FileAccess.open("res://Config/Turret Info.json", FileAccess.READ)
@@ -162,22 +174,7 @@ func loadXpMaximum() -> void:
 	else:
 		push_error("Failed to open file: %s" % "res://Config/TurretXP.json")
 
-func getTurretStat(turretKey: String, statName: String, default = -1):
-	if turretData.has(turretKey) and turretData[turretKey].has(statName):
-		return turretData[turretKey][statName]
-	return default
 
-func getTurretXp(turret_name):
-	if turretXpData.has(turret_name):
-		return turretXpData[turret_name]
-	push_error("Turret not found: %s" % turret_name)
-	return -1
-
-func getTurretLevel(turret_name):
-	if turretLevel.has(turret_name):
-		return turretLevel[turret_name]
-	push_error("Turret not found: " + turret_name)
-	return -1
 
 func getMaxXp(rarity: String, level: int):
 	if xpMaxData.has(rarity):
@@ -190,12 +187,3 @@ func getMaxXp(rarity: String, level: int):
 	else:
 		push_error("Invalid rarity: %s" % rarity)
 	return -1
-
-func getListOfProperties(turret_name):
-	var tracker : int = 0
-	var properties : Array = []
-	for key in turretData.get(turret_name): # This is a weird way of doing it but I get all the items below the basic ones for random data that may be added later
-		tracker += 1
-		if tracker >= 8:
-			properties.push_back(key)
-	return properties

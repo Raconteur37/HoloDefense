@@ -21,7 +21,7 @@ var damageTickTime
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
-
+	turretID = TurretID.FLAME_TURRET
 	turretName = TurretManager.getTurretStat("flame_turret","name")
 	price = TurretManager.getTurretStat("flame_turret","price")
 	maxHealth = TurretManager.getTurretStat("flame_turret","health")

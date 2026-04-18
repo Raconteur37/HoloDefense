@@ -11,7 +11,7 @@ func _ready() -> void:
 
 	rarity = Rarity.COMMON
 	type = Type.Magic
-
+	turretID = TurretID.VOODOO_TURRET
 	turretName = TurretManager.getTurretStat("voodoo_turret","name")
 	price = TurretManager.getTurretStat("voodoo_turret","price")
 	maxHealth = TurretManager.getTurretStat("voodoo_turret","health")

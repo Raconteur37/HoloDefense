@@ -23,7 +23,7 @@ func _notification(what: int) -> void:
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Future
-
+	turretID = TurretID.MEDIC_TURRET
 	turretName = TurretManager.getTurretStat("medic_turret","name")
 	price = TurretManager.getTurretStat("medic_turret","price")
 	maxHealth = TurretManager.getTurretStat("medic_turret","health")

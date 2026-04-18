@@ -68,5 +68,12 @@
 	"EndWeights": [10.0, 15.0, 25.0, 30.0, 20.0],
 	"BaseUpgradeCost": 100,
 	"CostScaling": 1.15
+  },
+  "ResearchLabSettings": {
+	"ResearchMaxLevel": 50,
+	"BaseSlotCost": 100,
+	"CostScaling": 1.75,
+	"ResearchBaseCost": 25,
+	"ResearchCostScaling": 0.08	
   }
 }

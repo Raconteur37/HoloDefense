@@ -13,6 +13,7 @@ var currentBullets
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Armory
+	turretID = TurretID.SENTRY_TURRET
 
 	turretName = TurretManager.getTurretStat("automated_sentry_turret","name")
 	price = TurretManager.getTurretStat("automated_sentry_turret","price")

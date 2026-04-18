@@ -8,19 +8,21 @@ func _ready() -> void:
 
 	rarity = Rarity.COMMON
 	type = Type.Midieval
+	turretID = TurretID.ARROW_TURRET
 
-	turretName = TurretManager.getTurretStat("arrow_turret","name")
-	price = TurretManager.getTurretStat("arrow_turret","price")
-	maxHealth = TurretManager.getTurretStat("arrow_turret","health")
-	baseDamage = TurretManager.getTurretStat("arrow_turret","damage")
-	baseProjectileSpeed = TurretManager.getTurretStat("arrow_turret","projectileSpeed")
-	baseAttackRange = TurretManager.getTurretStat("arrow_turret","range")
-	baseReloadTime = TurretManager.getTurretStat("arrow_turret","reloadTime")
-	armor = TurretManager.getTurretStat("arrow_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("arrow_turret","constructionTime")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
-	level = 2
+	level = 2 # get through config from loading
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -42,14 +44,12 @@ func _ready() -> void:
 	health = maxHealth
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
+	upgradeTier = GameManager.turretTempLevels.get(turretID)
 
 	hideRange()
 
-	for x in range(upgradeTier):
-		upgrade.emit(self)
+	applyUpgrade()
 
 	# Check if in devmode durring runtime
 	if DeveloperMode.inDevMode and not PlacementManager.inGame:
@@ -112,7 +112,6 @@ func reloadAnimation():
 				topSprite.frame = 0
 		await get_tree().create_timer((reloadTime / frames)).timeout
 
-
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		enemiesInRange.append(body)
@@ -122,3 +121,7 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
+
+func applyUpgrade():
+	pass
+	# do upgrade scales

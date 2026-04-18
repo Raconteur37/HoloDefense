@@ -21,7 +21,7 @@ func _ready() -> void:
 
 	rarity = Rarity.SUPER_RARE
 	type = Type.Elemental
-
+	turretID = TurretID.TESLA_TURRET
 	turretName = TurretManager.getTurretStat("tesla_turret","name")
 	price = TurretManager.getTurretStat("tesla_turret","price")
 	maxHealth = TurretManager.getTurretStat("tesla_turret","health")

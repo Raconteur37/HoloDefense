@@ -162,7 +162,7 @@ columns = 5
 
 [node name="ResearchSlot1" type="TextureRect" parent="menuControl/LabBackground/ResearchSlotGrid" unique_id=275203878]
 layout_mode = 2
-texture = ExtResource("5_140bg")
+texture = ExtResource("6_h127d")
 
 [node name="TextureProgressBar" type="TextureProgressBar" parent="menuControl/LabBackground/ResearchSlotGrid/ResearchSlot1" unique_id=122597066]
 layout_mode = 0
@@ -572,3 +572,4 @@ bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretOneResearchButton" to="." method="_on_turret_one_research_button_pressed"]

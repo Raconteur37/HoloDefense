@@ -14,7 +14,7 @@ var poisonChance
 func _ready() -> void:
 	rarity = Rarity.COMMON
 	type = Type.Biological
-
+	turretID = TurretID.SPIDER_TURRET
 	turretName = TurretManager.getTurretStat("spider_turret","name")
 	price = TurretManager.getTurretStat("spider_turret","price")
 	maxHealth = TurretManager.getTurretStat("spider_turret","health")

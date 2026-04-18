@@ -18,7 +18,7 @@ var explosionRadius
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Idk
-
+	turretID = TurretID.FIREWORK_TURRET
 	turretName = TurretManager.getTurretStat("firework_turret","name")
 	price = TurretManager.getTurretStat("firework_turret","price")
 	maxHealth = TurretManager.getTurretStat("firework_turret","health")

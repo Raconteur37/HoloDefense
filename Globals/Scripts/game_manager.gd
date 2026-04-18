@@ -5,11 +5,15 @@ var previewMode : bool = false
 
 var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
-# This array will be in order, so 0 will be 1 and so on
-var turretsNameArray = ["Arrow Turret","Mini Sentry Turret","Energizer Turret","Railgun Turret","Reaper Turret","Royal Turret",
-"Flame Turret", "Firework Turret", "Spider Turret","Tesla Turret"]
-
 var turretsPlaced = {}
+
+# an enum list of IDs of the turrets you brought for the run
+var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.SENTRY_TURRET,Turret.TurretID.ENERGIZER_TURRET,
+Turret.TurretID.RAILGUN_TURRET, Turret.TurretID.REAPER_TURRET, Turret.TurretID.FLAME_TURRET,
+Turret.TurretID.FIREWORK_TURRET, Turret.TurretID.SPIDER_TURRET,Turret.TurretID.VOODOO_TURRET,
+Turret.TurretID.GOLD_MINE_TURRET]
+
+var turretTempLevels = {}
 
 var beacon
 
@@ -20,7 +24,6 @@ var hexagonMothershipCooldown = 10 # Every 10 waves one will appear
 
 var enemyWaveCanAppear = {"Basic Square" : 1, "Speedy Triangle" : 5, "Shooty Diamond" : 10,"Hexagon Mothership" : 30}
 
-
 var currentExperience = 0
 var upgradeTokens = 10
 var inGamePlayerLevel = 0
@@ -29,6 +32,11 @@ var inWave : bool = false
 var currentWave : int = 4
 
 var pandemonium = false
+
+func _ready() -> void:
+	# This works for now but will crash the game later TODO FIX THIS LATER
+	for item in turretsBrought:
+		turretTempLevels[item] = 1
 
 func addTurretToDict(turret):
 	if turretsPlaced.has(turret.getName()):
@@ -210,12 +218,6 @@ func calculateExperienceReward(enemyName):
 		"Explosive Circle":
 			return floor((.6 * currentWave + 7))
 
-func closeAllMenus():
-	for x in turretsPlaced.values():
-		for z in x:
-			if is_instance_valid(z):
-				z.closeSelectMenu()
-
 
 func startWave():
 
@@ -230,19 +232,6 @@ func round_to_dec(num, digit): # SAME
 
 func getCurrentXP():
 	return currentExperience
-
-func getUpgradeTokens():
-	return upgradeTokens
-
-func onInGameLevelUp(xpBar):
-	upgradeTokens += 1
-	inGamePlayerLevel += 1
-
-	var nextLevelCost = ceil((inGamePlayerLevel+1) * 5.5 + 10)
-	xpBar.max_value = nextLevelCost
-
-func removeUpgradeToken():
-	upgradeTokens -= 1
 
 func getRandomEnemyAlive():
 	if not enemiesAlive.is_empty():

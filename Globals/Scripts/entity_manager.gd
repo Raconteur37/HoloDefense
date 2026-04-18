@@ -4,7 +4,10 @@ var turretXpMap = {}
 
 var turretsUpgradeTier = {}
 
-var upgradeTierPercent = .02
+var upgradeTierPercent
+
+func _ready() -> void:
+	upgradeTierPercent = 0.2
 
 func takeDamage(damage:int,turret:Turret,enemy:Enemy,damageType):
 
@@ -181,6 +184,8 @@ func updateTurretUpgradeTier(turretName):
 		turretsUpgradeTier[turretName] = turretsUpgradeTier.get(turretName) + 1
 	else:
 		turretsUpgradeTier[turretName] = 1
+
+# Handle upgrade alone so this will be deleted
 
 func applyUpgradeTier(turret):
 	if turret.get("maxHealth") != null:

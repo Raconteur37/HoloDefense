@@ -11,7 +11,7 @@ func _ready() -> void:
 
 	rarity = Rarity.SUPER_RARE
 	type = Type.Dark
-
+	turretID = TurretID.REAPER_TURRET
 	turretName = TurretManager.getTurretStat("reaper_turret","name")
 	price = TurretManager.getTurretStat("reaper_turret","price")
 	maxHealth = TurretManager.getTurretStat("reaper_turret","health")
