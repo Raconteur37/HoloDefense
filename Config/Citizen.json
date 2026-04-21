@@ -16,11 +16,11 @@
 				"GrowthRate": 0.11,
 				"MaxReductionPercent": 0.8
 			},
-			"Researcher": { 
-				"ProficiencyScale": 0.01, 
+			"Researcher": {  
 				"ScaleFactor": 0.02, 
 				"GrowthRate": 0.10,
-				"MaxReductionPercent": 0.8
+				"MaxReductionPercentOverall": 0.8,
+				"MaxIndividualContribution": 0.4
 			},
 			"Fabricator": { 
 				"ProficiencyScale": 0.02, 

@@ -85,6 +85,9 @@ var purchaseEight = 1
 var purchaseNine = 1
 var purchaseTen = 1
 
+
+var currentWorkersLabel
+
 func _ready() -> void:
 	menu = $menuControl
 	
@@ -146,6 +149,8 @@ func _ready() -> void:
 	researchTextureBar9 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot9/TextureProgressBar
 	researchTextureBar10 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot10/TextureProgressBar
 
+	currentWorkersLabel = $menuControl/LabBackground/CurrentWorkersLabel
+
 	purchaseLabel = $menuControl/LabBackground/PurchaseLabel
 	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]
 [color=gold]$"+                     str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
@@ -181,18 +186,24 @@ func researchTurret(turretID):
 		if CityManager.currentEnergy >= costMap.get(turretID):
 			var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
 			
-			var startMult = CityManager.researchTimeMinScale
-			var endMult = CityManager.researchTimeScale
+
+			
+			#var startMult = CityManager.researchTimeMinScale
+			#var endMult = CityManager.researchTimeScale
 
 			# how much to decay per level
-			var totalDecay = startMult - endMult
-			var decayPerLevel = totalDecay / (50 - 1)
+			#var totalDecay = startMult - endMult
+			#var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
 			# current multiplier
-			var multiplier = startMult - (decayPerLevel * (CityManager.cityLevel - 1))
+			#var multiplier = startMult - (decayPerLevel * (CityManager.cityLevel - 1))
 			# floor so it never goes negative or too fast
-			multiplier = max(multiplier, endMult)
+			#multiplier = max(multiplier, endMult)
 
-			var researchTime = baseTime * multiplier
+			var totalReduction = getWorkerTotalReduction()
+			var researchTime = baseTime * (1.0 - totalReduction)
+			#var researchTime = (baseTime * multiplier) * (1.0 - totalReduction)
+			researchTime = max(researchTime, 0.5)
+			#print("Research Time after clicked: " + str(researchTime))
 
 			usedSlots += 1
 			var timer = Timer.new()
@@ -242,6 +253,9 @@ func researchComplete(timer : Timer,turretID):
 	currentResearchingMap.erase(timer)
 	
 	timer.queue_free()
+	
+	for cit : Citizen in workersHere:
+		cit.addJobExperience(Citizen.Job.RESEARCHER)
 	
 	updateUI()
 
@@ -313,7 +327,8 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 		if not body.hasJob:
 			body.setJob(Citizen.Job.RESEARCHER)
 			workersHere.append(body)
-			print("added" + str(body))
+			currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
+			updateCurrentTimers()
 		else:
 			if body.currentState != Citizen.State.WORKING and body.currentJob == Citizen.Job.RESEARCHER:
 				body.currentState = Citizen.State.WORKING
@@ -326,3 +341,45 @@ func _on_work_area_body_exited(body: Node2D) -> void:
 			body.setJob(Citizen.Job.NONE)
 			body.currentState = Citizen.State.IDLE
 			workersHere.erase(body)
+			currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
+			updateCurrentTimers()
+
+func getWorkerTotalReduction():
+	var totalReduction = 0.0
+	var jobData = CitizenManager.jobSettingsDict.get("Researcher", {})
+	var maxReduction = jobData.get("MaxReductionPercentOverall")
+	var maxIndiv = jobData.get("MaxIndividualContribution")
+	for cit in workersHere:
+		var xp = float(cit.jobExperience.get(Citizen.Job.RESEARCHER))
+		var workerReduction = (xp - 1.0) / CitizenManager.maxCitizenJobLevel * maxIndiv 
+		totalReduction += workerReduction
+
+	return min(totalReduction, maxReduction)
+
+func updateCurrentTimers():
+	var newReduction = getWorkerTotalReduction()
+	var jobData = CitizenManager.jobSettingsDict.get("Researcher", {})
+	var maxReduction = jobData.get("MaxReductionPercentOverall")
+
+	for timer in currentResearchingMap.keys():
+		var turretID = currentResearchingMap[timer]
+
+		# need the base time again to know the total duration
+		var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
+
+		# recalculate the original multiplier for the turret
+		var startMult = CityManager.researchTimeMinScale
+		var endMult = CityManager.researchTimeScale
+		var totalDecay = startMult - endMult
+		var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
+		var multiplier = max(startMult - (decayPerLevel * (CityManager.cityLevel - 1)), endMult)
+
+		# calc new wait time
+		var newResearchTime = (baseTime * multiplier) * (1.0 - newReduction)
+		newResearchTime = max(newResearchTime, maxReduction)
+
+		# rescale the remaining time
+		var percentRemaining = timer.time_left / timer.wait_time
+		timer.wait_time = newResearchTime
+		#print(timer.wait_time)
+		timer.start(newResearchTime * percentRemaining)

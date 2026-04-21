@@ -90,11 +90,13 @@ func _ready() -> void:
 	deliverParticle = $"Item Delivered Particle"
 	
 	CityManager.citizenSpawned.emit(self)
-
+	CityManager.cityLevel = 40
 	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
 
 	for key in jobExperience:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
+
+	print(str(jobExperience))
 
 	citName = CitizenManager.nameList.pick_random()
 	currentState = State.IDLE
@@ -311,8 +313,8 @@ func addJobExperience(job : Job):
 			var scalingFactor = jobData.get("ScaleFactor")
 			var growthRate = jobData.get("GrowthRate")
 			var gain = scalingFactor * growthRate
-			if jobExperience.get(job) + gain >= 50:
-				jobExperience[job] = 50
+			if jobExperience.get(job) + gain >= CitizenManager.maxCitizenJobLevel:
+				jobExperience[job] = CitizenManager.maxCitizenJobLevel
 			else:
 				jobExperience[job] = jobExperience.get(job) + gain
 		Job.MATERIAL_ATOMIZER:
@@ -320,11 +322,20 @@ func addJobExperience(job : Job):
 			var scalingFactor = jobData.get("ScaleFactor")
 			var growthRate = jobData.get("GrowthRate")
 			var gain = scalingFactor * growthRate
-			if jobExperience.get(job) + gain >= 50:
-				jobExperience[job] = 50
+			if jobExperience.get(job) + gain >= CitizenManager.maxCitizenJobLevel:
+				jobExperience[job] = CitizenManager.maxCitizenJobLevel
 			else:
 				jobExperience[job] = jobExperience.get(job) + gain
 			#print(jobExperience)
+		Job.RESEARCHER:
+			var jobData = CitizenManager.jobSettingsDict.get("Researcher", {})
+			var scalingFactor = jobData.get("ScaleFactor")
+			var growthRate = jobData.get("GrowthRate")
+			var gain = scalingFactor * growthRate
+			if jobExperience.get(job) + gain >= CitizenManager.maxCitizenJobLevel:
+				jobExperience[job] = CitizenManager.maxCitizenJobLevel
+			else:
+				jobExperience[job] = jobExperience.get(job) + gain
 	updateJobTimer()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
