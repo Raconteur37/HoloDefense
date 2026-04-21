@@ -96,7 +96,7 @@ func _ready() -> void:
 	for key in jobExperience:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
 
-	print(str(jobExperience))
+	#print(str(jobExperience))
 
 	citName = CitizenManager.nameList.pick_random()
 	currentState = State.IDLE

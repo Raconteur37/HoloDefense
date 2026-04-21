@@ -505,6 +505,7 @@ func updateScraperUpgradeCost():
 func updateAtomizerUpgradeCost():
 	atomizerUpgradeCost = round(round(100 * (baseAtomizerUpgradeCost * (pow(atomizerCostMultiplier,materialAtomizerLevel)))) / 100)
 
+
 func updateAllItemValues(): 
 	
 	for item in baseItemMoneyValueDict.keys():

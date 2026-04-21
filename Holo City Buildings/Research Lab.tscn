@@ -72,6 +72,7 @@ debug_color = Color(3.3210217e-06, 0.6322815, 0.4566033, 0.41960785)
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(900, 810)
+visible = true
 
 [node name="LabBackground" type="TextureRect" parent="menuControl" unique_id=1134678360]
 texture_filter = 1
@@ -586,6 +587,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="body_exited" from="Work Area" to="." method="_on_work_area_body_exited"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="pressed" from="menuControl/LabBackground/purchaseSlotsButton" to="." method="_on_purchase_slots_button_pressed"]
 [connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretOneResearchButton" to="." method="_on_turret_one_research_button_pressed"]
 [connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2/turretTwoResearchButton" to="." method="_on_turret_two_research_button_pressed"]
 [connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3/turretThreeResearchButton" to="." method="_on_turret_three_research_button_pressed"]
