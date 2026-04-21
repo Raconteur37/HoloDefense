@@ -1,0 +1,33 @@
+{
+	"CitizenSettings": {
+		"Names": ["Bartholemeul", "Bart", "Cookie", "Chez"],
+		"CitizenLevelScaling": 0.12,
+		"MaxCitizenJobLevel": 50,
+		"Job": {
+			"Material Atomizer": { 
+				"ProficiencyScale": 0.02, 
+				"ScaleFactor": 0.02, 
+				"GrowthRate": 0.1,
+				"MaxReductionPercent": 0.8
+			},
+			"Gem Scraper": { 
+				"ProficiencyScale": 0.02, 
+				"ScaleFactor": 0.02, 
+				"GrowthRate": 0.11,
+				"MaxReductionPercent": 0.8
+			},
+			"Researcher": { 
+				"ProficiencyScale": 0.01, 
+				"ScaleFactor": 0.02, 
+				"GrowthRate": 0.10,
+				"MaxReductionPercent": 0.8
+			},
+			"Fabricator": { 
+				"ProficiencyScale": 0.02, 
+				"ScaleFactor": 0.02, 
+				"GrowthRate": 0.12,
+				"MaxReductionPercent": 0.8
+			}
+		}
+	}
+}

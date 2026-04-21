@@ -228,9 +228,9 @@
 		"generateTime": 5,
 		"scaleFactor": 0.10
 	},
-	"automated_sentry_turret": {
+	"sentry_turret": {
 		"id": 13,
-		"name": "Automated Sentry Turret",
+		"name": "Sentry Turret",
 		"description": "Mass fire bullets but there's a long reload time and it's not very accurate.",
 		"levelTwo": "While firing, regenerate a small amount of ammo.",
 		"levelThree": "While not firing, regenerate a small amount of ammo.",

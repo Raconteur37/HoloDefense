@@ -34,7 +34,7 @@ colors = PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tl608"]
 gradient = SubResource("Gradient_pc4d0")
 
-[node name="ResearchLab" type="Control" unique_id=2132881313]
+[node name="ResearchLab" type="Control" unique_id=2132881313 groups=["Holo City Building"]]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -54,6 +54,8 @@ scale = Vector2(4, 4)
 sprite_frames = SubResource("SpriteFrames_et5tp")
 
 [node name="Work Area" type="Area2D" parent="." unique_id=1969926413]
+collision_layer = 32
+collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1852964236]
 position = Vector2(2.5, 27.5)
@@ -69,20 +71,19 @@ debug_color = Color(3.3210217e-06, 0.6322815, 0.4566033, 0.41960785)
 [node name="menuControl" type="Popup" parent="." unique_id=1472452155]
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(1644, 1172)
-visible = true
+size = Vector2i(900, 810)
 
 [node name="LabBackground" type="TextureRect" parent="menuControl" unique_id=1134678360]
 texture_filter = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -405.0
-offset_right = 450.0
-offset_bottom = 405.0
+anchors_preset = -1
+anchor_left = 0.22600001
+anchor_top = 0.15400001
+anchor_right = 0.77400005
+anchor_bottom = 0.846
+offset_left = 0.45599365
+offset_top = 0.51197815
+offset_right = -0.4560547
+offset_bottom = -0.5120239
 grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 0
@@ -171,6 +172,7 @@ offset_top = 0.5
 offset_right = 65.0
 offset_bottom = 64.5
 scale = Vector2(0.46590325, 0.46515593)
+step = 0.5
 fill_mode = 4
 texture_progress = SubResource("GradientTexture2D_tl608")
 
@@ -334,6 +336,7 @@ offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -341,7 +344,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=1606840508]
+[node name="turretTwoResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=1606840508]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -354,12 +357,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=988240707]
+[node name="turretTwoResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=988240707]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -367,7 +371,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=632379813]
+[node name="turretThreeResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=632379813]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -380,12 +384,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=979542132]
+[node name="turretThreeResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=979542132]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -393,7 +398,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=788038659]
+[node name="turretFourResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=788038659]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -406,12 +411,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=723387708]
+[node name="turretFourResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=723387708]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -419,7 +425,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=1676037486]
+[node name="turretFiveResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=1676037486]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -432,12 +438,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=580168944]
+[node name="turretFiveResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=580168944]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -445,7 +452,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1179527161]
+[node name="turretSixResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1179527161]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -458,12 +465,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1508198164]
+[node name="turretSixResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1508198164]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -471,7 +479,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=1558191760]
+[node name="turretSevenResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=1558191760]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -484,12 +492,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=149453187]
+[node name="turretSevenResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=149453187]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -497,7 +506,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=698426542]
+[node name="turretEightResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=698426542]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -510,12 +519,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1949649206]
+[node name="turretEightResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1949649206]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -523,7 +533,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=1857218306]
+[node name="turretNineResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=1857218306]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -536,12 +546,13 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=445160651]
+[node name="turretNineResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=445160651]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
@@ -549,7 +560,7 @@ text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
-[node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1676382927]
+[node name="turretTenResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1676382927]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.29700002
@@ -562,14 +573,26 @@ offset_bottom = 296.384
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1408273542]
+[node name="turretTenResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1408273542]
 layout_mode = 0
 offset_left = 1.5
 offset_top = 36.5
 offset_right = 41.5
 offset_bottom = 51.5
+mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
+[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
+[connection signal="body_exited" from="Work Area" to="." method="_on_work_area_body_exited"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
 [connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretOneResearchButton" to="." method="_on_turret_one_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2/turretTwoResearchButton" to="." method="_on_turret_two_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3/turretThreeResearchButton" to="." method="_on_turret_three_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4/turretFourResearchButton" to="." method="_on_turret_four_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5/turretFiveResearchButton" to="." method="_on_turret_five_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6/turretSixResearchButton" to="." method="_on_turret_six_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7/turretSevenResearchButton" to="." method="_on_turret_seven_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8/turretEightResearchButton" to="." method="_on_turret_eight_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9/turretNineResearchButton" to="." method="_on_turret_nine_research_button_pressed"]
+[connection signal="pressed" from="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10/turretTenResearchButton" to="." method="_on_turret_ten_research_button_pressed"]

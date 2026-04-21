@@ -60,20 +60,24 @@
 	"StartWeights": [76.0, 17.5, 5.5, 0.95, 0.05],
 	"EndWeights": [10.0, 15.0, 25.0, 30.0, 20.0],
 	"BaseUpgradeCost": 100,
-	"CostScaling": 1.15
+	"CostScaling": 1.15,
+	"BaseProductionTime": 7
   },
   "AtomizerSettings": {
 	"MaxLevel": 50,
 	"StartWeights": [76.0, 17.5, 5.5, 0.95, 0.05],
 	"EndWeights": [10.0, 15.0, 25.0, 30.0, 20.0],
 	"BaseUpgradeCost": 100,
-	"CostScaling": 1.15
+	"CostScaling": 1.15,
+	"BaseProductionTime": 7
   },
   "ResearchLabSettings": {
 	"ResearchMaxLevel": 50,
 	"BaseSlotCost": 100,
 	"CostScaling": 1.75,
 	"ResearchBaseCost": 25,
-	"ResearchCostScaling": 0.08	
+	"ResearchCostScaling": 0.08,
+	"ResearchTimeMinScale": 2,
+	"ResearchTimeReducedScaleFactor": 0.2
   }
 }

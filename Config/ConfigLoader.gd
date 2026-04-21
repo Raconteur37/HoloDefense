@@ -16,6 +16,28 @@ var itemLookupDict : Dictionary = {
 
 func _ready() -> void:
 	setupCityManagerItemDictionaries()
+	setupCitizenConfig()
+
+func setupCitizenConfig():
+	var file = FileAccess.open("res://Config/Citizen.json", FileAccess.READ)
+	if not file:
+		print("Error: Could not find Citizen.json!")
+		return
+		
+	var json_data = JSON.parse_string(file.get_as_text())
+	if json_data == null:
+		print("Error: Failed to parse Citizen.json!")
+		return
+
+	var citizenSettings = json_data.get("CitizenSettings", {})
+	if not citizenSettings.is_empty():
+
+		CitizenManager.nameList = citizenSettings.get("Names", [])
+
+		CitizenManager.citizenLevelScaling = citizenSettings.get("CitizenLevelScaling", 0.0)
+		CitizenManager.maxCitizenJobLevel = citizenSettings.get("MaxCitizenJobLevel", 0.0)
+
+		CitizenManager.jobSettingsDict = citizenSettings.get("Job", {})
 
 func setupCityManagerItemDictionaries(): 
 	var file = FileAccess.open("res://Config/Holo City Info.json", FileAccess.READ)
@@ -99,6 +121,7 @@ func setupCityManagerItemDictionaries():
 		CityManager.maxScraperLevel = scraperSettings.get("MaxLevel", 50)
 		CityManager.baseScraperUpgradeCost = scraperSettings.get("BaseUpgradeCost",-99)
 		CityManager.scraperCostMultiplier = scraperSettings.get("CostScaling",99)
+		CityManager.baseScraperProductionTime = scraperSettings.get("BaseProductionTime",99)
 
 
 	# -=HANDLE ATOMZIER SETTINGS=-
@@ -109,6 +132,7 @@ func setupCityManagerItemDictionaries():
 		CityManager.maxAtomizerLevel = atomzierSettings.get("MaxLevel", 50)
 		CityManager.baseAtomizerUpgradeCost = atomzierSettings.get("BaseUpgradeCost",-99)
 		CityManager.atomizerCostMultiplier = atomzierSettings.get("CostScaling",99)
+		CityManager.baseAtomizerProductionTime = atomzierSettings.get("BaseProductionTime",99)
 
 	# -=HANDLE LAB SETTINGS=-
 	var labSettings = json_data.get("ResearchLabSettings", {})
@@ -118,4 +142,6 @@ func setupCityManagerItemDictionaries():
 		CityManager.researchMaxLevel = labSettings.get("ResearchMaxLevel",-99)
 		CityManager.researchBaseCost = labSettings.get("ResearchBaseCost")
 		CityManager.researchCostScaling = labSettings.get("ResearchCostScaling")
+		CityManager.researchTimeMinScale = labSettings.get("ResearchTimeMinScale")
+		CityManager.researchTimeScale = labSettings.get("ResearchTimeReducedScaleFactor")
 	print("Config setup done no errors")

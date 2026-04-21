@@ -5,6 +5,7 @@
 [ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
 [ext_resource type="Script" uid="uid://l45wpphqpcmg" path="res://Globals/Scripts/selection_manager.gd" id="4_5wlxu"]
 [ext_resource type="PackedScene" uid="uid://cbuod6sley3us" path="res://Holo City Buildings/Material Atomizer.tscn" id="4_6jm4f"]
+[ext_resource type="PackedScene" uid="uid://cxke0ql4vpvx1" path="res://Holo City Buildings/Research Lab.tscn" id="5_sub41"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
 vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
@@ -55,6 +56,12 @@ offset_left = 298.0
 offset_top = -411.0
 offset_right = 298.0
 offset_bottom = -411.0
+
+[node name="ResearchLab" parent="CanvasLayer" unique_id=2132881313 instance=ExtResource("5_sub41")]
+offset_left = 794.0
+offset_top = -413.0
+offset_right = 794.0
+offset_bottom = -413.0
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")

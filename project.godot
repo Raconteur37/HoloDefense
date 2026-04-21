@@ -33,6 +33,7 @@ StatisticPopup="*res://Globals/Scene/Statistic Popup.tscn"
 CityManager="*res://Globals/Scripts/city_manager.gd"
 DeveloperMode="*res://Globals/Scripts/developerMode.gd"
 TurretManager="*res://Globals/Scripts/turretManager.gd"
+CitizenManager="*uid://b1q35i2g7cl31"
 
 [display]
 

@@ -54,6 +54,9 @@ var scrapScale
 
 var itemScaleFactor
 
+var researchTimeScale
+var researchTimeMinScale
+
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
 var materialAtomizerLevel : int = 1
@@ -87,10 +90,12 @@ var generatorCostMultiplier
 var baseScraperUpgradeCost
 var scraperUpgradeCost
 var scraperCostMultiplier
+var baseScraperProductionTime
 
 var baseAtomizerUpgradeCost
 var atomizerUpgradeCost
 var atomizerCostMultiplier
+var baseAtomizerProductionTime
 
 var baseResearchLabSlotCost
 var researchLabSlotCost
@@ -558,3 +563,10 @@ func cityLevelUp():
 	
 	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
 	popup.cityLevelUp()
+
+func addTurretTempLevel(turretID,amount):
+	if GameManager.turretTempLevels.has(turretID):
+		GameManager.turretTempLevels[turretID] = GameManager.turretTempLevels.get(turretID) + amount
+	else:
+		GameManager.turretTempLevels[turretID] = amount
+	# TODO ADD A SIGNAL HERE TO UPDATE ALL EXISTING TURRETS

@@ -11,10 +11,9 @@ var sprite
 var selectUI
 @onready var canvasLayer = get_tree().current_scene.find_child("CanvasLayer")
 
-
 var citizenSelectUi
 
-var citName : String
+@onready var citName : String 
 @export var speed : float = 200
 var currentJob : Job = Job.NONE
 
@@ -66,11 +65,11 @@ var scrapKeys = [
 
 var gemNames = ["Copper", "Quartz", "Amethyst", "Diamond", "Galactite"]
 
-var jobExperience : Dictionary[String,float] = {
-	"Material Atomizer" : 0,
-	"Gem Scraper" : 0,
-	"Researcher" : 0,
-	"Fabricator" : 0
+var jobExperience : Dictionary[Job,float] = {
+	Job.MATERIAL_ATOMIZER : 0,
+	Job.GEM_SCRAPER : 0,
+	Job.RESEARCHER : 0,
+	Job.FABRICATOR : 0
 }
 
 @onready var moveSelectParticle = load("res://Particle Scenes/Citizens/Movement Line/Movement Select.tscn")
@@ -97,7 +96,7 @@ func _ready() -> void:
 	for key in jobExperience:
 		jobExperience[key] = round(randf_range(bounds[0],bounds[1]) * 100) / 100
 
-	citName = "Basic Citizen"
+	citName = CitizenManager.nameList.pick_random()
 	currentState = State.IDLE
 	
 	CityManager.addCitizen(self)
@@ -167,14 +166,24 @@ func setJob(job : Job):
 			currentState = State.WORKING
 			hasJob = true
 		currentJob = job
-		updateJob()
+		updateJobTimer()
 
-func updateJob():
+func updateJobTimer():
 	match currentJob:
 		Job.GEM_SCRAPER:
-			workTimer.wait_time = .5
+			var jobData = CitizenManager.jobSettingsDict.get("Gem Scraper", {})
+			var maxReduction = jobData.get("MaxReductionPercent")
+			var progress = (jobExperience.get(Job.GEM_SCRAPER) - 1.0) / CitizenManager.maxCitizenJobLevel
+			var timeSaved = (CityManager.baseScraperProductionTime * maxReduction) * progress
+			#print("time saved: " + str(timeSaved))
+			workTimer.wait_time = CityManager.baseScraperProductionTime - timeSaved
 		Job.MATERIAL_ATOMIZER:
-			workTimer.wait_time = .5
+			var jobData = CitizenManager.jobSettingsDict.get("Material Atomizer", {})
+			var maxReduction = jobData.get("MaxReductionPercent")
+			var progress = (jobExperience.get(Job.GEM_SCRAPER) - 1.0) / CitizenManager.maxCitizenJobLevel
+			var timeSaved = (CityManager.baseAtomizerProductionTime * maxReduction) * progress
+			#print("time saved: " + str(timeSaved))
+			workTimer.wait_time = CityManager.baseScraperProductionTime - timeSaved
 
 func finishJob():
 	match currentJob:
@@ -195,6 +204,7 @@ func finishJob():
 					popup.gemPopup(gemNames[i])
 					addItemToInventory(selectedGem, 1)
 					break
+			addJobExperience(Job.GEM_SCRAPER)
 			deliverItems()
 			
 		Job.MATERIAL_ATOMIZER:
@@ -215,7 +225,9 @@ func finishJob():
 					break
 			canvasLayer.add_child(particle)
 			particle.emitting = true
+			addJobExperience(Job.MATERIAL_ATOMIZER)
 			deliverItems()
+
 	CityManager.addCityXp("generate_resource")
 
 func setWorkDestination():
@@ -290,6 +302,30 @@ func moveToMouse(targetPos: Vector2 = get_global_mouse_position()):
 func openMenu():
 	ui.show()
 	ui.refreshMenu()
+
+func addJobExperience(job : Job):
+	match job:
+		
+		Job.GEM_SCRAPER:
+			var jobData = CitizenManager.jobSettingsDict.get("Gem Scraper", {})
+			var scalingFactor = jobData.get("ScaleFactor")
+			var growthRate = jobData.get("GrowthRate")
+			var gain = scalingFactor * growthRate
+			if jobExperience.get(job) + gain >= 50:
+				jobExperience[job] = 50
+			else:
+				jobExperience[job] = jobExperience.get(job) + gain
+		Job.MATERIAL_ATOMIZER:
+			var jobData = CitizenManager.jobSettingsDict.get("Material Atomizer", {})
+			var scalingFactor = jobData.get("ScaleFactor")
+			var growthRate = jobData.get("GrowthRate")
+			var gain = scalingFactor * growthRate
+			if jobExperience.get(job) + gain >= 50:
+				jobExperience[job] = 50
+			else:
+				jobExperience[job] = jobExperience.get(job) + gain
+			#print(jobExperience)
+	updateJobTimer()
 
 func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 	if moving:
