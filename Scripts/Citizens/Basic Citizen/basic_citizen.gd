@@ -77,7 +77,7 @@ var jobExperience : Dictionary[Job,float] = {
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
 @onready var scrapParticle = preload("res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn")
-@onready var ui = $SelectUI
+
 
 func _ready() -> void:
 	animationPlayer = $AnimationPlayer
@@ -90,7 +90,7 @@ func _ready() -> void:
 	deliverParticle = $"Item Delivered Particle"
 	
 	CityManager.citizenSpawned.emit(self)
-	CityManager.cityLevel = 40
+	#CityManager.cityLevel = 40
 	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
 
 	for key in jobExperience:
@@ -301,10 +301,6 @@ func moveToMouse(targetPos: Vector2 = get_global_mouse_position()):
 	moveLine = moveLineCurrent
 	add_child(moveLineCurrent)
 
-func openMenu():
-	ui.show()
-	ui.refreshMenu()
-
 func addJobExperience(job : Job):
 	match job:
 		
@@ -346,12 +342,10 @@ func _on_animation_player_animation_finished(_anim_name: StringName) -> void:
 
 func _on_area_2d_mouse_entered() -> void:
 	hoverBox.visible = true
-	selectUI.show()
 
 func _on_area_2d_mouse_exited() -> void:
 	if not selected:
 		hoverBox.visible = false
-	selectUI.hide()
 
 func _on_work_timer_timeout() -> void:
 	finishJob()

@@ -3,11 +3,38 @@
 [ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
 [ext_resource type="Texture2D" uid="uid://dhte7r37pnrhr" path="res://Textures/UI/Game/background_alt.png" id="2_s0f2h"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_tlq4f"]
+[ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="4_sc1hh"]
 [ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="4_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://ccxb6l8sby55i" path="res://Shaders/electricityNoise.tres" id="5_v0sms"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jlgm"]
 size = Vector2(374.70343, 80.6432)
+
+[sub_resource type="Gradient" id="Gradient_sc1hh"]
+colors = PackedColorArray(0.24840015, 0.24840018, 0.24840015, 1, 0.24705882, 0.24705882, 0.24705882, 1)
+
+[sub_resource type="GradientTexture1D" id="GradientTexture1D_8jlgm"]
+gradient = SubResource("Gradient_sc1hh")
+
+[sub_resource type="Gradient" id="Gradient_dldic"]
+colors = PackedColorArray(0.43635225, 0.7593198, 0.6370752, 1, 0.43529412, 0.8666667, 0.43529412, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_qkuul"]
+gradient = SubResource("Gradient_dldic")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8aw1o"]
+
+[sub_resource type="Gradient" id="Gradient_8jlgm"]
+colors = PackedColorArray(0.50928617, 0.50928617, 0.50928617, 1, 0.50980395, 0.50980395, 0.50980395, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_8aw1o"]
+gradient = SubResource("Gradient_8jlgm")
+
+[sub_resource type="Gradient" id="Gradient_sbyn0"]
+colors = PackedColorArray(0, 0, 0.5019608, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_dldic"]
+gradient = SubResource("Gradient_sbyn0")
 
 [sub_resource type="Gradient" id="Gradient_s0f2h"]
 colors = PackedColorArray(0.36327183, 0.56077576, 1, 1, 0, 0, 0, 1)
@@ -157,6 +184,129 @@ offset_right = -0.36010742
 offset_bottom = 0.35992432
 theme_override_constants/h_separation = 20
 
+[node name="SingleCitUI" type="Control" parent="." unique_id=1738952614]
+visible = false
+layout_mode = 1
+anchor_left = 0.015000001
+anchor_top = 0.762
+anchor_right = 0.29200003
+anchor_bottom = 0.96800005
+offset_left = 5.199999
+offset_top = -12.960022
+offset_right = 6.3599243
+offset_bottom = -13.440063
+
+[node name="portrait" type="TextureRect" parent="SingleCitUI" unique_id=1642527067]
+layout_mode = 0
+offset_right = 104.0
+offset_bottom = 108.0
+texture = ExtResource("4_sc1hh")
+
+[node name="currentJobLabel" type="RichTextLabel" parent="SingleCitUI" unique_id=647272353]
+layout_mode = 0
+offset_left = 197.0
+offset_top = -8.0
+offset_right = 415.0
+offset_bottom = 39.0
+bbcode_enabled = true
+text = "Current job: None"
+fit_content = true
+autowrap_mode = 2
+horizontal_alignment = 1
+
+[node name="workProgressBar" type="TextureProgressBar" parent="SingleCitUI" unique_id=206553886]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.32500002
+anchor_top = 0.126
+anchor_right = 0.83900005
+anchor_bottom = 0.21200001
+offset_left = -0.2250061
+offset_top = 0.027999878
+offset_right = -0.18701172
+offset_bottom = -0.06400299
+step = 0.015
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture1D_8jlgm")
+texture_progress = SubResource("GradientTexture2D_qkuul")
+
+[node name="Panel" type="Panel" parent="SingleCitUI" unique_id=1006887907]
+material = SubResource("ShaderMaterial_8aw1o")
+layout_mode = 0
+offset_left = -8.0
+offset_top = 116.0
+offset_right = 228.0
+offset_bottom = 150.0
+scale = Vector2(0.8, 0.8)
+
+[node name="AtomizerProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel" unique_id=1944133922]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = 232.0
+offset_bottom = 28.0
+tooltip_text = "The current experience for the Material Atomizer"
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_8aw1o")
+texture_progress = SubResource("GradientTexture2D_dldic")
+
+[node name="Panel2" type="Panel" parent="SingleCitUI" unique_id=740903289]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 151.0
+offset_right = 228.0
+offset_bottom = 185.0
+scale = Vector2(0.8, 0.8)
+
+[node name="GemScraperProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel2" unique_id=1068696582]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = 232.0
+offset_bottom = 28.0
+tooltip_text = "The current experience for the Material Atomizer"
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_8aw1o")
+texture_progress = SubResource("GradientTexture2D_dldic")
+
+[node name="Panel3" type="Panel" parent="SingleCitUI" unique_id=559612772]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 186.0
+offset_right = 228.0
+offset_bottom = 220.0
+scale = Vector2(0.8, 0.8)
+
+[node name="ResearchProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel3" unique_id=1737672419]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = 232.0
+offset_bottom = 28.0
+tooltip_text = "The current experience for the Material Atomizer"
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_8aw1o")
+texture_progress = SubResource("GradientTexture2D_dldic")
+
+[node name="Panel4" type="Panel" parent="SingleCitUI" unique_id=1091205906]
+layout_mode = 0
+offset_left = -8.0
+offset_top = 221.0
+offset_right = 228.0
+offset_bottom = 255.0
+scale = Vector2(0.8, 0.8)
+
+[node name="FabricatorProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel4" unique_id=1466983982]
+layout_mode = 0
+offset_left = 3.0
+offset_top = 6.0
+offset_right = 232.0
+offset_bottom = 28.0
+tooltip_text = "The current experience for the Material Atomizer"
+nine_patch_stretch = true
+texture_under = SubResource("GradientTexture2D_8aw1o")
+texture_progress = SubResource("GradientTexture2D_dldic")
+
 [node name="CitizenGridContainer" type="GridContainer" parent="." unique_id=958587711]
 custom_minimum_size = Vector2(100, 100)
 layout_mode = 0
@@ -203,10 +353,10 @@ autostart = true
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1959444231]
 layout_mode = 0
-offset_left = 332.0
-offset_top = 831.0
-offset_right = 738.0
-offset_bottom = 887.0
+offset_left = 458.0
+offset_top = 752.0
+offset_right = 864.0
+offset_bottom = 808.0
 
 [node name="moneyGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=1124409747]
 layout_mode = 2
@@ -228,10 +378,10 @@ text = "scrap gen: 0"
 
 [node name="GeneratorLevelLabel" type="RichTextLabel" parent="." unique_id=1265718958]
 layout_mode = 0
-offset_left = 430.0
-offset_top = 798.0
-offset_right = 617.0
-offset_bottom = 838.0
+offset_left = 556.0
+offset_top = 722.0
+offset_right = 743.0
+offset_bottom = 762.0
 bbcode_enabled = true
 text = "Generator Level: 1"
 horizontal_alignment = 1

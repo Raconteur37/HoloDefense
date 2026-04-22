@@ -85,6 +85,16 @@ var purchaseEight = 1
 var purchaseNine = 1
 var purchaseTen = 1
 
+var turretLevelDisplayText1
+var turretLevelDisplayText2
+var turretLevelDisplayText3
+var turretLevelDisplayText4
+var turretLevelDisplayText5
+var turretLevelDisplayText6
+var turretLevelDisplayText7
+var turretLevelDisplayText8
+var turretLevelDisplayText9
+var turretLevelDisplayText10
 
 var currentWorkersLabel
 
@@ -149,6 +159,17 @@ func _ready() -> void:
 	researchTextureBar9 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot9/TextureProgressBar
 	researchTextureBar10 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot10/TextureProgressBar
 
+	turretLevelDisplayText1 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel1
+	turretLevelDisplayText2 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel2
+	turretLevelDisplayText3 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel3
+	turretLevelDisplayText4 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel4
+	turretLevelDisplayText5 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel5
+	turretLevelDisplayText6 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel6
+	turretLevelDisplayText7 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel7
+	turretLevelDisplayText8 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel8
+	turretLevelDisplayText9 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel9
+	turretLevelDisplayText10 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel10
+
 	currentWorkersLabel = $menuControl/LabBackground/CurrentWorkersLabel
 
 	purchaseLabel = $menuControl/LabBackground/PurchaseLabel
@@ -182,41 +203,36 @@ func updateResearchCost(turret,amountUpgraded):
 	costMap[turret] = snappedf(CityManager.researchBaseCost * pow((1 + CityManager.researchCostScaling),(amountUpgraded-1)),0.1)
 
 func researchTurret(turretID):
-	if currentSlots > usedSlots:
-		if CityManager.currentEnergy >= costMap.get(turretID):
-			var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
-			
+	var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
+	#var startMult = CityManager.researchTimeMinScale
+	#var endMult = CityManager.researchTimeScale
 
-			
-			#var startMult = CityManager.researchTimeMinScale
-			#var endMult = CityManager.researchTimeScale
+	# how much to decay per level
+	#var totalDecay = startMult - endMult
+	#var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
+	# current multiplier
+	#var multiplier = startMult - (decayPerLevel * (CityManager.cityLevel - 1))
+	# floor so it never goes negative or too fast
+	#multiplier = max(multiplier, endMult)
 
-			# how much to decay per level
-			#var totalDecay = startMult - endMult
-			#var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
-			# current multiplier
-			#var multiplier = startMult - (decayPerLevel * (CityManager.cityLevel - 1))
-			# floor so it never goes negative or too fast
-			#multiplier = max(multiplier, endMult)
+	var totalReduction = getWorkerTotalReduction()
+	var researchTime = baseTime * (1.0 - totalReduction)
+	#var researchTime = (baseTime * multiplier) * (1.0 - totalReduction)
+	researchTime = max(researchTime, 0.5)
+	#print("Research Time after clicked: " + str(researchTime))
 
-			var totalReduction = getWorkerTotalReduction()
-			var researchTime = baseTime * (1.0 - totalReduction)
-			#var researchTime = (baseTime * multiplier) * (1.0 - totalReduction)
-			researchTime = max(researchTime, 0.5)
-			#print("Research Time after clicked: " + str(researchTime))
-
-			usedSlots += 1
-			var timer = Timer.new()
-			timer.wait_time = researchTime
-			timer.one_shot = true 
-			add_child(timer)
-			
-			timer.start()
-			currentResearchingMap[timer] = turretID
-			
-			timer.timeout.connect(researchComplete.bind(timer, turretID))
-			
-			updateUI()
+	usedSlots += 1
+	var timer = Timer.new()
+	timer.wait_time = researchTime
+	timer.one_shot = true 
+	add_child(timer)
+	
+	timer.start()
+	currentResearchingMap[timer] = turretID
+	
+	timer.timeout.connect(researchComplete.bind(timer, turretID))
+	
+	updateUI()
 
 func updateUI():
 	
@@ -270,70 +286,89 @@ func updateProgressTimer(index,progress):
 func _on_turret_one_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		purchaseOne += 1
+		turretLevelDisplayText1.text = "[font_size=15][color=blue]" + str(purchaseOne) + "[/color][/font_size]"
 		updateResearchCost(turretsList[0],purchaseOne)
 		researchTurret(turretsList[0])
 
 func _on_turret_two_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseTwo += 1
-		updateResearchCost(turretsList[1],purchaseTwo)
-		researchTurret(turretsList[1])
+		if CityManager.currentEnergy >= costMap.get(turretsList[1]):
+			purchaseTwo += 1
+			turretLevelDisplayText2.text = "[font_size=15][color=blue]" + str(purchaseTwo) + "[/color][/font_size]"
+			updateResearchCost(turretsList[1],purchaseTwo)
+			researchTurret(turretsList[1])
 
 
 func _on_turret_three_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseThree += 1
-		updateResearchCost(turretsList[2],purchaseThree)
-		researchTurret(turretsList[2])
+		if CityManager.currentEnergy >= costMap.get(turretsList[2]):
+			purchaseThree += 1
+			turretLevelDisplayText3.text = "[font_size=15][color=blue]" + str(purchaseThree) + "[/color][/font_size]"
+			updateResearchCost(turretsList[2],purchaseThree)
+			researchTurret(turretsList[2])
 
 
 func _on_turret_four_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseFour += 1
-		updateResearchCost(turretsList[3],purchaseFour)
-		researchTurret(turretsList[3])
+		if CityManager.currentEnergy >= costMap.get(turretsList[3]):
+			purchaseFour += 1
+			turretLevelDisplayText4.text = "[font_size=15][color=blue]" + str(purchaseFour) + "[/color][/font_size]"
+			updateResearchCost(turretsList[3],purchaseFour)
+			researchTurret(turretsList[3])
 
 
 func _on_turret_five_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseFive += 1
-		updateResearchCost(turretsList[4],purchaseFive)
-		researchTurret(turretsList[4])
+		if CityManager.currentEnergy >= costMap.get(turretsList[4]):
+			purchaseFive += 1
+			turretLevelDisplayText5.text = "[font_size=15][color=blue]" + str(purchaseFive) + "[/color][/font_size]"
+			updateResearchCost(turretsList[4],purchaseFive)
+			researchTurret(turretsList[4])
 
 
 func _on_turret_six_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseSix += 1
-		updateResearchCost(turretsList[5],purchaseSix)
-		researchTurret(turretsList[5])
+		if CityManager.currentEnergy >= costMap.get(turretsList[5]):
+			purchaseSix += 1
+			turretLevelDisplayText6.text = "[font_size=15][color=blue]" + str(purchaseSix) + "[/color][/font_size]"
+			updateResearchCost(turretsList[5],purchaseSix)
+			researchTurret(turretsList[5])
 
 
 func _on_turret_seven_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseSeven += 1
-		updateResearchCost(turretsList[6],purchaseSeven)
-		researchTurret(turretsList[6])
+		if CityManager.currentEnergy >= costMap.get(turretsList[6]):
+			purchaseSeven += 1
+			turretLevelDisplayText7.text = "[font_size=15][color=blue]" + str(purchaseSeven) + "[/color][/font_size]"
+			updateResearchCost(turretsList[6],purchaseSeven)
+			researchTurret(turretsList[6])
 
 
 func _on_turret_eight_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseEight += 1
-		updateResearchCost(turretsList[7],purchaseEight)
-		researchTurret(turretsList[7])
+		if CityManager.currentEnergy >= costMap.get(turretsList[7]):
+			purchaseEight += 1
+			turretLevelDisplayText8.text = "[font_size=15][color=blue]" + str(purchaseEight) + "[/color][/font_size]"
+			updateResearchCost(turretsList[7],purchaseEight)
+			researchTurret(turretsList[7])
 
 
 func _on_turret_nine_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseNine += 1
-		updateResearchCost(turretsList[8],purchaseNine)
-		researchTurret(turretsList[8])
+		if CityManager.currentEnergy >= costMap.get(turretsList[8]):
+			purchaseNine += 1
+			turretLevelDisplayText9.text = "[font_size=15][color=blue]" + str(purchaseNine) + "[/color][/font_size]"
+			updateResearchCost(turretsList[8],purchaseNine)
+			researchTurret(turretsList[8])
 
 
 func _on_turret_ten_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseTen += 1
-		updateResearchCost(turretsList[9],purchaseTen)
-		researchTurret(turretsList[9])
+		if CityManager.currentEnergy >= costMap.get(turretsList[9]):
+			purchaseTen += 1
+			turretLevelDisplayText10.text = "[font_size=15][color=blue]" + str(purchaseTen) + "[/color][/font_size]"
+			updateResearchCost(turretsList[9],purchaseTen)
+			researchTurret(turretsList[9])
 
 
 func _on_work_area_body_entered(body: Node2D) -> void:

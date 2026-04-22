@@ -4,7 +4,6 @@
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="2_6aq5k"]
 [ext_resource type="Texture2D" uid="uid://cq1ldu3dirhyb" path="res://Textures/Citizens/UI/Select Box-Sheet.png" id="4_ovmnh"]
 [ext_resource type="Texture2D" uid="uid://dneb8py1phpyw" path="res://Textures/Citizens/itemDelivered.png" id="5_ko03v"]
-[ext_resource type="Script" uid="uid://j0eka8k2cycj" path="res://Scripts/Citizens/Citizen UI/select_ui.gd" id="6_mqq4v"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_mhx3l"]
 atlas = ExtResource("4_ovmnh")
@@ -149,20 +148,6 @@ particles_anim_loop = true
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o0kfk"]
 size = Vector2(23, 41)
 
-[sub_resource type="Gradient" id="Gradient_1ya0r"]
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_xbon3"]
-gradient = SubResource("Gradient_1ya0r")
-fill_from = Vector2(0, 1)
-fill_to = Vector2(0.005376344, 0.97849464)
-
-[sub_resource type="Gradient" id="Gradient_visa0"]
-colors = PackedColorArray(0.64147717, 0.28639132, 0.93964046, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_aapq8"]
-gradient = SubResource("Gradient_visa0")
-fill_to = Vector2(0, 0)
-
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=145350999 groups=["Citizen"]]
 position = Vector2(1017, 535)
 collision_layer = 16
@@ -220,29 +205,6 @@ avoidance_enabled = true
 radius = 22.0
 debug_use_custom = true
 debug_path_custom_color = Color(1, 1, 0.329412, 1)
-
-[node name="SelectUI" type="Control" parent="." unique_id=545598827]
-visible = false
-layout_mode = 3
-anchors_preset = 0
-offset_left = -55.0
-offset_top = -53.0
-offset_bottom = 16.0
-script = ExtResource("6_mqq4v")
-
-[node name="WorkProgressBar" type="TextureProgressBar" parent="SelectUI" unique_id=1142361318]
-layout_mode = 0
-offset_left = 49.00003
-offset_top = 15.0
-offset_right = 49.977707
-offset_bottom = 33.29712
-scale = Vector2(12.274, 0.655841)
-step = 0.05
-fill_mode = 4
-nine_patch_stretch = true
-texture_under = SubResource("GradientTexture2D_xbon3")
-texture_progress = SubResource("GradientTexture2D_aapq8")
-tint_progress = Color(0.6431373, 0.28627452, 0.9411765, 1)
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="Area2D" to="." method="_on_area_2d_mouse_exited"]

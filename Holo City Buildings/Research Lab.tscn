@@ -72,7 +72,6 @@ debug_color = Color(3.3210217e-06, 0.6322815, 0.4566033, 0.41960785)
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(900, 810)
-visible = true
 
 [node name="LabBackground" type="TextureRect" parent="menuControl" unique_id=1134678360]
 texture_filter = 1
@@ -306,12 +305,12 @@ texture_progress = SubResource("GradientTexture2D_tl608")
 [node name="CurrentTurretsSlotGrid" type="GridContainer" parent="menuControl/LabBackground" unique_id=389995619]
 layout_mode = 0
 offset_left = 98.0
-offset_top = 133.0
+offset_top = 148.00003
 offset_right = 458.0
-offset_bottom = 225.0
+offset_bottom = 248.00003
 scale = Vector2(2, 2)
 theme_override_constants/h_separation = 50
-theme_override_constants/v_separation = 28
+theme_override_constants/v_separation = 36
 columns = 5
 
 [node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1181017836]
@@ -583,6 +582,107 @@ offset_bottom = 51.5
 mouse_filter = 2
 bbcode_enabled = true
 text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
+
+[node name="LevelDisplayGrid" type="GridContainer" parent="menuControl/LabBackground" unique_id=780030488]
+layout_mode = 0
+offset_left = 122.0
+offset_top = 126.00003
+offset_right = 823.0
+offset_bottom = 288.00003
+mouse_filter = 2
+theme_override_constants/h_separation = 157
+theme_override_constants/v_separation = 120
+columns = 5
+
+[node name="TurretLevel1" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=355696690]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel2" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=523805068]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel3" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=847168419]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel4" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1993177511]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel5" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1357008887]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel6" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=158646114]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel7" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=2049836331]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel8" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=419745180]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel9" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1112560602]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TurretLevel10" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1279441611]
+layout_mode = 2
+bbcode_enabled = true
+text = "[font_size=15][color=blue]1[/color][/font_size]"
+fit_content = true
+autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="body_exited" from="Work Area" to="." method="_on_work_area_body_exited"]
