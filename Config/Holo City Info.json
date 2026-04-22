@@ -79,5 +79,10 @@
 	"ResearchCostScaling": 0.08,
 	"ResearchTimeMinScale": 2,
 	"ResearchTimeReducedScaleFactor": 0.2
-  }
+  },
+
+  "FabricatorSettings": {
+	"BaseSlotCost": 100,
+	"CostScaling": 1.75,
+	}
 }

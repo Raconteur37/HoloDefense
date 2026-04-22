@@ -57,6 +57,10 @@ var itemScaleFactor
 var researchTimeScale
 var researchTimeMinScale
 
+var fabricatorCostMultiplier
+var baseFabricatorSlotCost
+var fabricatorSlotCost
+
 var generatorLevel : int = 1
 var gemScraperLevel : int = 1
 var materialAtomizerLevel : int = 1
@@ -187,6 +191,7 @@ func _ready() -> void:
 	scraperUpgradeCost = baseScraperUpgradeCost
 	atomizerUpgradeCost = baseAtomizerUpgradeCost
 	researchLabSlotCost = baseResearchLabSlotCost
+	fabricatorSlotCost = baseFabricatorSlotCost
 	#updateGenCitizenCost()
 	#updateGeneratorUpgradeCost()
 	baseItemMoneyValueDict = itemMoneyValueDict.duplicate()

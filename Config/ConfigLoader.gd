@@ -144,4 +144,12 @@ func setupCityManagerItemDictionaries():
 		CityManager.researchCostScaling = labSettings.get("ResearchCostScaling")
 		CityManager.researchTimeMinScale = labSettings.get("ResearchTimeMinScale")
 		CityManager.researchTimeScale = labSettings.get("ResearchTimeReducedScaleFactor")
+		
+		
+	# -=HANDLE FABRICATOR SETTINGS=-
+	var fabricatorSettings = json_data.get("FabricatorSettings", {})
+	if not fabricatorSettings.is_empty():
+		CityManager.fabricatorCostMultiplier = fabricatorSettings.get("CostScaling")
+		CityManager.baseFabricatorSlotCost = fabricatorSettings.get("BaseSlotCost", 50)
+		
 	print("Config setup done no errors")
