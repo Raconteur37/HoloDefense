@@ -4,9 +4,15 @@ var turretList = []
 
 var costMap = {}
 
+# These are currently ongoing fabricates, the key is the index, the val is the citizen
+var activeBuilds = {}
+
+var fabricationTurretScene = preload("res://Globals/Scene/FabricationTurret.tscn")
+
 var menu
 
-var currentSlots = 4
+var usedSlots = 0
+var currentSlots = 5
 var maxSlots = 10
 
 var titleLabel
@@ -102,6 +108,18 @@ var scrapCostText7
 var scrapCostText8
 var scrapCostText9
 var scrapCostText10
+
+var assignedWorker1 = "none"
+var assignedWorker2 = "none"
+var assignedWorker3 = "none"
+var assignedWorker4 = "none"
+var assignedWorker5 = "none"
+var assignedWorker6 = "none"
+var assignedWorker7 = "none"
+var assignedWorker8 = "none"
+var assignedWorker9 = "none"
+var assignedWorker10 = "none"
+
 
 func _ready() -> void:
 	menu = $menuControl
@@ -235,3 +253,33 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			menu.show()
+
+func finishConstruction(index):
+	usedSlots -= 1
+	activeBuilds.erase(index)
+
+func fabricateTurret(turretListIndex):
+	var turret = turretList[turretListIndex]  
+	usedSlots += 1
+	var baseConstructionTime = TurretManager.getTurretStat(turret, "constructionTime")
+	var fabScene = fabricationTurretScene.instantiate()
+
+	var fabricateSlotTextures = [fabSlotTexture1,fabSlotTexture2,fabSlotTexture3,
+		fabSlotTexture4,fabSlotTexture5,fabSlotTexture6,fabSlotTexture7,
+		fabSlotTexture8,fabSlotTexture9,fabSlotTexture10]
+
+	# Find next available slot
+	var slotIndex = -1
+	for i in range(currentSlots):
+		if !activeBuilds.has(i):
+			slotIndex = i
+			break
+
+	fabricateSlotTextures[slotIndex].add_child(fabScene)
+	fabScene.startConstruction(turret, baseConstructionTime, slotIndex)
+	activeBuilds[slotIndex] = fabScene
+
+func _on_turret_fabricate_button_1_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[0]):
+			fabricateTurret(0)

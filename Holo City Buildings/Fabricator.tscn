@@ -101,11 +101,11 @@ vertical_alignment = 1
 [node name="Description" type="RichTextLabel" parent="menuControl/Background" unique_id=784606772]
 layout_mode = 0
 offset_left = 161.0
-offset_top = 76.0
+offset_top = 74.00003
 offset_right = 803.0
-offset_bottom = 133.0
+offset_bottom = 146.00006
 bbcode_enabled = true
-text = "[font_size=16][color=white]This is where you can fabricate turrets and assign citizens to create them automatically[/color][/font_size]"
+text = "[font_size=16][color=white]This is where you can fabricate turrets and assign citizens to create them automatically. Workers are specialzed, so build time can only be affected by 1 worker[/color][/font_size]"
 
 [node name="PurchaseLabel" type="RichTextLabel" parent="menuControl/Background" unique_id=1497680425]
 layout_mode = 0
@@ -1107,3 +1107,4 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretFabricateButton1" to="." method="_on_turret_fabricate_button_1_pressed"]

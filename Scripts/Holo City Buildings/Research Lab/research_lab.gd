@@ -285,10 +285,11 @@ func updateProgressTimer(index,progress):
 
 func _on_turret_one_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
-		purchaseOne += 1
-		turretLevelDisplayText1.text = "[font_size=15][color=blue]" + str(purchaseOne) + "[/color][/font_size]"
-		updateResearchCost(turretsList[0],purchaseOne)
-		researchTurret(turretsList[0])
+		if CityManager.currentEnergy >= costMap.get(turretsList[0]):
+			purchaseOne += 1
+			turretLevelDisplayText1.text = "[font_size=15][color=blue]" + str(purchaseOne) + "[/color][/font_size]"
+			updateResearchCost(turretsList[0],purchaseOne)
+			researchTurret(turretsList[0])
 
 func _on_turret_two_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
