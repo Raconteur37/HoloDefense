@@ -2,12 +2,15 @@ extends Control
 
 var turretList = []
 
+var workersHere = []
+
 var costMap = {}
 
 # These are currently ongoing fabricates, the key is the index, the val is the citizen
 var activeBuilds = {}
 
 var fabricationTurretScene = preload("res://Globals/Scene/FabricationTurret.tscn")
+var portraitScene = preload("res://Game Scenes/Citizen Portrait.tscn")
 
 var menu
 
@@ -109,23 +112,25 @@ var scrapCostText8
 var scrapCostText9
 var scrapCostText10
 
-var assignedWorker1 = "none"
-var assignedWorker2 = "none"
-var assignedWorker3 = "none"
-var assignedWorker4 = "none"
-var assignedWorker5 = "none"
-var assignedWorker6 = "none"
-var assignedWorker7 = "none"
-var assignedWorker8 = "none"
-var assignedWorker9 = "none"
-var assignedWorker10 = "none"
+var assignedWorkers: Array = [null, null, null, null, null, null, null, null, null, null]
 
+var assignmentButtonList = []
+var assignTextList = []
+var turretAssignContainerList = []
+
+var selectCitPopup
+
+var selectCitGrid
 
 func _ready() -> void:
 	menu = $menuControl
+	selectCitPopup = $SelectPopup
 	
 	if menu.visible:
 		menu.hide()
+	
+	if selectCitPopup.visible:
+		selectCitPopup.hide()
 	
 	titleLabel = $menuControl/Background/Title
 	descriptionLabel = $menuControl/Background/Description
@@ -221,13 +226,26 @@ func _ready() -> void:
 	scrapCostText9 = $menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot9/costText
 	scrapCostText10 = $menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot10/costText
 
+	selectCitGrid = $SelectPopup/Background/GridContainer
+
 	for turret in GameManager.turretsBrought:
 		costMap[turret] = TurretManager.getTurretStat(turret,"price")
+
+
+	assignmentButtonList = [turretAssignButton1,turretAssignButton2,turretAssignButton3,turretAssignButton4,turretAssignButton5,turretAssignButton6,turretAssignButton7,turretAssignButton8,turretAssignButton9,turretAssignButton10]
+
+	assignTextList = [turretAssignText1,turretAssignText2,turretAssignText3,turretAssignText4,turretAssignText5,turretAssignText6,turretAssignText7,turretAssignText8,turretAssignText9,turretAssignText10]
+
+	turretAssignContainerList = [turretAssignedContainer1,turretAssignedContainer2,turretAssignedContainer3,turretAssignedContainer4,turretAssignedContainer5,turretAssignedContainer6,turretAssignedContainer7,turretAssignedContainer8,turretAssignedContainer9,turretAssignedContainer10]
 
 	updateUI()
 
 func _process(delta: float) -> void:
-	pass
+	if selectCitPopup.visible:
+		if not CityManager.assignCit:
+			CityManager.assignCit = true
+	else:
+		CityManager.assignCit = false
 
 func updateUI():
 	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]
@@ -245,9 +263,20 @@ func updateUI():
 		labels[i].text = "[font_size=6][color=brown]" + str(int(costMap.get(costMap.keys()[i]))) + " Scrap[/color][/font_size]"
 
 	textures = [fabSlotTexture1,fabSlotTexture2,fabSlotTexture3,fabSlotTexture4,fabSlotTexture5,fabSlotTexture6,fabSlotTexture7,fabSlotTexture8,fabSlotTexture9,fabSlotTexture10]
+	
+	
 	if currentSlots <= maxSlots:
 		for i in range(currentSlots):
 			textures[i].texture = load("res://Textures/Holo City/empty research slot.png")
+			if assignedWorkers[i] == null:
+				assignmentButtonList[i].show()
+				assignTextList[i].show()
+				turretAssignContainerList[i].hide()
+			else:
+				assignmentButtonList[i].hide()
+				assignTextList[i].hide()
+				turretAssignContainerList[i].show()
+
 
 func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
@@ -257,6 +286,7 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 func finishConstruction(index):
 	usedSlots -= 1
 	activeBuilds.erase(index)
+	updateUI()
 
 func fabricateTurret(turretListIndex):
 	var turret = turretList[turretListIndex]  
@@ -275,11 +305,165 @@ func fabricateTurret(turretListIndex):
 			slotIndex = i
 			break
 
+
 	fabricateSlotTextures[slotIndex].add_child(fabScene)
-	fabScene.startConstruction(turret, baseConstructionTime, slotIndex)
-	activeBuilds[slotIndex] = fabScene
+	
+	
+	if assignedWorkers[slotIndex] == null:
+		fabScene.startConstruction(turret, baseConstructionTime, slotIndex)
+		activeBuilds[slotIndex] = fabScene
+	else:
+		# do math for the less build time
+		fabScene.startConstruction(turret, baseConstructionTime, slotIndex)
+		activeBuilds[slotIndex] = fabScene
+		pass
+
+func assignCit(index,cit:Citizen):
+	for child in selectCitGrid.get_children():
+		child.queue_free()
+	assignedWorkers[index] = cit
+	cit.currentState = Citizen.State.WORKING
+	CityManager.assignCit = false
+	updateUI()
+	menu.show()
+	selectCitPopup.hide()
+
 
 func _on_turret_fabricate_button_1_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentScrap >= costMap.get(turretList[0]):
 			fabricateTurret(0)
+
+func _on_turret_fabricate_button_2_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[1]):
+			fabricateTurret(1)
+
+
+func _on_turret_fabricate_button_3_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[2]):
+			fabricateTurret(2)
+
+
+func _on_turret_fabricate_button_4_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[3]):
+			fabricateTurret(3)
+
+
+func _on_turret_fabricate_button_5_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[4]):
+			fabricateTurret(4)
+
+
+func _on_turret_fabricate_button_6_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[5]):
+			fabricateTurret(5)
+
+
+func _on_turret_fabricate_button_7_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[6]):
+			fabricateTurret(6)
+
+
+func _on_turret_fabricate_button_8_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[7]):
+			fabricateTurret(7)
+
+
+func _on_turret_fabricate_button_9_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[8]):
+			fabricateTurret(8)
+
+func _on_turret_fabricate_button_10_pressed() -> void:
+	if usedSlots < currentSlots:
+		if CityManager.currentScrap >= costMap.get(turretList[9]):
+			fabricateTurret(9)
+
+func buildSelectPopup(index):
+	for cit : Citizen in workersHere:
+		if cit.currentJob == Citizen.Job.FABRICATOR and cit.currentState == Citizen.State.IDLE:
+
+			var portrait = portraitScene.instantiate()
+		
+			portrait.linkCitizen(cit)
+			portrait.index = index
+		
+			selectCitGrid.add_child(portrait)
+
+func _on_work_area_body_entered(body: Node2D) -> void:
+	if body is Citizen:
+		body.setJob(Citizen.Job.FABRICATOR)
+		workersHere.append(body)
+		currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
+		body.currentState = Citizen.State.IDLE
+
+func _on_turret_assignment_button_1_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(0)
+
+func _on_turret_assignment_button_2_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(1)
+
+
+func _on_turret_assignment_button_3_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(2)
+
+
+func _on_turret_assignment_button_4_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(3)
+
+
+func _on_turret_assignment_button_5_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(4)
+
+
+func _on_turret_assignment_button_6_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(5)
+
+
+func _on_turret_assignment_button_7_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(6)
+
+func _on_turret_assignment_button_8_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(7)
+
+
+func _on_turret_assignment_button_9_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(8)
+
+
+func _on_turret_assignment_button_10_pressed() -> void:
+	menu.hide()
+	selectCitPopup.show()
+	buildSelectPopup(9)
+
+
+func _on_turret_cancel_button_1_pressed() -> void:
+	if assignedWorkers[0] != null:
+		assignedWorkers[0].currentState = Citizen.State.IDLE
+	assignedWorkers[0] = null
+	updateUI()

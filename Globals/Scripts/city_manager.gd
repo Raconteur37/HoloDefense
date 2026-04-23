@@ -116,6 +116,8 @@ var milestoneMoneyMax
 var milestoneEnergyMax
 var milestoneScrapMax
 
+var assignCit = false
+
 var cityXpWeights = {
 	"purchase_upgrade": 50,
 	"spawn_citizen": 20,
