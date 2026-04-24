@@ -27,7 +27,7 @@ func createCitizen():
 	var loadedScene = citizenScene.instantiate()
 	loadedScene.global_position.x += randi_range(-90,90)
 	loadedScene.global_position.y += randi_range(-90,90)
-	get_tree().current_scene.find_child("CanvasLayer").add_child(loadedScene)
+	get_tree().current_scene.find_child("CityCanvas").add_child(loadedScene)
 
 
 func _on_timer_timeout() -> void:

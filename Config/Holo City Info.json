@@ -51,7 +51,7 @@
 	"MilestoneMoneyMax": 100,
 	"MilestoneEnergyMax": 50,
 	"MilestoneScrapMax": 75,
-	"BaseMaxCityXp": 100,
+	"BaseMaxCityXp": 50,
 	"CityXpScale": 1.05
 },
 

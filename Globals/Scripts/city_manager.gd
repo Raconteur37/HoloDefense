@@ -184,7 +184,8 @@ var maxAtomizerLevel
 
 func _ready() -> void:
 	# Testing
-	currentMoney = startingCash
+	#currentMoney = startingCash
+	currentMoney = 9999999
 	currentEnergy = startingEnergy
 	currentScrap = startingScrap
 	updateGemChanceWeights()
@@ -570,7 +571,9 @@ func cityLevelUp():
 	var popup = load("res://Globals/Scene/Popup.tscn")
 	popup = popup.instantiate()
 	
-	get_tree().current_scene.find_child("CanvasLayer").add_child(popup)
+	for child in get_tree().root.get_children():
+		if child is CanvasLayer:
+			child.add_child(popup)
 	popup.cityLevelUp()
 
 func addTurretTempLevel(turretID,amount):

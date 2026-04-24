@@ -9,7 +9,7 @@ var hoverBox
 var animationPlayer : AnimationPlayer
 var sprite
 var selectUI
-@onready var canvasLayer = get_tree().current_scene.find_child("CanvasLayer")
+var canvasLayer
 
 var citizenSelectUi
 
@@ -102,6 +102,11 @@ func _ready() -> void:
 	currentState = State.IDLE
 	
 	CityManager.addCitizen(self)
+	
+	for child in get_tree().root.get_children():
+		if child is CanvasLayer:
+			canvasLayer = child
+			break
 
 func _physics_process(delta: float) -> void:
 	if currentState == State.IDLE:

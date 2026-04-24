@@ -24,47 +24,53 @@ height = 1080
 fill_from = Vector2(0.536332, 1)
 fill_to = Vector2(0.534783, 0)
 
-[node name="Node2D" type="Node2D" unique_id=125614548]
+[node name="CityCanvas" type="CanvasLayer" unique_id=1341419640]
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1427074149]
 visible = false
 position = Vector2(0, 2)
 navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1341419640]
+[node name="HoloGenerator" parent="." unique_id=117961982 instance=ExtResource("3_mjf4j")]
+offset_left = 9.0
+offset_top = 9.0
+offset_right = 9.0
+offset_bottom = 9.0
+metadata/_edit_use_anchors_ = true
 
-[node name="HoloGenerator" parent="CanvasLayer" unique_id=117961982 instance=ExtResource("3_mjf4j")]
-
-[node name="GemFabricator" parent="CanvasLayer" unique_id=308009221 instance=ExtResource("2_82jv5")]
+[node name="GemFabricator" parent="." unique_id=308009221 instance=ExtResource("2_82jv5")]
 offset_left = 703.0
 offset_top = 131.0
 offset_right = 743.0
 offset_bottom = 171.0
+metadata/_edit_use_anchors_ = true
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer" unique_id=925984537]
+[node name="TextureRect" type="TextureRect" parent="." unique_id=925984537]
 visible = false
 z_index = -2
 offset_right = 40.0
 offset_bottom = 40.0
 texture = SubResource("GradientTexture2D_872co")
 
-[node name="BasicCitizen" parent="CanvasLayer" unique_id=429321666 instance=ExtResource("1_a5ly5")]
+[node name="BasicCitizen" parent="." unique_id=429321666 instance=ExtResource("1_a5ly5")]
 z_index = 1
 position = Vector2(874, 541)
 
-[node name="MaterialAtomizer" parent="CanvasLayer" unique_id=226652734 instance=ExtResource("4_6jm4f")]
+[node name="MaterialAtomizer" parent="." unique_id=226652734 instance=ExtResource("4_6jm4f")]
 offset_left = 298.0
 offset_top = -411.0
 offset_right = 298.0
 offset_bottom = -411.0
+metadata/_edit_use_anchors_ = true
 
-[node name="ResearchLab" parent="CanvasLayer" unique_id=2132881313 instance=ExtResource("5_sub41")]
+[node name="ResearchLab" parent="." unique_id=2132881313 instance=ExtResource("5_sub41")]
 offset_left = 794.0
 offset_top = -413.0
 offset_right = 794.0
 offset_bottom = -413.0
+metadata/_edit_use_anchors_ = true
 
-[node name="Fabricator" parent="CanvasLayer" unique_id=2144121985 instance=ExtResource("6_1pif0")]
+[node name="Fabricator" parent="." unique_id=2144121985 instance=ExtResource("6_1pif0")]
 anchors_preset = -1
 anchor_left = 0.0
 anchor_top = 0.0
@@ -74,6 +80,7 @@ offset_left = 129.0
 offset_top = 127.0
 offset_right = -132.12003
 offset_bottom = -127.88002
+metadata/_edit_use_anchors_ = true
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")
