@@ -198,3 +198,52 @@ func getMaxXp(rarity: String, level: int):
 	else:
 		push_error("Invalid rarity: %s" % rarity)
 	return -1
+
+const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+
+func createPropertiesLabels(turret):
+	var labels = []
+	
+	# Define simple labels (property_name: [display_name, color])
+	var simple_stats = {
+		"health": ["Health: ", Color.FUCHSIA],
+		"armor": ["Armor: ", Color.GRAY],
+		"damage": ["Damage: ", Color.RED],
+		"reloadTime": ["Reload Time: ", Color.CORAL],
+		"attackRange": ["Range: ", Color.SKY_BLUE],
+		"projectileSpeed": ["Projectile Speed: ", Color.CADET_BLUE],
+		"pierce": ["Pierce: ", Color.PERU],
+		"fireDamage": ["Fire Damage: ", Color.RED],
+		"fireTime": ["Fire Duration: ", Color.INDIAN_RED],
+		"executionChance": ["Execution Chance: ", Color.BLACK],
+		"poisonChance": ["Poison Chance: ", Color.MEDIUM_SPRING_GREEN],
+		"poisonDamage": ["Poison Damage: ", Color.SPRING_GREEN]
+	}
+	
+	# Define complex stats (those that use the StatisticItem.tscn)
+	var complex_stats = [
+		"maxTurretsEnergized", "energizeTime", "energizerDamageBuff", 
+		"energizerReloadTimeBuff", "energizerAttackRangeBuff", 
+		"energizerProjctileSpeedBuff", "explosionDamage", "explosionRadius", 
+		"pierce", "fireDamage", "fireTime", "executionChance", 
+		"poisonChance", "poisonDamage", "poisonDuration"
+	]
+
+	# Handle Simple Stats
+	for prop in simple_stats:
+		if turret.get(prop) != null:
+			var label = Label.new()
+			label.text = simple_stats[prop][0] + str(turret.get(prop))
+			if "reloadTime" in prop: label.text += "s" # Append 's' for time
+			label.add_theme_color_override("font_color", simple_stats[prop][1])
+			label.add_theme_font_size_override("font_size", 10)
+			labels.append(label)
+
+	# Handle Complex Stats
+	for prop in complex_stats:
+		if turret.get(prop) != null:
+			var statItem = STAT_ITEM_SCENE.instantiate()
+			statItem.buildStatContainer(prop, turret)
+			labels.append(statItem)
+
+	return labels

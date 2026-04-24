@@ -330,9 +330,10 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
 			menu.show()
 
-func finishConstruction(index):
+func finishConstruction(index,turretID):
 	usedSlots -= 1
 	activeBuilds.erase(index)
+	GameManager.addTurretToStorage(turretID,1)
 	for i in range(assignedAutoBuildList.size()):
 		if assignedAutoBuildList[i] != null:
 			autoFabricate(assignedAutoBuildList[i],i)

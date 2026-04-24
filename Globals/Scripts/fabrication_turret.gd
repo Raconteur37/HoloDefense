@@ -41,6 +41,6 @@ func _on_construction_timer_timeout() -> void:
 	constructed = true
 	await get_tree().create_timer(0.5).timeout
 	# this isnt the best but it works for now
-	get_tree().current_scene.find_child("Fabricator").finishConstruction(index)
+	get_tree().current_scene.find_child("Fabricator").finishConstruction(index,turretID)
 	timer.queue_free()
 	queue_free()

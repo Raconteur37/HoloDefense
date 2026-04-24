@@ -571,7 +571,7 @@ func cityLevelUp():
 	var popup = load("res://Globals/Scene/Popup.tscn")
 	popup = popup.instantiate()
 	
-	for child in get_tree().root.get_children():
+	for child in get_tree().current_scene.get_children():
 		if child is CanvasLayer:
 			child.add_child(popup)
 	popup.cityLevelUp()

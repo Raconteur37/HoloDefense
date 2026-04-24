@@ -100,15 +100,19 @@ func getName():
 func getCost():
 	return price
 
-func openSelectedMenu():
-	if isPlaced:
-		var description = load("res://Globals/Scene/TurretDescription/TurretDescriptionScene.tscn")
-		menu = description.instantiate()
-		get_parent().add_child(menu)
-		menu.buildContainer(self)
-		showRange()
+func showUI(turretInstance):
+	rangeIndicator.show()
+	# display UI if we can
+	var bottomUI = get_tree().current_scene
+	if bottomUI != null:
+		if bottomUI.has_node("TowerDefenseCanvas"):
+			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+		bottomUI.refreshTurretUI(turretInstance)
 
-func closeSelectMenu():
-	if is_instance_valid(menu):
-		menu.close()
-	hideRange()
+func hideUI():
+	rangeIndicator.hide()
+	var bottomUI = get_tree().current_scene
+	if bottomUI != null:
+		if bottomUI.has_node("TowerDefenseCanvas"):
+			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+		bottomUI.removeTurretUI()

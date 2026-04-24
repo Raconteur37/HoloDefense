@@ -128,8 +128,8 @@ func applyUpgrade():
 
 
 func _on_select_area_mouse_entered() -> void:
-	rangeIndicator.show()
+	showUI(self)
 
 
 func _on_select_area_mouse_exited() -> void:
-	rangeIndicator.hide()
+	hideUI()

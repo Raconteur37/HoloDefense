@@ -21,9 +21,9 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 ConfigLoader="*uid://b18nntm27lr8w"
+PopupScene="*res://Globals/Scene/Popup.tscn"
 GameManager="*res://Globals/Scripts/game_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
-PopupScene="*res://Globals/Scene/Popup.tscn"
 BeaconManager="*res://Globals/Scripts/beaconManager.gd"
 SoundManager="*res://Globals/Scene/SoundManager.tscn"
 EffectManager="*res://Globals/Scene/Effects.tscn"

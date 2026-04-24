@@ -19,7 +19,7 @@ Turret.TurretID.GOLD_MINE_TURRET]
 var turretTempLevels = {}
 
 # turretID and int of how many the player has
-var turretStorage = {Turret.TurretID.ARROW_TURRET : 2, Turret.TurretID.MEDIC_TURRET : 5}
+var turretStorage = {Turret.TurretID.ARROW_TURRET : 1, Turret.TurretID.MINI_SENTRY_TURRET : 1}
 
 func _ready() -> void:
 	# This works for now but will crash the game later TODO FIX THIS LATER

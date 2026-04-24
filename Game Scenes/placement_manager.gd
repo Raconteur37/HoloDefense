@@ -301,7 +301,7 @@ func _draw() -> void:
 	var center_alpha: float = _cell_alpha.get(cell, 0.0)
 	if center_alpha > 0.0:
 		var pulse_border := 0.7 + sin(_time * 5.0) * 0.3
-		var border_base  := Color(0.3, 1.0, 0.5, 0.9) if valid else Color(0.0, 0.687, 0.551, 0.9)
+		var border_base  := Color(0.3, 1.0, 0.5, 0.9) if valid else Color(1.0, 0.3, 0.3, 0.9)
 		draw_rect(Rect2(to_local(_cell_to_world(cell) - Vector2(half, half)),
 					Vector2(tile_size, tile_size)),
 				Color(border_base.r, border_base.g, border_base.b,
