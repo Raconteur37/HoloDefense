@@ -18,15 +18,15 @@
 
 "ScrapValues": {
 	"Money": {
-	  "Common Scrap": 1,
-	  "Rare Scrap": 2,
-	  "Super Rare Scrap": 5,
-	  "Legendary Scrap": 10,
-	  "Unseen Scrap": 25
+	  "Common Scrap": 2,
+	  "Rare Scrap": 4,
+	  "Super Rare Scrap": 10,
+	  "Legendary Scrap": 30,
+	  "Unseen Scrap": 60
 	},
 	"Scrap": {
-	  "Common Scrap": 1,
-	  "Rare Scrap": 3,
+	  "Common Scrap": 2,
+	  "Rare Scrap": 5,
 	  "Super Rare Scrap": 10,
 	  "Legendary Scrap": 20,
 	  "Unseen Scrap": 50
@@ -46,13 +46,13 @@
 	"BaseGenerateCitizenCost" : 25,
 	"CitizenGenerateCostScale" : 1.15,
 	"ItemScaleFactor": 0.20,
-	"GeneratorUpgradeBaseCost": 50,
+	"GeneratorUpgradeBaseCost": 25,
 	"GeneratorUpgradeCostScale": 1.10,
 	"MilestoneMoneyMax": 100,
 	"MilestoneEnergyMax": 50,
 	"MilestoneScrapMax": 75,
 	"BaseMaxCityXp": 100,
-	"CityXpScale": 1.4
+	"CityXpScale": 1.05
 },
 
   "ScraperSettings": {
@@ -82,7 +82,7 @@
   },
 
   "FabricatorSettings": {
-	"BaseSlotCost": 100,
+	"BaseSlotCost": 50,
 	"CostScaling": 1.75,
 	}
 }

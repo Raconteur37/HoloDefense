@@ -95,7 +95,7 @@ func _ready() -> void:
 	materialAbstract = ShaderMaterial.new()
 	glowShader = load("res://Shaders/pulsing_glow.gdshader")
 	
-	upgradeGenLabel.text = "Upgrade\n Generator\n Energy: " + str(CityManager.generatorUpgradeCost)
+	upgradeGenLabel.text = "Upgrade\n Generator\n $" + str(CityManager.generatorUpgradeCost)
 	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
@@ -174,11 +174,11 @@ func onCitizenSpawn(citizen):
 
 
 func _on_upgrade_generator_button_pressed() -> void:
-	if CityManager.currentEnergy >= CityManager.generatorUpgradeCost:
-		CityManager.currentEnergy -= CityManager.generatorUpgradeCost
+	if CityManager.currentMoney >= CityManager.generatorUpgradeCost:
+		CityManager.currentMoney -= CityManager.generatorUpgradeCost
 		CityManager.addCityXp("purchase_upgrade")
 		CityManager.upgradeGenerator()
-		upgradeGenLabel.text = "Upgrade\n Generator \nEnergy: " + str(CityManager.generatorUpgradeCost)
+		upgradeGenLabel.text = "Upgrade\n Generator \n$" + str(CityManager.generatorUpgradeCost)
 		moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 		energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 		scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 

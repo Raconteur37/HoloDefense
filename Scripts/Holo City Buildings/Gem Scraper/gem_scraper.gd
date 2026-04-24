@@ -222,7 +222,7 @@ func _on_texture_button_mouse_exited() -> void:
 
 func _on_texture_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.scraperUpgradeCost:
-		#CityManager.currentMoney -= CityManager.scraperUpgradeCost
+		CityManager.currentMoney -= CityManager.scraperUpgradeCost
 		CityManager.addCityXp("purchase_upgrade")
 		CityManager.gemScraperLevel += 1
 		CityManager.updateScraperUpgradeCost()

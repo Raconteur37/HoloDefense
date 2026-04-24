@@ -108,6 +108,7 @@ var researchMaxLevel
 var researchBaseCost
 var researchCostScaling
 
+
 var milestoneMoney
 var milestoneEnergy
 var milestoneScrap

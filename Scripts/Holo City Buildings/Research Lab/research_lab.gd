@@ -434,7 +434,8 @@ func updateCurrentTimers():
 
 func _on_purchase_slots_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.researchLabSlotCost:
-		# Subtract current money
+		CityManager.currentMoney -= CityManager.researchLabSlotCost
+		CityManager.addCityXp("purchase_upgrade")
 		currentSlots+= 1
 		CityManager.researchLabSlotCost = CityManager.baseResearchLabSlotCost * (currentSlots * CityManager.researchLabCostMultiplier)
 		updateUI()
