@@ -1,5 +1,7 @@
 extends Node2D
 
+var cityCanvas
+
 var isDragging = false
 var dragStart = Vector2.ZERO
 var dragEnd = Vector2.ZERO
@@ -8,10 +10,11 @@ var dragEnd = Vector2.ZERO
 @export var lineColor: Color = Color(0.0, 0.188, 0.984, 0.702)
 
 func _ready():
+	cityCanvas = $".."
 	z_index = 100
 
 func _input(event):
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton && cityCanvas.visible:
 		if event.button_index == MOUSE_BUTTON_LEFT:
 			if event.pressed:
 				isDragging = true

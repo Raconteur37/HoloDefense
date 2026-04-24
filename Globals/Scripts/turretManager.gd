@@ -174,7 +174,18 @@ func loadXpMaximum() -> void:
 	else:
 		push_error("Failed to open file: %s" % "res://Config/TurretXP.json")
 
-
+func draw_range_circle(line2d: Line2D, attack_range: float) -> Line2D:
+	line2d.clear_points()
+	var steps := 64
+	for i in range(steps + 1):
+		var angle := (i / float(steps)) * TAU
+		line2d.add_point(Vector2(cos(angle), sin(angle)) * attack_range)
+	line2d.width = 1.5
+	line2d.default_color = Color(0.2, 0.85, 1.0, 0.55)
+	line2d.joint_mode = Line2D.LINE_JOINT_ROUND
+	line2d.begin_cap_mode = Line2D.LINE_CAP_NONE
+	line2d.end_cap_mode = Line2D.LINE_CAP_NONE
+	return line2d
 
 func getMaxXp(rarity: String, level: int):
 	if xpMaxData.has(rarity):

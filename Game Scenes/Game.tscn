@@ -1,28 +1,15 @@
 [gd_scene format=3 uid="uid://vd4cup5gfb1x"]
 
-[ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="1_dj7dj"]
 [ext_resource type="Script" uid="uid://cj3m0blof60ly" path="res://Scripts/Game Scene/game.gd" id="1_lgx4p"]
-[ext_resource type="Script" uid="uid://von11dbm60ro" path="res://Scripts/Tilemap/tile_map.gd" id="3_p434w"]
+[ext_resource type="PackedScene" uid="uid://de2f8fkqbrxea" path="res://Game Scenes/Tower Defense.tscn" id="2_vq8dx"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
-
-[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_idxuc"]
-texture = ExtResource("1_dj7dj")
-texture_region_size = Vector2i(32, 32)
-0:0/0 = 0
-
-[sub_resource type="TileSet" id="TileSet_x0qb8"]
-tile_size = Vector2i(32, 32)
-sources/0 = SubResource("TileSetAtlasSource_idxuc")
 
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
-[node name="TowerDefenseCanvas" type="CanvasLayer" parent="." unique_id=1608625781]
-
-[node name="TilemapLayer0" type="TileMapLayer" parent="TowerDefenseCanvas" unique_id=1686346403]
-use_parent_material = true
-tile_set = SubResource("TileSet_x0qb8")
-rendering_quadrant_size = 32
-script = ExtResource("3_p434w")
-
 [node name="CityCanvas" parent="." unique_id=125614548 instance=ExtResource("4_iw6a6")]
+visible = false
+
+[node name="TowerDefenseCanvas" parent="." unique_id=1084623525 instance=ExtResource("2_vq8dx")]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1688894469]

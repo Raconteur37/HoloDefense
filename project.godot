@@ -22,7 +22,6 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 
 ConfigLoader="*uid://b18nntm27lr8w"
 GameManager="*res://Globals/Scripts/game_manager.gd"
-PlacementManager="*res://Globals/Scripts/placement_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
 PopupScene="*res://Globals/Scene/Popup.tscn"
 BeaconManager="*res://Globals/Scripts/beaconManager.gd"
@@ -34,6 +33,8 @@ CityManager="*res://Globals/Scripts/city_manager.gd"
 DeveloperMode="*res://Globals/Scripts/developerMode.gd"
 TurretManager="*res://Globals/Scripts/turretManager.gd"
 CitizenManager="*uid://b1q35i2g7cl31"
+WaveManager="*uid://dwjkct0fj5w5n"
+PlacementManager="*uid://bn0d71yhgaq0u"
 
 [display]
 

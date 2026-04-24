@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://de2f8fkqbrxea"]
+
+[ext_resource type="Script" uid="uid://br8lglsag61p" path="res://Game Scenes/tower_defense.gd" id="1_dfs6n"]
+[ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="1_g8jp3"]
+[ext_resource type="Texture2D" uid="uid://bpc63egooh2ym" path="res://Textures/Citizens/UI/galaxy.jpg" id="3_wnsls"]
+[ext_resource type="Texture2D" uid="uid://focw1t1ptcll" path="res://Textures/Map/Beacon.png" id="4_m02cc"]
+[ext_resource type="PackedScene" uid="uid://1a2hybqa73km" path="res://Particle Scenes/UI/openTowerDefenseUIHubParticle.tscn" id="6_wnsls"]
+[ext_resource type="Texture2D" uid="uid://f6qyom3ylfej" path="res://Textures/UI/Game/BottomUI16.png" id="7_m02cc"]
+[ext_resource type="Script" uid="uid://bn0d71yhgaq0u" path="res://Game Scenes/placement_manager.gd" id="8_kl2s0"]
+
+[sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl2s0"]
+texture = ExtResource("1_g8jp3")
+texture_region_size = Vector2i(32, 32)
+0:0/0 = 0
+
+[sub_resource type="TileSet" id="TileSet_k7ttf"]
+tile_size = Vector2i(32, 32)
+sources/0 = SubResource("TileSetAtlasSource_kl2s0")
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m02cc"]
+size = Vector2(1940, 20)
+
+[node name="TowerDefenseCanvas" type="CanvasLayer" unique_id=1084623525]
+script = ExtResource("1_dfs6n")
+
+[node name="TilemapLayer0" type="TileMapLayer" parent="." unique_id=71042978]
+tile_set = SubResource("TileSet_k7ttf")
+rendering_quadrant_size = 32
+
+[node name="Background" type="TextureRect" parent="." unique_id=1943534115]
+self_modulate = Color(1, 1, 1, 0.21176471)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_wnsls")
+metadata/_edit_use_anchors_ = true
+
+[node name="CityDisplay" type="TextureRect" parent="." unique_id=943734106]
+anchors_preset = -1
+anchor_left = 0.467
+anchor_top = 0.441
+anchor_right = 0.53300005
+anchor_bottom = 0.559
+offset_left = -0.64001465
+offset_top = -0.2800293
+offset_right = 0.6398926
+offset_bottom = 0.27996826
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m02cc")
+metadata/_edit_use_anchors_ = true
+
+[node name="OpenTowerDefenseUiHubParticle" parent="." unique_id=623289753 instance=ExtResource("6_wnsls")]
+visible = false
+position = Vector2(934, 1078)
+
+[node name="BottomUI" type="TextureRect" parent="." unique_id=1655959364]
+visible = false
+self_modulate = Color(1, 1, 1, 0.1882353)
+anchors_preset = -1
+anchor_top = 0.79300004
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -0.44006348
+grow_horizontal = 2
+grow_vertical = 0
+texture = ExtResource("7_m02cc")
+
+[node name="TurretsAvailableGrid" type="GridContainer" parent="BottomUI" unique_id=1014879999]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.011000001
+anchor_top = 0.286
+anchor_right = 0.224
+anchor_bottom = 0.906
+offset_left = -0.12000084
+offset_top = -0.06400299
+offset_right = -0.08001709
+offset_bottom = 0.055999756
+scale = Vector2(1.2, 1.2)
+theme_override_constants/h_separation = 40
+columns = 5
+
+[node name="HoverControl" type="Control" parent="." unique_id=581000435]
+layout_mode = 3
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_top = -40.0
+offset_right = 40.0
+grow_vertical = 0
+metadata/_edit_use_anchors_ = true
+
+[node name="Enable" type="Area2D" parent="HoverControl" unique_id=1887592291]
+position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverControl/Enable" unique_id=2081979137]
+position = Vector2(960, 0)
+shape = SubResource("RectangleShape2D_m02cc")
+
+[node name="Disable" type="Area2D" parent="HoverControl" unique_id=481864647]
+visible = false
+position = Vector2(0, 40)
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HoverControl/Disable" unique_id=1068191634]
+position = Vector2(960, 0)
+shape = SubResource("RectangleShape2D_m02cc")
+debug_color = Color(0.93837553, 0.20797732, 0.3587349, 0.41960785)
+
+[node name="PlacementManager" type="Node2D" parent="." unique_id=1414985440 node_paths=PackedStringArray("tilemap")]
+script = ExtResource("8_kl2s0")
+tilemap = NodePath("../TilemapLayer0")
+
+[node name="TurretNodeHolder" type="Node2D" parent="." unique_id=1391536917]
+
+[connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
+[connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]

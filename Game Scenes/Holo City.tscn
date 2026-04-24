@@ -1,7 +1,9 @@
 [gd_scene format=3 uid="uid://bt48rpule0qcq"]
 
 [ext_resource type="PackedScene" uid="uid://cc1wtd6g7gm0q" path="res://Citizens/Basic Citizen.tscn" id="1_a5ly5"]
+[ext_resource type="Texture2D" uid="uid://gf24pj3nehr4" path="res://Textures/Citizens/UI/city background.jpg" id="1_khai5"]
 [ext_resource type="PackedScene" uid="uid://dmfouqdg4qq47" path="res://Holo City Buildings/Gem Scraper.tscn" id="2_82jv5"]
+[ext_resource type="Script" uid="uid://cst2xbb876rjm" path="res://Game Scenes/texture_rect.gd" id="2_gvh2w"]
 [ext_resource type="PackedScene" uid="uid://cbt3hx5meq4g8" path="res://Holo City Buildings/Holo Generator.tscn" id="3_mjf4j"]
 [ext_resource type="Script" uid="uid://l45wpphqpcmg" path="res://Globals/Scripts/selection_manager.gd" id="4_5wlxu"]
 [ext_resource type="PackedScene" uid="uid://cbuod6sley3us" path="res://Holo City Buildings/Material Atomizer.tscn" id="4_6jm4f"]
@@ -13,18 +15,15 @@ vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-2, -3, 1920, -1, 1920, 1077, -2, 1077)])
 
-[sub_resource type="Gradient" id="Gradient_eoov6"]
-offsets = PackedFloat32Array(0.946667, 1)
-colors = PackedColorArray(0.269639, 0.27269, 0.253933, 1, 0.90409, 0.823248, 0.805638, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_872co"]
-gradient = SubResource("Gradient_eoov6")
-width = 1920
-height = 1080
-fill_from = Vector2(0.536332, 1)
-fill_to = Vector2(0.534783, 0)
-
 [node name="CityCanvas" type="CanvasLayer" unique_id=1341419640]
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=925984537]
+self_modulate = Color(1, 1, 1, 0.24705882)
+z_index = -2
+offset_right = 1920.0
+offset_bottom = 1080.0
+texture = ExtResource("1_khai5")
+script = ExtResource("2_gvh2w")
 
 [node name="NavigationRegion2D" type="NavigationRegion2D" parent="." unique_id=1427074149]
 visible = false
@@ -44,13 +43,6 @@ offset_top = 131.0
 offset_right = 743.0
 offset_bottom = 171.0
 metadata/_edit_use_anchors_ = true
-
-[node name="TextureRect" type="TextureRect" parent="." unique_id=925984537]
-visible = false
-z_index = -2
-offset_right = 40.0
-offset_bottom = 40.0
-texture = SubResource("GradientTexture2D_872co")
 
 [node name="BasicCitizen" parent="." unique_id=429321666 instance=ExtResource("1_a5ly5")]
 z_index = 1
@@ -84,3 +76,5 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")
+
+[connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

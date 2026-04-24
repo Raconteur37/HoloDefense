@@ -1,14 +1,20 @@
 extends Node2D
 
+var cityCanvas
+var defenseCanvas
+
 
 func _ready() -> void:
 
-	PlacementManager.inGame = true
+	cityCanvas = $CityCanvas
+	defenseCanvas = $TowerDefenseCanvas
 
 
 func _input(event: InputEvent):
 	if event.is_action_pressed("swap_scene"):
-		if $CityCanvas.visible:
-			$CityCanvas.hide()
+		if cityCanvas.visible:
+			cityCanvas.hide()
+			defenseCanvas.show()
 		else:
-			$CityCanvas.show()
+			cityCanvas.show()
+			defenseCanvas.hide()

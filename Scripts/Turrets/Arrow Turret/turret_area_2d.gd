@@ -5,7 +5,8 @@ var turret
 func _ready() -> void:
 	turret = $".."
 
-func _input_event(viewport: Viewport, event: InputEvent, shape_idx: int) -> void:
-	if event.is_action_pressed("turret_selected_place"):
-			GameManager.closeAllMenus()
-			turret.openSelectedMenu()
+func _on_selected() -> void:
+	$RangeArea/RangeIndicator.visible = true
+
+func _on_deselected() -> void:
+	$RangeArea/RangeIndicator.visible = false
