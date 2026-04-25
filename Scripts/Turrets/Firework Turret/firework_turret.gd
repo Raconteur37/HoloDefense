@@ -19,18 +19,18 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Idk
 	turretID = TurretID.FIREWORK_TURRET
-	turretName = TurretManager.getTurretStat("firework_turret","name")
-	price = TurretManager.getTurretStat("firework_turret","price")
-	maxHealth = TurretManager.getTurretStat("firework_turret","health")
-	baseDamage = TurretManager.getTurretStat("firework_turret","damage")
-	baseProjectileSpeed = TurretManager.getTurretStat("firework_turret","projectileSpeed")
-	baseAttackRange = TurretManager.getTurretStat("firework_turret","range")
-	baseReloadTime = TurretManager.getTurretStat("firework_turret","reloadTime")
-	armor = TurretManager.getTurretStat("firework_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("firework_turret","constructionTime")
-	baseExplosionDamage = TurretManager.getTurretStat("firework_turret","explosionDamage")
-	baseExplosionRadius = TurretManager.getTurretStat("firework_turret","explosionRadius")
-	shotDelay = TurretManager.getTurretStat("firework_turret","shotDelay")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseExplosionDamage = TurretManager.getTurretStat(turretID,"explosionDamage")
+	baseExplosionRadius = TurretManager.getTurretStat(turretID,"explosionRadius")
+	shotDelay = TurretManager.getTurretStat(turretID,"shotDelay")
 
 	level = 1
 	upgradeTier = 0
@@ -46,7 +46,7 @@ func _ready() -> void:
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTime = baseReloadTime
 	damage = baseDamage
@@ -64,7 +64,7 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -143,3 +143,11 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
+
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

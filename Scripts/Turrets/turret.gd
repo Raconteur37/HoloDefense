@@ -100,17 +100,33 @@ func getName():
 func getCost():
 	return price
 
+func refreshUI(turretInstance):
+	if turretInstance.rangeIndicator.visible:
+		var bottomUI = get_tree().current_scene
+		if bottomUI != null:
+			if bottomUI.has_node("TowerDefenseCanvas"):
+				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+			bottomUI.refreshTurretUI(turretInstance)
+
+var _hide_timer: SceneTreeTimer = null
 func showUI(turretInstance):
 	rangeIndicator.show()
 	# display UI if we can
-	var bottomUI = get_tree().current_scene
-	if bottomUI != null:
-		if bottomUI.has_node("TowerDefenseCanvas"):
-			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-		bottomUI.refreshTurretUI(turretInstance)
+	_hide_timer = get_tree().create_timer(0.05)
+	_hide_timer.timeout.connect(func():
+		_hide_timer = null
+		var bottomUI = get_tree().current_scene
+		if bottomUI != null:
+			if bottomUI.has_node("TowerDefenseCanvas"):
+				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+			bottomUI.refreshTurretUI(turretInstance)
+	)
+
 
 func hideUI():
 	rangeIndicator.hide()
+	if _hide_timer != null:
+		_hide_timer = null
 	var bottomUI = get_tree().current_scene
 	if bottomUI != null:
 		if bottomUI.has_node("TowerDefenseCanvas"):

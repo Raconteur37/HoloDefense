@@ -226,6 +226,7 @@
 		"constructionTime": 15,
 		"baseGoldProduced": 2,
 		"generateTime": 5,
+		"goldIncreaseScale": 0.5,
 		"scaleFactor": 0.10
 	},
 	"sentry_turret": {

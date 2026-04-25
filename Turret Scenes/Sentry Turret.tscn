@@ -1,4 +1,4 @@
-[gd_scene load_steps=15 format=3 uid="uid://b1yrhyp8l62s4"]
+[gd_scene format=3 uid="uid://b1yrhyp8l62s4"]
 
 [ext_resource type="Script" uid="uid://mxlmtyromv5a" path="res://Scripts/Turrets/Automated Sentry Turret/automated_sentry_turret.gd" id="1_u4qsv"]
 [ext_resource type="Texture2D" uid="uid://1gsww7jgfpxl" path="res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurretBottom.png" id="2_rkapj"]
@@ -58,23 +58,23 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
-[node name="Automated Sentry Turret" type="CharacterBody2D" groups=["Turret"]]
+[node name="Sentry Turret" type="CharacterBody2D" unique_id=1040905793 groups=["Turret"]]
 position = Vector2(940, 523)
 collision_mask = 12
 script = ExtResource("1_u4qsv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1220352087]
 shape = SubResource("RectangleShape2D_11eqx")
 disabled = true
 
-[node name="TurretBottom" type="Sprite2D" parent="."]
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1449025993]
 texture = ExtResource("2_rkapj")
 
-[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=1421312664]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
-[node name="AutomatedSentryTurretFire" parent="TurretTop" instance=ExtResource("4_rkapj")]
+[node name="AutomatedSentryTurretFire" parent="TurretTop" unique_id=2430972 instance=ExtResource("4_rkapj")]
 position = Vector2(1, -35)
 rotation = 4.71239
 scale = Vector2(1.2, 1.2)
@@ -82,30 +82,30 @@ lifetime = 0.2
 particle_flag_align_y = true
 spread = 0.0
 
-[node name="SelectArea" type="Area2D" parent="."]
+[node name="SelectArea" type="Area2D" parent="." unique_id=587805032]
 collision_mask = 4
 script = ExtResource("4_ou1vf")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=1714469849]
 shape = SubResource("RectangleShape2D_6b4j2")
 
-[node name="RangeArea" type="Area2D" parent="."]
+[node name="RangeArea" type="Area2D" parent="." unique_id=452610159]
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=71435427]
 shape = SubResource("CircleShape2D_pdpxq")
 
-[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=1246746399]
 width = 2.0
 default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
-[node name="ReloadTimer" type="Timer" parent="."]
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1106480285]
 
-[node name="ShootTimer" type="Timer" parent="."]
+[node name="ShootTimer" type="Timer" parent="." unique_id=423315463]
 one_shot = true
 
-[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

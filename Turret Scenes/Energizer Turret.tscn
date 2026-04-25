@@ -1,4 +1,4 @@
-[gd_scene load_steps=9 format=3 uid="uid://bdhecc4s7spy8"]
+[gd_scene format=3 uid="uid://bdhecc4s7spy8"]
 
 [ext_resource type="Script" uid="uid://ckc7cgjke30ck" path="res://Scripts/Turrets/Energizer Turret/energizer_turret.gd" id="1_q1mdo"]
 [ext_resource type="Texture2D" uid="uid://ctluis38dnpc5" path="res://Textures/Turrets/Energizer Turret/Energizer Turret Bottom.png" id="2_e30v1"]
@@ -25,46 +25,46 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
-[node name="Energizer Turret" type="CharacterBody2D" groups=["Energizer", "Turret"]]
+[node name="Energizer Turret" type="CharacterBody2D" unique_id=2064458508 groups=["Energizer", "Turret"]]
 position = Vector2(975, 508)
 collision_mask = 12
 script = ExtResource("1_q1mdo")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=424321011]
 shape = SubResource("RectangleShape2D_11eqx")
 disabled = true
 
-[node name="EnergizerTurretBottom" type="Sprite2D" parent="."]
+[node name="EnergizerTurretBottom" type="Sprite2D" parent="." unique_id=1066034315]
 texture = ExtResource("2_e30v1")
 
-[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=1444582594]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
-[node name="SelectArea" type="Area2D" parent="."]
+[node name="SelectArea" type="Area2D" parent="." unique_id=1694405310]
 collision_mask = 4
 script = ExtResource("4_l15rh")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=584432973]
 shape = SubResource("RectangleShape2D_6b4j2")
 
-[node name="RangeArea" type="Area2D" parent="."]
+[node name="RangeArea" type="Area2D" parent="." unique_id=108571406]
 collision_mask = 13
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1259348282]
 shape = SubResource("CircleShape2D_pdpxq")
 
-[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=1201834174]
 width = 2.0
 default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
-[node name="EnergizeTimer" type="Timer" parent="."]
+[node name="EnergizeTimer" type="Timer" parent="." unique_id=1603798605]
 
-[node name="ConstructingTimer" type="Timer" parent="."]
+[node name="ConstructingTimer" type="Timer" parent="." unique_id=1195392559]
 one_shot = true
 
-[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="EnergizeTimer" to="." method="_on_energize_time_timeout"]

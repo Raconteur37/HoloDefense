@@ -1,4 +1,4 @@
-[gd_scene load_steps=16 format=3 uid="uid://hoeb26ao07r2"]
+[gd_scene format=3 uid="uid://hoeb26ao07r2"]
 
 [ext_resource type="Script" uid="uid://c7hxksc5q7jev" path="res://Scripts/Turrets/Spider Turret/spider_turret.gd" id="1_kglf0"]
 [ext_resource type="Texture2D" uid="uid://day3k6jiosk3h" path="res://Textures/Turrets/Spider Turret/Spider Turret Bottom.png" id="2_i0x6i"]
@@ -71,43 +71,43 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
-[node name="Spider Turret" type="CharacterBody2D" groups=["Turret"]]
+[node name="Spider Turret" type="CharacterBody2D" unique_id=458552478 groups=["Turret"]]
 position = Vector2(948, 510)
 collision_mask = 12
 script = ExtResource("1_kglf0")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1568653675]
 shape = SubResource("RectangleShape2D_11eqx")
 disabled = true
 
-[node name="TurretBottom" type="Sprite2D" parent="."]
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=693884362]
 texture = ExtResource("2_i0x6i")
 
-[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=1344298676]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
-[node name="SelectArea" type="Area2D" parent="."]
+[node name="SelectArea" type="Area2D" parent="." unique_id=323518732]
 collision_mask = 4
 script = ExtResource("4_15if1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=1773529405]
 shape = SubResource("RectangleShape2D_6b4j2")
 
-[node name="RangeArea" type="Area2D" parent="."]
+[node name="RangeArea" type="Area2D" parent="." unique_id=2057669241]
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=125870834]
 shape = SubResource("CircleShape2D_pdpxq")
 
-[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=464437488]
 width = 2.0
 default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
-[node name="ReloadTimer" type="Timer" parent="."]
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1289091921]
 
-[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
-[connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

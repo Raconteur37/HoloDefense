@@ -28,14 +28,14 @@ func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Midieval
 	turretID = TurretID.ROYAL_TURRET
-	turretName = TurretManager.getTurretStat("royal_turret","name")
-	price = TurretManager.getTurretStat("royal_turret","price")
-	maxHealth = TurretManager.getTurretStat("royal_turret","health")
-	baseAttackRange = TurretManager.getTurretStat("royal_turret","range")
-	armor = TurretManager.getTurretStat("royal_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("royal_turret","constructionTime")
-	baseSummonTime = TurretManager.getTurretStat("royal_turret","summonTime")
-	maxKnights =  TurretManager.getTurretStat("royal_turret","maxKnights")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseSummonTime = TurretManager.getTurretStat(turretID,"summonTime")
+	maxKnights =  TurretManager.getTurretStat(turretID,"maxKnights")
 
 	level = 1
 	upgradeTier = 0
@@ -50,7 +50,7 @@ func _ready() -> void:
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	summonTime = baseSummonTime
 	summonTimer.wait_time = baseSummonTime
@@ -66,7 +66,7 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -125,3 +125,9 @@ func removeMinion(minion):
 
 func _on_summon_timer_timeout() -> void:
 	summonMinion()
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

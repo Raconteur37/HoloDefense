@@ -5,6 +5,9 @@ class_name ZombieTurret
 @export var turnChance : float
 @export var turnTime : float
 
+var baseTurnChance
+var baseTurnTime
+
 var attackTimer : Timer
 
 func _ready() -> void:
@@ -12,15 +15,18 @@ func _ready() -> void:
 	rarity = Rarity.UNSEEN
 	type = Type.Dark
 	turretID = TurretID.ZOMBIE_TURRET
-	turretName = TurretManager.getTurretStat("zombie_turret","name")
-	price = TurretManager.getTurretStat("zombie_turret","price")
-	maxHealth = TurretManager.getTurretStat("zombie_turret","health")
-	baseDamage = TurretManager.getTurretStat("zombie_turret","damage")
-	baseAttackRange = TurretManager.getTurretStat("zombie_turret","range")
-	armor = TurretManager.getTurretStat("zombie_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("zombie_turret","constructionTime")
-	turnChance = TurretManager.getTurretStat("zombie_turret","turnChance")
-	turnTime = TurretManager.getTurretStat("zombie_turret","turnTime")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseTurnChance = TurretManager.getTurretStat(turretID,"turnChance")
+	baseTurnTime = TurretManager.getTurretStat(turretID,"turnTime")
+
+	turnChance = baseTurnChance
+	turnTime = baseTurnTime
 
 	upgradeTier = 0
 	level = 1
@@ -37,7 +43,7 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	damage = baseDamage
 	health = maxHealth
@@ -51,7 +57,7 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -85,3 +91,9 @@ func _on_attack_timer_timeout() -> void:
 					enemy.turnTurret = self
 					ParticleManager.playZombieTurnParticle(enemy)
 		attackTimer.start()
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

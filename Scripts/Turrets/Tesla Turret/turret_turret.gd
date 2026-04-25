@@ -22,16 +22,16 @@ func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
 	type = Type.Elemental
 	turretID = TurretID.TESLA_TURRET
-	turretName = TurretManager.getTurretStat("tesla_turret","name")
-	price = TurretManager.getTurretStat("tesla_turret","price")
-	maxHealth = TurretManager.getTurretStat("tesla_turret","health")
-	baseDamage = TurretManager.getTurretStat("tesla_turret","damage")
-	baseAttackRange = TurretManager.getTurretStat("tesla_turret","range")
-	baseReloadTime = TurretManager.getTurretStat("tesla_turret","reloadTime")
-	armor = TurretManager.getTurretStat("tesla_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("tesla_turret","constructionTime")
-	baseDamageTickTime = TurretManager.getTurretStat("tesla_turret","damageTickTime")
-	baseAttackingTime = TurretManager.getTurretStat("tesla_turret","attackingTime")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseDamageTickTime = TurretManager.getTurretStat(turretID,"damageTickTime")
+	baseAttackingTime = TurretManager.getTurretStat(turretID,"attackingTime")
 
 	upgradeTier = 0
 	level = 1
@@ -50,7 +50,7 @@ func _ready() -> void:
 	electricityParticle = $TurretTop/ElectricityEmit
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTime = baseReloadTime
 	reloadTimer.wait_time = reloadTime
@@ -70,7 +70,7 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -156,3 +156,9 @@ func _on_attacking_timer_timeout() -> void:
 	shooting = false
 	shotReady = false
 	reloadAnimation()
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

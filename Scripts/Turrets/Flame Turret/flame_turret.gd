@@ -22,16 +22,16 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
 	turretID = TurretID.FLAME_TURRET
-	turretName = TurretManager.getTurretStat("flame_turret","name")
-	price = TurretManager.getTurretStat("flame_turret","price")
-	maxHealth = TurretManager.getTurretStat("flame_turret","health")
-	baseDamage = TurretManager.getTurretStat("flame_turret","damage")
-	baseAttackRange = TurretManager.getTurretStat("flame_turret","range")
-	armor = TurretManager.getTurretStat("flame_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("flame_turret","constructionTime")
-	baseFireDamage = TurretManager.getTurretStat("flame_turret","baseFireDamage")
-	baseFireTime = TurretManager.getTurretStat("flame_turret","baseFireTime")
-	baseDamageTickTime = TurretManager.getTurretStat("flame_turret","fireTickTime")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseFireDamage = TurretManager.getTurretStat(turretID,"fireDamage")
+	baseFireTime = TurretManager.getTurretStat(turretID,"fireTime")
+	baseDamageTickTime = TurretManager.getTurretStat(turretID,"fireTickTime")
 	level = 1
 	upgradeTier = 0
 
@@ -46,7 +46,7 @@ func _ready() -> void:
 	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
 	damageTickTimer = $DamageTickTimer
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	damage = baseDamage
 	health = maxHealth
@@ -63,7 +63,7 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -114,3 +114,11 @@ func _on_damage_tick_timer_timeout() -> void:
 				x.get_parent().hit.emit(damage,self,x.get_parent(),turretBeam)
 				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
 		damageTickTimer.start()
+
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

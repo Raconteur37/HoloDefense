@@ -29,18 +29,18 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Future
 	turretID = TurretID.ENERGIZER_TURRET
-	turretName = TurretManager.getTurretStat("energizer_turret","name")
-	price = TurretManager.getTurretStat("energizer_turret","price")
-	maxHealth = TurretManager.getTurretStat("energizer_turret","health")
-	baseAttackRange = TurretManager.getTurretStat("energizer_turret","range")
-	armor = TurretManager.getTurretStat("energizer_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("energizer_turret","contructionTime")
-	maxTurretsEnergized = TurretManager.getTurretStat("energizer_turret","maxTurretsEnergized")
-	energizeTime = TurretManager.getTurretStat("energizer_turret","energizeTime")
-	energizerDamageBuff = TurretManager.getTurretStat("energizer_turret","energizerDamageBuff")
-	energizerProjctileSpeedBuff = TurretManager.getTurretStat("energizer_turret","energizerProjectileSpeedBuff")
-	energizerAttackRangeBuff = TurretManager.getTurretStat("energizer_turret","energizerAttackRangeBuff")
-	energizerReloadTimeBuff = TurretManager.getTurretStat("energizer_turret","energizerReloadTimeBuff")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"contructionTime")
+	maxTurretsEnergized = TurretManager.getTurretStat(turretID,"maxTurretsEnergized")
+	energizeTime = TurretManager.getTurretStat(turretID,"energizeTime")
+	energizerDamageBuff = TurretManager.getTurretStat(turretID,"energizerDamageBuff")
+	energizerProjctileSpeedBuff = TurretManager.getTurretStat(turretID,"energizerProjectileSpeedBuff")
+	energizerAttackRangeBuff = TurretManager.getTurretStat(turretID,"energizerAttackRangeBuff")
+	energizerReloadTimeBuff = TurretManager.getTurretStat(turretID,"energizerReloadTimeBuff")
 
 	level = 1
 	upgradeTier = 0
@@ -54,7 +54,7 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	energizeTimer = $EnergizeTimer
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange + 5)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
 
@@ -68,16 +68,10 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
-		health = 9999
-		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
-		turret = turret.instantiate()
-		turret.global_position = to_local(global_position)
-		turret.global_position.x += 100
-		turret.global_position.y -= 45
-		add_child(turret)
+		health = 99
 	if GameManager.previewMode:
 		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
 		turret = turret.instantiate()
@@ -129,12 +123,13 @@ func applyEnergizerBuffsToTurret(turret):
 			turret.projectileSpeed +=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
 		if turret.get("attackRange") != null:
 			turret.attackRange +=  ceil(energizerAttackRangeBuff * turret.baseAttackRange)
-			turret.line2d = PlacementManager.draw_range_cirle(turret.line2d,turret.attackRange)
+			turret.line2d = TurretManager.draw_range_circle(turret.line2d,turret.attackRange)
 			turret.rangeCollisionShape.shape.radius = turret.attackRange
 		if turret.get("reloadTime") != null:
 			turret.reloadTime -=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
 			if turret.get("reloadTimer") != null:
 				turret.reloadTimer.wait_time = turret.reloadTime
+		refreshUI(turret)
 
 func removeEnergizerBuffsToTurret(turret):
 	turret.energized = false
@@ -149,6 +144,7 @@ func removeEnergizerBuffsToTurret(turret):
 	if turret.get("reloadTime") != null:
 		turret.reloadTime +=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
 		turret.reloadTimer.wait_time = turret.reloadTime
+	refreshUI(turret)
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
@@ -169,7 +165,12 @@ func checkAllTurretsEnergized():
 
 func _on_energize_time_timeout() -> void:
 	if turretsEnergized < maxTurretsEnergized:
-		if turretsInRange.size() == 0:
-			scanCurrentTurretsInRange()
+		scanCurrentTurretsInRange()
 		if not energizeReady:
 			energizeReady = true
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

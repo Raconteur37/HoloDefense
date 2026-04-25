@@ -4,6 +4,10 @@ class_name GoldMineTurret
 
 @export var baseGoldProduced : int
 @export var goldProductionTime: int
+@export var goldIncreaseScale: float
+
+
+var moneyGenerated : int
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/gold coin.tscn")
@@ -11,18 +15,21 @@ func _ready() -> void:
 	rarity = Rarity.LEGENDARY
 	type = Type.Midieval
 	turretID = TurretID.GOLD_MINE_TURRET
-	turretName = TurretManager.getTurretStat("gold_mine_turret","name")
-	price = TurretManager.getTurretStat("gold_mine_turret","price")
-	maxHealth = TurretManager.getTurretStat("gold_mine_turret","health")
-	baseDamage = TurretManager.getTurretStat("gold_mine_turret","damage")
-	baseProjectileSpeed = TurretManager.getTurretStat("gold_mine_turret","projectileSpeed")
-	baseAttackRange = TurretManager.getTurretStat("gold_mine_turret","range")
-	baseReloadTime = TurretManager.getTurretStat("gold_mine_turret","reloadTime")
-	armor = TurretManager.getTurretStat("gold_mine_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("gold_mine_turret","constructionTime")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 
-	baseGoldProduced = TurretManager.getTurretStat("gold_mine_turret","baseGoldProduced")
-	goldProductionTime = TurretManager.getTurretStat("gold_mine_turret","generateTime")
+	baseGoldProduced = TurretManager.getTurretStat(turretID,"baseGoldProduced")
+	goldProductionTime = TurretManager.getTurretStat(turretID,"generateTime")
+	goldIncreaseScale = TurretManager.getTurretStat(turretID,"goldIncreaseScale")
+	
+	moneyGenerated = floor(pow(level,.5)) + baseGoldProduced
 
 	level = 1
 	upgradeTier = 0
@@ -38,7 +45,7 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTime = baseReloadTime
 	reloadTimer.wait_time = reloadTime
@@ -55,7 +62,7 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -111,11 +118,17 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func generateMoney():
-	var moneyGenerated : int = floor(pow(level,.5)) + baseGoldProduced
-	GameManager.currentMoney += moneyGenerated
+	moneyGenerated = int(floor(pow(level,goldIncreaseScale)) + baseGoldProduced)
+	CityManager.currentMoney += moneyGenerated
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
 
 func _on_generate_timer_timeout() -> void:
 	if isPlaced:
 		generateMoney()
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

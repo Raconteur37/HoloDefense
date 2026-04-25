@@ -6,24 +6,32 @@ class_name VoodooTurret
 @export var curseDamageAmp : float
 @export var curseChance : float
 
+var baseCurseDuration : float
+var baseCurseDamageAmp : float
+var baseCurseChance : float
+
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/voodoodoll.tscn")
 
 	rarity = Rarity.COMMON
 	type = Type.Magic
 	turretID = TurretID.VOODOO_TURRET
-	turretName = TurretManager.getTurretStat("voodoo_turret","name")
-	price = TurretManager.getTurretStat("voodoo_turret","price")
-	maxHealth = TurretManager.getTurretStat("voodoo_turret","health")
-	baseDamage = TurretManager.getTurretStat("voodoo_turret","damage")
-	baseProjectileSpeed = TurretManager.getTurretStat("voodoo_turret","projectileSpeed")
-	baseAttackRange = TurretManager.getTurretStat("voodoo_turret","range")
-	baseReloadTime = TurretManager.getTurretStat("voodoo_turret","reloadTime")
-	armor = TurretManager.getTurretStat("voodoo_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("voodoo_turret","constructionTime")
-	curseDuration = TurretManager.getTurretStat("voodoo_turret","curseDuration")
-	curseDamageAmp = TurretManager.getTurretStat("voodoo_turret","curseDamageAmp")
-	curseChance = TurretManager.getTurretStat("voodoo_turret","curseChance")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseDamage = TurretManager.getTurretStat(turretID,"damage")
+	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	baseCurseDuration = TurretManager.getTurretStat(turretID,"curseDuration")
+	baseCurseDamageAmp = TurretManager.getTurretStat(turretID,"curseDamageAmp")
+	baseCurseChance = TurretManager.getTurretStat(turretID,"curseChance")
+
+	curseChance = baseCurseChance
+	curseDuration = baseCurseDuration
+	curseDamageAmp = baseCurseDamageAmp
 
 	upgradeTier = 0
 	level = 1
@@ -39,7 +47,7 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
 	reloadTime = baseReloadTime
 	reloadTimer.wait_time = reloadTime
@@ -56,7 +64,7 @@ func _ready() -> void:
 		upgrade.emit(self)
 
 	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
 		health = 9999
@@ -128,3 +136,9 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

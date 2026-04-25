@@ -24,14 +24,14 @@ func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Future
 	turretID = TurretID.MEDIC_TURRET
-	turretName = TurretManager.getTurretStat("medic_turret","name")
-	price = TurretManager.getTurretStat("medic_turret","price")
-	maxHealth = TurretManager.getTurretStat("medic_turret","health")
-	baseAttackRange = TurretManager.getTurretStat("medic_turret","range")
-	armor = TurretManager.getTurretStat("medic_turret","armor")
-	baseBuildTime = TurretManager.getTurretStat("medic_turret","constructionTime")
-	healingTime = TurretManager.getTurretStat("medic_turret","healingTime")
-	healingAmount = TurretManager.getTurretStat("medic_turret","healingAmount")
+	turretName = TurretManager.getTurretStat(turretID,"name")
+	price = TurretManager.getTurretStat(turretID,"price")
+	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	armor = TurretManager.getTurretStat(turretID,"armor")
+	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	healingTime = TurretManager.getTurretStat(turretID,"healingTime")
+	healingAmount = TurretManager.getTurretStat(turretID,"healingAmount")
 
 	upgradeTier = 0
 	level = 1
@@ -46,7 +46,7 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	healingPulseTimer = $HealingPulseTimer
 	attackRange = baseAttackRange
-	line2d = PlacementManager.draw_range_cirle(line2d,attackRange + 5)
+	line2d = TurretManager.draw_range_circle(line2d,attackRange + 5)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
 
@@ -60,16 +60,10 @@ func _ready() -> void:
 	for x in range(upgradeTier):
 		upgrade.emit(self)
 
-	if DeveloperMode.inDevMode and not PlacementManager.inGame:
+	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
-		health = 9999
-		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
-		turret = turret.instantiate()
-		turret.global_position = to_local(global_position)
-		turret.global_position.x += 100
-		turret.global_position.y -= 45
-		add_child(turret)
+		health = 99
 	if GameManager.previewMode:
 		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
 		turret = turret.instantiate()
@@ -124,3 +118,9 @@ func _on_healing_pulse_timer_timeout() -> void:
 		scanCurrentTurretsInRange()
 	if not healReady:
 		healReady = true
+
+func _on_select_area_mouse_entered() -> void:
+	showUI(self)
+
+func _on_select_area_mouse_exited() -> void:
+	hideUI()

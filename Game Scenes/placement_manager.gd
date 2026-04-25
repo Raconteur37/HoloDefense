@@ -33,7 +33,6 @@ signal turret_placed(cell: Vector2i, turret: Node)
 
 ## Call from UI clicks. Toggles off if same turret is already selected.
 func begin_placement(id: Turret.TurretID) -> void:
-	# Toggle off if same turret already active
 	if _placing and _current_id == id:
 		cancel_placement()
 		return
@@ -41,15 +40,22 @@ func begin_placement(id: Turret.TurretID) -> void:
 		if _placing:
 			cancel_placement()
 		return
-	if _placing:
-		cancel_placement()
-	_current_id = id
-	_placing = true
+
+	# Hard cleanup instead of calling cancel_placement,
+	# so the old ghost is gone synchronously before the new one is built
+	_placing = false
+	_hovered_cell = Vector2i(-9999, -9999)
+	_range_radius = 0.0
 	_cell_alpha.clear()
 	_prev_cells.clear()
-	_hovered_cell = Vector2i(-9999, -9999)
+	if _ghost:
+		_ghost.free()   # free() is immediate, queue_free() is deferred
+		_ghost = null
+	_ghost_sprite = null
+
+	_current_id = id
+	_placing = true
 	_build_ghost(id)
-	# Prime the ghost to the real mouse position right away
 	_force_update_ghost(get_global_mouse_position())
 
 
@@ -72,10 +78,7 @@ func is_placing() -> bool:
 # ─── Ghost builder ────────────────────────────────────────────────────────────
 
 func _build_ghost(id: Turret.TurretID) -> void:
-	if _ghost:
-		_ghost.queue_free()
-		_ghost = null
-		_ghost_sprite = null
+	# Removed the queue_free guard — begin_placement already does _ghost.free() synchronously
 	_ghost = Node2D.new()
 	_ghost.z_index = 20
 	add_child(_ghost)
@@ -83,19 +86,12 @@ func _build_ghost(id: Turret.TurretID) -> void:
 	_ghost_sprite = Sprite2D.new()
 	_ghost_sprite.texture = TurretManager.getTurretTexture(id)
 	_ghost_sprite.modulate = Color(0.5, 1.0, 0.5, 0.6)
+	_ghost_sprite.visible = true
 	_ghost.add_child(_ghost_sprite)
 
 	_range_radius = 0.0
 	if show_range_preview:
-		var packed = TurretManager.loadTurretByID(id)
-		if packed:
-			var tmp = packed.instantiate()
-			var range_area = tmp.get_node_or_null("RangeArea")
-			if range_area:
-				var cs = range_area.get_node_or_null("CollisionShape2D")
-				if cs and cs.shape is CircleShape2D:
-					_range_radius = cs.shape.radius
-			tmp.queue_free()
+		_range_radius = TurretManager.getTurretStat(id, "range")
 
 
 func _set_ghost_tint(valid: bool) -> void:
@@ -163,13 +159,13 @@ func _unhandled_input(event: InputEvent) -> void:
 
 
 func _try_hotbar_select(idx: int) -> void:
-	var brought: Array = GameManager.turretsBrought
-	if idx >= brought.size():
+	# Build an ordered list of turret IDs currently in storage
+	var available: Array = GameManager.turretStorage.keys()
+	if idx >= available.size():
 		if _placing:
 			cancel_placement()
 		return
-	var id: Turret.TurretID = brought[idx]
-	# begin_placement already handles toggle + empty stock + cancel
+	var id: Turret.TurretID = available[idx]
 	begin_placement(id)
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
@@ -200,12 +196,11 @@ func _is_cell_valid(cell: Vector2i) -> bool:
 # ghost always lands correctly even if _hovered_cell hasn't moved yet.
 func _force_update_ghost(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
-	_hovered_cell = cell
+	_hovered_cell = cell                      # set FIRST
+	var valid := _is_cell_valid(cell)         # then check validity
 	if _ghost:
 		_ghost.global_position = _cell_to_world(cell)
-	var valid := _is_cell_valid(cell)
 	_set_ghost_tint(valid)
-	# Pre-seed the alpha so the border draws correctly on frame 1
 	if not _cell_alpha.has(cell):
 		_cell_alpha[cell] = 1.0
 	queue_redraw()
@@ -216,9 +211,11 @@ func _update_ghost(world_pos: Vector2) -> void:
 	if cell == _hovered_cell:
 		return
 	_hovered_cell = cell
+	var valid := _is_cell_valid(cell)
 	if _ghost:
 		_ghost.global_position = _cell_to_world(cell)
-	_set_ghost_tint(_is_cell_valid(cell))
+		_ghost.visible = valid
+	_set_ghost_tint(valid)
 	queue_redraw()
 
 

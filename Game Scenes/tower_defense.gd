@@ -65,12 +65,14 @@ func refreshUI():
 		icon.setTurret(turret)
 
 func refreshTurretUI(turret : Turret):
+	for child in turretStatsGrid.get_children():
+		child.queue_free()
 	var properties : Array = TurretManager.createPropertiesLabels(turret)
 	for label in properties:
 		turretStatsGrid.add_child(label)
 	updateHealth(turret)
 	turretImage.texture = TurretManager.getTurretTexture(turret.turretID)
-	turretNameLabel.text = str(turret.name) + "\n Lvl: " + str(turret.level) + " Tier: " + str(turret.upgradeTier)
+	turretNameLabel.text = str(turret.turretName) + "\n Lvl: " + str(turret.level) + " Tier: " + str(turret.upgradeTier)
 	turretDataUI.show()
 	
 func removeTurretUI():

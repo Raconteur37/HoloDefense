@@ -63,7 +63,7 @@ func loadTurretByID(id: Turret.TurretID):
 		Turret.TurretID.GOLD_MINE_TURRET:
 			return load("res://Turret Scenes/Gold Mine Turret.tscn")
 		Turret.TurretID.SENTRY_TURRET:
-			return load("res://Turret Scenes/Automated Sentry Turret.tscn")
+			return load("res://Turret Scenes/Sentry Turret.tscn")
 		Turret.TurretID.VOODOO_TURRET:
 			return load("res://Turret Scenes/Voodoo Turret.tscn")
 		Turret.TurretID.ZOMBIE_TURRET:
@@ -204,46 +204,63 @@ const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/Statistic
 func createPropertiesLabels(turret):
 	var labels = []
 	
-	# Define simple labels (property_name: [display_name, color])
-	var simple_stats = {
+
+	var turretStatsConfig = {
 		"health": ["Health: ", Color.FUCHSIA],
 		"armor": ["Armor: ", Color.GRAY],
 		"damage": ["Damage: ", Color.RED],
-		"reloadTime": ["Reload Time: ", Color.CORAL],
+		"reloadTime": ["Reload Time: ", Color.CORAL, "s"],
 		"attackRange": ["Range: ", Color.SKY_BLUE],
 		"projectileSpeed": ["Projectile Speed: ", Color.CADET_BLUE],
+		"maxTurretsEnergized": ["Max Turrets Energized: ", Color.DARK_ORCHID],
+		"energizeTime": ["Energize Time: ", Color.BLUE_VIOLET, "s"],
+		"energizerDamageBuff": ["Damage Buff: ", Color.MEDIUM_PURPLE, "%"],
+		"energizerReloadTimeBuff": ["Reload Time Buff: ", Color.MEDIUM_PURPLE, "%"],
+		"energizerAttackRangeBuff": ["Range Buff: ", Color.MEDIUM_PURPLE, "%"],
+		"energizerProjctileSpeedBuff": ["Projectile Speed Buff: ", Color.MEDIUM_PURPLE, "%"],
+		"explosionDamage": ["Explosion Damage: ", Color.CHOCOLATE],
+		"explosionRadius": ["Explosion Radius: ", Color.ROSY_BROWN],
 		"pierce": ["Pierce: ", Color.PERU],
 		"fireDamage": ["Fire Damage: ", Color.RED],
-		"fireTime": ["Fire Duration: ", Color.INDIAN_RED],
-		"executionChance": ["Execution Chance: ", Color.BLACK],
-		"poisonChance": ["Poison Chance: ", Color.MEDIUM_SPRING_GREEN],
-		"poisonDamage": ["Poison Damage: ", Color.SPRING_GREEN]
+		"fireTime": ["Fire Duration: ", Color.INDIAN_RED, "s"],
+		"executionChance": ["Execution Chance: ", Color.BLACK, "%"],
+		"poisonChance": ["Poison Chance: ", Color.MEDIUM_SPRING_GREEN, "%"],
+		"poisonDamage": ["Poison Damage: ", Color.SPRING_GREEN],
+		"poisonDuration": ["Poison Duration: ", Color.MEDIUM_SEA_GREEN, "s"],
+		"moneyGenerated": ["Money Generated: $", Color.GOLD],
+		"goldProductionTime": ["Generation Time: ", Color.DARK_GOLDENROD, "s"],
+		"healingAmount": ["Healing Amount: ", Color.GREEN_YELLOW],
+		"healingTime": ["Healing Time: ", Color.SEA_GREEN, "s"],
+		"summonTime": ["Summon Time: ", Color.ROSY_BROWN, "s"],
+		"maxKnights": ["Max knights: ", Color.SANDY_BROWN],
+		"maxBullets": ["Max Bullets: ", Color.LIGHT_GRAY],
+		"shotTime": ["Time Between Shot: ", Color.DARK_GRAY, "s"],
+		"currentBullets": ["Current Bullets: ", Color.SLATE_GRAY],
+		"damageTickTime": ["Time Between Attack: ", Color.SKY_BLUE, "s"],
+		"attackingTime": ["Attacking Time: ", Color.CADET_BLUE, "s"],
+		"curseChance": ["Curse Chance: ", Color.MEDIUM_PURPLE, "%"],
+		"curseDuration": ["Curse Duration: ", Color.MEDIUM_ORCHID, "s"],
+		"curseDamageAmp": ["Curse Damage Amp: ", Color.REBECCA_PURPLE, "%"],
+		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
+		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"]
 	}
-	
-	# Define complex stats (those that use the StatisticItem.tscn)
-	var complex_stats = [
-		"maxTurretsEnergized", "energizeTime", "energizerDamageBuff", 
-		"energizerReloadTimeBuff", "energizerAttackRangeBuff", 
-		"energizerProjctileSpeedBuff", "explosionDamage", "explosionRadius", 
-		"pierce", "fireDamage", "fireTime", "executionChance", 
-		"poisonChance", "poisonDamage", "poisonDuration"
-	]
 
-	# Handle Simple Stats
-	for prop in simple_stats:
-		if turret.get(prop) != null:
+	for prop in turretStatsConfig:
+		var value = turret.get(prop)
+		
+		# Only create a label if the property actually exists on the turret
+		if value != null:
+			var config = turretStatsConfig[prop]
+			var display_name = config[0]
+			var font_color = config[1]
+			var suffix = config[2] if config.size() > 2 else ""
+			
 			var label = Label.new()
-			label.text = simple_stats[prop][0] + str(turret.get(prop))
-			if "reloadTime" in prop: label.text += "s" # Append 's' for time
-			label.add_theme_color_override("font_color", simple_stats[prop][1])
+ 	
+			label.text = display_name + str(value) + suffix
+
+			label.add_theme_color_override("font_color", font_color)
 			label.add_theme_font_size_override("font_size", 10)
 			labels.append(label)
-
-	# Handle Complex Stats
-	for prop in complex_stats:
-		if turret.get(prop) != null:
-			var statItem = STAT_ITEM_SCENE.instantiate()
-			statItem.buildStatContainer(prop, turret)
-			labels.append(statItem)
 
 	return labels
