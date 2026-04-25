@@ -66,7 +66,7 @@ func _ready() -> void:
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 
-		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+		var enemy = EntityManager.getClosestEnemyFromSprite(self)
 
 		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:

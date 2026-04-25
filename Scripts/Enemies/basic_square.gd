@@ -12,25 +12,6 @@ func _ready():
 	attackTimer.wait_time = attackTime
 	enemyID = EnemyID.BASIC_SQUARE
 
-	hit.connect(EntityManager.takeDamage)
-
-	EntityManager.increaseEnemyStats(self)
-
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
-	if body.is_in_group("Turret"):
-		if body.get("isPlaced") != null:
-			if body.isPlaced:
-				body.hit.emit(damage,body)
-				attackReady = false
-				attackTimer.start()
-
-	if body.is_in_group("Minion"):
-		body.hit.emit(damage,body)
-		attackReady = false
-		attackTimer.start()
 
 func _on_attack_timer_timeout() -> void:
 	attackReady = true

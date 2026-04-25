@@ -189,5 +189,7 @@ tilemap = NodePath("../TilemapLayer0")
 
 [node name="TurretNodeHolder" type="Node2D" parent="." unique_id=1391536917]
 
+[node name="EnemyNodeHolder" type="Node2D" parent="." unique_id=1552012197]
+
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]

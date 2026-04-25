@@ -1,15 +1,26 @@
 extends Node
 
 
+@onready var basicSquare = load("res://Enemy Scenes/Basic Square.tscn")
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
-func summonEnemy():
-	pass
+func summonEnemy(enemyID : Enemy.EnemyID):
+	var scene  = get_tree().current_scene.find_child("EnemyNodeHolder")
+	
+	if scene != null:
+	
+		match enemyID:
+			
+			Enemy.EnemyID.BASIC_SQUARE:
+				var enemy = basicSquare.instantiate()
+				enemy.global_position = getRandomOffscreenPosition()
+				scene.add_child(enemy)
 
-func get_random_offscreen_position() -> Vector2:
-	var view_rect = get_tree().current_scene.get_viewport_rect()
+func getRandomOffscreenPosition() -> Vector2:
+	var view_rect = get_viewport().get_visible_rect()
 	var margin = 50.0 
 	
 	var side = randi() % 4

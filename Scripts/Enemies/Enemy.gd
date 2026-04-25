@@ -2,137 +2,131 @@ extends CharacterBody2D
 
 class_name Enemy
 
-signal hit(damageTaken,turret,enemy,damageType)
+enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE }
 
-enum EnemyID {
-	NONE,
-	BASIC_SQUARE,
-	SPEEDY_TRIANGLE
-}
+@export var enemyName: String
+@export var health: float
+@export var damage: float
+@export var attackTime: float
+@export var speed: float
 
-var destination = null
+var destination: Vector2 = Vector2.ZERO
+var effects: Dictionary = {}
+var curseDamageAmp: float = 0.0
+var isDead: bool = false
+var targeted: bool = false
+var enemyID: EnemyID
 
-var effects : Dictionary = {}
-
-var curseDamageAmp
-
-var initialTurn = false
+# Zombie state
+var isZombie: bool = false
+var initialTurn: bool = false
 var turnTurret
-var isZombie
-var zombieFollowTarget : Enemy = null
+var zombieFollowTarget: Enemy = null
 
-var targeted : bool = false
+var attackReady: bool = true
+var attackTimer: Timer
 
-@export var enemyName : String
-@export var health : float
-@export var damage : float
-@export var attackTime : float
-@export var speed : float
-
-var attackTimer
-var attackReady : bool = true
-var isDead : bool = false
-var enemyID : EnemyID
+func _ready() -> void:
+	attackTimer = Timer.new()
+	attackTimer.wait_time = attackTime
+	attackTimer.one_shot = true
+	attackTimer.timeout.connect(_on_attack_timer_timeout)
+	add_child(attackTimer)
 
 func _physics_process(delta: float) -> void:
+	updateDestination()
+	move()
+	if isZombie and not initialTurn:
+		initZombie()
 
-	if destination == null:
-		getDestination()
+func updateDestination() -> void:
 	if zombieFollowTarget != null:
-		if zombieFollowTarget.isZombie:
-			if GameManager.enemiesAlive.is_empty():
-				hit.emit(9999,turnTurret,self,turnTurret) # Damage, Turret, Enemy, Damage Type
+		if not is_instance_valid(zombieFollowTarget) or zombieFollowTarget.isDead:
 			zombieFollowTarget = GameManager.getRandomEnemyAlive()
-		else:
+		if zombieFollowTarget != null:
 			destination = zombieFollowTarget.global_position
+	elif destination == Vector2.ZERO:
+		getDestination()
 
+func move() -> void:
+	if destination == Vector2.ZERO:
+		return
 	var direction = (destination - global_position).normalized()
-	# Set the velocity to move toward the center
 	velocity = direction * speed
-
-	# Move and Slide with the current velocity
 	move_and_slide()
-
-	# Stop moving when close to the center to prevent overshooting
 	if global_position.distance_to(destination) < 5.0:
 		velocity = Vector2.ZERO
 		global_position = destination
 
-	if isZombie and not initialTurn: # Turn them into a zombie
-		if is_instance_valid(self) and is_instance_valid(turnTurret):
-			GameManager.enemiesAlive.erase(self)
-			initialTurn = true
-			modulate = Color('#00ba00')
-			var timer = Timer.new()
-			timer.name = "ZombieTimer"
-			timer.timeout.connect(onZombieTimerTimeout.bind())
-			timer.wait_time = 3
-			timer.autostart = true
-			add_child(timer)
-
-			var area = Area2D.new()
-			area.body_entered.connect(onZombieAreaEntered.bind())
-			area.body_exited.connect(onZombieAreaExit.bind())
-			var shape = CollisionShape2D.new()
-			var circle = CircleShape2D.new()
-			circle.radius = 75
-			shape.shape = circle
-			area.global_position = to_local(global_position)
-			area.set_collision_layer_value(1,true)
-			area.set_collision_mask_value(3,true)
-			area.add_child(shape)
-			add_child(area)
-
-			if not is_instance_valid(zombieFollowTarget):
-				if not GameManager.enemiesAlive.is_empty():
-					zombieFollowTarget = GameManager.getRandomEnemyAlive()
-					destination = zombieFollowTarget.global_position
-				else:
-					destination = GameManager.generateRandomPosition()
-
-func onZombieTimerTimeout():
-	if is_instance_valid(turnTurret):
-		hit.emit(turnTurret.damage,turnTurret,self,turnTurret)
+func initZombie() -> void:
+	if not is_instance_valid(turnTurret):
+		return
+	initialTurn = true
+	GameManager.enemiesAlive.erase(self)
+	modulate = Color('#00ba00')
+	spawnZombieArea()
+	startZombieTimer()
+	if not GameManager.enemiesAlive.is_empty():
+		zombieFollowTarget = GameManager.getRandomEnemyAlive()
+		destination = zombieFollowTarget.global_position
 	else:
-		hit.emit(9999,null,self,null)
+		destination = GameManager.generateRandomPosition()
 
-func onZombieAreaEntered(body):
-	if body.is_in_group("Enemy") and not body.isZombie:
-		if turnTurret.get("turnChance") != null:
-			if randi_range(0,100) <= turnTurret.turnChance:
-				body.turnTurret = turnTurret
-				body.isZombie = true
-				ParticleManager.playZombieTurnParticle(self)
-		else:
-			if randi_range(0,100) <= 10:
-				body.turnTurret = turnTurret
-				body.isZombie = true
-				ParticleManager.playZombieTurnParticle(self)
+func spawnZombieArea() -> void:
+	var area = Area2D.new()
+	var shape = CollisionShape2D.new()
+	var circle = CircleShape2D.new()
+	circle.radius = 75
+	shape.shape = circle
+	area.set_collision_layer_value(1, true)
+	area.set_collision_mask_value(3, true)
+	area.add_child(shape)
+	area.body_entered.connect(onZombieAreaEntered)
+	area.body_exited.connect(onZombieAreaExit)
+	add_child(area)
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
-	if body.is_in_group("Turret"):
-		if body.get("isPlaced") != null:
-			if body.isPlaced:
-				body.hit.emit(damage,body)
-				attackReady = false
-				attackTimer.start()
+func startZombieTimer() -> void:
+	var timer = Timer.new()
+	timer.wait_time = 3
+	timer.one_shot = true
+	timer.autostart = true
+	timer.timeout.connect(onZombieTimerTimeout)
+	add_child(timer)
 
-	if body.is_in_group("Minion"):
-		body.hit.emit(damage,body)
-		attackReady = false
-		attackTimer.start()
+func onZombieTimerTimeout() -> void:
+	var dmg = turnTurret.damage if is_instance_valid(turnTurret) else 9999
+	var packet = DamagePacket.new(dmg, DamagePacket.Type.EFFECT, turnTurret)
+	EntityManager.enemyTakeDamage(packet, self)
 
-func onZombieAreaExit(body: Node2D):
+func onZombieAreaEntered(body: Node) -> void:
+	if not body.is_in_group("Enemy") or body.isZombie:
+		return
+	var chance = turnTurret.get("turnChance") if is_instance_valid(turnTurret) else 10
+	if randi_range(0, 100) <= chance:
+		body.turnTurret = turnTurret
+		body.isZombie = true
+		ParticleManager.playZombieTurnParticle(self)
+
+func onZombieAreaExit(_body: Node) -> void:
 	pass
 
-func getName():
-	return enemyName
+func _on_area_2d_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Turret") and body.get("isPlaced") and body.isPlaced:
+		body.hit.emit(damage, body)
+		startAttackCooldown()
+	elif body.is_in_group("Minion"):
+		body.hit.emit(damage, body)
+		startAttackCooldown()
 
-func getDestination():
-	if GameManager.inWave:
-		destination = GameManager.getBeaconPosition()
-	else:
-		if DeveloperMode.inDevMode:
-			destination = Vector2(960,540) # Center
+func startAttackCooldown() -> void:
+	attackReady = false
+	attackTimer.start()
+
+func _on_attack_timer_timeout() -> void:
+	attackReady = true
+
+func getDestination() -> void:
+	destination = get_viewport().get_visible_rect().size / 2
+
+func getName() -> String:
+	return enemyName

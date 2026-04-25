@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://c7x82rb6vt6ar"]
+[gd_scene format=3 uid="uid://c7x82rb6vt6ar"]
 
 [ext_resource type="Script" uid="uid://bh6nf24c3nm68" path="res://Scripts/Projectiles/arrow.gd" id="1_5qdi1"]
 [ext_resource type="Texture2D" uid="uid://d14gnshjclgjm" path="res://Textures/Projectiles/Arrow.png" id="1_axi7m"]
@@ -11,7 +11,7 @@ height = 14.0
 radius = 3.0
 height = 14.0
 
-[node name="Arrow" type="RigidBody2D" groups=["Turret Projectile"]]
+[node name="Arrow" type="RigidBody2D" unique_id=1361132048 groups=["Turret Projectile"]]
 position = Vector2(215, 128)
 rotation = 1.5708
 collision_layer = 2
@@ -19,23 +19,23 @@ collision_mask = 4
 gravity_scale = 0.0
 script = ExtResource("1_5qdi1")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=482193632]
 visible = false
 shape = SubResource("CapsuleShape2D_etksh")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=979034222]
 position = Vector2(-7.1153e-07, 9.53674e-07)
 texture = ExtResource("1_axi7m")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=1926527179]
 position = Vector2(-7.1153e-07, 9.53674e-07)
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=35226781]
 shape = SubResource("CapsuleShape2D_hxa21")
 
-[node name="DespawnTimer" type="Timer" parent="."]
+[node name="DespawnTimer" type="Timer" parent="." unique_id=213815121]
 wait_time = 10.0
 one_shot = true
 autostart = true

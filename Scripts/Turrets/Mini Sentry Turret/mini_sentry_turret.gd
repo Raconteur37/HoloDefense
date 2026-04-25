@@ -40,7 +40,6 @@ func _ready() -> void:
 	health = maxHealth
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

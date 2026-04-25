@@ -85,6 +85,13 @@ var beaconBuffActive : bool = false
 
 var energizerTurret : Turret = null
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		print("turret died")
+		print("turret being deleted, stack: ", get_stack())
+
+
+
 func addKill():
 	kills += 1
 

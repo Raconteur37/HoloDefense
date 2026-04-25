@@ -54,16 +54,6 @@ radius = 200.0
 position = Vector2(981, 547)
 collision_mask = 12
 script = ExtResource("2_mmj3o")
-price = null
-maxHealth = null
-baseDamage = null
-baseProjectileSpeed = null
-baseAttackRange = null
-baseReloadTime = null
-upgradeTier = null
-armor = null
-level = null
-baseBuildTime = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
 shape = SubResource("RectangleShape2D_11eqx")

@@ -1,116 +1,98 @@
 extends Node
 
+# Check if they have "enter effects" plural
+
+enum DamageType {
+	TURRET, # The turret itself does the damage, no projectile or anything
+	PROJECTILE, # The turret launched a projectile and that projectile is tied to the turret
+	
+}
+
+
 var turretXpMap = {}
 
 var turretsUpgradeTier = {}
 
-var upgradeTierPercent
 
-func _ready() -> void:
-	upgradeTierPercent = 0.2
+func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
+	if enemy.isDead:
+		return
 
-func takeDamage(damage:int,turret:Turret,enemy:Enemy,damageType):
+	var damage = packet.damage
 
-	if turret == null and enemy.health - damage <= 0 and not enemy.isDead:
-		onKill(null,enemy)
-	else:
-		if turret == null:
-			enemy.health = enemy.health - damage
+	if enemy.effects.has("Curse"):
+		damage += int(damage * enemy.curseDamageAmp)
 
-	if damageType.is_in_group("Turret Projectile"):
-		var projectile = damageType
-		if projectile.get("enterEffect") != null:
-			projectile.playEnterEffect(enemy)
-		if projectile.get("poison") != null:
-			if projectile.poison:
-				EffectManager.applyPoisonEffect(enemy,turret,projectile.poisonDamage,projectile.poisonTime)
-		if projectile.get("execution") != null:
-			if projectile.execution:
-				onKill(turret,enemy)
-				ParticleManager.playExecutionParticle(enemy)
-		if projectile.get("curse") != null:
-			if projectile.curse:
-				EffectManager.applyCurseEffect(enemy,turret,projectile.curseTime)
-		if enemy.effects.has("Curse"): # Curse effect amplifies damage by 25%
-			damage += damage * enemy.curseDamageAmp
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
-		if projectile.get("enemiesPierced") == null:
-			projectile.queue_free()
+	if packet.type == DamagePacket.Type.PROJECTILE:
+		applyProjectileEffects(packet, enemy)
 
-	if enemy.effects.has("Curse"): # Curse effect amplifies damage by 25%
-		damage += damage * enemy.curseDamageAmp
+	enemy.health -= damage
 
-	if damageType.is_in_group("Minion"):
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
+	if enemy.health <= 0:
+		killEnemy(packet.source, enemy)
 
-	if damageType.is_in_group("Effect"):
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
+func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
+	var turret = packet.source
 
-	if damageType.is_in_group("Turret Beam"):
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
+	if "poison" in packet.effects:
+		EffectManager.applyPoisonEffect(
+			enemy, turret,
+			packet.effect_data.get("poisonDamage", 0),
+			packet.effect_data.get("poisonTime", 0)
+		)
+	if "curse" in packet.effects:
+		EffectManager.applyCurseEffect(
+			enemy, turret,
+			packet.effect_data.get("curseTime", 0)
+		)
+	if "execution" in packet.effects:
+		killEnemy(turret, enemy)
+		ParticleManager.playExecutionParticle(enemy)
 
-	if damageType.is_in_group("Explosion"):
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
+func killEnemy(source, enemy: Enemy) -> void:
+	if enemy.isDead:
+		return
+	enemy.isDead = true
+	onKill(source, enemy)
 
-	if damageType.is_in_group("Turret"):
-		if enemy.health - damage <= 0 and not enemy.isDead:
-			onKill(turret,enemy)
-			enemy.isDead = true
-		else:
-			enemy.health = enemy.health - damage
 
-func entityTakeDamage(damage,entity):
-
+func entityTakeDamage(damage: int, entity: Node) -> void:
 	if entity.is_in_group("Turret"):
-		var turret = entity
-		if turret.armor > 0:
-			damage -= damage * .3
-			if turret.armor - damage <= 0:
-				turret.armor = 0
-			else:
-				turret.armor -= damage
-		else:
-			if turret.health - damage <= 0:
-				onDeath(turret)
-				GameManager.removeTurretFromGame(turret)
-			else:
-				turret.health = turret.health - damage
-		if is_instance_valid(turret.menu):
-			turret.menu.healthUpdate()
+		turretTakeDamage(damage, entity)
+	elif entity.is_in_group("Minion"):
+		minionTakeDamage(damage, entity)
 
-	if entity.is_in_group("Minion"):
-		var minion = entity
-		if minion.armor > 0:
-			damage -= damage * .3
-			if minion.armor - damage <= 0:
-				minion.armor = 0
-			else:
-				minion.armor -= damage
-		else:
-			if minion.health - damage <= 0:
-				minion.turretOwner.removeMinion(minion)
-			else:
-				minion.health = minion.health - damage
+func turretTakeDamage(damage: int, turret) -> void:
+	damage = applyArmor(damage, turret)
+	
+	turret.health -= damage
+	if turret.health <= 0:
+		turret.health = 0
+		onDeath(turret)
+		GameManager.removeTurretFromGame(turret)
+
+	if is_instance_valid(turret.menu):
+		turret.menu.healthUpdate()
+
+func minionTakeDamage(damage: int, minion) -> void:
+	damage = applyArmor(damage, minion)
+
+	minion.health -= damage
+	if minion.health <= 0:
+		minion.health = 0
+		minion.turretOwner.removeMinion(minion)
+
+func applyArmor(damage: int, entity) -> int:
+	if entity.armor <= 0:
+		return damage
+
+	var reduction = int(damage * 0.3)
+	var absorbed = min(entity.armor, reduction)
+	entity.armor -= absorbed
+	if entity.armor < 0:
+		entity.armor = 0
+
+	return damage - absorbed
 
 func onDeath(turret):
 
@@ -139,28 +121,22 @@ func onKill(turret,enemy):
 		enemy.queue_free()
 		return
 
-	var moneyEarned = GameManager.calculateMoneyReward(enemyName)
-	var experienceEarned = GameManager.calculateExperienceReward(enemyName)
-
-	GameManager.currentMoney += moneyEarned
-	GameManager.currentExperience += experienceEarned
-
-	if not DeveloperMode.inDevMode:
-		get_tree().current_scene.find_child("XP Bar").value += experienceEarned
-
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)
 
-	GameManager.removeEnemyFromGame(enemy)
+	#GameManager.removeEnemyFromGame(enemy)
 
 	if is_instance_valid(turret):
 		if turret.is_in_group("Minion"):
 			turret.turretOwner.addKill()
 			turret.enemy = null
-			addTurretXP(turret.turretOwner.getName(),experienceEarned)
+			#addTurretXP(turret.turretOwner.getName(),experienceEarned)
 		else:
 			turret.addKill()
-			addTurretXP(turret.getName(),experienceEarned)
+			#addTurretXP(turret.getName(),experienceEarned)
+	
+	enemy.queue_free()
+	
 
 func healTurret(turret,amountHealed):
 	if turret.health + amountHealed > turret.maxHealth:
@@ -187,47 +163,7 @@ func updateTurretUpgradeTier(turretName):
 
 # Handle upgrade alone so this will be deleted
 
-func applyUpgradeTier(turret):
-	if turret.get("maxHealth") != null:
-		turret.maxHealth += ceil(turret.maxHealth * upgradeTierPercent)
-		turret.health = turret.maxHealth
-	if turret.get("damage") != null:
-		turret.baseDamage +=  ceil(turret.baseDamage * upgradeTierPercent)
-		turret.damage = turret.baseDamage
-	if turret.get("projectileSpeed") != null:
-		turret.baseProjectileSpeed +=  ceil(turret.baseProjectileSpeed * upgradeTierPercent)
-		turret.projectileSpeed = turret.baseProjectileSpeed
-	if turret.get("attackRange") != null:
-		turret.baseAttackRange +=  ceil(turret.baseAttackRange * upgradeTierPercent)
-		turret.attackRange = turret.baseAttackRange
-		turret.line2d = PlacementManager.draw_range_cirle(turret.line2d,turret.attackRange)
-		turret.rangeCollisionShape.shape.radius = turret.attackRange
-	if turret.get("reloadTime") != null:
-		turret.baseReloadTime -=  round_to_dec(turret.baseReloadTime * upgradeTierPercent,2)
-		turret.reloadTime = turret.baseReloadTime
-		turret.reloadTimer.wait_time = turret.reloadTime
-	if turret.get("explosionDamage") != null:
-		turret.baseExplosionDamage +=  ceil(turret.baseExplosionDamage * upgradeTierPercent)
-		turret.explosionDamage = turret.baseExplosionDamage
-	if turret.get("explosionRadius") != null:
-		turret.baseExplosionRadius +=  ceil(turret.baseExplosionRadius * upgradeTierPercent)
-		turret.explosionRadius = turret.baseExplosionRadius
-	if turret.get("fireDamage") != null:
-		turret.baseFireDamage += 1
-		turret.fireDamage = turret.baseFireDamage
-	if turret.get("fireTime") != null:
-		turret.baseFireTime += .5
-		turret.fireTime = turret.baseFireTime
-	if turret.get("pierce") != null:
-		turret.basePierce += 1
-		turret.pierce = turret.basePierce
-	if turret.get("executionChance") != null:
-		turret.executionChance += .5
-	if turret.energized:
-		if is_instance_valid(turret.energizerTurret):
-			turret.energizerTurret.applyEnergizerBuffsToTurret(turret)
 
-	specializedUpgrade(turret)
 
 func upgradeTurret(turretNumber):
 
@@ -277,7 +213,7 @@ func specializedUpgrade(turret):
 			turret.knightHealth = turret.baseKnightHealth
 			turret.baseKnightDamage += ceil(turret.baseKnightDamage * .05)
 			turret.knightDamage = turret.baseKnightDamage
-			turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
+			#turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
 
 func increaseEnemyStats(enemy):
 	var currentWave = GameManager.currentWave

@@ -10,7 +10,7 @@ func _input(event: InputEvent) -> void:
 
 			KEY_S:
 				if inDevMode:
-					WaveManager.summonEnemy()
+					WaveManager.summonEnemy(Enemy.EnemyID.BASIC_SQUARE)
 			KEY_R:
 				if inDevMode:
 					var enemy = load("res://Enemy Scenes/Tanky Rectangle.tscn")

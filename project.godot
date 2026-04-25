@@ -50,17 +50,13 @@ enabled=PackedStringArray("res://addons/SimpleTODO/plugin.cfg")
 
 [global_group]
 
-Turret=""
-"Turret Projectile"=""
 Enemy=""
-"Enemy Projectile"=""
-Energizer=""
-Minion=""
 Effect=""
-"Turret Beam"=""
-Explosion=""
 Citizen=""
 "Holo City Building"=""
+"Turret Projectile"=""
+Turret=""
+Minion=""
 
 [gui]
 
