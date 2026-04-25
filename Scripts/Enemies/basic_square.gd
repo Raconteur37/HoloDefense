@@ -10,6 +10,7 @@ func _ready():
 	speed = 50
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
+	enemyID = EnemyID.BASIC_SQUARE
 
 	hit.connect(EntityManager.takeDamage)
 

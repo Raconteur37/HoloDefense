@@ -4,6 +4,12 @@ class_name Enemy
 
 signal hit(damageTaken,turret,enemy,damageType)
 
+enum EnemyID {
+	NONE,
+	BASIC_SQUARE,
+	SPEEDY_TRIANGLE
+}
+
 var destination = null
 
 var effects : Dictionary = {}
@@ -26,6 +32,7 @@ var targeted : bool = false
 var attackTimer
 var attackReady : bool = true
 var isDead : bool = false
+var enemyID : EnemyID
 
 func _physics_process(delta: float) -> void:
 

@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://cj3m0blof60ly" path="res://Scripts/Game Scene/game.gd" id="1_lgx4p"]
 [ext_resource type="Shader" uid="uid://dgp5wumfqf33q" path="res://Game Scenes/transition.gdshader" id="2_iw6a6"]
-[ext_resource type="PackedScene" uid="uid://de2f8fkqbrxea" path="res://Game Scenes/Tower Defense.tscn" id="2_vq8dx"]
+[ext_resource type="PackedScene" uid="uid://de2f8fkqbrxea" path="res://Game Scenes/Tower Defense Scene.tscn" id="2_vq8dx"]
 [ext_resource type="Script" uid="uid://drpv1stjo0bqk" path="res://Game Scenes/transitionT.gd" id="3_cemk1"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
 
