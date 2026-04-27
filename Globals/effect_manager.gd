@@ -5,8 +5,8 @@ func removeEffect(victim,effectName):
 	if victim.effects.has(effectName):
 		victim.effects[effectName].queue_free()
 		victim.effects.erase(effectName)
-	if effectName == "Curse":
-		victim.curseDamageAmp = 0
+	#if effectName == "Curse":
+	#	victim.curseDamageAmp = 0
 
 func applyFireEffect(victim,attacker,damage,time):
 	if victim.effects.has("Fire"):
@@ -19,12 +19,18 @@ func applyFireEffect(victim,attacker,damage,time):
 
 
 func applyPoisonEffect(victim,turret,damage,time):
-	if victim.effects.has("Poison"):
-		victim.effects.get("Poison").restartTime(time)
+	if victim.effects.has(EffectClass.Effect.POISON):
+		victim.effects.get(EffectClass.Effect.POISON).resetDuration(time)
 		return
-	var poisonScene = load("res://Globals/Scene/Effects/Poison.tscn")
-	var effectScene = poisonScene.instantiate()
-	effectScene.applyData(turret,victim,damage,time)
+	var effectScene = load("res://Globals/Scene/Effects/Effect.tscn")
+	effectScene = effectScene.instantiate()
+	effectScene.effect = EffectClass.Effect.POISON
+	effectScene.tickTime = 0.3
+	effectScene.duration = time
+	effectScene.enemy = victim
+	effectScene.turretApplier = turret
+	effectScene.damage = damage
+	victim.effects[EffectClass.Effect.POISON] = effectScene
 	victim.add_child(effectScene)
 
 func applyCurseEffect(victim,turret,time):

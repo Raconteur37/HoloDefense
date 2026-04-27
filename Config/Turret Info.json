@@ -162,7 +162,7 @@
 		"price": 10,
 		"armor": 5,
 		"health": 15,
-		"damage": 40,
+		"damage": 2,
 		"range": 250,
 		"reloadTime": 3,
 		"projectileSpeed": 600,

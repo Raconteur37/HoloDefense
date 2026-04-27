@@ -1,15 +1,6 @@
 extends Node2D
 
-var particleEffect
 
-var effectName = "Poison"
-var damage = 0 # Default 0
-var turretApplier = null # Need this to be null in case I forgot to apply the turret
-var enemy = null # same for this
-
-var tickTimer
-
-var tickTime = .3
 
 func _ready() -> void:
 	tickTimer = $Tick

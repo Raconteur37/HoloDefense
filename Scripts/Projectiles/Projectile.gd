@@ -13,7 +13,7 @@ var enemiesPierced : int
 # Effect flags - still live here, but only used to BUILD the packet
 var execute: bool = false
 var poison: bool = false
-var poisonDamage: int = 0
+var poisonDamage: float = 0
 var poisonTime: float = 0.0
 var curse: bool = false
 var curseTime: float = 0.0

@@ -20,11 +20,24 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 
 	var damage = packet.damage
 
-	if enemy.effects.has("Curse"):
+	if enemy.effects.has(EffectClass.Effect.CURSE):
 		damage += int(damage * enemy.curseDamageAmp)
 
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
+		
+	if packet.type == DamagePacket.Type.EFFECT:
+		
+		# Other damage fx apply first, poison gets last priorirty bc of return
+		if EffectClass.Effect.BURN in packet.effects:
+			enemy.health = enemy.health - damage
+		
+		if EffectClass.Effect.POISON in packet.effects:
+			enemy.health = max(1, enemy.health - damage)
+		
+		if enemy.health <= 0:
+			killEnemy(packet.source, enemy)
+		return
 
 	enemy.health -= damage
 
@@ -37,8 +50,8 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	if "poison" in packet.effects:
 		EffectManager.applyPoisonEffect(
 			enemy, turret,
-			packet.effect_data.get("poisonDamage", 0),
-			packet.effect_data.get("poisonTime", 0)
+			packet.effectData.get("poisonDamage", 0),
+			packet.effectData.get("poisonTime", 0)
 		)
 	if "curse" in packet.effects:
 		EffectManager.applyCurseEffect(
@@ -48,6 +61,7 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	if "execution" in packet.effects:
 		killEnemy(turret, enemy)
 		ParticleManager.playExecutionParticle(enemy)
+
 
 func killEnemy(source, enemy: Enemy) -> void:
 	if enemy.isDead:

@@ -11,7 +11,7 @@ enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE }
 @export var speed: float
 
 var destination: Vector2 = Vector2.ZERO
-var effects: Dictionary = {}
+var effects: Dictionary = {} # Key is effect enum, val is the effect object
 var curseDamageAmp: float = 0.0
 var isDead: bool = false
 var targeted: bool = false

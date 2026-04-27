@@ -53,6 +53,7 @@ func _ready() -> void:
 	poisonDamage = basePoisonDamage
 	poisonDuration = basePoisonDuration
 
+
 	hit.connect(EntityManager.entityTakeDamage)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
@@ -89,7 +90,6 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 
-			proj.poisonChance = poisonChance
 			proj.poisonDamage = poisonDamage
 			proj.poisonTime = poisonDuration
 

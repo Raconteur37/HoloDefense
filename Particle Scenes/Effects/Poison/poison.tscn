@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://dherktuyjveix"]
+[gd_scene format=3 uid="uid://dherktuyjveix"]
 
 [ext_resource type="Texture2D" uid="uid://rbvxaf2g6u1d" path="res://Particle Scenes/Effects/Poison/row_output.png" id="1_6qp2f"]
 
@@ -9,9 +9,9 @@ particles_anim_h_frames = 18
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="Poison" type="CPUParticles2D"]
+[node name="Poison" type="CPUParticles2D" unique_id=247408143]
 material = SubResource("CanvasItemMaterial_mpnm5")
-position = Vector2(976, 458)
+position = Vector2(486, 316)
 amount = 2
 texture = ExtResource("1_6qp2f")
 lifetime = 3.0
