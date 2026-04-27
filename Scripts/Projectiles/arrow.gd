@@ -2,7 +2,6 @@ extends Projectile
 
 var turnSpeed : float = 100
 
-var velocity: Vector2 = Vector2.ZERO
 var tracking_force: float = 2000  # Tune this value
 var max_speed: float = 400.0       # Optional speed limit
 
@@ -20,11 +19,11 @@ func _physics_process(delta):
 	
 	linear_velocity += steering
 
-	if linear_velocity.length() > max_speed:
-		linear_velocity = linear_velocity.normalized() * max_speed
+	#if linear_velocity.length() > max_speed:
+	#	linear_velocity = linear_velocity.normalized() * max_speed
 		
 	# 4. Point the projectile in the direction of travel
-	rotation = linear_velocity.angle()
+	#rotation = linear_velocity.angle()
 
 func _on_despawn_timer_timeout() -> void:
 	queue_free()

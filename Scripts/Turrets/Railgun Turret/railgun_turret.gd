@@ -47,7 +47,6 @@ func _ready() -> void:
 	pierce = basePierce
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -78,11 +77,11 @@ func attack():
 		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
 			var proj = projectile.instantiate()
-			proj.position = position
-			proj.maxEnemyPierce = pierce
-			proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			proj.global_position = topSprite.global_position
+			proj.pierce = pierce
+			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 			var dif = self.global_position.angle_to_point(enemy.global_position)
-
+			
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self

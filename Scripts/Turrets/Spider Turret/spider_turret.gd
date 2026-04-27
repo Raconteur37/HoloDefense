@@ -54,7 +54,6 @@ func _ready() -> void:
 	poisonDuration = basePoisonDuration
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -94,6 +93,9 @@ func attack():
 			proj.poisonDamage = poisonDamage
 			proj.poisonTime = poisonDuration
 
+			var rand = randf_range(0,100)
+			if rand <= poisonChance:
+				proj.poison = true
 
 			get_parent().add_child(proj)
 

@@ -49,7 +49,7 @@
 		"damage": 100,
 		"range": 500,
 		"reloadTime": 10,
-		"projectileSpeed": 150,
+		"projectileSpeed": 500,
 		"constructionTime": 20,
 		"pierce": 2,
 		"scaleFactor": 0.08

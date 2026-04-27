@@ -103,10 +103,13 @@ func _ready() -> void:
 	
 	CityManager.addCitizen(self)
 	
-	for child in get_tree().root.get_children():
-		if child is CanvasLayer:
-			canvasLayer = child
-			break
+	if get_tree().current_scene is not CanvasLayer:
+		for child in get_tree().current_scene.get_children():
+			if child is CanvasLayer:
+				canvasLayer = child
+				break
+	else:
+		canvasLayer = get_tree().current_scene
 
 func _physics_process(delta: float) -> void:
 	if currentState == State.IDLE:

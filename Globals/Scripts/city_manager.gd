@@ -571,9 +571,17 @@ func cityLevelUp():
 	var popup = load("res://Globals/Scene/Popup.tscn")
 	popup = popup.instantiate()
 	
-	for child in get_tree().current_scene.get_children():
-		if child is CanvasLayer:
-			child.add_child(popup)
+	var canvasLayer
+	
+	if get_tree().current_scene is not CanvasLayer:
+		for child in get_tree().current_scene.get_children():
+			if child is CanvasLayer:
+				canvasLayer = child
+				break
+	else:
+		canvasLayer = get_tree().current_scene
+		
+	canvasLayer.add_child(popup)
 	popup.cityLevelUp()
 
 func addTurretTempLevel(turretID,amount):

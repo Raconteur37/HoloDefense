@@ -1,11 +1,14 @@
 extends RigidBody2D
 class_name Projectile
 
+var velocity: Vector2 = Vector2.ZERO
+
 var shooter
 var damage: int
 var target: Node2D
 var speed: float
-var piercing: bool = false
+var pierce : int = 0
+var enemiesPierced : int
 
 # Effect flags - still live here, but only used to BUILD the packet
 var execute: bool = false
@@ -26,8 +29,12 @@ func _on_body_entered(body: Node) -> void:
 	if not body is Enemy:
 		return
 	EntityManager.enemyTakeDamage(buildPacket(), body)
-	if not piercing:
-		queue_free()  # projectile frees itself here
+	if pierce > 0:
+		enemiesPierced += 1
+		if enemiesPierced >= pierce:
+			queue_free()  # projectile frees itself here
+	else:
+		queue_free()
 
 func buildPacket() -> DamagePacket:
 	var fx = []
