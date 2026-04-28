@@ -104,9 +104,9 @@
 		"armor": 10,
 		"health": 20,
 		"damage": 3,
-		"range": 200,
+		"range": 100,
 		"constructionTime": 8,
-		"fireDamage": 2,
+		"fireDamage": 4,
 		"fireTime": 3,
 		"fireTickTime": 0.5,
 		"scaleFactor": 0.06

@@ -47,18 +47,18 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	var turret = packet.source
 
-	if "poison" in packet.effects:
+	if EffectClass.Effect.POISON in packet.effects:
 		EffectManager.applyPoisonEffect(
 			enemy, turret,
 			packet.effectData.get("poisonDamage", 0),
 			packet.effectData.get("poisonTime", 0)
 		)
-	if "curse" in packet.effects:
+	if EffectClass.Effect.CURSE in packet.effects:
 		EffectManager.applyCurseEffect(
 			enemy, turret,
 			packet.effect_data.get("curseTime", 0)
 		)
-	if "execution" in packet.effects:
+	if EffectClass.Effect.EXECUTE in packet.effects:
 		killEnemy(turret, enemy)
 		ParticleManager.playExecutionParticle(enemy)
 

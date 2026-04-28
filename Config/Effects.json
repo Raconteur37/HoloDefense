@@ -1,4 +1,8 @@
 {
-	
-	
+	"poison": {
+		"tickTime": 0.3
+	},
+	"burn": {
+		"tickTime": 0.5
+	}
 }

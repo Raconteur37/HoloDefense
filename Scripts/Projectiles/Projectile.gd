@@ -15,6 +15,9 @@ var execute: bool = false
 var poison: bool = false
 var poisonDamage: float = 0
 var poisonTime: float = 0.0
+var burn: bool = false
+var burnTime: float = 0.0
+var burnDamage: float = 0.0
 var curse: bool = false
 var curseTime: float = 0.0
 
@@ -40,13 +43,17 @@ func buildPacket() -> DamagePacket:
 	var fx = []
 	var fxData = {}
 
-	if execute: fx.append("execution")
+	if execute: fx.append(EffectClass.Effect.EXECUTE)
 	if poison:
-		fx.append("poison")
+		fx.append(EffectClass.Effect.POISON)
 		fxData["poisonDamage"] = poisonDamage
 		fxData["poisonTime"] = poisonTime
+	if burn:
+		fx.append(EffectClass.Effect.BURN)
+		fxData["burnDamage"] = burnDamage
+		fxData["burnTime"] = burnTime
 	if curse:
-		fx.append("curse")
+		fx.append(EffectClass.Effect.CURSE)
 		fxData["curseTime"] = curseTime
 
 	return DamagePacket.new(damage, DamagePacket.Type.PROJECTILE, shooter, fx, fxData)

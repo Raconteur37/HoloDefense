@@ -56,7 +56,6 @@ func _ready() -> void:
 	damageTickTimer.wait_time = damageTickTime
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -109,10 +108,11 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_damage_tick_timer_timeout() -> void:
 	if shooting:
-		for x in $TurretTop/FlameArea.get_overlapping_areas():
-			if x.get_parent().is_in_group("Enemy"):
-				x.get_parent().hit.emit(damage,self,x.get_parent(),turretBeam)
-				EffectManager.applyFireEffect(x.get_parent(),self,fireDamage,fireTime)
+		for area in $TurretTop/FlameArea.get_overlapping_areas():
+			var enemy = area.get_parent()
+			if enemy.is_in_group("Enemy"):
+				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
+				EffectManager.applyBurnEffect(enemy,self,fireDamage,fireTime)
 		damageTickTimer.start()
 
 

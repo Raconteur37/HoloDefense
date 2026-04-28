@@ -11,7 +11,8 @@ enum Effect {
 	NONE,
 	POISON,
 	CURSE,
-	BURN
+	BURN,
+	EXECUTE
 }
 
 var particleEffect
@@ -19,7 +20,7 @@ var particleEffect
 var effectName
 var damage
 var turretApplier = null # Need this to be null in case I forgot to apply the turret
-var enemy = null # same for this
+var enemy : Enemy = null # same for this
 
 var effect : Effect
 
@@ -39,6 +40,8 @@ func _on_tick_timer_timeout() -> void:
 	match effect:
 		
 		EffectClass.Effect.POISON:
+			EntityManager.enemyTakeDamage(buildPacket(), enemy)
+		EffectClass.Effect.BURN:
 			EntityManager.enemyTakeDamage(buildPacket(), enemy)
 	
 	particleEffect.global_position = enemy.global_position
@@ -76,7 +79,13 @@ func setParticle():
 
 		EffectClass.Effect.BURN:
 			particleEffect = load("res://Particle Scenes/Effects/fire.tscn")
-			particleEffect.instantiate()
+			particleEffect = particleEffect.instantiate()
 			add_child(particleEffect)
 			
 	particleEffect.global_position = enemy.global_position
+
+func removeEffect():
+	match effect:
+		
+		EffectClass.Effect.CURSE:
+			enemy.curseDamageAmp = 0
