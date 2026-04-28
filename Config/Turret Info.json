@@ -148,7 +148,7 @@
 		"reloadTime": 3,
 		"projectileSpeed": 250,
 		"constructionTime": 8,
-		"executionChance": 5,
+		"executionChance": 100,
 		"scaleFactor": 0.08
 	},
 	"spider_turret": {

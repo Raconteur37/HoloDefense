@@ -59,8 +59,8 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 			packet.effect_data.get("curseTime", 0)
 		)
 	if EffectClass.Effect.EXECUTE in packet.effects:
-		killEnemy(turret, enemy)
 		ParticleManager.playExecutionParticle(enemy)
+		killEnemy(turret, enemy)
 
 
 func killEnemy(source, enemy: Enemy) -> void:

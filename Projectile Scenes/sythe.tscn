@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://dmec0p27kwjw7"]
+[gd_scene format=3 uid="uid://dmec0p27kwjw7"]
 
 [ext_resource type="Script" uid="uid://c6bpbreogds4l" path="res://Scripts/Projectiles/sythe.gd" id="1_x4a2f"]
 [ext_resource type="Texture2D" uid="uid://c0gawk1w8csi4" path="res://Textures/Projectiles/Sythe.png" id="2_ushgp"]
@@ -11,7 +11,7 @@ height = 16.0
 radius = 9.0
 height = 18.0
 
-[node name="Sythe" type="RigidBody2D" groups=["Turret Projectile"]]
+[node name="Sythe" type="RigidBody2D" unique_id=2116854706 groups=["Turret Projectile"]]
 position = Vector2(215, 128)
 rotation = 2.33351
 collision_layer = 2
@@ -19,22 +19,22 @@ collision_mask = 4
 gravity_scale = 0.0
 script = ExtResource("1_x4a2f")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1102222559]
 shape = SubResource("CapsuleShape2D_etksh")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1160241739]
 position = Vector2(-7.1153e-07, 9.53674e-07)
 texture = ExtResource("2_ushgp")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=212243810]
 position = Vector2(-7.1153e-07, 9.53674e-07)
 collision_layer = 2
 collision_mask = 4
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1108693348]
 shape = SubResource("CapsuleShape2D_hxa21")
 
-[node name="DespawnTimer" type="Timer" parent="."]
+[node name="DespawnTimer" type="Timer" parent="." unique_id=1163497172]
 wait_time = 3.0
 one_shot = true
 autostart = true

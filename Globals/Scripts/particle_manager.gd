@@ -31,7 +31,7 @@ func playDeathParticle(enemy):
 
 		"Basic Square":
 			var particle = basicSquareDeathParticle.instantiate()
-			particle.setPosition(enemy.global_position)
+			particle.global_position = enemy.global_position
 			get_tree().current_scene.add_child(particle)
 	
 		"Speedy Triangle":
@@ -47,7 +47,7 @@ func playZombieTurnParticle(enemy):
 func playExecutionParticle(enemy):
 
 	var particle = executionParticle.instantiate()
-	particle.get_child(0).global_position = enemy.global_position
+	particle.global_position = enemy.global_position
 	get_tree().current_scene.add_child(particle)
 
 func playEnergizedParticle(turret):

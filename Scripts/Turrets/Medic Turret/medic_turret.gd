@@ -53,7 +53,6 @@ func _ready() -> void:
 	healingPulseTimer.wait_time = healingTime
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

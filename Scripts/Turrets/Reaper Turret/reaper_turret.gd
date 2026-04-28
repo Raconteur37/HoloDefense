@@ -46,7 +46,6 @@ func _ready() -> void:
 	executionChance = baseExecutionChance
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -75,7 +74,6 @@ func attack():
 		if is_instance_valid(enemy) and isPlaced:
 			var proj = projectile.instantiate()
 			proj.position = position
-			proj.oneShotChance = executionChance
 			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 
 			var dif = self.global_position.angle_to_point(enemy.global_position)
@@ -83,6 +81,9 @@ func attack():
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
+			var rand = randf_range(0,100)
+			if rand <= executionChance:
+				proj.execute = true
 			get_parent().add_child(proj)
 
 			reloadTimer.start()

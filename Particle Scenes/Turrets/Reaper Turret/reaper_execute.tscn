@@ -1,7 +1,7 @@
-[gd_scene load_steps=4 format=3 uid="uid://6aptbaqf2hmy"]
+[gd_scene format=3 uid="uid://6aptbaqf2hmy"]
 
-[ext_resource type="Script" uid="uid://dfcu7w13gsxee" path="res://Particle Scenes/Enemies/particleSelfControlScript.gd" id="1_lcx4u"]
 [ext_resource type="Texture2D" uid="uid://b0377duolnliv" path="res://Particle Scenes/Turrets/Reaper Turret/row_output.png" id="1_q42w1"]
+[ext_resource type="Script" uid="uid://026pf3sp5kjf" path="res://Particle Scenes/Turrets/Reaper Turret/reaper_execute.gd" id="2_lcx4u"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m72nu"]
 resource_local_to_scene = true
@@ -10,13 +10,8 @@ particles_anim_h_frames = 15
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="CanvasLayer" type="CanvasLayer"]
-follow_viewport_enabled = true
-script = ExtResource("1_lcx4u")
-
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=413061452]
 material = SubResource("CanvasItemMaterial_m72nu")
-position = Vector2(985, 501)
 emitting = false
 amount = 1
 texture = ExtResource("1_q42w1")
@@ -27,3 +22,4 @@ particle_flag_align_y = true
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
+script = ExtResource("2_lcx4u")

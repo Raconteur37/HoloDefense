@@ -1,14 +1,7 @@
-extends RigidBody2D
+extends Projectile
 
-var shooter
-var damage
-var oneShotChance
-var execution = false
+func _ready() -> void:
+	super._ready()  # runs parent _ready, sets contact monitor + connects signal
 
 func _on_despawn_timer_timeout() -> void:
 	queue_free()
-
-func _ready() -> void:
-	var rand = randf_range(0,100)
-	if rand <= oneShotChance:
-		execution = true

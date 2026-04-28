@@ -4,6 +4,8 @@ class_name SeismicTurret
 
 var attackParticle
 
+var rangeArea
+
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Elemental
@@ -30,6 +32,7 @@ func _ready() -> void:
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackParticle = $SeismicEarthquakeParticle
+	rangeArea = $RangeArea
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
@@ -40,7 +43,6 @@ func _ready() -> void:
 	health = maxHealth
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -73,10 +75,10 @@ func attack():
 		attackParticle.emitting = true
 
 		for x in range(4):
-			for enemy in $RangeArea.get_overlapping_areas():
-				if enemy.get_parent().is_in_group("Enemy"):
-
-					enemy.get_parent().hit.emit(damage,self,enemy.get_parent(),self) # Fix damage type
+			for area in rangeArea.get_overlapping_areas():
+				var enemy = area.get_parent()
+				if enemy.is_in_group("Enemy"):
+					EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
 			await get_tree().create_timer((.3)).timeout
 
 		reloadTimer.start()

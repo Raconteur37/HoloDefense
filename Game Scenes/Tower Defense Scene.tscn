@@ -26,6 +26,16 @@ size = Vector2(1940, 20)
 [node name="TowerDefenseCanvas" type="CanvasLayer" unique_id=1084623525]
 script = ExtResource("1_dfs6n")
 
+[node name="PlacementManager" type="Node2D" parent="." unique_id=1414985440 node_paths=PackedStringArray("tilemap")]
+script = ExtResource("8_kl2s0")
+tilemap = NodePath("../TilemapLayer0")
+
+[node name="TurretNodeHolder" type="Node2D" parent="." unique_id=1391536917]
+z_index = 1
+
+[node name="EnemyNodeHolder" type="Node2D" parent="." unique_id=1552012197]
+z_index = 1
+
 [node name="TilemapLayer0" type="TileMapLayer" parent="." unique_id=71042978]
 tile_set = SubResource("TileSet_k7ttf")
 rendering_quadrant_size = 32
@@ -38,21 +48,6 @@ anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_wnsls")
-metadata/_edit_use_anchors_ = true
-
-[node name="CityDisplay" type="TextureRect" parent="." unique_id=943734106]
-anchors_preset = -1
-anchor_left = 0.467
-anchor_top = 0.441
-anchor_right = 0.53300005
-anchor_bottom = 0.559
-offset_left = -0.64001465
-offset_top = -0.2800293
-offset_right = 0.6398926
-offset_bottom = 0.27996826
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_m02cc")
 metadata/_edit_use_anchors_ = true
 
 [node name="OpenTowerDefenseUiHubParticle" parent="." unique_id=623289753 instance=ExtResource("6_wnsls")]
@@ -183,13 +178,20 @@ position = Vector2(960, 0)
 shape = SubResource("RectangleShape2D_m02cc")
 debug_color = Color(0.93837553, 0.20797732, 0.3587349, 0.41960785)
 
-[node name="PlacementManager" type="Node2D" parent="." unique_id=1414985440 node_paths=PackedStringArray("tilemap")]
-script = ExtResource("8_kl2s0")
-tilemap = NodePath("../TilemapLayer0")
-
-[node name="TurretNodeHolder" type="Node2D" parent="." unique_id=1391536917]
-
-[node name="EnemyNodeHolder" type="Node2D" parent="." unique_id=1552012197]
+[node name="CityDisplay" type="TextureRect" parent="." unique_id=943734106]
+anchors_preset = -1
+anchor_left = 0.467
+anchor_top = 0.441
+anchor_right = 0.53300005
+anchor_bottom = 0.559
+offset_left = -0.64001465
+offset_top = -0.2800293
+offset_right = 0.6398926
+offset_bottom = 0.27996826
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_m02cc")
+metadata/_edit_use_anchors_ = true
 
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]
