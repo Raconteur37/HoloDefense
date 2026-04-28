@@ -6,6 +6,9 @@ var shooting : bool = false
 
 var turretBeam
 var damageTickTimer
+var flameArea
+var flameAreaShape
+var flameParticle
 
 @export var baseFireDamage : float
 @export var baseFireTime : float
@@ -45,6 +48,9 @@ func _ready() -> void:
 	bodyCollisionShape = $CollisionShape2D
 	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
 	damageTickTimer = $DamageTickTimer
+	flameArea = $TurretTop/FlameArea
+	flameAreaShape = $TurretTop/FlameArea/FlameAreaShape2D
+	flameParticle = $"TurretTop/Flame Particle"
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -77,18 +83,18 @@ func _ready() -> void:
 func _process(delta: float) -> void:
 	if enemiesInRange.size() > 0 and not shooting:
 		shooting = true
-		if $DamageTickTimer.is_stopped():
-			$DamageTickTimer.start()
+		if damageTickTimer.is_stopped():
+			damageTickTimer.start()
 	if enemiesInRange.size() <= 0:
 		shooting = false
 	if shooting and enemiesInRange.size() > 0 and isPlaced:
 		var enemy = EntityManager.getClosestEnemyFromSprite($".")
 		topSprite.look_at(enemy.global_position)
 		#topSprite.rotate(PI/2)
-		$"TurretTop/Flame Particle".emitting = true
+		flameParticle.emitting = true
 	if not shooting:
-		$DamageTickTimer.stop()
-		$"TurretTop/Flame Particle".emitting = false
+		damageTickTimer.stop()
+		flameParticle.emitting = false
 
 func openSelectedMenu():
 	if isPlaced:
@@ -108,13 +114,19 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_damage_tick_timer_timeout() -> void:
 	if shooting:
-		for area in $TurretTop/FlameArea.get_overlapping_areas():
+		for area in flameArea.get_overlapping_areas():
 			var enemy = area.get_parent()
 			if enemy.is_in_group("Enemy"):
 				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
 				EffectManager.applyBurnEffect(enemy,self,fireDamage,fireTime)
 		damageTickTimer.start()
 
+
+func applyUpgrade():
+	particleVelocity += 10
+	flameArea.position.x += .4
+	flameAreaShape.shape.height += .8
+	flameParticle.process_material.set("initial_velocity",Vector2(particleVelocity,particleVelocity))
 
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
