@@ -1,10 +1,10 @@
 extends Node2D
 
 
-func removeEffect(victim,effectName):
-	if victim.effects.has(effectName):
-		victim.effects[effectName].queue_free()
-		victim.effects.erase(effectName)
+func removeEffect(victim,effect):
+	if victim.effects.has(effect):
+		victim.effects[effect].queue_free()
+		victim.effects.erase(effect)
 	#if effectName == "Curse":
 	#	victim.curseDamageAmp = 0
 

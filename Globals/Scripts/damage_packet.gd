@@ -4,7 +4,7 @@ extends Resource
 
 enum Type { PROJECTILE, EXPLOSION, BEAM, TURRET, EFFECT, MINION }
 
-var damage: int
+var damage: float
 var type: Type
 var source          # The turret/node that caused it, can be null
 var effects: Array  # e.g. ["poison", "curse", "execution"]

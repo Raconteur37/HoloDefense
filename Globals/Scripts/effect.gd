@@ -60,7 +60,6 @@ func buildPacket() -> DamagePacket:
 		EffectClass.Effect.BURN:
 			fx.append(Effect.BURN)
 	
-	#print(damage,turretApplier,enemy)
 	return DamagePacket.new(damage, DamagePacket.Type.EFFECT, turretApplier, fx, fxData)
 
 func _on_duration_timer_timeout() -> void:
@@ -79,3 +78,5 @@ func setParticle():
 			particleEffect = load("res://Particle Scenes/Effects/fire.tscn")
 			particleEffect.instantiate()
 			add_child(particleEffect)
+			
+	particleEffect.global_position = enemy.global_position

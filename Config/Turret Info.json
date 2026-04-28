@@ -167,7 +167,7 @@
 		"reloadTime": 3,
 		"projectileSpeed": 600,
 		"constructionTime": 4,
-		"poisonChance": 30,
+		"poisonChance": 100,
 		"poisonDuration": 3,
 		"poisonDamage": 0.5,
 		"scaleFactor": 0.04
