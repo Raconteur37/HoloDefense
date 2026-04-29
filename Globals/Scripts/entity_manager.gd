@@ -44,6 +44,7 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if enemy.health <= 0:
 		killEnemy(packet.source, enemy)
 
+# This will INCLUDE explosions cus why not
 func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	var turret = packet.source
 
@@ -61,6 +62,8 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	if EffectClass.Effect.EXECUTE in packet.effects:
 		ParticleManager.playExecutionParticle(enemy)
 		killEnemy(turret, enemy)
+			
+	if 
 
 
 func killEnemy(source, enemy: Enemy) -> void:

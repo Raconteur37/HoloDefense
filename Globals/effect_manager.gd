@@ -2,7 +2,6 @@ extends Node2D
 
 var effectData = {}
 
-
 func _ready() -> void:
 	loadEffectData()
 	print(effectData)

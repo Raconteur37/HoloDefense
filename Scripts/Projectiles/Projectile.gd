@@ -3,12 +3,13 @@ class_name Projectile
 
 var velocity: Vector2 = Vector2.ZERO
 
-var shooter
+var shooter: Turret
 var damage: int
 var target: Node2D
 var speed: float
 var pierce : int = 0
 var enemiesPierced : int
+var enemy: Enemy
 
 # Effect flags - still live here, but only used to BUILD the packet
 var execute: bool = false
@@ -20,6 +21,7 @@ var burnTime: float = 0.0
 var burnDamage: float = 0.0
 var curse: bool = false
 var curseTime: float = 0.0
+var explosion: bool = false
 
 func _ready() -> void:
 	contact_monitor = true
@@ -31,7 +33,8 @@ func _on_body_entered(body: Node) -> void:
 		return
 	if not body is Enemy:
 		return
-	EntityManager.enemyTakeDamage(buildPacket(), body)
+	enemy = body
+	EntityManager.enemyTakeDamage(buildPacket(), enemy)
 	if pierce > 0:
 		enemiesPierced += 1
 		if enemiesPierced >= pierce:
@@ -55,5 +58,7 @@ func buildPacket() -> DamagePacket:
 	if curse:
 		fx.append(EffectClass.Effect.CURSE)
 		fxData["curseTime"] = curseTime
+	if explosion:
+		fx.append(Explosion.new(shooter,enemy))
 
 	return DamagePacket.new(damage, DamagePacket.Type.PROJECTILE, shooter, fx, fxData)

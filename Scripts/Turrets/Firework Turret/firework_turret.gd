@@ -57,7 +57,6 @@ func _ready() -> void:
 
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
