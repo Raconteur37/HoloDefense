@@ -61,7 +61,6 @@ func _ready() -> void:
 	energizeTimer.wait_time = energizeTime
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

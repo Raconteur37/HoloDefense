@@ -82,6 +82,7 @@ theme_override_constants/v_separation = 40
 columns = 5
 
 [node name="TurretData" type="Control" parent="BottomUI" unique_id=1483420825]
+visible = false
 layout_mode = 1
 anchors_preset = 0
 offset_right = 40.0
