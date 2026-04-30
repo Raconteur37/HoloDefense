@@ -44,6 +44,7 @@ var rangeIndicator
 var topSprite : AnimatedSprite2D
 var selectArea
 var bodyCollisionShape
+var rangeArea
 
 #stats
 var kills : int = 0
@@ -116,6 +117,7 @@ func refreshUI(turretInstance):
 			bottomUI.refreshTurretUI(turretInstance)
 
 var _hide_timer: SceneTreeTimer = null
+
 func showUI(turretInstance):
 	rangeIndicator.show()
 	# display UI if we can

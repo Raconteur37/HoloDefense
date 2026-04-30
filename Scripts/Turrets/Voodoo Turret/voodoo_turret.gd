@@ -56,7 +56,6 @@ func _ready() -> void:
 	health = maxHealth
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -94,9 +93,12 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 
-			proj.curseChance = curseChance
+
 			proj.curseTime = curseDuration
 			proj.curseDamageAmp = curseDamageAmp
+			var rand = randf_range(0,100)
+			if rand <= curseChance:
+				proj.curse = true
 
 
 			get_parent().add_child(proj)

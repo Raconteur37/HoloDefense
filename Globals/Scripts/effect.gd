@@ -9,6 +9,7 @@ var duration : float
 
 enum Effect {
 	NONE,
+	EXPLOSION,
 	POISON,
 	CURSE,
 	BURN,
@@ -21,6 +22,7 @@ var effectName
 var damage
 var turretApplier = null # Need this to be null in case I forgot to apply the turret
 var enemy : Enemy = null # same for this
+var curseDamageAmplify : float
 
 var effect : Effect
 
@@ -43,6 +45,8 @@ func _on_tick_timer_timeout() -> void:
 			EntityManager.enemyTakeDamage(buildPacket(), enemy)
 		EffectClass.Effect.BURN:
 			EntityManager.enemyTakeDamage(buildPacket(), enemy)
+		EffectClass.Effect.CURSE:
+			enemy.curseDamageAmp = curseDamageAmplify
 	
 	particleEffect.global_position = enemy.global_position
 	
@@ -74,14 +78,16 @@ func setParticle():
 		
 		EffectClass.Effect.POISON:
 			particleEffect = load("res://Particle Scenes/Effects/Poison/poison.tscn")
-			particleEffect = particleEffect.instantiate()
-			add_child(particleEffect)
 
 		EffectClass.Effect.BURN:
 			particleEffect = load("res://Particle Scenes/Effects/fire.tscn")
-			particleEffect = particleEffect.instantiate()
-			add_child(particleEffect)
-			
+
+		EffectClass.Effect.CURSE:
+			particleEffect = load("res://Particle Scenes/Effects/Curse/Curse Particle.tscn")
+
+	
+	particleEffect = particleEffect.instantiate()
+	add_child(particleEffect)
 	particleEffect.global_position = enemy.global_position
 
 func removeEffect():

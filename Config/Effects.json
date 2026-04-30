@@ -4,5 +4,8 @@
 	},
 	"burn": {
 		"tickTime": 0.5
+	},
+	"curse": {
+		"tickTime": 0.1
 	}
 }

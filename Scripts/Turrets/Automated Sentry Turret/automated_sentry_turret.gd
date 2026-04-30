@@ -10,6 +10,8 @@ var particle
 
 var currentBullets
 
+var selectAreaCollisionShape
+
 func _ready() -> void:
 	rarity = Rarity.RARE
 	type = Type.Armory
@@ -40,6 +42,7 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
+	selectAreaCollisionShape = $SelectArea/CollisionShape2D
 	shootTimer = $ShootTimer
 	particle = $TurretTop/AutomatedSentryTurretFire
 	shootTimer.wait_time = shotTime
@@ -55,7 +58,6 @@ func _ready() -> void:
 	currentBullets = maxBullets
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -102,24 +104,35 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 			get_parent().add_child(proj)
+			var mouse_pos = selectArea.get_local_mouse_position()
+
+			# check if mouse is inside each shot and if so then refresh the ui so u can see bullets
+			if selectAreaCollisionShape.shape.collide(
+				selectAreaCollisionShape.transform, 
+				CircleShape2D.new(),
+				Transform2D(0, mouse_pos)
+			):
+				refreshUI(self)
+			
 
 			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 			topSprite.look_at(enemy.global_position)
 			topSprite.rotate(PI/2)
 
+			
 			match animInstance:
 				0:
-					topSprite.frame = 1
+					topSprite.frame = 4
 					particle.position.x = 0
 				1:
 					topSprite.frame = 2
-					particle.position.x += 9
+					particle.position.x = 10
 				2:
 					topSprite.frame = 3
-					particle.position.x -= 18
+					particle.position.x = -10
 				3:
 					topSprite.frame = 4
-					particle.position.x += 9
+					particle.position.x = 0
 
 			particle.emitting = true
 

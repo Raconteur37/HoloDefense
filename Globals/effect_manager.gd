@@ -4,7 +4,7 @@ var effectData = {}
 
 func _ready() -> void:
 	loadEffectData()
-	print(effectData)
+	#print(effectData)
 
 func removeEffect(victim : Enemy, effect : EffectClass.Effect):
 	if victim.effects.has(effect):
@@ -39,14 +39,18 @@ func applyPoisonEffect(victim,turret,damage,time):
 		victim.effects[EffectClass.Effect.POISON] = effectScene
 		victim.add_child(effectScene)
 
-func applyCurseEffect(victim,turret,time):
-	if victim.effects.has("Curse"):
-		victim.effects.get("Curse").restartTime(time)
-		return
-	var curseScene = load("res://Globals/Scene/Effects/Curse.tscn")
-	var effectScene = curseScene.instantiate()
-	effectScene.applyData(turret,victim,time)
-	victim.add_child(effectScene)
+func applyCurseEffect(victim,turret,time,damageAmp):
+	if checkResetDuration(EffectClass.Effect.CURSE,victim,time):
+		var effectScene = load("res://Globals/Scene/Effects/Effect.tscn")
+		effectScene = effectScene.instantiate()
+		effectScene.effect = EffectClass.Effect.CURSE
+		effectScene.tickTime = getEffectStat(EffectClass.Effect.CURSE,"tickTime")
+		effectScene.duration = time
+		effectScene.enemy = victim
+		effectScene.turretApplier = turret
+		effectScene.curseDamageAmplify = damageAmp
+		victim.effects[EffectClass.Effect.CURSE] = effectScene
+		victim.add_child(effectScene)
 
 
 func checkResetDuration(effect : EffectClass.Effect, victim, time):

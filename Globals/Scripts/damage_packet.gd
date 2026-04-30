@@ -10,7 +10,7 @@ var source          # The turret/node that caused it, can be null
 var effects: Array  # e.g. ["poison", "curse", "execution"]
 var effectData: Dictionary  # e.g. { "poisonDamage": 5, "poisonTime": 3.0 }
 
-func _init(dmg: int, t: Type, src = null, fx: Array = [], fxData: Dictionary = {}):
+func _init(dmg: float, t: Type, src = null, fx: Array = [], fxData: Dictionary = {}):
 	damage = dmg
 	type = t
 	source = src

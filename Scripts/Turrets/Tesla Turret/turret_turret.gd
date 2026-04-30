@@ -48,6 +48,7 @@ func _ready() -> void:
 	damageTickTimer = $"Damage Tick Timer"
 	attackingTimer = $"Attacking Timer"
 	electricityParticle = $TurretTop/ElectricityEmit
+	rangeArea = $RangeArea
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
@@ -62,7 +63,6 @@ func _ready() -> void:
 	attackingTimer.wait_time = attackingTime
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -131,14 +131,15 @@ func _on_reload_timer_timeout() -> void:
 
 func _on_damage_tick_timer_timeout() -> void:
 	if shooting:
-		for x in $RangeArea.get_overlapping_areas():
+		for x in rangeArea.get_overlapping_areas():
 			if x.get_parent().is_in_group("Enemy"):
+				var enemy = x.get_parent()
 				var shockParticle = projectile.instantiate()
 				shockParticle.global_position = global_position
 
 				# Set the positions
 				var start_position = Vector2(0,0)
-				var end_position = to_local(x.get_parent().global_position)
+				var end_position = to_local(enemy.global_position)
 				var points = [start_position,end_position]
 
 				shockParticle.points = points
@@ -146,7 +147,7 @@ func _on_damage_tick_timer_timeout() -> void:
 				# Add to the scene
 				get_parent().add_child(shockParticle)
 
-				x.get_parent().hit.emit(damage,self,x.get_parent(),self) # Fix damage type
+				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
 		damageTickTimer.start()
 	else:
 		damageTickTimer.stop()

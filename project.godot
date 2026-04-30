@@ -35,6 +35,7 @@ TurretManager="*res://Globals/Scripts/turretManager.gd"
 CitizenManager="*uid://b1q35i2g7cl31"
 WaveManager="*uid://dwjkct0fj5w5n"
 PlacementManager="*uid://bn0d71yhgaq0u"
+ExplosionManager="*uid://c6ttpj3gwdhjo"
 
 [display]
 

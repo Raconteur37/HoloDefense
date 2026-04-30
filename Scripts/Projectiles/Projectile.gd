@@ -21,7 +21,10 @@ var burnTime: float = 0.0
 var burnDamage: float = 0.0
 var curse: bool = false
 var curseTime: float = 0.0
+var curseDamageAmp: float = 0.0
 var explosion: bool = false
+var explosionDamage: float = 0.0
+var explosionRadius: float = 0.0
 
 func _ready() -> void:
 	contact_monitor = true
@@ -58,7 +61,10 @@ func buildPacket() -> DamagePacket:
 	if curse:
 		fx.append(EffectClass.Effect.CURSE)
 		fxData["curseTime"] = curseTime
+		fxData["curseDamageAmp"] = curseDamageAmp
 	if explosion:
-		fx.append(Explosion.new(shooter,enemy))
+		fx.append(EffectClass.Effect.EXPLOSION)
+		fxData["explosionDamage"] = explosionDamage
+		fxData["explosionRadius"] = explosionRadius
 
 	return DamagePacket.new(damage, DamagePacket.Type.PROJECTILE, shooter, fx, fxData)

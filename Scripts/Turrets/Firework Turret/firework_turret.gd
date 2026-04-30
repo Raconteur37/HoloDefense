@@ -90,9 +90,9 @@ func attack():
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
-			proj.explosionDmg = explosionDamage
-			proj.explosionSize = explosionRadius
-			proj.shotNumber = shots
+			proj.explosion = true
+			proj.explosionDamage = explosionDamage
+			proj.explosionRadius = explosionRadius
 			get_parent().add_child(proj)
 
 			shots -= 1
