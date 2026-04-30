@@ -11,13 +11,15 @@ func _ready():
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
 	enemyID = EnemyID.BASIC_SQUARE
+	hurtParticle = $"Basic Square Hurt"
+	hitBoxArea = $HitboxArea
 
 
 func _on_attack_timer_timeout() -> void:
 	attackReady = true
-	for x in $Area2D.get_overlapping_areas():
+	for x in hitBoxArea.get_overlapping_areas():
 		var entity = x.get_parent()
-		if entity.is_in_group("Turret") and x.name.contains("SelectArea"):
-			entity.hit.emit(damage,entity)
+		if entity.is_in_group("Turret"):
+			EntityManager.turretTakeDamage(damage,entity)
 			attackReady = false
 			attackTimer.start()

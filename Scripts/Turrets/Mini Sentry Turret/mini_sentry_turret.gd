@@ -39,8 +39,6 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 
-	hit.connect(EntityManager.entityTakeDamage)
-
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
 	for x in range(upgradeTier):

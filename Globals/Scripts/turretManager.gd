@@ -242,7 +242,9 @@ func createPropertiesLabels(turret):
 		"curseDuration": ["Curse Duration: ", Color.MEDIUM_ORCHID, "s"],
 		"curseDamageAmp": ["Curse Damage Amp: ", Color.REBECCA_PURPLE, "%"],
 		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
-		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"]
+		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"],
+		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
+		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN]
 	}
 
 	for prop in turretStatsConfig:

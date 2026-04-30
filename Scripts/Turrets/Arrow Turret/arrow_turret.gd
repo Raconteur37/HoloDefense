@@ -33,6 +33,7 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
+	selectAreaCollisionShape = $SelectArea/CollisionShape2D
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
@@ -42,8 +43,6 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
-
-	hit.connect(EntityManager.entityTakeDamage)
 
 	upgradeTier = GameManager.turretTempLevels.get(turretID)
 
@@ -55,7 +54,6 @@ func _ready() -> void:
 	if DeveloperMode.inDevMode:
 		isPlaced = true
 		GameManager.addTurretToDict(self)
-		health = 9999
 	if GameManager.previewMode:
 		var dummy = load("res://Enemy Scenes/Dummy.tscn")
 		dummy = dummy.instantiate()

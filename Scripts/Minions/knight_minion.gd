@@ -1,15 +1,8 @@
-extends CharacterBody2D
-
-signal hit(damage,minion)
-
-enum Type {Minion}
+extends Turret
 
 const minionName : String = "Knight"
-var health : float = 0
-var damage : float = 0
-@export var attackTime : float = 3
-@export var speed : float = 200
-@export var armor : int = 10
+var attackTime : float = 3
+var speed : float = 200
 
 var attackTimer
 var idleTimer
@@ -67,7 +60,7 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		if attackReady:
-			body.hit.emit(damage,turretOwner,body,self)
+			EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, turretOwner, [], {}), enemy)
 			attackReady = false
 			attackTimer.start()
 
@@ -76,7 +69,7 @@ func _on_attack_timer_timeout() -> void:
 	if enemy != null:
 		for x in $Area2D.get_overlapping_areas():
 			if x.get_parent() == enemy:
-				enemy.hit.emit(damage,turretOwner,x.get_parent(),self)
+				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.MINION, turretOwner, [], {}), enemy)
 				attackReady = false
 		attackTimer.start()
 

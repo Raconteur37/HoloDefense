@@ -10,12 +10,15 @@ enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE }
 @export var attackTime: float
 @export var speed: float
 
+var hitBoxArea
+
 var destination: Vector2 = Vector2.ZERO
 var effects: Dictionary[EffectClass.Effect, EffectClass] = {} # Key is effect enum, val is the effect object
 var curseDamageAmp: float = 0.0
 var isDead: bool = false
 var targeted: bool = false
 var enemyID: EnemyID
+var hurtParticle: CPUParticles2D
 
 # Zombie state
 var isZombie: bool = false
@@ -54,6 +57,17 @@ func move() -> void:
 	var direction = (destination - global_position).normalized()
 	velocity = direction * speed
 	move_and_slide()
+	for i in get_slide_collision_count():
+		var col = get_slide_collision(i)
+		var collider = col.get_collider()
+		if collider.is_in_group("Turret"):
+			velocity = Vector2.ZERO
+			# Push enemy back out of overlap
+			global_position += col.get_normal() * speed * get_physics_process_delta_time()
+			if attackReady:
+				EntityManager.turretTakeDamage(damage, collider)
+				startAttackCooldown()
+			return
 	if global_position.distance_to(destination) < 5.0:
 		velocity = Vector2.ZERO
 		global_position = destination
@@ -111,11 +125,8 @@ func onZombieAreaExit(_body: Node) -> void:
 	pass
 
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret") and body.get("isPlaced") and body.isPlaced:
-		body.hit.emit(damage, body)
-		startAttackCooldown()
-	elif body.is_in_group("Minion"):
-		body.hit.emit(damage, body)
+	if body.is_in_group("Turret"):
+		EntityManager.turretTakeDamage(damage,body)
 		startAttackCooldown()
 
 func startAttackCooldown() -> void:

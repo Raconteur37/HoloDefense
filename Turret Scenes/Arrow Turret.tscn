@@ -51,13 +51,11 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Arrow Turret" type="CharacterBody2D" unique_id=142022213 groups=["Turret"]]
-position = Vector2(981, 547)
 collision_mask = 12
 script = ExtResource("2_mmj3o")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
 shape = SubResource("RectangleShape2D_11eqx")
-disabled = true
 
 [node name="TurretBottom" type="Sprite2D" parent="." unique_id=1737286898]
 texture = ExtResource("1_n5hte")

@@ -59,7 +59,6 @@ func _ready() -> void:
 	knightHealth = baseKnightHealth
 
 	hit.connect(EntityManager.entityTakeDamage)
-	upgrade.connect(EntityManager.applyUpgradeTier)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
@@ -96,6 +95,13 @@ func summonMinion():
 		currentKnightAmount += 1
 
 		get_parent().add_child(knight)
+
+func upgradeTurret():
+	baseKnightHealth += ceil(baseKnightHealth * .05)
+	knightHealth = baseKnightHealth
+	baseKnightDamage += ceil(baseKnightDamage * .05)
+	knightDamage = baseKnightDamage
+	#turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):

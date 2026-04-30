@@ -40,6 +40,7 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		return
 
 	enemy.health -= damage
+	enemy.hurtParticle.emitting = true
 
 	if enemy.health <= 0:
 		killEnemy(packet.source, enemy)
@@ -74,31 +75,17 @@ func killEnemy(source, enemy: Enemy) -> void:
 	onKill(source, enemy)
 
 
-func entityTakeDamage(damage: int, entity: Node) -> void:
-	if entity.is_in_group("Turret"):
-		turretTakeDamage(damage, entity)
-	elif entity.is_in_group("Minion"):
-		minionTakeDamage(damage, entity)
-
-func turretTakeDamage(damage: int, turret) -> void:
+func turretTakeDamage(damage: float, turret : Turret) -> void:
 	damage = applyArmor(damage, turret)
 	
 	turret.health -= damage
+	
 	if turret.health <= 0:
 		turret.health = 0
-		onDeath(turret)
-		GameManager.removeTurretFromGame(turret)
+		turret.queue_free()
 
-	if is_instance_valid(turret.menu):
-		turret.menu.healthUpdate()
+	turret.refreshUI(turret)
 
-func minionTakeDamage(damage: int, minion) -> void:
-	damage = applyArmor(damage, minion)
-
-	minion.health -= damage
-	if minion.health <= 0:
-		minion.health = 0
-		minion.turretOwner.removeMinion(minion)
 
 func applyArmor(damage: int, entity) -> int:
 	if entity.armor <= 0:
@@ -111,25 +98,6 @@ func applyArmor(damage: int, entity) -> int:
 		entity.armor = 0
 
 	return damage - absorbed
-
-func onDeath(turret):
-
-	var turretName = turret.getName()
-
-	match turretName:
-
-		"Energizer Turret":
-			for x in turret.turretsInRange:
-				if is_instance_valid(x):
-					if x.energized:
-						x.currentParticlesMap.get("Energized").queue_free()
-						x.currentParticlesMap.erase("Energized")
-						turret.removeEnergizerBuffsToTurret(x)
-
-		"Royal Turret":
-			for x in turret.currentMinions:
-				x.queue_free()
-
 
 func onKill(turret,enemy):
 
@@ -181,8 +149,6 @@ func updateTurretUpgradeTier(turretName):
 
 # Handle upgrade alone so this will be deleted
 
-
-
 func upgradeTurret(turretNumber):
 
 	if GameManager.turretsPlaced.size() > 0:
@@ -210,28 +176,10 @@ func getClosestEnemyFromSprite(turret):
 				distance = turret.global_position.distance_to(x.global_position)
 				enemy = x
 	if (enemy == null):
-		print("No enemies around")
 		return 0
 	else:
 		return enemy
 
-
-func specializedUpgrade(turret):
-
-	match turret.getName():
-
-		"Flame Turret":
-			turret.particleVelocity += 10
-			turret.find_child("FlameArea").position.x += .4
-			turret.find_child("FlameAreaShape2D").shape.height += .8
-			turret.find_child("Flame Particle").process_material.set("initial_velocity",Vector2(turret.particleVelocity,turret.particleVelocity))
-
-		"Royal Turret":
-			turret.baseKnightHealth += ceil(turret.baseKnightHealth * .05)
-			turret.knightHealth = turret.baseKnightHealth
-			turret.baseKnightDamage += ceil(turret.baseKnightDamage * .05)
-			turret.knightDamage = turret.baseKnightDamage
-			#turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
 
 func increaseEnemyStats(enemy):
 	var currentWave = GameManager.currentWave

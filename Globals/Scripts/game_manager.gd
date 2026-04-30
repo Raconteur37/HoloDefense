@@ -37,20 +37,7 @@ func addTurretToDict(turret):
 		turretsPlaced[turret.getName()] = [turret]
 
 func removeTurretFromGame(turret):
-	var turretsList : Array = turretsPlaced.get(turret.getName())
-	turretsList.erase(turret)
-	turret.closeSelectMenu()
-
-	if turret.energized:
-		turret.energizerTurret.turretsEnergized -= 1
-		turret.energizerTurret.turretsInRange.erase(turret)
-
-	PlacementManager.occupied_cells.erase(PlacementManager.get_snapped_position(turret.position))
-
-	for particle in turret.currentParticlesMap.values():
-		particle.queue_free()
-
-	turret.queue_free()
+	pass
 
 
 

@@ -1,4 +1,4 @@
-[gd_scene load_steps=5 format=3 uid="uid://i45qcu1nmv3w"]
+[gd_scene format=3 uid="uid://i45qcu1nmv3w"]
 
 [ext_resource type="Script" uid="uid://nhy04fi26man" path="res://Scripts/Minions/knight_minion.gd" id="1_nytnq"]
 [ext_resource type="Texture2D" uid="uid://db5niu0hpstmg" path="res://Textures/Minions/Knight.png" id="2_ayjce"]
@@ -9,29 +9,29 @@ size = Vector2(24, 24)
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
 size = Vector2(27, 27)
 
-[node name="Knight" type="CharacterBody2D" groups=["Minion"]]
+[node name="Knight" type="CharacterBody2D" unique_id=509922397 groups=["Minion"]]
 position = Vector2(147, 92)
 collision_mask = 4
 script = ExtResource("1_nytnq")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=517996318]
 shape = SubResource("RectangleShape2D_m5ss4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1125880488]
 self_modulate = Color(1.5, 1, 1, 1)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_ayjce")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=529622920]
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=245942647]
 position = Vector2(-0.5, -0.5)
 shape = SubResource("RectangleShape2D_o2fih")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=1314796307]
 
-[node name="IdleTimer" type="Timer" parent="."]
+[node name="IdleTimer" type="Timer" parent="." unique_id=219536546]
 wait_time = 1.5
 autostart = true
 

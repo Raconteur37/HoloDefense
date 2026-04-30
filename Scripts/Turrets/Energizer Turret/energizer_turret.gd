@@ -18,11 +18,10 @@ var turretsEnergized : int = 0
 @export var energizerAttackRangeBuff : float
 @export var energizerReloadTimeBuff : float
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		for turret in turretsInRange:
-			if turret.energized:
-				removeEnergizerBuffsToTurret(turret)
+func onDeath():
+	for turret in turretsInRange:
+		if turret.energized:
+			removeEnergizerBuffsToTurret(turret)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -53,6 +52,7 @@ func _ready() -> void:
 	topSprite = $TurretTop # TODO CHANGE PER TURRET
 	bodyCollisionShape = $CollisionShape2D
 	energizeTimer = $EnergizeTimer
+	rangeArea = $RangeArea
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -149,7 +149,7 @@ func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 
 func scanCurrentTurretsInRange():
-	for x in $RangeArea.get_overlapping_areas():
+	for x in rangeArea.get_overlapping_areas():
 		if x.get_parent().is_in_group("Turret") and x.name.contains("SelectArea") and x.get_parent() != self:
 			x = x.get_parent()
 			turretsInRange.append(x)

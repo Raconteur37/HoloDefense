@@ -5,7 +5,6 @@ class_name Turret
 var isPlaced : bool = false
 var selected : bool = false
 var shotReady : bool = true
-var isCollisionReady : bool = false
 
 enum TurretID {
 	NONE,
@@ -45,6 +44,7 @@ var topSprite : AnimatedSprite2D
 var selectArea
 var bodyCollisionShape
 var rangeArea
+var selectAreaCollisionShape
 
 #stats
 var kills : int = 0
@@ -88,10 +88,7 @@ var energizerTurret : Turret = null
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
-		print("turret died")
-		print("turret being deleted, stack: ", get_stack())
-
-
+		onDeath()
 
 func addKill():
 	kills += 1
@@ -131,7 +128,6 @@ func showUI(turretInstance):
 			bottomUI.refreshTurretUI(turretInstance)
 	)
 
-
 func hideUI():
 	rangeIndicator.hide()
 	if _hide_timer != null:
@@ -141,3 +137,7 @@ func hideUI():
 		if bottomUI.has_node("TowerDefenseCanvas"):
 			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
 		bottomUI.removeTurretUI()
+
+
+func onDeath():
+	GameManager.removeTurretFromGame(self)
