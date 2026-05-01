@@ -1,0 +1,38 @@
+{
+  "enemies": [
+	{
+	  "id": "basic_square",
+	  "name": "Basic Square",
+	  "health": 20,
+	  "damage": 5,
+	  "speed": 50.0,
+	  "attackTime": 3.0
+	},
+	{
+	  "id": "speedy_triangle",
+	  "name": "Speedy Triangle",
+	  "health": 10,
+	  "damage": 10,
+	  "speed": 130,
+	  "attackTime": 1.5
+	},
+	{
+	  "id": "shooty_diamond",
+	  "name": "Shooty Diamond",
+	  "health": 300,
+	  "damage": 50,
+	  "speed": 30.0,
+	  "attackTime": 2.5,
+	  "attackRange": 400,
+	  "projectileSpeed": 400
+	},
+	{
+	"id": "hexagon_mothership",
+	  "name": "Hexagonal Mothership",
+	  "health": 2000,
+	  "damage": 50,
+	  "speed": 2,
+	  "eventTime": 2.5
+	}
+  ]
+}

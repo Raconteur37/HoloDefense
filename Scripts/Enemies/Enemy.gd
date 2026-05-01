@@ -2,13 +2,15 @@ extends CharacterBody2D
 
 class_name Enemy
 
-enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE }
+enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP}
 
-@export var enemyName: String
-@export var health: float
-@export var damage: float
-@export var attackTime: float
-@export var speed: float
+var enemyName: String
+var health: float
+var damage: float
+var attackTime: float
+var speed: float
+var attackRange : float
+var projectileSpeed : float
 
 var hitBoxArea
 

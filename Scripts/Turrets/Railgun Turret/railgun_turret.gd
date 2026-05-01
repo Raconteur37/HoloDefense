@@ -46,8 +46,6 @@ func _ready() -> void:
 	health = maxHealth
 	pierce = basePierce
 
-	hit.connect(EntityManager.entityTakeDamage)
-
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
 	for x in range(upgradeTier):

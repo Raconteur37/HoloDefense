@@ -33,9 +33,11 @@ CityManager="*res://Globals/Scripts/city_manager.gd"
 DeveloperMode="*res://Globals/Scripts/developerMode.gd"
 TurretManager="*res://Globals/Scripts/turretManager.gd"
 CitizenManager="*uid://b1q35i2g7cl31"
-WaveManager="*uid://dwjkct0fj5w5n"
 PlacementManager="*uid://bn0d71yhgaq0u"
 ExplosionManager="*uid://c6ttpj3gwdhjo"
+EnemyManager="*uid://dl06jfkk6j4ku"
+EnemySpawnManager="*uid://dwjkct0fj5w5n"
+WaveManager="*uid://c0iulr1h506je"
 
 [display]
 

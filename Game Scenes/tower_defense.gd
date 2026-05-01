@@ -18,6 +18,10 @@ var turretsAvailableGrid
 
 @onready var turretLabel = preload("res://Labels/turret_info_label.tres")
 
+@onready var systemLabel = $BottomUI/WaveData/SystemLabel
+@onready var waveLabel = $BottomUI/WaveData/WaveLabel
+@onready var intermissionLabel = $BottomUI/WaveData/IntermissionLabel
+
 var placeTurretIconScene = preload("res://Game Scenes/PlaceTurretIcon.tscn")
 
 # Called when the node enters the scene tree for the first time.
@@ -32,6 +36,8 @@ func _ready() -> void:
 	turretStatsGrid = $BottomUI/TurretData/TurretStatsGridContainer
 	healthBar = $"BottomUI/TurretData/Health Bar"
 	healthRichLabelText = $BottomUI/TurretData/RichTextLabel
+	
+
 	
 	GameManager.turretStorageChanged.connect(refreshUI)
 
@@ -63,6 +69,13 @@ func refreshUI():
 		var icon = placeTurretIconScene.instantiate()
 		turretsAvailableGrid.add_child(icon)
 		icon.setTurret(turret)
+
+func refreshWaveInfo():
+	systemLabel.text = "Current System: " + WaveManager.currentSystem
+	waveLabel.text = "Current Wave: " + str(WaveManager.currentWave)
+	intermissionLabel.text = ""
+	if WaveManager.currentPhase == WaveManager.Phase.IDLE:
+		intermissionLabel.text = "Intermission Time: "
 
 func refreshTurretUI(turret : Turret):
 	for child in turretStatsGrid.get_children():

@@ -1,13 +1,12 @@
 extends Node
 
 
-@onready var basicSquare = load("res://Enemy Scenes/Basic Square.tscn")
-
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	pass # Replace with function body.
 
 func summonEnemy(enemyID : Enemy.EnemyID):
+	var enemy = "none"
 	var scene  = get_tree().current_scene.find_child("EnemyNodeHolder")
 	
 	if scene != null:
@@ -15,7 +14,15 @@ func summonEnemy(enemyID : Enemy.EnemyID):
 		match enemyID:
 			
 			Enemy.EnemyID.BASIC_SQUARE:
-				var enemy = basicSquare.instantiate()
+				enemy = load("res://Enemy Scenes/Basic Square.tscn").instantiate()
+				enemy.global_position = getRandomOffscreenPosition()
+				scene.add_child(enemy)
+			Enemy.EnemyID.SPEEDY_TRIANGLE:
+				enemy = load("res://Enemy Scenes/Speedy Triangle.tscn").instantiate()
+				enemy.global_position = getRandomOffscreenPosition()
+				scene.add_child(enemy)
+			Enemy.EnemyID.SHOOTY_DIAMOND:
+				enemy = load("res://Enemy Scenes/Shooty Diamond.tscn").instantiate()
 				enemy.global_position = getRandomOffscreenPosition()
 				scene.add_child(enemy)
 

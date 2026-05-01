@@ -10,7 +10,6 @@ var particle
 
 var currentBullets
 
-var selectAreaCollisionShape
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -57,7 +56,6 @@ func _ready() -> void:
 	health = maxHealth
 	currentBullets = maxBullets
 
-	hit.connect(EntityManager.entityTakeDamage)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

@@ -61,8 +61,6 @@ func _ready() -> void:
 	damageTickTime = baseDamageTickTime
 	damageTickTimer.wait_time = damageTickTime
 
-	hit.connect(EntityManager.entityTakeDamage)
-
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
 	for x in range(upgradeTier):

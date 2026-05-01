@@ -39,32 +39,6 @@ func addTurretToDict(turret):
 func removeTurretFromGame(turret):
 	pass
 
-
-
-func generateRandomPosition():
-	var side = randi_range(1,4)
-
-	var randX
-	var randY
-
-	match side:
-
-		1:
-			randX = -990
-			randY = randf_range(-540, 540)
-		2:
-			randX = randf_range(-960, 960)
-			randY = 550
-		3:
-			randX = randf_range(-960, 960)
-			randY = -550
-		4:
-			randX = 990
-			randY = randf_range(-540, 540)
-
-
-	return Vector2(randX,randY)
-
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
 

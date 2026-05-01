@@ -15,9 +15,6 @@ var particle : CPUParticles2D
 @export var healingTime : int # How long it takes before each healing pulse
 @export var healingAmount : float
 
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		pass
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -52,7 +49,6 @@ func _ready() -> void:
 
 	healingPulseTimer.wait_time = healingTime
 
-	hit.connect(EntityManager.entityTakeDamage)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

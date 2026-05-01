@@ -10,7 +10,7 @@ func _input(event: InputEvent) -> void:
 
 			KEY_S:
 				if inDevMode:
-					WaveManager.summonEnemy(Enemy.EnemyID.BASIC_SQUARE)
+					EnemySpawnManager.summonEnemy(Enemy.EnemyID.BASIC_SQUARE)
 			KEY_R:
 				if inDevMode:
 					var enemy = load("res://Enemy Scenes/Tanky Rectangle.tscn")
@@ -19,22 +19,18 @@ func _input(event: InputEvent) -> void:
 					get_tree().current_scene.add_child(enemy)
 			KEY_T:
 				if inDevMode:
-					var enemy = load("res://Enemy Scenes/Speedy Triangle.tscn")
-					enemy = enemy.instantiate()
-					enemy.position = GameManager.generateRandomPosition()
-					get_tree().current_scene.add_child(enemy)
+					EnemySpawnManager.summonEnemy(Enemy.EnemyID.SPEEDY_TRIANGLE)
 			KEY_D:
 				if inDevMode:
-					var enemy = load("res://Enemy Scenes/Shooty Diamond.tscn")
-					enemy = enemy.instantiate()
-					enemy.position = GameManager.generateRandomPosition()
-					get_tree().current_scene.add_child(enemy)
+					EnemySpawnManager.summonEnemy(Enemy.EnemyID.SHOOTY_DIAMOND)
 			KEY_H:
 				if inDevMode:
 					var enemy = load("res://Enemy Scenes/Hexagon Mothership.tscn")
 					enemy = enemy.instantiate()
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
+			KEY_W:
+				WaveManager.beginNextWave()
 
 			KEY_F1:
 				#if Input.is_key_pressed(KEY_SHIFT):

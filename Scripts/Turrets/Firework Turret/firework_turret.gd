@@ -56,7 +56,6 @@ func _ready() -> void:
 	explosionRadius = baseExplosionRadius
 
 
-	hit.connect(EntityManager.entityTakeDamage)
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 

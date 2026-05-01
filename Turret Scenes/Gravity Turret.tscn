@@ -1,4 +1,4 @@
-[gd_scene load_steps=20 format=3 uid="uid://bdo71jo6xfncr"]
+[gd_scene format=3 uid="uid://bdo71jo6xfncr"]
 
 [ext_resource type="Script" uid="uid://bcr3ss3nbe0i3" path="res://Scripts/Turrets/Gravity Turret/gravity_turret.gd" id="1_j8a7r"]
 [ext_resource type="Texture2D" uid="uid://dsuwsnllkj4p0" path="res://Textures/Turrets/Gravity Turret/Gravity Turret Bottom.png" id="2_uevgm"]
@@ -79,7 +79,7 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m7jfm"]
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_s87ym"]
 resource_local_to_scene = true
 particles_animation = true
 particles_anim_h_frames = 14
@@ -92,7 +92,7 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
-[node name="Gravity Turret" type="CharacterBody2D" groups=["Turret"]]
+[node name="Gravity Turret" type="CharacterBody2D" unique_id=1589048176 groups=["Turret"]]
 position = Vector2(990, 539)
 collision_mask = 12
 script = ExtResource("1_j8a7r")
@@ -108,41 +108,40 @@ armor = null
 level = null
 baseBuildTime = null
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1868358954]
 shape = SubResource("RectangleShape2D_11eqx")
-disabled = true
 
-[node name="TurretBottom" type="Sprite2D" parent="."]
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=55312802]
 texture = ExtResource("2_uevgm")
 
-[node name="TurretTop" type="AnimatedSprite2D" parent="."]
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=619795985]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
-[node name="ElectricityEmit" parent="TurretTop" instance=ExtResource("5_1unnd")]
-material = SubResource("CanvasItemMaterial_m7jfm")
+[node name="ElectricityEmit" parent="TurretTop" unique_id=138514332 instance=ExtResource("5_1unnd")]
+material = SubResource("CanvasItemMaterial_s87ym")
 position = Vector2(0, 0)
 
-[node name="SelectArea" type="Area2D" parent="."]
+[node name="SelectArea" type="Area2D" parent="." unique_id=1115186962]
 collision_mask = 4
 script = ExtResource("6_dunge")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=853938959]
 shape = SubResource("RectangleShape2D_6b4j2")
 
-[node name="RangeArea" type="Area2D" parent="."]
+[node name="RangeArea" type="Area2D" parent="." unique_id=142025775]
 collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea"]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=765125995]
 shape = SubResource("CircleShape2D_pdpxq")
 
-[node name="RangeIndicator" type="Line2D" parent="RangeArea"]
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=814888658]
 width = 2.0
 default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
-[node name="ReloadTimer" type="Timer" parent="."]
+[node name="ReloadTimer" type="Timer" parent="." unique_id=1939817216]
 
-[node name="Charging Timer" type="Timer" parent="."]
+[node name="Charging Timer" type="Timer" parent="." unique_id=506242472]
 
 [connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_exited"]

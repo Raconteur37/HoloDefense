@@ -25,19 +25,15 @@ func playDamageParticle(enemy):
 			particle.queue_free()
 
 
-func playDeathParticle(enemy):
+func playDeathParticle(enemy : Enemy):
 
-	match enemy.getName():
+	match enemy.enemyID:
 
-		"Basic Square":
+		Enemy.EnemyID.BASIC_SQUARE:
 			var particle = basicSquareDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
 			get_tree().current_scene.add_child(particle)
-	
-		"Speedy Triangle":
-			var particle = speedyTriangleDeathParticle.instantiate()
-			particle.setPosition(enemy.global_position)
-			get_tree().current_scene.add_child(particle)
+
 
 func playZombieTurnParticle(enemy):
 	var particle = zombieTurnParticle.instantiate()

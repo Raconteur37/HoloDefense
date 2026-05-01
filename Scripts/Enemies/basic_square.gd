@@ -3,16 +3,17 @@ extends Enemy
 class_name BasicSquare
 
 func _ready():
-	enemyName = "Basic Square"
-	health = 20
-	damage = 10
-	attackTime = 3
-	speed = 50
+	enemyID = EnemyID.BASIC_SQUARE
+	enemyName = EnemyManager.get_enemy_name(enemyID)
+	health = EnemyManager.get_health(enemyID)
+	damage = EnemyManager.get_damage(enemyID)
+	attackTime = EnemyManager.get_attack_time(enemyID)
+	speed = EnemyManager.get_speed(enemyID)
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
-	enemyID = EnemyID.BASIC_SQUARE
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
+
 
 
 func _on_attack_timer_timeout() -> void:

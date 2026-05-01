@@ -153,6 +153,39 @@ bbcode_enabled = true
 text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img] "
 fit_content = true
 
+[node name="WaveData" type="Control" parent="BottomUI" unique_id=371474507]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -215.0
+offset_top = -157.0
+offset_right = -175.0
+offset_bottom = -117.0
+grow_horizontal = 0
+grow_vertical = 0
+
+[node name="SystemLabel" type="Label" parent="BottomUI/WaveData" unique_id=1647491339]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+text = "Current System: None"
+
+[node name="WaveLabel" type="Label" parent="BottomUI/WaveData" unique_id=2031398310]
+layout_mode = 0
+offset_top = 28.0
+offset_right = 40.0
+offset_bottom = 51.0
+text = "Current Wave: 0"
+
+[node name="IntermissionLabel" type="Label" parent="BottomUI/WaveData" unique_id=1896905746]
+layout_mode = 0
+offset_top = 56.0
+offset_right = 170.0
+offset_bottom = 79.0
+
 [node name="HoverControl" type="Control" parent="." unique_id=581000435]
 layout_mode = 3
 anchors_preset = 2

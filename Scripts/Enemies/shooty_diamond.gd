@@ -4,30 +4,25 @@ class_name ShootyDiamond
 
 var projectile = preload("res://Projectile Scenes/diamond.tscn")
 
-
-@export var attackRange : float = 400
-@export var projectileSpeed : float = 400
-
 var turretsInRange = []
 
 func _ready():
-	enemyName = "Shooty Diamond"
-	health = 75
-	damage = 20
-	attackTime = 5
-	speed = 25
+	enemyID = EnemyID.SHOOTY_DIAMOND
+	enemyName = EnemyManager.get_enemy_name(enemyID)
+	health = EnemyManager.get_health(enemyID)
+	damage = EnemyManager.get_damage(enemyID)
+	attackTime = EnemyManager.get_attack_time(enemyID)
+	speed = EnemyManager.get_speed(enemyID)
+	attackRange = EnemyManager.get_range(enemyID)
+	projectileSpeed = EnemyManager.get_range(enemyID)
 	attackTimer = $AttackTimer
+	hurtParticle = $"Basic Square Hurt"
+	hitBoxArea = $HitboxArea
 	attackTimer.wait_time = attackTime
 	attackTimer.start()
 
-	hit.connect(EntityManager.takeDamage)
+	$Area2D/CollisionShape2D.shape.radius = attackRange
 
-	$Area2D2/CollisionShape2D.shape.radius = attackRange
-
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
 
 func _on_attack_timer_timeout() -> void:
 	for x in turretsInRange:
@@ -50,7 +45,7 @@ func _on_attack_timer_timeout() -> void:
 
 		else:
 			turretsInRange.erase(turret)
-	$AttackTimer.start()
+	attackTimer.start()
 
 
 func _on_area_2d_2_body_entered(body: Node2D) -> void:

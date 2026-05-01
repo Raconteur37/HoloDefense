@@ -32,7 +32,6 @@ script = ExtResource("1_q1mdo")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=424321011]
 shape = SubResource("RectangleShape2D_11eqx")
-disabled = true
 
 [node name="EnergizerTurretBottom" type="Sprite2D" parent="." unique_id=1066034315]
 texture = ExtResource("2_e30v1")

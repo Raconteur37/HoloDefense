@@ -3,38 +3,22 @@ extends Enemy
 class_name SpeedyTriangle
 
 func _ready():
-	enemyName = "Speedy Triangle"
-	health = 30
-	damage = 20
-	attackTime = .5
-	speed = 200
-
+	enemyID = EnemyID.SPEEDY_TRIANGLE
+	enemyName = EnemyManager.get_enemy_name(enemyID)
+	health = EnemyManager.get_health(enemyID)
+	damage = EnemyManager.get_damage(enemyID)
+	attackTime = EnemyManager.get_attack_time(enemyID)
+	speed = EnemyManager.get_speed(enemyID)
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
-
-	hit.connect(EntityManager.takeDamage)
-
-
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
-	if body.is_in_group("Turret"):
-		if body.get("isPlaced") != null:
-			if body.isPlaced:
-				body.hit.emit(damage,body)
-				attackReady = false
-				attackTimer.start()
-
-	if body.is_in_group("Minion"):
-		body.hit.emit(damage,body)
-		attackReady = false
-		attackTimer.start()
+	hurtParticle = $"Basic Square Hurt"
+	hitBoxArea = $HitboxArea
 
 func _on_attack_timer_timeout() -> void:
 	attackReady = true
-	for x in $Area2D.get_overlapping_areas():
+	for x in hitBoxArea.get_overlapping_areas():
 		var entity = x.get_parent()
-		if entity.is_in_group("Turret") and x.name.contains("SelectArea"):
-			entity.hit.emit(damage,entity)
+		if entity.is_in_group("Turret"):
+			EntityManager.turretTakeDamage(damage,entity)
 			attackReady = false
 			attackTimer.start()

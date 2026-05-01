@@ -111,6 +111,8 @@ func onKill(turret,enemy):
 	ParticleManager.playDeathParticle(enemy)
 
 	#GameManager.removeEnemyFromGame(enemy)
+	WaveManager.removeActiveEnemy(enemy)
+	WaveManager.checkForEnemiesAlive()
 
 	if is_instance_valid(turret):
 		if turret.is_in_group("Minion"):
