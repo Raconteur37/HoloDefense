@@ -867,6 +867,8 @@ func _on_purchase_slots_button_pressed() -> void:
 		CityManager.currentMoney -= CityManager.fabricatorSlotCost
 		CityManager.addCityXp("purchase_upgrade")
 		currentSlots+= 1
+		if currentSlots >= maxSlots:
+			purchaseSlotsButton.hide()
 		CityManager.fabricatorSlotCost = CityManager.baseFabricatorSlotCost * (currentSlots * CityManager.fabricatorCostMultiplier)
 		updateUI()
 

@@ -18,10 +18,16 @@ var turretsEnergized : int = 0
 @export var energizerAttackRangeBuff : float
 @export var energizerReloadTimeBuff : float
 
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		onDeath()
+
 func onDeath():
 	for turret in turretsInRange:
-		if turret.energized:
-			removeEnergizerBuffsToTurret(turret)
+		if is_instance_valid(turret):
+			if turret.energized:
+				removeEnergizerBuffsToTurret(turret)
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -56,28 +62,14 @@ func _ready() -> void:
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
+	baseHealth = maxHealth
 	health = maxHealth
 
 	energizeTimer.wait_time = energizeTime
 
-	hit.connect(EntityManager.entityTakeDamage)
-
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
 
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 99
-	if GameManager.previewMode:
-		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
-		turret = turret.instantiate()
-		turret.global_position = to_local(global_position)
-		turret.global_position.x += 100
-		turret.global_position.y -= 45
-		add_child(turret)
+	isPlaced = true
 
 func _process(delta: float) -> void:
 	if isPlaced and not scanTurretsFirstTime:
@@ -130,20 +122,11 @@ func applyEnergizerBuffsToTurret(turret):
 				turret.reloadTimer.wait_time = turret.reloadTime
 		refreshUI(turret)
 
-func removeEnergizerBuffsToTurret(turret):
-	turret.energized = false
-	if turret.get("damage") != null:
-		turret.damage -=  ceil(energizerDamageBuff * turret.baseDamage)
-	if turret.get("projectileSpeed") != null:
-		turret.projectileSpeed -=  ceil(energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
-	if turret.get("attackRange") != null:
-		turret.attackRange -=  ceil(energizerAttackRangeBuff * turret.baseAttackRange)
-		turret.line2d = PlacementManager.draw_range_cirle(turret.line2d,turret.attackRange)
-		turret.rangeCollisionShape.shape.radius = turret.attackRange
-	if turret.get("reloadTime") != null:
-		turret.reloadTime +=  round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime,2)
-		turret.reloadTimer.wait_time = turret.reloadTime
-	refreshUI(turret)
+func removeEnergizerBuffsToTurret(turret : Turret):
+	if is_instance_valid(turret):
+		if turret.energized:
+			#print("called")
+			turret.removeEnergized(self)
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
@@ -153,6 +136,8 @@ func scanCurrentTurretsInRange():
 		if x.get_parent().is_in_group("Turret") and x.name.contains("SelectArea") and x.get_parent() != self:
 			x = x.get_parent()
 			turretsInRange.append(x)
+			for turret in turretsInRange:
+				turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 	energizeTimer.start()
 
 func checkAllTurretsEnergized():
@@ -173,3 +158,9 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	rangeArea = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth

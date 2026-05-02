@@ -1,0 +1,59 @@
+[gd_scene format=3 uid="uid://ceiuxfk4moim5"]
+
+[ext_resource type="Script" uid="uid://bssh0d6hwbkdl" path="res://Game Scenes/holo_city_display.gd" id="1_5winm"]
+[ext_resource type="Texture2D" uid="uid://focw1t1ptcll" path="res://Textures/Map/Beacon.png" id="2_jpe63"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_jpe63"]
+size = Vector2(135, 136)
+
+[node name="HoloCityDisplay" type="Control" unique_id=1343886443]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_5winm")
+metadata/_edit_use_anchors_ = true
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=1886656362]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_jpe63")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1688202075]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=662307240]
+position = Vector2(0.5, 0)
+shape = SubResource("RectangleShape2D_jpe63")
+
+[node name="Label" type="Label" parent="." unique_id=580190104]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -11.5
+offset_right = 20.0
+offset_bottom = 11.5
+grow_horizontal = 2
+grow_vertical = 2
+text = "City Health: "
+horizontal_alignment = 1
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]

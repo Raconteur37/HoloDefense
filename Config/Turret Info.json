@@ -67,7 +67,7 @@
 		"health": 30,
 		"range": 150,
 		"constructionTime": 15,
-		"energizeTime": 5,
+		"energizeTime": 1,
 		"maxTurretsEnergized": 5,
 		"energizerDamageBuff": 0.02,
 		"energizerProjectileSpeedBuff": 0.02,

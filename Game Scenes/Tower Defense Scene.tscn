@@ -3,13 +3,13 @@
 [ext_resource type="Script" uid="uid://br8lglsag61p" path="res://Game Scenes/tower_defense.gd" id="1_dfs6n"]
 [ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="1_g8jp3"]
 [ext_resource type="Texture2D" uid="uid://bpc63egooh2ym" path="res://Textures/Citizens/UI/galaxy.jpg" id="3_wnsls"]
-[ext_resource type="Texture2D" uid="uid://focw1t1ptcll" path="res://Textures/Map/Beacon.png" id="4_m02cc"]
 [ext_resource type="PackedScene" uid="uid://1a2hybqa73km" path="res://Particle Scenes/UI/openTowerDefenseUIHubParticle.tscn" id="6_wnsls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="7_kl2s0"]
 [ext_resource type="Texture2D" uid="uid://f6qyom3ylfej" path="res://Textures/UI/Game/BottomUI16.png" id="7_m02cc"]
 [ext_resource type="Script" uid="uid://bn0d71yhgaq0u" path="res://Game Scenes/placement_manager.gd" id="8_kl2s0"]
 [ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="8_ujs3f"]
 [ext_resource type="Texture2D" uid="uid://cpss7ncveh4eb" path="res://Textures/UI/XP-Bar-Over.png" id="9_npny6"]
+[ext_resource type="PackedScene" uid="uid://ceiuxfk4moim5" path="res://Game Scenes/HoloCityDisplay.tscn" id="10_iecqd"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl2s0"]
 texture = ExtResource("1_g8jp3")
@@ -212,20 +212,8 @@ position = Vector2(960, 0)
 shape = SubResource("RectangleShape2D_m02cc")
 debug_color = Color(0.93837553, 0.20797732, 0.3587349, 0.41960785)
 
-[node name="CityDisplay" type="TextureRect" parent="." unique_id=943734106]
-anchors_preset = -1
-anchor_left = 0.467
-anchor_top = 0.441
-anchor_right = 0.53300005
-anchor_bottom = 0.559
-offset_left = -0.64001465
-offset_top = -0.2800293
-offset_right = 0.6398926
-offset_bottom = 0.27996826
-grow_horizontal = 2
-grow_vertical = 2
-texture = ExtResource("4_m02cc")
-metadata/_edit_use_anchors_ = true
+[node name="HoloCityDisplay" parent="." unique_id=1343886443 instance=ExtResource("10_iecqd")]
+z_index = 2
 
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]

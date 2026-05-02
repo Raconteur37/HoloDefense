@@ -2,7 +2,7 @@ extends Node
 
 signal turretStorageChanged()
 
-var cityHealth
+var cityHealth = 100
 
 var previewMode : bool = false
 
@@ -28,16 +28,21 @@ Turret.TurretID.ZOMBIE_TURRET : 99}
 func _ready() -> void:
 	# This works for now but will crash the game later TODO FIX THIS LATER
 	for item in turretsBrought:
-		turretTempLevels[item] = 1
+		turretTempLevels[item] = 0
 
-func addTurretToDict(turret):
-	if turretsPlaced.has(turret.getName()):
-		turretsPlaced[turret.getName()].append(turret)
+
+func addTurretToDict(turret : Turret):
+	if turretsPlaced.has(turret.turretID):
+		turretsPlaced[turret.turretID].append(turret)
 	else:
-		turretsPlaced[turret.getName()] = [turret]
+		turretsPlaced[turret.turretID] = [turret]
 
 func removeTurretFromGame(turret):
-	pass
+	if is_instance_valid(turret):
+		if turretsPlaced.has(turret.turretID):
+			turretsPlaced[turret.turretID].erase(turret)
+	for id in turretsPlaced.keys():
+			turretsPlaced[id] = turretsPlaced[id].filter(func(t): return is_instance_valid(t))
 
 func round_to_dec(num, digit): # SAME
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
@@ -55,6 +60,18 @@ func removeTurretFromStorage(turretID,amount):
 		if turretStorage.get(turretID) <= 0:
 			turretStorage.erase(turretID)
 		turretStorageChanged.emit()
+
+func getTurretTempLevel(turretID):
+	if turretTempLevels.has(turretID):
+		return turretTempLevels.get(turretID)
+
+func updateTurretLevels(turretID):
+	if turretsPlaced.has(turretID):
+		for turret : Turret in turretsPlaced.get(turretID):
+			if is_instance_valid(turret):
+				turret.applyUpgrade()
+			else:
+				turretsPlaced.get(turretID).erase(turret)
 
 func getTurretAmount(turretID):
 	if turretStorage.has(turretID):

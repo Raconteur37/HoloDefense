@@ -29,6 +29,23 @@ radius = 200.0
 position = Vector2(975, 508)
 collision_mask = 12
 script = ExtResource("1_q1mdo")
+maxTurretsEnergized = null
+energizeTime = null
+energizerDamageBuff = null
+energizerProjctileSpeedBuff = null
+energizerAttackRangeBuff = null
+energizerReloadTimeBuff = null
+price = null
+maxHealth = null
+baseHealth = null
+baseDamage = null
+baseProjectileSpeed = null
+baseAttackRange = null
+baseReloadTime = null
+upgradeTier = null
+armor = null
+level = null
+baseBuildTime = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=424321011]
 shape = SubResource("RectangleShape2D_11eqx")

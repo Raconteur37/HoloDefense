@@ -75,6 +75,10 @@ func cancel_placement() -> void:
 func is_placing() -> bool:
 	return _placing
 
+func free_cell(world_pos: Vector2) -> void:
+	var cell := _world_to_cell(world_pos)
+	_occupied.erase(cell)
+
 # ─── Ghost builder ────────────────────────────────────────────────────────────
 
 func _build_ghost(id: Turret.TurretID) -> void:
@@ -241,6 +245,7 @@ func _try_place(world_pos: Vector2) -> void:
 	_occupied[cell] = true
 	GameManager.removeTurretFromStorage(_current_id, 1)
 	turret_placed.emit(cell, turret)
+	GameManager.addTurretToDict(turret)
 	if GameManager.getTurretAmount(_current_id) <= 0:
 		cancel_placement()
 

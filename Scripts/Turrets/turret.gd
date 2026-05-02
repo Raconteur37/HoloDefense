@@ -64,6 +64,7 @@ var scaleFactor : float
 var turretName : String = "None"
 @export var price : int = 20
 @export var maxHealth : float = 20
+@export var baseHealth : int = 10
 @export var baseDamage : float = 20
 @export var baseProjectileSpeed : float = 400
 @export var baseAttackRange : float = 200
@@ -85,10 +86,6 @@ var energized : bool = false
 var beaconBuffActive : bool = false
 
 var energizerTurret : Turret = null
-
-func _notification(what: int) -> void:
-	if what == NOTIFICATION_PREDELETE:
-		onDeath()
 
 func addKill():
 	kills += 1
@@ -137,7 +134,21 @@ func hideUI():
 		if bottomUI.has_node("TowerDefenseCanvas"):
 			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
 		bottomUI.removeTurretUI()
-
-
-func onDeath():
-	GameManager.removeTurretFromGame(self)
+		
+func removeEnergized(turretApplier):
+	energized = false
+	if currentParticlesMap.has("Energized"):
+		currentParticlesMap.get("Energized").queue_free()
+		currentParticlesMap.erase("Energized")
+	if damage != null:
+		damage -= ceil(turretApplier.energizerDamageBuff * baseDamage)
+	if projectileSpeed != null:
+		projectileSpeed -= ceil(turretApplier.energizerProjctileSpeedBuff * baseProjectileSpeed)
+	if attackRange != null:
+		attackRange -= ceil(turretApplier.energizerAttackRangeBuff * baseAttackRange)
+		line2d = TurretManager.draw_range_circle(line2d, attackRange)
+		rangeCollisionShape.shape.radius = attackRange
+	if reloadTime != null:
+		reloadTime += turretApplier.energizerReloadTimeBuff * baseReloadTime
+		reloadTimer.wait_time = reloadTime
+	energizerTurret = null

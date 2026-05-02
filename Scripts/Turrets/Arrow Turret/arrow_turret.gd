@@ -12,7 +12,7 @@ func _ready() -> void:
 
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
-	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = TurretManager.getTurretStat(turretID,"health")
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
@@ -42,24 +42,16 @@ func _ready() -> void:
 	reloadTimer.wait_time = reloadTime
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
+	maxHealth = baseHealth
 	health = maxHealth
 
-	upgradeTier = GameManager.turretTempLevels.get(turretID)
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
 
 	hideRange()
 
 	applyUpgrade()
 
-	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
-		add_child(dummy)
+	isPlaced = true
 
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
@@ -120,14 +112,19 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
-func applyUpgrade():
-	pass
-	# do upgrade scales
-
-
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
 
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	rangeArea = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth

@@ -22,7 +22,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 3
+var currentDifficulty = 10
 
 var currentWave = 0
 var systemNumber = 0
@@ -35,7 +35,7 @@ func _ready() -> void:
 	#beginNextWave()
 
 func beginNextWave():
-	currentWave = 1
+	currentWave += 1
 	
 	currentPhase = Phase.SUMMONING_ENEMIES
 	

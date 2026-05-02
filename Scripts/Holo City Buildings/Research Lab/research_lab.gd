@@ -98,6 +98,8 @@ var turretLevelDisplayText10
 
 var currentWorkersLabel
 
+var purchaseSlotsButton
+
 func _ready() -> void:
 	menu = $menuControl
 	
@@ -169,6 +171,8 @@ func _ready() -> void:
 	turretLevelDisplayText8 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel8
 	turretLevelDisplayText9 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel9
 	turretLevelDisplayText10 = $menuControl/LabBackground/LevelDisplayGrid/TurretLevel10
+
+	purchaseSlotsButton = $menuControl/LabBackground/purchaseSlotsButton
 
 	currentWorkersLabel = $menuControl/LabBackground/CurrentWorkersLabel
 
@@ -267,10 +271,13 @@ func updateUI():
 			break
 
 func researchComplete(timer : Timer,turretID):
+	
 	usedSlots -= 1
 	CityManager.addTurretTempLevel(turretID,1)
 	
 	currentResearchingMap.erase(timer)
+	
+	GameManager.updateTurretLevels(turretID)
 	
 	timer.queue_free()
 	
@@ -437,5 +444,8 @@ func _on_purchase_slots_button_pressed() -> void:
 		CityManager.currentMoney -= CityManager.researchLabSlotCost
 		CityManager.addCityXp("purchase_upgrade")
 		currentSlots+= 1
+		if currentSlots >= maxSlots:
+			purchaseSlotsButton.hide()
+			purchaseLabel.hide()
 		CityManager.researchLabSlotCost = CityManager.baseResearchLabSlotCost * (currentSlots * CityManager.researchLabCostMultiplier)
 		updateUI()

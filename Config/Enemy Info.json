@@ -20,7 +20,7 @@
 	  "id": "shooty_diamond",
 	  "name": "Shooty Diamond",
 	  "health": 300,
-	  "damage": 50,
+	  "damage": 20,
 	  "speed": 30.0,
 	  "attackTime": 2.5,
 	  "attackRange": 400,

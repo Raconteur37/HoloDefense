@@ -82,7 +82,10 @@ func turretTakeDamage(damage: float, turret : Turret) -> void:
 	
 	if turret.health <= 0:
 		turret.health = 0
+		GameManager.removeTurretFromGame(turret)
+		PlacementManager.free_cell(turret.global_position)
 		turret.queue_free()
+		return
 
 	turret.refreshUI(turret)
 
@@ -114,7 +117,7 @@ func onKill(turret,enemy):
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
 
-	if is_instance_valid(turret):
+	if is_instance_valid(turret) and turret != null:
 		if turret.is_in_group("Minion"):
 			turret.turretOwner.addKill()
 			turret.enemy = null
