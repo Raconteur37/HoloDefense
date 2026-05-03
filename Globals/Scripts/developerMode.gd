@@ -30,7 +30,7 @@ func _input(event: InputEvent) -> void:
 					enemy.position = GameManager.generateRandomPosition()
 					get_tree().current_scene.add_child(enemy)
 			KEY_W:
-				WaveManager.beginNextWave()
+				WaveManager.beginNextSystem()
 
 			KEY_F1:
 				#if Input.is_key_pressed(KEY_SHIFT):

@@ -64,7 +64,7 @@ var scaleFactor : float
 var turretName : String = "None"
 @export var price : int = 20
 @export var maxHealth : float = 20
-@export var baseHealth : int = 10
+@export var baseHealth : float = 10
 @export var baseDamage : float = 20
 @export var baseProjectileSpeed : float = 400
 @export var baseAttackRange : float = 200

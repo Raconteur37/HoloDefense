@@ -184,8 +184,8 @@ var maxAtomizerLevel
 
 func _ready() -> void:
 	# Testing
-	#currentMoney = startingCash
-	currentMoney = 9999999
+	currentMoney = startingCash
+	#currentMoney = 9999999
 	currentEnergy = startingEnergy
 	currentScrap = startingScrap
 	updateGemChanceWeights()
@@ -568,7 +568,7 @@ func cityLevelUp():
 	storageChanged.emit()
 	
 	# play popup and sound
-	var popup = load("res://Globals/Scene/Popup.tscn")
+	var popup = load("res://Globals/Scene/Popup Manager.tscn")
 	popup = popup.instantiate()
 	
 	var canvasLayer

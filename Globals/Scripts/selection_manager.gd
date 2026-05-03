@@ -80,10 +80,13 @@ func giveMoveOrder(destination: Vector2):
 	var count = CityManager.citizensSelected.size()
 	var spread = 35.0
 	for i in range(count):
-		var cit = CityManager.citizensSelected[i]
+		var cit : Citizen = CityManager.citizensSelected[i]
 		if is_instance_valid(cit):
 			var offset = Vector2.from_angle(randf() * TAU) * (randf() * spread * sqrt(count))
 			cit.moveToMouse(destination + offset)
+			cit.currentState = Citizen.State.IDLE
+			cit.currentJob = Citizen.Job.NONE
+			cit.hasJob = false
 
 func _draw():
 	if isDragging:

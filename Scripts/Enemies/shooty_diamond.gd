@@ -25,6 +25,8 @@ func _ready():
 
 
 func _on_attack_timer_timeout() -> void:
+	if isZombie:
+		return
 	for x in turretsInRange:
 		if not is_instance_valid(x):
 			turretsInRange.erase(x)

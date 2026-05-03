@@ -31,11 +31,13 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	baseSummonTime = TurretManager.getTurretStat(turretID,"summonTime")
 	maxKnights =  TurretManager.getTurretStat(turretID,"maxKnights")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	level = 1
 	upgradeTier = 0
@@ -58,23 +60,9 @@ func _ready() -> void:
 	knightDamage = baseKnightDamage
 	knightHealth = baseKnightHealth
 
-	hit.connect(EntityManager.entityTakeDamage)
-
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
-		add_child(dummy)
+	applyUpgrade()
+	
+	isPlaced = true
 
 func _process(delta: float) -> void:
 	if summonTimer.is_stopped() and currentKnightAmount < maxKnights:
@@ -137,3 +125,14 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	summonTime = max(1,(baseSummonTime - (baseSummonTime * scaleFactor * upgradeTier)))
+	summonTimer.wait_time = summonTime
+	knightDamage = (baseKnightDamage + (baseKnightDamage * scaleFactor * upgradeTier))
+	knightHealth = (baseKnightHealth + (baseKnightHealth * scaleFactor * upgradeTier))
+	refreshUI(self)

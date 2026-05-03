@@ -22,6 +22,7 @@ func _ready() -> void:
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	basePierce = TurretManager.getTurretStat(turretID,"pierce")
 
 	upgradeTier = 0
@@ -44,28 +45,10 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	baseHealth = maxHealth
 	pierce = basePierce
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
-		add_child(dummy)
-		var dummy2 = load("res://Enemy Scenes/Dummy.tscn")
-		dummy2 = dummy2.instantiate()
-		dummy2.global_position = to_local(global_position)
-		dummy2.global_position.x += 150
-		add_child(dummy2)
+	isPlaced = true
 
 func attack():
 
@@ -142,3 +125,15 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	pierce = int((basePierce + (basePierce * scaleFactor * upgradeTier)))
+	refreshUI(self)

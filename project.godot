@@ -21,7 +21,6 @@ config/features=PackedStringArray("4.6", "Forward Plus")
 [autoload]
 
 ConfigLoader="*uid://b18nntm27lr8w"
-PopupScene="*res://Globals/Scene/Popup.tscn"
 GameManager="*res://Globals/Scripts/game_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
 BeaconManager="*res://Globals/Scripts/beaconManager.gd"
@@ -38,6 +37,7 @@ ExplosionManager="*uid://c6ttpj3gwdhjo"
 EnemyManager="*uid://dl06jfkk6j4ku"
 EnemySpawnManager="*uid://dwjkct0fj5w5n"
 WaveManager="*uid://c0iulr1h506je"
+PopupManager="*uid://b50vqmaejdm15"
 
 [display]
 

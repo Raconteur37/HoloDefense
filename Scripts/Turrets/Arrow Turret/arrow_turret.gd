@@ -22,7 +22,7 @@ func _ready() -> void:
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
-	level = 2 # get through config from loading
+	level = 1 # get through config from loading
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -44,8 +44,6 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	maxHealth = baseHealth
 	health = maxHealth
-
-	upgradeTier = GameManager.getTurretTempLevel(turretID)
 
 	hideRange()
 
@@ -123,8 +121,10 @@ func _on_select_area_mouse_exited() -> void:
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
-	rangeArea = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
 	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
 	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
+	refreshUI(self)

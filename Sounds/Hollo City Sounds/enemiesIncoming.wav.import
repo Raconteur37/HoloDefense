@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dgwd04q36wj41"
+path="res://.godot/imported/enemiesIncoming.wav-a625444caf4b77efe670ec68c625f5f2.sample"
+
+[deps]
+
+source_file="res://Sounds/Hollo City Sounds/enemiesIncoming.wav"
+dest_files=["res://.godot/imported/enemiesIncoming.wav-a625444caf4b77efe670ec68c625f5f2.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2

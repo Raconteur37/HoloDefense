@@ -30,7 +30,7 @@
 		"health": 15,
 		"damage": 7,
 		"range": 100,
-		"reloadTime": 0.5,
+		"reloadTime": 1,
 		"projectileSpeed": 500,
 		"constructionTime": 3,
 		"scaleFactor": 0.04
@@ -52,7 +52,8 @@
 		"projectileSpeed": 1000,
 		"constructionTime": 20,
 		"pierce": 2,
-		"scaleFactor": 0.08
+		"scaleFactor": 0.08,
+		"pierceScale": 0.5
 	},
 	"energizer_turret": {
 		"id": 4,
@@ -170,7 +171,7 @@
 		"poisonChance": 100,
 		"poisonDuration": 3,
 		"poisonDamage": 0.5,
-		"scaleFactor": 0.04
+		"scaleFactor": 0.05
 	},
 	"tesla_turret": {
 		"id": 10,
@@ -227,7 +228,7 @@
 		"baseGoldProduced": 2,
 		"generateTime": 5,
 		"goldIncreaseScale": 0.5,
-		"scaleFactor": 0.10
+		"scaleFactor": 0.05
 	},
 	"sentry_turret": {
 		"id": 13,
@@ -266,7 +267,7 @@
 		"projectileSpeed": 300,
 		"constructionTime": 5,
 		"curseDuration": 3,
-		"curseDamageAmp": 0.20,
+		"curseDamageAmp": 2,
 		"curseChance": 20,
 		"scaleFactor": 0.04
 	},

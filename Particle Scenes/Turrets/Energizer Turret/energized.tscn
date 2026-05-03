@@ -1,4 +1,4 @@
-[gd_scene load_steps=3 format=3 uid="uid://cmgvwb3elds2g"]
+[gd_scene format=3 uid="uid://cmgvwb3elds2g"]
 
 [ext_resource type="Texture2D" uid="uid://40iiy3n1f4r" path="res://Particle Scenes/Turrets/Energizer Turret/row_output.png" id="1_wnjbf"]
 
@@ -9,12 +9,9 @@ particles_anim_h_frames = 14
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="CanvasLayer" type="CanvasLayer"]
-
-[node name="Energized" type="CPUParticles2D" parent="."]
+[node name="Energized" type="CPUParticles2D" unique_id=698634869]
 z_index = 7
 material = SubResource("CanvasItemMaterial_yxu8x")
-position = Vector2(928, 383)
 scale = Vector2(0.7, 0.7)
 amount = 1
 texture = ExtResource("1_wnjbf")

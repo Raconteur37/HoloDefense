@@ -9,7 +9,7 @@ var particle
 @export var shotTime : float # The interval of which each bullet will be shot
 
 var currentBullets
-
+var baseMaxBullets
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -19,12 +19,14 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
 	baseAttackRange  = TurretManager.getTurretStat(turretID,"range")
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	level = 1
 	upgradeTier = 0
 
@@ -55,6 +57,7 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	currentBullets = maxBullets
+	baseMaxBullets = maxBullets
 
 
 	upgradeTier = EntityManager.getUpgradeTier(turretName)
@@ -163,3 +166,15 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	maxBullets = (baseMaxBullets + (baseMaxBullets * scaleFactor * upgradeTier))
+	refreshUI(self)

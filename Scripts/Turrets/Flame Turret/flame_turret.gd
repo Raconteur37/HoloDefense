@@ -28,10 +28,12 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	baseFireDamage = TurretManager.getTurretStat(turretID,"fireDamage")
 	baseFireTime = TurretManager.getTurretStat(turretID,"fireTime")
 	baseDamageTickTime = TurretManager.getTurretStat(turretID,"fireTickTime")
@@ -61,21 +63,10 @@ func _ready() -> void:
 	damageTickTime = baseDamageTickTime
 	damageTickTimer.wait_time = damageTickTime
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
+	isPlaced = true
 
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 80
-		add_child(dummy)
+	applyUpgrade()
+	
 
 
 func _process(delta: float) -> void:
@@ -121,10 +112,18 @@ func _on_damage_tick_timer_timeout() -> void:
 
 
 func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	fireTime = (baseFireTime + (baseFireTime * scaleFactor * upgradeTier))
+	fireDamage = (baseFireDamage + (baseFireDamage * scaleFactor * upgradeTier))
 	particleVelocity += 10
 	flameArea.position.x += .4
 	flameAreaShape.shape.height += .8
 	flameParticle.process_material.set("initial_velocity",Vector2(particleVelocity,particleVelocity))
+	refreshUI(self)
 
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)

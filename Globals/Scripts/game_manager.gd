@@ -12,8 +12,8 @@ var turretsPlaced = {}
 
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.SENTRY_TURRET,Turret.TurretID.ENERGIZER_TURRET,
-Turret.TurretID.RAILGUN_TURRET, Turret.TurretID.REAPER_TURRET, Turret.TurretID.FLAME_TURRET,
-Turret.TurretID.FIREWORK_TURRET, Turret.TurretID.SPIDER_TURRET,Turret.TurretID.VOODOO_TURRET,
+Turret.TurretID.MINI_SENTRY_TURRET, Turret.TurretID.TESLA_TURRET, Turret.TurretID.FLAME_TURRET,
+Turret.TurretID.ZOMBIE_TURRET, Turret.TurretID.SPIDER_TURRET,Turret.TurretID.VOODOO_TURRET,
 Turret.TurretID.GOLD_MINE_TURRET]
 
 var turretTempLevels = {}

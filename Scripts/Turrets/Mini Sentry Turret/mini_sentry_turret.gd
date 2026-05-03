@@ -18,6 +18,7 @@ func _ready() -> void:
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
 	level = 1
@@ -38,23 +39,11 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	baseHealth = maxHealth
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
+	isPlaced = true
 
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-		# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 50
-		add_child(dummy)
+	applyUpgrade()
 
 func reloadAnimation():
 	var reloadFrames : int = 2
@@ -108,3 +97,14 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(.3,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	refreshUI(self)

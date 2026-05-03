@@ -78,15 +78,17 @@ func initZombie() -> void:
 	if not is_instance_valid(turnTurret):
 		return
 	initialTurn = true
-	GameManager.enemiesAlive.erase(self)
+	WaveManager.removeActiveEnemy(self)
 	modulate = Color('#00ba00')
 	spawnZombieArea()
 	startZombieTimer()
-	if not GameManager.enemiesAlive.is_empty():
-		zombieFollowTarget = GameManager.getRandomEnemyAlive()
-		destination = zombieFollowTarget.global_position
-	else:
-		destination = GameManager.generateRandomPosition()
+	destination = EnemySpawnManager.getRandomOffscreenPosition()
+	set_collision_layer_value(3,false)
+	set_collision_layer_value(1,true)
+	set_collision_mask_value(3,true)
+	set_collision_mask_value(1,false)
+	set_collision_mask_value(2,false)
+	
 
 func spawnZombieArea() -> void:
 	var area = Area2D.new()
@@ -111,7 +113,7 @@ func startZombieTimer() -> void:
 
 func onZombieTimerTimeout() -> void:
 	var dmg = turnTurret.damage if is_instance_valid(turnTurret) else 9999
-	var packet = DamagePacket.new(dmg, DamagePacket.Type.EFFECT, turnTurret)
+	var packet = DamagePacket.new(dmg, DamagePacket.Type.TURRET, turnTurret)
 	EntityManager.enemyTakeDamage(packet, self)
 
 func onZombieAreaEntered(body: Node) -> void:

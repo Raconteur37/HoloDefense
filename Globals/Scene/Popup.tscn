@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://b8jkae8udp5ox"]
 
-[ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup_label.gd" id="3_dqdk6"]
+[ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup.gd" id="3_dqdk6"]
 [ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
 [ext_resource type="Texture2D" uid="uid://c7djqtb2f7vvc" path="res://Textures/Citizens/Gems/Diamond Gem-Sheet-export.png" id="5_pyhfn"]
 [ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
@@ -467,15 +467,93 @@ tracks/5/keys = {
 "update": 0,
 "values": [Vector2(-368, -103)]
 }
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("incomingLabel:visible")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/7/type = "value"
+tracks/7/imported = false
+tracks/7/enabled = true
+tracks/7/path = NodePath("incomingLabel:position")
+tracks/7/interp = 1
+tracks/7/loop_wrap = true
+tracks/7/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Vector2(-395.5, -86)]
+}
+tracks/8/type = "value"
+tracks/8/imported = false
+tracks/8/enabled = true
+tracks/8/path = NodePath("incomingLabel:self_modulate")
+tracks/8/interp = 1
+tracks/8/loop_wrap = true
+tracks/8/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_xrkco"]
+resource_name = "enemiesWarning"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("incomingLabel:visible")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("incomingLabel:position")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-395.5, -86), Vector2(-395, -286)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("incomingLabel:self_modulate")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1, 2),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_pyhfn"]
 _data = {
 &"CityLevelUp": SubResource("Animation_8qmfx"),
 &"GemAnimation": SubResource("Animation_vajk7"),
-&"RESET": SubResource("Animation_pyhfn")
+&"RESET": SubResource("Animation_pyhfn"),
+&"enemiesWarning": SubResource("Animation_xrkco")
 }
 
 [node name="Control" type="Control" unique_id=2013081201]
+z_index = 5
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -542,5 +620,22 @@ offset_bottom = -56.000065
 bbcode_enabled = true
 text = "[wave amp=50 freq=3][rainbow freq=.3 sat=0.8 val=0.8][font_size=64]City Level Up![/font_size][/rainbow][/wave]"
 horizontal_alignment = 1
+
+[node name="incomingLabel" type="RichTextLabel" parent="." unique_id=362069444]
+self_modulate = Color(1, 1, 1, 0)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -9.887
+anchor_top = -2.15
+anchor_right = 10.887
+anchor_bottom = 3.15
+offset_left = -0.019989014
+offset_right = 0.019989014
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[pulse color=#0000ff height=0.5 freq=0.3][font_size=64]30 Seconds until enemies arrive[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

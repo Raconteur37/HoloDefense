@@ -25,6 +25,7 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
@@ -32,6 +33,7 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	baseDamageTickTime = TurretManager.getTurretStat(turretID,"damageTickTime")
 	baseAttackingTime = TurretManager.getTurretStat(turretID,"attackingTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
 	level = 1
@@ -62,29 +64,11 @@ func _ready() -> void:
 	attackingTime = baseAttackingTime
 	attackingTimer.wait_time = attackingTime
 
-	hit.connect(EntityManager.entityTakeDamage)
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
+	isPlaced = true
+	
+	applyUpgrade()
 
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 150
-		add_child(dummy)
-		var dummy2 = load("res://Enemy Scenes/Dummy.tscn")
-		dummy2 = dummy2.instantiate()
-		dummy2.global_position = to_local(global_position)
-		dummy2.global_position.x -= 150
-		add_child(dummy2)
 
 func _process(delta: float) -> void:
 	if enemiesInRange.size() > 0 and not shooting and attackingTimer.is_stopped() and shotReady and isPlaced:
@@ -163,3 +147,15 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	attackingTime = (baseAttackingTime + (baseAttackingTime * scaleFactor * upgradeTier))
+	damageTickTime = max(.2,(baseDamageTickTime - (baseDamageTickTime * scaleFactor * upgradeTier)))
+	refreshUI(self)

@@ -12,9 +12,10 @@ var healingPulseTimer
 
 var particle : CPUParticles2D
 
-@export var healingTime : int # How long it takes before each healing pulse
+@export var healingTime : float # How long it takes before each healing pulse
 @export var healingAmount : float
-
+var baseHealingAmount : float
+var baseHealingTime : float
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -24,11 +25,15 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	healingTime = TurretManager.getTurretStat(turretID,"healingTime")
 	healingAmount = TurretManager.getTurretStat(turretID,"healingAmount")
+	baseHealingAmount = healingAmount
+	baseHealingTime = healingTime
 
 	upgradeTier = 0
 	level = 1
@@ -50,22 +55,9 @@ func _ready() -> void:
 	healingPulseTimer.wait_time = healingTime
 
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 99
-	if GameManager.previewMode:
-		var turret = load("res://Turret Scenes/Arrow Turret.tscn")
-		turret = turret.instantiate()
-		turret.global_position = to_local(global_position)
-		turret.global_position.x += 100
-		turret.global_position.y -= 45
-		add_child(turret)
+	applyUpgrade()
+	
+	isPlaced = true
 
 func _process(delta: float) -> void:
 	if isPlaced and not scanTurretsFirstTime:
@@ -119,3 +111,13 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	healingTime = max(1,(baseHealingTime - (baseHealingTime * scaleFactor * upgradeTier)))
+	healingPulseTimer.wait_time = healingTime
+	healingAmount = (baseHealingAmount + (baseHealingAmount * scaleFactor * upgradeTier))
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	refreshUI(self)

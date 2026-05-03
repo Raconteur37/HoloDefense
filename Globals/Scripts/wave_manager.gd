@@ -12,6 +12,9 @@ var wave_data: Dictionary = {}
 var intermission_duration: float = 0.0
 var intermissionTimer: SceneTreeTimer = null
 
+var SECOND_TIER_UNLOCK_WAVE
+var THIRD_TIER_UNLOCK_WAVE
+
 var spawnQueue: Array = []
 
 var activeEnemies : Dictionary = {}
@@ -22,7 +25,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 10
+var currentDifficulty = 2
 
 var currentWave = 0
 var systemNumber = 0
@@ -31,11 +34,18 @@ var currentPhase : Phase = Phase.IDLE
 
 func _ready() -> void:
 	loadData()
+	intermission_duration = get_system_transition_time(currentDifficulty)
+	beginNextWave()
 
-	#beginNextWave()
+	
 
 func beginNextWave():
 	currentWave += 1
+	
+	if currentWave >= get_waves_per_system():
+		beginNextSystem()
+		currentWave = 0
+		return
 	
 	currentPhase = Phase.SUMMONING_ENEMIES
 	
@@ -45,20 +55,32 @@ func beginNextWave():
 	
 	manageWaveInfoUI()
 
-func onWaveComplete() -> void:
-	currentPhase = Phase.INTERMISSION
+func beginNextSystem():
+	systemNumber += 1
 	
-	var duration = get_intermission_duration(currentDifficulty)
-	intermissionTimer = get_tree().create_timer(duration)
-	intermissionTimer.timeout.connect(beginNextWave)
+	# Generate random system but for now we set it manually
+	currentSystem = "Similar"
+	
+	intermissionTimer = get_tree().create_timer(intermission_duration)
 	manageWaveInfoUI()
+	intermissionTimer.timeout.connect(beginNextWave)
+	
+
+func onWaveComplete() -> void: 
+	if not DeveloperMode.inDevMode:
+		currentPhase = Phase.INTERMISSION
+		
+		var duration = get_intermission_duration(currentDifficulty)
+		intermissionTimer = get_tree().create_timer(duration)
+		intermissionTimer.timeout.connect(beginNextWave)
+		manageWaveInfoUI()
 
 func manageWaveInfoUI():
 	var bottomUI = get_tree().current_scene
 	if bottomUI != null:
 		if bottomUI.has_node("TowerDefenseCanvas"):
 			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-		bottomUI.refreshWaveInfo()
+		bottomUI.refreshWaveInfo(intermission_duration)
 
 func buildSpawnQueue() -> Array:
 	var queue: Array = []
@@ -74,26 +96,29 @@ func buildSpawnQueue() -> Array:
 	var systemMult = get_scaled_system_enemy_multiplier()
 	var total = clampi(floori(baseline * difficultyMult * systemMult), 1, get_max_enemies_per_wave())
 
-	# No boss spawns outside of boss waves
-	var counts = {
-		"first":  floori(total * get_first_tier_weight()),
-		"second": floori(total * get_second_tier_weight()),
-		"third":  floori(total * get_third_tier_weight()),
-	}
+	var activeTiers = getActiveTiers(waveWithinSystem)
 
-	var assigned = counts["first"] + counts["second"] + counts["third"]
-	counts["first"] += total - assigned
+	var counts = { "first": 0, "second": 0, "third": 0 }
 
-	#print("System %d | Wave %d | Total enemies: %d | Counts: %s" % [currentSystem, currentWave, total, counts])
-
-	for i in counts["first"]:
-		queue.append(tierOneEnemyTypes.get(currentSystem))
-	for i in counts["second"]:
-		queue.append(tierTwoEnemyTypes.get(currentSystem))
-	for i in counts["third"]:
-		queue.append(tierThreeEnemyTypes.get(currentSystem))
+	if not activeTiers["second"] and not activeTiers["third"]:
+		# only first tier then give it everything
+		counts["first"] = total
+	elif not activeTiers["third"]:
+		# first and second only then rescale their weights to fill 100%
+		var combinedWeight = get_first_tier_weight() + get_second_tier_weight()
+		counts["first"]  = floori(total * (get_first_tier_weight() / combinedWeight))
+		counts["second"] = total - counts["first"]
+	else:
+		# distribute normally
+		counts["first"]  = floori(total * get_first_tier_weight())
+		counts["second"] = floori(total * get_second_tier_weight())
+		counts["third"]  = floori(total * get_third_tier_weight())
+		var assigned = counts["first"] + counts["second"] + counts["third"]
+		counts["first"] += total - assigned
 
 	queue.shuffle()
+	
+	#print(counts)
 	
 	for item in queue:
 		if activeEnemies.has(item):
@@ -102,6 +127,14 @@ func buildSpawnQueue() -> Array:
 			activeEnemies[item] = 1
 	
 	return queue
+
+func getActiveTiers(waveWithinSystem: int) -> Dictionary:
+	var tiers = {
+		"first":  true,
+		"second": waveWithinSystem >= SECOND_TIER_UNLOCK_WAVE,
+		"third":  waveWithinSystem >= THIRD_TIER_UNLOCK_WAVE,
+	}
+	return tiers
 
 func removeActiveEnemy(enemy : Enemy):
 	var id = enemy.enemyID
@@ -195,11 +228,20 @@ func get_system_speed_multiplier() -> float:
 func get_system_spawn_interval_reduction() -> float:
 	return float(wave_data["baseline"]["systemScaling"]["spawnIntervalReductionPerSystem"])
 
+func get_tier_two_enemy_wave_tresh() -> float:
+	return float(wave_data["baseline"]["systemScaling"]["tierTwoWaveTresh"])
+
+func get_tier_three_enemy_wave_tresh() -> float:
+	return float(wave_data["baseline"]["systemScaling"]["tierThreeWaveTresh"])
+
 func get_label(level: int) -> String:
 	return str(_get_difficulty(level).get("label", ""))
 
 func get_enemy_count_multiplier(level: int) -> float:
 	return float(_get_difficulty(level).get("enemy_count_multiplier", 1.0))
+
+func get_system_transition_time(level: int) -> float:
+	return float(_get_difficulty(level).get("systemTransitionDurationSec", 1.0))
 
 func get_spawn_interval(level: int) -> float:
 	return float(_get_difficulty(level).get("spawn_interval_sec", 1.0))
@@ -223,3 +265,5 @@ func loadData():
 
 	wave_data = json.data as Dictionary
 	intermission_duration = float(wave_data.get("intermission_duration_sec", 0.0))
+	SECOND_TIER_UNLOCK_WAVE = get_tier_two_enemy_wave_tresh()
+	THIRD_TIER_UNLOCK_WAVE = get_tier_three_enemy_wave_tresh()

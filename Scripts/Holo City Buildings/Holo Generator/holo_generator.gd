@@ -218,8 +218,13 @@ func refreshSingelCitUI():
 	citResearchProgressBar.value = citizen.jobExperience.get(Citizen.Job.RESEARCHER)
 	citFabricatorProgressBar.value = citizen.jobExperience.get(Citizen.Job.FABRICATOR)
 	
+	citGemScraperProgressBar.get_parent().material = null
+	citAtomizerProgressBar.get_parent().material = null
+	citResearchProgressBar.get_parent().material = null
+	citFabricatorProgressBar.get_parent().material = null
+	workProgressBar.value = 0
+	
 	# Portrait photo
-
 	materialAbstract.shader = glowShader
 	match citizen.currentJob:
 		
@@ -234,6 +239,9 @@ func refreshSingelCitUI():
 		Citizen.Job.MATERIAL_ATOMIZER:
 			citCurrentJobLabel.text = "Current Job: Material Atomizer"
 			citAtomizerProgressBar.get_parent().material = materialAbstract
+			var elapsed_time = citizen.workTimer.wait_time - citizen.workTimer.time_left
+			workProgressBar.max_value = citizen.workTimer.wait_time
+			workProgressBar.value = elapsed_time
 		Citizen.Job.RESEARCHER:
 			citCurrentJobLabel.text = "Current Job: Researcher"
 			citResearchProgressBar.get_parent().material = materialAbstract

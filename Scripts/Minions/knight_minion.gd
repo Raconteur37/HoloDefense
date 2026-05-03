@@ -26,8 +26,6 @@ func _ready():
 	await get_tree().create_timer(.2).timeout
 	velocity = Vector2(0,0)
 
-	hit.connect(EntityManager.entityTakeDamage)
-
 func getName():
 	return minionName
 

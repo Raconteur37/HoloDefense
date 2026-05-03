@@ -183,7 +183,8 @@ func _ready() -> void:
 	researchBarList = [researchTextureBar1,researchTextureBar2,researchTextureBar3,researchTextureBar4,researchTextureBar5,researchTextureBar6,researchTextureBar7,researchTextureBar8,researchTextureBar9,researchTextureBar10]
 
 	for turret in GameManager.turretsBrought:
-		costMap[turret] = CityManager.researchBaseCost * pow((1 + CityManager.researchCostScaling),(GameManager.turretTempLevels.get(turret)-1))
+		costMap[turret] = GameManager.round_to_dec(CityManager.researchBaseCost * pow((1 + CityManager.researchCostScaling),(GameManager.turretTempLevels.get(turret)-1)),1)
+	
 	updateUI()
 	
 

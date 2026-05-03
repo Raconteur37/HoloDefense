@@ -3,9 +3,10 @@ extends Turret
 class_name GoldMineTurret
 
 @export var baseGoldProduced : int
-@export var goldProductionTime: int
+@export var goldProductionTime: float
 @export var goldIncreaseScale: float
-
+var baseProductionTime : float
+var generateTimer : Timer
 
 var moneyGenerated : int
 
@@ -18,18 +19,20 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
-
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	baseGoldProduced = TurretManager.getTurretStat(turretID,"baseGoldProduced")
 	goldProductionTime = TurretManager.getTurretStat(turretID,"generateTime")
+	baseProductionTime = goldProductionTime
 	goldIncreaseScale = TurretManager.getTurretStat(turretID,"goldIncreaseScale")
 	
-	moneyGenerated = floor(pow(level,.5)) + baseGoldProduced
+	moneyGenerated = baseGoldProduced
 
 	level = 1
 	upgradeTier = 0
@@ -43,6 +46,7 @@ func _ready() -> void:
 	topSprite = $TurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
+	generateTimer = $GenerateTimer
 	buildTime = baseBuildTime
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
@@ -53,24 +57,11 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 
-	hit.connect(EntityManager.entityTakeDamage)
-
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
-		add_child(dummy)
+	generateTimer.wait_time = goldProductionTime
+	
+	isPlaced = true
+	
+	applyUpgrade()
 
 func attack():
 
@@ -117,17 +108,29 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func generateMoney():
-	moneyGenerated = int(floor(pow(level,goldIncreaseScale)) + baseGoldProduced)
 	CityManager.currentMoney += moneyGenerated
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
 
 func _on_generate_timer_timeout() -> void:
-	if isPlaced:
-		generateMoney()
+	generateMoney()
 
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	moneyGenerated = int((baseGoldProduced + (baseGoldProduced * goldIncreaseScale * upgradeTier)))
+	goldProductionTime = max(1,(baseProductionTime - (baseProductionTime * scaleFactor * upgradeTier)))
+	generateTimer.wait_time = goldProductionTime
+	refreshUI(self)

@@ -39,6 +39,7 @@ func _ready() -> void:
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	armor = TurretManager.getTurretStat(turretID,"armor")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"contructionTime")
 	maxTurretsEnergized = TurretManager.getTurretStat(turretID,"maxTurretsEnergized")
 	energizeTime = TurretManager.getTurretStat(turretID,"energizeTime")
@@ -66,8 +67,10 @@ func _ready() -> void:
 	health = maxHealth
 
 	energizeTimer.wait_time = energizeTime
-
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
+	
+	print(upgradeTier)
+	
+	applyUpgrade()
 
 	isPlaced = true
 
@@ -161,6 +164,19 @@ func _on_select_area_mouse_exited() -> void:
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
-	rangeArea = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
-	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
-	health = maxHealth
+	if upgradeTier > 0:
+		attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+		maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+		health = maxHealth
+		energizeTime = max(1,(energizeTime - scaleFactor))
+		energizeTimer.wait_time = energizeTime
+		energizerDamageBuff += scaleFactor
+		energizerProjctileSpeedBuff += scaleFactor
+		energizerAttackRangeBuff += scaleFactor
+		energizerReloadTimeBuff += scaleFactor
+		for turret in turretsInRange:
+			if is_instance_valid(turret):
+				if turret.energized:
+					removeEnergizerBuffsToTurret(turret)
+					applyEnergizerBuffsToTurret(turret)
+		refreshUI(self)

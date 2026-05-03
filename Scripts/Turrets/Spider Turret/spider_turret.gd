@@ -18,6 +18,7 @@ func _ready() -> void:
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
+	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseProjectileSpeed = TurretManager.getTurretStat(turretID,"projectileSpeed")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
@@ -27,6 +28,7 @@ func _ready() -> void:
 	basePoisonChance = TurretManager.getTurretStat(turretID,"poisonChance")
 	basePoisonDuration = TurretManager.getTurretStat(turretID,"poisonDuration")
 	basePoisonDamage = TurretManager.getTurretStat(turretID,"poisonDamage")
+	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	level = 1
 	upgradeTier = 0
@@ -53,24 +55,8 @@ func _ready() -> void:
 	poisonDamage = basePoisonDamage
 	poisonDuration = basePoisonDuration
 
+	isPlaced = true
 
-	hit.connect(EntityManager.entityTakeDamage)
-
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 100
-		add_child(dummy)
 
 func attack():
 
@@ -142,3 +128,17 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func applyUpgrade():
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
+	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	reloadTimer.wait_time = reloadTime
+	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	health = maxHealth
+	poisonChance = (basePoisonDamage + (basePoisonDamage * scaleFactor * upgradeTier))
+	poisonDuration = (basePoisonDuration + (basePoisonDuration * scaleFactor * upgradeTier))
+	poisonDamage = (basePoisonDamage + (basePoisonDamage * scaleFactor * upgradeTier))
+	refreshUI(self)

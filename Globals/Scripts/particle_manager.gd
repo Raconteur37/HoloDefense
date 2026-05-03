@@ -49,7 +49,7 @@ func playExecutionParticle(enemy):
 func playEnergizedParticle(turret):
 
 	var particle = energizedParticle.instantiate()
-	particle.get_child(0).global_position = turret.global_position
+	#particle.global_position = turret.global_position
 	turret.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle
 

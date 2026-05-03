@@ -160,9 +160,9 @@ anchor_left = 1.0
 anchor_top = 1.0
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -215.0
+offset_left = -252.0
 offset_top = -157.0
-offset_right = -175.0
+offset_right = -212.0
 offset_bottom = -117.0
 grow_horizontal = 0
 grow_vertical = 0
@@ -214,6 +214,8 @@ debug_color = Color(0.93837553, 0.20797732, 0.3587349, 0.41960785)
 
 [node name="HoloCityDisplay" parent="." unique_id=1343886443 instance=ExtResource("10_iecqd")]
 z_index = 2
+
+[node name="Timer" type="Timer" parent="." unique_id=1651288970]
 
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]
