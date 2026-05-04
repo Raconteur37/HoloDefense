@@ -59,29 +59,9 @@ func _ready() -> void:
 	currentBullets = maxBullets
 	baseMaxBullets = maxBullets
 
+	applyUpgrade()
 
-	upgradeTier = EntityManager.getUpgradeTier(turretName)
-
-	for x in range(upgradeTier):
-		upgrade.emit(self)
-
-	# Check if in devmode durring runtime
-	if DeveloperMode.inDevMode:
-		isPlaced = true
-		GameManager.addTurretToDict(self)
-		health = 9999
-	if GameManager.previewMode:
-		var dummy = load("res://Enemy Scenes/Dummy.tscn")
-		dummy = dummy.instantiate()
-		dummy.global_position = to_local(global_position)
-		dummy.global_position.x += 150
-		add_child(dummy)
-		var dummy2 = load("res://Enemy Scenes/Dummy.tscn")
-		dummy2 = dummy2.instantiate()
-		dummy2.global_position = to_local(global_position)
-		dummy2.global_position.x += 190
-		dummy2.global_position.y -= 70
-		add_child(dummy2)
+	isPlaced = true
 
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shootTimer.is_stopped():

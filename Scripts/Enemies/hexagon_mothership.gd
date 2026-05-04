@@ -2,39 +2,41 @@ extends Enemy
 
 class_name HexagonMothership
 
+var summonTimer
+var summonTime
+
+var tickTimer : Timer
+
+var enemiesToSpawn
+var enemiesSpawned = 0
+
 func _ready():
-	enemyName = "Hexagon Mothership"
-	health = 5000
-	damage = 1000
-	attackTime = .5
-	speed = 10
+	enemyID = EnemyID.HEXAGON_MOTHERSHIP
+	enemyName = EnemyManager.get_enemy_name(enemyID)
+	health = EnemyManager.get_health(enemyID)
+	damage = EnemyManager.get_damage(enemyID)
+	type = Type.BOSS
+	speed = EnemyManager.get_speed(enemyID)
+	summonTime = EnemyManager.get_event_time(enemyID)
+	enemiesToSpawn = EnemyManager.get_enemies_to_spawn(enemyID)
+	tickTimer = $SpawnTicker
+	hurtParticle = $"Basic Square Hurt"
+	hitBoxArea = $HitboxArea
 
-	attackTimer = $AttackTimer
-	attackTimer.wait_time = attackTime
+	summonTimer = $SummonTimer
+	summonTimer.wait_time = summonTime + 15
+	summonTimer.start()
 
-	hit.connect(EntityManager.takeDamage)
+
+func _on_summon_timer_timeout() -> void:
+	if tickTimer.is_stopped():
+		tickTimer.start()
 
 
-func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret Projectile"):
-		hit.emit(body.damage,body.shooter,self,body)
-	if body.is_in_group("Turret"):
-		if body.get("isPlaced") != null:
-			if body.isPlaced:
-				body.hit.emit(damage,body)
-				attackReady = false
-				attackTimer.start()
-
-	if body.is_in_group("Minion"):
-		body.hit.emit(damage,body)
-		attackReady = false
-		attackTimer.start()
-
-func _on_attack_timer_timeout() -> void:
-	attackReady = true
-	for x in $Area2D.get_overlapping_areas():
-		var entity = x.get_parent()
-		if entity.is_in_group("Turret") and x.name.contains("SelectArea"):
-			entity.hit.emit(damage,entity)
-			attackReady = false
-			attackTimer.start()
+func _on_spawn_ticker_timeout() -> void:
+	# summon enemies
+	EnemySpawnManager.mothershipSpawn(self)
+	enemiesSpawned += 1
+	if enemiesSpawned >= enemiesToSpawn:
+		tickTimer.stop()
+		enemiesSpawned = 0

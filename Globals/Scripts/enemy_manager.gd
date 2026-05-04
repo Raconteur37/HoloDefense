@@ -54,3 +54,9 @@ func get_range(enemy_id: Enemy.EnemyID) -> float:
 
 func get_projectile_speed(enemy_id: Enemy.EnemyID) -> float:
 	return float(get_enemy(enemy_id).get("projectileSpeed", 1.0))
+
+func get_event_time(enemy_id: Enemy.EnemyID) -> float:
+	return float(get_enemy(enemy_id).get("eventTime", 1.0))
+
+func get_enemies_to_spawn(enemy_id: Enemy.EnemyID) -> float:
+	return float(get_enemy(enemy_id).get("enemiesToSummon", 1.0))

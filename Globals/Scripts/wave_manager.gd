@@ -25,7 +25,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 3
+var currentDifficulty = 4
 
 var currentWave = 0
 var systemNumber = 0
@@ -39,7 +39,7 @@ func _ready() -> void:
 func beginNextWave():
 	currentWave += 1
 	
-	if currentWave >= get_waves_per_system():
+	if currentWave > get_waves_per_system():
 		beginNextSystem()
 		currentWave = 0
 		return
@@ -151,6 +151,13 @@ func checkForEnemiesAlive():
 	if activeEnemies.size() <= 0:
 		onWaveComplete()
 		
+
+func registerActiveEnemy(enemy: Enemy) -> void:
+	var id = enemy.enemyID
+	if activeEnemies.has(id):
+		activeEnemies[id] += 1
+	else:
+		activeEnemies[id] = 1
 
 func spawnNext() -> void:
 	if spawnQueue.is_empty():

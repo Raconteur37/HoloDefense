@@ -13,6 +13,8 @@ height = 14.0
 
 [node name="RigidBody2D" type="RigidBody2D" unique_id=1347302269 groups=["Turret Projectile"]]
 position = Vector2(39, 19)
+collision_layer = 2
+collision_mask = 4
 gravity_scale = 0.0
 script = ExtResource("1_8v0d5")
 

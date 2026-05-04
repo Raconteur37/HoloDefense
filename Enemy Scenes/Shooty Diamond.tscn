@@ -9,7 +9,6 @@
 [sub_resource type="CircleShape2D" id="CircleShape2D_4s3bd"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=51350550 groups=["Enemy"]]
-position = Vector2(686, 432)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_yin4x")

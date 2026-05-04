@@ -25,10 +25,7 @@ func _input(event: InputEvent) -> void:
 					EnemySpawnManager.summonEnemy(Enemy.EnemyID.SHOOTY_DIAMOND)
 			KEY_H:
 				if inDevMode:
-					var enemy = load("res://Enemy Scenes/Hexagon Mothership.tscn")
-					enemy = enemy.instantiate()
-					enemy.position = GameManager.generateRandomPosition()
-					get_tree().current_scene.add_child(enemy)
+					EnemySpawnManager.summonEnemy(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
 			KEY_W:
 				WaveManager.beginNextSystem()
 

@@ -1,32 +1,45 @@
-[gd_scene load_steps=5 format=3 uid="uid://gygbrebhkc3s"]
+[gd_scene format=3 uid="uid://gygbrebhkc3s"]
 
 [ext_resource type="Script" uid="uid://cenj3jsyuormk" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
-[ext_resource type="Script" uid="uid://c8mwv70qu8c7h" path="res://Scripts/Enemies/hexagon_mothership_shape_draw.gd" id="2_gllsc"]
+[ext_resource type="Script" uid="uid://dlyelumpl2118" path="res://Scripts/Enemies/hexagon_mothership_shape_draw.gd" id="2_gllsc"]
 [ext_resource type="Script" uid="uid://dgnnvwvx5c081" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d_body.gd" id="2_skr1q"]
-[ext_resource type="Script" uid="uid://c7j4a3t1su4rm" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d.gd" id="3_85gur"]
+[ext_resource type="Script" uid="uid://bsy8hw7ku2avl" path="res://Scripts/Enemies/hexagon_mothership_collision_polygon_2d.gd" id="3_85gur"]
+[ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_ft5im"]
 
-[node name="CharacterBody2D" type="CharacterBody2D" groups=["Enemy"]]
+[node name="CharacterBody2D" type="CharacterBody2D" unique_id=872659565 groups=["Enemy"]]
 position = Vector2(686, 432)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_x64ye")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="."]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1124292738]
 script = ExtResource("2_skr1q")
 
-[node name="Polygon2D" type="Polygon2D" parent="."]
+[node name="Polygon2D" type="Polygon2D" parent="." unique_id=1528689631]
 self_modulate = Color(1.5, 1, 1, 1)
 color = Color(0.952941, 0.952941, 0.458824, 1)
 script = ExtResource("2_gllsc")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="HitboxArea" type="Area2D" parent="." unique_id=1253495164]
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="Area2D"]
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea" unique_id=1239912558]
 script = ExtResource("3_85gur")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="SummonTimer" type="Timer" parent="." unique_id=1300035090]
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[node name="SpawnTicker" type="Timer" parent="." unique_id=227983459]
+wait_time = 0.1
+
+[node name="Basic Square Hurt" parent="." unique_id=1696777537 instance=ExtResource("5_ft5im")]
+scale = Vector2(9, 9)
+amount = 30
+lifetime = 0.4
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 1, 1, 1)
+
+[connection signal="body_entered" from="HitboxArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="SummonTimer" to="." method="_on_summon_timer_timeout"]
+[connection signal="timeout" from="SpawnTicker" to="." method="_on_spawn_ticker_timeout"]

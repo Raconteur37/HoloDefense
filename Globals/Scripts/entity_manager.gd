@@ -94,13 +94,14 @@ func applyArmor(damage: int, entity) -> int:
 	if entity.armor <= 0:
 		return damage
 
-	var reduction = int(damage * 0.3)
-	var absorbed = min(entity.armor, reduction)
-	entity.armor -= absorbed
-	if entity.armor < 0:
-		entity.armor = 0
+	var mitigated = int(damage * 0.7)  # always reduce damage by 30%
 
-	return damage - absorbed
+	var absorbed = min(entity.armor, mitigated)
+	entity.armor -= absorbed
+	entity.armor = max(entity.armor, 0)
+
+	var remainder = mitigated - absorbed  # only what armor couldn't cover hits health
+	return remainder
 
 func onKill(turret,enemy):
 

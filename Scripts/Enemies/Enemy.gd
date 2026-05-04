@@ -4,6 +4,8 @@ class_name Enemy
 
 enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP}
 
+enum Type {BOSS, ELITE}
+
 var enemyName: String
 var health: float
 var damage: float
@@ -11,6 +13,7 @@ var attackTime: float
 var speed: float
 var attackRange : float
 var projectileSpeed : float
+var type : Type
 
 var hitBoxArea
 
@@ -131,7 +134,8 @@ func onZombieAreaExit(_body: Node) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret"):
 		EntityManager.turretTakeDamage(damage,body)
-		startAttackCooldown()
+		if type != Type.BOSS:
+			startAttackCooldown()
 
 func startAttackCooldown() -> void:
 	attackReady = false
