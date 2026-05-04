@@ -4,8 +4,19 @@
 [ext_resource type="Shader" uid="uid://dgp5wumfqf33q" path="res://Game Scenes/transition.gdshader" id="2_iw6a6"]
 [ext_resource type="PackedScene" uid="uid://de2f8fkqbrxea" path="res://Game Scenes/Tower Defense Scene.tscn" id="2_vq8dx"]
 [ext_resource type="Script" uid="uid://drpv1stjo0bqk" path="res://Game Scenes/transitionT.gd" id="3_cemk1"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_jek5h"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="6_35g7l"]
+
+[sub_resource type="Gradient" id="Gradient_jek5h"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_jek5h"]
+gradient = SubResource("Gradient_jek5h")
+
+[sub_resource type="LabelSettings" id="LabelSettings_h7tih"]
+font_size = 100
+font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cemk1"]
 shader = ExtResource("2_iw6a6")
@@ -16,12 +27,86 @@ shader_parameter/phase = 0.0
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
+[node name="PauseMenu" type="Control" parent="." unique_id=836311072]
+process_mode = 3
+visible = false
+z_index = 2
+layout_mode = 3
+anchors_preset = 0
+offset_left = 358.0
+offset_top = 282.0
+offset_right = 702.0
+offset_bottom = 821.0
+script = ExtResource("6_35g7l")
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenu" unique_id=169607434]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_jek5h")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect" unique_id=2013081551]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 12.0
+offset_right = 347.0
+offset_bottom = 151.58334
+text = "Paused"
+label_settings = SubResource("LabelSettings_h7tih")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=746632613]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 385.0
+offset_right = 959.0
+offset_bottom = 701.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("3_jek5h")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton" unique_id=356047098]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 86.666664
+offset_right = 656.0
+offset_bottom = 226.25003
+text = "f1 = quit"
+label_settings = SubResource("LabelSettings_h7tih")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton2" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=147278788]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 284.0
+offset_right = 959.0
+offset_bottom = 600.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("3_jek5h")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton2" unique_id=560050101]
+layout_mode = 0
+offset_left = 226.66667
+offset_top = 86.666664
+offset_right = 759.6667
+offset_bottom = 226.25
+text = "f2 = restart"
+label_settings = SubResource("LabelSettings_h7tih")
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="transition" type="ColorRect" parent="." unique_id=58088488]
 z_index = 1
 material = SubResource("ShaderMaterial_cemk1")
 custom_minimum_size = Vector2(1920, 1080)
 offset_right = 1920.0
 offset_bottom = 1080.0
+mouse_filter = 2
 color = Color(2.2140146e-06, 0.64162993, 0.6480035, 1)
 script = ExtResource("3_cemk1")
 metadata/_edit_use_anchors_ = true
@@ -31,18 +116,6 @@ visible = false
 
 [node name="TowerDefenseCanvas" parent="." unique_id=1084623525 instance=ExtResource("2_vq8dx")]
 
-[node name="PauseMenu" type="Control" parent="." unique_id=836311072]
-process_mode = 3
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 945.0
-offset_top = 529.0
-offset_right = 985.0
-offset_bottom = 569.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("6_35g7l")
+[connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]

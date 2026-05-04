@@ -171,7 +171,7 @@ grow_vertical = 0
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 23.0
-text = "Current System: None"
+text = "System: 1/5"
 
 [node name="WaveLabel" type="Label" parent="BottomUI/WaveData" unique_id=2031398310]
 layout_mode = 0

@@ -3,41 +3,25 @@
 [ext_resource type="Script" uid="uid://dwv7scu4qfskb" path="res://Projectile Scenes/gold_coin.gd" id="1_qkxmv"]
 [ext_resource type="Texture2D" uid="uid://cncpjmkoqifk2" path="res://Textures/Projectiles/Gold Coin Projectile.png" id="2_qkxmv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]
-radius = 4.0
-height = 8.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hxa21"]
 radius = 4.0
 height = 8.0
 
-[node name="Gold Coin" type="RigidBody2D" unique_id=1138358259 groups=["Turret Projectile"]]
-position = Vector2(215, 128)
-rotation = 1.5708
+[node name="Area2D" type="Area2D" unique_id=127869260 groups=["Turret Projectile"]]
+position = Vector2(-7.1153e-07, 9.53674e-07)
 collision_layer = 2
 collision_mask = 4
-gravity_scale = 0.0
 script = ExtResource("1_qkxmv")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1775363045]
-shape = SubResource("CapsuleShape2D_etksh")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1288833477]
+shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1654233265]
-position = Vector2(-7.1153e-07, 9.53674e-07)
+position = Vector2(215, 128)
+rotation = 1.5708
 texture = ExtResource("2_qkxmv")
-
-[node name="Area2D" type="Area2D" parent="." unique_id=127869260]
-position = Vector2(-7.1153e-07, 9.53674e-07)
-collision_layer = 2
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1288833477]
-shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="DespawnTimer" type="Timer" parent="." unique_id=1205319707]
 wait_time = 2.0
 one_shot = true
 autostart = true
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

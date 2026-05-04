@@ -63,11 +63,11 @@ func attack():
 			proj.position = position
 
 
+
 			if level >= 2:
 				proj.target = enemy
 			else:
-				proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-
+				proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 
 			var dif = self.global_position.angle_to_point(enemy.global_position)
 
@@ -75,6 +75,7 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 
+			
 			get_parent().add_child(proj)
 
 			reloadTimer.start()
@@ -86,19 +87,12 @@ func attack():
 
 func reloadAnimation():
 
-	var frames : int = 4
-
-	for x in range(frames):
-		match x:
-			0:
-				topSprite.frame = 1
-			1:
-				topSprite.frame = 2
-			2:
-				topSprite.frame = 3
-			3:
-				topSprite.frame = 0
-		await get_tree().create_timer((reloadTime / frames)).timeout
+	var frameTime = reloadTime / 4.0
+	var tween = create_tween()
+	tween.tween_callback(func(): topSprite.frame = 1).set_delay(frameTime * 0)
+	tween.tween_callback(func(): topSprite.frame = 2).set_delay(frameTime)
+	tween.tween_callback(func(): topSprite.frame = 3).set_delay(frameTime)
+	tween.tween_callback(func(): topSprite.frame = 0).set_delay(frameTime)
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):

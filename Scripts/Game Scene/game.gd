@@ -9,6 +9,7 @@ func _ready() -> void:
 	transition = $transition
 	cityCanvas = $CityCanvas
 	defenseCanvas = $TowerDefenseCanvas
+	WaveManager.beginNextSystem()
 
 
 func _input(event: InputEvent):

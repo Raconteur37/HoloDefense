@@ -3,16 +3,16 @@
 	"Money": {
 	  "Copper Gem": 2,
 	  "Quartz Gem": 4,
-	  "Amethyst Gem": 10,
-	  "Diamond Gem": 20,
-	  "Galactite Gem": 50
+	  "Amethyst Gem": 15,
+	  "Diamond Gem": 45,
+	  "Galactite Gem": 80
 	},
 	"Energy": {
 	  "Copper Gem": 1,
-	  "Quartz Gem": 3,
-	  "Amethyst Gem": 6.5,
-	  "Diamond Gem": 16,
-	  "Galactite Gem": 35.5
+	  "Quartz Gem": 5,
+	  "Amethyst Gem": 20,
+	  "Diamond Gem": 35,
+	  "Galactite Gem": 60
 	}
   },
 
@@ -45,7 +45,7 @@
 	"ScrapGenerated": 2,
 	"BaseGenerateCitizenCost" : 25,
 	"CitizenGenerateCostScale" : 1.15,
-	"ItemScaleFactor": 0.20,
+	"ItemScaleFactor": 0.10,
 	"GeneratorUpgradeBaseCost": 25,
 	"GeneratorUpgradeCostScale": 1.10,
 	"MilestoneMoneyMax": 100,

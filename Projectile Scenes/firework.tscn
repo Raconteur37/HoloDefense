@@ -3,42 +3,25 @@
 [ext_resource type="Script" uid="uid://jmq30bfkhnkn" path="res://Scripts/Projectiles/firework.gd" id="1_m8uln"]
 [ext_resource type="Texture2D" uid="uid://dsss8yliufwb7" path="res://Textures/Projectiles/Firework.png" id="2_hvtiv"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]
-radius = 2.99999
-height = 20.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hxa21"]
-radius = 3.0
+radius = 3.999999
 height = 20.0
 
-[node name="Firework" type="RigidBody2D" unique_id=502731625 groups=["Turret Projectile"]]
-position = Vector2(215, 128)
-rotation = 1.5708
+[node name="Area2D" type="Area2D" unique_id=2101289820 groups=["Turret Projectile"]]
+position = Vector2(-7.1153e-07, 9.53674e-07)
 collision_layer = 2
 collision_mask = 4
-gravity_scale = 0.0
 script = ExtResource("1_m8uln")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=985554082]
-rotation = -0.000407807
-shape = SubResource("CapsuleShape2D_etksh")
-
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=533436046]
-position = Vector2(-7.1153e-07, 9.53674e-07)
+rotation = 1.5708
 texture = ExtResource("2_hvtiv")
 
-[node name="Area2D" type="Area2D" parent="." unique_id=2101289820]
-position = Vector2(-7.1153e-07, 9.53674e-07)
-collision_layer = 2
-collision_mask = 4
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=820835840]
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=820835840]
+rotation = 1.5707964
 shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="DespawnTimer" type="Timer" parent="." unique_id=594255172]
-wait_time = 3.0
+wait_time = 2.0
 one_shot = true
 autostart = true
-
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

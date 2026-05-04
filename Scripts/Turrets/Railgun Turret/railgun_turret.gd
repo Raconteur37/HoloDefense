@@ -60,7 +60,7 @@ func attack():
 			var proj = projectile.instantiate()
 			proj.global_position = topSprite.global_position
 			proj.pierce = pierce
-			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 			var dif = self.global_position.angle_to_point(enemy.global_position)
 			
 			proj.rotation = proj.rotation + dif

@@ -590,3 +590,85 @@ func addTurretTempLevel(turretID,amount):
 	else:
 		GameManager.turretTempLevels[turretID] = amount
 	# TODO ADD A SIGNAL HERE TO UPDATE ALL EXISTING TURRETS
+
+
+func reset():
+	for citizen in citizens:
+		if is_instance_valid(citizen):
+			citizen.queue_free()
+
+	citizens.clear()
+	currentMoney = startingCash
+	currentEnergy = startingEnergy
+	currentScrap = startingScrap
+
+	# Milestones
+	milestoneMoney = 0
+	milestoneEnergy = 0
+	milestoneScrap = 0
+
+	# City
+	cityLevel = 1
+	cityXP = 0
+	cityMaxXP = baseMaxCityXp
+
+	# Building levels
+	generatorLevel = 1
+	gemScraperLevel = 1
+	materialAtomizerLevel = 1
+	researchLabLevel = 1
+
+	# Costs
+	citizenGenCost = baseCitizenGenCost
+	generatorUpgradeCost = baseGeneratorUpgradeCost
+	scraperUpgradeCost = baseScraperUpgradeCost
+	atomizerUpgradeCost = baseAtomizerUpgradeCost
+	researchLabSlotCost = baseResearchLabSlotCost
+	fabricatorSlotCost = baseFabricatorSlotCost
+
+	# Generation
+	moneyGenerated = 0
+	energyGenerated = 0
+	scrapGenerated = 0
+
+	# Item values back to base
+	itemMoneyValueDict = baseItemMoneyValueDict.duplicate()
+	itemEnergyValueDict = baseItemEnergyValueDict.duplicate()
+	itemScrapValueDict = baseItemScrapValueDict.duplicate()
+
+	# Storage and citizens
+	storage.clear()
+	citizens.clear()
+	citizensSelected.clear()
+	citizensGenerated = 0
+
+	# Auto sell/convert flags — reset to off
+	autoSellCommonGem = false
+	autoSellRareGem = false
+	autoSellSuperRareGem = false
+	autoSellLegendaryGem = false
+	autoSellUnseenGem = false
+
+	autoConvertCommonGem = false
+	autoConvertRareGem = false
+	autoConvertSuperRareGem = false
+	autoConvertLegendaryGem = false
+	autoConvertUnseenGem = false
+
+	autoSellCommonScrap = false
+	autoSellRareScrap = false
+	autoSellSuperRareScrap = false
+	autoSellLegendaryScrap = false
+	autoSellUnseenScrap = false
+
+	autoConvertCommonScrap = false
+	autoConvertRareScrap = false
+	autoConvertSuperRareScrap = false
+	autoConvertLegendaryScrap = false
+	autoConvertUnseenScrap = false
+
+	# Recalculate chance weights from base levels
+	updateGemChanceWeights()
+	updateScrapChanceWeights()
+
+	storageChanged.emit()

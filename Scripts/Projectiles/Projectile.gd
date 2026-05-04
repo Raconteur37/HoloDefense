@@ -1,4 +1,4 @@
-extends RigidBody2D
+extends Area2D
 class_name Projectile
 
 var velocity: Vector2 = Vector2.ZERO
@@ -27,9 +27,10 @@ var explosionDamage: float = 0.0
 var explosionRadius: float = 0.0
 
 func _ready() -> void:
-	contact_monitor = true
-	max_contacts_reported = 4
 	body_entered.connect(_on_body_entered)
+
+func _process(delta: float) -> void:
+	global_position += velocity * delta
 
 func _on_body_entered(body: Node) -> void:
 	if body == shooter:

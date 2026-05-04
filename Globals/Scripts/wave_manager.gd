@@ -25,7 +25,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 4
+var currentDifficulty = 3
 
 var currentWave = 0
 var systemNumber = 0
@@ -37,6 +37,7 @@ func _ready() -> void:
 	#beginNextWave()
 
 func beginNextWave():
+
 	currentWave += 1
 	
 	if currentWave > get_waves_per_system():
@@ -276,3 +277,18 @@ func loadData():
 	intermission_duration = float(wave_data.get("intermission_duration_sec", 0.0))
 	SECOND_TIER_UNLOCK_WAVE = get_tier_two_enemy_wave_tresh()
 	THIRD_TIER_UNLOCK_WAVE = get_tier_three_enemy_wave_tresh()
+
+func reset() -> void:
+	# Clear timers
+	if intermissionTimer != null:
+		intermissionTimer = null
+
+	# Cancel any pending spawns by clearing the queue
+	spawnQueue.clear()
+	activeEnemies.clear()
+
+	# Reset wave state
+	currentWave = 0
+	systemNumber = 0
+	currentSystem = systems[0]
+	currentPhase = Phase.IDLE

@@ -1,0 +1,279 @@
+[gd_scene format=3 uid="uid://bbrwc4dxdafxm"]
+
+[ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="1_5x5ke"]
+[ext_resource type="Shader" uid="uid://bh1y6lhvvabth" path="res://Game Scenes/TurretInfo2.gdshader" id="2_q7fiu"]
+[ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="3_nxwkd"]
+[ext_resource type="Script" uid="uid://cc1yxtefn3cyt" path="res://Game Scenes/selectTurretLoadout.gd" id="4_nxwkd"]
+[ext_resource type="Texture2D" uid="uid://b0gysmre53p2f" path="res://Textures/UI/Game/Turret Info Scene/TurretSpace.png" id="5_eqhij"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_eqhij"]
+[ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="7_8pbxt"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_eqhij"]
+shader = ExtResource("1_5x5ke")
+shader_parameter/orb_count = 100
+shader_parameter/orb_radius = 0.0010000000475
+shader_parameter/speed = 0.2690000127775
+shader_parameter/orb_color = Color(0.7490196, 0.77254903, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_8pbxt"]
+shader = ExtResource("2_q7fiu")
+shader_parameter/progress = 0.0
+shader_parameter/block_size = 200.0
+
+[sub_resource type="Gradient" id="Gradient_35g7l"]
+colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_m7oig"]
+gradient = SubResource("Gradient_35g7l")
+
+[sub_resource type="LabelSettings" id="LabelSettings_dc8bj"]
+font_size = 100
+font_color = Color(0, 0, 0, 1)
+
+[node name="Loadout" type="Control" unique_id=1244549634]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("4_nxwkd")
+
+[node name="ScreenFilter" type="ColorRect" parent="." unique_id=1924595504]
+show_behind_parent = true
+z_index = 2
+material = SubResource("ShaderMaterial_eqhij")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="ScreenFilter2" type="ColorRect" parent="." unique_id=562623677]
+show_behind_parent = true
+z_index = 3
+material = SubResource("ShaderMaterial_8pbxt")
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+
+[node name="Background" type="TextureRect" parent="." unique_id=219665882]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_right = -3.0
+offset_bottom = -1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_nxwkd")
+
+[node name="TurretSelectionScroll" type="Control" parent="." unique_id=531963607]
+layout_mode = 1
+anchor_top = 0.896
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 28.0
+offset_top = 58.319946
+offset_right = -1892.0
+offset_bottom = -54.0
+grow_vertical = 0
+scale = Vector2(0.8, 0.8)
+
+[node name="TextureRect" type="TextureRect" parent="TurretSelectionScroll" unique_id=1920227575]
+layout_mode = 0
+offset_left = -35.000004
+offset_top = -51.250015
+offset_right = 1815.0
+offset_bottom = 148.74998
+scale = Vector2(1.2885971, 0.55000305)
+texture = ExtResource("5_eqhij")
+
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretSelectionScroll" unique_id=1459004986]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 4.964
+anchor_bottom = 1.09
+offset_left = -20.999998
+offset_top = -43.0
+offset_right = -20.999998
+offset_bottom = -43.0
+scale = Vector2(2.44544, 2.33681)
+
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretSelectionScroll/ScrollContainer" unique_id=528503869]
+layout_mode = 2
+
+[node name="BringingGrid" type="GridContainer" parent="." unique_id=1125365007]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -613.0
+offset_top = -216.0
+offset_right = 613.0
+offset_bottom = 216.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_constants/h_separation = 20
+theme_override_constants/v_separation = 20
+columns = 5
+
+[node name="TitleLabel" type="RichTextLabel" parent="." unique_id=107560539]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -314.0
+offset_right = 314.0
+offset_bottom = 90.0
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[pulse color=dodgerblue height=0.5 freq=0.3][font_size=64]Choose 10 Towers[/font_size][/pulse]"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="VSlider" type="VSlider" parent="." unique_id=432943641]
+layout_mode = 1
+anchors_preset = 6
+anchor_left = 1.0
+anchor_top = 0.5
+anchor_right = 1.0
+anchor_bottom = 0.5
+offset_left = -154.0
+offset_top = -179.0
+offset_right = -73.0
+offset_bottom = 292.0
+grow_horizontal = 0
+grow_vertical = 2
+min_value = 1.0
+max_value = 11.0
+value = 1.0
+
+[node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=301340516]
+layout_mode = 0
+offset_left = 1703.0
+offset_top = 290.0
+offset_right = 1917.0
+offset_bottom = 344.0
+bbcode_enabled = true
+text = "[pulse color=green height=0.5 freq=0.3][font_size=30]Difficulty:  1[/font_size][/pulse]"
+
+[node name="BeginButton" type="TextureButton" parent="." unique_id=1638022410]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38000003
+anchor_top = 0.74100006
+anchor_right = 0.619
+anchor_bottom = 0.887
+offset_left = -0.6000366
+offset_top = -0.28009033
+offset_right = 460.52002
+offset_bottom = 158.03998
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("6_eqhij")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="BeginButton" unique_id=1426102146]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.076000005
+anchor_top = 0.209
+anchor_right = 0.92200005
+anchor_bottom = 0.823
+offset_left = 0.0799942
+offset_top = -0.04399872
+offset_right = -0.24005127
+offset_bottom = -0.067993164
+mouse_filter = 2
+bbcode_enabled = true
+text = "[rainbow freq=.1 sat=1 val=0.8][font_size=90]Begin Run![/font_size][/rainbow]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PauseMenu" type="Control" parent="." unique_id=959006740]
+process_mode = 3
+visible = false
+z_index = 2
+anchors_preset = 0
+offset_left = 358.0
+offset_top = 282.0
+offset_right = 702.0
+offset_bottom = 821.0
+script = ExtResource("7_8pbxt")
+
+[node name="TextureRect" type="TextureRect" parent="PauseMenu" unique_id=213252697]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
+texture = SubResource("GradientTexture2D_m7oig")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect" unique_id=333335836]
+layout_mode = 0
+offset_left = -5.0
+offset_top = 12.0
+offset_right = 347.0
+offset_bottom = 151.58334
+text = "Paused"
+label_settings = SubResource("LabelSettings_dc8bj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=1656805155]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 385.0
+offset_right = 959.0
+offset_bottom = 701.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_eqhij")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton" unique_id=229149283]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 86.666664
+offset_right = 656.0
+offset_bottom = 226.25003
+text = "f1 = quit"
+label_settings = SubResource("LabelSettings_dc8bj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="TextureButton2" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=1334384693]
+layout_mode = 0
+offset_left = 39.0
+offset_top = 284.0
+offset_right = 959.0
+offset_bottom = 600.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_eqhij")
+
+[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton2" unique_id=1351085665]
+layout_mode = 0
+offset_left = 226.66667
+offset_top = 86.666664
+offset_right = 759.6667
+offset_bottom = 226.25
+text = "f2 = restart"
+label_settings = SubResource("LabelSettings_dc8bj")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="value_changed" from="VSlider" to="." method="_on_v_slider_value_changed"]
+[connection signal="pressed" from="BeginButton" to="." method="_on_begin_button_pressed"]
+[connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
+[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]

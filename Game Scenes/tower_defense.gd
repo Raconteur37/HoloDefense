@@ -103,7 +103,7 @@ func refreshWaveInfo(time):
 		if placeHolderTimer.is_stopped() and time > 0:
 			placeHolderTimer.wait_time = time
 			placeHolderTimer.start()
-		systemLabel.text = "Current System: " + WaveManager.currentSystem
+		systemLabel.text = "System: " + str(WaveManager.systemNumber) + "/5"
 		waveLabel.text = "Current Wave: " + str(WaveManager.currentWave)
 		intermissionLabel.text = ""
 

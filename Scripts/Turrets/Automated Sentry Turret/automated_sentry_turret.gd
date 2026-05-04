@@ -76,8 +76,8 @@ func attack():
 
 			var proj = projectile.instantiate()
 			proj.position = position
-			proj.linear_velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
-			proj.linear_velocity = proj.linear_velocity + Vector2(randf_range(-100,100),randf_range(-100, 100))
+			proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
+			proj.velocity = proj.velocity + Vector2(randf_range(-100,100),randf_range(-100, 100))
 
 			var dif = self.global_position.angle_to_point(enemy.global_position)
 

@@ -30,9 +30,6 @@ func _ready() -> void:
 	loadTurretXpData()
 	loadXpMaximum()
 
-func _process(_delta: float) -> void:
-	get_tree().call_group("Turret", "attack")
-
 func get_turret_string(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
 

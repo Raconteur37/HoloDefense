@@ -87,6 +87,9 @@ var beaconBuffActive : bool = false
 
 var energizerTurret : Turret = null
 
+func _process(_delta: float) -> void:
+	get_tree().call_group("Turret", "attack")
+
 func addKill():
 	kills += 1
 
