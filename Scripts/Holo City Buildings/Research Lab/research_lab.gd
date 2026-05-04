@@ -294,6 +294,7 @@ func updateProgressTimer(index,progress):
 func _on_turret_one_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[0]):
+			CityManager.currentEnergy -= costMap.get(turretsList[0])
 			purchaseOne += 1
 			turretLevelDisplayText1.text = "[font_size=15][color=blue]" + str(purchaseOne) + "[/color][/font_size]"
 			updateResearchCost(turretsList[0],purchaseOne)
@@ -302,6 +303,7 @@ func _on_turret_one_research_button_pressed() -> void:
 func _on_turret_two_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[1]):
+			CityManager.currentEnergy -= costMap.get(turretsList[1])
 			purchaseTwo += 1
 			turretLevelDisplayText2.text = "[font_size=15][color=blue]" + str(purchaseTwo) + "[/color][/font_size]"
 			updateResearchCost(turretsList[1],purchaseTwo)
@@ -311,6 +313,7 @@ func _on_turret_two_research_button_pressed() -> void:
 func _on_turret_three_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[2]):
+			CityManager.currentEnergy -= costMap.get(turretsList[2])
 			purchaseThree += 1
 			turretLevelDisplayText3.text = "[font_size=15][color=blue]" + str(purchaseThree) + "[/color][/font_size]"
 			updateResearchCost(turretsList[2],purchaseThree)
@@ -320,6 +323,7 @@ func _on_turret_three_research_button_pressed() -> void:
 func _on_turret_four_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[3]):
+			CityManager.currentEnergy -= costMap.get(turretsList[3])
 			purchaseFour += 1
 			turretLevelDisplayText4.text = "[font_size=15][color=blue]" + str(purchaseFour) + "[/color][/font_size]"
 			updateResearchCost(turretsList[3],purchaseFour)
@@ -329,6 +333,7 @@ func _on_turret_four_research_button_pressed() -> void:
 func _on_turret_five_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[4]):
+			CityManager.currentEnergy -= costMap.get(turretsList[4])
 			purchaseFive += 1
 			turretLevelDisplayText5.text = "[font_size=15][color=blue]" + str(purchaseFive) + "[/color][/font_size]"
 			updateResearchCost(turretsList[4],purchaseFive)
@@ -338,6 +343,7 @@ func _on_turret_five_research_button_pressed() -> void:
 func _on_turret_six_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[5]):
+			CityManager.currentEnergy -= costMap.get(turretsList[5])
 			purchaseSix += 1
 			turretLevelDisplayText6.text = "[font_size=15][color=blue]" + str(purchaseSix) + "[/color][/font_size]"
 			updateResearchCost(turretsList[5],purchaseSix)
@@ -347,6 +353,7 @@ func _on_turret_six_research_button_pressed() -> void:
 func _on_turret_seven_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[6]):
+			CityManager.currentEnergy -= costMap.get(turretsList[6])
 			purchaseSeven += 1
 			turretLevelDisplayText7.text = "[font_size=15][color=blue]" + str(purchaseSeven) + "[/color][/font_size]"
 			updateResearchCost(turretsList[6],purchaseSeven)
@@ -356,6 +363,7 @@ func _on_turret_seven_research_button_pressed() -> void:
 func _on_turret_eight_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[7]):
+			CityManager.currentEnergy -= costMap.get(turretsList[7])
 			purchaseEight += 1
 			turretLevelDisplayText8.text = "[font_size=15][color=blue]" + str(purchaseEight) + "[/color][/font_size]"
 			updateResearchCost(turretsList[7],purchaseEight)
@@ -365,6 +373,7 @@ func _on_turret_eight_research_button_pressed() -> void:
 func _on_turret_nine_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[8]):
+			CityManager.currentEnergy -= costMap.get(turretsList[8])
 			purchaseNine += 1
 			turretLevelDisplayText9.text = "[font_size=15][color=blue]" + str(purchaseNine) + "[/color][/font_size]"
 			updateResearchCost(turretsList[8],purchaseNine)
@@ -374,6 +383,7 @@ func _on_turret_nine_research_button_pressed() -> void:
 func _on_turret_ten_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[9]):
+			CityManager.currentEnergy -= costMap.get(turretsList[9])
 			purchaseTen += 1
 			turretLevelDisplayText10.text = "[font_size=15][color=blue]" + str(purchaseTen) + "[/color][/font_size]"
 			updateResearchCost(turretsList[9],purchaseTen)

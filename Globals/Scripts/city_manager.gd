@@ -568,7 +568,7 @@ func cityLevelUp():
 	storageChanged.emit()
 	
 	# play popup and sound
-	var popup = load("res://Globals/Scene/Popup Manager.tscn")
+	var popup = load("res://Globals/Scene/Popup.tscn")
 	popup = popup.instantiate()
 	
 	var canvasLayer

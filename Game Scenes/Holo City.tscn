@@ -15,7 +15,7 @@ vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-2, -3, 1920, -1, 1920, 1077, -2, 1077)])
 
-[node name="CityCanvas" type="CanvasLayer" unique_id=1341419640]
+[node name="CityCanvas" type="CanvasLayer" unique_id=1341419640 groups=["CityCanvas"]]
 
 [node name="TextureRect" type="TextureRect" parent="." unique_id=925984537]
 self_modulate = Color(1, 1, 1, 0.24705882)

@@ -342,6 +342,7 @@ func finishConstruction(index,turretID):
 func fabricateTurret(turretListIndex):
 	if usedSlots < currentSlots:
 		if CityManager.currentScrap >= costMap.get(turretList[turretListIndex]):
+			CityManager.currentScrap -= costMap.get(turretList[turretListIndex])
 			var turret = turretList[turretListIndex]  
 			usedSlots += 1
 			var baseConstructionTime = TurretManager.getTurretStat(turret, "constructionTime")

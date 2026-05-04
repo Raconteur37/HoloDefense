@@ -121,7 +121,7 @@ func _on_menu_control_visibility_changed() -> void:
 
 func _on_texture_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.atomizerUpgradeCost:
-		# CityManager.currentMoney -= CityManager.atomizerUpgradeCost
+		CityManager.currentMoney -= CityManager.atomizerUpgradeCost
 		CityManager.addCityXp("purchase_upgrade")
 		CityManager.materialAtomizerLevel += 1
 		levelLabel.text = "Level: " + str(CityManager.materialAtomizerLevel)

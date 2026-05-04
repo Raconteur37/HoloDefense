@@ -35,7 +35,7 @@ var currentPhase : Phase = Phase.IDLE
 func _ready() -> void:
 	loadData()
 	intermission_duration = get_system_transition_time(currentDifficulty)
-	beginNextWave()
+	#beginNextWave()
 
 	
 
