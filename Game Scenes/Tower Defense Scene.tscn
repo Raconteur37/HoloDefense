@@ -216,6 +216,7 @@ debug_color = Color(0.93837553, 0.20797732, 0.3587349, 0.41960785)
 z_index = 2
 
 [node name="Timer" type="Timer" parent="." unique_id=1651288970]
+one_shot = true
 
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]

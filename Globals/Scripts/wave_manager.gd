@@ -25,7 +25,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 2
+var currentDifficulty = 3
 
 var currentWave = 0
 var systemNumber = 0
@@ -34,10 +34,7 @@ var currentPhase : Phase = Phase.IDLE
 
 func _ready() -> void:
 	loadData()
-	intermission_duration = get_system_transition_time(currentDifficulty)
 	#beginNextWave()
-
-	
 
 func beginNextWave():
 	currentWave += 1
@@ -53,7 +50,7 @@ func beginNextWave():
 	
 	spawnNext()
 	
-	manageWaveInfoUI()
+	manageWaveInfoUI(0)
 
 func beginNextSystem():
 	systemNumber += 1
@@ -61,26 +58,26 @@ func beginNextSystem():
 	# Generate random system but for now we set it manually
 	currentSystem = "Similar"
 	
+	intermission_duration = get_system_transition_time(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(intermission_duration)
-	manageWaveInfoUI()
+	manageWaveInfoUI(intermission_duration)
 	intermissionTimer.timeout.connect(beginNextWave)
 	
 
 func onWaveComplete() -> void: 
-	if not DeveloperMode.inDevMode:
-		currentPhase = Phase.INTERMISSION
-		
-		var duration = get_intermission_duration(currentDifficulty)
-		intermissionTimer = get_tree().create_timer(duration)
-		intermissionTimer.timeout.connect(beginNextWave)
-		manageWaveInfoUI()
+	currentPhase = Phase.INTERMISSION
+	
+	var duration = get_intermission_duration(currentDifficulty)
+	intermissionTimer = get_tree().create_timer(duration)
+	intermissionTimer.timeout.connect(beginNextWave)
+	manageWaveInfoUI(duration)
 
-func manageWaveInfoUI():
+func manageWaveInfoUI(duration):
 	var bottomUI = get_tree().current_scene
 	if bottomUI != null:
 		if bottomUI.has_node("TowerDefenseCanvas"):
 			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-		bottomUI.refreshWaveInfo(intermission_duration)
+		bottomUI.refreshWaveInfo(duration)
 
 func buildSpawnQueue() -> Array:
 	var queue: Array = []
@@ -116,9 +113,14 @@ func buildSpawnQueue() -> Array:
 		var assigned = counts["first"] + counts["second"] + counts["third"]
 		counts["first"] += total - assigned
 
+	for i in counts["first"]:
+		queue.append(tierOneEnemyTypes.get(currentSystem))
+	for i in counts["second"]:
+		queue.append(tierTwoEnemyTypes.get(currentSystem))
+	for i in counts["third"]:
+		queue.append(tierThreeEnemyTypes.get(currentSystem))
+
 	queue.shuffle()
-	
-	#print(counts)
 	
 	for item in queue:
 		if activeEnemies.has(item):

@@ -27,7 +27,7 @@ var placeTurretIconScene = preload("res://Game Scenes/PlaceTurretIcon.tscn")
 
 var alert30Sec = false
 var alert10Sec = false
-var alertEnemiesIncoming = false
+var alertEnemiesIncoming = true
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -61,18 +61,18 @@ func _process(delta: float) -> void:
 		if time <= 30 and not alert30Sec:
 			PopupManager.enemiesIncomingPopup(time)
 			alert30Sec = true
-		if time <= 10 and not alert30Sec:
+			alertEnemiesIncoming = false
+		if time <= 10 and not alert10Sec:
 			PopupManager.enemiesIncomingPopup(time)
 			alert10Sec = true
-		if time <= 0 and not alertEnemiesIncoming:
-			PopupManager.enemiesIncomingPopup(time)
-			alertEnemiesIncoming = true
-					
+			
 			
 	if placeHolderTimer.is_stopped():
+		if not alertEnemiesIncoming:
+			PopupManager.enemiesIncomingPopup(0)
+			alertEnemiesIncoming = true
 		alert30Sec = false
 		alert10Sec = false
-		alertEnemiesIncoming = false
 
 
 func _on_enable_mouse_entered() -> void:
@@ -100,7 +100,7 @@ func refreshUI():
 
 func refreshWaveInfo(time):
 	if placeHolderTimer != null:
-		if placeHolderTimer.is_stopped():
+		if placeHolderTimer.is_stopped() and time > 0:
 			placeHolderTimer.wait_time = time
 			placeHolderTimer.start()
 		systemLabel.text = "Current System: " + WaveManager.currentSystem
