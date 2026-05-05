@@ -79,8 +79,6 @@ func free_cell(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
 	_occupied.erase(cell)
 
-# ─── Ghost builder ────────────────────────────────────────────────────────────
-
 func _build_ghost(id: Turret.TurretID) -> void:
 	# Removed the queue_free guard — begin_placement already does _ghost.free() synchronously
 	_ghost = Node2D.new()
@@ -309,3 +307,6 @@ func _draw() -> void:
 				Color(border_base.r, border_base.g, border_base.b,
 					  border_base.a * pulse_border * center_alpha),
 				false, 2.0)
+
+func reset():
+	_occupied.clear()

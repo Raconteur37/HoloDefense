@@ -595,6 +595,7 @@ func addTurretTempLevel(turretID,amount):
 
 
 func reset():
+	PlacementManager.reset()
 	for citizen in citizens:
 		if is_instance_valid(citizen):
 			citizen.queue_free()

@@ -22,6 +22,7 @@ var turretsAvailableGrid
 @onready var waveLabel = $BottomUI/WaveData/WaveLabel
 @onready var intermissionLabel = $BottomUI/WaveData/IntermissionLabel
 @onready var placeHolderTimer = $Timer
+@onready var difficultyLabel = $BottomUI/WaveData/DifficultyLabel
 
 var placeTurretIconScene = preload("res://Game Scenes/PlaceTurretIcon.tscn")
 
@@ -41,6 +42,7 @@ func _ready() -> void:
 	turretStatsGrid = $BottomUI/TurretData/TurretStatsGridContainer
 	healthBar = $"BottomUI/TurretData/Health Bar"
 	healthRichLabelText = $BottomUI/TurretData/RichTextLabel
+
 	
 
 	
@@ -103,6 +105,7 @@ func refreshWaveInfo(time):
 		if placeHolderTimer.is_stopped() and time > 0:
 			placeHolderTimer.wait_time = time
 			placeHolderTimer.start()
+		difficultyLabel.text = "Difficulty: " + str(WaveManager.currentDifficulty)
 		systemLabel.text = "System: " + str(WaveManager.systemNumber) + "/5"
 		waveLabel.text = "Current Wave: " + str(WaveManager.currentWave)
 		intermissionLabel.text = ""
