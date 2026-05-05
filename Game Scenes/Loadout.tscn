@@ -7,6 +7,8 @@
 [ext_resource type="Texture2D" uid="uid://b0gysmre53p2f" path="res://Textures/UI/Game/Turret Info Scene/TurretSpace.png" id="5_eqhij"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_eqhij"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="7_8pbxt"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="8_m7oig"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="9_dc8bj"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_eqhij"]
 shader = ExtResource("1_5x5ke")
@@ -182,6 +184,8 @@ grow_horizontal = 2
 grow_vertical = 0
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("6_eqhij")
+texture_pressed = ExtResource("9_dc8bj")
+texture_hover = ExtResource("8_m7oig")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="BeginButton" unique_id=1426102146]
 layout_mode = 1
@@ -285,6 +289,8 @@ offset_right = 459.75995
 offset_bottom = 157.95999
 scale = Vector2(0.5, 0.5)
 texture_normal = ExtResource("6_eqhij")
+texture_pressed = ExtResource("9_dc8bj")
+texture_hover = ExtResource("8_m7oig")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TurretInfoButton" unique_id=424747655]
 layout_mode = 1

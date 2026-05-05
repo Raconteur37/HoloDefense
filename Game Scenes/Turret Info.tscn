@@ -10,6 +10,8 @@
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_du365"]
 [ext_resource type="Texture2D" uid="uid://blhjeflcd08w8" path="res://Textures/UI/Game/Turret Info Scene/LockedButton.png" id="7_515np"]
 [ext_resource type="AudioStream" uid="uid://bs5dry30xukqj" path="res://Sounds/UI Sounds/Turret Select Sound.mp3" id="10_5l8ie"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="11_jeivb"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
@@ -452,16 +454,17 @@ stream = ExtResource("10_5l8ie")
 [node name="TurretInfoButton" type="TextureButton" parent="." unique_id=1682683782]
 z_index = 2
 anchors_preset = -1
-anchor_left = 0.032
-anchor_top = 0.042000003
-anchor_right = 0.272
-anchor_bottom = 0.18800001
-offset_left = -52.440002
-offset_top = -30.360004
-offset_right = 406.75995
-offset_bottom = 127.95999
+anchor_top = 0.014
+anchor_right = 0.187
+anchor_bottom = 0.126
+offset_left = 9.0
+offset_top = -0.12000084
+offset_right = 569.95996
+offset_bottom = 194.92
 scale = Vector2(0.38004395, 0.38394025)
 texture_normal = ExtResource("6_du365")
+texture_pressed = ExtResource("11_jeivb")
+texture_hover = ExtResource("12_s7hv8")
 
 [node name="RichTextLabel" type="RichTextLabel" parent="TurretInfoButton" unique_id=846024973]
 layout_mode = 1

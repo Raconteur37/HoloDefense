@@ -94,7 +94,7 @@ func updateUI() -> void:
 			turretList.append(GameManager.turretsBrought[i])
 
 		if i < scrapCostTexts.size() and i < costMap.keys().size():
-			scrapCostTexts[i].text = "[font_size=6][color=brown]%d Scrap[/color][/font_size]" \
+			scrapCostTexts[i].text = "[font_size=6][color=#DDC6B6]%d Scrap[/color][/font_size]" \
 				% int(costMap.get(costMap.keys()[i]))
 
 		# Fabrication slots
