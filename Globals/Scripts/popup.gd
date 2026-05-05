@@ -46,7 +46,6 @@ func timeRemainingAlert(time : int):
 		SoundManager.enemiesIncoming()
 		incomingLabel.text = "[pulse color=#FF3131 height=0.5 freq=0.3][font_size=64]Enemies Incoming[/font_size][/pulse]"
 	else:
-		SoundManager.enemiesIncoming()
 		incomingLabel.text = "[pulse color=#0000ff height=0.5 freq=0.3][font_size=64]" + str(time) + " Seconds until enemies arrive[/font_size][/pulse]"
 
 

@@ -44,7 +44,7 @@ func _ready() -> void:
 func _physics_process(delta: float) -> void:
 	updateDestination()
 	move()
-	if isZombie and not initialTurn:
+	if isZombie and not initialTurn and type != Type.BOSS:
 		initZombie()
 
 func updateDestination() -> void:

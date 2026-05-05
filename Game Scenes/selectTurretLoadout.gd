@@ -77,3 +77,7 @@ func _on_begin_button_pressed() -> void:
 		GameManager.turretTempLevels[item] = 0
 	#print(GameManager.turretsBrought)
 	get_tree().change_scene_to_file("res://Game Scenes/Game.tscn")
+
+
+func _on_turret_info_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Game Scenes/Turret Info.tscn")

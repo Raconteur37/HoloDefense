@@ -185,9 +185,11 @@ var maxAtomizerLevel
 func _ready() -> void:
 	# Testing
 	currentMoney = startingCash
-	#currentMoney = 9999999
 	currentEnergy = startingEnergy
 	currentScrap = startingScrap
+	currentMoney = 999999
+	currentEnergy = 999999
+	currentScrap = 999999
 	updateGemChanceWeights()
 	updateScrapChanceWeights()
 	citizenGenCost = baseCitizenGenCost

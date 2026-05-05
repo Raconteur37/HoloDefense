@@ -13,6 +13,8 @@ stream = SubResource("AudioStreamMP3_5ktvt")
 volume_db = 2.0
 max_polyphony = 16
 
+[node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=985591661]
+
 [node name="ComboTimer" type="Timer" parent="." unique_id=1858310063]
 
 [connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]

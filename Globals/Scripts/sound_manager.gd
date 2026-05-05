@@ -2,12 +2,20 @@ extends Node2D
 
 
 var comboTimer
-
+var musicPlayer
 var soundPlayer
 
 func _ready() -> void:
 	comboTimer = $ComboTimer
 	soundPlayer = $SoundPlayer
+	musicPlayer = $MusicPlayer
+
+func playBossWaveSound():
+	musicPlayer.stream = load("res://Sounds/In Game Sounds/wave10theme.mp3")
+	musicPlayer.play()
+
+func stopBossWaveSound():
+	musicPlayer.stop()
 
 func playGenericKillSound():
 	comboTimer.stop()

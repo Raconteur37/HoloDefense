@@ -1,4 +1,4 @@
-[gd_scene load_steps=26 format=3 uid="uid://dw8klkwdc1mfr"]
+[gd_scene format=3 uid="uid://dw8klkwdc1mfr"]
 
 [ext_resource type="Script" uid="uid://cvho2hfkojlx2" path="res://Scripts/Game Scene/turret_selection_scroll.gd" id="1_mxhls"]
 [ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_515np"]
@@ -117,9 +117,9 @@ font_color = Color(0.442911, 0.442911, 0.442911, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
 font_size = 25
 
-[node name="CanvasLayer" type="CanvasLayer"]
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1033690075]
 
-[node name="ScreenFilter" type="ColorRect" parent="."]
+[node name="ScreenFilter" type="ColorRect" parent="." unique_id=1145954247]
 show_behind_parent = true
 z_index = 2
 material = SubResource("ShaderMaterial_ekhco")
@@ -130,7 +130,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="ScreenFilter2" type="ColorRect" parent="."]
+[node name="ScreenFilter2" type="ColorRect" parent="." unique_id=1166390661]
 show_behind_parent = true
 z_index = 3
 material = SubResource("ShaderMaterial_5l8ie")
@@ -141,7 +141,7 @@ grow_horizontal = 2
 grow_vertical = 2
 mouse_filter = 2
 
-[node name="TurretInfo" type="Control" parent="."]
+[node name="TurretInfo" type="Control" parent="." unique_id=1829322080]
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -153,7 +153,7 @@ offset_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
 
-[node name="Info Background" type="TextureRect" parent="TurretInfo"]
+[node name="Info Background" type="TextureRect" parent="TurretInfo" unique_id=601322313]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -167,7 +167,7 @@ offset_right = 9.079956
 offset_bottom = 77.79993
 texture = ExtResource("2_515np")
 
-[node name="Background" type="TextureRect" parent="TurretInfo"]
+[node name="Background" type="TextureRect" parent="TurretInfo" unique_id=300500578]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -178,7 +178,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("2_ekhco")
 
-[node name="TurretSelectionScroll" type="Control" parent="TurretInfo"]
+[node name="TurretSelectionScroll" type="Control" parent="TurretInfo" unique_id=1532971843]
 layout_mode = 1
 anchor_top = 0.896
 anchor_right = 1.0
@@ -191,7 +191,7 @@ grow_vertical = 0
 scale = Vector2(0.8, 0.8)
 script = ExtResource("1_mxhls")
 
-[node name="TextureRect" type="TextureRect" parent="TurretInfo/TurretSelectionScroll"]
+[node name="TextureRect" type="TextureRect" parent="TurretInfo/TurretSelectionScroll" unique_id=852616718]
 layout_mode = 0
 offset_left = -35.000004
 offset_top = -51.250015
@@ -200,7 +200,7 @@ offset_bottom = 148.74998
 scale = Vector2(1.2885971, 0.55000305)
 texture = ExtResource("6_5l8ie")
 
-[node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll"]
+[node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll" unique_id=154355112]
 layout_mode = 1
 anchors_preset = -1
 anchor_right = 4.964
@@ -211,10 +211,10 @@ offset_right = -20.999998
 offset_bottom = -43.0
 scale = Vector2(2.44544, 2.33681)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/ScrollContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/ScrollContainer" unique_id=2029981489]
 layout_mode = 2
 
-[node name="LevelContainer" type="VBoxContainer" parent="TurretInfo"]
+[node name="LevelContainer" type="VBoxContainer" parent="TurretInfo" unique_id=1968859970]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.60700005
@@ -227,12 +227,12 @@ offset_right = 86.0
 offset_bottom = 333.63995
 scale = Vector2(0.9, 0.9)
 
-[node name="LevelOneTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
+[node name="LevelOneTexture" type="TextureRect" parent="TurretInfo/LevelContainer" unique_id=331528573]
 modulate = Color(1, 1, 1, 0.45098)
 layout_mode = 2
 texture = ExtResource("6_du365")
 
-[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelOneTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelOneTexture" unique_id=263431804]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -252,7 +252,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelOneTexture"]
+[node name="RichTextLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelOneTexture" unique_id=1425024804]
 material = SubResource("ShaderMaterial_scggw")
 layout_mode = 1
 anchors_preset = -1
@@ -270,11 +270,11 @@ text = "blah blah blah blhalh sad as"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelTwoTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
+[node name="LevelTwoTexture" type="TextureRect" parent="TurretInfo/LevelContainer" unique_id=462189358]
 layout_mode = 2
 texture = ExtResource("7_515np")
 
-[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1159922086]
 visible = false
 layout_mode = 0
 offset_left = 119.0
@@ -287,7 +287,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture"]
+[node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1284478978]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -303,11 +303,11 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
-[node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer"]
+[node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer" unique_id=1385259892]
 layout_mode = 2
 texture = ExtResource("7_515np")
 
-[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
+[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1841460710]
 visible = false
 layout_mode = 0
 offset_left = 113.0
@@ -318,7 +318,7 @@ text = "Debug Text"
 label_settings = SubResource("LabelSettings_osgsa")
 autowrap_mode = 2
 
-[node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
+[node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1941627666]
 visible = false
 layout_mode = 1
 anchors_preset = -1
@@ -334,7 +334,7 @@ text = "Requires Level 2"
 label_settings = SubResource("LabelSettings_scggw")
 autowrap_mode = 2
 
-[node name="LevelThreeProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelThreeTexture"]
+[node name="LevelThreeProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=852756381]
 visible = false
 layout_mode = 0
 offset_left = 176.027
@@ -345,7 +345,7 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
 
-[node name="Info Labels Container" type="GridContainer" parent="TurretInfo"]
+[node name="Info Labels Container" type="GridContainer" parent="TurretInfo" unique_id=1421145813]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -361,12 +361,10 @@ theme_override_constants/h_separation = 35
 columns = 3
 metadata/_edit_use_anchors_ = true
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="TurretInfo"]
-libraries = {
-&"": SubResource("AnimationLibrary_ekhco")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="TurretInfo" unique_id=887440628]
+libraries/ = SubResource("AnimationLibrary_ekhco")
 
-[node name="VBoxContainer3" type="VBoxContainer" parent="TurretInfo"]
+[node name="VBoxContainer3" type="VBoxContainer" parent="TurretInfo" unique_id=1917609009]
 z_index = 1
 layout_mode = 1
 anchors_preset = -1
@@ -380,7 +378,7 @@ offset_right = -0.72003174
 offset_bottom = 0.079956055
 metadata/_edit_use_anchors_ = true
 
-[node name="TurretNameLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+[node name="TurretNameLabel" type="Label" parent="TurretInfo/VBoxContainer3" unique_id=1347675645]
 layout_mode = 2
 text = "Arrow Turret"
 label_settings = SubResource("LabelSettings_g24qp")
@@ -388,18 +386,18 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 
-[node name="RarityLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+[node name="RarityLabel" type="Label" parent="TurretInfo/VBoxContainer3" unique_id=551815424]
 layout_mode = 2
 text = "Rarity"
 label_settings = SubResource("LabelSettings_bvhjd")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Viewport Holder" type="Control" parent="TurretInfo/VBoxContainer3"]
+[node name="Viewport Holder" type="Control" parent="TurretInfo/VBoxContainer3" unique_id=1215544925]
 custom_minimum_size = Vector2(100, 256)
 layout_mode = 2
 
-[node name="TurretIcon" type="TextureRect" parent="TurretInfo/VBoxContainer3/Viewport Holder"]
+[node name="TurretIcon" type="TextureRect" parent="TurretInfo/VBoxContainer3/Viewport Holder" unique_id=203491141]
 z_index = 1
 layout_mode = 1
 anchors_preset = 15
@@ -410,7 +408,7 @@ grow_vertical = 2
 texture = ExtResource("2_mxhls")
 metadata/_edit_use_anchors_ = true
 
-[node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo/VBoxContainer3/Viewport Holder"]
+[node name="SubViewportContainer" type="SubViewportContainer" parent="TurretInfo/VBoxContainer3/Viewport Holder" unique_id=65594526]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = -0.40100002
@@ -427,27 +425,60 @@ size_flags_horizontal = 4
 size_flags_vertical = 4
 metadata/_edit_use_anchors_ = true
 
-[node name="SubViewport" type="SubViewport" parent="TurretInfo/VBoxContainer3/Viewport Holder/SubViewportContainer"]
+[node name="SubViewport" type="SubViewport" parent="TurretInfo/VBoxContainer3/Viewport Holder/SubViewportContainer" unique_id=184763746]
 disable_3d = true
 transparent_bg = true
 handle_input_locally = false
 gui_disable_input = true
 render_target_update_mode = 4
 
-[node name="TypeLabel" type="Label" parent="TurretInfo/VBoxContainer3"]
+[node name="TypeLabel" type="Label" parent="TurretInfo/VBoxContainer3" unique_id=788520022]
 layout_mode = 2
 text = "Turret Type"
 label_settings = SubResource("LabelSettings_cxutq")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PreviewButton" type="CheckButton" parent="TurretInfo/VBoxContainer3"]
+[node name="PreviewButton" type="CheckButton" parent="TurretInfo/VBoxContainer3" unique_id=691630062]
+visible = false
 layout_mode = 2
 size_flags_horizontal = 4
 size_flags_vertical = 4
 alignment = 1
 
-[node name="TurretSelectSound" type="AudioStreamPlayer2D" parent="."]
+[node name="TurretSelectSound" type="AudioStreamPlayer2D" parent="." unique_id=1608032384]
 stream = ExtResource("10_5l8ie")
 
+[node name="TurretInfoButton" type="TextureButton" parent="." unique_id=1682683782]
+z_index = 2
+anchors_preset = -1
+anchor_left = 0.032
+anchor_top = 0.042000003
+anchor_right = 0.272
+anchor_bottom = 0.18800001
+offset_left = -52.440002
+offset_top = -30.360004
+offset_right = 406.75995
+offset_bottom = 127.95999
+scale = Vector2(0.38004395, 0.38394025)
+texture_normal = ExtResource("6_du365")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TurretInfoButton" unique_id=846024973]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.109000005
+anchor_top = 0.266
+anchor_right = 0.92800003
+anchor_bottom = 0.76600003
+offset_left = -8.280006
+offset_top = -36.056
+offset_right = -7.76001
+offset_bottom = 15.943985
+mouse_filter = 2
+bbcode_enabled = true
+text = "[pulse color=aqua height=0.5 freq=0.5][font_size=90]To Loadout[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
+[connection signal="pressed" from="TurretInfoButton" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_pressed"]

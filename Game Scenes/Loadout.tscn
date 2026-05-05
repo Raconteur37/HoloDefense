@@ -272,8 +272,40 @@ label_settings = SubResource("LabelSettings_dc8bj")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="TurretInfoButton" type="TextureButton" parent="." unique_id=1800940218]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.032
+anchor_top = 0.042000003
+anchor_right = 0.272
+anchor_bottom = 0.18800001
+offset_left = 0.55999756
+offset_top = -0.36000443
+offset_right = 459.75995
+offset_bottom = 157.95999
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("6_eqhij")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="TurretInfoButton" unique_id=424747655]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.109000005
+anchor_top = 0.266
+anchor_right = 0.92800003
+anchor_bottom = 0.76600003
+offset_left = -8.280006
+offset_top = -36.056
+offset_right = -7.76001
+offset_bottom = 15.943985
+mouse_filter = 2
+bbcode_enabled = true
+text = "[pulse color=aqua height=0.5 freq=0.5][font_size=70]View All Available Turrets[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="value_changed" from="VSlider" to="." method="_on_v_slider_value_changed"]
 [connection signal="pressed" from="BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]
+[connection signal="pressed" from="TurretInfoButton" to="." method="_on_turret_info_button_pressed"]

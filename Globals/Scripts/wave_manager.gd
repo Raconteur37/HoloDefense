@@ -68,6 +68,9 @@ func beginNextSystem():
 func onWaveComplete() -> void: 
 	currentPhase = Phase.INTERMISSION
 	
+	if not is_boss_wave():
+		SoundManager.stopBossWaveSound()
+	
 	var duration = get_intermission_duration(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(duration)
 	intermissionTimer.timeout.connect(beginNextWave)
@@ -86,6 +89,7 @@ func buildSpawnQueue() -> Array:
 	# Boss waves are solo — one mothership, nothing else
 	if is_boss_wave():
 		queue.append(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
+		SoundManager.playBossWaveSound()
 
 	var waveWithinSystem = ((currentWave - 1) % get_waves_per_system()) + 1
 
