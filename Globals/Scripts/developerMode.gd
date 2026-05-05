@@ -28,6 +28,7 @@ func _input(event: InputEvent) -> void:
 					EnemySpawnManager.summonEnemy(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
 			KEY_W:
 				WaveManager.beginNextWave()
+				#WaveManager.onWaveComplete()
 
 			KEY_F1:
 				#if Input.is_key_pressed(KEY_SHIFT):

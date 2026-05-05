@@ -25,7 +25,7 @@ var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
 var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
-var currentDifficulty = 3
+var currentDifficulty = 1
 
 var currentWave = 0
 var systemNumber = 0
@@ -41,8 +41,9 @@ func beginNextWave():
 	currentWave += 1
 	
 	if currentWave > get_waves_per_system():
-		beginNextSystem()
 		currentWave = 0
+		beginNextSystem()
+		SoundManager.stopBossWaveSound()
 		return
 	
 	currentPhase = Phase.SUMMONING_ENEMIES
@@ -67,9 +68,6 @@ func beginNextSystem():
 
 func onWaveComplete() -> void: 
 	currentPhase = Phase.INTERMISSION
-	
-	if not is_boss_wave():
-		SoundManager.stopBossWaveSound()
 	
 	var duration = get_intermission_duration(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(duration)

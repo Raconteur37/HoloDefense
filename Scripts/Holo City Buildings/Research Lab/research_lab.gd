@@ -100,6 +100,8 @@ var currentWorkersLabel
 
 var purchaseSlotsButton
 
+var descriptionLabel
+
 func _ready() -> void:
 	menu = $menuControl
 	
@@ -180,6 +182,8 @@ func _ready() -> void:
 	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]
 [color=gold]$"+                     str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
 
+	descriptionLabel = $menuControl/LabBackground/Description
+
 	researchBarList = [researchTextureBar1,researchTextureBar2,researchTextureBar3,researchTextureBar4,researchTextureBar5,researchTextureBar6,researchTextureBar7,researchTextureBar8,researchTextureBar9,researchTextureBar10]
 
 	for turret in GameManager.turretsBrought:
@@ -190,6 +194,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if menu.visible:
+		descriptionLabel.text = "[font_size=30][color=#3FE0FF]Energy: " + str(CityManager.currentEnergy) + "[/color][/font_size]"
 		if currentResearchingMap.size() > 0:
 			var index = 0
 			for timer in currentResearchingMap:

@@ -8,6 +8,9 @@
 [ext_resource type="Texture2D" uid="uid://c1hlg2cxbnqtb" path="res://Textures/Citizens/Scrap/Super Rare Scrap.png" id="6_4gpin"]
 [ext_resource type="Texture2D" uid="uid://brsdd1jhlp5ir" path="res://Textures/Citizens/Scrap/Legendary Scrap.png" id="7_wf6c0"]
 [ext_resource type="Texture2D" uid="uid://dh201h6a6n18x" path="res://Textures/Citizens/Scrap/Unseen Scrap.png" id="8_5eexy"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_wf6c0"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_5eexy"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_x4qc4"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")
@@ -33,13 +36,6 @@ size = Vector2(256, 255)
 [sub_resource type="LabelSettings" id="LabelSettings_ps0om"]
 font_size = 32
 font_color = Color(0.39817658, 0.5493776, 1, 1)
-
-[sub_resource type="Gradient" id="Gradient_c3e4m"]
-colors = PackedColorArray(0.6839604, 0.7890422, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_87rhe"]
-gradient = SubResource("Gradient_c3e4m")
-fill_from = Vector2(1, 0)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fhcxf"]
 font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
@@ -201,21 +197,24 @@ horizontal_alignment = 1
 [node name="TextureButton" type="TextureButton" parent="menuControl/AtomizerMenuBackground" unique_id=1824000834]
 layout_mode = 0
 offset_left = 322.0
-offset_top = 525.0
-offset_right = 386.0
-offset_bottom = 589.0
-scale = Vector2(4.535829, 1.4520546)
-texture_normal = SubResource("GradientTexture2D_87rhe")
+offset_top = 523.0
+offset_right = 1242.0
+offset_bottom = 839.0
+scale = Vector2(0.304, 0.3)
+texture_normal = ExtResource("9_wf6c0")
+texture_pressed = ExtResource("10_5eexy")
+texture_hover = ExtResource("11_x4qc4")
 
 [node name="upgradeAtomizerLabel" type="Label" parent="menuControl/AtomizerMenuBackground" unique_id=1433643961]
 layout_mode = 0
-offset_left = 382.0
+offset_left = 365.0
 offset_top = 545.0
-offset_right = 552.0
+offset_right = 564.0
 offset_bottom = 592.6667
 text = "Upgrade Material Scraper
 100 Money"
 horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="autoSellContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=235288745]
 layout_mode = 0

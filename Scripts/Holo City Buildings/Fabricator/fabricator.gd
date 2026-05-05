@@ -8,14 +8,16 @@ var activeBuilds = {}
 var fabricationTurretScene = preload("res://Globals/Scene/FabricationTurret.tscn")
 var portraitScene = preload("res://Game Scenes/Citizen Portrait.tscn")
 var removeTurretTexture = preload("res://Textures/Citizens/UI/remove auto build.png")
-var emptyTurretAutoBuildTexture = preload("res://Textures/Holo City/empty turret select.png")
+var emptyTurretAutoBuildTexture = preload("res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon.png")
+var emptyTurretAutoBuildTextureHover = preload("res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon_hover.png")
+
 
 @onready var menu = $menuControl
 @onready var selectCitPopup = $SelectPopup
 @onready var selectCitGrid = $SelectPopup/Background/GridContainer
 
 var usedSlots = 0
-var currentSlots = 0
+var currentSlots = 1
 var maxSlots = 10
 var autoBuildSelect = -1
 
@@ -25,7 +27,6 @@ var purchaseLabel
 var currentWorkersLabel
 var purchaseSlotsButton
 
-# All slot node references stored as arrays
 var fabSlotTextures: Array = []
 var assignmentButtons: Array = []
 var assignTexts: Array = []
@@ -35,6 +36,7 @@ var turretBroughtTextures: Array = []
 var turretBroughtPanels: Array = []
 var scrapCostTexts: Array = []
 var autoBuildButtons: Array = []
+var autoFabricateTimers: Array = []
 
 var assignedWorkers: Array = [null,null,null,null,null,null,null,null,null,null]
 var assignedAutoBuildList: Array = [null,null,null,null,null,null,null,null,null,null]
@@ -47,13 +49,13 @@ func _ready() -> void:
 	menu.hide()
 	selectCitPopup.hide()
 
-	titleLabel           = $menuControl/Background/Title
-	descriptionLabel     = $menuControl/Background/Description
-	purchaseLabel        = $menuControl/Background/PurchaseLabel
-	currentWorkersLabel  = $menuControl/Background/CurrentWorkersLabel
-	purchaseSlotsButton  = $menuControl/Background/purchaseSlotsButton
+	titleLabel = $menuControl/Background/Title
+	descriptionLabel = $menuControl/Background/Description
+	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(CityManager.currentScrap) + "[/color][/font_size]"
+	purchaseLabel = $menuControl/Background/PurchaseLabel
+	currentWorkersLabel = $menuControl/Background/CurrentWorkersLabel
+	purchaseSlotsButton = $menuControl/Background/purchaseSlotsButton
 
-	# Build all slot arrays by index so everything is data-driven
 	for i in range(1, 11):
 		var slot = $menuControl/Background/FabricateSlotGrid.get_node("FabricateSlot%d" % i)
 		fabSlotTextures.append(slot)
@@ -69,6 +71,13 @@ func _ready() -> void:
 		turretBroughtPanels.append(currentSlot.get_node("Panel"))
 		scrapCostTexts.append(currentSlot.get_node("costText"))
 
+		var timer = Timer.new()
+		timer.wait_time = 3.0
+		timer.autostart = false
+		timer.timeout.connect(_on_auto_fabricate_tick.bind(i - 1))
+		add_child(timer)
+		autoFabricateTimers.append(timer)
+
 	for turret in GameManager.turretsBrought:
 		costMap[turret] = TurretManager.getTurretStat(turret, "price")
 
@@ -77,18 +86,13 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	CityManager.assignCit = selectCitPopup.visible
-
-
-# ─────────────────────────────────────────────
-#  UI
-# ─────────────────────────────────────────────
+	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(CityManager.currentScrap) + "[/color][/font_size]"
 
 func updateUI() -> void:
 	purchaseLabel.text = "[font_size=16][color=white]Purchase Fabricator Slot[/color]\n[color=gold]$%s[/color][/font_size]" \
 		% str(CityManager.fabricatorSlotCost)
 
 	for i in range(10):
-		# Turrets brought row
 		if i < GameManager.turretsBrought.size():
 			turretBroughtTextures[i].texture = TurretManager.getTurretTexture(GameManager.turretsBrought[i])
 			turretList.append(GameManager.turretsBrought[i])
@@ -97,7 +101,6 @@ func updateUI() -> void:
 			scrapCostTexts[i].text = "[font_size=6][color=#DDC6B6]%d Scrap[/color][/font_size]" \
 				% int(costMap.get(costMap.keys()[i]))
 
-		# Fabrication slots
 		if i < currentSlots:
 			fabSlotTextures[i].texture = load("res://Textures/Holo City/empty research slot.png")
 			var hasWorker = assignedWorkers[i] != null
@@ -169,10 +172,8 @@ func finishConstruction(index: int, turretID) -> void:
 	usedSlots -= 1
 	activeBuilds.erase(index)
 	GameManager.addTurretToStorage(turretID, 1)
-	# Re-trigger any auto builds
-	for i in range(assignedAutoBuildList.size()):
-		if assignedAutoBuildList[i] != null:
-			autoFabricate(assignedAutoBuildList[i], i)
+	if assignedAutoBuildList[index] != null and assignedWorkers[index] != null:
+		autoFabricate(assignedAutoBuildList[index], index)
 	updateUI()
 
 
@@ -195,22 +196,37 @@ func _nextFreeSlot() -> int:
 	return -1
 
 
-# ─────────────────────────────────────────────
-#  Auto build button (one handler for all 10)
-# ─────────────────────────────────────────────
+func _startAutoFabricateTimer(slotIndex: int) -> void:
+	if slotIndex < autoFabricateTimers.size():
+		autoFabricateTimers[slotIndex].start()
+
+
+func _stopAutoFabricateTimer(slotIndex: int) -> void:
+	if slotIndex < autoFabricateTimers.size():
+		autoFabricateTimers[slotIndex].stop()
+
+
+func _on_auto_fabricate_tick(slotIndex: int) -> void:
+	if assignedAutoBuildList[slotIndex] == null:
+		return
+	if assignedWorkers[slotIndex] == null:
+		return
+	if activeBuilds.has(slotIndex):
+		return
+	autoFabricate(assignedAutoBuildList[slotIndex], slotIndex)
+
 
 func _on_auto_build_pressed(index: int) -> void:
-	# Deselect if already selecting
 	if autoBuildSelect != -1:
 		autoBuildSelect = -1
 		removeButtonGlow()
 		return
 
-	# Toggle off if already set
 	if assignedAutoBuildList[index] != null:
 		assignedAutoBuildList[index] = null
 		autoBuildButtons[index].texture_normal = emptyTurretAutoBuildTexture
-		autoBuildButtons[index].texture_hover = null
+		autoBuildButtons[index].texture_hover = emptyTurretAutoBuildTextureHover
+		_stopAutoFabricateTimer(index)
 	else:
 		autoBuildSelect = index
 		assignButtonGlow()
@@ -224,6 +240,7 @@ func _on_turret_fabricate_pressed(turretListIndex: int) -> void:
 		autoBuildButtons[autoBuildSelect].texture_hover = removeTurretTexture
 		removeButtonGlow()
 		autoFabricate(turretListIndex, autoBuildSelect)
+		_startAutoFabricateTimer(autoBuildSelect)
 		autoBuildSelect = -1
 		return
 	fabricateTurret(turretListIndex)
@@ -235,8 +252,9 @@ func _on_cancel_pressed(index: int) -> void:
 		if assignedAutoBuildList[index] != null:
 			assignedAutoBuildList[index] = null
 			autoBuildButtons[index].texture_normal = emptyTurretAutoBuildTexture
-			autoBuildButtons[index].texture_hover = null
+			autoBuildButtons[index].texture_hover = emptyTurretAutoBuildTextureHover
 	assignedWorkers[index] = null
+	_stopAutoFabricateTimer(index)
 	updateUI()
 
 
@@ -245,10 +263,6 @@ func _on_assignment_button_pressed(index: int) -> void:
 	selectCitPopup.show()
 	buildSelectPopup(index)
 
-
-# ─────────────────────────────────────────────
-#  Citizens
-# ─────────────────────────────────────────────
 
 func buildSelectPopup(index: int) -> void:
 	for cit: Citizen in workersHere:
@@ -265,6 +279,9 @@ func assignCit(index: int, cit: Citizen) -> void:
 	assignedWorkers[index] = cit
 	cit.currentState = Citizen.State.WORKING
 	CityManager.assignCit = false
+	if assignedAutoBuildList[index] != null:
+		autoFabricate(assignedAutoBuildList[index], index)
+		_startAutoFabricateTimer(index)
 	updateUI()
 	menu.show()
 	selectCitPopup.hide()
@@ -277,10 +294,6 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 		currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
 		body.currentState = Citizen.State.IDLE
 
-
-# ─────────────────────────────────────────────
-#  Misc signals
-# ─────────────────────────────────────────────
 
 func _on_select_area_input_event(_viewport, event: InputEvent, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -315,92 +328,52 @@ func _on_texture_button_pressed() -> void:
 	menu.show()
 
 
-func _on_turret_auto_build_1_pressed() -> void:
-	_on_auto_build_pressed(0)
-func _on_turret_cancel_button_1_pressed() -> void:
-	_on_cancel_pressed(0)
-func _on_turret_fabricate_button_1_pressed() -> void:
-	_on_turret_fabricate_pressed(0)
-func _on_turret_assignment_button_1_pressed() -> void:
-	_on_assignment_button_pressed(0)
+func _on_turret_auto_build_1_pressed() -> void: _on_auto_build_pressed(0)
+func _on_turret_cancel_button_1_pressed() -> void: _on_cancel_pressed(0)
+func _on_turret_fabricate_button_1_pressed() -> void: _on_turret_fabricate_pressed(0)
+func _on_turret_assignment_button_1_pressed() -> void: _on_assignment_button_pressed(0)
 
-func _on_turret_auto_build_2_pressed() -> void:
-	_on_auto_build_pressed(1)
-func _on_turret_cancel_button_2_pressed() -> void:
-	_on_cancel_pressed(1)
-func _on_turret_fabricate_button_2_pressed() -> void:
-	_on_turret_fabricate_pressed(1)
-func _on_turret_assignment_button_2_pressed() -> void:
-	_on_assignment_button_pressed(1)
+func _on_turret_auto_build_2_pressed() -> void: _on_auto_build_pressed(1)
+func _on_turret_cancel_button_2_pressed() -> void: _on_cancel_pressed(1)
+func _on_turret_fabricate_button_2_pressed() -> void: _on_turret_fabricate_pressed(1)
+func _on_turret_assignment_button_2_pressed() -> void: _on_assignment_button_pressed(1)
 
-func _on_turret_auto_build_3_pressed() -> void:
-	_on_auto_build_pressed(2)
-func _on_turret_cancel_button_3_pressed() -> void:
-	_on_cancel_pressed(2)
-func _on_turret_fabricate_button_3_pressed() -> void:
-	_on_turret_fabricate_pressed(2)
-func _on_turret_assignment_button_3_pressed() -> void:
-	_on_assignment_button_pressed(2)
+func _on_turret_auto_build_3_pressed() -> void: _on_auto_build_pressed(2)
+func _on_turret_cancel_button_3_pressed() -> void: _on_cancel_pressed(2)
+func _on_turret_fabricate_button_3_pressed() -> void: _on_turret_fabricate_pressed(2)
+func _on_turret_assignment_button_3_pressed() -> void: _on_assignment_button_pressed(2)
 
-func _on_turret_auto_build_4_pressed() -> void:
-	_on_auto_build_pressed(3)
-func _on_turret_cancel_button_4_pressed() -> void:
-	_on_cancel_pressed(3)
-func _on_turret_fabricate_button_4_pressed() -> void:
-	_on_turret_fabricate_pressed(3)
-func _on_turret_assignment_button_4_pressed() -> void:
-	_on_assignment_button_pressed(3)
+func _on_turret_auto_build_4_pressed() -> void: _on_auto_build_pressed(3)
+func _on_turret_cancel_button_4_pressed() -> void: _on_cancel_pressed(3)
+func _on_turret_fabricate_button_4_pressed() -> void: _on_turret_fabricate_pressed(3)
+func _on_turret_assignment_button_4_pressed() -> void: _on_assignment_button_pressed(3)
 
-func _on_turret_auto_build_5_pressed() -> void:
-	_on_auto_build_pressed(4)
-func _on_turret_cancel_button_5_pressed() -> void:
-	_on_cancel_pressed(4)
-func _on_turret_fabricate_button_5_pressed() -> void:
-	_on_turret_fabricate_pressed(4)
-func _on_turret_assignment_button_5_pressed() -> void:
-	_on_assignment_button_pressed(4)
+func _on_turret_auto_build_5_pressed() -> void: _on_auto_build_pressed(4)
+func _on_turret_cancel_button_5_pressed() -> void: _on_cancel_pressed(4)
+func _on_turret_fabricate_button_5_pressed() -> void: _on_turret_fabricate_pressed(4)
+func _on_turret_assignment_button_5_pressed() -> void: _on_assignment_button_pressed(4)
 
-func _on_turret_auto_build_6_pressed() -> void:
-	_on_auto_build_pressed(5)
-func _on_turret_cancel_button_6_pressed() -> void:
-	_on_cancel_pressed(5)
-func _on_turret_fabricate_button_6_pressed() -> void:
-	_on_turret_fabricate_pressed(5)
-func _on_turret_assignment_button_6_pressed() -> void:
-	_on_assignment_button_pressed(5)
+func _on_turret_auto_build_6_pressed() -> void: _on_auto_build_pressed(5)
+func _on_turret_cancel_button_6_pressed() -> void: _on_cancel_pressed(5)
+func _on_turret_fabricate_button_6_pressed() -> void: _on_turret_fabricate_pressed(5)
+func _on_turret_assignment_button_6_pressed() -> void: _on_assignment_button_pressed(5)
 
-func _on_turret_auto_build_7_pressed() -> void:
-	_on_auto_build_pressed(6)
-func _on_turret_cancel_button_7_pressed() -> void:
-	_on_cancel_pressed(6)
-func _on_turret_fabricate_button_7_pressed() -> void:
-	_on_turret_fabricate_pressed(6)
-func _on_turret_assignment_button_7_pressed() -> void:
-	_on_assignment_button_pressed(6)
+func _on_turret_auto_build_7_pressed() -> void: _on_auto_build_pressed(6)
+func _on_turret_cancel_button_7_pressed() -> void: _on_cancel_pressed(6)
+func _on_turret_fabricate_button_7_pressed() -> void: _on_turret_fabricate_pressed(6)
+func _on_turret_assignment_button_7_pressed() -> void: _on_assignment_button_pressed(6)
 
-func _on_turret_auto_build_8_pressed() -> void:
-	_on_auto_build_pressed(7)
-func _on_turret_cancel_button_8_pressed() -> void:
-	_on_cancel_pressed(7)
-func _on_turret_fabricate_button_8_pressed() -> void:
-	_on_turret_fabricate_pressed(7)
-func _on_turret_assignment_button_8_pressed() -> void:
-	_on_assignment_button_pressed(7)
+func _on_turret_auto_build_8_pressed() -> void: _on_auto_build_pressed(7)
+func _on_turret_cancel_button_8_pressed() -> void: _on_cancel_pressed(7)
+func _on_turret_fabricate_button_8_pressed() -> void: _on_turret_fabricate_pressed(7)
+func _on_turret_assignment_button_8_pressed() -> void: _on_assignment_button_pressed(7)
 
-func _on_turret_auto_build_9_pressed() -> void:
-	_on_auto_build_pressed(8)
-func _on_turret_cancel_button_9_pressed() -> void:
-	_on_cancel_pressed(8)
-func _on_turret_fabricate_button_9_pressed() -> void:
-	_on_turret_fabricate_pressed(8)
-func _on_turret_assignment_button_9_pressed() -> void:
-	_on_assignment_button_pressed(8)
+func _on_turret_auto_build_9_pressed() -> void: _on_auto_build_pressed(8)
+func _on_turret_cancel_button_9_pressed() -> void: _on_cancel_pressed(8)
+func _on_turret_fabricate_button_9_pressed() -> void: _on_turret_fabricate_pressed(8)
+func _on_turret_assignment_button_9_pressed() -> void: _on_assignment_button_pressed(8)
 
-func _on_turret_auto_build_10_pressed() -> void:
-	_on_auto_build_pressed(9)
-func _on_turret_cancel_button_10_pressed() -> void:
-	_on_cancel_pressed(9)
-func _on_turret_fabricate_button_10_pressed() -> void:
-	_on_turret_fabricate_pressed(9)
-func _on_turret_assignment_button_10_pressed() -> void:
-	_on_assignment_button_pressed(9)
+func _on_turret_auto_build_10_pressed() -> void: _on_auto_build_pressed(9)
+func _on_turret_cancel_button_10_pressed() -> void: _on_cancel_pressed(9)
+func _on_turret_fabricate_button_10_pressed() -> void: _on_turret_fabricate_pressed(9)
+func _on_turret_assignment_button_10_pressed() -> void: _on_assignment_button_pressed(9)

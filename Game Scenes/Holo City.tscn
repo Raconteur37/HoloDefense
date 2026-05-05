@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cbuod6sley3us" path="res://Holo City Buildings/Material Atomizer.tscn" id="4_6jm4f"]
 [ext_resource type="PackedScene" uid="uid://cxke0ql4vpvx1" path="res://Holo City Buildings/Research Lab.tscn" id="5_sub41"]
 [ext_resource type="PackedScene" uid="uid://dx6dlk4xpstr1" path="res://Holo City Buildings/Fabricator.tscn" id="6_1pif0"]
+[ext_resource type="Script" uid="uid://djc12vw56dh1b" path="res://Game Scenes/mini_map.gd" id="10_gvh2w"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
 vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
@@ -76,5 +77,19 @@ metadata/_edit_use_anchors_ = true
 
 [node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
 script = ExtResource("4_5wlxu")
+
+[node name="MiniMap" type="Panel" parent="." unique_id=75040146]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -274.0
+offset_top = -237.0
+offset_right = -234.0
+offset_bottom = -197.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("10_gvh2w")
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

@@ -22,25 +22,29 @@ func _input(event):
 				dragEnd = dragStart
 			else:
 				isDragging = false
-				
+
 				var dragDist = dragStart.distance_to(get_global_mouse_position())
-				
+
 				if dragDist < 5:
 					singleSelect(get_global_mouse_position())
 				else:
 					dragEnd = get_global_mouse_position()
 					selectAllInBox()
-				
+
 				queue_redraw()
-
-
 		elif event.button_index == MOUSE_BUTTON_RIGHT and event.pressed:
 			if not CityManager.citizensSelected.is_empty():
 				giveMoveOrder(get_global_mouse_position())
 
-	if event is InputEventMouseMotion and isDragging:
-		dragEnd = get_global_mouse_position()
-		queue_redraw()
+	if event is InputEventMouseMotion:
+		# Safety reset — if mouse is moving but button isn't held, clear drag state
+		if isDragging and not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			isDragging = false
+			queue_redraw()
+			return
+		if isDragging:
+			dragEnd = get_global_mouse_position()
+			queue_redraw()
 
 func _clear_current_selection():
 	var toDeselect = CityManager.citizensSelected.duplicate()

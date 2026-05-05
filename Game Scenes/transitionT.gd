@@ -1,7 +1,7 @@
 extends ColorRect
 
-@export var off_duration: float  = 0.35   # how long the collapse takes
-@export var on_duration:  float  = 0.55   # turn-on is slower for drama
+@export var off_duration: float  = 0.15   # how long the collapse takes
+@export var on_duration:  float  = 0.35   # turn-on is slower for drama
 @export var hold_black:   float  = 0.06   # pause at fully dark
 
 var _mat: ShaderMaterial

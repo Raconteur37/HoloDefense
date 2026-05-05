@@ -157,13 +157,22 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Description" type="RichTextLabel" parent="menuControl/Background" unique_id=784606772]
-layout_mode = 0
-offset_left = 161.0
-offset_top = 74.00003
-offset_right = 803.0
-offset_bottom = 146.00006
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -321.0
+offset_top = -330.99997
+offset_right = 321.0
+offset_bottom = -258.99997
+grow_horizontal = 2
+grow_vertical = 2
 bbcode_enabled = true
-text = "[font_size=16][color=white]This is where you can fabricate turrets and assign citizens to create them automatically. Workers are specialzed, so build time can only be affected by 1 worker[/color][/font_size]"
+text = "[font_size=16][color=white]debug text[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="PurchaseLabel" type="RichTextLabel" parent="menuControl/Background" unique_id=1497680425]
 layout_mode = 0

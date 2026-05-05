@@ -21,7 +21,7 @@ func playDamageParticle(enemy):
 			var particle = basicSquareHurtParticle.instantiate()
 			particle.global_position = enemy.global_position
 			particle.emitting = true
-			get_tree().current_scene.add_child(particle)
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 			await get_tree().create_timer(5).timeout
 			particle.queue_free()
 
@@ -33,15 +33,15 @@ func playDeathParticle(enemy : Enemy):
 		Enemy.EnemyID.BASIC_SQUARE:
 			var particle = basicSquareDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
-			get_tree().current_scene.add_child(particle)
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 		Enemy.EnemyID.SPEEDY_TRIANGLE:
 			var particle = speedyTriangleDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
-			get_tree().current_scene.add_child(particle)
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 		Enemy.EnemyID.SHOOTY_DIAMOND:
 			var particle = shootyDiamondDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
-			get_tree().current_scene.add_child(particle)
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 
 func playZombieTurnParticle(enemy):
 	var particle = zombieTurnParticle.instantiate()

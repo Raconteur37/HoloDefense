@@ -17,10 +17,10 @@ func _input(event: InputEvent):
 		if cityCanvas.visible:
 			cityCanvas.hide()
 			transition.play()
-			await get_tree().create_timer(.9).timeout
+			await get_tree().create_timer(.55).timeout
 			defenseCanvas.show()
 		else:
 			defenseCanvas.hide()
 			transition.play()
-			await get_tree().create_timer(.9).timeout
+			await get_tree().create_timer(.55).timeout
 			cityCanvas.show()
