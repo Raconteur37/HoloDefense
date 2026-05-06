@@ -117,6 +117,8 @@ func onKill(turret,enemy):
 	#GameManager.removeEnemyFromGame(enemy)
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
+	if enemy.type == Enemy.Type.BOSS:
+		SoundManager.stopBossWaveSound()
 
 	if is_instance_valid(turret) and turret != null:
 		if turret.is_in_group("Minion"):

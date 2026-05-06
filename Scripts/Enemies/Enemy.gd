@@ -35,11 +35,11 @@ var attackReady: bool = true
 var attackTimer: Timer
 
 func _ready() -> void:
+	applyScaling()
 	attackTimer = Timer.new()
 	attackTimer.wait_time = attackTime
 	attackTimer.one_shot = true
 	attackTimer.timeout.connect(_on_attack_timer_timeout)
-	add_child(attackTimer)
 
 func _physics_process(delta: float) -> void:
 	updateDestination()
@@ -153,3 +153,15 @@ func getDestination() -> void:
 
 func getName() -> String:
 	return enemyName
+
+func applyScaling() -> void:
+	var totalWaves = (WaveManager.systemNumber * WaveManager.get_waves_per_system()) + WaveManager.currentWave - 1
+
+	var waveHealthMult = pow(WaveManager.get_health_scale_per_wave(), totalWaves)
+	var waveDamageMult = pow(WaveManager.get_damage_scale_per_wave(), totalWaves)
+
+	health *= waveHealthMult
+	damage *= waveDamageMult
+	health = round(health)
+	damage = round(damage)
+	#print(health)

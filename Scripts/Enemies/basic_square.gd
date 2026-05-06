@@ -14,7 +14,7 @@ func _ready():
 	attackTimer.wait_time = attackTime
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
-
+	applyScaling()
 
 
 func _on_attack_timer_timeout() -> void:

@@ -212,7 +212,7 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		var suffix: String = config[2] if config.size() > 2 else ""
 		var value = TurretManager.getTurretStat(turretID, property)
 
-		var label := Label.new()
+		var label = Label.new()
 		var settings = turretLabel.duplicate()
 		settings.font_color = color
 		label.label_settings = settings

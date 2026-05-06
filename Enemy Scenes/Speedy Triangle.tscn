@@ -1,30 +1,30 @@
 [gd_scene format=3 uid="uid://c8hxqwse75gq3"]
 
 [ext_resource type="Script" uid="uid://dblb3j7ra7ci3" path="res://Scripts/Enemies/speedy_triangle.gd" id="1_nhcdp"]
-[ext_resource type="Script" uid="uid://v8vwlwrnsieh" path="res://Scripts/Enemies/speed_triangle_collision_polygon_2d.gd" id="2_pqsdf"]
-[ext_resource type="Script" uid="uid://dtaxuywgnjdp1" path="res://Scripts/Enemies/speed_triangle_polygon_2d.gd" id="3_28s7i"]
-[ext_resource type="Script" uid="uid://2hxf2p0m5tud" path="res://Scripts/Enemies/speedy_triangle_collision_polygon_2d.gd" id="4_x7tq0"]
+[ext_resource type="Texture2D" uid="uid://7l2ipapi3iqh" path="res://Textures/Enemies/triangle_enemy.png" id="2_5nupk"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_dnnpq"]
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=2112259070 groups=["Enemy"]]
+scale = Vector2(0.2, 0.2)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_nhcdp")
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=2116491610]
-script = ExtResource("2_pqsdf")
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=2087550449]
+modulate = Color(0.9940557, 0.40686062, 0.3968278, 1)
+texture = ExtResource("2_5nupk")
 
-[node name="Polygon2D" type="Polygon2D" parent="." unique_id=776908584]
-self_modulate = Color(1.5, 1, 1, 1)
-color = Color(0.999959, 0.548831, 0.484898, 1)
-script = ExtResource("3_28s7i")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1749583711]
+visible = false
+polygon = PackedVector2Array(0, -60, 52, 31, -52, 30)
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=1294745650]
+visible = false
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea" unique_id=1590768592]
-script = ExtResource("4_x7tq0")
+[node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea" unique_id=1509241599]
+polygon = PackedVector2Array(0, -60, 52, 31, -52, 30)
 
 [node name="AttackTimer" type="Timer" parent="." unique_id=1853459168]
 

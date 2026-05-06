@@ -14,6 +14,14 @@ func _ready():
 	attackTimer.wait_time = attackTime
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
+	applyScaling()
+	
+	var direction = destination - global_position
+	
+	var target_angle = direction.angle() + (PI / 2.0)
+	
+	# 3. Apply the rotation
+	global_rotation = target_angle
 
 func _on_attack_timer_timeout() -> void:
 	attackReady = true

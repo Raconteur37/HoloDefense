@@ -43,7 +43,6 @@ func beginNextWave():
 	if currentWave > get_waves_per_system():
 		currentWave = 0
 		beginNextSystem()
-		SoundManager.stopBossWaveSound()
 		return
 	
 	currentPhase = Phase.SUMMONING_ENEMIES
@@ -231,15 +230,6 @@ func get_waves_per_system() -> int:
 func get_system_enemy_multiplier() -> float:
 	return float(wave_data["baseline"]["systemScaling"]["enemyMultiplierPerSystem"])
 
-func get_system_health_multiplier() -> float:
-	return float(wave_data["baseline"]["systemScaling"]["healthMultiplierPerSystem"])
-
-func get_system_speed_multiplier() -> float:
-	return float(wave_data["baseline"]["systemScaling"]["speedMultiplierPerSystem"])
-
-func get_system_spawn_interval_reduction() -> float:
-	return float(wave_data["baseline"]["systemScaling"]["spawnIntervalReductionPerSystem"])
-
 func get_tier_two_enemy_wave_tresh() -> float:
 	return float(wave_data["baseline"]["systemScaling"]["tierTwoWaveTresh"])
 
@@ -260,6 +250,12 @@ func get_spawn_interval(level: int) -> float:
 
 func get_intermission_duration(level: int) -> float:
 	return float(_get_difficulty(level).get("intermission_duration_sec", 10.0))
+
+func get_health_scale_per_wave() -> float:
+	return float(wave_data["baseline"]["waveScaling"]["healthScalePerWave"])
+
+func get_damage_scale_per_wave() -> float:
+	return float(wave_data["baseline"]["waveScaling"]["damageScalePerWave"])
 
 func loadData():
 	var file := FileAccess.open("res://Config/Wave Info.json", FileAccess.READ)

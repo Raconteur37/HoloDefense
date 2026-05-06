@@ -308,5 +308,23 @@
 		"healingTime": 5,
 		"healingAmount": 6,
 		"scaleFactor": 0.05
+	},
+	"bubble_turret": {
+		"id": 17,
+		"name": "Bubble Turret",
+		"description": "Doesn't attack, gives all turrets in range a bubble that reflects projectiles until it pops!",
+		"levelTwo": "Unknown yet",
+		"levelThree": "Unkown",
+		"rarity": "Common",
+		"type": "Support",
+		"price": 10,
+		"armor": 5,
+		"health": 20,
+		"range": 100,
+		"bubbleApplyTime": 5,
+		"constructionTime": 25,
+		"bubbleStrength": 25,
+		"bubbleTime": 10,
+		"scaleFactor": 0.05
 	}
 }

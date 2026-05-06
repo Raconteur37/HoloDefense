@@ -1,0 +1,90 @@
+[gd_scene format=3 uid="uid://dekm0la1k1qin"]
+
+[ext_resource type="Script" uid="uid://wvghgjwy12q1" path="res://Scripts/Turrets/Bubble Turret/bubble_turret.gd" id="1_b5yad"]
+[ext_resource type="Texture2D" uid="uid://5vuwfdmbbhbu" path="res://Textures/Turrets/Bubble Turret/Bubble turret bottom.png" id="2_b5yad"]
+[ext_resource type="Texture2D" uid="uid://xsb4mo6jqfc4" path="res://Textures/Turrets/Bubble Turret/Bubble Turret Sheet.png" id="3_1ich6"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_pqg63"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vo0x4"]
+atlas = ExtResource("3_1ich6")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_pqg63"]
+atlas = ExtResource("3_1ich6")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_gbr3p"]
+atlas = ExtResource("3_1ich6")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vo0x4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqg63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_gbr3p")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_pqg63")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vo0x4")
+}],
+"loop": false,
+"name": &"Ready",
+"speed": 15.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Bubble Turret" type="CharacterBody2D" unique_id=142022213 groups=["Turret"]]
+collision_mask = 12
+script = ExtResource("1_b5yad")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
+shape = SubResource("RectangleShape2D_11eqx")
+
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1737286898]
+texture = ExtResource("2_b5yad")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=587304110]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+frame = 4
+frame_progress = 1.0
+
+[node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
+collision_mask = 4
+script = ExtResource("4_pqg63")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=344454377]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=142957423]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="BubbleTimer" type="Timer" parent="." unique_id=566508311]
+
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]

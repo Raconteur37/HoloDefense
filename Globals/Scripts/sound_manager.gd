@@ -16,6 +16,17 @@ func playBossWaveSound():
 
 func stopBossWaveSound():
 	musicPlayer.stop()
+	var tween = create_tween()
+		
+	# Smoothly lower volume_db from its current value to -80.0 (total silence)
+	# over the specified duration.
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	
+	# Once the fade is complete, stop the player and reset the volume
+	tween.finished.connect(func():
+		musicPlayer.stop()
+		musicPlayer.volume_db = 0.0 # Reset to default volume for the next song
+	)
 
 func playGenericKillSound():
 	comboTimer.stop()

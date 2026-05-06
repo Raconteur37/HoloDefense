@@ -12,7 +12,11 @@
 	  "speedMultiplierPerSystem": 1.15,
 	  "spawnIntervalReductionPerSystem": 0.1,
 	  "tierTwoWaveTresh": 4,
-	  "tierThreeWaveTresh": 7
+	  "tierThreeWaveTresh": 7,
+	},
+	"waveScaling": {
+	  "healthScalePerWave": 1.03,
+	  "damageScalePerWave": 1.025
 	},
 	"groupWeights": {
 	  "firstTier":  0.55,
@@ -27,7 +31,7 @@
 	  "level": 1,
 	  "label": "Casual",
 	  "enemy_count_multiplier": 0.75,
-	  "spawn_interval_sec": 1.6,
+	  "spawn_interval_sec": 3,
 	  "intermission_duration_sec": 14.0,
 	  "systemTransitionDurationSec": 90.0
 	},
@@ -35,7 +39,7 @@
 	  "level": 2,
 	  "label": "Easy",
 	  "enemy_count_multiplier": 0.9,
-	  "spawn_interval_sec": 1.4,
+	  "spawn_interval_sec": 2.7,
 	  "intermission_duration_sec": 12.0,
 	  "systemTransitionDurationSec": 80.0
 	},
@@ -43,7 +47,7 @@
 	  "level": 3,
 	  "label": "Normal",
 	  "enemy_count_multiplier": 1.0,
-	  "spawn_interval_sec": 1.2,
+	  "spawn_interval_sec": 2.5,
 	  "intermission_duration_sec": 10.0,
 	  "systemTransitionDurationSec": 70.0
 	},
@@ -51,7 +55,7 @@
 	  "level": 4,
 	  "label": "Challenging",
 	  "enemy_count_multiplier": 1.15,
-	  "spawn_interval_sec": 1.05,
+	  "spawn_interval_sec": 2.2,
 	  "intermission_duration_sec": 8.5,
 	  "systemTransitionDurationSec": 60.0
 	},
@@ -59,7 +63,7 @@
 	  "level": 5,
 	  "label": "Hard",
 	  "enemy_count_multiplier": 1.3,
-	  "spawn_interval_sec": 0.9,
+	  "spawn_interval_sec": 2,
 	  "intermission_duration_sec": 7.0,
 	  "systemTransitionDurationSec": 50.0
 	},
@@ -67,25 +71,25 @@
 	  "level": 6,
 	  "label": "Brutal",
 	  "enemy_count_multiplier": 1.5,
-	  "spawn_interval_sec": 0.8,
+	  "spawn_interval_sec": 1.4,
 	  "intermission_duration_sec": 6.0,
-	  "systemTransitionDurationSec": 40.0
+	  "systemTransitionDurationSec": 50.0
 	},
 	{
 	  "level": 7,
 	  "label": "Savage",
 	  "enemy_count_multiplier": 1.7,
-	  "spawn_interval_sec": 0.7,
+	  "spawn_interval_sec": 1,
 	  "intermission_duration_sec": 5.0,
-	  "systemTransitionDurationSec": 30.0
+	  "systemTransitionDurationSec": 50.0
 	},
 	{
 	  "level": 8,
 	  "label": "Merciless",
 	  "enemy_count_multiplier": 1.9,
-	  "spawn_interval_sec": 0.6,
+	  "spawn_interval_sec": 0.9,
 	  "intermission_duration_sec": 4.0,
-	  "systemTransitionDurationSec": 20.0
+	  "systemTransitionDurationSec": 40.0
 	},
 	{
 	  "level": 9,
@@ -93,7 +97,7 @@
 	  "enemy_count_multiplier": 2.1,
 	  "spawn_interval_sec": 0.5,
 	  "intermission_duration_sec": 3.0,
-	  "systemTransitionDurationSec": 15.0
+	  "systemTransitionDurationSec": 40.0
 	},
 	{
 	  "level": 10,
@@ -101,7 +105,7 @@
 	  "enemy_count_multiplier": 2.35,
 	  "spawn_interval_sec": 0.4,
 	  "intermission_duration_sec": 2.0,
-	  "systemTransitionDurationSec": 10.0
+	  "systemTransitionDurationSec": 40.0
 	},
 	{
 	  "level": 11,
@@ -109,7 +113,7 @@
 	  "enemy_count_multiplier": 3.0,
 	  "spawn_interval_sec": 0.25,
 	  "intermission_duration_sec": 1.0,
-	  "systemTransitionDurationSec": 8.0
+	  "systemTransitionDurationSec": 35.0
 	}
   ]
 }

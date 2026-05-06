@@ -66,7 +66,7 @@ func getRandomOffscreenPosition() -> Vector2:
 	var view_rect = get_viewport().get_visible_rect()
 	var margin = 50.0 
 	
-	var side = randi() % 4
+	var side = randi() % 6
 	var spawn_pos = Vector2.ZERO
 	
 	match side:
@@ -80,7 +80,13 @@ func getRandomOffscreenPosition() -> Vector2:
 		2: # Left
 			spawn_pos.x = -margin
 			spawn_pos.y = randf_range(0, view_rect.size.y)
-		3: # Right
+		3: # Left
+			spawn_pos.x = -margin
+			spawn_pos.y = randf_range(0, view_rect.size.y)
+		4: # Right
+			spawn_pos.x = view_rect.size.x + margin
+			spawn_pos.y = randf_range(0, view_rect.size.y)
+		5: # Right
 			spawn_pos.x = view_rect.size.x + margin
 			spawn_pos.y = randf_range(0, view_rect.size.y)
 			

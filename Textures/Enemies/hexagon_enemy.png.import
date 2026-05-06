@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://coxk5oelpsgf4"
-path="res://.godot/imported/assign_citizen_icon_hover.png-ae077f770a00c4636571b88e2eaf70e2.ctex"
+uid="uid://ba4ufkdp80oca"
+path="res://.godot/imported/hexagon_enemy.png-a50e2c8cf6547af4b1a0478a34a363b0.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Enemies/assign_citizen_icon_hover.png"
-dest_files=["res://.godot/imported/assign_citizen_icon_hover.png-ae077f770a00c4636571b88e2eaf70e2.ctex"]
+source_file="res://Textures/Enemies/hexagon_enemy.png"
+dest_files=["res://.godot/imported/hexagon_enemy.png-a50e2c8cf6547af4b1a0478a34a363b0.ctex"]
 
 [params]
 
