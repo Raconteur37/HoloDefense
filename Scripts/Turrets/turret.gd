@@ -24,7 +24,8 @@ enum TurretID {
 	SPIDER_TURRET,
 	VOODOO_TURRET,
 	TESLA_TURRET,
-	ZOMBIE_TURRET
+	ZOMBIE_TURRET,
+	BUBBLE_TURRET
 }
 
 signal hit(damage,turret)
@@ -83,6 +84,7 @@ var buildTime
 var health : float
 
 var energized : bool = false
+var hasBubble : bool = false
 var beaconBuffActive : bool = false
 
 var energizerTurret : Turret = null
@@ -155,3 +157,7 @@ func removeEnergized(turretApplier):
 		reloadTime += turretApplier.energizerReloadTimeBuff * baseReloadTime
 		reloadTimer.wait_time = reloadTime
 	energizerTurret = null
+
+func recieveBubble():
+	hasBubble = true
+	

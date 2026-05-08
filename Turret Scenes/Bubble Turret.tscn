@@ -66,6 +66,7 @@ frame = 4
 frame_progress = 1.0
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
+visible = false
 collision_mask = 4
 script = ExtResource("4_pqg63")
 
@@ -73,6 +74,7 @@ script = ExtResource("4_pqg63")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
+visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
@@ -88,3 +90,4 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 [connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="BubbleTimer" to="." method="_on_bubble_timer_timeout"]
