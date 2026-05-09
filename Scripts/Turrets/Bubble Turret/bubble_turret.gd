@@ -93,7 +93,7 @@ func applyBubble(turret : Turret):
 	if is_instance_valid(turret):
 		if not turret.hasBubble:
 			turret.hasBubble = true
-			turret.recieveBubble()
+			turret.recieveBubble(bubbleHealth)
 			topSprite.play("Ready")
 
 
@@ -113,7 +113,7 @@ func _on_select_area_mouse_exited() -> void:
 	hideUI()
 
 func applyUpgrade():
-	upgradeTier = GameManager.getTurretTempLevel(turretID)
+	#upgradeTier = GameManager.getTurretTempLevel(turretID)
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth

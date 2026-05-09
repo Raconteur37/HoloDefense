@@ -18,7 +18,9 @@ Turret.TurretID.GOLD_MINE_TURRET,Turret.TurretID.TESLA_TURRET,Turret.TurretID.ZO
 var turretTempLevels = {}
 
 # turretID and int of how many the player has
-var turretStorage = {}
+var turretStorage = {Turret.TurretID.ARROW_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99}
+
+#var turretStorage = {}
 
 func _ready() -> void:
 	if turretTempLevels.size() < 1:

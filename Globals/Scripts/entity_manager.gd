@@ -75,7 +75,17 @@ func killEnemy(source, enemy: Enemy) -> void:
 	onKill(source, enemy)
 
 
-func turretTakeDamage(damage: float, turret : Turret) -> void:
+func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
+	if projectile != null:
+		if turret.hasBubble:
+			turret.currentBubbleHealth -= damage
+			bounceProjectile(projectile,turret)
+			if turret.currentBubbleHealth <= 0:
+				turret.removeBubble()
+			return
+		else:
+			projectile.queue_free()
+
 	damage = applyArmor(damage, turret)
 	
 	turret.health -= damage
@@ -201,3 +211,29 @@ func increaseEnemyStats(enemy):
 
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)
+
+
+func bounceProjectile(projectile: Node, turret):
+	# direction away from turret center
+	var bounceDir = (projectile.global_position - turret.global_position).normalized()
+	var bounceTarget = projectile.global_position + bounceDir * 40.0
+
+	var tween = create_tween()
+	tween.set_parallel(true)
+
+	# fly outward
+	tween.tween_property(projectile, "global_position", bounceTarget, 0.18) \
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
+
+	# squish on impact
+	tween.tween_property(projectile, "scale", Vector2(1.4, 0.6), 0.07) \
+		.set_ease(Tween.EASE_OUT)
+	tween.chain().tween_property(projectile, "scale", Vector2(1.0, 1.0), 0.1) \
+		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
+
+	# fade out
+	tween.tween_property(projectile, "modulate:a", 0.0, 0.18) \
+		.set_ease(Tween.EASE_IN)
+
+	# remove after animation
+	tween.chain().tween_callback(projectile.queue_free)

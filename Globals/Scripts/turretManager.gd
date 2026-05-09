@@ -22,7 +22,8 @@ var unlockedTurrets: Array[Turret.TurretID] = [
 	Turret.TurretID.SENTRY_TURRET,
 	Turret.TurretID.VOODOO_TURRET,
 	Turret.TurretID.ZOMBIE_TURRET,
-	Turret.TurretID.MEDIC_TURRET
+	Turret.TurretID.MEDIC_TURRET,
+	Turret.TurretID.BUBBLE_TURRET
 ]
 
 func _ready() -> void:
@@ -67,6 +68,8 @@ func loadTurretByID(id: Turret.TurretID):
 			return load("res://Turret Scenes/Zombie Turret.tscn")
 		Turret.TurretID.MEDIC_TURRET:
 			return load("res://Turret Scenes/Medic Turret.tscn")
+		Turret.TurretID.BUBBLE_TURRET:
+			return load("res://Turret Scenes/Bubble Turret.tscn")
 		_:
 			push_error("Turret ID not mapped to scene")
 
@@ -87,7 +90,7 @@ func getTurretTexture(id: Turret.TurretID):
 		Turret.TurretID.FLAME_TURRET:
 			return load("res://Textures/Turrets/Flame Turret/Flame Turret.png")
 		Turret.TurretID.FIREWORK_TURRET:
-			return load("res://Textures/Turrets/Firework Turret/Firework Turret Bottom.png")
+			return load("res://Textures/Turrets/Firework Turret/firework turret.png")
 		Turret.TurretID.SPIDER_TURRET:
 			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
 		Turret.TurretID.TESLA_TURRET:
@@ -104,6 +107,8 @@ func getTurretTexture(id: Turret.TurretID):
 			return load("res://Textures/Turrets/Zombie Turret/Zombie Turret.png")
 		Turret.TurretID.MEDIC_TURRET:
 			return load("res://Textures/Turrets/Healing Turret/Healing Turret.png")
+		Turret.TurretID.BUBBLE_TURRET:
+			return load("res://Textures/Turrets/Bubble Turret/Bubble Turret.png")
 
 func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
 	var key = get_turret_string(id)
@@ -198,7 +203,7 @@ func getMaxXp(rarity: String, level: int):
 
 const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 
-func createPropertiesLabels(turret):
+func createPropertiesLabels(turret : Turret):
 	var labels = []
 	
 
@@ -241,13 +246,21 @@ func createPropertiesLabels(turret):
 		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
 		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"],
 		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
-		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN]
+		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN],
+		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
+		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE]
 	}
-
+	
+	if turret.hasBubble:
+		var label = Label.new()
+		label.text = "Bubble Health: " + str(turret.currentBubbleHealth)
+		label.add_theme_color_override("font_color", Color.CORNFLOWER_BLUE)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+	
 	for prop in turretStatsConfig:
 		var value = turret.get(prop)
 		
-		# Only create a label if the property actually exists on the turret
 		if value != null:
 			var config = turretStatsConfig[prop]
 			var display_name = config[0]

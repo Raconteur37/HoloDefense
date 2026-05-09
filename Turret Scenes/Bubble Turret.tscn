@@ -66,7 +66,6 @@ frame = 4
 frame_progress = 1.0
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
-visible = false
 collision_mask = 4
 script = ExtResource("4_pqg63")
 
@@ -74,8 +73,6 @@ script = ExtResource("4_pqg63")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
-visible = false
-collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
 shape = SubResource("CircleShape2D_pdpxq")
