@@ -326,5 +326,25 @@
 		"bubbleHealth": 25,
 		"bubbleTime": 10,
 		"scaleFactor": 0.05
-	}
+	},
+	"boomerang_turret": {
+		"id": 18,
+		"name": "Boomerang Turret",
+		"description": "Throws a boomerang that pierces multiple enemies",
+		"levelTwo": "Unkown Yet",
+		"levelThree": "Unknown Yet",
+		"rarity": "Common",
+		"type": "Consistent",
+		"price": 20,
+		"armor": 10,
+		"health": 20,
+		"damage": 20,
+		"range": 150,
+		"reloadTime": 3,
+		"projectileSpeed": 300,
+		"constructionTime": 8,
+		"pierce": 10,
+		"scaleFactor": 0.09,
+		"pierceScale": 0.5
+	},
 }

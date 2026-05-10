@@ -23,7 +23,8 @@ var unlockedTurrets: Array[Turret.TurretID] = [
 	Turret.TurretID.VOODOO_TURRET,
 	Turret.TurretID.ZOMBIE_TURRET,
 	Turret.TurretID.MEDIC_TURRET,
-	Turret.TurretID.BUBBLE_TURRET
+	Turret.TurretID.BUBBLE_TURRET,
+	Turret.TurretID.BOOMERANG_TURRET
 ]
 
 func _ready() -> void:
@@ -70,6 +71,8 @@ func loadTurretByID(id: Turret.TurretID):
 			return load("res://Turret Scenes/Medic Turret.tscn")
 		Turret.TurretID.BUBBLE_TURRET:
 			return load("res://Turret Scenes/Bubble Turret.tscn")
+		Turret.TurretID.BOOMERANG_TURRET:
+			return load("res://Turret Scenes/Boomerang Turret.tscn")
 		_:
 			push_error("Turret ID not mapped to scene")
 
@@ -109,6 +112,8 @@ func getTurretTexture(id: Turret.TurretID):
 			return load("res://Textures/Turrets/Healing Turret/Healing Turret.png")
 		Turret.TurretID.BUBBLE_TURRET:
 			return load("res://Textures/Turrets/Bubble Turret/Bubble Turret.png")
+		Turret.TurretID.BOOMERANG_TURRET:
+			return load("res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png")
 
 func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
 	var key = get_turret_string(id)

@@ -113,10 +113,12 @@ func _on_select_area_mouse_exited() -> void:
 	hideUI()
 
 func applyUpgrade():
-	#upgradeTier = GameManager.getTurretTempLevel(turretID)
+	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	bubbleApplyTime = max(1,(bubbleApplyTime - scaleFactor))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
+	bubbleHealth = (baseBubbleHealth + (baseBubbleHealth * scaleFactor * upgradeTier))
 
 
 func _on_bubble_timer_timeout() -> void:

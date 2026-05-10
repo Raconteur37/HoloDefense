@@ -205,16 +205,17 @@ texture = ExtResource("6_5l8ie")
 [node name="ScrollContainer" type="ScrollContainer" parent="TurretInfo/TurretSelectionScroll" unique_id=154355112]
 layout_mode = 1
 anchors_preset = -1
-anchor_right = 4.964
-anchor_bottom = 1.09
 offset_left = -20.999998
 offset_top = -43.0
-offset_right = -20.999998
-offset_bottom = -43.0
+offset_right = 941.40344
+offset_bottom = -6.946594
 scale = Vector2(2.44544, 2.33681)
+horizontal_scroll_mode = 2
+vertical_scroll_mode = 0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="TurretInfo/TurretSelectionScroll/ScrollContainer" unique_id=2029981489]
 layout_mode = 2
+theme_override_constants/separation = 2
 
 [node name="LevelContainer" type="VBoxContainer" parent="TurretInfo" unique_id=1968859970]
 layout_mode = 1
