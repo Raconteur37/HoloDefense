@@ -1,0 +1,12 @@
+[gd_scene format=3 uid="uid://bwcyxyt2ph60b"]
+
+[ext_resource type="Material" uid="uid://dwak4axnkxj7q" path="res://Particle Scenes/texture_animation_material.tres" id="1_lfr7h"]
+[ext_resource type="Texture2D" uid="uid://c74x0ivjh8uiv" path="res://Particle Scenes/Effects/Bubble/row_0.png" id="2_8cuen"]
+
+[node name="Bubble" type="CPUParticles2D" unique_id=1183450902]
+material = ExtResource("1_lfr7h")
+amount = 1
+texture = ExtResource("2_8cuen")
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0

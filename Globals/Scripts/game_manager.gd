@@ -13,11 +13,14 @@ var turretsPlaced = {}
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.MINI_SENTRY_TURRET,Turret.TurretID.RAILGUN_TURRET,Turret.TurretID.SEISMIC_TURRET,
 Turret.TurretID.SENTRY_TURRET,Turret.TurretID.FLAME_TURRET,Turret.TurretID.ENERGIZER_TURRET,
-Turret.TurretID.GOLD_MINE_TURRET,Turret.TurretID.TESLA_TURRET,Turret.TurretID.ZOMBIE_TURRET]
+Turret.TurretID.GOLD_MINE_TURRET,Turret.TurretID.TESLA_TURRET,Turret.TurretID.ZOMBIE_TURRET,
+Turret.TurretID.BUBBLE_TURRET,Turret.TurretID.BOOMERANG_TURRET]
 
 var turretTempLevels = {}
 
 # turretID and int of how many the player has
+#var turretStorage = {Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99}
+
 var turretStorage = {}
 
 func _ready() -> void:

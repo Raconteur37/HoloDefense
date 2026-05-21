@@ -22,6 +22,6 @@ func _on_attack_timer_timeout() -> void:
 	for x in hitBoxArea.get_overlapping_areas():
 		var entity = x.get_parent()
 		if entity.is_in_group("Turret"):
-			EntityManager.turretTakeDamage(damage,entity)
+			EntityManager.turretTakeDamage(damage,entity,null)
 			attackReady = false
 			attackTimer.start()

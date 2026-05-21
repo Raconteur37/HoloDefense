@@ -13,6 +13,8 @@ var zombieTurnParticle = preload("res://Particle Scenes/Effects/Zombie Turn/Zomb
 
 var healParticle = preload("res://Particle Scenes/Effects/Heal/Heal.tscn")
 
+var bubbleParticle = preload("res://Particle Scenes/Effects/Bubble/Bubble.tscn")
+
 func playDamageParticle(enemy):
 
 	match enemy.getName():
@@ -61,8 +63,15 @@ func playEnergizedParticle(turret):
 	turret.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle
 
+func playBubbleParticle(turret):
+
+	var particle = bubbleParticle.instantiate()
+	#particle.global_position = turret.global_position
+	turret.add_child(particle)
+	turret.currentParticlesMap["Bubble"] = particle
+
 func playHealParticle(entity):
 
 	var particle = healParticle.instantiate()
-	particle.setPosition(entity.global_position)
+	particle.global_position = entity.global_position
 	entity.add_child(particle)

@@ -200,7 +200,9 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
 		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"],
 		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
-		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN]
+		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN],
+		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
+		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE]
 	}
 
 	for property in propertyList:

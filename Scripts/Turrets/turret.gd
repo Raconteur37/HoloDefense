@@ -25,7 +25,8 @@ enum TurretID {
 	VOODOO_TURRET,
 	TESLA_TURRET,
 	ZOMBIE_TURRET,
-	BUBBLE_TURRET
+	BUBBLE_TURRET,
+	BOOMERANG_TURRET
 }
 
 signal hit(damage,turret)
@@ -88,6 +89,8 @@ var hasBubble : bool = false
 var beaconBuffActive : bool = false
 
 var energizerTurret : Turret = null
+
+var currentBubbleHealth : float
 
 func _process(_delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
@@ -158,6 +161,13 @@ func removeEnergized(turretApplier):
 		reloadTimer.wait_time = reloadTime
 	energizerTurret = null
 
-func recieveBubble():
+func removeBubble():
+	if currentParticlesMap.has("Bubble"):
+		currentParticlesMap.get("Bubble").queue_free()
+		currentParticlesMap.erase("Bubble")
+	hasBubble = false
+
+func recieveBubble(bubbleHealth : float):
 	hasBubble = true
-	
+	ParticleManager.playBubbleParticle(self)
+	currentBubbleHealth = bubbleHealth

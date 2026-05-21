@@ -634,6 +634,7 @@ offset_left = -0.019989014
 offset_right = 0.019989014
 grow_horizontal = 2
 grow_vertical = 2
+mouse_filter = 2
 bbcode_enabled = true
 text = "[pulse color=#0000ff height=0.5 freq=0.3][font_size=64]30 Seconds until enemies arrive[/font_size][/pulse]"
 horizontal_alignment = 1

@@ -70,7 +70,7 @@ func move() -> void:
 			# Push enemy back out of overlap
 			global_position += col.get_normal() * speed * get_physics_process_delta_time()
 			if attackReady:
-				EntityManager.turretTakeDamage(damage, collider)
+				EntityManager.turretTakeDamage(damage, collider, null)
 				startAttackCooldown()
 			return
 	if global_position.distance_to(destination) < 5.0:
@@ -135,9 +135,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret"):
 		if type != Type.BOSS:
 			startAttackCooldown()
-			EntityManager.turretTakeDamage(damage,body)
+			EntityManager.turretTakeDamage(damage,body, null)
 		else:
-			EntityManager.turretTakeDamage(damage,body)
+			EntityManager.turretTakeDamage(damage,body, null)
 
 
 func startAttackCooldown() -> void:
