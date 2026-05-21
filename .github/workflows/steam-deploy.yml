@@ -1,8 +1,10 @@
 name: Deploy to Steam Beta
+
 on:
   push:
     branches:
       - main
+
 jobs:
   deploy:
     runs-on: ubuntu-latest
@@ -30,39 +32,13 @@ jobs:
           godot --headless --export-release "Holo_Defense_Closed_Alpha_V1.0.0" build/HoloDefense.x86_64
           godot --headless --export-release "Holo_Defense_Closed_Alpha_V1.0.0_Windows" build/HoloDefense.exe
 
-      - name: Install SteamCMD
-        run: |
-          sudo apt-get install -y lib32gcc-s1
-          mkdir -p ~/steamcmd
-          cd ~/steamcmd
-          wget -q https://steamcdn-a.akamaihd.net/client/installer/steamcmd_linux.tar.gz
-          tar -xzf steamcmd_linux.tar.gz
-
-      - name: Restore Steam Config
-        run: |
-          mkdir -p ~/Steam/config
-          mkdir -p ~/.local/share/Steam/config
-          mkdir -p ~/steamcmd/config
-          echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
-          echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
-          echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/steamcmd/config/config.vdf
-          cp ~/Steam/config/config.vdf ~/steamcmd/steam/config/config.vdf 2>/dev/null || true
-
-      - name: Debug Steam Config
-        run: |
-          echo "Checking config locations..."
-          ls -la ~/Steam/config/ || echo "~/Steam/config/ not found"
-          ls -la ~/.local/share/Steam/config/ || echo "~/.local/share/Steam/config/ not found"
-          cat ~/Steam/config/config.vdf | head -5 || echo "cant read ~/Steam/config.vdf"
-          cat ~/.local/share/Steam/config/config.vdf | head -5 || echo "cant read ~/.local/share config.vdf"
-
-      - name: Upload to Steam
-        run: |
-          ~/steamcmd/steamcmd.sh \
-            +set_steam_guard_code "" \
-            +login ${{ secrets.STEAM_USERNAME }} ${{ secrets.STEAM_PASSWORD }} \
-            +run_app_build steam/app_build.vdf \
-            +quit
-        env:
-          STEAM_DIR: ~/Steam
-          STEAMCMD_DIR: ~/steamcmd
+      - name: Deploy to Steam
+        uses: game-ci/steam-deploy@v3
+        with:
+          username: ${{ secrets.STEAM_USERNAME }}
+          configVdf: ${{ secrets.STEAM_CONFIG_VDF }}
+          appId: 4758080
+          buildDescription: Automated build from GitHub Actions
+          rootPath: build
+          depot1Path: .
+          releaseBranch: beta
