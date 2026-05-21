@@ -32,6 +32,10 @@ jobs:
           godot --headless --export-release "Holo_Defense_Closed_Alpha_V1.0.0" build/HoloDefense.x86_64
           godot --headless --export-release "Holo_Defense_Closed_Alpha_V1.0.0_Windows" build/HoloDefense.exe
 
+      - name: Make binary executable
+        run: |
+          chmod +x build/HoloDefense.x86_64
+
       - name: Deploy to Steam
         uses: game-ci/steam-deploy@v3
         with:
