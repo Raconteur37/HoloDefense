@@ -46,6 +46,7 @@ jobs:
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/steamcmd/config/config.vdf
+          cp ~/Steam/config/config.vdf ~/steamcmd/steam/config/config.vdf 2>/dev/null || true
 
       - name: Debug Steam Config
         run: |
@@ -58,6 +59,10 @@ jobs:
       - name: Upload to Steam
         run: |
           ~/steamcmd/steamcmd.sh \
+            +set_steam_guard_code "" \
             +login ${{ secrets.STEAM_USERNAME }} ${{ secrets.STEAM_PASSWORD }} \
             +run_app_build steam/app_build.vdf \
             +quit
+        env:
+          STEAM_DIR: ~/Steam
+          STEAMCMD_DIR: ~/steamcmd
