@@ -45,4 +45,4 @@ jobs:
           buildDescription: Automated build from GitHub Actions
           rootPath: build
           depot1Path: .
-          releaseBranch: beta
+          releaseBranch: default

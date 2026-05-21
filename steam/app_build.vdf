@@ -2,7 +2,7 @@
 {
 	"AppID" "4758080"
 	"Desc" "Automated build from GitHub Actions"
-	"SetLive" "beta"
+	"SetLive" "default"
 	"BuildOutput" "../build_output/"
     "Depots"
 	{
