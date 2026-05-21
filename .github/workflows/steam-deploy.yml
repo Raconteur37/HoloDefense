@@ -42,8 +42,10 @@ jobs:
         run: |
           mkdir -p ~/Steam/config
           mkdir -p ~/.local/share/Steam/config
+          mkdir -p ~/steamcmd/config
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
+          echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/steamcmd/config/config.vdf
 
       - name: Debug Steam Config
         run: |
