@@ -1,14 +1,11 @@
 name: Deploy to Steam Beta
-
 on:
   push:
     branches:
       - main
-
 jobs:
   deploy:
     runs-on: ubuntu-latest
-
     steps:
       - name: Checkout repository
         uses: actions/checkout@v4
@@ -26,7 +23,6 @@ jobs:
           wget -q https://github.com/godotengine/godot/releases/download/4.6.2-stable/Godot_v4.6.2-stable_export_templates.tpz
           unzip -q Godot_v4.6.2-stable_export_templates.tpz -d /tmp/templates
           mv /tmp/templates/templates/* ~/.local/share/godot/export_templates/4.6.2.stable/
-
 
       - name: Export Godot Project
         run: |
@@ -49,13 +45,13 @@ jobs:
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
 
-       - name: Debug Steam Config
-            run: |
-              echo "Checking config locations..."
-              ls -la ~/Steam/config/ || echo "~/Steam/config/ not found"
-              ls -la ~/.local/share/Steam/config/ || echo "~/.local/share/Steam/config/ not found"
-              cat ~/Steam/config/config.vdf | head -5 || echo "cant read ~/Steam/config.vdf"
-              cat ~/.local/share/Steam/config/config.vdf | head -5 || echo "cant read ~/.local/share config.vdf"
+      - name: Debug Steam Config
+        run: |
+          echo "Checking config locations..."
+          ls -la ~/Steam/config/ || echo "~/Steam/config/ not found"
+          ls -la ~/.local/share/Steam/config/ || echo "~/.local/share/Steam/config/ not found"
+          cat ~/Steam/config/config.vdf | head -5 || echo "cant read ~/Steam/config.vdf"
+          cat ~/.local/share/Steam/config/config.vdf | head -5 || echo "cant read ~/.local/share config.vdf"
 
       - name: Upload to Steam
         run: |
