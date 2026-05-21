@@ -45,7 +45,9 @@ jobs:
       - name: Restore Steam Config
         run: |
           mkdir -p ~/Steam/config
+          mkdir -p ~/.local/share/Steam/config
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
+          echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
 
       - name: Upload to Steam
         run: |
