@@ -49,6 +49,14 @@ jobs:
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/Steam/config/config.vdf
           echo "${{ secrets.STEAM_CONFIG_VDF }}" | base64 -d > ~/.local/share/Steam/config/config.vdf
 
+       - name: Debug Steam Config
+            run: |
+              echo "Checking config locations..."
+              ls -la ~/Steam/config/ || echo "~/Steam/config/ not found"
+              ls -la ~/.local/share/Steam/config/ || echo "~/.local/share/Steam/config/ not found"
+              cat ~/Steam/config/config.vdf | head -5 || echo "cant read ~/Steam/config.vdf"
+              cat ~/.local/share/Steam/config/config.vdf | head -5 || echo "cant read ~/.local/share config.vdf"
+
       - name: Upload to Steam
         run: |
           ~/steamcmd/steamcmd.sh \
