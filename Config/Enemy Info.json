@@ -3,7 +3,7 @@
 	{
 	  "id": "basic_square",
 	  "name": "Basic Square",
-	  "health": 20,
+	  "health": 15,
 	  "damage": 5,
 	  "speed": 50.0,
 	  "attackTime": 3.0

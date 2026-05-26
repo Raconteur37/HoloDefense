@@ -142,19 +142,19 @@ vertical_alignment = 1
 
 [node name="VSlider" type="VSlider" parent="." unique_id=432943641]
 layout_mode = 1
-anchors_preset = 6
-anchor_left = 1.0
-anchor_top = 0.5
-anchor_right = 1.0
-anchor_bottom = 0.5
-offset_left = -154.0
-offset_top = -179.0
-offset_right = -73.0
-offset_bottom = 292.0
+anchors_preset = -1
+anchor_left = 0.92
+anchor_top = 0.33400002
+anchor_right = 0.9620001
+anchor_bottom = 0.77000004
+offset_left = -0.4000244
+offset_top = 0.27996826
+offset_right = -0.040161133
+offset_bottom = 0.39996338
 grow_horizontal = 0
 grow_vertical = 2
 min_value = 1.0
-max_value = 12.0
+max_value = 11.0
 value = 1.0
 
 [node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=301340516]
