@@ -11,7 +11,7 @@
 		"armor": 5,
 		"health": 20,
 		"damage": 20,
-		"range": 200,
+		"attackRange": 200,
 		"reloadTime": 2.5,
 		"projectileSpeed": 500,
 		"constructionTime": 5,
@@ -29,7 +29,7 @@
 		"armor": 30,
 		"health": 15,
 		"damage": 7,
-		"range": 100,
+		"attackRange": 100,
 		"reloadTime": 1,
 		"projectileSpeed": 500,
 		"constructionTime": 5,
@@ -283,13 +283,13 @@
 		"armor": 90,
 		"health": 50,
 		"damage": 3,
-		"range": 200,
+		"range": 125,
 		"reloadTime": 4,
 		"projectileSpeed": 300,
 		"constructionTime": 25,
 		"turnChance": 15,
 		"turnTime": 4,
-		"scaleFactor": 0.09
+		"scaleFactor": 0.05
 	},
 	"medic_turret": {
 		"id": 16,
