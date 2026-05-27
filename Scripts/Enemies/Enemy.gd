@@ -27,6 +27,7 @@ var hurtParticle: CPUParticles2D
 
 # Zombie state
 var isZombie: bool = false
+var zombieTime : float = false
 var initialTurn: bool = false
 var turnTurret
 var zombieFollowTarget: Enemy = null
@@ -88,7 +89,6 @@ func initZombie() -> void:
 	destination = EnemySpawnManager.getRandomOffscreenPosition()
 	set_collision_layer_value(3,false)
 	set_collision_layer_value(1,true)
-	set_collision_mask_value(3,true)
 	set_collision_mask_value(1,false)
 	set_collision_mask_value(2,false)
 	
@@ -108,14 +108,14 @@ func spawnZombieArea() -> void:
 
 func startZombieTimer() -> void:
 	var timer = Timer.new()
-	timer.wait_time = 3
-	timer.one_shot = true
+	timer.wait_time = turnTurret.get("turnTime") if is_instance_valid(turnTurret) else 3
+	timer.one_shot = false
 	timer.autostart = true
 	timer.timeout.connect(onZombieTimerTimeout)
 	add_child(timer)
 
 func onZombieTimerTimeout() -> void:
-	var dmg = turnTurret.damage if is_instance_valid(turnTurret) else 9999
+	var dmg = 9999
 	var packet = DamagePacket.new(dmg, DamagePacket.Type.TURRET, turnTurret)
 	EntityManager.enemyTakeDamage(packet, self)
 

@@ -95,6 +95,10 @@ var currentBubbleHealth : float
 func _process(_delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
 
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		hideUI()
+
 func addKill():
 	kills += 1
 
@@ -118,14 +122,14 @@ func refreshUI(turretInstance):
 				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
 			bottomUI.refreshTurretUI(turretInstance)
 
-var _hide_timer: SceneTreeTimer = null
+var hideTimer: SceneTreeTimer = null
 
 func showUI(turretInstance):
 	rangeIndicator.show()
 	# display UI if we can
-	_hide_timer = get_tree().create_timer(0.05)
-	_hide_timer.timeout.connect(func():
-		_hide_timer = null
+	hideTimer = get_tree().create_timer(0.05)
+	hideTimer.timeout.connect(func():
+		hideTimer = null
 		var bottomUI = get_tree().current_scene
 		if bottomUI != null:
 			if bottomUI.has_node("TowerDefenseCanvas"):
@@ -135,8 +139,8 @@ func showUI(turretInstance):
 
 func hideUI():
 	rangeIndicator.hide()
-	if _hide_timer != null:
-		_hide_timer = null
+	if hideTimer != null:
+		hideTimer = null
 	var bottomUI = get_tree().current_scene
 	if bottomUI != null:
 		if bottomUI.has_node("TowerDefenseCanvas"):

@@ -36,7 +36,7 @@ colors = PackedColorArray(0, 0, 1, 0, 1, 1, 1, 1)
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_tl608"]
 gradient = SubResource("Gradient_pc4d0")
 
-[node name="ResearchLab" type="Control" unique_id=2132881313 groups=["Holo City Building"]]
+[node name="ResearchLab" type="Control" unique_id=2132881313]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

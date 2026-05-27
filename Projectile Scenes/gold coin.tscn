@@ -17,7 +17,6 @@ script = ExtResource("1_qkxmv")
 shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1654233265]
-position = Vector2(215, 128)
 rotation = 1.5708
 texture = ExtResource("2_qkxmv")
 

@@ -256,7 +256,7 @@ func getHoloGeneratorLocation():
 	return Vector2(get_tree().current_scene.find_child("HoloGenerator").find_child("Work Area").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("HoloGenerator").find_child("Work Area").global_position.y)
 
 func getGemScraperLocation():
-	return Vector2(get_tree().current_scene.find_child("GemFabricator").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemFabricator").global_position.y)
+	return Vector2(get_tree().current_scene.find_child("GemScraper").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("GemScraper").global_position.y)
 
 func getMaterialAtomizerLocation():
 	return Vector2(get_tree().current_scene.find_child("MaterialAtomizer").global_position.x + randi_range(-100,100),get_tree().current_scene.find_child("MaterialAtomizer").global_position.y)

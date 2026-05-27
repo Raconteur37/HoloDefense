@@ -150,7 +150,6 @@ font_size = 7
 font_color = Color(1, 0.815686, 0.207843, 1)
 
 [node name="Gold Mine Turret" type="CharacterBody2D" unique_id=1980592026 groups=["Turret"]]
-position = Vector2(943, 517)
 collision_mask = 12
 script = ExtResource("1_qn1xy")
 

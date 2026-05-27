@@ -33,6 +33,7 @@ var moveLine = null
 var destination = null
 var destinationParticle = null
 
+
 var destinationReached : bool = false
 var moving : bool = false
 
@@ -77,7 +78,7 @@ var jobExperience : Dictionary[Job,float] = {
 @onready var moveLineScene = preload("res://Particle Scenes/Citizens/Movement Line/Citizen Movement Line.tscn")
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
 @onready var scrapParticle = preload("res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn")
-
+@onready var area2d = $Area2D
 
 func _ready() -> void:
 	animationPlayer = $AnimationPlayer
@@ -120,13 +121,11 @@ func _physics_process(delta: float) -> void:
 		navAgent.set_avoidance_mask_value(1,false)
 
 	if navAgent.is_navigation_finished():
-		if currentState == State.WORKING:
-			if workTimer.is_stopped():
-				workTimer.start()
-		
-		destinationReachedFunc()
+		if moving:
+			destinationReachedFunc()
 		return
 
+	# Normal movement path
 	var currentPos = global_position
 	var nextPosition = navAgent.get_next_path_position()
 	var newVelocity = currentPos.direction_to(nextPosition) * speed
@@ -159,6 +158,7 @@ func deselect():
 	CityManager.citizensSelected.erase(self)
 
 func destinationReachedFunc():
+	moving = false
 	navAgent.target_position = global_position
 	animationPlayer.stop()
 	if is_instance_valid(destinationParticle):
@@ -169,6 +169,27 @@ func destinationReachedFunc():
 		currentState = State.IDLE
 		setWorkDestination()
 	timeSinceMove = 0
+	if currentJob == Job.NONE:
+		scanJobArea()
+	else:
+		updateJobTimer()
+
+func scanJobArea():
+	for area : Area2D in area2d.get_overlapping_areas():
+		var areaParent = area.get_parent()
+		if areaParent.is_in_group("Holo City Building"):
+			if areaParent.name == "GemScraper":
+				setJob(Job.GEM_SCRAPER)
+				return
+			if areaParent.name == "MaterialAtomizer":
+				setJob(Job.MATERIAL_ATOMIZER)
+				return
+			if areaParent.name == "ResearchLab":
+				setJob(Job.RESEARCHER)
+				return
+			if areaParent.name == "Fabricator":
+				setJob(Job.FABRICATOR)
+				return
 
 func setJob(job : Job):
 	if currentJob != job:
@@ -187,6 +208,8 @@ func updateJobTimer():
 			var timeSaved = (CityManager.baseScraperProductionTime * maxReduction) * progress
 			#print("time saved: " + str(timeSaved))
 			workTimer.wait_time = CityManager.baseScraperProductionTime - timeSaved
+			if workTimer.is_stopped():
+				workTimer.start()
 		Job.MATERIAL_ATOMIZER:
 			var jobData = CitizenManager.jobSettingsDict.get("Material Atomizer", {})
 			var maxReduction = jobData.get("MaxReductionPercent")
@@ -194,6 +217,8 @@ func updateJobTimer():
 			var timeSaved = (CityManager.baseAtomizerProductionTime * maxReduction) * progress
 			#print("time saved: " + str(timeSaved))
 			workTimer.wait_time = CityManager.baseScraperProductionTime - timeSaved
+			if workTimer.is_stopped():
+				workTimer.start()
 
 func finishJob():
 	match currentJob:

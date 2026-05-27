@@ -111,6 +111,11 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+			var clickPos = get_global_mouse_position()
+			var allCitizens = get_tree().get_nodes_in_group("Citizen")
+			for citizen in allCitizens:
+				if citizen is Citizen and citizen.global_position.distance_to(clickPos) < 30:
+					return
 			atomizerMenu.show()
 
 

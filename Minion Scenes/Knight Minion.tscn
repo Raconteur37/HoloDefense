@@ -10,7 +10,6 @@ size = Vector2(24, 24)
 size = Vector2(27, 27)
 
 [node name="Knight" type="CharacterBody2D" unique_id=509922397 groups=["Minion"]]
-position = Vector2(147, 92)
 collision_mask = 4
 script = ExtResource("1_nytnq")
 

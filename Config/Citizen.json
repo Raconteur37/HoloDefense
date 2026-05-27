@@ -1,6 +1,6 @@
 {
 	"CitizenSettings": {
-		"Names": ["Bartholemeul", "Bart", "Cookie", "Chez"],
+		"Names": ["Bartholemeul", "Bart", "Cookie", "Chez", "Tracy", "Manny", "Ros", "Carter", "Elliott", "Tristan"],
 		"CitizenLevelScaling": 0.12,
 		"MaxCitizenJobLevel": 50,
 		"Job": {

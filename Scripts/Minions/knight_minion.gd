@@ -30,7 +30,6 @@ func getName():
 	return minionName
 
 func _physics_process(delta: float) -> void:
-
 	if enemy == null:
 		attackingEnemy = false
 		for z in turretOwner.get_node("RangeArea").get_overlapping_areas():
@@ -58,9 +57,10 @@ func _physics_process(delta: float) -> void:
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Enemy"):
 		if attackReady:
-			EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, turretOwner, [], {}), enemy)
-			attackReady = false
-			attackTimer.start()
+			if is_instance_valid(body):
+				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, turretOwner, [], {}), body)
+				attackReady = false
+				attackTimer.start()
 
 func _on_attack_timer_timeout() -> void:
 	attackReady = true

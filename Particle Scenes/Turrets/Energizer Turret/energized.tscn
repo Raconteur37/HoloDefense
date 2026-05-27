@@ -1,23 +1,13 @@
 [gd_scene format=3 uid="uid://cmgvwb3elds2g"]
 
+[ext_resource type="Material" uid="uid://dwak4axnkxj7q" path="res://Particle Scenes/texture_animation_material.tres" id="1_swibm"]
 [ext_resource type="Texture2D" uid="uid://40iiy3n1f4r" path="res://Particle Scenes/Turrets/Energizer Turret/row_output.png" id="1_wnjbf"]
 
-[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_yxu8x"]
-resource_local_to_scene = true
-particles_animation = true
-particles_anim_h_frames = 14
-particles_anim_v_frames = 1
-particles_anim_loop = true
-
-[node name="Energized" type="CPUParticles2D" unique_id=698634869]
-z_index = 7
-material = SubResource("CanvasItemMaterial_yxu8x")
-scale = Vector2(0.7, 0.7)
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=369664344]
+modulate = Color(1, 1, 1, 0.69411767)
+material = ExtResource("1_swibm")
 amount = 1
 texture = ExtResource("1_wnjbf")
-speed_scale = 0.5
-explosiveness = 1.0
-particle_flag_align_y = true
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0

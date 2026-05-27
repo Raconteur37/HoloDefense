@@ -31,32 +31,28 @@ visible = false
 position = Vector2(0, 2)
 navigation_polygon = SubResource("NavigationPolygon_mjf4j")
 
-[node name="HoloGenerator" parent="." unique_id=117961982 instance=ExtResource("3_mjf4j")]
+[node name="HoloGenerator" parent="." unique_id=117961982 groups=["Holo City Building"] instance=ExtResource("3_mjf4j")]
 offset_left = 9.0
 offset_top = 9.0
 offset_right = 9.0
 offset_bottom = 9.0
 metadata/_edit_use_anchors_ = true
 
-[node name="GemFabricator" parent="." unique_id=308009221 instance=ExtResource("2_82jv5")]
+[node name="GemScraper" parent="." unique_id=308009221 groups=["Holo City Building"] instance=ExtResource("2_82jv5")]
 offset_left = 703.0
 offset_top = 131.0
 offset_right = 743.0
 offset_bottom = 171.0
 metadata/_edit_use_anchors_ = true
 
-[node name="BasicCitizen" parent="." unique_id=429321666 instance=ExtResource("1_a5ly5")]
-z_index = 1
-position = Vector2(874, 541)
-
-[node name="MaterialAtomizer" parent="." unique_id=226652734 instance=ExtResource("4_6jm4f")]
+[node name="MaterialAtomizer" parent="." unique_id=226652734 groups=["Holo City Building"] instance=ExtResource("4_6jm4f")]
 offset_left = 298.0
 offset_top = -411.0
 offset_right = 298.0
 offset_bottom = -411.0
 metadata/_edit_use_anchors_ = true
 
-[node name="ResearchLab" parent="." unique_id=2132881313 instance=ExtResource("5_sub41")]
+[node name="ResearchLab" parent="." unique_id=2132881313 groups=["Holo City Building"] instance=ExtResource("5_sub41")]
 offset_left = 794.0
 offset_top = -413.0
 offset_right = 794.0
@@ -75,9 +71,6 @@ offset_right = -132.12003
 offset_bottom = -127.88002
 metadata/_edit_use_anchors_ = true
 
-[node name="SelectionManager" type="Node2D" parent="." unique_id=1180133431]
-script = ExtResource("4_5wlxu")
-
 [node name="MiniMap" type="Panel" parent="." unique_id=75040146]
 anchors_preset = 3
 anchor_left = 1.0
@@ -91,5 +84,12 @@ offset_bottom = -197.0
 grow_horizontal = 0
 grow_vertical = 0
 script = ExtResource("10_gvh2w")
+
+[node name="BasicCitizen" parent="." unique_id=429321666 instance=ExtResource("1_a5ly5")]
+position = Vector2(874, 541)
+speed = 200.0
+
+[node name="Node2D" type="Node2D" parent="." unique_id=275394042]
+script = ExtResource("4_5wlxu")
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

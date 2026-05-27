@@ -294,9 +294,20 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 		currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
 		body.currentState = Citizen.State.IDLE
 
+func _on_work_area_body_exited(body: Node2D) -> void:
+	if body is Citizen:
+		if assignedWorkers.has(body):
+			_on_cancel_pressed(assignedWorkers.find(body))
+		body.setJob(Citizen.Job.NONE)
+		workersHere.erase(body)
 
 func _on_select_area_input_event(_viewport, event: InputEvent, _shape_idx) -> void:
 	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		var clickPos = get_global_mouse_position()
+		var allCitizens = get_tree().get_nodes_in_group("Citizen")
+		for citizen in allCitizens:
+			if citizen is Citizen and citizen.global_position.distance_to(clickPos) < 30:
+				return
 		menu.show()
 
 

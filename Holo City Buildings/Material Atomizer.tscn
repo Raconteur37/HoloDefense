@@ -43,7 +43,7 @@ font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_yp0bg"]
 font_color = Color(0.6770492, 0.61158365, 0.3231002, 1)
 
-[node name="MaterialAtomizer" type="Control" unique_id=226652734 groups=["Holo City Building"]]
+[node name="MaterialAtomizer" type="Control" unique_id=226652734]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5

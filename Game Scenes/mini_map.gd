@@ -30,13 +30,17 @@ func _draw() -> void:
 		)
 		var map_pos := center + normalized * (minimap_size / 2) * 0.9
 		map_pos = map_pos.clamp(Vector2(dot_size, dot_size), minimap_size - Vector2(dot_size, dot_size))
-		draw_circle(map_pos, dot_size, _get_enemy_color(enemy))
+		var color = get_enemy_color(enemy)
+		if enemy.isZombie:
+			color = Color(0.0, 0.61, 0.068, 1.0)
+		draw_circle(map_pos, dot_size,color)
 
-func _get_enemy_color(enemy) -> Color:
+func get_enemy_color(enemy) -> Color:
 	if "enemyID" not in enemy:
 		return enemy_color
 	match enemy.enemyID:
 		Enemy.EnemyID.HEXAGON_MOTHERSHIP: return Color(1.0, 1.0, 0.2, 1.0)
-		Enemy.EnemyID.SHOOTY_DIAMOND:     return Color(1.0, 0.539, 0.861, 1.0)
-		Enemy.EnemyID.SPEEDY_TRIANGLE:    return Color(1.0, 0.219, 0.254, 1.0)
-		_:                                return Color(1.0, 1.0, 1.0, 1.0)
+		Enemy.EnemyID.SHOOTY_DIAMOND: return Color(1.0, 0.539, 0.861, 1.0)
+		Enemy.EnemyID.SPEEDY_TRIANGLE: return Color(1.0, 0.219, 0.254, 1.0)
+		Enemy.EnemyID.BASIC_SQUARE: return Color(1.0, 1.0, 1.0, 1.0)
+		_: return Color(1.0, 1.0, 1.0, 1.0)

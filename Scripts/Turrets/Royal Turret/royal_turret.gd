@@ -75,7 +75,7 @@ func summonMinion():
 		knight.damage = knightDamage
 		knight.turretOwner = self
 
-		knight.position = position
+		knight.global_position = global_position
 		knight.velocity = Vector2(randi_range(-1,1),randi_range(-1,1)).normalized() * 500
 
 		currentMinions.append(knight)
