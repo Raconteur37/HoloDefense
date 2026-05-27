@@ -217,7 +217,7 @@ func createPropertiesLabels(turret : Turret):
 		"armor": ["Armor: ", Color.GRAY],
 		"damage": ["Damage: ", Color.RED],
 		"reloadTime": ["Reload Time: ", Color.CORAL, "s"],
-		"range": ["Range: ", Color.SKY_BLUE],
+		"attackRange": ["Range: ", Color.SKY_BLUE],
 		"projectileSpeed": ["Projectile Speed: ", Color.CADET_BLUE],
 		"maxTurretsEnergized": ["Max Turrets Energized: ", Color.DARK_ORCHID],
 		"energizeTime": ["Energize Time: ", Color.BLUE_VIOLET, "s"],
