@@ -10,12 +10,8 @@ particles_anim_h_frames = 6
 particles_anim_v_frames = 1
 particles_anim_loop = true
 
-[node name="CanvasLayer" type="CanvasLayer" unique_id=1894775960]
-script = ExtResource("3_dbkf4")
-
-[node name="ZombieTurnParticle" type="CPUParticles2D" parent="." unique_id=392051342]
+[node name="ZombieTurnParticle" type="CPUParticles2D" unique_id=392051342]
 material = SubResource("CanvasItemMaterial_frirj")
-position = Vector2(932, 496)
 emitting = false
 amount = 1
 texture = ExtResource("2_dbkf4")
@@ -24,3 +20,4 @@ one_shot = true
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
+script = ExtResource("3_dbkf4")

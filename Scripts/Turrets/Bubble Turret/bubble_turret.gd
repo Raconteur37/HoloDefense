@@ -9,6 +9,7 @@ var bubbleHealth: float
 var baseBubbleApplyTime: float
 var baseBubbleTime: float
 var baseBubbleHealth: float
+var bubbleReady : bool = false
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -55,8 +56,9 @@ func _process(delta: float) -> void:
 	if turretsInRange.is_empty() or not isPlaced:
 		return
 	for turret: Turret in turretsInRange:
-		if is_instance_valid(turret) and turret != self and not turret.hasBubble:
+		if is_instance_valid(turret) and turret != self and not turret.hasBubble and bubbleReady:
 			applyBubble(turret)
+			bubbleReady = false
 			break
 
 func _on_range_area_body_entered(body: Node2D) -> void:
@@ -92,6 +94,7 @@ func _clean_turrets_array():
 
 func _on_bubble_timer_timeout() -> void:
 	_clean_turrets_array()
+	bubbleReady = true
 	if bubbleTimer.is_stopped():
 		bubbleTimer.start(bubbleApplyTime)
 

@@ -47,8 +47,8 @@ func playDeathParticle(enemy : Enemy):
 
 func playZombieTurnParticle(enemy):
 	var particle = zombieTurnParticle.instantiate()
-	particle.setPosition(enemy.global_position)
-	enemy.add_child(particle)
+	particle.global_position = enemy.global_position
+	get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 
 func playExecutionParticle(enemy):
 
