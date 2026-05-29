@@ -15,7 +15,7 @@
 	  "tierThreeWaveTresh": 7,
 	},
 	"waveScaling": {
-	  "healthScalePerWave": 1.03,
+	  "healthScalePerWave": 1.035,
 	  "damageScalePerWave": 1.025
 	},
 	"groupWeights": {
