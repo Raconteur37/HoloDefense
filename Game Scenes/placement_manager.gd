@@ -1,6 +1,5 @@
 extends Node2D
 
-# ─── Configuration ────────────────────────────────────────────────────────────
 @export var tilemap: TileMapLayer
 @export var tile_size: int = 32
 @export var preview_radius: int = 2
@@ -15,7 +14,6 @@ extends Node2D
 
 var sell_shader: ShaderMaterial = load("res://Shaders/fabricate.tres")
 
-# ─── Internal state ───────────────────────────────────────────────────────────
 var _placing: bool = false
 var _current_id: Turret.TurretID
 var _ghost: Node2D = null
@@ -24,12 +22,10 @@ var _occupied: Dictionary = {}
 var _hovered_cell: Vector2i = Vector2i(-9999, -9999)
 var _range_radius: float = 0.0
 
-# ─── Animation state ──────────────────────────────────────────────────────────
 var _time: float = 0.0
 var _cell_alpha: Dictionary = {}
 var _prev_cells: Array = []
 
-# ─── Sell state ───────────────────────────────────────────────────────────────
 var _sell_cell: Vector2i = Vector2i(-9999, -9999)
 var _sell_progress: float = 0.0
 var _sell_hold_duration: float = 1.0
@@ -39,8 +35,6 @@ var _sell_sprite: Sprite2D = null
 var _sell_sprite_original_material: Material = null
 
 signal turret_placed(cell: Vector2i, turret: Node)
-
-# ─── Public API ───────────────────────────────────────────────────────────────
 
 func begin_placement(id: Turret.TurretID) -> void:
 	if _placing and _current_id == id:
@@ -183,10 +177,15 @@ func _get_preview_cells() -> Array:
 			cells.append(Vector2i(_hovered_cell.x + dx, _hovered_cell.y + dy))
 	return cells
 
-# ─── Input ────────────────────────────────────────────────────────────────────
-
 func _unhandled_input(event: InputEvent) -> void:
 	if event is InputEventKey and event.pressed:
+		
+		if event.keycode == KEY_ESCAPE and _placing:
+			cancel_placement()
+			return
+		if event.keycode == KEY_SPACE and _placing:
+			cancel_placement()
+			return
 		var hotbar_map := {
 			KEY_1: 0, KEY_2: 1, KEY_3: 2, KEY_4: 3, KEY_5: 4,
 			KEY_6: 5, KEY_7: 6, KEY_8: 7, KEY_9: 8, KEY_0: 9
@@ -224,8 +223,6 @@ func _try_hotbar_select(idx: int) -> void:
 		return
 	var id: Turret.TurretID = available[idx]
 	begin_placement(id)
-
-# ─── Helpers ──────────────────────────────────────────────────────────────────
 
 func _on_right_pressed(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
@@ -268,8 +265,9 @@ func _try_sell(cell: Vector2i) -> void:
 	if holder:
 		for child in holder.get_children():
 			if child.global_position.distance_to(world_pos) < tile_size * 0.5:
-				var turret_id = child.turretID
-				GameManager.addTurretToStorage(turret_id, 1)
+				#print(round(child.price * 0.5))
+				#print(child.price)
+				CityManager.currentScrap += round(child.price * 0.5)
 				GameManager.removeTurretFromGame(child)
 				child.queue_free()
 				break

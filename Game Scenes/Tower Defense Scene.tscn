@@ -2,7 +2,7 @@
 
 [ext_resource type="Script" uid="uid://br8lglsag61p" path="res://Game Scenes/tower_defense.gd" id="1_dfs6n"]
 [ext_resource type="Texture2D" uid="uid://ug1kjfiw6ogr" path="res://Textures/Tilemap/Selected.png" id="1_g8jp3"]
-[ext_resource type="Texture2D" uid="uid://bpc63egooh2ym" path="res://Textures/Citizens/UI/galaxy.jpg" id="3_wnsls"]
+[ext_resource type="Texture2D" uid="uid://c5tqmfk30er0p" path="res://Textures/Citizens/UI/TD background.jpg" id="3_iecqd"]
 [ext_resource type="PackedScene" uid="uid://1a2hybqa73km" path="res://Particle Scenes/UI/openTowerDefenseUIHubParticle.tscn" id="6_wnsls"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="7_kl2s0"]
 [ext_resource type="Texture2D" uid="uid://f6qyom3ylfej" path="res://Textures/UI/Game/BottomUI16.png" id="7_m02cc"]
@@ -10,6 +10,7 @@
 [ext_resource type="Texture2D" uid="uid://d4cy5wg7m751p" path="res://Textures/UI/XP-Bar-Progress.png" id="8_ujs3f"]
 [ext_resource type="Texture2D" uid="uid://cpss7ncveh4eb" path="res://Textures/UI/XP-Bar-Over.png" id="9_npny6"]
 [ext_resource type="PackedScene" uid="uid://ceiuxfk4moim5" path="res://Game Scenes/HoloCityDisplay.tscn" id="10_iecqd"]
+[ext_resource type="Script" uid="uid://cyfmdyfsdhnla" path="res://Game Scenes/speed_control.gd" id="11_h0fh5"]
 
 [sub_resource type="TileSetAtlasSource" id="TileSetAtlasSource_kl2s0"]
 texture = ExtResource("1_g8jp3")
@@ -22,6 +23,10 @@ sources/0 = SubResource("TileSetAtlasSource_kl2s0")
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m02cc"]
 size = Vector2(1940, 20)
+
+[sub_resource type="LabelSettings" id="LabelSettings_560rr"]
+font_size = 70
+font_color = Color(1, 1, 1, 0.5019608)
 
 [node name="TowerDefenseCanvas" type="CanvasLayer" unique_id=1084623525]
 script = ExtResource("1_dfs6n")
@@ -43,7 +48,7 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = ExtResource("3_wnsls")
+texture = ExtResource("3_iecqd")
 metadata/_edit_use_anchors_ = true
 
 [node name="OpenTowerDefenseUiHubParticle" parent="." unique_id=623289753 instance=ExtResource("6_wnsls")]
@@ -229,6 +234,23 @@ one_shot = true
 [node name="PlacementManager" type="Node2D" parent="." unique_id=1414985440 node_paths=PackedStringArray("tilemap")]
 script = ExtResource("8_kl2s0")
 tilemap = NodePath("../TilemapLayer0")
+
+[node name="SpeedControl" type="Label" parent="." unique_id=1151763406]
+custom_minimum_size = Vector2(400, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_560rr")
+horizontal_alignment = 1
+script = ExtResource("11_h0fh5")
 
 [connection signal="mouse_entered" from="HoverControl/Enable" to="." method="_on_enable_mouse_entered"]
 [connection signal="mouse_entered" from="HoverControl/Disable" to="." method="_on_disable_mouse_entered"]

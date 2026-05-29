@@ -10,11 +10,16 @@
 [ext_resource type="PackedScene" uid="uid://cxke0ql4vpvx1" path="res://Holo City Buildings/Research Lab.tscn" id="5_sub41"]
 [ext_resource type="PackedScene" uid="uid://dx6dlk4xpstr1" path="res://Holo City Buildings/Fabricator.tscn" id="6_1pif0"]
 [ext_resource type="Script" uid="uid://djc12vw56dh1b" path="res://Game Scenes/mini_map.gd" id="10_gvh2w"]
+[ext_resource type="Script" uid="uid://cyfmdyfsdhnla" path="res://Game Scenes/speed_control.gd" id="11_kvt3y"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
 vertices = PackedVector2Array(1910, 8.97656, 1910, 1067, 8, 1067, 8, 7.00781)
 polygons = Array[PackedInt32Array]([PackedInt32Array(0, 1, 2, 3)])
 outlines = Array[PackedVector2Array]([PackedVector2Array(-2, -3, 1920, -1, 1920, 1077, -2, 1077)])
+
+[sub_resource type="LabelSettings" id="LabelSettings_2bojg"]
+font_size = 70
+font_color = Color(1, 1, 1, 0.5019608)
 
 [node name="CityCanvas" type="CanvasLayer" unique_id=1341419640 groups=["CityCanvas"]]
 
@@ -91,5 +96,22 @@ speed = 200.0
 
 [node name="Node2D" type="Node2D" parent="." unique_id=275394042]
 script = ExtResource("4_5wlxu")
+
+[node name="SpeedControl" type="Label" parent="." unique_id=115665008]
+custom_minimum_size = Vector2(400, 400)
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -200.0
+offset_top = -200.0
+offset_right = 200.0
+offset_bottom = 200.0
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_2bojg")
+horizontal_alignment = 1
+script = ExtResource("11_kvt3y")
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

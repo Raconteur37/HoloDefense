@@ -66,14 +66,19 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 	animationPlayer.play("InfoAppear")
 	currentTurretID = turretID
 
-	var name := _idToName(turretID)
-
 	turretIcon.texture = TurretManager.getTurretTexture(turretID)
 	previewToggle.icon = TurretManager.getTurretTexture(turretID)
 	previewToggle.button_pressed = false
 
+	turretDescriptionLabel.add_theme_color_override("default_color", Color.WHITE)
+	turretDescriptionLabel.add_theme_color_override("font_shadow_color", Color(0,0,0,0))
+	turretDescriptionLabel.add_theme_color_override("font_outline_color", Color(0,0,0,0))
+	turretDescriptionLabel.add_theme_constant_override("outline_size", 0)
+	turretDescriptionLabel.add_theme_constant_override("shadow_offset_x", 0)
+	turretDescriptionLabel.add_theme_constant_override("shadow_offset_y", 0)
 	turretNameLabel.text = TurretManager.getTurretStat(turretID, "name")
-	turretDescriptionLabel.text = TurretManager.getTurretStat(turretID, "description")
+	turretDescriptionLabel.parse_bbcode(TurretManager.getTurretStat(turretID, "description"))
+	
 	typeLabel.text = TurretManager.getTurretStat(turretID, "type")
 
 	var rarity: String = TurretManager.getTurretStat(turretID, "rarity")
@@ -197,7 +202,7 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		"curseChance": ["Curse Chance: ", Color.MEDIUM_PURPLE, "%"],
 		"curseDuration": ["Curse Duration: ", Color.MEDIUM_ORCHID, "s"],
 		"curseDamageAmp": ["Curse Damage Amp: ", Color.REBECCA_PURPLE, "%"],
-		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
+		"turnChance": ["Zombie Turn Chance: ", Color.SPRING_GREEN, "%"],
 		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"],
 		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
 		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN],
@@ -217,6 +222,13 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		var label = Label.new()
 		var settings = turretLabel.duplicate()
 		settings.font_color = color
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		label.custom_minimum_size = Vector2(278, 0)  # 836px / 3 columns
+		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
+		label.text = "%s%s%s" % [prefix, str(value), suffix]
+		infoLabelContainer.add_child(label)
+		
+		#label.text_overrun_behavior = TextServer.OVERRUN_TRIM_WORD
 		label.label_settings = settings
 		label.text = "%s%s%s" % [prefix, str(value), suffix]
 		infoLabelContainer.add_child(label)
