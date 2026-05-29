@@ -123,6 +123,7 @@ material = SubResource("CanvasItemMaterial_s87ym")
 position = Vector2(0, 0)
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=1115186962]
+visible = false
 collision_mask = 4
 script = ExtResource("6_dunge")
 
@@ -130,6 +131,7 @@ script = ExtResource("6_dunge")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=142025775]
+visible = false
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=765125995]

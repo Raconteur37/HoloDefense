@@ -1,0 +1,14 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://bc43benyegtlp"]
+
+[ext_resource type="Shader" uid="uid://moyuoey1n4ku" path="res://Shaders/fabrication.gdshader" id="1_kdofv"]
+
+[resource]
+shader = ExtResource("1_kdofv")
+shader_parameter/progress = 0.5
+shader_parameter/tile_count = 18
+shader_parameter/edge_glow_color = Color(0, 0.85, 1, 1)
+shader_parameter/edge_glow_width = 0.10000000440074
+shader_parameter/noise_seed = 1.337
+shader_parameter/scan_speed = 0.4
+shader_parameter/scan_color = Color(0.1, 0.6, 1, 1)
+shader_parameter/base_emissive = 0.800000038

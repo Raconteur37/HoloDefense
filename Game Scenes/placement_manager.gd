@@ -13,6 +13,8 @@ extends Node2D
 @export var range_ring_color:  Color = Color(0.2, 0.8, 1.0,  0.18)
 @export var range_ring_border: Color = Color(0.2, 0.8, 1.0,  0.55)
 
+var sell_shader: ShaderMaterial = load("res://Shaders/fabricate.tres")
+
 # ─── Internal state ───────────────────────────────────────────────────────────
 var _placing: bool = false
 var _current_id: Turret.TurretID
@@ -27,11 +29,19 @@ var _time: float = 0.0
 var _cell_alpha: Dictionary = {}
 var _prev_cells: Array = []
 
+# ─── Sell state ───────────────────────────────────────────────────────────────
+var _sell_cell: Vector2i = Vector2i(-9999, -9999)
+var _sell_progress: float = 0.0
+var _sell_hold_duration: float = 1.0
+var _right_held: bool = false
+var _sell_turret_node: Node = null
+var _sell_sprite: Sprite2D = null
+var _sell_sprite_original_material: Material = null
+
 signal turret_placed(cell: Vector2i, turret: Node)
 
 # ─── Public API ───────────────────────────────────────────────────────────────
 
-## Call from UI clicks. Toggles off if same turret is already selected.
 func begin_placement(id: Turret.TurretID) -> void:
 	if _placing and _current_id == id:
 		cancel_placement()
@@ -41,15 +51,13 @@ func begin_placement(id: Turret.TurretID) -> void:
 			cancel_placement()
 		return
 
-	# Hard cleanup instead of calling cancel_placement,
-	# so the old ghost is gone synchronously before the new one is built
 	_placing = false
 	_hovered_cell = Vector2i(-9999, -9999)
 	_range_radius = 0.0
 	_cell_alpha.clear()
 	_prev_cells.clear()
 	if _ghost:
-		_ghost.free()   # free() is immediate, queue_free() is deferred
+		_ghost.free()
 		_ghost = null
 	_ghost_sprite = null
 
@@ -75,12 +83,13 @@ func cancel_placement() -> void:
 func is_placing() -> bool:
 	return _placing
 
+
 func free_cell(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
 	_occupied.erase(cell)
 
+
 func _build_ghost(id: Turret.TurretID) -> void:
-	# Removed the queue_free guard — begin_placement already does _ghost.free() synchronously
 	_ghost = Node2D.new()
 	_ghost.z_index = 20
 	add_child(_ghost)
@@ -101,9 +110,51 @@ func _set_ghost_tint(valid: bool) -> void:
 		_ghost_sprite.modulate = Color(0.5, 1.0, 0.5, 0.6) if valid \
 								 else Color(1.0, 0.4, 0.4, 0.6)
 
+# ─── Sell shader helpers ──────────────────────────────────────────────────────
+
+func _apply_sell_shader() -> void:
+	if not is_instance_valid(_sell_turret_node):
+		return
+	for node_name in ["TurretBottom", "TurretTop"]:
+		var sprite: CanvasItem = _sell_turret_node.get_node_or_null(node_name)
+		if sprite:
+			sprite.set_meta("original_material", sprite.material)
+			var mat: ShaderMaterial = sell_shader.duplicate()
+			mat.set_shader_parameter("progress", 1.0)
+			sprite.material = mat
+
+
+
+func _remove_sell_shader() -> void:
+	if is_instance_valid(_sell_turret_node):
+		for node_name in ["TurretBottom", "TurretTop"]:
+			var sprite: CanvasItem = _sell_turret_node.get_node_or_null(node_name)
+			if sprite and sprite.has_meta("original_material"):
+				sprite.material = sprite.get_meta("original_material")
+				sprite.remove_meta("original_material")
+	_sell_sprite = null
+	_sell_sprite_original_material = null
+
+
+func _set_sell_shader_progress(p: float) -> void:
+	if not is_instance_valid(_sell_turret_node):
+		return
+	for node_name in ["TurretBottom", "TurretTop"]:
+		var sprite: CanvasItem = _sell_turret_node.get_node_or_null(node_name)
+		if sprite and sprite.material:
+			sprite.material.set_shader_parameter("progress", p)
+
 # ─── Process ──────────────────────────────────────────────────────────────────
 
 func _process(delta: float) -> void:
+	if _right_held and _sell_cell != Vector2i(-9999, -9999):
+		_sell_progress = min(_sell_progress + delta / _sell_hold_duration, 1.0)
+		# Drive shader: 1.0 → 0.0 as progress goes 0.0 → 1.0
+		_set_sell_shader_progress(1.0 - _sell_progress)
+		if _sell_progress >= 1.0:
+			_try_sell(_sell_cell)
+		return
+
 	if not _placing:
 		return
 	_time += delta
@@ -147,21 +198,25 @@ func _unhandled_input(event: InputEvent) -> void:
 			cancel_placement()
 			return
 
+	if event is InputEventMouseButton:
+		if event.button_index == MOUSE_BUTTON_RIGHT:
+			if event.pressed:
+				_on_right_pressed(get_global_mouse_position())
+			else:
+				_on_right_released()
+			return
+
 	if not _placing:
 		return
 
 	if event is InputEventMouseMotion:
 		_update_ghost(get_global_mouse_position())
 	elif event is InputEventMouseButton and event.pressed:
-		match event.button_index:
-			MOUSE_BUTTON_LEFT:
-				_try_place(get_global_mouse_position())
-			MOUSE_BUTTON_RIGHT:
-				cancel_placement()
+		if event.button_index == MOUSE_BUTTON_LEFT:
+			_try_place(get_global_mouse_position())
 
 
 func _try_hotbar_select(idx: int) -> void:
-	# Build an ordered list of turret IDs currently in storage
 	var available: Array = GameManager.turretStorage.keys()
 	if idx >= available.size():
 		if _placing:
@@ -171,6 +226,63 @@ func _try_hotbar_select(idx: int) -> void:
 	begin_placement(id)
 
 # ─── Helpers ──────────────────────────────────────────────────────────────────
+
+func _on_right_pressed(world_pos: Vector2) -> void:
+	var cell := _world_to_cell(world_pos)
+	if _occupied.has(cell):
+		var holder := get_tree().current_scene.find_child("TurretNodeHolder")
+		if holder:
+			var cell_world := _cell_to_world(cell)
+			for child in holder.get_children():
+				if child.global_position.distance_to(cell_world) < tile_size * 0.5:
+					_sell_turret_node = child
+					break
+		if _sell_turret_node == null:
+			return
+		_sell_cell = cell
+		_sell_progress = 0.0
+		_right_held = true
+		_apply_sell_shader()
+		queue_redraw()
+	else:
+		if _placing:
+			cancel_placement()
+
+
+func _on_right_released() -> void:
+	if _right_held:
+		# Cancelled mid-hold — restore shader and reset
+		_remove_sell_shader()
+		_right_held = false
+		_sell_cell = Vector2i(-9999, -9999)
+		_sell_progress = 0.0
+		_sell_turret_node = null
+		queue_redraw()
+
+
+func _try_sell(cell: Vector2i) -> void:
+	if not _occupied.has(cell):
+		return
+	var world_pos := _cell_to_world(cell)
+	var holder := get_tree().current_scene.find_child("TurretNodeHolder")
+	if holder:
+		for child in holder.get_children():
+			if child.global_position.distance_to(world_pos) < tile_size * 0.5:
+				var turret_id = child.turretID
+				GameManager.addTurretToStorage(turret_id, 1)
+				GameManager.removeTurretFromGame(child)
+				child.queue_free()
+				break
+	# Shader node is gone with the turret, just clear refs
+	_sell_sprite = null
+	_sell_sprite_original_material = null
+	free_cell(world_pos)
+	_sell_cell = Vector2i(-9999, -9999)
+	_sell_progress = 0.0
+	_right_held = false
+	_sell_turret_node = null
+	queue_redraw()
+
 
 func _world_to_cell(world_pos: Vector2) -> Vector2i:
 	if tilemap:
@@ -194,12 +306,10 @@ func _is_cell_valid(cell: Vector2i) -> bool:
 	return true
 
 
-# Bypasses the early-return equality check — used on first frame so the
-# ghost always lands correctly even if _hovered_cell hasn't moved yet.
 func _force_update_ghost(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
-	_hovered_cell = cell                      # set FIRST
-	var valid := _is_cell_valid(cell)         # then check validity
+	_hovered_cell = cell
+	var valid := _is_cell_valid(cell)
 	if _ghost:
 		_ghost.global_position = _cell_to_world(cell)
 	_set_ghost_tint(valid)
@@ -297,7 +407,7 @@ func _draw() -> void:
 			draw_rect(rect, Color(grid_line_color.r, grid_line_color.g,
 								  grid_line_color.b, line_alpha), false, 1.0)
 
-	# Center border — only draw if the cell has faded in enough
+	# Center border
 	var center_alpha: float = _cell_alpha.get(cell, 0.0)
 	if center_alpha > 0.0:
 		var pulse_border := 0.7 + sin(_time * 5.0) * 0.3
@@ -307,6 +417,7 @@ func _draw() -> void:
 				Color(border_base.r, border_base.g, border_base.b,
 					  border_base.a * pulse_border * center_alpha),
 				false, 2.0)
+
 
 func reset():
 	_occupied.clear()
