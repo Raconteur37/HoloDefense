@@ -1,15 +1,20 @@
 [gd_scene format=3 uid="uid://bp4wht1d1yk0p"]
 
 [ext_resource type="Script" uid="uid://c4gw6igq4u21s" path="res://Particle Scenes/Effects/Heal/heal.gd" id="1_lcg45"]
-[ext_resource type="Material" uid="uid://dwak4axnkxj7q" path="res://Particle Scenes/texture_animation_material.tres" id="1_xnk7m"]
 [ext_resource type="Texture2D" uid="uid://byhvyiujp7tyb" path="res://Particle Scenes/Effects/Heal/row_output.png" id="2_lcg45"]
 
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_xnk7m"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 17
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
 [node name="Heal" type="CPUParticles2D" unique_id=1183450902]
-material = ExtResource("1_xnk7m")
+material = SubResource("CanvasItemMaterial_xnk7m")
 emitting = false
 amount = 1
 texture = ExtResource("2_lcg45")
-one_shot = true
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0

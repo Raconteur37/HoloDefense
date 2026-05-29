@@ -23,3 +23,5 @@ texture = ExtResource("2_gslp4")
 [node name="DespawnTimer" type="Timer" parent="." unique_id=1817203855]
 one_shot = true
 autostart = true
+
+[connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

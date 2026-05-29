@@ -48,6 +48,8 @@ func _ready() -> void:
 	baseHealth = maxHealth
 	pierce = basePierce
 
+	applyUpgrade()
+
 	isPlaced = true
 
 func attack():

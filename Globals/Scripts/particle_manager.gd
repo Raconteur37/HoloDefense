@@ -54,7 +54,7 @@ func playExecutionParticle(enemy):
 
 	var particle = executionParticle.instantiate()
 	particle.global_position = enemy.global_position
-	get_tree().current_scene.add_child(particle)
+	get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 
 func playEnergizedParticle(turret):
 
@@ -74,4 +74,4 @@ func playHealParticle(entity):
 
 	var particle = healParticle.instantiate()
 	particle.global_position = entity.global_position
-	entity.add_child(particle)
+	get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)

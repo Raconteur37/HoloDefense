@@ -23,7 +23,7 @@
 	  "damage": 20,
 	  "speed": 30.0,
 	  "attackTime": 2.5,
-	  "attackRange": 400,
+	  "attackRange": 350,
 	  "projectileSpeed": 400
 	},
 	{
@@ -31,9 +31,9 @@
 	  "name": "Hexagonal Mothership",
 	  "health": 2000,
 	  "damage": 1000,
-	  "speed": 2,
-	  "eventTime": 10,
-	  "enemiesToSummon": 70
+	  "speed": 5,
+	  "eventTime": 12,
+	  "enemiesToSummon": 60
 	}
   ]
 }

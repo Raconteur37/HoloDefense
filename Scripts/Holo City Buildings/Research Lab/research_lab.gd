@@ -218,7 +218,7 @@ func updateResearchCost(turret,amountUpgraded):
 	costMap[turret] = snappedf(CityManager.researchBaseCost * pow((1 + CityManager.researchCostScaling),(amountUpgraded-1)),0.1)
 
 func researchTurret(turretID):
-	var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
+	var baseTime = TurretManager.getTurretStat(turretID, "constructionTime") * CityManager.researchTimeMinScale
 	#var startMult = CityManager.researchTimeMinScale
 	#var endMult = CityManager.researchTimeScale
 
@@ -440,8 +440,7 @@ func updateCurrentTimers():
 		var turretID = currentResearchingMap[timer]
 
 		# need the base time again to know the total duration
-		var baseTime = TurretManager.getTurretStat(turretID, "constructionTime")
-
+		var baseTime = TurretManager.getTurretStat(turretID, "constructionTime") * CityManager.researchTimeMinScale
 		# recalculate the original multiplier for the turret
 		#var startMult = CityManager.researchTimeMinScale
 		#var endMult = CityManager.researchTimeScale
