@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://b0b7e8vyycukx"
-path="res://.godot/imported/Energize Range Icon.png-5b8ee32202cf2865cd9c5cfab2964079.ctex"
+uid="uid://dk3sy882rpxak"
+path="res://.godot/imported/divider3.png-01ef7ea47150bd82fbf3755db47f2200.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Icons/Energize Range Icon.png"
-dest_files=["res://.godot/imported/Energize Range Icon.png-5b8ee32202cf2865cd9c5cfab2964079.ctex"]
+source_file="res://Textures/Citizens/UI/divider3.png"
+dest_files=["res://.godot/imported/divider3.png-01ef7ea47150bd82fbf3755db47f2200.ctex"]
 
 [params]
 

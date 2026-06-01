@@ -76,8 +76,8 @@ func onWaveComplete() -> void:
 func manageWaveInfoUI(duration):
 	var bottomUI = get_tree().current_scene
 	if bottomUI != null:
-		if bottomUI.has_node("TowerDefenseCanvas"):
-			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+		if bottomUI.has_node("WaveData"):
+			bottomUI = bottomUI.find_child("WaveData")
 		bottomUI.refreshWaveInfo(duration)
 
 func buildSpawnQueue() -> Array:

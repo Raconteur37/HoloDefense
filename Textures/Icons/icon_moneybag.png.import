@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://nxqxl0kffemm"
-path="res://.godot/imported/Projectile Speed Icon.png-802f56ae080527101640bff84f3049ea.ctex"
+uid="uid://chtpoxtlcrjns"
+path="res://.godot/imported/icon_moneybag.png-18394d74b657150b9b19c531c46f9bb2.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/Icons/Projectile Speed Icon.png"
-dest_files=["res://.godot/imported/Projectile Speed Icon.png-802f56ae080527101640bff84f3049ea.ctex"]
+source_file="res://Textures/Icons/icon_moneybag.png"
+dest_files=["res://.godot/imported/icon_moneybag.png-18394d74b657150b9b19c531c46f9bb2.ctex"]
 
 [params]
 

@@ -16,9 +16,9 @@ var itemDict : Dictionary = {}
 
 var citGenLabel : Label
 var upgradeGenLabel : Label
-var moneyLabel : Label
-var energyLabel : Label
-var scrapLabel : Label
+var moneyLabel : RichTextLabel
+var energyLabel : RichTextLabel
+var scrapLabel : RichTextLabel
 
 var generatorLevelLabel : RichTextLabel
 var moneyGenLabel : RichTextLabel
@@ -34,6 +34,13 @@ var citFabricatorProgressBar : TextureProgressBar
 var citPortrait : TextureRect
 var citCurrentJobLabel : RichTextLabel
 var workProgressBar : TextureProgressBar
+
+var integrityLabel : RichTextLabel
+
+var difficultyLabel
+var systemLabel
+var waveLabel
+var intermissionLabel
 
 var singleCitUI
 
@@ -60,9 +67,9 @@ func _ready() -> void:
 	
 	generatorLevelLabel = $GeneratorLevelLabel
 	
-	moneyGenLabel = $HBoxContainer2/moneyGenLabel
-	energyGenLabel = $HBoxContainer2/energyGenLabel
-	scrapGenLabel = $HBoxContainer2/scrapGenLabel
+	moneyGenLabel = $VBoxContainer/moneyGenLabel
+	energyGenLabel = $VBoxContainer/energyGenLabel
+	scrapGenLabel = $VBoxContainer/scrapGenLabel
 	
 	workArea = $"Work Area"
 	citizenGenGrid = $CitizenGenerateGrid
@@ -73,9 +80,9 @@ func _ready() -> void:
 	
 	citGenLabel = $GenCitLabel
 	
-	moneyLabel = $HBoxContainer/MoneyLabel
-	energyLabel = $HBoxContainer/EnergyLabel
-	scrapLabel = $HBoxContainer/ScrapLabel
+	moneyLabel = $MoneyRichLabel
+	energyLabel = $EnergyRichLabel
+	scrapLabel = $ScrapRichLabel
 	upgradeGenLabel = $UpgradeGenLabel
 	
 	cityLevelLabel = $cityLevelLabel
@@ -90,15 +97,20 @@ func _ready() -> void:
 	
 	singleCitUI = $SingleCitUI
 	
+	integrityLabel = $IntegrityLabel
 	
+	difficultyLabel = $WaveData/DifficultyLabel
+	systemLabel = $WaveData/SystemLabel
+	waveLabel = $WaveData/WaveLabel
+	intermissionLabel = $WaveData/IntermissionLabel
 	
 	materialAbstract = ShaderMaterial.new()
 	glowShader = load("res://Shaders/pulsing_glow.gdshader")
 	
 	upgradeGenLabel.text = "Upgrade\n Generator\n $" + str(CityManager.generatorUpgradeCost)
-	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
-	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
-	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
+	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated)
+	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated)
+	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) 
 	
 	citGenLabel.text = "Generate Citizen \nEnergy: " + str(CityManager.citizenGenCost)
 
@@ -106,10 +118,13 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Edit labels and such
 	resourceBar.value = resourceTimer.wait_time - resourceTimer.time_left
-	moneyLabel.text = "Money: " + str(CityManager.getCurrentMoney())
-	energyLabel.text = "Energy: " + str(CityManager.getCurrentEnergy())
-	scrapLabel.text = "Scrap: " + str(CityManager.getCurrentScrap())
+	moneyLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img]  " + str(CityManager.getCurrentMoney())
+	energyLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img]  " + str(CityManager.getCurrentEnergy())
+	scrapLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img]  " + str(CityManager.getCurrentScrap())
 	cityLevelLabel.text = "Ctiy Level: " + str(CityManager.cityLevel)
+	integrityLabel.text = "[pulse color=pink height=0.5 freq=0.1][font_size=26]City Integrity: " + str(GameManager.cityHealth) + "[/font_size][/pulse]"
+	
+	
 	
 	if CityManager.citizensSelected.size() < 2 && CityManager.citizensSelected.size() > 0 && !singleCitUIShown:
 		singleCitUIShown = true
@@ -182,7 +197,7 @@ func _on_upgrade_generator_button_pressed() -> void:
 		moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
 		energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
 		scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
-		generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
+		generatorLevelLabel.text = "[pulse color=aqua height=0.5 freq=0.5][font_size=26]Generator Level: " + str(CityManager.generatorLevel) + "[/font_size][/pulse]" 
 		_on_upgrade_generator_button_mouse_entered()
 		
 		if CityManager.generatorLevel >= 50:
@@ -194,17 +209,17 @@ func _on_generate_resources_timer_timeout() -> void:
 
 
 func _on_upgrade_generator_button_mouse_entered() -> void:
-	moneyGenLabel.text = "Money Gen: [color=green]" + str(CityManager.moneyGenerated + ceil(1*(pow(1.10,((CityManager.generatorLevel+1)-1))))) + "[/color]"
-	energyGenLabel.text = "Energy Gen: [color=green]" + str(CityManager.energyGenerated + round((1*(pow(1.07,((CityManager.generatorLevel+1)-1))))*100) / 100) + "[/color]"
-	scrapGenLabel.text = "Scrap Gen: [color=green]" + str(CityManager.scrapGenerated + ceil(1*(pow(1.08,((CityManager.generatorLevel+1)-1))))) + "[/color]"
-	generatorLevelLabel.text = "Generator Level: [color=green]" + str(CityManager.generatorLevel + 1) + "[/color]"
+	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.moneyGenerated + ceil(1*(pow(1.10,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
+	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.energyGenerated +  round((1*(pow(1.07,((CityManager.generatorLevel+1)-1))))*100) / 100) + "[/pulse]"
+	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.scrapGenerated + ceil(1*(pow(1.08,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
+	generatorLevelLabel.text = "[pulse color=lime height=0.5 freq=0.8][font_size=26]Generator Level: " + str(CityManager.generatorLevel + 1) + "[/font_size][/pulse]" 
 
 
 func _on_upgrade_generator_button_mouse_exited() -> void:
-	moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
-	energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
-	scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated)
-	generatorLevelLabel.text = "Generator Level: " + str(CityManager.generatorLevel)
+	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated)
+	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated)
+	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) 
+	generatorLevelLabel.text = "[pulse color=aqua height=0.5 freq=0.5][font_size=26]Generator Level: " + str(CityManager.generatorLevel) + "[/font_size][/pulse]" 
 
 func refreshSingelCitUI():
 	var citizen : Citizen = CityManager.citizensSelected[0]
@@ -248,3 +263,6 @@ func refreshSingelCitUI():
 		Citizen.Job.FABRICATOR:
 			citCurrentJobLabel.text = "Current Job: Fabricator"
 			citFabricatorProgressBar.get_parent().material = materialAbstract
+
+func updateWaveData():
+	pass

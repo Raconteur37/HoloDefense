@@ -1,4 +1,4 @@
-[gd_scene load_steps=8 format=3 uid="uid://cn427lnvanynn"]
+[gd_scene format=3 uid="uid://cn427lnvanynn"]
 
 [ext_resource type="Script" uid="uid://duapf1sbfsvqk" path="res://Game Scenes/holo_citizen_generation_scene.gd" id="1_82qdc"]
 
@@ -22,34 +22,34 @@ colors = PackedColorArray(0.300434, 0.931569, 0.648325, 1, 1, 1, 1, 1)
 gradient = SubResource("Gradient_n3mkr")
 fill_from = Vector2(1, 0)
 
-[node name="HoloCitizenGenerationScene" type="Control"]
+[node name="HoloCitizenGenerationScene" type="Control" unique_id=1188082382]
 layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
+anchor_left = 0.38900003
+anchor_top = 0.46800002
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -214.0
-offset_top = -35.0
+offset_left = -0.8800659
+offset_top = -0.44003296
 offset_right = -214.0
 offset_bottom = -35.0
 grow_horizontal = 2
 grow_vertical = 2
+scale = Vector2(0.4, 0.4)
 size_flags_horizontal = 2
 size_flags_vertical = 3
 script = ExtResource("1_82qdc")
 
-[node name="CitizenIcon" type="TextureRect" parent="."]
+[node name="CitizenIcon" type="TextureRect" parent="." unique_id=840476491]
 layout_mode = 0
 offset_right = 107.0
 offset_bottom = 103.0
 scale = Vector2(0.42564, 0.344585)
 texture = SubResource("GradientTexture2D_82qdc")
 
-[node name="GenerateProgressBar" type="TextureProgressBar" parent="."]
+[node name="GenerateProgressBar" type="TextureProgressBar" parent="." unique_id=2067505657]
 layout_mode = 0
 offset_left = 46.0
-offset_right = 546.0
+offset_right = 304.4226
 offset_bottom = 64.0
 scale = Vector2(0.882276, 0.558776)
 step = 0.01
@@ -57,7 +57,7 @@ nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_5vkee")
 texture_progress = SubResource("GradientTexture2D_712gt")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=442332239]
 wait_time = 0.01
 
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

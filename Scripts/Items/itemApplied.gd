@@ -120,5 +120,5 @@ func _on_gui_input(event: InputEvent) -> void:
 			itemPopup.buildItemDisplay()
 			itemPopup.set_position(get_global_mouse_position())
 			itemPopup.position.y -= 330
-			itemPopup.position.x -= 430
+			#itemPopup.position.x += 430
 			itemPopup.show()

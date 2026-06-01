@@ -1,25 +1,30 @@
 [gd_scene format=3 uid="uid://cbt3hx5meq4g8"]
 
 [ext_resource type="Script" uid="uid://cy6eo1sr3cku0" path="res://Scripts/Holo City Buildings/Holo Generator/holo_generator.gd" id="1_s0f2h"]
-[ext_resource type="Texture2D" uid="uid://dhte7r37pnrhr" path="res://Textures/UI/Game/background_alt.png" id="2_s0f2h"]
+[ext_resource type="Texture2D" uid="uid://f6qyom3ylfej" path="res://Textures/UI/Game/BottomUI16.png" id="2_qkuul"]
+[ext_resource type="Texture2D" uid="uid://sodrahp8risd" path="res://Textures/UI/futuristic_panel_v5.png" id="2_sbyn0"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="4_8aw1o"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="4_sc1hh"]
 [ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="4_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="5_sbyn0"]
 [ext_resource type="Texture2D" uid="uid://ccxb6l8sby55i" path="res://Shaders/electricityNoise.tres" id="5_v0sms"]
+[ext_resource type="Script" uid="uid://djc12vw56dh1b" path="res://Game Scenes/mini_map.gd" id="8_8aw1o"]
+[ext_resource type="Texture2D" uid="uid://dk3sy882rpxak" path="res://Textures/Citizens/UI/divider3.png" id="10_dldic"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_8jlgm"]
-size = Vector2(374.70343, 80.6432)
+size = Vector2(374.70343, 43.258938)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qkuul"]
 
 [sub_resource type="Gradient" id="Gradient_sc1hh"]
-colors = PackedColorArray(0.24840015, 0.24840018, 0.24840015, 1, 0.24705882, 0.24705882, 0.24705882, 1)
+colors = PackedColorArray(0.0018410678, 0.0018410682, 0.0018410678, 1, 0.24705882, 0.24705882, 0.24705882, 1)
 
 [sub_resource type="GradientTexture1D" id="GradientTexture1D_8jlgm"]
 gradient = SubResource("Gradient_sc1hh")
 
 [sub_resource type="Gradient" id="Gradient_dldic"]
-colors = PackedColorArray(0.43635225, 0.7593198, 0.6370752, 1, 0.43529412, 0.8666667, 0.43529412, 1)
+colors = PackedColorArray(0.43529412, 0.8745098, 0.63529414, 1, 0.15653399, 0.87927157, 0.6497165, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_qkuul"]
 gradient = SubResource("Gradient_dldic")
@@ -76,27 +81,29 @@ collision_layer = 32
 collision_mask = 48
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=1828887416]
-position = Vector2(9.552795, 0.80109406)
+position = Vector2(9.552795, 19.49324)
 scale = Vector2(1.0000001, 1)
 shape = SubResource("RectangleShape2D_8jlgm")
 debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
 
-[node name="cityLevelLabel" type="Label" parent="." unique_id=913661031]
+[node name="BottomImage" type="TextureRect" parent="." unique_id=1774792873]
+modulate = Color(0, 0.75237334, 0.75494003, 1)
+self_modulate = Color(1, 1, 1, 0.53333336)
 layout_mode = 0
-offset_left = 921.0
-offset_top = 756.0
-offset_right = 1013.0
-offset_bottom = 779.0
-text = "City Level: 1"
-horizontal_alignment = 1
+offset_top = 937.0
+offset_right = 1920.0
+offset_bottom = 1161.0
+texture = ExtResource("2_qkuul")
 
 [node name="BackgroundImage" type="TextureRect" parent="." unique_id=1607710391]
-layout_mode = 0
-offset_left = -4.0
-offset_top = 781.0
-offset_right = 1922.0
-offset_bottom = 1076.0
-texture = ExtResource("2_s0f2h")
+material = SubResource("ShaderMaterial_qkuul")
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.165
+anchor_bottom = 1.0
+offset_right = -0.8000183
+offset_bottom = 8.0
+texture = ExtResource("2_sbyn0")
 expand_mode = 1
 
 [node name="GenerateCitizenButton" type="TextureButton" parent="." unique_id=186647963]
@@ -106,46 +113,14 @@ anchor_left = 0.30100003
 anchor_top = 0.87500006
 anchor_right = 0.377
 anchor_bottom = 0.984
-offset_left = -0.92004395
-offset_top = -6.1035156e-05
-offset_right = -82.84003
-offset_bottom = -53.71997
-scale = Vector2(0.16014232, 0.37258214)
+offset_left = -415.91998
+offset_top = -726.00006
+offset_right = 358.15997
+offset_bottom = -527.72
+scale = Vector2(0.15, 0.3)
 texture_normal = ExtResource("3_tlq4f")
 texture_pressed = ExtResource("4_8aw1o")
 texture_hover = ExtResource("5_sbyn0")
-
-[node name="CitizenGenerateGrid" type="GridContainer" parent="." unique_id=389767941]
-layout_mode = 0
-offset_left = 744.0
-offset_top = 911.0
-offset_right = 1248.0
-offset_bottom = 1039.0
-theme_override_constants/h_separation = 1
-theme_override_constants/v_separation = 1
-
-[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=1318568930]
-layout_mode = 0
-offset_left = 813.0
-offset_top = 807.0
-offset_right = 1105.0
-offset_bottom = 829.0
-theme_override_constants/separation = 40
-alignment = 1
-
-[node name="MoneyLabel" type="Label" parent="HBoxContainer" unique_id=1222069122]
-layout_mode = 2
-text = "Money: $0"
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="EnergyLabel" type="Label" parent="HBoxContainer" unique_id=1387212802]
-layout_mode = 2
-text = "Energy: 0"
-
-[node name="ScrapLabel" type="Label" parent="HBoxContainer" unique_id=606313914]
-layout_mode = 2
-text = "Scrap: 0"
 
 [node name="GenCitLabel" type="Label" parent="." unique_id=522591073]
 layout_mode = 1
@@ -154,19 +129,86 @@ anchor_left = 0.307
 anchor_top = 0.90700006
 anchor_right = 0.374
 anchor_bottom = 0.952
-offset_left = -3.4400024
-offset_top = -14.560059
-offset_right = -3.080017
-offset_bottom = 9.839966
+offset_left = -409.43994
+offset_top = -750.56006
+offset_right = -409.07996
+offset_bottom = -726.16003
+scale = Vector2(0.8, 0.8)
 text = "Generate Citizen
 Energy: 100"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="UpgradeGeneratorButton" type="TextureButton" parent="." unique_id=462530250]
+layout_mode = 0
+offset_left = 14.0
+offset_top = 219.00006
+offset_right = 934.0
+offset_bottom = 535.00006
+scale = Vector2(0.15, 0.3)
+texture_normal = ExtResource("3_tlq4f")
+texture_pressed = ExtResource("4_8aw1o")
+texture_hover = ExtResource("5_sbyn0")
+
+[node name="UpgradeGenLabel" type="Label" parent="." unique_id=2089786568]
+layout_mode = 0
+offset_left = 23.000061
+offset_top = 229.0
+offset_right = 173.00006
+offset_bottom = 327.3333
+scale = Vector2(0.8, 0.8)
+text = "Upgrade Generator
+100 Energy
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="CitizenGenerateGrid" type="GridContainer" parent="." unique_id=389767941]
+layout_mode = 0
+offset_left = 15.0
+offset_top = 575.0
+offset_right = 305.0
+offset_bottom = 671.0
+theme_override_constants/h_separation = 1
+theme_override_constants/v_separation = 1
+
+[node name="ScrapRichLabel" type="RichTextLabel" parent="." unique_id=927394874]
+layout_mode = 0
+offset_left = 504.0
+offset_top = 1017.0
+offset_right = 592.0
+offset_bottom = 1040.3334
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000000"
+
+[node name="MoneyRichLabel" type="RichTextLabel" parent="." unique_id=679291886]
+layout_mode = 0
+offset_left = 323.0
+offset_top = 1017.0
+offset_right = 411.0
+offset_bottom = 1041.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_moneybag.png[/img] 2000000"
+
+[node name="EnergyRichLabel" type="RichTextLabel" parent="." unique_id=1118865785]
+layout_mode = 0
+offset_left = 683.0
+offset_top = 1017.0
+offset_right = 770.0
+offset_bottom = 1040.0
+scale = Vector2(2, 2)
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 2000000"
 
 [node name="MaterialGridContainer" type="GridContainer" parent="." unique_id=1159347093]
 layout_mode = 0
-offset_left = 1371.0
-offset_top = 800.0
-offset_right = 1371.0
-offset_bottom = 800.0
+offset_left = 35.0
+offset_top = 400.0
+offset_right = 35.0
+offset_bottom = 400.0
+scale = Vector2(0.8, 0.8)
 theme_override_constants/h_separation = 20
 
 [node name="GemGridContainer" type="GridContainer" parent="." unique_id=1547950966]
@@ -176,10 +218,11 @@ anchor_left = 0.832
 anchor_top = 0.74100006
 anchor_right = 0.85800004
 anchor_bottom = 0.78300005
-offset_left = -331.44006
-offset_top = -0.28009033
-offset_right = -331.3601
-offset_bottom = 0.35992432
+offset_left = -1428.4401
+offset_top = -400.2801
+offset_right = -1428.3601
+offset_bottom = -399.64008
+scale = Vector2(0.8, 0.8)
 theme_override_constants/h_separation = 20
 
 [node name="SingleCitUI" type="Control" parent="." unique_id=1738952614]
@@ -189,23 +232,26 @@ anchor_left = 0.015000001
 anchor_top = 0.762
 anchor_right = 0.29200003
 anchor_bottom = 0.96800005
-offset_left = 5.199999
-offset_top = -12.960022
-offset_right = 6.3599243
-offset_bottom = -13.440063
+offset_left = -23.800001
+offset_top = -125.96002
+offset_right = -22.640076
+offset_bottom = -126.44006
 
 [node name="portrait" type="TextureRect" parent="SingleCitUI" unique_id=1642527067]
 layout_mode = 0
-offset_right = 104.0
-offset_bottom = 108.0
+offset_left = 10.0
+offset_top = 8.0
+offset_right = 114.0
+offset_bottom = 116.0
+scale = Vector2(0.6, 0.6)
 texture = ExtResource("4_sc1hh")
 
 [node name="currentJobLabel" type="RichTextLabel" parent="SingleCitUI" unique_id=647272353]
 layout_mode = 0
-offset_left = 197.0
-offset_top = -8.0
-offset_right = 415.0
-offset_bottom = 39.0
+offset_left = 100.0
+offset_top = 3.0
+offset_right = 288.0
+offset_bottom = 67.0
 bbcode_enabled = true
 text = "Current job: None"
 fit_content = true
@@ -215,14 +261,15 @@ horizontal_alignment = 1
 [node name="workProgressBar" type="TextureProgressBar" parent="SingleCitUI" unique_id=206553886]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.32500002
-anchor_top = 0.126
-anchor_right = 0.83900005
-anchor_bottom = 0.21200001
-offset_left = -0.2250061
-offset_top = 0.027999878
-offset_right = -0.18701172
-offset_bottom = -0.06400299
+anchor_left = 0.28100002
+anchor_top = 0.284
+anchor_right = 0.527
+anchor_bottom = 0.36900002
+offset_left = -21.77301
+offset_top = -8.048
+offset_right = 121.10901
+offset_bottom = -7.918007
+scale = Vector2(0.47741064, 1)
 step = 0.015
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture1D_8jlgm")
@@ -231,11 +278,11 @@ texture_progress = SubResource("GradientTexture2D_qkuul")
 [node name="Panel" type="Panel" parent="SingleCitUI" unique_id=1006887907]
 material = SubResource("ShaderMaterial_8aw1o")
 layout_mode = 0
-offset_left = -8.0
-offset_top = 116.0
-offset_right = 228.0
-offset_bottom = 150.0
-scale = Vector2(0.8, 0.8)
+offset_left = 0.9999999
+offset_top = 88.0
+offset_right = 237.0
+offset_bottom = 122.0
+scale = Vector2(0.6, 0.6)
 
 [node name="AtomizerProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel" unique_id=1944133922]
 layout_mode = 0
@@ -250,11 +297,11 @@ texture_progress = SubResource("GradientTexture2D_dldic")
 
 [node name="Panel2" type="Panel" parent="SingleCitUI" unique_id=740903289]
 layout_mode = 0
-offset_left = -8.0
-offset_top = 151.0
-offset_right = 228.0
-offset_bottom = 185.0
-scale = Vector2(0.8, 0.8)
+offset_left = 0.9999998
+offset_top = 107.0
+offset_right = 237.0
+offset_bottom = 141.0
+scale = Vector2(0.6, 0.6)
 
 [node name="GemScraperProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel2" unique_id=1068696582]
 layout_mode = 0
@@ -269,11 +316,11 @@ texture_progress = SubResource("GradientTexture2D_dldic")
 
 [node name="Panel3" type="Panel" parent="SingleCitUI" unique_id=559612772]
 layout_mode = 0
-offset_left = -8.0
-offset_top = 186.0
-offset_right = 228.0
-offset_bottom = 220.0
-scale = Vector2(0.8, 0.8)
+offset_left = 1.0
+offset_top = 126.0
+offset_right = 237.0
+offset_bottom = 160.0
+scale = Vector2(0.6, 0.6)
 
 [node name="ResearchProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel3" unique_id=1737672419]
 layout_mode = 0
@@ -288,11 +335,11 @@ texture_progress = SubResource("GradientTexture2D_dldic")
 
 [node name="Panel4" type="Panel" parent="SingleCitUI" unique_id=1091205906]
 layout_mode = 0
-offset_left = -8.0
-offset_top = 221.0
-offset_right = 228.0
-offset_bottom = 255.0
-scale = Vector2(0.8, 0.8)
+offset_left = 1.0
+offset_top = 145.0
+offset_right = 237.0
+offset_bottom = 179.0
+scale = Vector2(0.6, 0.6)
 
 [node name="FabricatorProgressBar" type="TextureProgressBar" parent="SingleCitUI/Panel4" unique_id=1466983982]
 layout_mode = 0
@@ -306,44 +353,24 @@ texture_under = SubResource("GradientTexture2D_8aw1o")
 texture_progress = SubResource("GradientTexture2D_dldic")
 
 [node name="CitizenGridContainer" type="GridContainer" parent="." unique_id=958587711]
-custom_minimum_size = Vector2(100, 100)
+clip_contents = true
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = 33.0
-offset_top = 824.0
-offset_right = 532.0
-offset_bottom = 1049.0
+offset_left = 10.0
+offset_top = 705.0
+offset_right = 434.2857
+offset_bottom = 927.85706
+scale = Vector2(0.7, 0.7)
 columns = 10
-
-[node name="UpgradeGeneratorButton" type="TextureButton" parent="." unique_id=462530250]
-layout_mode = 0
-offset_left = 571.0
-offset_top = 841.0
-offset_right = 1491.0
-offset_bottom = 1157.0
-scale = Vector2(0.17474946, 0.35297164)
-texture_normal = ExtResource("3_tlq4f")
-texture_pressed = ExtResource("4_8aw1o")
-texture_hover = ExtResource("5_sbyn0")
-
-[node name="UpgradeGenLabel" type="Label" parent="." unique_id=2089786568]
-layout_mode = 0
-offset_left = 577.0
-offset_top = 857.00006
-offset_right = 727.0
-offset_bottom = 955.3334
-text = "Upgrade Generator
-100 Energy
-"
-horizontal_alignment = 1
 
 [node name="ResourceGenerationBar" type="TextureProgressBar" parent="." unique_id=1255447373]
 material = SubResource("ShaderMaterial_v0sms")
 layout_mode = 0
-offset_left = 780.0
-offset_top = 846.0
-offset_right = 820.0
-offset_bottom = 886.0
-scale = Vector2(5.4657316, 0.44272083)
+offset_left = 9.0
+offset_top = 328.0
+offset_right = 73.0
+offset_bottom = 392.0
+scale = Vector2(4.718739, 0.3518397)
 step = 0.01
 texture_under = SubResource("GradientTexture2D_sc1hh")
 texture_progress = SubResource("GradientTexture2D_sbyn0")
@@ -351,40 +378,112 @@ texture_progress = SubResource("GradientTexture2D_sbyn0")
 [node name="GenerateResourcesTimer" type="Timer" parent="." unique_id=34087572]
 autostart = true
 
-[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=1959444231]
-layout_mode = 0
-offset_left = 458.0
-offset_top = 752.0
-offset_right = 864.0
-offset_bottom = 808.0
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1011959372]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.015000001
+anchor_top = 0.097
+anchor_right = 0.123
+anchor_bottom = 0.30600002
+offset_left = 44.800003
+offset_top = -17.760002
+offset_right = 30.839996
+offset_bottom = -153.48001
 
-[node name="moneyGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=1124409747]
+[node name="moneyGenLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1124409747]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "money gen: 0"
+text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: 2000000"
+fit_content = true
 
-[node name="energyGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=686464049]
+[node name="energyGenLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=686464049]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "energy gen: 0"
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: 2000000"
+fit_content = true
 
-[node name="scrapGenLabel" type="RichTextLabel" parent="HBoxContainer2" unique_id=1864302185]
+[node name="scrapGenLabel" type="RichTextLabel" parent="VBoxContainer" unique_id=1864302185]
 layout_mode = 2
 size_flags_horizontal = 3
 bbcode_enabled = true
-text = "scrap gen: 0"
+text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: 2000000"
+fit_content = true
 
 [node name="GeneratorLevelLabel" type="RichTextLabel" parent="." unique_id=1265718958]
 layout_mode = 0
-offset_left = 556.0
-offset_top = 722.0
-offset_right = 743.0
-offset_bottom = 762.0
+offset_left = 3.0
+offset_top = 7.0
+offset_right = 312.0
+offset_bottom = 55.0
 bbcode_enabled = true
-text = "Generator Level: 1"
+text = "[pulse color=aqua height=0.5 freq=0.5][font_size=26]Generator Level: 1[/font_size][/pulse]"
 horizontal_alignment = 1
+
+[node name="MiniMap" type="Panel" parent="." unique_id=1646677457]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1866.0
+offset_top = -201.0
+offset_right = -1826.0
+offset_bottom = -161.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("8_8aw1o")
+
+[node name="Divider2" type="TextureRect" parent="." unique_id=1446174717]
+self_modulate = Color(1, 1, 1, 0.3882353)
+layout_mode = 0
+offset_left = 9.0
+offset_top = 864.0
+offset_right = 273.0
+offset_bottom = 904.0
+scale = Vector2(1.1793878, 0.3051039)
+texture = ExtResource("10_dldic")
+
+[node name="Divider" type="TextureRect" parent="." unique_id=198808194]
+self_modulate = Color(1, 1, 1, 0.3882353)
+layout_mode = 0
+offset_left = 3.999999
+offset_top = 686.00006
+offset_right = 268.0
+offset_bottom = 726.00006
+scale = Vector2(1.1793878, 0.3051039)
+texture = ExtResource("10_dldic")
+
+[node name="Divider3" type="TextureRect" parent="." unique_id=593864177]
+self_modulate = Color(1, 1, 1, 0.3882353)
+layout_mode = 0
+offset_left = 0.9999995
+offset_top = 363.0
+offset_right = 265.0
+offset_bottom = 403.0
+scale = Vector2(1.1793878, 0.3051039)
+texture = ExtResource("10_dldic")
+
+[node name="cityLevelLabel" type="Label" parent="." unique_id=913661031]
+layout_mode = 0
+offset_left = 105.0
+offset_top = 47.0
+offset_right = 197.0
+offset_bottom = 70.0
+text = "City Level: 1"
+horizontal_alignment = 1
+
+[node name="IntegrityLabel" type="RichTextLabel" parent="." unique_id=814671227]
+layout_mode = 0
+offset_left = 969.0
+offset_top = 1010.0
+offset_right = 1351.0
+offset_bottom = 1063.0
+bbcode_enabled = true
+text = "[pulse color=pink height=0.5 freq=0.1][font_size=26]City Integrity: 100[/font_size][/pulse]"
+vertical_alignment = 1
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="pressed" from="GenerateCitizenButton" to="." method="_on_generate_citizen_button_pressed"]

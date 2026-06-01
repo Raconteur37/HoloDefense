@@ -2,16 +2,16 @@
 
 importer="texture"
 type="CompressedTexture2D"
-uid="uid://o6vjv2q44a8c"
-path="res://.godot/imported/Turret Info Plate background.png-8f241b30912f14f7e4e39a1edf05781d.ctex"
+uid="uid://iyoc8levxy1f"
+path="res://.godot/imported/divider.png-686637c7ae04a7c8a0110a2b60275762.ctex"
 metadata={
 "vram_texture": false
 }
 
 [deps]
 
-source_file="res://Textures/UI/Game/Turret Info Plate background.png"
-dest_files=["res://.godot/imported/Turret Info Plate background.png-8f241b30912f14f7e4e39a1edf05781d.ctex"]
+source_file="res://Textures/Citizens/UI/divider.png"
+dest_files=["res://.godot/imported/divider.png-686637c7ae04a7c8a0110a2b60275762.ctex"]
 
 [params]
 
