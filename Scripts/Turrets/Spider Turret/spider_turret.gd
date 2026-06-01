@@ -57,6 +57,7 @@ func _ready() -> void:
 
 	isPlaced = true
 
+	applyUpgrade()
 
 func attack():
 

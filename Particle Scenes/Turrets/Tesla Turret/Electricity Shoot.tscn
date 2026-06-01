@@ -1,17 +1,17 @@
-[gd_scene load_steps=3 format=3 uid="uid://bdhxbgjthhwqg"]
+[gd_scene format=3 uid="uid://bdhxbgjthhwqg"]
 
 [ext_resource type="Texture2D" uid="uid://6ojk5c0mjtxr" path="res://Particle Scenes/Turrets/Tesla Turret/rotated_sprite_sheet.png" id="1_hx2ob"]
 [ext_resource type="Script" uid="uid://bagmrm5wlxn3h" path="res://Scripts/Turrets/Tesla Turret/electricity_shoot.gd" id="2_5eak8"]
 
-[node name="Line2D" type="Line2D"]
-position = Vector2(30, 29)
+[node name="Line2D" type="Line2D" unique_id=1080195471]
+z_index = 7
 width = 75.0
 texture = ExtResource("1_hx2ob")
 texture_mode = 1
 antialiased = true
 script = ExtResource("2_5eak8")
 
-[node name="Timer" type="Timer" parent="."]
+[node name="Timer" type="Timer" parent="." unique_id=154746939]
 wait_time = 0.3
 autostart = true
 

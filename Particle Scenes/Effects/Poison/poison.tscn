@@ -11,11 +11,11 @@ particles_anim_loop = true
 
 [node name="Poison" type="CPUParticles2D" unique_id=247408143]
 material = SubResource("CanvasItemMaterial_mpnm5")
-position = Vector2(486, 316)
 amount = 2
 texture = ExtResource("1_6qp2f")
 lifetime = 3.0
 speed_scale = 4.0
+local_coords = true
 emission_shape = 1
 emission_sphere_radius = 10.0
 particle_flag_align_y = true

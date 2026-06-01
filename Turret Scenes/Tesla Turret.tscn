@@ -79,7 +79,6 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Tesla Turret" type="CharacterBody2D" unique_id=1364315204 groups=["Turret"]]
-position = Vector2(975, 514)
 collision_mask = 12
 script = ExtResource("1_dn28j")
 

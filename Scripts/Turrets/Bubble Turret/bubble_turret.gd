@@ -49,6 +49,7 @@ func _ready() -> void:
 	bubbleTimer.wait_time = bubbleApplyTime
 
 	applyUpgrade()
+
 	isPlaced = true
 	call_deferred("scanCurrentTurretsInRange")
 

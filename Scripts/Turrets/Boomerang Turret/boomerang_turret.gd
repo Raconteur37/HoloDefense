@@ -45,6 +45,8 @@ func _ready() -> void:
 	isPlaced = true
 
 
+	applyUpgrade()
+
 func attack() -> void:
 	if not shotReady or enemiesInRange.is_empty() or not isPlaced:
 		return

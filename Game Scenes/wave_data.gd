@@ -20,10 +20,8 @@ func _ready() -> void:
 	
 	
 
-
-# Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
-	if not placeHolderTimer.is_stopped():
+	if not placeHolderTimer.is_stopped() and (WaveManager.currentPhase == WaveManager.Phase.IDLE or WaveManager.currentPhase == WaveManager.Phase.INTERMISSION):
 		var time = placeHolderTimer.time_left
 		var mins = int(time) / 60
 		var secs = fmod(time, 60)
@@ -51,10 +49,11 @@ func _process(delta: float) -> void:
 
 func refreshWaveInfo(time):
 	if placeHolderTimer != null:
-		if placeHolderTimer.is_stopped() and time > 0:
-			placeHolderTimer.wait_time = time
-			placeHolderTimer.start()
+		placeHolderTimer.wait_time = time
+		placeHolderTimer.start()
 		difficultyLabel.text = "Difficulty: " + str(WaveManager.currentDifficulty)
 		systemLabel.text = "System: " + str(WaveManager.systemNumber) + "/5"
 		waveLabel.text = "Current Wave: " + str(WaveManager.currentWave)
 		intermissionLabel.text = ""
+		
+		

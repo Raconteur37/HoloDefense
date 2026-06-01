@@ -15,8 +15,8 @@
 	  "tierThreeWaveTresh": 7,
 	},
 	"waveScaling": {
-	  "healthScalePerWave": 1.035,
-	  "damageScalePerWave": 1.025
+	  "healthScalePerWave": 1.04,
+	  "damageScalePerWave": 1.03
 	},
 	"groupWeights": {
 	  "firstTier":  0.55,
@@ -109,7 +109,7 @@
 	},
 	{
 	  "level": 11,
-	  "label": "Beyond",
+	  "label": "The End",
 	  "enemy_count_multiplier": 3.0,
 	  "spawn_interval_sec": 0.25,
 	  "intermission_duration_sec": 1.0,

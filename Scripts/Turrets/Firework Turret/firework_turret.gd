@@ -58,6 +58,7 @@ func _ready() -> void:
 
 	isPlaced = true
 
+	applyUpgrade()
 
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:

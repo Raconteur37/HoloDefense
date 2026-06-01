@@ -17,6 +17,7 @@ amount = 1
 texture = ExtResource("2_dbkf4")
 lifetime = 0.8
 one_shot = true
+local_coords = true
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0

@@ -12,6 +12,9 @@ var attackTimer : Timer
 
 func _ready() -> void:
 
+	projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
+
+
 	rarity = Rarity.UNSEEN
 	type = Type.Dark
 	turretID = TurretID.ZOMBIE_TURRET
@@ -26,6 +29,7 @@ func _ready() -> void:
 	baseTurnChance = TurretManager.getTurretStat(turretID,"turnChance")
 	baseTurnTime = TurretManager.getTurretStat(turretID,"turnTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	
 	
 
 	turnChance = baseTurnChance
@@ -72,6 +76,19 @@ func _on_reload_timer_timeout() -> void:
 func _on_attack_timer_timeout() -> void:
 	if enemiesInRange.size() > 0:
 		for enemy in enemiesInRange:
+			var shockParticle = projectile.instantiate()
+			shockParticle.modulate = Color(0.0, 0.458, 0.0, 1.0)
+			shockParticle.global_position = global_position
+
+			# Set the positions
+			var start_position = Vector2(0,0)
+			var end_position = to_local(enemy.global_position)
+			var points = [start_position,end_position]
+
+			shockParticle.points = points
+
+			# Add to the scene
+			get_parent().add_child(shockParticle)
 			if not enemy.isZombie:
 				if randi_range(0,100) <= turnChance:
 					enemy.isZombie = true

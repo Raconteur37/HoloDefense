@@ -263,6 +263,3 @@ func refreshSingelCitUI():
 		Citizen.Job.FABRICATOR:
 			citCurrentJobLabel.text = "Current Job: Fabricator"
 			citFabricatorProgressBar.get_parent().material = materialAbstract
-
-func updateWaveData():
-	pass

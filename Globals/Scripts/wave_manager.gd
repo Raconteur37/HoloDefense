@@ -66,12 +66,12 @@ func beginNextSystem():
 	
 
 func onWaveComplete() -> void: 
-	currentPhase = Phase.INTERMISSION
 	
 	var duration = get_intermission_duration(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(duration)
 	intermissionTimer.timeout.connect(beginNextWave)
 	manageWaveInfoUI(duration)
+	currentPhase = Phase.INTERMISSION
 
 func manageWaveInfoUI(duration):
 	var bottomUI = get_tree().current_scene

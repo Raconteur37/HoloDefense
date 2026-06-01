@@ -314,6 +314,7 @@ func autoSell(item):
 func autoConvert(item):
 	var energyVal = itemEnergyValueDict.get(item)
 	currentEnergy += energyVal
+	currentEnergy = GameManager.round_to_dec(currentEnergy,2)
 	manageMilestone("energy",energyVal)
 
 func autoScrap(item):
@@ -335,6 +336,7 @@ func massAutoConvert(item : Item.theItem):
 		var amount = storage.get(item)
 		var val = itemEnergyValueDict.get(item) * amount
 		currentEnergy += val
+		currentEnergy = GameManager.round_to_dec(currentEnergy,2)
 		manageMilestone("energy",val)
 		storage[item] = 0
 		storageChanged.emit()
@@ -353,6 +355,7 @@ func convertItem(item : Item,amountSelling : int,convertValue: float):
 		if amountSelling <= item.amount:
 			var val = amountSelling * convertValue
 			currentEnergy += val
+			currentEnergy = GameManager.round_to_dec(currentEnergy,2)
 			manageMilestone("energy",val)
 			storage[item.actualItem] = storage.get(item.actualItem) - amountSelling
 			storageChanged.emit()
@@ -505,7 +508,7 @@ func upgradeGenerator():
 	updateGeneratorUpgradeCost()
 
 func updateGenCitizenCost():
-	citizenGenCost = round(round(100 * (baseCitizenGenCost * (pow(citizenCostMultiplier,citizensGenerated)))) / 100)
+	citizenGenCost = roundf(round(100 * (baseCitizenGenCost * (pow(citizenCostMultiplier,citizensGenerated)))) / 100)
 
 func updateGeneratorUpgradeCost():
 	generatorUpgradeCost = round(round(100 * (baseGeneratorUpgradeCost * (pow(generatorCostMultiplier,generatorLevel)))) / 100)
