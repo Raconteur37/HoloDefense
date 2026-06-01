@@ -69,6 +69,7 @@ func _on_v_slider_value_changed(value: float) -> void:
 	if value >= 9:
 		difLabel.text = "[pulse color=red height=0.5 freq=0.3][font_size=30]Difficulty: " + str(int(value)) + "[/font_size][/pulse]"
 	WaveManager.currentDifficulty = int(value)
+	SoundManager.playDifficultySound(int(value))
 
 
 func _on_begin_button_pressed() -> void:

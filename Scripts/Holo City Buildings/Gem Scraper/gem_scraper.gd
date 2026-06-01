@@ -29,6 +29,18 @@ var diamondEnergyValueLabel
 var galactiteMoneyValueLabel
 var galactiteEnergyValueLabel
 
+var copperAutoSellSwitch : CheckButton
+var quartzAutoSellSwitch
+var amethystAutoSellSwitch
+var diamondAutoSellSwitch
+var galactiteAutoSellSwitch
+
+var copperAutoConvertSwitch : CheckButton
+var quartzAutoConvertSwitch
+var amethystAutoConvertSwitch
+var diamondAutoConvertSwitch
+var galactiteAutoConvertSwitch
+
 var upgradeButton
 var upgradeLabel
 
@@ -60,6 +72,18 @@ func _ready() -> void:
 	upgradeLabel = $menuControl/fabricatorMenuBackground/upgradeScraperLabel
 	
 	upgradeLabel.text = "Upgrade\n $"+str(CityManager.scraperUpgradeCost)
+
+	copperAutoSellSwitch = $menuControl/fabricatorMenuBackground/autoSellContainer/copperMoneySwitch
+	quartzAutoSellSwitch = $menuControl/fabricatorMenuBackground/autoSellContainer/quartzMoneySwitch
+	amethystAutoSellSwitch = $menuControl/fabricatorMenuBackground/autoSellContainer/amethystMoneySwitch
+	diamondAutoSellSwitch = $menuControl/fabricatorMenuBackground/autoSellContainer/diamondMoneySwitch
+	galactiteAutoSellSwitch = $menuControl/fabricatorMenuBackground/autoSellContainer/galactiteMoneySwitch
+
+	copperAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/copperConvertSwitch
+	quartzAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/quartzConvertSwitch
+	amethystAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/amethystConvertSwitch
+	diamondAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/diamondConvertSwitch
+	galactiteAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/galactiteConvertSwitch
 
 	CityManager.storageChanged.connect(refresh)
 
@@ -123,6 +147,8 @@ func _on_popup_visibility_changed() -> void:
 
 func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertCommonGem = false
+		copperAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellCommonGem = true
 		CityManager.massAutoSell(Item.theItem.COPPER_GEM)
 	else:
@@ -131,6 +157,8 @@ func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_quartz_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertRareGem = false
+		quartzAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellRareGem = true
 		CityManager.massAutoSell(Item.theItem.QUARTZ_GEM)
 	else:
@@ -139,6 +167,8 @@ func _on_quartz_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_amethyst_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertSuperRareGem = false
+		amethystAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellSuperRareGem = true
 		CityManager.massAutoSell(Item.theItem.AMETHYST_GEM)
 	else:
@@ -147,6 +177,8 @@ func _on_amethyst_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_diamond_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertLegendaryGem = false
+		diamondAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellLegendaryGem = true
 		CityManager.massAutoSell(Item.theItem.DIAMOND_GEM)
 	else:
@@ -155,6 +187,8 @@ func _on_diamond_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_galactite_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertUnseenGem = false
+		galactiteAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellUnseenGem = true
 		CityManager.massAutoSell(Item.theItem.GALACTITE_GEM)
 	else:
@@ -163,6 +197,8 @@ func _on_galactite_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_copper_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellCommonGem = false
+		copperAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertCommonGem = true
 		CityManager.massAutoConvert(Item.theItem.COPPER_GEM)
 	else:
@@ -171,6 +207,8 @@ func _on_copper_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_quartz_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellRareGem = false
+		quartzAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertRareGem = true
 		CityManager.massAutoConvert(Item.theItem.QUARTZ_GEM)
 	else:
@@ -179,6 +217,8 @@ func _on_quartz_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_amethyst_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellSuperRareGem = false
+		amethystAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertSuperRareGem = true
 		CityManager.massAutoConvert(Item.theItem.AMETHYST_GEM)
 	else:
@@ -187,6 +227,8 @@ func _on_amethyst_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_diamond_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellLegendaryGem = false
+		diamondAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertLegendaryGem= true
 		CityManager.massAutoConvert(Item.theItem.DIAMOND_GEM)
 	else:
@@ -195,6 +237,8 @@ func _on_diamond_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_galactite_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellUnseenGem = false
+		galactiteAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertUnseenGem = true
 		CityManager.massAutoConvert(Item.theItem.GALACTITE_GEM)
 	else:

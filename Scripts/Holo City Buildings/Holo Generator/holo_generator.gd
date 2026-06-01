@@ -209,9 +209,9 @@ func _on_generate_resources_timer_timeout() -> void:
 
 
 func _on_upgrade_generator_button_mouse_entered() -> void:
-	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.moneyGenerated + ceil(1*(pow(1.10,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
-	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.energyGenerated +  round((1*(pow(1.07,((CityManager.generatorLevel+1)-1))))*100) / 100) + "[/pulse]"
-	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.scrapGenerated + ceil(1*(pow(1.08,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
+	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.moneyGenerated + ceil(1*(pow(CityManager.moneyScale,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
+	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.energyGenerated +  round((1*(pow(CityManager.energyScale,((CityManager.generatorLevel+1)-1))))*100) / 100) + "[/pulse]"
+	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) + "[pulse color=lime height=0.5 freq=.8]  ->  " + str(CityManager.scrapGenerated + ceil(1*(pow(CityManager.scrapScale,((CityManager.generatorLevel+1)-1))))) + "[/pulse]"
 	generatorLevelLabel.text = "[pulse color=lime height=0.5 freq=0.8][font_size=26]Generator Level: " + str(CityManager.generatorLevel + 1) + "[/font_size][/pulse]" 
 
 

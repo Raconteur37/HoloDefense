@@ -35,11 +35,11 @@
 
 "HoloCitySettings": {
 	"StartingCash": 100,
-	"MoneyScale": 1.6,
+	"MoneyScale": 3.3,
 	"StartingEnergy": 100,
-	"EnergyScale": 1.5,
+	"EnergyScale": 2.5,
 	"StartingScrap": 50,
-	"ScrapScale": 1.5,
+	"ScrapScale": 3,
 	"MoneyGenerated": 1,
 	"EnergyGenerated": 1.5,
 	"ScrapGenerated": 2,

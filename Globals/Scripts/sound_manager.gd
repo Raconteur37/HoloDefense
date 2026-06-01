@@ -34,6 +34,33 @@ func playGenericKillSound():
 	soundPlayer.play()
 	comboTimer.start()
 
+func playDifficultySound(num):
+	match num:
+		
+		1:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 1 Select.wav")
+		2:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 2 Select.wav")
+		3:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 3 Select.wav")
+		4:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 4 Select.wav")
+		5:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 5 Select.wav")
+		6:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 6 Select.wav")
+		7:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 7 Select.wav")
+		8:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 8 Select.wav")
+		9:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 9 Select.wav")
+		10:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 10 Select.wav")
+		11:
+			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 11 Select.wav")
+
+	soundPlayer.play()
 func cityLevelUp():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/DashReady.mp3")
 	soundPlayer.play()

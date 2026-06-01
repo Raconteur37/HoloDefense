@@ -32,6 +32,18 @@ var unseenScrapValue
 var upgradeButton
 var upgradeLabel
 
+var commonAutoSellSwitch
+var rareAutoSellSwitch
+var superRareAutoSellSwitch
+var legendaryAutoSellSwitch
+var unseenAutoSellSwitch
+
+var commonAutoConvertSwitch
+var rareAutoConvertSwitch
+var superRareAutoConvertSwitch
+var legendaryAutoConvertSwitch
+var unseenAutoConvertSwitch
+
 func _ready() -> void:
 	workArea = $"Work Area"
 	atomizerSprite = $BuildSprite
@@ -63,6 +75,19 @@ func _ready() -> void:
 	upgradeLabel = $menuControl/AtomizerMenuBackground/upgradeAtomizerLabel
 	
 	upgradeLabel.text = "Upgrade\n $" + str(CityManager.atomizerUpgradeCost)
+	
+	commonAutoSellSwitch = $menuControl/AtomizerMenuBackground/autoSellContainer/commonMoneySwitch
+	rareAutoSellSwitch = $menuControl/AtomizerMenuBackground/autoSellContainer/rareMoneySwitch
+	superRareAutoSellSwitch = $menuControl/AtomizerMenuBackground/autoSellContainer/superRareMoneySwitch
+	legendaryAutoSellSwitch = $menuControl/AtomizerMenuBackground/autoSellContainer/legendaryMoneySwitch
+	unseenAutoSellSwitch = $menuControl/AtomizerMenuBackground/autoSellContainer/unseenMoneySwitch
+
+	commonAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/commonConvertSwitch
+	rareAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/rareConvertSwitch
+	superRareAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/superRareConvertSwitch
+	legendaryAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/legendaryConvertSwitch
+	unseenAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/unseenConvertSwitch
+
 	
 	CityManager.storageChanged.connect(refresh)
 
@@ -170,6 +195,8 @@ func _on_texture_button_mouse_exited() -> void:
 
 func _on_common_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertCommonScrap = false
+		commonAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellCommonScrap = true
 		CityManager.massAutoSell(Item.theItem.COMMON_SCRAP)
 	else:
@@ -178,6 +205,8 @@ func _on_common_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_rare_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertRareScrap = false
+		rareAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellRareScrap = true
 		CityManager.massAutoSell(Item.theItem.RARE_SCRAP)
 	else:
@@ -186,6 +215,8 @@ func _on_rare_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_super_rare_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertSuperRareScrap = false
+		superRareAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellSuperRareScrap = true
 		CityManager.massAutoSell(Item.theItem.SUPER_RARE_SCRAP)
 	else:
@@ -194,6 +225,8 @@ func _on_super_rare_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_legendary_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertLegendaryScrap = false
+		legendaryAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellLegendaryScrap = true
 		CityManager.massAutoSell(Item.theItem.LEGENDARY_SCRAP)
 	else:
@@ -202,6 +235,8 @@ func _on_legendary_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_unseen_money_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoConvertUnseenScrap = false
+		unseenAutoConvertSwitch.button_pressed = false
 		CityManager.autoSellUnseenScrap = true
 		CityManager.massAutoSell(Item.theItem.UNSEEN_SCRAP)
 	else:
@@ -210,6 +245,8 @@ func _on_unseen_money_switch_toggled(toggled_on: bool) -> void:
 
 func _on_common_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellCommonScrap = false
+		commonAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertCommonScrap = true
 		CityManager.massAutoScrap(Item.theItem.COMMON_SCRAP)
 	else:
@@ -218,6 +255,8 @@ func _on_common_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_rare_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellRareScrap = false
+		rareAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertRareScrap = true
 		CityManager.massAutoScrap(Item.theItem.RARE_SCRAP)
 	else:
@@ -226,6 +265,8 @@ func _on_rare_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_super_rare_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellSuperRareScrap = false
+		superRareAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertSuperRareScrap = true
 		CityManager.massAutoScrap(Item.theItem.SUPER_RARE_SCRAP)
 	else:
@@ -234,6 +275,8 @@ func _on_super_rare_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_legendary_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellLegendaryScrap = false
+		legendaryAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertLegendaryScrap = true
 		CityManager.massAutoScrap(Item.theItem.LEGENDARY_SCRAP)
 	else:
@@ -242,6 +285,8 @@ func _on_legendary_convert_switch_toggled(toggled_on: bool) -> void:
 
 func _on_unseen_convert_switch_toggled(toggled_on: bool) -> void:
 	if toggled_on:
+		CityManager.autoSellUnseenScrap = false
+		unseenAutoSellSwitch.button_pressed = false
 		CityManager.autoConvertUnseenScrap = true
 		CityManager.massAutoScrap(Item.theItem.UNSEEN_SCRAP)
 	else:

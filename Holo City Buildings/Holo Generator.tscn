@@ -46,10 +46,10 @@ gradient = SubResource("Gradient_sbyn0")
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_v0sms"]
 shader = ExtResource("4_tlq4f")
 shader_parameter/noise_texture = ExtResource("5_v0sms")
-shader_parameter/electric_color = Color(0.74268514, 0.6130551, 1, 1)
-shader_parameter/speed = 0.4930000234175
-shader_parameter/distortion_strength = 1.0
-shader_parameter/sparkle_strength = 0.5290000251275
+shader_parameter/electric_color = Color(0, 0.11740296, 0.9070663, 1)
+shader_parameter/speed = 2.4630001169925
+shader_parameter/distortion_strength = 0.0
+shader_parameter/sparkle_strength = 1.0550000501125
 
 [sub_resource type="Gradient" id="Gradient_v0sms"]
 colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)

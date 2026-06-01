@@ -1,0 +1,24 @@
+[remap]
+
+importer="wav"
+type="AudioStreamWAV"
+uid="uid://dryde351aq4tp"
+path="res://.godot/imported/Difficulty 7 Select.wav-50d3793b6e927870b7319796959c6cfb.sample"
+
+[deps]
+
+source_file="res://Sounds/UI Sounds/Difficulty 7 Select.wav"
+dest_files=["res://.godot/imported/Difficulty 7 Select.wav-50d3793b6e927870b7319796959c6cfb.sample"]
+
+[params]
+
+force/8_bit=false
+force/mono=false
+force/max_rate=false
+force/max_rate_hz=44100
+edit/trim=false
+edit/normalize=false
+edit/loop_mode=0
+edit/loop_begin=0
+edit/loop_end=-1
+compress/mode=2
