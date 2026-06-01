@@ -40,10 +40,15 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		return
 
 	enemy.health -= damage
-	enemy.hurtParticle.emitting = true
 
 	if enemy.health <= 0:
 		killEnemy(packet.source, enemy)
+	else:
+		enemy.hurtParticle.emitting = true
+		if is_instance_valid(enemy):
+			var tween = create_tween()
+			enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+			tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier",0.0,0.1)
 
 # This will INCLUDE explosions cus why not
 func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:

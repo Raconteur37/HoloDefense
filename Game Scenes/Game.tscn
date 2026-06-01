@@ -113,9 +113,9 @@ script = ExtResource("3_cemk1")
 metadata/_edit_use_anchors_ = true
 
 [node name="CityCanvas" parent="." unique_id=125614548 instance=ExtResource("4_iw6a6")]
+visible = false
 
 [node name="TowerDefenseCanvas" parent="." unique_id=1084623525 instance=ExtResource("2_vq8dx")]
-visible = false
 
 [node name="WaveData" type="Control" parent="." unique_id=554365349]
 z_index = 7

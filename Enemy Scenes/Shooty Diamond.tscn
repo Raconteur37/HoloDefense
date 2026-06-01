@@ -1,8 +1,15 @@
 [gd_scene format=3 uid="uid://deafyqk5n6dor"]
 
 [ext_resource type="Script" uid="uid://c33620g6voj4v" path="res://Scripts/Enemies/shooty_diamond.gd" id="1_yin4x"]
+[ext_resource type="Shader" uid="uid://yrdagse31yg5" path="res://Shaders/enemyDamage.gdshader" id="2_jqcys"]
 [ext_resource type="Texture2D" uid="uid://cs8xgwf7i1yxy" path="res://Textures/Enemies/diamond_enemy.png" id="2_s3et5"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_vibg3"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_vibg3"]
+resource_local_to_scene = true
+shader = ExtResource("2_jqcys")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4s3bd"]
 radius = 10.049875
@@ -14,6 +21,7 @@ script = ExtResource("1_yin4x")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=477299311]
 modulate = Color(0.9911936, 0.5337323, 0.99999994, 1)
+material = SubResource("ShaderMaterial_vibg3")
 texture = ExtResource("2_s3et5")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1701022781]

@@ -10,6 +10,7 @@ func _ready():
 	attackTime = EnemyManager.get_attack_time(enemyID)
 	speed = EnemyManager.get_speed(enemyID)
 	type = Type.BASIC
+	sprite = $Sprite2D
 	attackTimer = $AttackTimer
 	attackTimer.wait_time = attackTime
 	hurtParticle = $"Basic Square Hurt"

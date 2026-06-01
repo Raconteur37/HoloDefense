@@ -2,7 +2,14 @@
 
 [ext_resource type="Script" uid="uid://dblb3j7ra7ci3" path="res://Scripts/Enemies/speedy_triangle.gd" id="1_nhcdp"]
 [ext_resource type="Texture2D" uid="uid://7l2ipapi3iqh" path="res://Textures/Enemies/triangle_enemy.png" id="2_5nupk"]
+[ext_resource type="Shader" uid="uid://yrdagse31yg5" path="res://Shaders/enemyDamage.gdshader" id="2_mpfd8"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_dnnpq"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_dnnpq"]
+resource_local_to_scene = true
+shader = ExtResource("2_mpfd8")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=2112259070 groups=["Enemy"]]
 scale = Vector2(0.2, 0.2)
@@ -12,6 +19,7 @@ script = ExtResource("1_nhcdp")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2087550449]
 modulate = Color(0.9940557, 0.40686062, 0.3968278, 1)
+material = SubResource("ShaderMaterial_dnnpq")
 texture = ExtResource("2_5nupk")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1749583711]

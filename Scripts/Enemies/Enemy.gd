@@ -15,6 +15,8 @@ var attackRange : float
 var projectileSpeed : float
 var type : Type
 
+var sprite : Sprite2D
+
 var hitBoxArea
 
 var destination: Vector2 = Vector2.ZERO

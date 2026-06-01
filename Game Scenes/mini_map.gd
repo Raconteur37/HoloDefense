@@ -4,8 +4,9 @@ extends Panel
 @export var world_radius: float = 1200.0
 @export var dot_size: float = 3.0
 
-var enemy_color := Color(1.0, 0.988, 0.987, 0.9)
-var center_color := Color(0.2, 0.8, 1.0, 0.8)
+var enemy_color = Color(1.0, 0.988, 0.987, 0.9)
+var turret_color = Color(0.922, 0.436, 0.313, 1.0)
+var center_color = Color(0.2, 0.8, 1.0, 0.8)
 
 func _process(_delta: float) -> void:
 	queue_redraw()
@@ -17,7 +18,8 @@ func _draw() -> void:
 
 	draw_rect(Rect2(Vector2.ZERO, minimap_size), Color(0.05, 0.1, 0.15, 0.85))
 	draw_rect(Rect2(Vector2.ZERO, minimap_size), Color(0.0, 0.78, 0.79, 0.6), false, 1.5)
-	draw_circle(center, 4.0, center_color)
+	var cityRect : Rect2 = Rect2(center,Vector2(4.5,4.5))
+	draw_rect(cityRect,center_color,true)
 
 	var allEnemies = get_tree().get_nodes_in_group("Enemy")
 	for enemy in allEnemies:
@@ -34,6 +36,20 @@ func _draw() -> void:
 		if enemy.isZombie:
 			color = Color(0.0, 0.61, 0.068, 1.0)
 		draw_circle(map_pos, dot_size,color)
+	var allTurrets = get_tree().get_nodes_in_group("Turret")
+	for turret in allTurrets:
+		if not is_instance_valid(turret):
+			continue
+		var world_pos: Vector2 = turret.global_position - world_center
+		var normalized := Vector2(
+			world_pos.x / (viewport_size.x / 2),
+			world_pos.y / (viewport_size.y / 2)
+		)
+		var map_pos := center + normalized * (minimap_size / 2) * 0.9
+		map_pos = map_pos.clamp(Vector2(dot_size, dot_size), minimap_size - Vector2(dot_size, dot_size))
+		var rect : Rect2 = Rect2(map_pos,Vector2(4,4))
+		draw_rect(rect,turret_color,true)
+
 
 func get_enemy_color(enemy) -> Color:
 	if "enemyID" not in enemy:

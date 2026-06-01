@@ -2,7 +2,14 @@
 
 [ext_resource type="Script" uid="uid://cenj3jsyuormk" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
 [ext_resource type="Texture2D" uid="uid://ba4ufkdp80oca" path="res://Textures/Enemies/hexagon_enemy.png" id="2_0u5f2"]
+[ext_resource type="Shader" uid="uid://yrdagse31yg5" path="res://Shaders/enemyDamage.gdshader" id="2_ft5im"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_ft5im"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_0u5f2"]
+resource_local_to_scene = true
+shader = ExtResource("2_ft5im")
+shader_parameter/flash_color = Color(0.796243, 0.796243, 0.796243, 1)
+shader_parameter/flash_modifier = 0.0
 
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=872659565 groups=["Enemy"]]
 scale = Vector2(3, 3)
@@ -12,17 +19,18 @@ script = ExtResource("1_x64ye")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1444808344]
 modulate = Color(1, 1, 0.52156866, 1)
+material = SubResource("ShaderMaterial_0u5f2")
 texture = ExtResource("2_0u5f2")
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="." unique_id=1978015632]
-polygon = PackedVector2Array(0, -61, 53, -27, 53, 31, 0, 62, -53, 31, -52, -31)
+polygon = PackedVector2Array(1, -55.666668, 48.666668, -27, 48.666668, 29, 0, 56.666668, -48.666668, 28.333334, -48, -28.666668)
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=1253495164]
 collision_layer = 4
 collision_mask = 3
 
 [node name="CollisionPolygon2D" type="CollisionPolygon2D" parent="HitboxArea" unique_id=98407915]
-polygon = PackedVector2Array(0, -61, 53, -27, 53, 31, 0, 62, -53, 31, -52, -31)
+polygon = PackedVector2Array(1, -55.666668, 48.333336, -26.666668, 48.333336, 29, 0.33333334, 56.666668, -48.333336, 28.333334, -48.333336, -29)
 
 [node name="SummonTimer" type="Timer" parent="." unique_id=1300035090]
 
