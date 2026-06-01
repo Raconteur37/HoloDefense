@@ -138,7 +138,7 @@ func applyUpgrade():
 	reloadTimer.wait_time = reloadTime
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
-	poisonChance = (basePoisonDamage + (basePoisonDamage * scaleFactor * upgradeTier))
+	poisonChance = (basePoisonChance + (basePoisonChance * scaleFactor * upgradeTier))
 	poisonDuration = (basePoisonDuration + (basePoisonDuration * scaleFactor * upgradeTier))
 	poisonDamage = (basePoisonDamage + (basePoisonDamage * scaleFactor * upgradeTier))
 	refreshUI(self)
