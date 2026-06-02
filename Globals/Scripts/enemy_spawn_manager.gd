@@ -91,3 +91,24 @@ func getRandomOffscreenPosition() -> Vector2:
 			spawn_pos.y = randf_range(0, view_rect.size.y)
 			
 	return spawn_pos
+
+
+# Another player called this on YOUR machine to send you an enemy
+@rpc("any_peer", "reliable")
+func receiveEnemy(enemyID: int):
+	var sender = multiplayer.get_remote_sender_id()
+	if not sender in NetworkManager.players:
+		return
+	var id = enemyID as Enemy.EnemyID
+	if not ENEMIES.has(id):
+		return
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	var enemy = ENEMIES[id].instantiate()
+	enemy.is_sent_enemy = true
+	holder.add_child(enemy)
+	enemy.global_position = getRandomOffscreenPosition()
+
+# Call this from your UI when a player spends currency to attack
+func sendEnemy(enemyID: Enemy.EnemyID, target_peer_id: int):
+	# RPCs can't send enums directly, cast to int
+	receiveEnemy.rpc_id(target_peer_id, enemyID as int)

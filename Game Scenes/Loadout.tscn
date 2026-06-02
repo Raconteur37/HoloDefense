@@ -32,6 +32,9 @@ gradient = SubResource("Gradient_35g7l")
 font_size = 100
 font_color = Color(0, 0, 0, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_r3e2u"]
+font_size = 40
+
 [node name="Loadout" type="Control" unique_id=1244549634]
 layout_mode = 3
 anchors_preset = 15
@@ -306,9 +309,65 @@ text = "[pulse color=aqua height=0.5 freq=0.5][font_size=70]View All Available T
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PlayerReadyList" type="ItemList" parent="." unique_id=1430846725]
+layout_mode = 0
+offset_left = 1455.0
+offset_top = 41.0
+offset_right = 1873.0
+offset_bottom = 266.0
+
+[node name="ReadyButton" type="TextureButton" parent="." unique_id=1248746140]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38000003
+anchor_top = 0.74100006
+anchor_right = 0.619
+anchor_bottom = 0.887
+offset_left = -0.6000366
+offset_top = -0.28009033
+offset_right = 460.52002
+offset_bottom = 158.03998
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.5, 0.5)
+texture_normal = ExtResource("6_eqhij")
+texture_pressed = ExtResource("9_dc8bj")
+texture_hover = ExtResource("8_m7oig")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="ReadyButton" unique_id=2074212489]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.076000005
+anchor_top = 0.209
+anchor_right = 0.92200005
+anchor_bottom = 0.823
+offset_left = 0.0799942
+offset_top = -0.04399872
+offset_right = -0.24005127
+offset_bottom = -0.067993164
+mouse_filter = 2
+bbcode_enabled = true
+text = "[rainbow freq=.1 sat=1 val=0.8][font_size=90]Ready?[/font_size][/rainbow]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="WaitingLabel" type="Label" parent="." unique_id=1277239611]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -73.0
+offset_top = 145.0
+offset_right = 74.0
+offset_bottom = 200.83333
+grow_horizontal = 2
+text = "Waiting on other players..."
+label_settings = SubResource("LabelSettings_r3e2u")
+
 [connection signal="value_changed" from="VSlider" to="." method="_on_v_slider_value_changed"]
 [connection signal="pressed" from="BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]
 [connection signal="pressed" from="TurretInfoButton" to="." method="_on_turret_info_button_pressed"]
+[connection signal="pressed" from="ReadyButton" to="." method="_on_ready_button_pressed"]

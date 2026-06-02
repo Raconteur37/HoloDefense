@@ -10,7 +10,7 @@ func _input(event):
 		if event.keycode == KEY_F2 and event.pressed and visible:
 			get_tree().paused = false
 			GameManager.reset()
-			get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
+			get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
 			#get_tree().reload_current_scene()
 
 func toggle_pause():

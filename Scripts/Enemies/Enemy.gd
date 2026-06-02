@@ -37,6 +37,9 @@ var zombieFollowTarget: Enemy = null
 var attackReady: bool = true
 var attackTimer: Timer
 
+var is_sent_enemy: bool = false  # true when spawned by another player sending it
+
+
 func _ready() -> void:
 	applyScaling()
 	attackTimer = Timer.new()
@@ -45,6 +48,9 @@ func _ready() -> void:
 	attackTimer.timeout.connect(_on_attack_timer_timeout)
 
 func _physics_process(delta: float) -> void:
+	if is_sent_enemy and not multiplayer.is_server():
+		return
+
 	updateDestination()
 	move()
 	if isZombie and not initialTurn and type != Type.BOSS:

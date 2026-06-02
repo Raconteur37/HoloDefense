@@ -31,6 +31,10 @@ font_color = Color(1, 1, 1, 0.5019608)
 [node name="TowerDefenseCanvas" type="CanvasLayer" unique_id=1084623525]
 script = ExtResource("1_dfs6n")
 
+[node name="MultiplayerSpawner" type="MultiplayerSpawner" parent="." unique_id=854298772]
+_spawnable_scenes = PackedStringArray("uid://dq8r764ghas4c", "uid://c8hxqwse75gq3", "uid://deafyqk5n6dor", "uid://gygbrebhkc3s")
+spawn_path = NodePath("../EnemyNodeHolder")
+
 [node name="TurretNodeHolder" type="Node2D" parent="." unique_id=1391536917]
 z_index = 1
 

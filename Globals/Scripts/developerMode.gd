@@ -1,6 +1,6 @@
 extends Node
 
-var inDevMode : bool = true
+var inDevMode : bool = false
 
 func _input(event: InputEvent) -> void:
 
@@ -27,7 +27,8 @@ func _input(event: InputEvent) -> void:
 				if inDevMode:
 					EnemySpawnManager.summonEnemy(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
 			KEY_W:
-				WaveManager.beginNextWave()
+				if inDevMode:
+					WaveManager.beginNextWave()
 				#WaveManager.onWaveComplete()
 
 			KEY_F1:

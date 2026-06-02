@@ -5,6 +5,7 @@ signal turretStorageChanged()
 var cityHealth = 100
 
 var previewMode : bool = false
+var VSmode : bool = false
 
 var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
@@ -82,6 +83,7 @@ func reset():
 	
 	cityHealth = 100
 	previewMode = false
+	VSmode = false
 	turretsPlaced.clear()
 	turretStorage.clear()
 	turretTempLevels.clear()
