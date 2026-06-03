@@ -26,9 +26,10 @@ func _ready():
 
 	if SteamManager.current_lobby_id != 0:
 		_on_lobby_ready(SteamManager.current_lobby_id)
-	else:
-		# Poll for a few seconds in case invite join hasn't completed yet
-		_wait_for_invite_join()
+	elif SteamManager.pending_lobby_id != 0:
+		# Lobby was joined before this scene loaded — join it now
+		print("Catching pending lobby: ", SteamManager.pending_lobby_id)
+		_on_lobby_ready(SteamManager.pending_lobby_id)
 
 
 
@@ -89,13 +90,12 @@ func _on_friend_invite(_lobby_id: int):
 # ─────────────────────────────────────────
 
 func _on_lobby_ready(_lobby_id: int):
-	# Hide main menu UI
+	SteamManager.pending_lobby_id = 0  # ← clear it so it doesn't retrigger
+
 	create_btn.hide()
 	join_btn.hide()
 	code_input.hide()
 	status_label.hide()
-
-	# Show lobby
 	lobby_panel.show()
 
 	if SteamManager.is_host():
@@ -107,9 +107,8 @@ func _on_lobby_ready(_lobby_id: int):
 	else:
 		room_label.text = "Lobby"
 		code_display.hide()
-		status_label.text = "Waiting for host to start..."
 		start_btn.hide()
-		invite_btn.show()
+		invite_btn.hide()
 
 	_refresh_players()
 

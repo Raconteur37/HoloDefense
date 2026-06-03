@@ -16,6 +16,9 @@ signal player_joined_lobby()
 
 signal enemy_received(enemy_id)
 
+var pending_lobby_id: int = 0  # set when invite join happens before scene is ready
+
+
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
 
@@ -99,11 +102,10 @@ func join_lobby_by_code(code: String) -> void:
 
 func _on_lobby_entered(lobby_id: int, response: int) -> void:
 	if response != 1:
-		push_error("Failed to join lobby: %d" % response)
 		lobby_join_failed.emit()
 		return
-
 	current_lobby_id = lobby_id
+	pending_lobby_id = lobby_id  # ← store it here too
 	print("Joined lobby: ", lobby_id)
 	lobby_joined.emit(lobby_id)
 	player_joined_lobby.emit()
