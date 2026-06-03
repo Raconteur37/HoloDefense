@@ -1,6 +1,6 @@
 {
 	"poison": {
-		"tickTime": 0.3
+		"tickTime": 0.2
 	},
 	"burn": {
 		"tickTime": 0.5

@@ -22,6 +22,7 @@ run/max_fps=120
 
 [autoload]
 
+SteamManager="*uid://3l0k01jfw7yy"
 ConfigLoader="*uid://b18nntm27lr8w"
 GameManager="*res://Globals/Scripts/game_manager.gd"
 ParticleManager="*res://Globals/Scripts/particle_manager.gd"
@@ -52,7 +53,7 @@ window/vsync/vsync_mode=0
 
 [editor_plugins]
 
-enabled=PackedStringArray("res://addons/SimpleTODO/plugin.cfg")
+enabled=PackedStringArray("res://addons/godotsteam/plugin.cfg")
 
 [global_group]
 
