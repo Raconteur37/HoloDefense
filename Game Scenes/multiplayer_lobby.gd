@@ -83,7 +83,7 @@ func _on_friend_invite(_lobby_id: int):
 	else:
 		# Already on this scene — lobby_joined will handle the rest
 		status_label.text = "Joining via invite..."
-
+		lobby_panel.show()
 
 # ─────────────────────────────────────────
 #  LOBBY UI
