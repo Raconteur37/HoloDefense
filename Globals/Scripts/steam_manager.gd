@@ -1,6 +1,6 @@
 extends Node
 
-const APP_ID = 4758080  # ← your actual app ID
+const APP_ID = 4758080
 
 var steam_initialized: bool = false
 var steam_id: int = 0
@@ -12,6 +12,9 @@ signal lobby_joined(lobby_id)
 signal lobby_join_failed()
 signal lobby_members_updated()
 signal friend_invite_accepted(lobby_id)
+signal player_joined_lobby()
+
+signal enemy_received(enemy_id)
 
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
@@ -20,7 +23,8 @@ func _ready() -> void:
 		push_error("Steam singleton not found!")
 		return
 
-	print("Has Steam singleton: ", Engine.has_singleton("Steam"))
+	Steam.p2p_session_request.connect(_on_p2p_session_request)
+	Steam.p2p_session_connect_fail.connect(_on_p2p_session_fail)
 
 	OS.set_environment("SteamAppId", str(APP_ID))
 
@@ -36,16 +40,20 @@ func _ready() -> void:
 	steam_name = Steam.getPersonaName()
 	print("Steam initialized as: %s (%d)" % [steam_name, steam_id])
 
-	# Connect all lobby + invite signals
-	Steam.lobby_joined.connect(_on_lobby_entered)
-	Steam.join_requested.connect(_on_lobby_join_requested)
+	# Connect all signals
 	Steam.lobby_created.connect(_on_lobby_created)
+	Steam.lobby_joined.connect(_on_lobby_entered)
 	Steam.lobby_chat_update.connect(_on_lobby_members_changed)
+	Steam.join_requested.connect(_on_lobby_join_requested)
+
+	# Check if game was launched directly from a Steam invite
+	_check_launch_command_line()
 
 
 func _process(_delta: float) -> void:
 	if steam_initialized:
 		Steam.run_callbacks()
+		_read_p2p_messages()  # ← add this
 
 
 # ─────────────────────────────────────────
@@ -98,13 +106,15 @@ func _on_lobby_entered(lobby_id: int, response: int) -> void:
 	current_lobby_id = lobby_id
 	print("Joined lobby: ", lobby_id)
 	lobby_joined.emit(lobby_id)
+	player_joined_lobby.emit()
 
 
 # ─────────────────────────────────────────
 #  MEMBERS
 # ─────────────────────────────────────────
 
-func _on_lobby_members_changed(lobby_id: int, _steam_id: int, _making_change: int, _chat_change: int) -> void:
+func _on_lobby_members_changed(_lobby_id: int, _steam_id: int, _making_change: int, _chat_change: int) -> void:
+	print("Lobby members changed")
 	lobby_members_updated.emit()
 
 
@@ -132,7 +142,6 @@ func is_host() -> bool:
 #  INVITES
 # ─────────────────────────────────────────
 
-# Opens the Steam overlay friend invite dialog
 func open_invite_overlay() -> void:
 	if current_lobby_id == 0:
 		push_error("No lobby to invite to")
@@ -140,18 +149,28 @@ func open_invite_overlay() -> void:
 	Steam.activateGameOverlayInviteDialog(current_lobby_id)
 
 
-# Friend clicked "Join Game" on your Steam profile or accepted an invite
+# Friend accepted invite via Steam overlay
 func _on_lobby_join_requested(lobby_id: int, _friend_id: int) -> void:
 	print("Join requested via Steam overlay for lobby: ", lobby_id)
 	join_lobby(lobby_id)
 	friend_invite_accepted.emit(lobby_id)
 
 
-# Handles +connect launch argument when game is launched from invite
-func _on_game_join_requested(lobby_id: int, _steam_id: int) -> void:
-	print("Game join requested for lobby: ", lobby_id)
-	join_lobby(lobby_id)
-	friend_invite_accepted.emit(lobby_id)
+# Game launched fresh from a Steam invite link
+func _check_launch_command_line() -> void:
+	var args = OS.get_cmdline_args()
+	print("Launch args: ", args)
+	for arg in args:
+		if "+connect_lobby" in arg:
+			var parts = arg.split(" ")
+			if parts.size() >= 2:
+				var lobby_id = int(parts[1])
+				print("Launched from invite, joining lobby: ", lobby_id)
+				# Wait a frame for scenes to finish loading before joining
+				await get_tree().process_frame
+				join_lobby(lobby_id)
+				friend_invite_accepted.emit(lobby_id)
+			return
 
 
 # ─────────────────────────────────────────
@@ -162,3 +181,46 @@ func leave_lobby() -> void:
 	if current_lobby_id != 0:
 		Steam.leaveLobby(current_lobby_id)
 		current_lobby_id = 0
+		print("Left lobby")
+
+# ─────────────────────────────────────────
+#  P2P MESSAGING
+# ─────────────────────────────────────────
+
+func _on_p2p_session_request(remote_steam_id: int) -> void:
+	# Accept connection from any lobby member
+	var members = get_lobby_members()
+	for member in members:
+		if member["steam_id"] == remote_steam_id:
+			Steam.acceptP2PSessionWithUser(remote_steam_id)
+			return
+
+
+func _on_p2p_session_fail(steam_id: int, error: int) -> void:
+	push_error("P2P session failed with %d: %d" % [steam_id, error])
+
+
+func send_enemy_to(target_steam_id: int, enemy_id: int) -> void:
+	# Pack the message: just the enemy ID as a single byte
+	var data = PackedByteArray([enemy_id])
+	Steam.sendP2PPacket(target_steam_id, data, Steam.P2P_SEND_RELIABLE, 0)
+
+
+func _read_p2p_messages() -> void:
+	# Check for incoming packets every frame
+	var packet_size = Steam.getAvailableP2PPacketSize(0)
+	while packet_size > 0:
+		var packet = Steam.readP2PPacket(packet_size, 0)
+		if packet.is_empty():
+			break
+		var enemy_id = packet["data"][0]
+		enemy_received.emit(enemy_id)
+		packet_size = Steam.getAvailableP2PPacketSize(0)
+
+
+func get_opponent_steam_ids() -> Array:
+	var opponents = []
+	for member in get_lobby_members():
+		if member["steam_id"] != steam_id:
+			opponents.append(member["steam_id"])
+	return opponents
