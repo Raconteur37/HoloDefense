@@ -249,15 +249,6 @@ offset_bottom = 184.75
 text = "Room Code:"
 label_settings = SubResource("LabelSettings_0044e")
 
-[node name="PortInput" type="LineEdit" parent="." unique_id=430771149]
-layout_mode = 0
-offset_left = 1288.0
-offset_top = 814.0
-offset_right = 1680.0
-offset_bottom = 872.0
-placeholder_text = "Port Input"
-alignment = 1
-
 [node name="CodeInput" type="LineEdit" parent="." unique_id=895703323]
 layout_mode = 0
 offset_left = 1239.0
@@ -274,6 +265,8 @@ anchor_right = 1.0
 anchor_bottom = 1.0
 offset_right = 1.0
 offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
 
 [node name="Background" type="TextureRect" parent="LobbyPanel" unique_id=819300602]
 self_modulate = Color(0.40784314, 0.13333334, 0.3372549, 1)
@@ -345,9 +338,44 @@ grow_vertical = 2
 text = "Start Match"
 label_settings = SubResource("LabelSettings_46r1b")
 
+[node name="InviteButton" type="TextureButton" parent="LobbyPanel" unique_id=315486671]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 389.5
+offset_top = 257.5
+offset_right = 1309.5
+offset_bottom = 573.5
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_0lcuj")
+texture_pressed = ExtResource("7_cevxv")
+texture_hover = ExtResource("8_a44cf")
+
+[node name="Label" type="Label" parent="LobbyPanel/InviteButton" unique_id=1083314332]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -62.8125
+offset_right = 25.0
+offset_bottom = 62.8125
+grow_horizontal = 2
+grow_vertical = 2
+text = "Invite"
+label_settings = SubResource("LabelSettings_46r1b")
+
 [connection signal="pressed" from="CreateButton" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]
 [connection signal="pressed" from="LobbyPanel/StartButton" to="." method="_on_start_button_pressed"]
+[connection signal="pressed" from="LobbyPanel/InviteButton" to="." method="_on_invite_button_pressed"]
