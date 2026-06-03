@@ -12,7 +12,7 @@ extends Control
 @onready var invite_btn   = $LobbyPanel/InviteButton
 
 var has_loaded_game: bool = false  # prevents double scene change
-
+var _has_loaded: bool = false
 
 func _ready():
 	code_display.hide()
@@ -23,7 +23,8 @@ func _ready():
 	SteamManager.lobby_join_failed.connect(_on_join_failed)
 	SteamManager.lobby_members_updated.connect(_refresh_players)
 	SteamManager.friend_invite_accepted.connect(_on_friend_invite)
-
+	if SteamManager.current_lobby_id != 0:
+		_on_lobby_ready(SteamManager.current_lobby_id)
 
 # ─────────────────────────────────────────
 #  CREATE / JOIN
@@ -73,18 +74,23 @@ func _on_friend_invite(_lobby_id: int):
 # ─────────────────────────────────────────
 
 func _on_lobby_ready(_lobby_id: int):
+	# Hide main menu UI
+	create_btn.hide()
+	join_btn.hide()
+	code_input.hide()
+	status_label.hide()
+
+	# Show lobby
 	lobby_panel.show()
-	has_loaded_game = false  # reset in case they left and rejoined
 
 	if SteamManager.is_host():
 		room_label.text = "Code: %d" % SteamManager.current_lobby_id
 		code_display.text = "Room Code: %d" % SteamManager.current_lobby_id
 		code_display.show()
-		status_label.text = "Waiting for players..."
 		start_btn.show()
 		invite_btn.show()
 	else:
-		room_label.text = "Joined lobby"
+		room_label.text = "Lobby"
 		code_display.hide()
 		status_label.text = "Waiting for host to start..."
 		start_btn.hide()
@@ -94,7 +100,7 @@ func _on_lobby_ready(_lobby_id: int):
 
 
 func _refresh_players(_dummy = null):
-	player_list.clear()
+	player_list.clear()  # works for ItemList
 
 	if SteamManager.current_lobby_id == 0:
 		return
@@ -102,24 +108,10 @@ func _refresh_players(_dummy = null):
 	for member in SteamManager.get_lobby_members():
 		var is_me = member["steam_id"] == SteamManager.steam_id
 		var is_owner = member["steam_id"] == Steam.getLobbyOwner(SteamManager.current_lobby_id)
-
-		var row = HBoxContainer.new()
-
-		# Crown for host
-		if is_owner:
-			var crown = Label.new()
-			crown.text = "👑 "
-			row.add_child(crown)
-
-		# Player name
-		var name_label = Label.new()
-		name_label.text = member["name"]
-		if is_me:
-			name_label.text += " (You)"
-		name_label.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-		row.add_child(name_label)
-
-		player_list.add_child(row)
+		var tag = ""
+		if is_owner: tag += "👑 "
+		if is_me: tag += " (You)"
+		player_list.add_item("%s%s" % [tag, member["name"]])  # ItemList.add_item
 
 
 # ─────────────────────────────────────────
@@ -139,17 +131,23 @@ func _on_invite_button_pressed():
 func _on_start_button_pressed():
 	if not SteamManager.is_host():
 		return
+	# Reset state first then set to loading so clients detect the change
+	Steam.setLobbyData(SteamManager.current_lobby_id, "state", "waiting")
+	await get_tree().process_frame
 	Steam.setLobbyData(SteamManager.current_lobby_id, "state", "loading")
 
 
 func _process(_delta):
 	if SteamManager.current_lobby_id == 0:
 		return
-	if has_loaded_game:
+	if _has_loaded:
 		return
+	if not lobby_panel.visible:
+		return
+
 	var state = Steam.getLobbyData(SteamManager.current_lobby_id, "state")
 	if state == "loading":
-		has_loaded_game = true  # prevent double trigger
+		_has_loaded = true
 		GameManager.VSmode = true
 		get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
 
@@ -164,4 +162,9 @@ func _on_leave_button_pressed() -> void:
 	code_display.hide()
 	code_display.text = ""
 	status_label.text = ""
-	has_loaded_game = false
+	_has_loaded = false  # ← was has_loaded_game
+	# Show main menu buttons again
+	create_btn.show()
+	join_btn.show()
+	code_input.show()
+	status_label.show()
