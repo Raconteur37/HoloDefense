@@ -166,12 +166,11 @@ func _check_launch_command_line() -> void:
 			if parts.size() >= 2:
 				var lobby_id = int(parts[1])
 				print("Launched from invite, joining lobby: ", lobby_id)
-				# Wait a frame for scenes to finish loading before joining
-				await get_tree().process_frame
+				# Wait longer for the main menu scene to fully load
+				await get_tree().create_timer(2.0).timeout
 				join_lobby(lobby_id)
 				friend_invite_accepted.emit(lobby_id)
 			return
-
 
 # ─────────────────────────────────────────
 #  LEAVE LOBBY

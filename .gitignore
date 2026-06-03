@@ -13,4 +13,6 @@ export_presets.cfg
 .mono/
 data_*/
 mono_crash.*.json
-addons/godotsteam/bin/~libgodotsteam.windows.template_debug.x86_64.dll
+
+addons/godotsteam/
+*.import

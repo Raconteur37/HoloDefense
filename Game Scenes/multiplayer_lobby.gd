@@ -23,12 +23,27 @@ func _ready():
 	SteamManager.lobby_join_failed.connect(_on_join_failed)
 	SteamManager.lobby_members_updated.connect(_refresh_players)
 	SteamManager.friend_invite_accepted.connect(_on_friend_invite)
+
 	if SteamManager.current_lobby_id != 0:
 		_on_lobby_ready(SteamManager.current_lobby_id)
+	else:
+		# Poll for a few seconds in case invite join hasn't completed yet
+		_wait_for_invite_join()
+
+
 
 # ─────────────────────────────────────────
 #  CREATE / JOIN
 # ─────────────────────────────────────────
+
+func _wait_for_invite_join() -> void:
+	# Check every 0.5s for up to 5 seconds
+	for i in range(10):
+		await get_tree().create_timer(0.5).timeout
+		if SteamManager.current_lobby_id != 0:
+			print("Caught lobby join after delay: ", SteamManager.current_lobby_id)
+			_on_lobby_ready(SteamManager.current_lobby_id)
+			return
 
 func _on_create_button_pressed():
 	if not SteamManager.steam_initialized:
