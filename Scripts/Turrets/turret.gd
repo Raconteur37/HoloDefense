@@ -88,7 +88,7 @@ var energized : bool = false
 var hasBubble : bool = false
 var beaconBuffActive : bool = false
 
-var energizerTurret : Turret = null
+var turretProviders : Dictionary = {}
 
 var currentBubbleHealth : float
 
@@ -98,6 +98,13 @@ func _process(_delta: float) -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		hideUI()
+		for key in turretProviders:
+			match key:
+				"energized":
+					turretProviders.get("energized").turretsEnergized -= 1
+					turretProviders.erase("energized")
+				"bubble":
+					removeBubble()
 
 func addKill():
 	kills += 1
@@ -163,15 +170,19 @@ func removeEnergized(turretApplier):
 	if reloadTime != null:
 		reloadTime += turretApplier.energizerReloadTimeBuff * baseReloadTime
 		reloadTimer.wait_time = reloadTime
-	energizerTurret = null
+	turretProviders.get("energized").turretsEnergized -= 1
+	turretProviders.erase("energized")
 
 func removeBubble():
 	if currentParticlesMap.has("Bubble"):
 		currentParticlesMap.get("Bubble").queue_free()
 		currentParticlesMap.erase("Bubble")
+	turretProviders.get("bubble").currentBubblesGiven -= 1
+	turretProviders.erase("bubble")
 	hasBubble = false
 
-func recieveBubble(bubbleHealth : float):
+func recieveBubble(bubbleHealth : float, turretApplier):
 	hasBubble = true
+	turretProviders["bubble"] = turretApplier 
 	ParticleManager.playBubbleParticle(self)
 	currentBubbleHealth = bubbleHealth

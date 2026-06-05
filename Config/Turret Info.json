@@ -14,8 +14,8 @@
 		"range": 200,
 		"reloadTime": 2.5,
 		"projectileSpeed": 500,
-		"constructionTime": 5,
-		"scaleFactor": 0.06
+		"constructionTime": 6,
+		"scaleFactor": 0.05
 	},
 	"mini_sentry_turret": {
 		"id": 2,
@@ -319,11 +319,12 @@
 		"price": 10,
 		"armor": 5,
 		"health": 20,
-		"range": 100,
+		"range": 50,
 		"bubbleApplyTime": 8,
 		"constructionTime": 25,
 		"bubbleHealth": 20,
 		"bubbleTime": 10,
+		"maxBubbleTurrets": 5,
 		"scaleFactor": 0.05
 	},
 	"boomerang_turret": {

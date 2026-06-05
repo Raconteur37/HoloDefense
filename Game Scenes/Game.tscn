@@ -21,9 +21,18 @@ font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cemk1"]
 shader = ExtResource("2_iw6a6")
-shader_parameter/progress = 0.0
-shader_parameter/turning_on = true
-shader_parameter/phase = 0.0
+shader_parameter/squeeze = 1.0
+shader_parameter/scanline_strength = 0.0
+shader_parameter/noise_amount = 1.0
+shader_parameter/h_glitch = 0.0790000037525
+shader_parameter/flicker = 0.0
+shader_parameter/brightness = 0.0
+shader_parameter/rgb_shift = 0.0
+shader_parameter/vignette = 1.0
+shader_parameter/tint_color = Color(0.04246396, 0.3187479, 0.5039648, 1)
+shader_parameter/tint_amount = 1.0
+shader_parameter/noise_speed = 0.0
+shader_parameter/noise_scale = 16.0
 
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
@@ -113,9 +122,9 @@ script = ExtResource("3_cemk1")
 metadata/_edit_use_anchors_ = true
 
 [node name="CityCanvas" parent="." unique_id=125614548 instance=ExtResource("4_iw6a6")]
-visible = false
 
 [node name="TowerDefenseCanvas" parent="." unique_id=1084623525 instance=ExtResource("2_vq8dx")]
+visible = false
 
 [node name="WaveData" type="Control" parent="." unique_id=554365349]
 z_index = 7

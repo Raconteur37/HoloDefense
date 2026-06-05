@@ -169,7 +169,8 @@ func spawnNext() -> void:
 	var enemyID: Enemy.EnemyID = spawnQueue.pop_front()
 	EnemySpawnManager.summonEnemy(enemyID)
 
-	var interval := get_spawn_interval(currentDifficulty)
+	var wave_within_system = ((currentWave - 1) % get_waves_per_system()) + 1
+	var interval = get_spawn_interval(currentDifficulty, wave_within_system)
 	get_tree().create_timer(interval).timeout.connect(spawnNext)
 
 func is_boss_wave() -> bool:
@@ -245,8 +246,15 @@ func get_enemy_count_multiplier(level: int) -> float:
 func get_system_transition_time(level: int) -> float:
 	return float(_get_difficulty(level).get("systemTransitionDurationSec", 1.0))
 
-func get_spawn_interval(level: int) -> float:
-	return float(_get_difficulty(level).get("spawn_interval_sec", 1.0))
+func get_spawn_interval_decay(level: int) -> float:
+	return float(_get_difficulty(level).get("spawnIntervalDecayPerWave", 1.0))
+
+func get_spawn_interval(level: int, wave_within_system: int = 1) -> float:
+	var base := float(_get_difficulty(level).get("spawn_interval_sec", 1.0))
+	var decay := get_spawn_interval_decay(level)
+	var floor_interval := get_base_spawn_interval()
+	var interval := base * pow(decay, wave_within_system - 1)
+	return maxf(interval, floor_interval)
 
 func get_intermission_duration(level: int) -> float:
 	return float(_get_difficulty(level).get("intermission_duration_sec", 10.0))

@@ -6,7 +6,7 @@ var scanTurretsFirstTime: bool = false
 var energizeReady: bool = false
 var turretsInRange = []
 var energizeTimer
-var turretsEnergized: int = 0
+var turretsEnergized : int = 0
 
 @export var maxTurretsEnergized: int
 @export var energizeTime: float
@@ -97,7 +97,7 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func applyEnergizerBuffsToTurret(turret):
 	if not is_instance_valid(turret) or turret.energized:
 		return
-	turret.energizerTurret = self
+	turret.turretProviders["energized"] = self
 	turret.energized = true
 	ParticleManager.playEnergizedParticle(turret)
 	if turret.get("damage") != null:

@@ -1,85 +1,89 @@
 shader_type canvas_item;
 
-uniform float progress : hint_range(0.0, 1.0) = 0.0;
-uniform bool turning_on = false;
-// 0 = off phase, 1 = on phase (drives glow color shift)
-uniform float phase : hint_range(0.0, 1.0) = 0.0;
+uniform float squeeze         : hint_range(0.0, 1.0) = 0.0;
+uniform float scanline_strength : hint_range(0.0, 1.0) = 0.0;
+uniform float noise_amount     : hint_range(0.0, 1.0) = 0.0;
+uniform float h_glitch         : hint_range(0.0, 1.0) = 0.0;
+uniform float flicker          : hint_range(0.0, 1.0) = 0.0;
+uniform float brightness       : hint_range(0.0, 2.0) = 1.0;
+uniform float rgb_shift        : hint_range(0.0, 0.02) = 0.0;
+uniform float vignette         : hint_range(0.0, 1.0) = 0.0;
+uniform vec4  tint_color        : source_color = vec4(0.1, 0.9, 0.7, 1.0);
+uniform float tint_amount      : hint_range(0.0, 1.0) = 0.0;
+uniform float noise_speed      : hint_range(0.0, 2.0) = 0.18; // NEW — drift speed
+uniform float noise_scale      : hint_range(1.0, 16.0) = 4.0;  // NEW — blob size
+uniform sampler2D SCREEN_TEXTURE : hint_screen_texture, filter_linear_mipmap;
 
-// Hash noise for organic flicker
-float hash(float n) {
-    return fract(sin(n) * 43758.5453123);
+// ── Hash (still used for glitch + flicker, not for static) ──────────────
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(127.1, 311.7))) * 43758.5453);
 }
 
-float noise_flicker(float t) {
-    float i = floor(t);
-    float f = fract(t);
-    return mix(hash(i), hash(i + 1.0), smoothstep(0.0, 1.0, f));
+// ── Smooth value noise — bicubic interpolated ────────────────────────────
+float vnoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    vec2 u = f * f * (3.0 - 2.0 * f); // smoothstep curve
+    float a = hash(i + vec2(0.0, 0.0));
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, u.x), mix(c, d, u.x), u.y);
+}
+
+// ── Layered FBM — 3 octaves for chunky-smooth static ────────────────────
+float smooth_static(vec2 uv, float t) {
+    float n  = vnoise(uv * noise_scale       + vec2(t * 0.7,  t * 0.5)) * 0.55;
+           n += vnoise(uv * noise_scale * 2.1 + vec2(t * -0.4, t * 0.9)) * 0.30;
+           n += vnoise(uv * noise_scale * 4.3 + vec2(t * 1.1,  t * -0.3)) * 0.15;
+    return smoothstep(0.3, 0.7, n); // soft threshold — no sharp grain
 }
 
 void fragment() {
-    vec2 uv = UV;
-    vec2 center = uv - 0.5;
+    vec2 uv = SCREEN_UV;
 
-    // How open the "iris" is — 0 = fully closed, 1 = fully open
-    float iris = turning_on ? progress : (1.0 - progress);
+    // 1. Vertical squeeze
+    float sq = max(squeeze, 0.001);
+    float dy = (uv.y - 0.5) / sq;
+    bool outside = abs(dy) > 0.5;
+    uv.y = clamp(0.5 + dy * sq, 0.0, 1.0);
 
-    // Vertical band height collapses/expands
-    float band_h = iris * 0.5;
-    // Horizontal squeeze — screen pinches inward as band shrinks
-    float squeeze = pow(max(iris, 0.0001), 0.4);
-    float band_w = squeeze * 0.5;
+    // 2. Horizontal glitch (hash-based — intentionally snappy)
+    float g_seed = floor(uv.y * 30.0) + TIME * 18.0;
+    float g_off  = (hash(vec2(g_seed, 0.3)) - 0.5) * h_glitch * 0.04;
+    uv.x = fract(uv.x + g_off);
 
-    // Is this pixel inside the visible band?
-    float in_y = step(abs(center.y), band_h);
-    float in_x = step(abs(center.x), band_w);
-    float in_band = in_y * in_x;
+    // 3. RGB chromatic shift
+    vec4 col;
+    col.r  = texture(SCREEN_TEXTURE, uv + vec2( rgb_shift, 0.0)).r;
+    col.g  = texture(SCREEN_TEXTURE, uv).g;
+    col.ba = texture(SCREEN_TEXTURE, uv - vec2( rgb_shift, 0.0)).ba;
 
-    if (in_band < 0.5) {
-        COLOR = vec4(0.0, 0.0, 0.0, 1.0);
-    }
+    // 4. Scanlines
+    float sl = sin(SCREEN_UV.y * 600.0) * 0.5 + 0.5;
+    col.rgb  = mix(col.rgb, col.rgb * 0.4, sl * scanline_strength);
 
-    // Remap UV to the visible band so content fills it properly
-    vec2 band_uv;
-    band_uv.x = (center.x / max(band_w, 0.0001)) * 0.5 + 0.5;
-    band_uv.y = (center.y / max(band_h, 0.0001)) * 0.5 + 0.5;
+    // 5. Smooth static (replaces old rand() call)
+    float t = TIME * noise_speed;
+    float n = smooth_static(SCREEN_UV, t);
+    col.rgb  = mix(col.rgb, mix(col.rgb, vec3(n), 0.85), noise_amount);
 
-    // Barrel distortion within the band
-    vec2 d = band_uv - 0.5;
-    float r2 = dot(d, d);
-    vec2 distorted = band_uv + d * r2 * 0.18;
+    // 6. Flicker (hash-based — intentionally snappy)
+    float fl = 1.0 - flicker * (hash(vec2(floor(TIME * 24.0), 0.0)) * 0.4);
+    col.rgb *= fl;
 
-    // Edge vignette
-    float vignette = 1.0 - smoothstep(0.35, 0.5, length(d * vec2(1.0, 1.8)));
+    // 7. Holographic tint
+    col.rgb = mix(col.rgb, col.rgb * tint_color.rgb * 1.4, tint_amount);
 
-    // Scanlines — fine horizontal lines
-    float scanline = 1.0 - sin(band_uv.y * 600.0) * 0.06;
+    // 8. Brightness
+    col.rgb *= brightness;
 
-    // Phosphor glow color — shifts from warm white on turn-off to cool teal on turn-on
-    vec3 off_color = vec3(0.85, 0.82, 0.72);  // warm phosphor yellow-white
-    vec3 on_color  = vec3(0.55, 0.95, 0.88);  // cool CRT teal-green
-    vec3 glow_col  = mix(off_color, on_color, phase);
+    // 9. Vignette
+    vec2 vu = SCREEN_UV * (1.0 - SCREEN_UV.yx);
+    col.rgb *= mix(1.0, pow(vu.x * vu.y * 15.0, 0.3), vignette);
 
-    // Organic flicker — layered noise at different frequencies
-    float t = TIME;
-    float flicker = 1.0
-        - noise_flicker(t * 18.0) * 0.07 * (1.0 - iris)
-        - noise_flicker(t * 7.0 + 3.3) * 0.04
-        - noise_flicker(t * 52.0 + 1.1) * 0.03 * (1.0 - iris);
+    // 10. Black bars
+    if (outside) col.rgb = vec3(0.0);
 
-    // Horizontal noise lines (occasional interference band)
-    float interference = step(0.985, noise_flicker(t * 9.0 + band_uv.y * 2.0)) * 0.15;
-
-    // Bright core line at center during collapse (the iconic CRT streak)
-    float core = (1.0 - iris) * smoothstep(0.04, 0.0, abs(center.y)) * 2.5;
-    vec3 core_col = vec3(0.9, 0.88, 0.75);
-
-    // Compose
-    float brightness = scanline * flicker * vignette - interference;
-    vec3 col = glow_col * brightness + core_col * core;
-
-    // Fade edges of the band softly
-    float edge_y = smoothstep(0.0, 0.06, band_h - abs(center.y));
-    float edge_x = smoothstep(0.0, 0.04, band_w - abs(center.x));
-
-    COLOR = vec4(col * edge_y * edge_x, 1.0);
+    COLOR = col;
 }
