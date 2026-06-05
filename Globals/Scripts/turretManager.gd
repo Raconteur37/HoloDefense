@@ -253,7 +253,8 @@ func createPropertiesLabels(turret : Turret):
 		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
 		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN],
 		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
-		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE]
+		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE],
+		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE]
 	}
 	
 	if turret.hasBubble:
