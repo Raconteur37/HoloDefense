@@ -52,7 +52,7 @@
 		"projectileSpeed": 750,
 		"constructionTime": 25,
 		"pierce": 2,
-		"scaleFactor": 0.08,
+		"scaleFactor": 0.04,
 		"pierceScale": 0.5
 	},
 	"energizer_turret": {

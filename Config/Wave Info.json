@@ -10,7 +10,7 @@
 	  "enemyMultiplierPerSystem": 1.8,
 	  "healthMultiplierPerSystem": 1.35,
 	  "speedMultiplierPerSystem": 1.15,
-	  "spawnIntervalReductionPerSystem": 0.1,
+	  "spawnIntervalReductionPerSystem": 0.2,
 	  "tierTwoWaveTresh": 4,
 	  "tierThreeWaveTresh": 7,
 	},

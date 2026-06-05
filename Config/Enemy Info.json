@@ -29,10 +29,10 @@
 	{
 	"id": "hexagon_mothership",
 	  "name": "Hexagonal Mothership",
-	  "health": 2000,
+	  "health": 2500,
 	  "damage": 1000,
 	  "speed": 5,
-	  "eventTime": 12,
+	  "eventTime": 10,
 	  "enemiesToSummon": 60
 	}
   ]
