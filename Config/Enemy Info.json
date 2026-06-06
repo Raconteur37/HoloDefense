@@ -19,10 +19,10 @@
 	{
 	  "id": "tanky_rectangle",
 	  "name": "Tanky Rectangle",
-	  "health": 250,
+	  "health": 200,
 	  "damage": 30,
 	  "speed": 20,
-	  "attackTime": 1
+	  "attackTime": 2
 	},
 	{
 	  "id": "shooty_diamond",

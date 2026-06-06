@@ -1,4 +1,4 @@
-[gd_scene load_steps=12 format=3 uid="uid://bn4ajiuopc5lu"]
+[gd_scene format=3 uid="uid://bn4ajiuopc5lu"]
 
 [ext_resource type="Script" uid="uid://ckt65sif715xg" path="res://Scripts/Shop Scene/slot_machine.gd" id="1_c4eij"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_nn1d4"]
@@ -6,6 +6,15 @@
 [ext_resource type="Texture2D" uid="uid://camtps7iscofx" path="res://Textures/Turrets/Railgun Turret/RailgunTurret.png" id="4_4wxbc"]
 
 [sub_resource type="FontFile" id="FontFile_dn8hd"]
+cache/0/variation_coordinates = {}
+cache/0/face_index = 0
+cache/0/embolden = 0.0
+cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
+cache/0/spacing_top = 0
+cache/0/spacing_bottom = 0
+cache/0/spacing_space = 0
+cache/0/spacing_glyph = 0
+cache/0/baseline_offset = 0.0
 cache/0/16/0/ascent = 0.0
 cache/0/16/0/descent = 0.0
 cache/0/16/0/underline_position = 0.0
@@ -43,11 +52,11 @@ _data = {
 &"Spin": SubResource("Animation_j6ssx")
 }
 
-[node name="Shop" type="Node2D"]
+[node name="Shop" type="Node2D" unique_id=1881677419]
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1898291336]
 
-[node name="Slot Machine" type="Control" parent="CanvasLayer"]
+[node name="Slot Machine" type="Control" parent="CanvasLayer" unique_id=2041197915]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -62,7 +71,7 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_c4eij")
 
-[node name="WinLabel" type="Label" parent="CanvasLayer/Slot Machine"]
+[node name="WinLabel" type="Label" parent="CanvasLayer/Slot Machine" unique_id=1427802698]
 layout_mode = 0
 offset_left = -166.0
 offset_top = -301.0
@@ -70,15 +79,15 @@ offset_right = -14.0
 offset_bottom = -234.0
 label_settings = SubResource("LabelSettings_twyhd")
 
-[node name="Button" type="Button" parent="CanvasLayer/Slot Machine"]
-layout_mode = 2
+[node name="Button" type="Button" parent="CanvasLayer/Slot Machine" unique_id=1756070090]
+layout_mode = 0
 offset_left = 232.0
 offset_top = 195.0
 offset_right = 322.0
 offset_bottom = 259.0
 text = "press here"
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Slot Machine"]
+[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Slot Machine" unique_id=545035527]
 layout_mode = 0
 offset_left = -451.0
 offset_top = -190.0
@@ -86,17 +95,17 @@ offset_right = -387.0
 offset_bottom = -126.0
 scale = Vector2(23.0201, 5.77858)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer" unique_id=1990123595]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer"]
+[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer" unique_id=1521873962]
 layout_mode = 2
 
-[node name="Background" type="TextureRect" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer/VBoxContainer"]
+[node name="Background" type="TextureRect" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1552622941]
 layout_mode = 2
 texture = SubResource("GradientTexture2D_bggxi")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine"]
+[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine" unique_id=537828261]
 layout_mode = 0
 offset_left = -80.0
 offset_top = -89.0
@@ -104,36 +113,34 @@ offset_right = 124.0
 offset_bottom = 15.0
 scale = Vector2(3.8632, 1.41824)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=2004011863]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer" unique_id=233500879]
 layout_mode = 2
 texture = ExtResource("2_nn1d4")
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=2009394452]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer2"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer2" unique_id=760251963]
 layout_mode = 2
 texture = ExtResource("3_ycuo2")
 
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer"]
+[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=215440490]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer3"]
+[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer3" unique_id=1141132205]
 layout_mode = 2
 texture = ExtResource("4_4wxbc")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Slot Machine"]
-libraries = {
-&"": SubResource("AnimationLibrary_moqv8")
-}
+[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Slot Machine" unique_id=485252766]
+libraries/ = SubResource("AnimationLibrary_moqv8")
 
-[node name="Roll Timer" type="Timer" parent="CanvasLayer/Slot Machine"]
+[node name="Roll Timer" type="Timer" parent="CanvasLayer/Slot Machine" unique_id=1651824631]
 wait_time = 0.1
 
 [connection signal="pressed" from="CanvasLayer/Slot Machine/Button" to="CanvasLayer/Slot Machine" method="_on_button_pressed"]

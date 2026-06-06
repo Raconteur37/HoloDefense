@@ -22,7 +22,8 @@ func toggle_pause():
 
 
 func _on_button_pressed() -> void:
-	toggle_pause()
+	get_tree().paused = false
+	$"..".visible = false
 
 
 func _on_restart_pressed() -> void:

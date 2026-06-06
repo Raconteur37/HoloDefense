@@ -76,7 +76,7 @@
 	"BaseSlotCost": 100,
 	"CostScaling": 1.75,
 	"ResearchBaseCost": 25,
-	"ResearchCostScaling": 0.08,
+	"ResearchCostScaling": 0.20,
 	"ResearchTimeMinScale": 3,
 	"ResearchTimeReducedScaleFactor": 0.2
   },

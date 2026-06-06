@@ -37,40 +37,33 @@ func _ready() -> void:
 	#beginNextWave()
 
 func beginNextWave():
-	
-	SoundManager.startTimer(randf_range(5,20)) # Plays in wave music
-
+	SoundManager.startTimer(randf_range(5, 20))
 
 	currentWave += 1
-	
+
 	if currentWave > get_waves_per_system():
 		currentWave = 0
 		beginNextSystem()
 		return
-	
+
 	currentPhase = Phase.SUMMONING_ENEMIES
-	
 	spawnQueue = buildSpawnQueue()
-	
 	spawnNext()
-	
 	manageWaveInfoUI(0)
 
 func beginNextSystem():
 	systemNumber += 1
-	
-	# Generate random system but for now we set it manually
 	currentSystem = "Similar"
-	
+
 	intermission_duration = get_system_transition_time(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(intermission_duration)
 	manageWaveInfoUI(intermission_duration)
-	intermissionTimer.timeout.connect(beginNextWave)
+	intermissionTimer.timeout.connect(_make_callback(beginNextWave))
 
 func onWaveComplete() -> void:
 	var duration = get_intermission_duration(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(duration)
-	intermissionTimer.timeout.connect(beginNextWave)
+	intermissionTimer.timeout.connect(_make_callback(beginNextWave))
 	manageWaveInfoUI(duration)
 	currentPhase = Phase.INTERMISSION
 
@@ -191,7 +184,7 @@ func spawnNext() -> void:
 
 	var wave_within_system = ((currentWave - 1) % get_waves_per_system()) + 1
 	var interval = get_spawn_interval(currentDifficulty, wave_within_system)
-	get_tree().create_timer(interval).timeout.connect(spawnNext)
+	get_tree().create_timer(interval).timeout.connect(_make_callback(spawnNext))
 
 func is_boss_wave() -> bool:
 	return currentWave % get_waves_per_system() == 0
@@ -310,17 +303,23 @@ func loadData():
 	SECOND_TIER_UNLOCK_WAVE = get_tier_two_enemy_wave_thresh()
 	THIRD_TIER_UNLOCK_WAVE = get_tier_three_enemy_wave_thresh()
 
-func reset() -> void:
-	# Clear timers
-	if intermissionTimer != null:
-		intermissionTimer = null
+var generation: int = 0  # increment on reset to invalidate stale closures
 
-	# Cancel any pending spawns by clearing the queue
+func reset() -> void:
+	generation += 1  # all old timer callbacks will see a stale generation and bail
+
+	intermissionTimer = null
 	spawnQueue.clear()
 	activeEnemies.clear()
 
-	# Reset wave state
 	currentWave = 0
 	systemNumber = 0
+	currentDifficulty = 1
 	currentSystem = systems[0]
 	currentPhase = Phase.IDLE
+
+func _make_callback(fn: Callable) -> Callable:
+	var gen = generation
+	return func():
+		if generation == gen:
+			fn.call()
