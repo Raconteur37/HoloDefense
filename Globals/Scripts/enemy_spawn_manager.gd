@@ -11,7 +11,8 @@ const ENEMIES = {
 	Enemy.EnemyID.BASIC_SQUARE: preload("res://Enemy Scenes/Basic Square.tscn"),
 	Enemy.EnemyID.SPEEDY_TRIANGLE: preload("res://Enemy Scenes/Speedy Triangle.tscn"),
 	Enemy.EnemyID.SHOOTY_DIAMOND: preload("res://Enemy Scenes/Shooty Diamond.tscn"),
-	Enemy.EnemyID.HEXAGON_MOTHERSHIP: preload("res://Enemy Scenes/Hexagon Mothership.tscn")
+	Enemy.EnemyID.HEXAGON_MOTHERSHIP: preload("res://Enemy Scenes/Hexagon Mothership.tscn"),
+	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn")
 }
 
 func summonEnemy(enemyID : Enemy.EnemyID):
@@ -35,7 +36,10 @@ func mothershipSpawn(mothership):
 	if randNum <= 75:
 		enemy = ENEMIES[Enemy.EnemyID.BASIC_SQUARE].instantiate()
 	elif randNum <= 90:
-		enemy = ENEMIES[Enemy.EnemyID.SPEEDY_TRIANGLE].instantiate()
+		if randf_range(0,50) < 50:
+			enemy = ENEMIES[Enemy.EnemyID.SPEEDY_TRIANGLE].instantiate()
+		else:
+			enemy = ENEMIES[Enemy.EnemyID.TANKY_RECTANGLE].instantiate()
 	else:
 		enemy = ENEMIES[Enemy.EnemyID.SHOOTY_DIAMOND].instantiate()
 

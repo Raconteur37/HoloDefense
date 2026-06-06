@@ -78,9 +78,23 @@ func setMusicVolume(value: float):
 		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(linear_volume))
 
 func playInWaveMusic():
+	musicPlayer.volume_db = 0
 	if musicOn and not musicPlayer.playing:
 		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
 		musicPlayer.play()
+
+func playLoadoutMusic():
+	if musicOn and not musicPlayer.playing:
+		musicPlayer.volume_db = 5
+		musicPlayer.stream = load("res://Sounds/Music/Loudout Menu Music.mp3")
+		musicPlayer.play()
+
+func stopLoadoutMusic():
+	var tween = create_tween()
+	
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	
+	tween.tween_callback(musicPlayer.stop)
 
 func cityLevelUp():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/DashReady.mp3")

@@ -11,8 +11,8 @@
 	  "healthMultiplierPerSystem": 1.35,
 	  "speedMultiplierPerSystem": 1.15,
 	  "spawnIntervalReductionPerSystem": 0.2,
-	  "tierTwoWaveThresh": 4,
-	  "tierThreeWaveThresh": 7
+	  "tierTwoWaveThresh": 3,
+	  "tierThreeWaveThresh": 6
 	},
 	"waveScaling": {
 	  "healthScalePerWave": 1.04,

@@ -40,6 +40,10 @@ func playDeathParticle(enemy : Enemy):
 			var particle = speedyTriangleDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
 			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
+		Enemy.EnemyID.TANKY_RECTANGLE:
+			var particle = basicSquareDeathParticle.instantiate()
+			particle.global_position = enemy.global_position
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 		Enemy.EnemyID.SHOOTY_DIAMOND:
 			var particle = shootyDiamondDeathParticle.instantiate()
 			particle.global_position = enemy.global_position

@@ -17,6 +17,14 @@
 	  "attackTime": 1.5
 	},
 	{
+	  "id": "tanky_rectangle",
+	  "name": "Tanky Rectangle",
+	  "health": 250,
+	  "damage": 30,
+	  "speed": 20,
+	  "attackTime": 1
+	},
+	{
 	  "id": "shooty_diamond",
 	  "name": "Shooty Diamond",
 	  "health": 100,
@@ -29,11 +37,11 @@
 	{
 	"id": "hexagon_mothership",
 	  "name": "Hexagonal Mothership",
-	  "health": 2500,
+	  "health": 4000,
 	  "damage": 1000,
 	  "speed": 5,
 	  "eventTime": 10,
 	  "enemiesToSummon": 60
-	}
+	},
   ]
 }

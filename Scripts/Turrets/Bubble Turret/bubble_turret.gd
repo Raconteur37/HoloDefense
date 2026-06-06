@@ -20,7 +20,7 @@ func _notification(what: int) -> void:
 func onDeath():
 	for turret in turretsInRange:
 		if is_instance_valid(turret) and turret.hasBubble:
-			turret.removeBubble(self)
+			turret.removeBubble()
 
 func _ready() -> void:
 	rarity = Rarity.RARE
