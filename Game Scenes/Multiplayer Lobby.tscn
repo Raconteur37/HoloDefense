@@ -410,6 +410,73 @@ grow_vertical = 2
 text = "Leave"
 label_settings = SubResource("LabelSettings_46r1b")
 
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=1458922905]
+visible = false
+
+[node name="PauseMenu" type="Control" parent="PauseLayer" unique_id=751547981]
+process_mode = 3
+z_index = 2
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -345.0
+offset_right = 22.0
+offset_bottom = 194.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("9_8v2g7")
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseLayer/PauseMenu" unique_id=1478911024]
+layout_mode = 0
+offset_right = 474.0
+offset_bottom = 482.0
+scale = Vector2(1.5, 1.5)
+
+[node name="ColorRect" type="ColorRect" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=627120509]
+layout_mode = 2
+color = Color(0.24840015, 0.24840018, 0.24840015, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1384559038]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="Button" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=382725034]
+layout_mode = 2
+text = "Resume"
+icon_alignment = 1
+
+[node name="Restart" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1505993422]
+layout_mode = 2
+text = "Restart
+"
+
+[node name="Quit" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=672549010]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="Music Toggle" type="CheckButton" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1387568623]
+layout_mode = 2
+button_pressed = true
+action_mode = 0
+text = "Music"
+
+[node name="Music Volume" type="HSlider" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=143177641]
+layout_mode = 2
+value = 100.0
+
+[node name="Label" type="Label" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" unique_id=976402602]
+layout_mode = 0
+offset_left = 3.3333335
+offset_top = -26.0
+offset_right = 477.33334
+offset_bottom = -3.6666641
+text = "Music Volume"
+
 [connection signal="pressed" from="CreateButton" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="JoinButton" to="." method="_on_join_button_pressed"]
 [connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
@@ -418,3 +485,8 @@ label_settings = SubResource("LabelSettings_46r1b")
 [connection signal="pressed" from="LobbyPanel/StartButton" to="." method="_on_start_button_pressed"]
 [connection signal="pressed" from="LobbyPanel/InviteButton" to="." method="_on_invite_button_pressed"]
 [connection signal="pressed" from="LobbyPanel/LeaveButton" to="." method="_on_leave_button_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
+[connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]

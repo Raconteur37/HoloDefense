@@ -15,7 +15,7 @@ shader_parameter/flash_color = Color(0.796243, 0.796243, 0.796243, 1)
 shader_parameter/flash_modifier = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
-size = Vector2(39, 16)
+size = Vector2(34.5, 12.5)
 
 [node name="Tanky Rectangle" type="CharacterBody2D" unique_id=1902235866 groups=["Enemy"]]
 scale = Vector2(2, 2)

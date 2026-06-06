@@ -633,9 +633,10 @@ func reset():
 	fabricatorSlotCost = baseFabricatorSlotCost
 
 	# Generation
-	moneyGenerated = 0
-	energyGenerated = 0
-	scrapGenerated = 0
+	moneyGenerated += ceil(1*(pow(moneyScale,(generatorLevel-1))))
+	energyGenerated += round((1*(pow(energyScale,(generatorLevel-1))))*100) / 100
+	scrapGenerated += ceil(1*(pow(scrapScale,(generatorLevel-1))))
+	updateGeneratorUpgradeCost()
 
 	# Item values back to base
 	itemMoneyValueDict = baseItemMoneyValueDict.duplicate()
