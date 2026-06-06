@@ -81,6 +81,7 @@ func getTurretAmount(turretID):
 func reset():
 	WaveManager.reset()
 	CityManager.reset()
+	SoundManager.reset()
 	
 	cityHealth = 100
 	previewMode = false

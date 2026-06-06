@@ -5,19 +5,8 @@
 [ext_resource type="Shader" uid="uid://dgp5wumfqf33q" path="res://Game Scenes/transition.gdshader" id="2_iw6a6"]
 [ext_resource type="PackedScene" uid="uid://de2f8fkqbrxea" path="res://Game Scenes/Tower Defense Scene.tscn" id="2_vq8dx"]
 [ext_resource type="Script" uid="uid://drpv1stjo0bqk" path="res://Game Scenes/transitionT.gd" id="3_cemk1"]
-[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_jek5h"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="6_35g7l"]
-
-[sub_resource type="Gradient" id="Gradient_jek5h"]
-colors = PackedColorArray(1, 1, 1, 1, 1, 1, 1, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_jek5h"]
-gradient = SubResource("Gradient_jek5h")
-
-[sub_resource type="LabelSettings" id="LabelSettings_h7tih"]
-font_size = 100
-font_color = Color(0, 0, 0, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cemk1"]
 shader = ExtResource("2_iw6a6")
@@ -37,79 +26,6 @@ shader_parameter/noise_scale = 16.0
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
-[node name="PauseMenu" type="Control" parent="." unique_id=836311072]
-process_mode = 3
-visible = false
-z_index = 2
-layout_mode = 3
-anchors_preset = 0
-offset_left = 358.0
-offset_top = 282.0
-offset_right = 702.0
-offset_bottom = 821.0
-script = ExtResource("6_35g7l")
-
-[node name="TextureRect" type="TextureRect" parent="PauseMenu" unique_id=169607434]
-layout_mode = 1
-anchors_preset = 15
-anchor_right = 1.0
-anchor_bottom = 1.0
-grow_horizontal = 2
-grow_vertical = 2
-mouse_filter = 2
-texture = SubResource("GradientTexture2D_jek5h")
-
-[node name="Label" type="Label" parent="PauseMenu/TextureRect" unique_id=2013081551]
-layout_mode = 0
-offset_left = -5.0
-offset_top = 12.0
-offset_right = 347.0
-offset_bottom = 151.58334
-text = "Paused"
-label_settings = SubResource("LabelSettings_h7tih")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureButton" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=746632613]
-layout_mode = 0
-offset_left = 39.0
-offset_top = 385.0
-offset_right = 959.0
-offset_bottom = 701.0
-scale = Vector2(0.3, 0.3)
-texture_normal = ExtResource("3_jek5h")
-
-[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton" unique_id=356047098]
-layout_mode = 0
-offset_left = 260.0
-offset_top = 86.666664
-offset_right = 656.0
-offset_bottom = 226.25003
-text = "f1 = quit"
-label_settings = SubResource("LabelSettings_h7tih")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="TextureButton2" type="TextureButton" parent="PauseMenu/TextureRect" unique_id=147278788]
-layout_mode = 0
-offset_left = 39.0
-offset_top = 284.0
-offset_right = 959.0
-offset_bottom = 600.0
-scale = Vector2(0.3, 0.3)
-texture_normal = ExtResource("3_jek5h")
-
-[node name="Label" type="Label" parent="PauseMenu/TextureRect/TextureButton2" unique_id=560050101]
-layout_mode = 0
-offset_left = 226.66667
-offset_top = 86.666664
-offset_right = 759.6667
-offset_bottom = 226.25
-text = "f2 = restart"
-label_settings = SubResource("LabelSettings_h7tih")
-horizontal_alignment = 1
-vertical_alignment = 1
-
 [node name="transition" type="ColorRect" parent="." unique_id=58088488]
 z_index = 1
 material = SubResource("ShaderMaterial_cemk1")
@@ -119,7 +35,6 @@ offset_bottom = 1080.0
 mouse_filter = 2
 color = Color(2.2140146e-06, 0.64162993, 0.6480035, 1)
 script = ExtResource("3_cemk1")
-metadata/_edit_use_anchors_ = true
 
 [node name="CityCanvas" parent="." unique_id=125614548 instance=ExtResource("4_iw6a6")]
 
@@ -172,6 +87,75 @@ offset_bottom = 57.0
 
 [node name="Timer" type="Timer" parent="WaveData" unique_id=49351372]
 
-[connection signal="mouse_entered" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_mouse_entered"]
-[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton" to="PauseMenu" method="_on_texture_button_pressed"]
-[connection signal="pressed" from="PauseMenu/TextureRect/TextureButton2" to="PauseMenu" method="_on_texture_button_2_pressed"]
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=188488245]
+visible = false
+
+[node name="PauseMenu" type="Control" parent="PauseLayer" unique_id=836311072]
+process_mode = 3
+z_index = 2
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -345.0
+offset_right = 22.0
+offset_bottom = 194.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("6_35g7l")
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseLayer/PauseMenu" unique_id=1458172720]
+layout_mode = 0
+offset_right = 474.0
+offset_bottom = 482.0
+scale = Vector2(1.5, 1.5)
+
+[node name="ColorRect" type="ColorRect" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=457040165]
+layout_mode = 2
+color = Color(0.24840015, 0.24840018, 0.24840015, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1716929008]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="Button" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1405867152]
+layout_mode = 2
+text = "Resume"
+icon_alignment = 1
+
+[node name="Restart" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=434483980]
+layout_mode = 2
+text = "Restart
+"
+
+[node name="Quit" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1559157297]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="Music Toggle" type="CheckButton" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=885263791]
+layout_mode = 2
+button_pressed = true
+action_mode = 0
+text = "Music"
+
+[node name="Music Volume" type="HSlider" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1133582633]
+layout_mode = 2
+value = 100.0
+
+[node name="Label" type="Label" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" unique_id=1884005956]
+layout_mode = 0
+offset_left = 3.3333335
+offset_top = -26.0
+offset_right = 477.33334
+offset_bottom = -3.6666641
+text = "Music Volume"
+
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
+[connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]

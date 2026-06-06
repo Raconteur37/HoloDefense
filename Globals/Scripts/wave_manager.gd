@@ -37,6 +37,9 @@ func _ready() -> void:
 	#beginNextWave()
 
 func beginNextWave():
+	
+	SoundManager.startTimer(randf_range(5,20)) # Plays in wave music
+
 
 	currentWave += 1
 	
@@ -63,10 +66,8 @@ func beginNextSystem():
 	intermissionTimer = get_tree().create_timer(intermission_duration)
 	manageWaveInfoUI(intermission_duration)
 	intermissionTimer.timeout.connect(beginNextWave)
-	
 
-func onWaveComplete() -> void: 
-	
+func onWaveComplete() -> void:
 	var duration = get_intermission_duration(currentDifficulty)
 	intermissionTimer = get_tree().create_timer(duration)
 	intermissionTimer.timeout.connect(beginNextWave)
@@ -90,20 +91,34 @@ func buildSpawnQueue() -> Array:
 
 	var waveWithinSystem = ((currentWave - 1) % get_waves_per_system()) + 1
 
+	# Flat baseline grows by waveEnemyGrowth each wave within the system
 	var baseline = get_starting_enemies() + waveWithinSystem * get_wave_enemy_growth()
+
+	# Per-difficulty multipliers
 	var difficultyMult = get_enemy_count_multiplier(currentDifficulty)
+
+	# Compounds per wave within the system — resets each new system
+	# e.g. 1.05 at wave 5 = baseline * 1.05^4 (~22% more than wave 1)
+	var waveProgressMult = get_wave_count_scale(currentDifficulty, waveWithinSystem)
+
+	# Compounds per system — carries forward across systems
 	var systemMult = get_scaled_system_enemy_multiplier()
-	var total = clampi(floori(baseline * difficultyMult * systemMult), 1, get_max_enemies_per_wave())
+
+	var total = clampi(
+		floori(baseline * difficultyMult * waveProgressMult * systemMult),
+		1,
+		get_max_enemies_per_wave()
+	)
 
 	var activeTiers = getActiveTiers(waveWithinSystem)
 
 	var counts = { "first": 0, "second": 0, "third": 0 }
 
 	if not activeTiers["second"] and not activeTiers["third"]:
-		# only first tier then give it everything
+		# only first tier — give it everything
 		counts["first"] = total
 	elif not activeTiers["third"]:
-		# first and second only then rescale their weights to fill 100%
+		# first and second only — rescale their weights to fill 100%
 		var combinedWeight = get_first_tier_weight() + get_second_tier_weight()
 		counts["first"]  = floori(total * (get_first_tier_weight() / combinedWeight))
 		counts["second"] = total - counts["first"]
@@ -123,13 +138,13 @@ func buildSpawnQueue() -> Array:
 		queue.append(tierThreeEnemyTypes.get(currentSystem))
 
 	queue.shuffle()
-	
+
 	for item in queue:
 		if activeEnemies.has(item):
 			activeEnemies[item] = activeEnemies.get(item) + 1
 		else:
 			activeEnemies[item] = 1
-	
+
 	return queue
 
 func getActiveTiers(waveWithinSystem: int) -> Dictionary:
@@ -142,7 +157,7 @@ func getActiveTiers(waveWithinSystem: int) -> Dictionary:
 
 func removeActiveEnemy(enemy : Enemy):
 	var id = enemy.enemyID
-	
+
 	if activeEnemies.has(id):
 		if activeEnemies.get(id) <= 1:
 			activeEnemies.erase(id)
@@ -152,7 +167,6 @@ func removeActiveEnemy(enemy : Enemy):
 func checkForEnemiesAlive():
 	if activeEnemies.size() <= 0:
 		onWaveComplete()
-		
 
 func registerActiveEnemy(enemy: Enemy) -> void:
 	var id = enemy.enemyID
@@ -231,11 +245,11 @@ func get_waves_per_system() -> int:
 func get_system_enemy_multiplier() -> float:
 	return float(wave_data["baseline"]["systemScaling"]["enemyMultiplierPerSystem"])
 
-func get_tier_two_enemy_wave_tresh() -> float:
-	return float(wave_data["baseline"]["systemScaling"]["tierTwoWaveTresh"])
+func get_tier_two_enemy_wave_thresh() -> float:
+	return float(wave_data["baseline"]["systemScaling"]["tierTwoWaveThresh"])
 
-func get_tier_three_enemy_wave_tresh() -> float:
-	return float(wave_data["baseline"]["systemScaling"]["tierThreeWaveTresh"])
+func get_tier_three_enemy_wave_thresh() -> float:
+	return float(wave_data["baseline"]["systemScaling"]["tierThreeWaveThresh"])
 
 func get_label(level: int) -> String:
 	return str(_get_difficulty(level).get("label", ""))
@@ -255,6 +269,12 @@ func get_spawn_interval(level: int, wave_within_system: int = 1) -> float:
 	var floor_interval := get_base_spawn_interval()
 	var interval := base * pow(decay, wave_within_system - 1)
 	return maxf(interval, floor_interval)
+
+# Returns the compounded within-system wave progress multiplier.
+# wave_within_system 1 always returns 1.0 (no bonus on the first wave).
+func get_wave_count_scale(level: int, wave_within_system: int) -> float:
+	var scale := float(_get_difficulty(level).get("waveCountScalePerWave", 1.0))
+	return pow(scale, wave_within_system - 1)
 
 func get_intermission_duration(level: int) -> float:
 	return float(_get_difficulty(level).get("intermission_duration_sec", 10.0))
@@ -281,8 +301,8 @@ func loadData():
 
 	wave_data = json.data as Dictionary
 	intermission_duration = float(wave_data.get("intermission_duration_sec", 0.0))
-	SECOND_TIER_UNLOCK_WAVE = get_tier_two_enemy_wave_tresh()
-	THIRD_TIER_UNLOCK_WAVE = get_tier_three_enemy_wave_tresh()
+	SECOND_TIER_UNLOCK_WAVE = get_tier_two_enemy_wave_thresh()
+	THIRD_TIER_UNLOCK_WAVE = get_tier_three_enemy_wave_thresh()
 
 func reset() -> void:
 	# Clear timers

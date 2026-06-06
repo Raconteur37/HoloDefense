@@ -1,5 +1,7 @@
 extends Control
 
+func _ready() -> void:
+	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _input(event):
 	if event.is_action_pressed("ui_cancel"): # Usually mapped to ESC
@@ -16,4 +18,30 @@ func _input(event):
 func toggle_pause():
 	var new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
-	visible = new_pause_state # Show/hide the menu
+	$"..".visible = new_pause_state # Show/hide the menu
+
+
+func _on_button_pressed() -> void:
+	toggle_pause()
+
+
+func _on_restart_pressed() -> void:
+	get_tree().paused = false
+	GameManager.reset()
+	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+	#get_tree().reload_current_scene()
+
+
+func _on_quit_pressed() -> void:
+	get_tree().quit()
+
+
+
+func _on_music_volume_value_changed(value: float) -> void:
+	SoundManager.setMusicVolume(value)
+
+
+func _on_music_toggle_toggled(toggled_on: bool) -> void:
+		SoundManager.musicOn = toggled_on
+		if not SoundManager.musicOn:
+			SoundManager.stopMusic()
