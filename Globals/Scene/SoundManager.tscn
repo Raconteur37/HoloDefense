@@ -12,9 +12,13 @@ script = ExtResource("1_t2bua")
 stream = SubResource("AudioStreamMP3_5ktvt")
 volume_db = 2.0
 max_polyphony = 16
+bus = &"SoundFX"
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=985591661]
+bus = &"Music"
 
-[node name="ComboTimer" type="Timer" parent="." unique_id=1858310063]
+[node name="Timer" type="Timer" parent="." unique_id=1858310063]
+one_shot = true
 
-[connection signal="timeout" from="ComboTimer" to="." method="_on_combo_timer_timeout"]
+[connection signal="finished" from="MusicPlayer" to="." method="_on_music_player_finished"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

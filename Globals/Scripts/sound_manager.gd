@@ -1,12 +1,17 @@
 extends Node2D
 
 
-var comboTimer
-var musicPlayer
+var timer : Timer
+var musicPlayer : AudioStreamPlayer2D
 var soundPlayer
 
+var musicOn : bool = true
+var musicVolume : float = 100.0
+
+const MUSIC_BUS_NAME = "Music"
+
 func _ready() -> void:
-	comboTimer = $ComboTimer
+	timer = $Timer
 	soundPlayer = $SoundPlayer
 	musicPlayer = $MusicPlayer
 
@@ -18,21 +23,17 @@ func stopBossWaveSound():
 	musicPlayer.stop()
 	var tween = create_tween()
 		
-	# Smoothly lower volume_db from its current value to -80.0 (total silence)
-	# over the specified duration.
+
 	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
 	
-	# Once the fade is complete, stop the player and reset the volume
 	tween.finished.connect(func():
 		musicPlayer.stop()
-		musicPlayer.volume_db = 0.0 # Reset to default volume for the next song
+		musicPlayer.volume_db = 0.0
 	)
 
 func playGenericKillSound():
-	comboTimer.stop()
 	soundPlayer.stream = load("res://Sounds/In Game Sounds/kill.wav")
 	soundPlayer.play()
-	comboTimer.start()
 
 func playDifficultySound(num):
 	match num:
@@ -61,6 +62,26 @@ func playDifficultySound(num):
 			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 11 Select.wav")
 
 	soundPlayer.play()
+
+func setMusicVolume(value: float):
+	musicVolume = value
+	var bus_idx = AudioServer.get_bus_index(MUSIC_BUS_NAME)
+	
+	# Convert 0-100 to 0.0-1.0
+	var linear_volume = musicVolume / 100.0
+	
+	if linear_volume <= 0:
+		AudioServer.set_bus_mute(bus_idx, true)
+	else:
+		AudioServer.set_bus_mute(bus_idx, false)
+		# Use linear_to_db for smooth, natural volume scaling
+		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(linear_volume))
+
+func playInWaveMusic():
+	if musicOn and not musicPlayer.playing:
+		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
+		musicPlayer.play()
+
 func cityLevelUp():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/DashReady.mp3")
 	soundPlayer.play()
@@ -69,5 +90,23 @@ func enemiesIncoming():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/enemiesIncoming.wav")
 	soundPlayer.play()
 
-func _on_combo_timer_timeout() -> void:
-	soundPlayer.pitch_scale = 1
+
+func _on_music_player_finished() -> void:
+	timer.wait_time = randf_range(2.0, 6.0)
+	timer.start()
+
+func startTimer(time : float):
+	timer.wait_time = time
+	timer.start()
+
+func _on_timer_timeout() -> void:
+	playInWaveMusic()
+
+func stopMusic():
+	musicPlayer.stop()
+
+func reset():
+	if not timer.is_stopped():
+		timer.stop()
+	soundPlayer.stop()
+	musicPlayer.stop()
