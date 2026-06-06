@@ -20,6 +20,8 @@ var has_triggered_start: bool = false
 
 
 func _ready() -> void:
+	SoundManager.playLoadoutMusic()
+	
 	scroll.custom_minimum_size = Vector2(700, 150)
 
 	for rarity in ["Common", "Rare", "Super Rare", "Legendary", "Unseen"]:
@@ -169,6 +171,7 @@ func _on_loadout_incomplete():
 func _on_begin_button_pressed() -> void:
 	if is_multiplayer:
 		return
+	SoundManager.stopLoadoutMusic()
 	GameManager.turretsBrought = broughtArray.duplicate()
 	for item in GameManager.turretsBrought:
 		GameManager.turretTempLevels[item] = 0

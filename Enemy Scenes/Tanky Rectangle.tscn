@@ -1,39 +1,53 @@
-[gd_scene load_steps=5 format=3 uid="uid://d180avbvjdhen"]
+[gd_scene format=3 uid="uid://d180avbvjdhen"]
 
 [ext_resource type="Script" uid="uid://qmmnk0j12kne" path="res://Scripts/Enemies/tanky_rectangle.gd" id="1_tj2gn"]
+[ext_resource type="Shader" uid="uid://yrdagse31yg5" path="res://Shaders/enemyDamage.gdshader" id="2_fjwbi"]
 [ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="2_shkqd"]
+[ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="4_fjwbi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
 size = Vector2(34, 12)
 
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_u0uip"]
+resource_local_to_scene = true
+shader = ExtResource("2_fjwbi")
+shader_parameter/flash_color = Color(0.796243, 0.796243, 0.796243, 1)
+shader_parameter/flash_modifier = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
 size = Vector2(39, 16)
 
-[node name="Tanky Rectangle" type="CharacterBody2D" groups=["Enemy"]]
-position = Vector2(1172, 635)
+[node name="Tanky Rectangle" type="CharacterBody2D" unique_id=1902235866 groups=["Enemy"]]
+scale = Vector2(2, 2)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_tj2gn")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-position = Vector2(11, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=339938909]
 shape = SubResource("RectangleShape2D_m5ss4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
-self_modulate = Color(1.5, 1, 1, 1)
-position = Vector2(11, 0)
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1421080025]
+material = SubResource("ShaderMaterial_u0uip")
+position = Vector2(-9.536743e-07, 0)
 scale = Vector2(4.25, 1.5)
 texture = ExtResource("2_shkqd")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="HitboxArea" type="Area2D" parent="." unique_id=2144376255]
 collision_layer = 4
 collision_mask = 3
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(11, 0)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=1186910132]
 shape = SubResource("RectangleShape2D_o2fih")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=1112727806]
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[node name="Basic Square Hurt" parent="." unique_id=1696777537 instance=ExtResource("4_fjwbi")]
+scale = Vector2(9, 9)
+amount = 30
+lifetime = 0.4
+scale_amount_min = 4.0
+scale_amount_max = 4.0
+color = Color(1, 1, 1, 1)
+
+[connection signal="body_entered" from="HitboxArea" to="." method="_on_area_2d_body_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

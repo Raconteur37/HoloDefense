@@ -13,10 +13,7 @@ func _input(event: InputEvent) -> void:
 					EnemySpawnManager.summonEnemy(Enemy.EnemyID.BASIC_SQUARE)
 			KEY_R:
 				if inDevMode:
-					var enemy = load("res://Enemy Scenes/Tanky Rectangle.tscn")
-					enemy = enemy.instantiate()
-					enemy.position = GameManager.generateRandomPosition()
-					get_tree().current_scene.add_child(enemy)
+					EnemySpawnManager.summonEnemy(Enemy.EnemyID.TANKY_RECTANGLE)
 			KEY_T:
 				if inDevMode:
 					EnemySpawnManager.summonEnemy(Enemy.EnemyID.SPEEDY_TRIANGLE)

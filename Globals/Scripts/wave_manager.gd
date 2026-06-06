@@ -20,9 +20,9 @@ var spawnQueue: Array = []
 var activeEnemies : Dictionary = {}
 
 var systems = ["Similar","Ordered","Anti-Ordered","Mixed"]
-var tierOneEnemyTypes = {"Similar" : Enemy.EnemyID.BASIC_SQUARE}
-var tierTwoEnemyTypes = {"Similar" : Enemy.EnemyID.SPEEDY_TRIANGLE}
-var tierThreeEnemyTypes = {"Similar" : Enemy.EnemyID.SHOOTY_DIAMOND}
+var tierOneEnemyTypes = {"Similar": [Enemy.EnemyID.BASIC_SQUARE]}
+var tierTwoEnemyTypes = {"Similar": [Enemy.EnemyID.SPEEDY_TRIANGLE, Enemy.EnemyID.TANKY_RECTANGLE]}
+var tierThreeEnemyTypes = {"Similar": [Enemy.EnemyID.SHOOTY_DIAMOND]}
 var bossEnemies = {"Similar" : Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
 var currentDifficulty = 1
@@ -81,6 +81,12 @@ func manageWaveInfoUI(duration):
 			bottomUI = bottomUI.find_child("WaveData")
 		bottomUI.refreshWaveInfo(duration)
 
+func getEnemyFromTier(tierDict: Dictionary) -> Enemy.EnemyID:
+	var pool: Array = tierDict.get(currentSystem, [])
+	if pool.is_empty():
+		return Enemy.EnemyID.BASIC_SQUARE
+	return pool[randi() % pool.size()]
+
 func buildSpawnQueue() -> Array:
 	var queue: Array = []
 
@@ -131,11 +137,11 @@ func buildSpawnQueue() -> Array:
 		counts["first"] += total - assigned
 
 	for i in counts["first"]:
-		queue.append(tierOneEnemyTypes.get(currentSystem))
+		queue.append(getEnemyFromTier(tierOneEnemyTypes))
 	for i in counts["second"]:
-		queue.append(tierTwoEnemyTypes.get(currentSystem))
+		queue.append(getEnemyFromTier(tierTwoEnemyTypes))
 	for i in counts["third"]:
-		queue.append(tierThreeEnemyTypes.get(currentSystem))
+		queue.append(getEnemyFromTier(tierThreeEnemyTypes))
 
 	queue.shuffle()
 

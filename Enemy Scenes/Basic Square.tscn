@@ -9,8 +9,9 @@
 size = Vector2(12, 12)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xpxn3"]
+resource_local_to_scene = true
 shader = ExtResource("2_yhs31")
-shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_color = Color(0.79607844, 0.79607844, 0.79607844, 1)
 shader_parameter/flash_modifier = 0.0
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
