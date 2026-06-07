@@ -93,6 +93,7 @@ func applyBubble(turret: Turret):
 	turret.hasBubble = true
 	turret.recieveBubble(bubbleHealth,self)
 	currentBubblesGiven += 1
+	StatManager.addStat(turretID,"bubbles_provided",1)
 	topSprite.play("Ready")
 	if currentBubblesGiven >= maxBubbles:
 		bubbleTimer.stop()

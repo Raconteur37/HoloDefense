@@ -189,7 +189,7 @@ func _ready() -> void:
 	currentScrap = startingScrap
 	#currentMoney = 999999
 	#currentEnergy = 999999
-	#currentScrap = 999999
+	currentScrap = 999999
 	updateGemChanceWeights()
 	updateScrapChanceWeights()
 	citizenGenCost = baseCitizenGenCost
@@ -633,10 +633,9 @@ func reset():
 	fabricatorSlotCost = baseFabricatorSlotCost
 
 	# Generation
-	moneyGenerated += ceil(1*(pow(moneyScale,(generatorLevel-1))))
-	energyGenerated += round((1*(pow(energyScale,(generatorLevel-1))))*100) / 100
-	scrapGenerated += ceil(1*(pow(scrapScale,(generatorLevel-1))))
-	updateGeneratorUpgradeCost()
+	moneyGenerated = ceil(1*(pow(moneyScale,(generatorLevel-1))))
+	energyGenerated = round((1*(pow(energyScale,(generatorLevel-1))))*100) / 100
+	scrapGenerated = ceil(1*(pow(scrapScale,(generatorLevel-1))))
 
 	# Item values back to base
 	itemMoneyValueDict = baseItemMoneyValueDict.duplicate()
