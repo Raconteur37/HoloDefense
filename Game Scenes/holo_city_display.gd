@@ -15,3 +15,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		healthLabel.text = "City Health: " + str(GameManager.cityHealth)
 		EntityManager.killEnemy(null,body)
 		updateVisualStatus()
+		if GameManager.cityHealth <= 0:
+			GameManager.reset()
+			get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")

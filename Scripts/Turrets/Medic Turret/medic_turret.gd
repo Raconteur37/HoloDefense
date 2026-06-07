@@ -87,7 +87,7 @@ func healTurrets():
 	for turret in turretsInRange:
 		if is_instance_valid(turret):
 			if turret.health < turret.maxHealth:
-				EntityManager.healTurret(turret,healingAmount)
+				EntityManager.healTurret(self,turret,healingAmount)
 		else:
 			turretsInRange.erase(turret)
 

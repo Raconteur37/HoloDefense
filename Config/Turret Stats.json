@@ -1,0 +1,130 @@
+{
+	"arrow_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"mini_sentry_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"railgun_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"energizer_turret": {
+		"turrets_energized": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"royal_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"flame_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"firework_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"reaper_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"enemies_executed": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"spider_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"enemies_poisoned": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"tesla_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"seismic_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"gold_mine_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"gold_produced": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"sentry_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"voodoo_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"enemies_cursed": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"zombie_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"enemies_zombified": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"medic_turret": {
+		"health_healed": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"bubble_turret": {
+		"bubbles_provided": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	},
+	"boomerang_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
+	}
+}

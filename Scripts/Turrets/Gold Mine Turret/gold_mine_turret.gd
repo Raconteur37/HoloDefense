@@ -109,6 +109,7 @@ func _on_reload_timer_timeout() -> void:
 
 func generateMoney():
 	CityManager.currentMoney += moneyGenerated
+	StatManager.addStat(turretID,"gold_produced",moneyGenerated)
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
 

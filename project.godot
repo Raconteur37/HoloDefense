@@ -42,6 +42,9 @@ EnemySpawnManager="*uid://dwjkct0fj5w5n"
 WaveManager="*uid://c0iulr1h506je"
 PopupManager="*uid://b50vqmaejdm15"
 NetworkManager="*uid://bloj4s2x3a7k1"
+EconomyManager="*uid://hwwlqqnrbgw8"
+XpManager="*uid://dq05wtiw3k13y"
+StatManager="*uid://cjfeqm477su16"
 
 [display]
 

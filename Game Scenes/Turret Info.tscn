@@ -12,6 +12,7 @@
 [ext_resource type="AudioStream" uid="uid://bs5dry30xukqj" path="res://Sounds/UI Sounds/Turret Select Sound.mp3" id="10_5l8ie"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="11_jeivb"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
+[ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="13_s7hv8"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
@@ -35,13 +36,13 @@ shader_parameter/progress = 0.0
 shader_parameter/block_size = 100.0
 
 [sub_resource type="Gradient" id="Gradient_ekhco"]
-colors = PackedColorArray(1, 1, 1, 0, 0.779291, 0.779291, 0.779291, 1)
+colors = PackedColorArray(0.74978, 0.74978, 0.74977994, 1, 0.779291, 0.779291, 0.779291, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_515np"]
 gradient = SubResource("Gradient_ekhco")
 
 [sub_resource type="Gradient" id="Gradient_du365"]
-colors = PackedColorArray(0.668316, 0.870408, 1, 1, 9.04858e-06, 0.739578, 0.837579, 1)
+colors = PackedColorArray(0.043137256, 0.7137255, 1, 1, 0, 0.7411765, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_5l8ie"]
 gradient = SubResource("Gradient_du365")
@@ -307,10 +308,10 @@ anchor_left = 0.165
 anchor_top = 0.61700004
 anchor_right = 0.84200007
 anchor_bottom = 0.71000004
-offset_left = -0.35801697
-offset_top = 0.013977051
-offset_right = -0.07110596
-offset_bottom = 0.023986816
+offset_left = -0.82948303
+offset_top = -47.936676
+offset_right = -0.5425415
+offset_bottom = -47.926666
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
@@ -338,10 +339,10 @@ anchor_left = 0.356
 anchor_top = 0.58400005
 anchor_right = 0.66400003
 anchor_bottom = 0.73200005
-offset_left = -0.11798096
-offset_top = -0.20202637
-offset_right = -0.36999512
-offset_bottom = 0.1579895
+offset_left = -0.5639343
+offset_top = -43.928833
+offset_right = -0.81591797
+offset_bottom = -35.371338
 text = "Requires Level 2"
 label_settings = SubResource("LabelSettings_scggw")
 autowrap_mode = 2
@@ -349,10 +350,10 @@ autowrap_mode = 2
 [node name="LevelThreeProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=852756381]
 visible = false
 layout_mode = 0
-offset_left = 176.027
-offset_top = 265.324
-offset_right = 900.027
-offset_bottom = 305.324
+offset_left = 175.55553
+offset_top = 130.44444
+offset_right = 899.55554
+offset_bottom = 170.44444
 nine_patch_stretch = true
 texture_under = SubResource("GradientTexture2D_515np")
 texture_progress = SubResource("GradientTexture2D_5l8ie")
@@ -495,5 +496,77 @@ text = "[pulse color=aqua height=0.5 freq=0.5][font_size=90]To Loadout[/font_siz
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=300087697]
+layer = 3
+visible = false
+
+[node name="PauseMenu" type="Control" parent="PauseLayer" unique_id=960133533]
+process_mode = 3
+z_index = 2
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -322.0
+offset_top = -345.0
+offset_right = 22.0
+offset_bottom = 194.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("13_s7hv8")
+
+[node name="PanelContainer" type="PanelContainer" parent="PauseLayer/PauseMenu" unique_id=1679615524]
+layout_mode = 0
+offset_right = 474.0
+offset_bottom = 482.0
+scale = Vector2(1.5, 1.5)
+
+[node name="ColorRect" type="ColorRect" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1337058406]
+layout_mode = 2
+color = Color(0.24840015, 0.24840018, 0.24840015, 1)
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1034337867]
+layout_mode = 2
+theme_override_constants/separation = 90
+
+[node name="Button" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1096775891]
+layout_mode = 2
+text = "Resume"
+icon_alignment = 1
+
+[node name="Restart" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=494773307]
+layout_mode = 2
+text = "Menu"
+
+[node name="Quit" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1468282030]
+layout_mode = 2
+text = "Quit
+"
+
+[node name="Music Toggle" type="CheckButton" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=490331608]
+layout_mode = 2
+button_pressed = true
+action_mode = 0
+text = "Music"
+
+[node name="Music Volume" type="HSlider" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1363980060]
+layout_mode = 2
+value = 100.0
+
+[node name="Label" type="Label" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" unique_id=1709862819]
+layout_mode = 0
+offset_left = 3.3333335
+offset_top = -26.0
+offset_right = 477.33334
+offset_bottom = -3.6666641
+text = "Music Volume"
+
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
 [connection signal="pressed" from="TurretInfoButton" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
+[connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
+[connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]

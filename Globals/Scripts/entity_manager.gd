@@ -23,17 +23,22 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if enemy.effects.has(EffectClass.Effect.CURSE):
 		damage += int(damage * enemy.curseDamageAmp)
 
+	if packet.type == DamagePacket.Type.EXPLOSION:
+		StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
+		StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 		
 	if packet.type == DamagePacket.Type.EFFECT:
 		
-		# Other damage fx apply first, poison gets last priorirty bc of return
 		if EffectClass.Effect.BURN in packet.effects:
 			enemy.health = enemy.health - damage
+			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 		
 		if EffectClass.Effect.POISON in packet.effects:
 			enemy.health = max(1, enemy.health - damage)
+			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 		
 		if enemy.health <= 0:
 			killEnemy(packet.source, enemy)
@@ -60,16 +65,18 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 			packet.effectData.get("poisonDamage", 0),
 			packet.effectData.get("poisonTime", 0)
 		)
+		StatManager.addStat(turret.turretID,"enemies_poisoned",1)
 	if EffectClass.Effect.CURSE in packet.effects:
 		EffectManager.applyCurseEffect(
 			enemy, turret,
 			packet.effectData.get("curseTime", 0),
 			packet.effectData.get("curseDamageAmp",0)
 		)
+		StatManager.addStat(turret.turretID,"enemies_cursed",1)
 	if EffectClass.Effect.EXECUTE in packet.effects:
 		ParticleManager.playExecutionParticle(enemy)
 		killEnemy(turret, enemy)
-		
+		StatManager.addStat(turret.turretID,"enemies_executed",1)
 	if EffectClass.Effect.EXPLOSION in packet.effects:
 		ExplosionManager.summonExplosion(turret,enemy,packet.effectData)
 
@@ -94,6 +101,7 @@ func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
 	damage = applyArmor(damage, turret)
 	
 	turret.health -= damage
+	StatManager.addStat(turret.turretID,"damage_taken",damage)
 	
 	if turret.health <= 0:
 		turret.health = 0
@@ -132,36 +140,30 @@ func onKill(turret,enemy):
 	#GameManager.removeEnemyFromGame(enemy)
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
+	EconomyManager.enemyKilled(enemy.enemyID)
 	if enemy.type == Enemy.Type.BOSS:
 		SoundManager.stopBossWaveSound()
 
 	if is_instance_valid(turret) and turret != null:
 		if turret.is_in_group("Minion"):
-			turret.turretOwner.addKill()
+			StatManager.addStat(turret.turretOwner.turretID,"kills",1)
 			turret.enemy = null
-			#addTurretXP(turret.turretOwner.getName(),experienceEarned)
 		else:
-			turret.addKill()
-			#addTurretXP(turret.getName(),experienceEarned)
+			StatManager.addStat(turret.turretID,"kills",1)
 	
 	enemy.queue_free()
 	
 
-func healTurret(turret,amountHealed):
+func healTurret(healer,turret,amountHealed):
 	if turret.health + amountHealed > turret.maxHealth:
 		turret.health = turret.maxHealth
+		StatManager.addStat(healer.turretID,"health_healed",turret.maxHealth - turret.health)
 	else:
 		turret.health += amountHealed
+		StatManager.addStat(healer.turretID,"health_healed",amountHealed)
 	ParticleManager.playHealParticle(turret)
 	if is_instance_valid(turret.menu):
 		turret.menu.healthUpdate()
-
-func addTurretXP(turretName,xp):
-
-	if (turretXpMap.has(turretName)):
-		turretXpMap[turretName] = turretXpMap.get(turretName) + xp
-	else:
-		turretXpMap[turretName] = xp
 
 func updateTurretUpgradeTier(turretName):
 
@@ -169,26 +171,6 @@ func updateTurretUpgradeTier(turretName):
 		turretsUpgradeTier[turretName] = turretsUpgradeTier.get(turretName) + 1
 	else:
 		turretsUpgradeTier[turretName] = 1
-
-# Handle upgrade alone so this will be deleted
-
-func upgradeTurret(turretNumber):
-
-	if GameManager.turretsPlaced.size() > 0:
-		var turretName = GameManager.turretsNameArray[turretNumber-1]
-
-		if GameManager.turretsPlaced.has(turretName):
-			var turretsList : Array = GameManager.turretsPlaced.get(turretName)
-			for x in turretsList:
-				x.upgrade.emit(x)
-
-		updateTurretUpgradeTier(turretName)
-
-func getUpgradeTier(turretName):
-	if turretsUpgradeTier.has(turretName):
-		return turretsUpgradeTier.get(turretName)
-	else:
-		return 0
 
 func getClosestEnemyFromSprite(turret):
 	var distance = 999999
@@ -202,7 +184,6 @@ func getClosestEnemyFromSprite(turret):
 		return 0
 	else:
 		return enemy
-
 
 func increaseEnemyStats(enemy):
 	var currentWave = GameManager.currentWave

@@ -1,9 +1,49 @@
 [gd_scene format=3 uid="uid://bn4ajiuopc5lu"]
 
+[ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="1_8hder"]
 [ext_resource type="Script" uid="uid://ckt65sif715xg" path="res://Scripts/Shop Scene/slot_machine.gd" id="1_c4eij"]
+[ext_resource type="Script" uid="uid://d2kv7f26350n3" path="res://Scripts/Game Scene/shop.gd" id="1_nqpbt"]
+[ext_resource type="Shader" uid="uid://bh1y6lhvvabth" path="res://Game Scenes/TurretInfo2.gdshader" id="2_et1ub"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="2_nn1d4"]
+[ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="3_bl835"]
 [ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="3_ycuo2"]
 [ext_resource type="Texture2D" uid="uid://camtps7iscofx" path="res://Textures/Turrets/Railgun Turret/RailgunTurret.png" id="4_4wxbc"]
+[ext_resource type="Texture2D" uid="uid://c5hu2wrccaiav" path="res://Textures/Shop/shard_64x64.png" id="8_et1ub"]
+[ext_resource type="Texture2D" uid="uid://654f3qi67dsg" path="res://Textures/Shop/shard_shattered_64x64.png" id="9_bl835"]
+[ext_resource type="Shader" uid="uid://dhin76yoo42at" path="res://Shaders/unstable.gdshader" id="9_wy80l"]
+[ext_resource type="Texture2D" uid="uid://c6nhi25dpecyc" path="res://Textures/Shop/stardust_128x128.png" id="12_qcw3l"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_wy80l"]
+shader = ExtResource("1_8hder")
+shader_parameter/orb_count = 100
+shader_parameter/orb_radius = 0.0010000000475
+shader_parameter/speed = 0.2690000127775
+shader_parameter/orb_color = Color(0.7490196, 0.77254903, 0.8, 1)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_nqpbt"]
+shader = ExtResource("2_et1ub")
+shader_parameter/progress = 0.0
+shader_parameter/block_size = 200.0
+
+[sub_resource type="Gradient" id="Gradient_oagga"]
+colors = PackedColorArray(0.01800073, 0.0017613027, 0.026547767, 1, 0.38869166, 0.00010855891, 0.39069024, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_bggxi"]
+gradient = SubResource("Gradient_oagga")
+fill_from = Vector2(0.5470086, 1)
+fill_to = Vector2(0.55128205, 0)
+
+[sub_resource type="Animation" id="Animation_n7the"]
+length = 0.001
+
+[sub_resource type="Animation" id="Animation_j6ssx"]
+resource_name = "Spin"
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_moqv8"]
+_data = {
+&"RESET": SubResource("Animation_n7the"),
+&"Spin": SubResource("Animation_j6ssx")
+}
 
 [sub_resource type="FontFile" id="FontFile_dn8hd"]
 cache/0/variation_coordinates = {}
@@ -34,29 +74,60 @@ outline_size = 10
 outline_color = Color(0.239216, 0, 1, 1)
 shadow_color = Color(0, 0, 0, 1)
 
-[sub_resource type="Gradient" id="Gradient_oagga"]
-colors = PackedColorArray(0.823529, 0.541176, 0.913725, 1, 1, 1, 1, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_bl835"]
+font_size = 30
 
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_bggxi"]
-gradient = SubResource("Gradient_oagga")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_qcw3l"]
+shader = ExtResource("9_wy80l")
+shader_parameter/base_color = Color(0.13853797, 0.02039812, 0.1312226, 1)
+shader_parameter/shimmer_speed = 1.4
+shader_parameter/sparkle_density = 16.000000665
+shader_parameter/sparkle_speed = 1.0810000275975
+shader_parameter/rim_strength = 0.938000044555
+shader_parameter/holo_strength = 1.9010000902975
 
-[sub_resource type="Animation" id="Animation_n7the"]
-length = 0.001
+[sub_resource type="LabelSettings" id="LabelSettings_sy4b0"]
+font_size = 55
 
-[sub_resource type="Animation" id="Animation_j6ssx"]
-resource_name = "Spin"
+[node name="CanvasLayer" type="CanvasLayer" unique_id=1898291336]
+script = ExtResource("1_nqpbt")
 
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_moqv8"]
-_data = {
-&"RESET": SubResource("Animation_n7the"),
-&"Spin": SubResource("Animation_j6ssx")
-}
+[node name="ScreenFilter" type="ColorRect" parent="." unique_id=1190752735]
+show_behind_parent = true
+z_index = 2
+material = SubResource("ShaderMaterial_wy80l")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="Shop" type="Node2D" unique_id=1881677419]
+[node name="ScreenFilter2" type="ColorRect" parent="." unique_id=86534066]
+show_behind_parent = true
+z_index = 3
+material = SubResource("ShaderMaterial_nqpbt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 2
 
-[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=1898291336]
+[node name="Background" type="TextureRect" parent="." unique_id=325978156]
+modulate = Color(0.34901962, 0.15294118, 0.2627451, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.5
+offset_top = -0.5
+offset_right = -1.5
+offset_bottom = -0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("3_bl835")
 
-[node name="Slot Machine" type="Control" parent="CanvasLayer" unique_id=2041197915]
+[node name="Slot Machine" type="Control" parent="." unique_id=2041197915]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -64,22 +135,14 @@ anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
 offset_left = -271.0
-offset_top = -187.0
+offset_top = -350.0
 offset_right = -231.0
-offset_bottom = -147.0
+offset_bottom = -310.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_c4eij")
 
-[node name="WinLabel" type="Label" parent="CanvasLayer/Slot Machine" unique_id=1427802698]
-layout_mode = 0
-offset_left = -166.0
-offset_top = -301.0
-offset_right = -14.0
-offset_bottom = -234.0
-label_settings = SubResource("LabelSettings_twyhd")
-
-[node name="Button" type="Button" parent="CanvasLayer/Slot Machine" unique_id=1756070090]
+[node name="Button" type="Button" parent="Slot Machine" unique_id=1756070090]
 layout_mode = 0
 offset_left = 232.0
 offset_top = 195.0
@@ -87,7 +150,7 @@ offset_right = 322.0
 offset_bottom = 259.0
 text = "press here"
 
-[node name="PanelContainer" type="PanelContainer" parent="CanvasLayer/Slot Machine" unique_id=545035527]
+[node name="PanelContainer" type="PanelContainer" parent="Slot Machine" unique_id=545035527]
 layout_mode = 0
 offset_left = -451.0
 offset_top = -190.0
@@ -95,17 +158,17 @@ offset_right = -387.0
 offset_bottom = -126.0
 scale = Vector2(23.0201, 5.77858)
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer" unique_id=1990123595]
+[node name="HBoxContainer" type="HBoxContainer" parent="Slot Machine/PanelContainer" unique_id=1990123595]
 layout_mode = 2
 
-[node name="VBoxContainer" type="VBoxContainer" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer" unique_id=1521873962]
+[node name="VBoxContainer" type="VBoxContainer" parent="Slot Machine/PanelContainer/HBoxContainer" unique_id=1521873962]
 layout_mode = 2
 
-[node name="Background" type="TextureRect" parent="CanvasLayer/Slot Machine/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1552622941]
+[node name="Background" type="TextureRect" parent="Slot Machine/PanelContainer/HBoxContainer/VBoxContainer" unique_id=1552622941]
 layout_mode = 2
 texture = SubResource("GradientTexture2D_bggxi")
 
-[node name="HBoxContainer" type="HBoxContainer" parent="CanvasLayer/Slot Machine" unique_id=537828261]
+[node name="HBoxContainer" type="HBoxContainer" parent="Slot Machine" unique_id=537828261]
 layout_mode = 0
 offset_left = -80.0
 offset_top = -89.0
@@ -113,35 +176,221 @@ offset_right = 124.0
 offset_bottom = 15.0
 scale = Vector2(3.8632, 1.41824)
 
-[node name="MarginContainer" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=2004011863]
+[node name="MarginContainer" type="MarginContainer" parent="Slot Machine/HBoxContainer" unique_id=2004011863]
 layout_mode = 2
 theme_override_constants/margin_left = 0
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer" unique_id=233500879]
+[node name="TextureRect" type="TextureRect" parent="Slot Machine/HBoxContainer/MarginContainer" unique_id=233500879]
 layout_mode = 2
 texture = ExtResource("2_nn1d4")
 
-[node name="MarginContainer2" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=2009394452]
+[node name="MarginContainer2" type="MarginContainer" parent="Slot Machine/HBoxContainer" unique_id=2009394452]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer2" unique_id=760251963]
+[node name="TextureRect" type="TextureRect" parent="Slot Machine/HBoxContainer/MarginContainer2" unique_id=760251963]
 layout_mode = 2
 texture = ExtResource("3_ycuo2")
 
-[node name="MarginContainer3" type="MarginContainer" parent="CanvasLayer/Slot Machine/HBoxContainer" unique_id=215440490]
+[node name="MarginContainer3" type="MarginContainer" parent="Slot Machine/HBoxContainer" unique_id=215440490]
 layout_mode = 2
 theme_override_constants/margin_left = 50
 
-[node name="TextureRect" type="TextureRect" parent="CanvasLayer/Slot Machine/HBoxContainer/MarginContainer3" unique_id=1141132205]
+[node name="TextureRect" type="TextureRect" parent="Slot Machine/HBoxContainer/MarginContainer3" unique_id=1141132205]
 layout_mode = 2
 texture = ExtResource("4_4wxbc")
 
-[node name="AnimationPlayer" type="AnimationPlayer" parent="CanvasLayer/Slot Machine" unique_id=485252766]
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Slot Machine" unique_id=485252766]
 libraries/ = SubResource("AnimationLibrary_moqv8")
 
-[node name="Roll Timer" type="Timer" parent="CanvasLayer/Slot Machine" unique_id=1651824631]
+[node name="Roll Timer" type="Timer" parent="Slot Machine" unique_id=1651824631]
 wait_time = 0.1
 
-[connection signal="pressed" from="CanvasLayer/Slot Machine/Button" to="CanvasLayer/Slot Machine" method="_on_button_pressed"]
-[connection signal="timeout" from="CanvasLayer/Slot Machine/Roll Timer" to="CanvasLayer/Slot Machine" method="_on_roll_time_timeout"]
+[node name="WinLabel" type="Label" parent="Slot Machine" unique_id=1427802698]
+layout_mode = 0
+offset_left = -134.0
+offset_top = -179.0
+offset_right = 18.0
+offset_bottom = -110.0
+label_settings = SubResource("LabelSettings_twyhd")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1783086683]
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1592898547]
+layout_mode = 2
+
+[node name="CommonShard" type="TextureRect" parent="VBoxContainer/HBoxContainer" unique_id=246462900]
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="CommonShardLabel" type="Label" parent="VBoxContainer/HBoxContainer" unique_id=1806871185]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer" unique_id=219020936]
+layout_mode = 2
+
+[node name="RareShard" type="TextureRect" parent="VBoxContainer/HBoxContainer2" unique_id=2086424089]
+modulate = Color(0.29134226, 0.42310795, 1, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="RareShardLabel" type="Label" parent="VBoxContainer/HBoxContainer2" unique_id=94051670]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer" unique_id=839969813]
+layout_mode = 2
+
+[node name="SuperRareShard" type="TextureRect" parent="VBoxContainer/HBoxContainer3" unique_id=229290586]
+modulate = Color(0.42434537, 0.0022413528, 0.75539565, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="SuperRareShardLabel" type="Label" parent="VBoxContainer/HBoxContainer3" unique_id=597264709]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer" unique_id=1636574430]
+layout_mode = 2
+
+[node name="LegendaryShard" type="TextureRect" parent="VBoxContainer/HBoxContainer4" unique_id=112073000]
+modulate = Color(0.8918628, 0.69451505, 0.107530035, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="LegendaryShardLabel" type="Label" parent="VBoxContainer/HBoxContainer4" unique_id=291216674]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer" unique_id=2021069424]
+layout_mode = 2
+
+[node name="UnseenShard" type="TextureRect" parent="VBoxContainer/HBoxContainer5" unique_id=1123948722]
+modulate = Color(0.986898, 0.3652076, 0.496818, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="UnseenShardLabel" type="Label" parent="VBoxContainer/HBoxContainer5" unique_id=2075795554]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer" unique_id=910049742]
+layout_mode = 2
+
+[node name="UnstableShard" type="TextureRect" parent="VBoxContainer/HBoxContainer6" unique_id=942813995]
+material = SubResource("ShaderMaterial_qcw3l")
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="UnstableShardLabel" type="Label" parent="VBoxContainer/HBoxContainer6" unique_id=367502970]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=851206704]
+offset_left = 132.0
+offset_right = 235.0
+offset_bottom = 336.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer2" unique_id=155126343]
+layout_mode = 2
+
+[node name="CommonShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer" unique_id=2127419488]
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="CommonFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer" unique_id=1567027218]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer2" unique_id=1363682124]
+layout_mode = 2
+
+[node name="RareShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer2" unique_id=1877660996]
+modulate = Color(0.29134226, 0.42310795, 1, 1)
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="RareFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer2" unique_id=1182509421]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer2" unique_id=2129380900]
+layout_mode = 2
+
+[node name="SuperRareShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer3" unique_id=815459974]
+modulate = Color(0.42434537, 0.0022413528, 0.75539565, 1)
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="SuperRareFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer3" unique_id=40748951]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer2" unique_id=450216399]
+layout_mode = 2
+
+[node name="LegendaryShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer4" unique_id=1505999529]
+modulate = Color(0.8918628, 0.69451505, 0.107530035, 1)
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="LegendaryFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer4" unique_id=1759909106]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer2" unique_id=469565347]
+layout_mode = 2
+
+[node name="UnseenShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer5" unique_id=1477880675]
+modulate = Color(0.986898, 0.3652076, 0.496818, 1)
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="UnseenFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer5" unique_id=874256532]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer2" unique_id=49205056]
+layout_mode = 2
+
+[node name="UnstableShard" type="TextureRect" parent="VBoxContainer2/HBoxContainer6" unique_id=805895088]
+material = SubResource("ShaderMaterial_qcw3l")
+layout_mode = 2
+texture = ExtResource("9_bl835")
+
+[node name="UnstableFragmentLabel" type="Label" parent="VBoxContainer2/HBoxContainer6" unique_id=857651979]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_bl835")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=812020681]
+offset_left = 1560.0
+offset_top = 7.0
+offset_right = 1913.0
+offset_bottom = 135.0
+
+[node name="StardustIcon" type="TextureRect" parent="HBoxContainer" unique_id=917820737]
+layout_mode = 2
+texture = ExtResource("12_qcw3l")
+
+[node name="StardustLabel" type="Label" parent="HBoxContainer" unique_id=1290328844]
+layout_mode = 2
+text = "1000000"
+label_settings = SubResource("LabelSettings_sy4b0")
+
+[connection signal="pressed" from="Slot Machine/Button" to="Slot Machine" method="_on_button_pressed"]
+[connection signal="timeout" from="Slot Machine/Roll Timer" to="Slot Machine" method="_on_roll_time_timeout"]

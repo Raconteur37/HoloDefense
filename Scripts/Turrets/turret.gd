@@ -48,9 +48,6 @@ var bodyCollisionShape
 var rangeArea
 var selectAreaCollisionShape
 
-#stats
-var kills : int = 0
-
 var projectile
 
 var menu
@@ -105,9 +102,6 @@ func _notification(what: int) -> void:
 					turretProviders.erase("energized")
 				"bubble":
 					removeBubble()
-
-func addKill():
-	kills += 1
 
 func showRange():
 	line2d.show()
