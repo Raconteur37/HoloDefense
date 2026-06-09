@@ -1,0 +1,703 @@
+[gd_scene format=3 uid="uid://dmiwees7vwakj"]
+
+[ext_resource type="StyleBox" uid="uid://ca7edskxl0r75" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_base.tres" id="3_6jcfr"]
+[ext_resource type="StyleBox" uid="uid://dd7kfqqlrss8w" path="res://Themes/RewardStyleBoxes/holo_defense_styles/metric_tile_highlight.tres" id="4_kwlfh"]
+[ext_resource type="StyleBox" uid="uid://ubpiejkfmdma" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_header.tres" id="4_o8kqw"]
+[ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_wave.tres" id="5_8u08c"]
+[ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_defeat.tres" id="5_kwlfh"]
+[ext_resource type="StyleBox" uid="uid://db8ih56gmavd0" path="res://Themes/RewardStyleBoxes/holo_defense_styles/separator_subtle.tres" id="6_wxq4u"]
+[ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_rare.tres" id="8_mj4u4"]
+[ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_total_row.tres" id="8_ulwed"]
+[ext_resource type="StyleBox" uid="uid://bisbthgmt6akr" path="res://Themes/RewardStyleBoxes/holo_defense_styles/metric_tile_default.tres" id="9_2wwve"]
+[ext_resource type="Texture2D" uid="uid://bxyk5va6ivo4h" path="res://Textures/Shop/shard_shattered_64x64.png" id="10_jq7ek"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_o8kqw"]
+font_size = 13
+font_color = Color(0.52527344, 0.69424623, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_kwlfh"]
+font_size = 13
+font_color = Color(0.9999389, 0.23753664, 0.35720906, 1)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_o8kqw"]
+content_margin_right = 130.0
+content_margin_bottom = 40.0
+bg_color = Color(0.78039217, 0.5882353, 0.078431375, 0.101960786)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.9607843, 0.78039217, 0.25882354, 0.3019608)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_right = 20.0
+expand_margin_bottom = 51.0
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_kwlfh"]
+content_margin_right = 130.0
+content_margin_bottom = 40.0
+bg_color = Color(1, 1, 1, 0.011764706)
+border_width_left = 1
+border_width_top = 1
+border_width_right = 1
+border_width_bottom = 1
+border_color = Color(0.54901963, 0.70980394, 1, 0.12156863)
+border_blend = true
+corner_radius_top_left = 10
+corner_radius_top_right = 10
+corner_radius_bottom_right = 10
+corner_radius_bottom_left = 10
+expand_margin_right = 20.0
+expand_margin_bottom = 51.0
+shadow_color = Color(0, 0, 0, 0)
+
+[sub_resource type="LabelSettings" id="LabelSettings_8u08c"]
+font_size = 10
+font_color = Color(0.78431374, 0.87058824, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_gc4q8"]
+font_size = 24
+font_color = Color(0.49803922, 0.76862746, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wxq4u"]
+font_size = 24
+font_color = Color(0.9607843, 0.78431374, 0.25882354, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_tcncw"]
+font_size = 24
+font_color = Color(0.9098039, 0.9490196, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_ulwed"]
+font_size = 24
+font_color = Color(0.9098039, 0.9490196, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_mj4u4"]
+font_size = 13
+font_color = Color(0.47843137, 0.68235296, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_2wwve"]
+font_color = Color(0.78431374, 0.87058824, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_jq7ek"]
+font_color = Color(0.9098039, 0.9490196, 1, 1)
+
+[sub_resource type="StyleBoxLine" id="StyleBoxLine_wixpv"]
+color = Color(0.55, 0.71, 1, 0.08)
+grow_begin = 0.0
+grow_end = 0.0
+thickness = 3
+
+[sub_resource type="Shader" id="Shader_gc4q8"]
+code = "// super_rare_glossy.gdshader
+// Attach to a ShaderMaterial on any Sprite2D or TextureRect.
+// Tilt / move the mouse over the node to see the holo shimmer shift.
+//
+// EXPORTS you can tweak in the Inspector:
+//   base_color       – the dominant rare color (default: deep violet)
+//   shimmer_speed    – how fast the shimmer scrolls
+//   sparkle_density  – how many sparkle points appear
+//   sparkle_speed    – twinkle rate
+//   rim_strength     – brightness of the rainbow edge rim
+//   holo_strength    – intensity of the rainbow holo band
+
+shader_type canvas_item;
+
+uniform vec4  base_color     : source_color = vec4(0.22, 0.05, 0.45, 1.0);
+uniform float shimmer_speed  : hint_range(0.1, 5.0)  = 1.4;
+uniform float sparkle_density: hint_range(2.0, 20.0) = 8.0;
+uniform float sparkle_speed  : hint_range(0.5, 10.0) = 3.0;
+uniform float rim_strength   : hint_range(0.0, 2.0)  = 1.1;
+uniform float holo_strength  : hint_range(0.0, 2.0)  = 0.85;
+
+// ── Helpers ──────────────────────────────────────────────────────────────────
+
+float hash(vec2 p) {
+    p = fract(p * vec2(127.1, 311.7));
+    p += dot(p, p + 19.19);
+    return fract(p.x * p.y);
+}
+
+float smoothNoise(vec2 p) {
+    vec2 i = floor(p);
+    vec2 f = fract(p);
+    f = f * f * (3.0 - 2.0 * f);
+    float a = hash(i);
+    float b = hash(i + vec2(1.0, 0.0));
+    float c = hash(i + vec2(0.0, 1.0));
+    float d = hash(i + vec2(1.0, 1.0));
+    return mix(mix(a, b, f.x), mix(c, d, f.x), f.y);
+}
+
+// Convert hue (0-1) to RGB
+vec3 hue2rgb(float h) {
+    h = fract(h);
+    float r = abs(h * 6.0 - 3.0) - 1.0;
+    float g = 2.0 - abs(h * 6.0 - 2.0);
+    float b = 2.0 - abs(h * 6.0 - 4.0);
+    return clamp(vec3(r, g, b), 0.0, 1.0);
+}
+
+// ── Main ─────────────────────────────────────────────────────────────────────
+
+void fragment() {
+    vec2 uv = UV;
+    float t  = TIME;
+
+    // Sample the node's own texture (preserves sprite shape + alpha)
+    vec4 tex = texture(TEXTURE, uv);
+
+    // ── 1. Base deep color ───────────────────────────────────────────────────
+    vec3 col = base_color.rgb;
+
+    // ── 2. Flowing shimmer bands ─────────────────────────────────────────────
+    // Diagonal noise scroll gives the \"light sliding across the surface\" look
+    vec2 shimmerUV = uv * vec2(2.5, 1.2) + vec2(t * shimmer_speed * 0.18, t * shimmer_speed * 0.09);
+    float shimmer  = smoothNoise(shimmerUV * 3.0);
+    shimmer        = pow(shimmer, 2.2);          // sharpen highlights
+    col           += shimmer * 0.55 * vec3(0.9, 0.75, 1.0);
+
+    // ── 3. Rainbow holographic band ──────────────────────────────────────────
+    // A diagonal sweep that shifts hue over time
+    float holoAngle = uv.x * 1.6 - uv.y * 0.8 + t * shimmer_speed * 0.12;
+    float holoBand  = smoothNoise(vec2(holoAngle * 2.2, 0.5));
+    float hue       = fract(holoAngle * 0.4 + t * 0.08);
+    vec3  rainbow   = hue2rgb(hue);
+    col            += rainbow * holoBand * holo_strength * 0.6;
+
+    // ── 4. Edge rainbow rim ──────────────────────────────────────────────────
+    // Brighten pixels near the edge of the sprite for a glowing rim
+    vec2  pixelSize = vec2(1.0) / vec2(textureSize(TEXTURE, 0));
+    float edgeDist  = min(min(uv.x, 1.0 - uv.x), min(uv.y, 1.0 - uv.y));
+    float rim       = 1.0 - smoothstep(0.0, 0.12, edgeDist);
+    float rimHue    = fract(uv.x * 0.7 + uv.y * 0.5 + t * 0.15);
+    col            += hue2rgb(rimHue) * rim * rim_strength * tex.a;
+
+    // ── 5. Sparkles ──────────────────────────────────────────────────────────
+    vec2  sparkleUV  = floor(uv * sparkle_density) / sparkle_density;
+    float sparkleID  = hash(sparkleUV);
+    float sparkleT   = fract(t * sparkle_speed * (0.5 + sparkleID * 0.5) + sparkleID);
+    float sparkPulse = pow(sin(sparkleT * 3.14159), 6.0);  // sharp twinkle
+    // Only render sparkle if the cell \"wins\" the lottery
+    float sparkOn    = step(0.78, hash(sparkleUV + vec2(7.3, 2.1)));
+    // Position within the cell
+    vec2  cellFrac   = fract(uv * sparkle_density) - 0.5;
+    float starShape  = max(abs(cellFrac.x), abs(cellFrac.y));
+    float crossShape = (abs(cellFrac.x) < 0.08 || abs(cellFrac.y) < 0.08) ? 1.0 : 0.0;
+    float sparkMask  = crossShape * step(starShape, 0.38);
+    col             += sparkMask * sparkOn * sparkPulse * 2.2 * vec3(1.0, 0.95, 1.0);
+
+    // ── 6. Gloss specular highlight ──────────────────────────────────────────
+    // A soft diagonal bright streak like light on a curved surface
+    float gloss = smoothstep(0.3, 0.65,
+                    uv.x * 0.55 + (1.0 - uv.y) * 0.45
+                    + smoothNoise(uv * 1.5 + t * 0.06) * 0.15);
+    gloss = pow(gloss, 3.5) * 0.7;
+    col  += gloss * vec3(1.0, 0.92, 1.0);
+
+    // ── 7. Vignette (darken corners for depth) ───────────────────────────────
+    float vignette = uv.x * (1.0 - uv.x) * uv.y * (1.0 - uv.y) * 18.0;
+    vignette       = clamp(vignette, 0.0, 1.0);
+    col           *= mix(0.55, 1.0, vignette);
+
+    // ── Output ───────────────────────────────────────────────────────────────
+    // Respect the sprite's original alpha so the effect stays within the shape
+    COLOR = vec4(col, tex.a * base_color.a);
+}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cwvlf"]
+shader = SubResource("Shader_gc4q8")
+shader_parameter/base_color = Color(0.59068286, 0.42179498, 0.97852045, 1)
+shader_parameter/shimmer_speed = 3.20000014874012
+shader_parameter/sparkle_density = 8.0
+shader_parameter/sparkle_speed = 10.0
+shader_parameter/rim_strength = 1.1
+shader_parameter/holo_strength = 2.0
+
+[sub_resource type="LabelSettings" id="LabelSettings_rll6f"]
+font_size = 23
+font_color = Color(0.78431374, 0.87058824, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_wixpv"]
+font_size = 13
+font_color = Color(0.7529412, 0.5176471, 0.9882353, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_cwvlf"]
+font_color = Color(0.78431374, 0.87058824, 1, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_425wd"]
+font_color = Color(0.54509807, 0.70980394, 1, 0.34117648)
+
+[sub_resource type="LabelSettings" id="LabelSettings_81ej1"]
+font_color = Color(0.49803922, 0.76862746, 1, 1)
+
+[node name="RewardScene" type="CanvasLayer" unique_id=303338687]
+
+[node name="PanelContainer" type="PanelContainer" parent="." unique_id=394972352]
+offset_left = 283.0
+offset_top = 375.0
+offset_right = 661.0
+offset_bottom = 655.0
+theme_override_styles/panel = ExtResource("3_6jcfr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="PanelContainer" unique_id=566037441]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="PanelContainer/VBoxContainer" unique_id=1405943120]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_o8kqw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="PanelContainer/VBoxContainer/Header" unique_id=1521539367]
+layout_mode = 2
+theme_override_constants/separation = 140
+
+[node name="HeaderLabel" type="Label" parent="PanelContainer/VBoxContainer/Header/HBoxContainer" unique_id=580311693]
+layout_mode = 2
+text = "RUN SUMMARY"
+label_settings = SubResource("LabelSettings_o8kqw")
+
+[node name="StatusLabel" type="Label" parent="PanelContainer/VBoxContainer/Header/HBoxContainer" unique_id=1215255588]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("5_kwlfh")
+text = "Defeated"
+label_settings = SubResource("LabelSettings_kwlfh")
+
+[node name="GridContainer" type="GridContainer" parent="." unique_id=1294407313]
+offset_left = 310.0
+offset_top = 434.0
+offset_right = 640.0
+offset_bottom = 585.0
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 60
+columns = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="GridContainer" unique_id=997538600]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_kwlfh")
+
+[node name="PanelContainer2" type="PanelContainer" parent="GridContainer" unique_id=2071966276]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_o8kqw")
+
+[node name="PanelContainer3" type="PanelContainer" parent="GridContainer" unique_id=1999725711]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kwlfh")
+
+[node name="PanelContainer4" type="PanelContainer" parent="GridContainer" unique_id=375906733]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_kwlfh")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1502330988]
+offset_left = 319.0
+offset_top = 445.0
+offset_right = 457.0
+offset_bottom = 520.0
+
+[node name="Label" type="Label" parent="VBoxContainer" unique_id=1994379907]
+layout_mode = 2
+text = "DIFFICULTY"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="DifNumberLabel" type="Label" parent="VBoxContainer" unique_id=1444611073]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_gc4q8")
+
+[node name="Label2" type="Label" parent="VBoxContainer" unique_id=1350614895]
+layout_mode = 2
+text = "of 11 total"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="." unique_id=1858822092]
+offset_left = 499.0
+offset_top = 445.0
+offset_right = 637.0
+offset_bottom = 520.0
+
+[node name="Label" type="Label" parent="VBoxContainer2" unique_id=46961125]
+layout_mode = 2
+text = "WAVES COMPLETED"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="DifNumberLabel" type="Label" parent="VBoxContainer2" unique_id=345230769]
+layout_mode = 2
+text = "50"
+label_settings = SubResource("LabelSettings_wxq4u")
+
+[node name="Label2" type="Label" parent="VBoxContainer2" unique_id=1208455131]
+layout_mode = 2
+text = "of 50 total"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="." unique_id=1583242595]
+offset_left = 319.0
+offset_top = 546.0
+offset_right = 457.0
+offset_bottom = 621.0
+
+[node name="Label" type="Label" parent="VBoxContainer3" unique_id=746995697]
+layout_mode = 2
+text = "ENEMIES KILLED"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="DifNumberLabel" type="Label" parent="VBoxContainer3" unique_id=1447823187]
+layout_mode = 2
+text = "10,000"
+label_settings = SubResource("LabelSettings_tcncw")
+
+[node name="Label2" type="Label" parent="VBoxContainer3" unique_id=1036258234]
+layout_mode = 2
+text = "total"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="VBoxContainer4" type="VBoxContainer" parent="." unique_id=1366553264]
+offset_left = 499.0
+offset_top = 545.0
+offset_right = 637.0
+offset_bottom = 620.0
+
+[node name="Label" type="Label" parent="VBoxContainer4" unique_id=967121611]
+layout_mode = 2
+text = "TIME ELAPSED"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="DifNumberLabel" type="Label" parent="VBoxContainer4" unique_id=1347109981]
+layout_mode = 2
+text = "32:00"
+label_settings = SubResource("LabelSettings_ulwed")
+
+[node name="Label2" type="Label" parent="VBoxContainer4" unique_id=688104032]
+layout_mode = 2
+text = "mm:ss"
+label_settings = SubResource("LabelSettings_8u08c")
+
+[node name="RewardContainer" type="PanelContainer" parent="." unique_id=756888134]
+offset_left = 734.0
+offset_top = 272.0
+offset_right = 1112.0
+offset_bottom = 854.0
+theme_override_styles/panel = ExtResource("3_6jcfr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="RewardContainer" unique_id=305752320]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="RewardContainer/VBoxContainer" unique_id=1270629995]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_o8kqw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RewardContainer/VBoxContainer/Header" unique_id=21578859]
+layout_mode = 2
+theme_override_constants/separation = 110
+
+[node name="HeaderLabel" type="Label" parent="RewardContainer/VBoxContainer/Header/HBoxContainer" unique_id=1464138866]
+layout_mode = 2
+text = "STARDUST EARNED"
+label_settings = SubResource("LabelSettings_o8kqw")
+
+[node name="StatusLabel" type="Label" parent="RewardContainer/VBoxContainer/Header/HBoxContainer" unique_id=788743613]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("5_8u08c")
+text = "Waves 50"
+label_settings = SubResource("LabelSettings_mj4u4")
+
+[node name="VBoxContainer5" type="VBoxContainer" parent="." unique_id=195990783]
+offset_left = 749.0
+offset_top = 343.0
+offset_right = 1098.0
+offset_bottom = 707.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer5" unique_id=1200044852]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer" unique_id=220412171]
+layout_mode = 2
+text = "Tier One Enemies Killed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="TierOneEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer" unique_id=357434646]
+layout_mode = 2
+text = "1000000"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator" type="HSeparator" parent="VBoxContainer5" unique_id=1795478514]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer5" unique_id=175357520]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer2" unique_id=618282014]
+layout_mode = 2
+text = "Tier Two Enemies Killed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="TierTwoEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer2" unique_id=631746857]
+layout_mode = 2
+text = "1000000"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator2" type="HSeparator" parent="VBoxContainer5" unique_id=1333361881]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="VBoxContainer5" unique_id=1394023397]
+layout_mode = 2
+theme_override_constants/separation = 120
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer3" unique_id=477432515]
+layout_mode = 2
+text = "Tier Three Enemies Killed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="TierThreeEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer3" unique_id=1502615585]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator3" type="HSeparator" parent="VBoxContainer5" unique_id=1994311328]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer5" unique_id=1292191869]
+layout_mode = 2
+theme_override_constants/separation = 215
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer4" unique_id=56097011]
+layout_mode = 2
+text = "Bosses Killed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="BossesKilled" type="Label" parent="VBoxContainer5/HBoxContainer4" unique_id=1302471708]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator4" type="HSeparator" parent="VBoxContainer5" unique_id=1175578591]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer5" type="HBoxContainer" parent="VBoxContainer5" unique_id=921777461]
+layout_mode = 2
+theme_override_constants/separation = 178
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer5" unique_id=1380415148]
+layout_mode = 2
+text = "Waves Completed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="WavesCompleted" type="Label" parent="VBoxContainer5/HBoxContainer5" unique_id=1046606060]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator5" type="HSeparator" parent="VBoxContainer5" unique_id=340594248]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer6" type="HBoxContainer" parent="VBoxContainer5" unique_id=1531230793]
+layout_mode = 2
+theme_override_constants/separation = 169
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer6" unique_id=68785610]
+layout_mode = 2
+text = "Systems Completed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer6" unique_id=1618874195]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator6" type="HSeparator" parent="VBoxContainer5" unique_id=1963561982]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer7" type="HBoxContainer" parent="VBoxContainer5" unique_id=1128166190]
+layout_mode = 2
+theme_override_constants/separation = 211
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer7" unique_id=257221273]
+layout_mode = 2
+text = "Turrets Placed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer7" unique_id=1064230848]
+layout_mode = 2
+text = "1"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator7" type="HSeparator" parent="VBoxContainer5" unique_id=984549887]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer8" type="HBoxContainer" parent="VBoxContainer5" unique_id=1680259929]
+layout_mode = 2
+theme_override_constants/separation = 172
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer8" unique_id=1715532654]
+layout_mode = 2
+text = "Citizens Generated"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer8" unique_id=872833835]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator8" type="HSeparator" parent="VBoxContainer5" unique_id=1798751722]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer9" type="HBoxContainer" parent="VBoxContainer5" unique_id=858483690]
+layout_mode = 2
+theme_override_constants/separation = 159
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer9" unique_id=1855786452]
+layout_mode = 2
+text = "Research Completed"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer9" unique_id=1450366700]
+layout_mode = 2
+text = "10"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator9" type="HSeparator" parent="VBoxContainer5" unique_id=1146499355]
+layout_mode = 2
+theme_override_styles/separator = ExtResource("6_wxq4u")
+
+[node name="HBoxContainer10" type="HBoxContainer" parent="VBoxContainer5" unique_id=91602450]
+layout_mode = 2
+theme_override_constants/separation = 180
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer10" unique_id=1335745749]
+layout_mode = 2
+text = "Stardust Earned"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer10" unique_id=850718704]
+layout_mode = 2
+text = "10000"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="HSeparator10" type="HSeparator" parent="VBoxContainer5" unique_id=998679044]
+layout_mode = 2
+theme_override_constants/separation = 28
+theme_override_styles/separator = SubResource("StyleBoxLine_wixpv")
+
+[node name="HBoxContainer11" type="HBoxContainer" parent="VBoxContainer5" unique_id=1755058285]
+layout_mode = 2
+theme_override_constants/separation = 155
+
+[node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer11" unique_id=1443348340]
+layout_mode = 2
+text = "Difficulty Multiplier"
+label_settings = SubResource("LabelSettings_2wwve")
+
+[node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer11" unique_id=1276298547]
+material = SubResource("ShaderMaterial_cwvlf")
+layout_mode = 2
+text = "x 1.05"
+label_settings = SubResource("LabelSettings_jq7ek")
+
+[node name="RewardContainerBottom" type="PanelContainer" parent="." unique_id=225424130]
+offset_left = 734.0
+offset_top = 792.0
+offset_right = 1112.0
+offset_bottom = 854.0
+theme_override_styles/panel = ExtResource("8_ulwed")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="RewardContainerBottom" unique_id=201090167]
+layout_mode = 2
+theme_override_constants/separation = 180
+
+[node name="Label" type="Label" parent="RewardContainerBottom/HBoxContainer" unique_id=707363252]
+layout_mode = 2
+text = "TOTAL"
+label_settings = SubResource("LabelSettings_rll6f")
+
+[node name="TotalNumberLabel" type="Label" parent="RewardContainerBottom/HBoxContainer" unique_id=871286736]
+layout_mode = 2
+text = "20,000"
+label_settings = SubResource("LabelSettings_ulwed")
+horizontal_alignment = 2
+
+[node name="BonusRollsContainer" type="PanelContainer" parent="." unique_id=1385921658]
+offset_left = 1181.0
+offset_top = 375.0
+offset_right = 1559.0
+offset_bottom = 655.0
+theme_override_styles/panel = ExtResource("3_6jcfr")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BonusRollsContainer" unique_id=1033613066]
+layout_mode = 2
+
+[node name="Header" type="PanelContainer" parent="BonusRollsContainer/VBoxContainer" unique_id=257920554]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("4_o8kqw")
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BonusRollsContainer/VBoxContainer/Header" unique_id=755012077]
+layout_mode = 2
+theme_override_constants/separation = 140
+
+[node name="HeaderLabel" type="Label" parent="BonusRollsContainer/VBoxContainer/Header/HBoxContainer" unique_id=607365822]
+layout_mode = 2
+text = "BONUS REWARDS"
+label_settings = SubResource("LabelSettings_o8kqw")
+
+[node name="Bonus Rewards Label" type="Label" parent="BonusRollsContainer/VBoxContainer/Header/HBoxContainer" unique_id=736436245]
+layout_mode = 2
+theme_override_styles/normal = ExtResource("8_mj4u4")
+text = "3 NEW"
+label_settings = SubResource("LabelSettings_wixpv")
+
+[node name="MarginContainer" type="MarginContainer" parent="BonusRollsContainer" unique_id=905312100]
+layout_mode = 2
+theme_override_constants/margin_top = 40
+
+[node name="BonusHolder" type="VBoxContainer" parent="BonusRollsContainer/MarginContainer" unique_id=1137649494]
+layout_mode = 2
+
+[node name="Item" type="HBoxContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder" unique_id=1180156236]
+layout_mode = 2
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item" unique_id=184989798]
+layout_mode = 2
+theme_override_constants/separation = 100
+
+[node name="HBoxContainer" type="HBoxContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2" unique_id=1602002675]
+layout_mode = 2
+
+[node name="PanelContainer" type="PanelContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer" unique_id=1804976251]
+layout_mode = 2
+theme_override_styles/panel = ExtResource("9_2wwve")
+
+[node name="ItemTexture" type="TextureRect" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer/PanelContainer" unique_id=1779694095]
+layout_mode = 2
+texture = ExtResource("10_jq7ek")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer" unique_id=74702816]
+layout_mode = 2
+size_flags_vertical = 4
+theme_override_constants/separation = 8
+
+[node name="ItemName" type="Label" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer/VBoxContainer" unique_id=1628265011]
+layout_mode = 2
+text = "● Item Name"
+label_settings = SubResource("LabelSettings_cwvlf")
+
+[node name="ItemDescription" type="Label" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer/VBoxContainer" unique_id=2049156133]
+layout_mode = 2
+text = "Item description here"
+label_settings = SubResource("LabelSettings_425wd")
+
+[node name="AmountLabel" type="Label" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2" unique_id=332175332]
+layout_mode = 2
+text = "x1"
+label_settings = SubResource("LabelSettings_81ej1")

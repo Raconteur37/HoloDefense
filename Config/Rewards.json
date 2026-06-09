@@ -1,0 +1,39 @@
+{
+  "difficulties": {
+	"1": {
+	  "multiplier": 1.0,
+	  "drop_chance": 0.20,
+	  "rewards": [
+		{"name": "Stardust", "value": 10, "weight": 60},
+		{"name": "CommonFragment", "value": 5, "weight": 20},
+		{"name": "RareFragment", "value": 2, "weight": 10},
+		{"name": "CommonFragment", "value": 10, "weight": 9},
+		{"name": "CommonShard", "value": 1, "weight": 1}
+	  ]
+	},
+	"2": {
+	  "multiplier": 1.05,
+	  "drop_chance": 0.25,
+	  "rewards": [
+		{"name": "Stardust", "value": 15, "weight": 55},
+		{"name": "CommonFragment", "value": 7, "weight": 25},
+		{"name": "RareFragment", "value": 4, "weight": 12},
+		{"name": "CommonFragment", "value": 15, "weight": 5},
+		{"name": "CommonShard", "value": 1, "weight": 2.5},
+		{"name": "RareShard", "value": 1, "weight": 0.5}
+	  ]
+	},
+	"3": {
+	  "multiplier": 1.10,
+	  "drop_chance": 0.30,
+	  "rewards": [
+		{"name": "Stardust", "value": 20, "weight": 55},
+		{"name": "CommonFragment", "value": 8, "weight": 25},
+		{"name": "RareFragment", "value": 5, "weight": 12},
+		{"name": "CommonFragment", "value": 20, "weight": 4},
+		{"name": "CommonShard", "value": 1, "weight": 3},
+		{"name": "RareShard", "value": 1, "weight": 1}
+	  ]
+	}
+  }
+}
