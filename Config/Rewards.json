@@ -1,39 +1,112 @@
 {
   "difficulties": {
-	"1": {
-	  "multiplier": 1.0,
-	  "drop_chance": 0.20,
-	  "rewards": [
-		{"name": "Stardust", "value": 10, "weight": 60},
-		{"name": "CommonFragment", "value": 5, "weight": 20},
-		{"name": "RareFragment", "value": 2, "weight": 10},
-		{"name": "CommonFragment", "value": 10, "weight": 9},
-		{"name": "CommonShard", "value": 1, "weight": 1}
-	  ]
-	},
-	"2": {
-	  "multiplier": 1.05,
-	  "drop_chance": 0.25,
-	  "rewards": [
-		{"name": "Stardust", "value": 15, "weight": 55},
-		{"name": "CommonFragment", "value": 7, "weight": 25},
-		{"name": "RareFragment", "value": 4, "weight": 12},
-		{"name": "CommonFragment", "value": 15, "weight": 5},
-		{"name": "CommonShard", "value": 1, "weight": 2.5},
-		{"name": "RareShard", "value": 1, "weight": 0.5}
-	  ]
-	},
-	"3": {
-	  "multiplier": 1.10,
-	  "drop_chance": 0.30,
-	  "rewards": [
-		{"name": "Stardust", "value": 20, "weight": 55},
-		{"name": "CommonFragment", "value": 8, "weight": 25},
-		{"name": "RareFragment", "value": 5, "weight": 12},
-		{"name": "CommonFragment", "value": 20, "weight": 4},
-		{"name": "CommonShard", "value": 1, "weight": 3},
-		{"name": "RareShard", "value": 1, "weight": 1}
-	  ]
-	}
+	"1": { "drop_chance": 0.20, "rewards": [
+	  {"name": "Bonus Stardust", "value": 10, "weight": 60},
+	  {"name": "Common Fragments", "value": 5, "weight": 20},
+	  {"name": "Rare Fragments", "value": 2, "weight": 10},
+	  {"name": "Common Fragments", "value": 10, "weight": 9},
+	  {"name": "Common Shard", "value": 1, "weight": 1}
+	]},
+	"2": { "drop_chance": 0.25, "rewards": [
+	  {"name": "Bonus Stardust", "value": 15, "weight": 55},
+	  {"name": "Common Fragments", "value": 7, "weight": 25},
+	  {"name": "Rare Fragments", "value": 4, "weight": 12},
+	  {"name": "Common Fragments", "value": 15, "weight": 5},
+	  {"name": "Common Shard", "value": 1, "weight": 2.5},
+	  {"name": "Rare Shard", "value": 1, "weight": 0.5}
+	]},
+	"3": { "drop_chance": 0.30, "rewards": [
+	  {"name": "Bonus Stardust", "value": 20, "weight": 55},
+	  {"name": "Common Fragments", "value": 8, "weight": 25},
+	  {"name": "Rare Fragments", "value": 5, "weight": 12},
+	  {"name": "Common Fragments", "value": 20, "weight": 4},
+	  {"name": "Common Shard", "value": 1, "weight": 3},
+	  {"name": "Rare Shard", "value": 1, "weight": 1}
+	]},
+	"4": { "drop_chance": 0.35, "rewards": [
+	  {"name": "Bonus Stardust", "value": 30, "weight": 50},
+	  {"name": "Common Fragments", "value": 15, "weight": 25},
+	  {"name": "Rare Fragments", "value": 5, "weight": 17},
+	  {"name": "Common Fragments", "value": 25, "weight": 4},
+	  {"name": "Common Shard", "value": 1, "weight": 2},
+	  {"name": "Rare Shard", "value": 1, "weight": 2}
+	]},
+	"5": { "drop_chance": 0.40, "rewards": [
+	  {"name": "Bonus Stardust", "value": 45, "weight": 50},
+	  {"name": "Common Fragments", "value": 20, "weight": 20},
+	  {"name": "Rare Fragments", "value": 10, "weight": 20},
+	  {"name": "Super Rare Fragments", "value": 1, "weight": 5},
+	  {"name": "Rare Shard", "value": 1, "weight": 3},
+	  {"name": "Common Shards", "value": 2, "weight": 2}
+	]},
+	"6": { "drop_chance": 0.45, "rewards": [
+	  {"name": "Bonus Stardust", "value": 75, "weight": 45},
+	  {"name": "Common Fragments", "value": 25, "weight": 25},
+	  {"name": "Rare Fragments", "value": 15, "weight": 17},
+	  {"name": "Super Rare Fragments", "value": 3, "weight": 5},
+	  {"name": "Rare Shard", "value": 1, "weight": 4},
+	  {"name": "Common Shards", "value": 2, "weight": 4}
+	]},
+	"7": { "drop_chance": 0.50, "rewards": [
+	  {"name": "Bonus Stardust", "value": 100, "weight": 40},
+	  {"name": "Common Fragments", "value": 40, "weight": 25},
+	  {"name": "Rare Fragments", "value": 20, "weight": 15},
+	  {"name": "Super Rare Fragments", "value": 5, "weight": 7},
+	  {"name": "Rare Shard", "value": 1, "weight": 6},
+	  {"name": "Common Shards", "value": 2, "weight": 5},
+	  {"name": "Super Rare Shards", "value": 1, "weight": 2}
+	]},
+	"8": { "drop_chance": 0.60, "rewards": [
+	  {"name": "Bonus Stardust", "value": 150, "weight": 42},
+	  {"name": "Rare Fragments", "value": 25, "weight": 25},
+	  {"name": "Super Rare Fragments", "value": 8, "weight": 10},
+	  {"name": "Rare Shard", "value": 1, "weight": 10},
+	  {"name": "Common Shards", "value": 2, "weight": 8},
+	  {"name": "Super Rare Shards", "value": 1, "weight": 3.5},
+	  {"name": "Legendary Fragments", "value": 3, "weight": 1},
+	  {"name": "Random Common Turret", "value": 1, "weight": 0.5}
+	]},
+	"9": { "drop_chance": 0.70, "rewards": [
+	  {"name": "Bonus Stardust", "value": 250, "weight": 40},
+	  {"name": "Rare Fragments", "value": 30, "weight": 25},
+	  {"name": "Super Rare Fragments", "value": 10, "weight": 11},
+	  {"name": "Rare Shard", "value": 2, "weight": 10},
+	  {"name": "Common Shards", "value": 3, "weight": 8},
+	  {"name": "Super Rare Shards", "value": 1, "weight": 4.1},
+	  {"name": "Legendary Fragments", "value": 7, "weight": 1.3},
+	  {"name": "Random Common Turret", "value": 1, "weight": 0.5},
+	  {"name": "Random Rare Turret", "value": 1, "weight": 0.1}
+	]},
+	"10": { "drop_chance": 0.80, "rewards": [
+	  {"name": "Bonus Stardust", "value": 350, "weight": 25},
+	  {"name": "Rare Fragments", "value": 35, "weight": 25},
+	  {"name": "Super Rare Fragments", "value": 15, "weight": 16},
+	  {"name": "Rare Shard", "value": 2, "weight": 12.5},
+	  {"name": "Common Shards", "value": 3, "weight": 10},
+	  {"name": "Super Rare Shards", "value": 1, "weight": 8.1},
+	  {"name": "Legendary Fragments", "value": 10, "weight": 1.39},
+	  {"name": "Random Common Turret", "value": 1, "weight": 1},
+	  {"name": "Unseen Fragments", "value": 2, "weight": 0.5},
+	  {"name": "Random Rare Turret", "value": 1, "weight": 0.5},
+	  {"name": "Random Super Rare Turret", "value": 1, "weight": 0.01}
+	]},
+	"11": { "drop_chance": 0.90, "rewards": [
+	  {"name": "Bonus Stardust", "value": 500, "weight": 25},
+	  {"name": "Bonus Stardust", "value": 750, "weight": 20},
+	  {"name": "Super Rare Fragments", "value": 30, "weight": 20},
+	  {"name": "Rare Shards", "value": 3, "weight": 12},
+	  {"name": "Common Shards", "value": 4, "weight": 10},
+	  {"name": "Super Rare Shards", "value": 2, "weight": 8},
+	  {"name": "Legendary Fragments", "value": 20, "weight": 1},
+	  {"name": "Random Common Turret", "value": 1, "weight": 1},
+	  {"name": "Unseen Fragments", "value": 5, "weight": 0.5},
+	  {"name": "Random Rare Turret", "value": 1, "weight": 0.75},
+	  {"name": "Random Super Rare Turret", "value": 1, "weight": 0.5},
+	  {"name": "Legendary Fragments", "value": 30, "weight": 0.6},
+	  {"name": "Unseen Shard", "value": 1, "weight": 0.1},
+	  {"name": "Random Legendary Turret", "value": 1, "weight": 0.25},
+	  {"name": "Unseen Fragments", "value": 30, "weight": 0.04},
+	  {"name": "Unseen Fragments", "value": 10, "weight": 0.25}
+	]}
   }
 }
