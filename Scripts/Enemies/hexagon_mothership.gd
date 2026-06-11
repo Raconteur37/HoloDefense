@@ -19,6 +19,7 @@ func _ready():
 	speed = EnemyManager.get_speed(enemyID)
 	summonTime = EnemyManager.get_event_time(enemyID)
 	enemiesToSpawn = EnemyManager.get_enemies_to_spawn(enemyID)
+	tier = 4
 	sprite = $Sprite2D
 	tickTimer = $SpawnTicker
 	hurtParticle = $"Basic Square Hurt"

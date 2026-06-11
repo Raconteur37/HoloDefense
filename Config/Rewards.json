@@ -1,4 +1,28 @@
 {
+	"game_constants": {
+	"parameters": {
+	  "kill_values": [0.15, 0.25, 0.40],
+	  "boss_kill_value": 50,
+	  "wave_completion_value": 3,
+	  "system_completion_value": 100,
+	  "turret_generation_value": 0.05,
+	  "citizen_creation_value": 0.30,
+	  "research_completion_value": 0.20
+	},
+	"difficulty_multipliers": {
+	  "1": 1.0,
+	  "2": 1.05,
+	  "3": 1.10,
+	  "4": 1.15,
+	  "5": 1.25,
+	  "6": 1.50,
+	  "7": 1.75,
+	  "8": 2.0,
+	  "9": 2.5,
+	  "10": 3.5,
+	  "11": 5.0
+	}
+  },
   "difficulties": {
 	"1": { "drop_chance": 0.20, "rewards": [
 	  {"name": "Bonus Stardust", "value": 10, "weight": 60},

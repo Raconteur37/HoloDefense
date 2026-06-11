@@ -175,6 +175,7 @@ func _on_generate_citizen_button_pressed() -> void:
 		CityManager.citizensGenerated += 1
 		CityManager.currentEnergy -= CityManager.citizenGenCost
 		CityManager.updateGenCitizenCost()
+		StatManager.citizensGenerated += 1
 		citGenLabel.text = "Generate Citizen \nEnergy: " + str(round((round(100 * CityManager.citizenGenCost)/100)))
 		var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
 		var loadedScene = genScene.instantiate()

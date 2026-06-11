@@ -1,9 +1,10 @@
 [gd_scene format=3 uid="uid://dmiwees7vwakj"]
 
+[ext_resource type="Script" uid="uid://bj231bwvpwxd6" path="res://Game Scenes/reward_scene.gd" id="1_mj4u4"]
 [ext_resource type="StyleBox" uid="uid://ca7edskxl0r75" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_base.tres" id="3_6jcfr"]
 [ext_resource type="StyleBox" uid="uid://dd7kfqqlrss8w" path="res://Themes/RewardStyleBoxes/holo_defense_styles/metric_tile_highlight.tres" id="4_kwlfh"]
 [ext_resource type="StyleBox" uid="uid://ubpiejkfmdma" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_header.tres" id="4_o8kqw"]
-[ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_wave.tres" id="5_8u08c"]
+[ext_resource type="StyleBox" uid="uid://urkymvbixqdy" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_wave.tres" id="5_8u08c"]
 [ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_defeat.tres" id="5_kwlfh"]
 [ext_resource type="StyleBox" uid="uid://db8ih56gmavd0" path="res://Themes/RewardStyleBoxes/holo_defense_styles/separator_subtle.tres" id="6_wxq4u"]
 [ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_rare.tres" id="8_mj4u4"]
@@ -236,6 +237,7 @@ font_color = Color(0.54509807, 0.70980394, 1, 0.34117648)
 font_color = Color(0.49803922, 0.76862746, 1, 1)
 
 [node name="RewardScene" type="CanvasLayer" unique_id=303338687]
+script = ExtResource("1_mj4u4")
 
 [node name="PanelContainer" type="PanelContainer" parent="." unique_id=394972352]
 offset_left = 283.0

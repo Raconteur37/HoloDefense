@@ -11,8 +11,7 @@ func _ready() -> void:
 	defenseCanvas = $TowerDefenseCanvas
 	waveData = $WaveData
 	WaveManager.beginNextSystem()
-
-
+	
 func _input(event: InputEvent):
 	if event.is_action_pressed("swap_scene"):
 		if cityCanvas.visible:

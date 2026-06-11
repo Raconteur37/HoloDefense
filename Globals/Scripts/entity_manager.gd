@@ -129,6 +129,16 @@ func applyArmor(damage: int, entity) -> int:
 func onKill(turret,enemy):
 
 	var enemyName = enemy.getName()
+	
+	var tier = enemy.tier
+	
+	if tier != null:
+		if tier == 1:
+			StatManager.tierOneEnemiesKilled += 1
+		if tier == 2:
+			StatManager.tierTwoEnemiesKilled += 1
+		if tier == 3:
+			StatManager.tierThreeEnemiesKilled += 1
 
 	if enemyName == "Dummy":
 		enemy.queue_free()
@@ -143,6 +153,7 @@ func onKill(turret,enemy):
 	EconomyManager.enemyKilled(enemy.enemyID)
 	if enemy.type == Enemy.Type.BOSS:
 		SoundManager.stopBossWaveSound()
+		StatManager.bossesKilled += 1
 
 	if is_instance_valid(turret) and turret != null:
 		if turret.is_in_group("Minion"):
@@ -151,6 +162,7 @@ func onKill(turret,enemy):
 		else:
 			StatManager.addStat(turret.turretID,"kills",1)
 	
+	StatManager.enemiesKilled += 1
 	enemy.queue_free()
 	
 

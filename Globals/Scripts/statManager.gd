@@ -1,5 +1,25 @@
 extends Node
 
+
+var wavesCompleted
+var enemiesKilled
+var elapsedTime
+
+var startdustEarned
+var stardustTotal
+
+var tierOneEnemiesKilled
+var tierTwoEnemiesKilled
+var tierThreeEnemiesKilled
+var bossesKilled
+var turretsPlaced
+var citizensGenerated
+var researchCompleted
+var difficultyMultiplier
+var systemsCompleted
+
+var currentRun 
+
 var currentStats = {} 
 
 var save_path = "user://turret_stats.json"
@@ -56,3 +76,20 @@ func writeStatsToConfig():
 		print("Stats saved successfully to: ", save_path)
 	else:
 		print("Failed to open file for saving.")
+
+func reset():
+	wavesCompleted = 0
+	enemiesKilled = 0
+	elapsedTime = 0
+	startdustEarned = 0
+	stardustTotal = 0
+
+	tierOneEnemiesKilled = 0
+	tierTwoEnemiesKilled = 0
+	tierThreeEnemiesKilled = 0
+	bossesKilled = 0
+	turretsPlaced = 0
+	citizensGenerated = 0
+	researchCompleted = 0
+	difficultyMultiplier = 0
+	systemsCompleted = 0

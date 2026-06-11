@@ -290,6 +290,8 @@ func researchComplete(timer : Timer,turretID):
 	
 	GameManager.updateTurretLevels(turretID)
 	
+	StatManager.researchCompleted += 1
+	
 	timer.queue_free()
 	
 	for cit : Citizen in workersHere:
