@@ -11,6 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_wakga"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_4dxt3"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_5ct8a"]
+[ext_resource type="Texture2D" uid="uid://bmprdw32eih8g" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_4dxt3"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j705"]
 animations = [{
@@ -38,6 +39,10 @@ font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_wjx7g"]
 font_color = Color(2.3102762e-06, 0.6971268, 0.69772047, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_c3e4m"]
+font_size = 24
+font_color = Color(0.5294118, 0.60784316, 1, 1)
 
 [node name="GemScraper" type="Control" unique_id=1901967378]
 layout_mode = 3
@@ -191,9 +196,9 @@ horizontal_alignment = 1
 [node name="TextureButton" type="TextureButton" parent="menuControl/fabricatorMenuBackground" unique_id=535362373]
 layout_mode = 0
 offset_left = 322.0
-offset_top = 525.0
-offset_right = 386.0
-offset_bottom = 589.0
+offset_top = 452.0
+offset_right = 1242.0
+offset_bottom = 768.0
 scale = Vector2(0.27872187, 0.33458012)
 texture_normal = ExtResource("9_wakga")
 texture_pressed = ExtResource("10_4dxt3")
@@ -202,9 +207,9 @@ texture_hover = ExtResource("11_5ct8a")
 [node name="upgradeScraperLabel" type="Label" parent="menuControl/fabricatorMenuBackground" unique_id=1759756859]
 layout_mode = 0
 offset_left = 367.0
-offset_top = 553.0
+offset_top = 480.0
 offset_right = 537.0
-offset_bottom = 600.6667
+offset_bottom = 527.6667
 text = "Upgrade
 $100"
 horizontal_alignment = 1
@@ -351,6 +356,43 @@ label_settings = SubResource("LabelSettings_t7b75")
 layout_mode = 2
 text = "99"
 label_settings = SubResource("LabelSettings_wjx7g")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=71689116]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 613.0
+offset_right = 660.0
+offset_bottom = 714.0
+
+[node name="ManualGenLabel" type="Label" parent="menuControl/fabricatorMenuBackground/VBoxContainer2" unique_id=1862325102]
+layout_mode = 2
+text = "Manual Generation"
+label_settings = SubResource("LabelSettings_c3e4m")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/VBoxContainer2" unique_id=1390738157]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="inputTexture1" type="TextureRect" parent="menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer" unique_id=762464114]
+layout_mode = 2
+texture = ExtResource("12_4dxt3")
+
+[node name="inputTexture2" type="TextureRect" parent="menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1451759034]
+layout_mode = 2
+texture = ExtResource("12_4dxt3")
+
+[node name="inputTexture3" type="TextureRect" parent="menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer" unique_id=878669273]
+layout_mode = 2
+texture = ExtResource("12_4dxt3")
+
+[node name="inputTexture4" type="TextureRect" parent="menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1946510523]
+layout_mode = 2
+texture = ExtResource("12_4dxt3")
+
+[node name="inputTexture5" type="TextureRect" parent="menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1161128794]
+layout_mode = 2
+texture = ExtResource("12_4dxt3")
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]

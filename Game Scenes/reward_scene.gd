@@ -1,22 +1,22 @@
 extends CanvasLayer
 
-var difficultyNumber
-var wavesCompleted
-var enemiesKilled
-var elapsedTime
+var difficultyNumber = 0
+var wavesCompleted = 0
+var enemiesKilled = 0
+var elapsedTime = 0
 
 var stardustEarned : float
 var stardustTotal : int
 
-var tierOneEnemiesKilled
-var tierTwoEnemiesKilled
-var tierThreeEnemiesKilled
-var bossesKilled
-var turretsPlaced
-var citizensGenerated
-var researchCompleted
-var difficultyMultiplier
-var systemsCompleted
+var tierOneEnemiesKilled = 0
+var tierTwoEnemiesKilled = 0
+var tierThreeEnemiesKilled = 0
+var bossesKilled = 0
+var turretsPlaced = 0
+var citizensGenerated = 0
+var researchCompleted = 0
+var difficultyMultiplier = 0
+var systemsCompleted = 0
 
 @onready var headerStatusLabel = $PanelContainer/VBoxContainer/Header/HBoxContainer/StatusLabel
 @onready var difficultyNumberLabel = $VBoxContainer/DifNumberLabel
@@ -77,8 +77,6 @@ func calculateRewards():
 
 func _ready():
 	config_data = load_json("res://Config/Rewards.json")
-	calculateRewards()
-
 
 
 

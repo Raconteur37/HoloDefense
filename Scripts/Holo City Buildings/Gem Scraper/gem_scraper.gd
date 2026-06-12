@@ -44,6 +44,29 @@ var galactiteAutoConvertSwitch
 var upgradeButton
 var upgradeLabel
 
+var inputTexture1
+var inputTexture2
+var inputTexture3
+var inputTexture4
+var inputTexture5
+
+var inputSequence : Array = []       # e.g. ["up", "down", "left", "right", "up"]
+var currentIndex : int = 0
+var sequenceLength : int = 5
+var minigameActive : bool = false
+
+var arrowEmpty : Dictionary = {}
+var arrowFilled : Dictionary = {}
+
+const DIRECTIONS = ["up", "down", "left", "right"]
+
+const ACTION_MAP = {
+	"up":    "ui_up",
+	"down":  "ui_down",
+	"left":  "ui_left",
+	"right": "ui_right"
+}
+
 func _ready() -> void:
 	workArea = $"Work Area"
 	fabricatorSprite = $"Fabricator Sprite"
@@ -85,7 +108,51 @@ func _ready() -> void:
 	diamondAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/diamondConvertSwitch
 	galactiteAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/galactiteConvertSwitch
 
+	inputTexture1 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture1
+	inputTexture2 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture2
+	inputTexture3 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture3
+	inputTexture4 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture4
+	inputTexture5 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture5
+
+	arrowEmpty = {
+		"up":    preload("res://Textures/Holo City/arrow_up_empty.svg"),
+		"down":  preload("res://Textures/Holo City/arrow_down_empty.svg"),
+		"left":  preload("res://Textures/Holo City/arrow_left_empty.svg"),
+		"right": preload("res://Textures/Holo City/arrow_right_empty.svg"),
+	}
+	arrowFilled = {
+		"up":    preload("res://Textures/Holo City/arrow_up_filled.svg"),
+		"down":  preload("res://Textures/Holo City/arrow_down_filled.svg"),
+		"left":  preload("res://Textures/Holo City/arrow_left_filled.svg"),
+		"right": preload("res://Textures/Holo City/arrow_right_filled.svg"),
+	}
+
 	CityManager.storageChanged.connect(refresh)
+
+func _input(event: InputEvent) -> void:
+	if not minigameActive:
+		return
+	
+	if event is InputEventMouseButton:
+		return
+	
+	if not event is InputEventKey:
+		return
+	
+	if not event.pressed or event.echo:
+		return
+
+	match event.physical_keycode:
+		KEY_UP, KEY_W:
+			handleInput("up")
+		KEY_DOWN, KEY_S:
+			handleInput("down")
+		KEY_LEFT, KEY_A:
+			handleInput("left")
+		KEY_RIGHT, KEY_D:
+			handleInput("right")
+		_:
+			return
 
 func refresh():
 	if menu.visible:
@@ -138,11 +205,13 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 				if citizen is Citizen and citizen.global_position.distance_to(clickPos) < 30:
 					return
 			menu.show()
+			buildMenu()
+			startMiniGame()
 
 
 func _on_popup_visibility_changed() -> void:
-	if menu.visible:
-		buildMenu()
+	if not menu.visible:
+		minigameActive = false
 
 
 func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
@@ -287,3 +356,62 @@ func _on_texture_button_pressed() -> void:
 	if CityManager.gemScraperLevel >= CityManager.maxScraperLevel:
 		upgradeButton.queue_free()
 		upgradeLabel.queue_free()
+
+
+func startMiniGame() -> void:
+	inputSequence.clear()
+	currentIndex = 0
+	minigameActive = true
+
+	# Build random sequence
+	for i in range(sequenceLength):
+		inputSequence.append(DIRECTIONS[randi() % DIRECTIONS.size()])
+
+	refreshArrowDisplay()
+	set_process_input(true)
+
+func refreshArrowDisplay() -> void:
+	var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
+	for i in range(sequenceLength):
+		var dir = inputSequence[i]
+		if i < currentIndex:
+			textures[i].texture = arrowFilled[dir]
+		else:
+			textures[i].texture = arrowEmpty[dir]
+
+func handleInput(dir: String) -> void:
+	if dir == inputSequence[currentIndex]:
+		# Correct — fill this arrow
+		var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
+		textures[currentIndex].texture = arrowFilled[dir]
+		currentIndex += 1
+
+		if currentIndex >= sequenceLength:
+			onMinigameSuccess()
+	else:
+		onMinigameFail()
+
+func onMinigameSuccess() -> void:
+	minigameActive = false
+	#set_process_input(false)
+
+	# Put your reward logic here
+	# e.g. CityManager.addBonusGems() or give XP
+
+	# Wait a beat so the player sees all filled, then reset
+	await get_tree().create_timer(0.6).timeout
+	resetMinigame()
+
+
+func onMinigameFail() -> void:
+	currentIndex = 0
+	var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
+	for t in textures:
+		t.modulate = Color.RED
+	await get_tree().create_timer(0.3).timeout
+	for t in textures:
+		t.modulate = Color.WHITE
+	refreshArrowDisplay()
+
+func resetMinigame() -> void:
+	startMiniGame()   
