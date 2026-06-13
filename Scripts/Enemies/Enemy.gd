@@ -15,6 +15,7 @@ var speed: float
 var attackRange : float
 var projectileSpeed : float
 var type : Type
+var tier : int
 
 var sprite : Sprite2D
 
@@ -174,3 +175,6 @@ func applyScaling() -> void:
 	health = round(health)
 	damage = round(damage)
 	#print(health)
+
+func getEnemyTier():
+	return tier

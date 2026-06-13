@@ -130,16 +130,16 @@ func _ready() -> void:
 	currentTurretResearchButton9 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9/turretOneResearchButton
 	currentTurretResearchButton10 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10/turretOneResearchButton
 
-	currentTurretResearchButtonLabel1 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretOneResearchText
-	currentTurretResearchButtonLabel2 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2/turretTwoResearchText
-	currentTurretResearchButtonLabel3 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3/turretThreeResearchText
-	currentTurretResearchButtonLabel4 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4/turretFourResearchText
-	currentTurretResearchButtonLabel5 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5/turretFiveResearchText
-	currentTurretResearchButtonLabel6 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6/turretSixResearchText
-	currentTurretResearchButtonLabel7 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7/turretSevenResearchText
-	currentTurretResearchButtonLabel8 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8/turretEightResearchText
-	currentTurretResearchButtonLabel9 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9/turretNineResearchText
-	currentTurretResearchButtonLabel10 = $menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10/turretTenResearchText
+	currentTurretResearchButtonLabel1 = $menuControl/LabBackground/turretOneResearchText
+	currentTurretResearchButtonLabel2 = $menuControl/LabBackground/turretOneResearchText2
+	currentTurretResearchButtonLabel3 = $menuControl/LabBackground/turretOneResearchText3
+	currentTurretResearchButtonLabel4 = $menuControl/LabBackground/turretOneResearchText4
+	currentTurretResearchButtonLabel5 = $menuControl/LabBackground/turretOneResearchText5
+	currentTurretResearchButtonLabel6 = $menuControl/LabBackground/turretOneResearchText6
+	currentTurretResearchButtonLabel7 = $menuControl/LabBackground/turretOneResearchText7
+	currentTurretResearchButtonLabel8 = $menuControl/LabBackground/turretOneResearchText8
+	currentTurretResearchButtonLabel9 = $menuControl/LabBackground/turretOneResearchText9
+	currentTurretResearchButtonLabel10 = $menuControl/LabBackground/turretOneResearchText10
 
 	researchSlotTexture1 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot1
 	researchSlotTexture2 = $menuControl/LabBackground/ResearchSlotGrid/ResearchSlot2
@@ -264,7 +264,7 @@ func updateUI():
 
 	var labels = [currentTurretResearchButtonLabel1,currentTurretResearchButtonLabel2,currentTurretResearchButtonLabel3,currentTurretResearchButtonLabel4,currentTurretResearchButtonLabel5,currentTurretResearchButtonLabel6,currentTurretResearchButtonLabel7,currentTurretResearchButtonLabel8,currentTurretResearchButtonLabel9,currentTurretResearchButtonLabel10]
 	for i in range(10):
-		labels[i].text = "[font_size=6][color=white]" + str(costMap.get(costMap.keys()[i])) + " Energy[/color][/font_size]"
+		labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
 
 	textures = [researchSlotTexture1,researchSlotTexture2,researchSlotTexture3,researchSlotTexture4,researchSlotTexture5,researchSlotTexture6,researchSlotTexture7,researchSlotTexture8,researchSlotTexture9,researchSlotTexture10]
 	if currentSlots <= maxSlots:
@@ -289,6 +289,8 @@ func researchComplete(timer : Timer,turretID):
 	currentResearchingMap.erase(timer)
 	
 	GameManager.updateTurretLevels(turretID)
+	
+	StatManager.researchCompleted += 1
 	
 	timer.queue_free()
 	

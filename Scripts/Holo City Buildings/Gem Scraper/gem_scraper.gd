@@ -1,5 +1,9 @@
 extends Control
 
+var minigame : ArrowMinigame
+
+@onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
+
 var workArea
 var collisionArea
 
@@ -44,6 +48,12 @@ var galactiteAutoConvertSwitch
 var upgradeButton
 var upgradeLabel
 
+var inputTexture1
+var inputTexture2
+var inputTexture3
+var inputTexture4
+var inputTexture5
+
 func _ready() -> void:
 	workArea = $"Work Area"
 	fabricatorSprite = $"Fabricator Sprite"
@@ -85,7 +95,19 @@ func _ready() -> void:
 	diamondAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/diamondConvertSwitch
 	galactiteAutoConvertSwitch = $menuControl/fabricatorMenuBackground/autoConvertContainer/galactiteConvertSwitch
 
+	inputTexture1 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture1
+	inputTexture2 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture2
+	inputTexture3 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture3
+	inputTexture4 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture4
+	inputTexture5 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture5
+
 	CityManager.storageChanged.connect(refresh)
+
+	minigame = ArrowMinigame.new()
+	add_child(minigame)
+	minigame.setup([inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5], 5)
+	minigame.success.connect(onMinigameSuccess)
+
 
 func refresh():
 	if menu.visible:
@@ -128,7 +150,8 @@ func buildMenu():
 	labelList = [copperEnergyValueLabel,quartzEnergyValueLabel,amethystEnergyValueLabel,diamondEnergyValueLabel,galactiteEnergyValueLabel]
 	for i in range(5):
 		labelList[i].text = str(float(CityManager.itemEnergyValueDict.get(CityManager.gemChances.keys()[i])))
-	
+
+
 func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -138,11 +161,9 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 				if citizen is Citizen and citizen.global_position.distance_to(clickPos) < 30:
 					return
 			menu.show()
-
-
-func _on_popup_visibility_changed() -> void:
-	if menu.visible:
-		buildMenu()
+			buildMenu()
+			await get_tree().process_frame  # wait one frame
+			minigame.start()
 
 
 func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
@@ -287,3 +308,56 @@ func _on_texture_button_pressed() -> void:
 	if CityManager.gemScraperLevel >= CityManager.maxScraperLevel:
 		upgradeButton.queue_free()
 		upgradeLabel.queue_free()
+
+
+func onMinigameSuccess() -> void:
+	rollGem()  # or whatever this building's reward is
+	SoundManager.playManualGenSound(2)
+	await get_tree().create_timer(0.35).timeout
+	minigame.start()
+
+func rollGem():
+	var gemKeys = [
+		Item.theItem.COPPER_GEM,
+		Item.theItem.QUARTZ_GEM,
+		Item.theItem.AMETHYST_GEM,
+		Item.theItem.DIAMOND_GEM,
+		Item.theItem.GALACTITE_GEM
+	]
+	
+	var gemNames = ["Copper", "Quartz", "Amethyst", "Diamond", "Galactite"]
+	
+	var roll = randf_range(0.0, 100.0)
+	var cumulativeWeight = 0.0
+	var selectedGem = null
+
+	# Create a fresh top-level CanvasLayer that renders above everything
+	var topLayer = CanvasLayer.new()
+	topLayer.layer = 100          # higher than any UI in your game
+	get_tree().current_scene.add_child(topLayer)
+
+	var popup = popupScene.instantiate()
+	topLayer.add_child(popup)
+	#popup.setPosition(get_viewport_rect().size / 2)
+	popup.setPosition(CityManager.getGemScraperLocation())
+	popup.scale = Vector2(9,9)
+	#popup.global_position.y -= 300
+	popup.global_position.x += 35
+
+	for i in range(gemKeys.size()):
+		var gemKey = gemKeys[i]
+		cumulativeWeight += CityManager.gemChances[gemKey]
+		if roll <= cumulativeWeight:
+			selectedGem = gemKey
+			popup.gemPopup(gemNames[i])
+			CityManager.addItem(selectedGem)
+			break
+
+	# Clean up the layer after the popup is done
+	await get_tree().create_timer(2.0).timeout
+	topLayer.queue_free()
+
+
+func _on_menu_control_visibility_changed() -> void:
+	if not menu.visible:
+		minigame.stop()

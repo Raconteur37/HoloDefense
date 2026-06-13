@@ -44,6 +44,7 @@ func beginNextWave():
 	if currentWave > get_waves_per_system():
 		currentWave = 0
 		beginNextSystem()
+		StatManager.systemsCompleted += 1
 		return
 
 	currentPhase = Phase.SUMMONING_ENEMIES
@@ -65,6 +66,7 @@ func onWaveComplete() -> void:
 	intermissionTimer = get_tree().create_timer(duration)
 	intermissionTimer.timeout.connect(_make_callback(beginNextWave))
 	manageWaveInfoUI(duration)
+	StatManager.wavesCompleted += 1
 	currentPhase = Phase.INTERMISSION
 
 func manageWaveInfoUI(duration):

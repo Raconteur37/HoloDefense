@@ -45,6 +45,7 @@ NetworkManager="*uid://bloj4s2x3a7k1"
 EconomyManager="*uid://hwwlqqnrbgw8"
 XpManager="*uid://dq05wtiw3k13y"
 StatManager="*uid://cjfeqm477su16"
+MinigameManager="*uid://cx3g5peow32fg"
 
 [display]
 
@@ -71,6 +72,7 @@ Minion=""
 [gui]
 
 theme/default_font_multichannel_signed_distance_field=true
+theme/custom_font="uid://da54udxxygj2i"
 
 [input]
 

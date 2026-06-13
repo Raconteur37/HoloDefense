@@ -7,7 +7,6 @@
 colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 
 [node name="ScrapParticle" type="CPUParticles2D" unique_id=1393696331]
-position = Vector2(755, 309)
 emitting = false
 amount = 3
 texture = ExtResource("1_q1fjq")

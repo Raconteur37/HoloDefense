@@ -269,6 +269,7 @@ func _try_sell(cell: Vector2i) -> void:
 				#print(child.price)
 				CityManager.currentScrap += round(child.price * 0.5)
 				GameManager.removeTurretFromGame(child)
+				StatManager.turretsPlaced -= 1
 				child.queue_free()
 				break
 	# Shader node is gone with the turret, just clear refs
@@ -353,6 +354,7 @@ func _try_place(world_pos: Vector2) -> void:
 	turret_placed.emit(cell, turret)
 	GameManager.addTurretToDict(turret)
 	StatManager.addStat(turret.turretID,"placed",1)
+	StatManager.turretsPlaced += 1
 	if GameManager.getTurretAmount(_current_id) <= 0:
 		cancel_placement()
 

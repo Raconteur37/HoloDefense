@@ -9,8 +9,10 @@
 [ext_resource type="Texture2D" uid="uid://brsdd1jhlp5ir" path="res://Textures/Citizens/Scrap/Legendary Scrap.png" id="7_wf6c0"]
 [ext_resource type="Texture2D" uid="uid://dh201h6a6n18x" path="res://Textures/Citizens/Scrap/Unseen Scrap.png" id="8_5eexy"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_wf6c0"]
+[ext_resource type="PackedScene" uid="uid://fbv4xq8oy5aj" path="res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn" id="9_x4qc4"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_5eexy"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_x4qc4"]
+[ext_resource type="Texture2D" uid="uid://bmprdw32eih8g" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_5eexy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")
@@ -42,6 +44,10 @@ font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_yp0bg"]
 font_color = Color(0.6770492, 0.61158365, 0.3231002, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_x4qc4"]
+font_size = 24
+font_color = Color(0.5294118, 0.60784316, 1, 1)
 
 [node name="MaterialAtomizer" type="Control" unique_id=226652734]
 layout_mode = 3
@@ -160,6 +166,35 @@ layout_mode = 2
 texture = ExtResource("8_5eexy")
 expand_mode = 2
 
+[node name="ScrapParticle1" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1393696331 instance=ExtResource("9_x4qc4")]
+position = Vector2(19.5, -3)
+amount = 6
+script = null
+
+[node name="ScrapParticle2" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1473834724 instance=ExtResource("9_x4qc4")]
+position = Vector2(95.5, -3)
+amount = 6
+texture = ExtResource("5_6tu65")
+script = null
+
+[node name="ScrapParticle3" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1264225584 instance=ExtResource("9_x4qc4")]
+position = Vector2(173, -3)
+amount = 6
+texture = ExtResource("6_4gpin")
+script = null
+
+[node name="ScrapParticle4" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=751844056 instance=ExtResource("9_x4qc4")]
+position = Vector2(245.5, -3)
+amount = 6
+texture = ExtResource("7_wf6c0")
+script = null
+
+[node name="ScrapParticle5" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=5785249 instance=ExtResource("9_x4qc4")]
+position = Vector2(322.5, -3)
+amount = 6
+texture = ExtResource("8_5eexy")
+script = null
+
 [node name="ScrapChanceDisplayContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=693695137]
 layout_mode = 0
 offset_left = 127.0
@@ -197,9 +232,9 @@ horizontal_alignment = 1
 [node name="TextureButton" type="TextureButton" parent="menuControl/AtomizerMenuBackground" unique_id=1824000834]
 layout_mode = 0
 offset_left = 322.0
-offset_top = 523.0
+offset_top = 468.0
 offset_right = 1242.0
-offset_bottom = 839.0
+offset_bottom = 784.0
 scale = Vector2(0.304, 0.3)
 texture_normal = ExtResource("9_wf6c0")
 texture_pressed = ExtResource("10_5eexy")
@@ -208,9 +243,9 @@ texture_hover = ExtResource("11_x4qc4")
 [node name="upgradeAtomizerLabel" type="Label" parent="menuControl/AtomizerMenuBackground" unique_id=1433643961]
 layout_mode = 0
 offset_left = 365.0
-offset_top = 545.0
+offset_top = 490.0
 offset_right = 564.0
-offset_bottom = 592.6667
+offset_bottom = 537.6667
 text = "Upgrade Material Scraper
 100 Money"
 horizontal_alignment = 1
@@ -358,6 +393,43 @@ label_settings = SubResource("LabelSettings_fhcxf")
 layout_mode = 2
 text = "99"
 label_settings = SubResource("LabelSettings_yp0bg")
+
+[node name="VBoxContainer2" type="VBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=725919524]
+layout_mode = 0
+offset_left = 260.0
+offset_top = 613.0
+offset_right = 660.0
+offset_bottom = 714.0
+
+[node name="ManualGenLabel" type="Label" parent="menuControl/AtomizerMenuBackground/VBoxContainer2" unique_id=489773467]
+layout_mode = 2
+text = "Manual Generation"
+label_settings = SubResource("LabelSettings_x4qc4")
+horizontal_alignment = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground/VBoxContainer2" unique_id=1634497963]
+layout_mode = 2
+theme_override_constants/separation = 20
+
+[node name="inputTexture1" type="TextureRect" parent="menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1829020356]
+layout_mode = 2
+texture = ExtResource("12_5eexy")
+
+[node name="inputTexture2" type="TextureRect" parent="menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1474123165]
+layout_mode = 2
+texture = ExtResource("12_5eexy")
+
+[node name="inputTexture3" type="TextureRect" parent="menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1934053757]
+layout_mode = 2
+texture = ExtResource("12_5eexy")
+
+[node name="inputTexture4" type="TextureRect" parent="menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer" unique_id=474018539]
+layout_mode = 2
+texture = ExtResource("12_5eexy")
+
+[node name="inputTexture5" type="TextureRect" parent="menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer" unique_id=1244940817]
+layout_mode = 2
+texture = ExtResource("12_5eexy")
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]

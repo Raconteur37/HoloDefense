@@ -82,6 +82,7 @@ func reset():
 	WaveManager.reset()
 	CityManager.reset()
 	SoundManager.reset()
+	StatManager.reset()
 	
 	cityHealth = 100
 	previewMode = false

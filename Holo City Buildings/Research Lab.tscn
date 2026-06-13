@@ -329,6 +329,7 @@ columns = 5
 [node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1181017836]
 layout_mode = 2
 texture = ExtResource("5_140bg")
+stretch_mode = 2
 
 [node name="turretOneResearchButton" type="TextureButton" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=1043854387]
 layout_mode = 1
@@ -344,16 +345,6 @@ scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
-
-[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=719425246]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [node name="CurrentTurretSlot2" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=159475645]
 layout_mode = 2
@@ -374,16 +365,6 @@ texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
-[node name="turretTwoResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=988240707]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
-
 [node name="CurrentTurretSlot3" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1356940862]
 layout_mode = 2
 texture = ExtResource("5_140bg")
@@ -402,16 +383,6 @@ scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
-
-[node name="turretThreeResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=979542132]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [node name="CurrentTurretSlot4" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=856072881]
 layout_mode = 2
@@ -432,16 +403,6 @@ texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
-[node name="turretFourResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=723387708]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
-
 [node name="CurrentTurretSlot5" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=462248121]
 layout_mode = 2
 texture = ExtResource("5_140bg")
@@ -460,16 +421,6 @@ scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
-
-[node name="turretFiveResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=580168944]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [node name="CurrentTurretSlot6" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1208253308]
 layout_mode = 2
@@ -490,16 +441,6 @@ texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
-[node name="turretSixResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1508198164]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
-
 [node name="CurrentTurretSlot7" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1893956083]
 layout_mode = 2
 texture = ExtResource("5_140bg")
@@ -518,16 +459,6 @@ scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
-
-[node name="turretSevenResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=149453187]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [node name="CurrentTurretSlot8" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1195063884]
 layout_mode = 2
@@ -548,16 +479,6 @@ texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
-[node name="turretEightResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1949649206]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
-
 [node name="CurrentTurretSlot9" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=829580914]
 layout_mode = 2
 texture = ExtResource("5_140bg")
@@ -577,16 +498,6 @@ texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
-[node name="turretNineResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=445160651]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
-
 [node name="CurrentTurretSlot10" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=86068186]
 layout_mode = 2
 texture = ExtResource("5_140bg")
@@ -605,16 +516,6 @@ scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_fgskl")
 texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
-
-[node name="turretTenResearchText" type="RichTextLabel" parent="menuControl/LabBackground/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1408273542]
-layout_mode = 0
-offset_left = 1.5
-offset_top = 36.5
-offset_right = 41.5
-offset_bottom = 51.5
-mouse_filter = 2
-bbcode_enabled = true
-text = "[font_size=6][color=white]10 Energy[/color][/font_size]"
 
 [node name="LevelDisplayGrid" type="GridContainer" parent="menuControl/LabBackground" unique_id=780030488]
 layout_mode = 0
@@ -714,6 +615,136 @@ bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
 fit_content = true
 autowrap_mode = 0
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=807153115]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 216.00003
+offset_right = 170.0
+offset_bottom = 247.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText2" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=327723961]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 216.00003
+offset_right = 331.0
+offset_bottom = 247.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText3" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=712046992]
+layout_mode = 0
+offset_left = 403.0
+offset_top = 216.00003
+offset_right = 497.0
+offset_bottom = 247.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText4" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=686349909]
+layout_mode = 0
+offset_left = 567.0
+offset_top = 216.00003
+offset_right = 661.0
+offset_bottom = 247.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText5" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1713298538]
+layout_mode = 0
+offset_left = 731.0
+offset_top = 216.00003
+offset_right = 825.0
+offset_bottom = 247.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText6" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=2128459886]
+layout_mode = 0
+offset_left = 731.0
+offset_top = 352.00003
+offset_right = 825.0
+offset_bottom = 383.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText7" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1816821809]
+layout_mode = 0
+offset_left = 567.0
+offset_top = 352.00003
+offset_right = 661.0
+offset_bottom = 383.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText8" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1607242034]
+layout_mode = 0
+offset_left = 403.0
+offset_top = 352.00003
+offset_right = 497.0
+offset_bottom = 383.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText9" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1956506204]
+layout_mode = 0
+offset_left = 237.0
+offset_top = 352.0
+offset_right = 331.0
+offset_bottom = 383.0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="turretOneResearchText10" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=132589031]
+layout_mode = 0
+offset_left = 76.0
+offset_top = 352.0
+offset_right = 170.0
+offset_bottom = 383.0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 6"
+fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
 

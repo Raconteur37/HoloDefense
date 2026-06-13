@@ -9,6 +9,7 @@ func _ready():
 	damage = EnemyManager.get_damage(enemyID)
 	attackTime = EnemyManager.get_attack_time(enemyID)
 	speed = EnemyManager.get_speed(enemyID)
+	tier = 1
 	sprite = $Sprite2D
 	type = Type.BASIC
 	attackTimer = $AttackTimer

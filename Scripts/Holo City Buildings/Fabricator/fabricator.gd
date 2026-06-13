@@ -11,10 +11,20 @@ var removeTurretTexture = preload("res://Textures/Citizens/UI/remove auto build.
 var emptyTurretAutoBuildTexture = preload("res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon.png")
 var emptyTurretAutoBuildTextureHover = preload("res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon_hover.png")
 
-
 @onready var menu = $menuControl
 @onready var selectCitPopup = $SelectPopup
 @onready var selectCitGrid = $SelectPopup/Background/GridContainer
+
+@onready var costText1 = $menuControl/Background/costText
+@onready var costText2 = $menuControl/Background/costText2
+@onready var costText3 = $menuControl/Background/costText3
+@onready var costText4 = $menuControl/Background/costText4
+@onready var costText5 = $menuControl/Background/costText5
+@onready var costText6 = $menuControl/Background/costText6
+@onready var costText7 = $menuControl/Background/costText7
+@onready var costText8 = $menuControl/Background/costText8
+@onready var costText9 = $menuControl/Background/costText9
+@onready var costText10 = $menuControl/Background/costText10
 
 var usedSlots = 0
 var currentSlots = 1
@@ -56,6 +66,8 @@ func _ready() -> void:
 	currentWorkersLabel = $menuControl/Background/CurrentWorkersLabel
 	purchaseSlotsButton = $menuControl/Background/purchaseSlotsButton
 
+	scrapCostTexts = [costText1,costText2,costText3,costText4,costText5,costText6,costText7,costText8,costText9,costText10]
+
 	for i in range(1, 11):
 		var slot = $menuControl/Background/FabricateSlotGrid.get_node("FabricateSlot%d" % i)
 		fabSlotTextures.append(slot)
@@ -69,7 +81,6 @@ func _ready() -> void:
 		var currentSlot = $menuControl/Background/CurrentTurretsSlotGrid.get_node("CurrentTurretSlot%d" % i)
 		turretBroughtTextures.append(currentSlot)
 		turretBroughtPanels.append(currentSlot.get_node("Panel"))
-		scrapCostTexts.append(currentSlot.get_node("costText"))
 
 		var timer = Timer.new()
 		timer.wait_time = 3.0
@@ -98,7 +109,7 @@ func updateUI() -> void:
 			turretList.append(GameManager.turretsBrought[i])
 
 		if i < scrapCostTexts.size() and i < costMap.keys().size():
-			scrapCostTexts[i].text = "[font_size=6][color=#DDC6B6]%d Scrap[/color][/font_size]" \
+			scrapCostTexts[i].text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] %d" \
 				% int(costMap.get(costMap.keys()[i]))
 
 		if i < currentSlots:
@@ -123,10 +134,6 @@ func removeButtonGlow() -> void:
 	for panel in turretBroughtPanels:
 		panel.material = null
 
-
-# ─────────────────────────────────────────────
-#  Fabrication
-# ─────────────────────────────────────────────
 
 func fabricateTurret(turretListIndex: int) -> void:
 	if usedSlots >= currentSlots:
