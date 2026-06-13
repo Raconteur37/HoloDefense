@@ -396,7 +396,7 @@ texture = ExtResource("12_4dxt3")
 
 [connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
-[connection signal="visibility_changed" from="menuControl" to="." method="_on_popup_visibility_changed"]
+[connection signal="visibility_changed" from="menuControl" to="." method="_on_menu_control_visibility_changed"]
 [connection signal="mouse_entered" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_entered"]
 [connection signal="mouse_exited" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_exited"]
 [connection signal="pressed" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_pressed"]

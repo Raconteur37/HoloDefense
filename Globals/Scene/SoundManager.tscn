@@ -17,6 +17,10 @@ bus = &"SoundFX"
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=985591661]
 bus = &"Music"
 
+[node name="UIPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1070622452]
+volume_db = 10.0
+bus = &"UI"
+
 [node name="Timer" type="Timer" parent="." unique_id=1858310063]
 one_shot = true
 

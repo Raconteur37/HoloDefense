@@ -1,5 +1,9 @@
 extends Control
 
+var minigame : ArrowMinigame
+
+@onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
+
 var workArea
 var collisionArea
 
@@ -50,23 +54,6 @@ var inputTexture3
 var inputTexture4
 var inputTexture5
 
-var inputSequence : Array = []       # e.g. ["up", "down", "left", "right", "up"]
-var currentIndex : int = 0
-var sequenceLength : int = 5
-var minigameActive : bool = false
-
-var arrowEmpty : Dictionary = {}
-var arrowFilled : Dictionary = {}
-
-const DIRECTIONS = ["up", "down", "left", "right"]
-
-const ACTION_MAP = {
-	"up":    "ui_up",
-	"down":  "ui_down",
-	"left":  "ui_left",
-	"right": "ui_right"
-}
-
 func _ready() -> void:
 	workArea = $"Work Area"
 	fabricatorSprite = $"Fabricator Sprite"
@@ -114,45 +101,13 @@ func _ready() -> void:
 	inputTexture4 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture4
 	inputTexture5 = $menuControl/fabricatorMenuBackground/VBoxContainer2/HBoxContainer/inputTexture5
 
-	arrowEmpty = {
-		"up":    preload("res://Textures/Holo City/arrow_up_empty.svg"),
-		"down":  preload("res://Textures/Holo City/arrow_down_empty.svg"),
-		"left":  preload("res://Textures/Holo City/arrow_left_empty.svg"),
-		"right": preload("res://Textures/Holo City/arrow_right_empty.svg"),
-	}
-	arrowFilled = {
-		"up":    preload("res://Textures/Holo City/arrow_up_filled.svg"),
-		"down":  preload("res://Textures/Holo City/arrow_down_filled.svg"),
-		"left":  preload("res://Textures/Holo City/arrow_left_filled.svg"),
-		"right": preload("res://Textures/Holo City/arrow_right_filled.svg"),
-	}
-
 	CityManager.storageChanged.connect(refresh)
 
-func _input(event: InputEvent) -> void:
-	if not minigameActive:
-		return
-	
-	if event is InputEventMouseButton:
-		return
-	
-	if not event is InputEventKey:
-		return
-	
-	if not event.pressed or event.echo:
-		return
+	minigame = ArrowMinigame.new()
+	add_child(minigame)
+	minigame.setup([inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5], 5)
+	minigame.success.connect(onMinigameSuccess)
 
-	match event.physical_keycode:
-		KEY_UP, KEY_W:
-			handleInput("up")
-		KEY_DOWN, KEY_S:
-			handleInput("down")
-		KEY_LEFT, KEY_A:
-			handleInput("left")
-		KEY_RIGHT, KEY_D:
-			handleInput("right")
-		_:
-			return
 
 func refresh():
 	if menu.visible:
@@ -195,7 +150,8 @@ func buildMenu():
 	labelList = [copperEnergyValueLabel,quartzEnergyValueLabel,amethystEnergyValueLabel,diamondEnergyValueLabel,galactiteEnergyValueLabel]
 	for i in range(5):
 		labelList[i].text = str(float(CityManager.itemEnergyValueDict.get(CityManager.gemChances.keys()[i])))
-	
+
+
 func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
 		if event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
@@ -206,12 +162,8 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 					return
 			menu.show()
 			buildMenu()
-			startMiniGame()
-
-
-func _on_popup_visibility_changed() -> void:
-	if not menu.visible:
-		minigameActive = false
+			await get_tree().process_frame  # wait one frame
+			minigame.start()
 
 
 func _on_copper_money_switch_toggled(toggled_on: bool) -> void:
@@ -358,60 +310,54 @@ func _on_texture_button_pressed() -> void:
 		upgradeLabel.queue_free()
 
 
-func startMiniGame() -> void:
-	inputSequence.clear()
-	currentIndex = 0
-	minigameActive = true
-
-	# Build random sequence
-	for i in range(sequenceLength):
-		inputSequence.append(DIRECTIONS[randi() % DIRECTIONS.size()])
-
-	refreshArrowDisplay()
-	set_process_input(true)
-
-func refreshArrowDisplay() -> void:
-	var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
-	for i in range(sequenceLength):
-		var dir = inputSequence[i]
-		if i < currentIndex:
-			textures[i].texture = arrowFilled[dir]
-		else:
-			textures[i].texture = arrowEmpty[dir]
-
-func handleInput(dir: String) -> void:
-	if dir == inputSequence[currentIndex]:
-		# Correct — fill this arrow
-		var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
-		textures[currentIndex].texture = arrowFilled[dir]
-		currentIndex += 1
-
-		if currentIndex >= sequenceLength:
-			onMinigameSuccess()
-	else:
-		onMinigameFail()
-
 func onMinigameSuccess() -> void:
-	minigameActive = false
-	#set_process_input(false)
+	rollGem()  # or whatever this building's reward is
+	SoundManager.playManualGenSound(2)
+	await get_tree().create_timer(0.35).timeout
+	minigame.start()
 
-	# Put your reward logic here
-	# e.g. CityManager.addBonusGems() or give XP
+func rollGem():
+	var gemKeys = [
+		Item.theItem.COPPER_GEM,
+		Item.theItem.QUARTZ_GEM,
+		Item.theItem.AMETHYST_GEM,
+		Item.theItem.DIAMOND_GEM,
+		Item.theItem.GALACTITE_GEM
+	]
+	
+	var gemNames = ["Copper", "Quartz", "Amethyst", "Diamond", "Galactite"]
+	
+	var roll = randf_range(0.0, 100.0)
+	var cumulativeWeight = 0.0
+	var selectedGem = null
 
-	# Wait a beat so the player sees all filled, then reset
-	await get_tree().create_timer(0.6).timeout
-	resetMinigame()
+	# Create a fresh top-level CanvasLayer that renders above everything
+	var topLayer = CanvasLayer.new()
+	topLayer.layer = 100          # higher than any UI in your game
+	get_tree().current_scene.add_child(topLayer)
+
+	var popup = popupScene.instantiate()
+	topLayer.add_child(popup)
+	#popup.setPosition(get_viewport_rect().size / 2)
+	popup.setPosition(CityManager.getGemScraperLocation())
+	popup.scale = Vector2(9,9)
+	#popup.global_position.y -= 300
+	popup.global_position.x += 35
+
+	for i in range(gemKeys.size()):
+		var gemKey = gemKeys[i]
+		cumulativeWeight += CityManager.gemChances[gemKey]
+		if roll <= cumulativeWeight:
+			selectedGem = gemKey
+			popup.gemPopup(gemNames[i])
+			CityManager.addItem(selectedGem)
+			break
+
+	# Clean up the layer after the popup is done
+	await get_tree().create_timer(2.0).timeout
+	topLayer.queue_free()
 
 
-func onMinigameFail() -> void:
-	currentIndex = 0
-	var textures = [inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5]
-	for t in textures:
-		t.modulate = Color.RED
-	await get_tree().create_timer(0.3).timeout
-	for t in textures:
-		t.modulate = Color.WHITE
-	refreshArrowDisplay()
-
-func resetMinigame() -> void:
-	startMiniGame()   
+func _on_menu_control_visibility_changed() -> void:
+	if not menu.visible:
+		minigame.stop()

@@ -1,5 +1,11 @@
 extends Control
 
+var minigame : ArrowMinigame
+
+@onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
+
+var materialParticles
+
 var workArea
 var collisionArea
 
@@ -43,6 +49,18 @@ var rareAutoConvertSwitch
 var superRareAutoConvertSwitch
 var legendaryAutoConvertSwitch
 var unseenAutoConvertSwitch
+
+var inputTexture1
+var inputTexture2
+var inputTexture3
+var inputTexture4
+var inputTexture5
+
+var materialParticle1
+var materialParticle2
+var materialParticle3
+var materialParticle4
+var materialParticle5
 
 func _ready() -> void:
 	workArea = $"Work Area"
@@ -88,6 +106,29 @@ func _ready() -> void:
 	legendaryAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/legendaryConvertSwitch
 	unseenAutoConvertSwitch = $menuControl/AtomizerMenuBackground/autoConvertContainer/unseenConvertSwitch
 
+	inputTexture1 = $menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer/inputTexture1
+	inputTexture2 = $menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer/inputTexture2
+	inputTexture3 = $menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer/inputTexture3
+	inputTexture4 = $menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer/inputTexture4
+	inputTexture5 = $menuControl/AtomizerMenuBackground/VBoxContainer2/HBoxContainer/inputTexture5
+	
+	materialParticle1 = $menuControl/AtomizerMenuBackground/ScrapDisplayContainer/ScrapParticle1
+	materialParticle2 = $menuControl/AtomizerMenuBackground/ScrapDisplayContainer/ScrapParticle2
+	materialParticle3 = $menuControl/AtomizerMenuBackground/ScrapDisplayContainer/ScrapParticle3
+	materialParticle4 = $menuControl/AtomizerMenuBackground/ScrapDisplayContainer/ScrapParticle4
+	materialParticle5 = $menuControl/AtomizerMenuBackground/ScrapDisplayContainer/ScrapParticle5
+	
+	materialParticles = {Item.theItem.COMMON_SCRAP : materialParticle1,
+	Item.theItem.RARE_SCRAP : materialParticle2,
+	Item.theItem.SUPER_RARE_SCRAP : materialParticle3,
+	Item.theItem.LEGENDARY_SCRAP : materialParticle4,
+	Item.theItem.UNSEEN_SCRAP : materialParticle5
+	}
+	
+	minigame = ArrowMinigame.new()
+	add_child(minigame)
+	minigame.setup([inputTexture1, inputTexture2, inputTexture3, inputTexture4, inputTexture5], 5)
+	minigame.success.connect(onMinigameSuccess)
 	
 	CityManager.storageChanged.connect(refresh)
 
@@ -147,6 +188,9 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 func _on_menu_control_visibility_changed() -> void:
 	if atomizerMenu.visible:
 		buildMenu()
+		minigame.start()
+	else:
+		minigame.stop()
 
 
 func _on_texture_button_pressed() -> void:
@@ -291,3 +335,32 @@ func _on_unseen_convert_switch_toggled(toggled_on: bool) -> void:
 		CityManager.massAutoScrap(Item.theItem.UNSEEN_SCRAP)
 	else:
 		CityManager.autoConvertUnseenScrap = false
+
+func onMinigameSuccess() -> void:
+	rollMaterial()  # or whatever this building's reward is
+	SoundManager.playManualGenSound(2)
+	await get_tree().create_timer(0.35).timeout
+	minigame.start()
+
+func rollMaterial():
+	var scrapKeys = [
+		Item.theItem.COMMON_SCRAP,
+		Item.theItem.RARE_SCRAP,
+		Item.theItem.SUPER_RARE_SCRAP,
+		Item.theItem.LEGENDARY_SCRAP,
+		Item.theItem.UNSEEN_SCRAP
+	]
+	
+	
+	var roll = randf_range(0.0, 100.0)
+	var cumulativeWeight = 0.0
+	var selectedScrap = null
+
+	for i in range(scrapKeys.size()):
+		var scrapKey = scrapKeys[i]
+		cumulativeWeight += CityManager.scrapChances[scrapKey]
+		if roll <= cumulativeWeight:
+			selectedScrap = scrapKey
+			CityManager.addItem(selectedScrap)
+			materialParticles.get(selectedScrap).emitting = true
+			break

@@ -118,9 +118,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Edit labels and such
 	resourceBar.value = resourceTimer.wait_time - resourceTimer.time_left
-	moneyLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img]  " + str(CityManager.getCurrentMoney())
-	energyLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img]  " + str(GameManager.round_to_dec(CityManager.getCurrentEnergy(),2))
-	scrapLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img]  " + str(CityManager.getCurrentScrap())
+	moneyLabel.text = "[img=48x48]res://Textures/Icons/icon_moneybag.png[/img]  " + str(CityManager.getCurrentMoney())
+	energyLabel.text = "[img=48x48]res://Textures/Icons/icon_bolt_final.png[/img]  " + str(GameManager.round_to_dec(CityManager.getCurrentEnergy(),2))
+	scrapLabel.text = "[img=48x48]res://Textures/Citizens/Scrap/Common Scrap.png[/img]  " + str(CityManager.getCurrentScrap())
 	cityLevelLabel.text = "Ctiy Level: " + str(CityManager.cityLevel)
 	integrityLabel.text = "[pulse color=pink height=0.5 freq=0.1][font_size=26]City Integrity: " + str(GameManager.cityHealth) + "[/font_size][/pulse]"
 	

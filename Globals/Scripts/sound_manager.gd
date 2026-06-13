@@ -4,6 +4,7 @@ extends Node2D
 var timer : Timer
 var musicPlayer : AudioStreamPlayer2D
 var soundPlayer
+var UIPlayer : AudioStreamPlayer2D
 
 var musicOn : bool = true
 var musicVolume : float = 100.0
@@ -14,6 +15,7 @@ func _ready() -> void:
 	timer = $Timer
 	soundPlayer = $SoundPlayer
 	musicPlayer = $MusicPlayer
+	UIPlayer = $UIPlayer
 
 func playBossWaveSound():
 	musicPlayer.stream = load("res://Sounds/In Game Sounds/wave10theme.mp3")
@@ -34,6 +36,15 @@ func stopBossWaveSound():
 func playGenericKillSound():
 	soundPlayer.stream = load("res://Sounds/In Game Sounds/kill.wav")
 	soundPlayer.play()
+
+func playManualGenSound(num):
+	if num == 1:
+		UIPlayer.stream = load("res://Sounds/UI Sounds/manualGenerationOne.wav")
+	if num == 2:
+		UIPlayer.stream = load("res://Sounds/UI Sounds/manualGenerationTwo.wav")
+	if num == 3:
+		UIPlayer.stream = load("res://Sounds/UI Sounds/manualGenerationFail.wav")
+	UIPlayer.play()
 
 func playDifficultySound(num):
 	match num:
