@@ -1,22 +1,22 @@
 extends Node
 
 
-var wavesCompleted
-var enemiesKilled
+var wavesCompleted = 0
+var enemiesKilled = 0
 var elapsedTime
 
 var startdustEarned
 var stardustTotal
 
-var tierOneEnemiesKilled
-var tierTwoEnemiesKilled
-var tierThreeEnemiesKilled
-var bossesKilled
-var turretsPlaced
-var citizensGenerated
-var researchCompleted
-var difficultyMultiplier
-var systemsCompleted
+var tierOneEnemiesKilled = 0
+var tierTwoEnemiesKilled = 0
+var tierThreeEnemiesKilled = 0
+var bossesKilled = 0
+var turretsPlaced = 0
+var citizensGenerated = 0
+var researchCompleted = 0
+var difficultyMultiplier = 0
+var systemsCompleted = 0
 
 var currentRun 
 
