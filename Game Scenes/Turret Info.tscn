@@ -121,6 +121,9 @@ font_color = Color(0.442911, 0.442911, 0.442911, 1)
 [sub_resource type="LabelSettings" id="LabelSettings_cxutq"]
 font_size = 25
 
+[sub_resource type="LabelSettings" id="LabelSettings_s7hv8"]
+font_size = 21
+
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1033690075]
 
 [node name="ScreenFilter" type="ColorRect" parent="." unique_id=1145954247]
@@ -159,6 +162,7 @@ grow_vertical = 2
 
 [node name="Info Background" type="TextureRect" parent="TurretInfo" unique_id=601322313]
 z_index = 1
+z_as_relative = false
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.007
@@ -563,6 +567,21 @@ offset_right = 477.33334
 offset_bottom = -3.6666641
 text = "Music Volume"
 
+[node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=885930249]
+z_index = 1
+offset_left = 747.0
+offset_top = 131.0
+offset_right = 900.0
+offset_bottom = 171.0
+
+[node name="Label" type="Label" parent="HBoxContainer" unique_id=990750598]
+layout_mode = 2
+text = "View Stats"
+label_settings = SubResource("LabelSettings_s7hv8")
+
+[node name="StatsToggle" type="CheckButton" parent="HBoxContainer" unique_id=1336698081]
+layout_mode = 2
+
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
 [connection signal="pressed" from="TurretInfoButton" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
@@ -570,3 +589,4 @@ text = "Music Volume"
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
 [connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
 [connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
+[connection signal="toggled" from="HBoxContainer/StatsToggle" to="TurretInfo/TurretSelectionScroll" method="_on_stats_toggle_toggled"]

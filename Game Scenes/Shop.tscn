@@ -234,7 +234,7 @@ label_settings = SubResource("LabelSettings_bl835")
 layout_mode = 2
 
 [node name="RareShard" type="TextureRect" parent="VBoxContainer/HBoxContainer2" unique_id=2086424089]
-modulate = Color(0.29134226, 0.42310795, 1, 1)
+modulate = Color(0.2901961, 0.42352942, 1, 1)
 layout_mode = 2
 texture = ExtResource("8_et1ub")
 

@@ -150,7 +150,7 @@ func onKill(turret,enemy):
 	#GameManager.removeEnemyFromGame(enemy)
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
-	EconomyManager.enemyKilled(enemy.enemyID)
+	StatManager.enemiesKilled += 1
 	if enemy.type == Enemy.Type.BOSS:
 		SoundManager.stopBossWaveSound()
 		StatManager.bossesKilled += 1

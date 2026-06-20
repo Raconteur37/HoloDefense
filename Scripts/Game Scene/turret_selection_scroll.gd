@@ -31,6 +31,8 @@ var turretContainer
 @onready var turretLabel = preload("res://Labels/turret_info_label.tres")
 @onready var soundPlayer = $"../../TurretSelectSound"
 
+@onready var toggleStatsButton = $"../../HBoxContainer/StatsToggle"
+
 var currentTurretID: Turret.TurretID = Turret.TurretID.NONE
 
 
@@ -125,8 +127,11 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 	levelTwoProgressBar.value = TurretManager.getTurretXp(turretID)
 	levelThreeProgressBar.value = TurretManager.getTurretXp(turretID)
 
-	var properties: Array = TurretManager.getListOfProperties(turretID)
-	createAndInsertPropertiesLabels(properties, turretID)
+	if toggleStatsButton.button_pressed:
+		buildTurretStats(turretID)
+	else:
+		var properties: Array = TurretManager.getListOfProperties(turretID)
+		createAndInsertPropertiesLabels(properties, turretID)
 	createTooltips()
 
 
@@ -234,5 +239,66 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		infoLabelContainer.add_child(label)
 
 
+## Builds and inserts per-turret stat labels (kills, damage dealt, etc.) into
+## infoLabelContainer, pulled from StatsTracker. Dynamic per turret since each
+## turret type only has the stat keys relevant to it (e.g. energizer_turret has
+## no "kills" field) — we just render whatever keys are actually present.
+func buildTurretStats(turretID: Turret.TurretID) -> void:
+	for child in infoLabelContainer.get_children():
+		child.queue_free()
+
+	var statDisplayConfig = {
+		"kills": ["Kills: ", Color.CRIMSON],
+		"damage_dealt": ["Damage Dealt: ", Color.RED],
+		"damage_taken": ["Damage Taken: ", Color.DARK_RED],
+		"deaths": ["Deaths: ", Color.DIM_GRAY],
+		"placed": ["Times Placed: ", Color.LIGHT_GRAY],
+		"turrets_energized": ["Turrets Energized: ", Color.DARK_ORCHID],
+		"enemies_executed": ["Enemies Executed: ", Color.BLACK],
+		"enemies_poisoned": ["Enemies Poisoned: ", Color.MEDIUM_SPRING_GREEN],
+		"gold_produced": ["Gold Produced: $", Color.GOLD],
+		"enemies_cursed": ["Enemies Cursed: ", Color.MEDIUM_PURPLE],
+		"enemies_zombified": ["Enemies Zombified: ", Color.SPRING_GREEN],
+		"health_healed": ["Health Healed: ", Color.GREEN_YELLOW],
+		"bubbles_provided": ["Bubbles Provided: ", Color.DEEP_SKY_BLUE]
+	}
+
+	var stats: Dictionary = StatManager.getTurretStats(turretID)
+
+	for stat_key in stats.keys():
+		var value = stats[stat_key]
+		var prefix: String
+		var color: Color
+
+		if statDisplayConfig.has(stat_key):
+			prefix = statDisplayConfig[stat_key][0]
+			color = statDisplayConfig[stat_key][1]
+		else:
+			# Fallback for any new stat key added to the JSON config that
+			# hasn't been given a display entry above yet — still shows up
+			# instead of silently failing to render.
+			prefix = stat_key.capitalize() + ": "
+			color = Color.WHITE
+
+		var label = Label.new()
+		var settings = turretLabel.duplicate()
+		settings.font_color = color
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		label.custom_minimum_size = Vector2(278, 0)  # 836px / 3 columns
+		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
+		label.text = "%s%s" % [prefix, str(value)]
+		label.label_settings = settings
+		infoLabelContainer.add_child(label)
+
+
 func _on_turret_info_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
+
+
+func _on_stats_toggle_toggled(toggled_on: bool) -> void:
+	if toggled_on:
+		buildTurretStats(currentTurretID)
+	else:
+		var properties: Array = TurretManager.getListOfProperties(currentTurretID)
+		createAndInsertPropertiesLabels(properties, currentTurretID)
+	infoLabelContainer.show()
