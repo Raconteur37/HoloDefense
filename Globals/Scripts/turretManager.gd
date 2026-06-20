@@ -27,6 +27,22 @@ var unlockedTurrets: Array[Turret.TurretID] = [
 	Turret.TurretID.BOOMERANG_TURRET
 ]
 
+var lockedCommonTurrets: Array[Turret.TurretID] = [
+
+]
+var lockedRareTurrets: Array[Turret.TurretID] = [
+
+]
+var lockedSuperRareTurrets: Array[Turret.TurretID] = [
+
+]
+var lockedLegendaryTurrets: Array[Turret.TurretID] = [
+
+]
+var lockedUnseenTurrets: Array[Turret.TurretID] = [
+
+]
+
 func _ready() -> void:
 	loadTurretData()
 	loadTurretXpData()

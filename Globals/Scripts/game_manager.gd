@@ -79,6 +79,7 @@ func getTurretAmount(turretID):
 		return -1
 
 func reset():
+	StatManager.commitRunToLifetimeStats()
 	WaveManager.reset()
 	CityManager.reset()
 	SoundManager.reset()

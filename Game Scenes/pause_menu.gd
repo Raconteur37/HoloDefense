@@ -34,6 +34,7 @@ func _on_restart_pressed() -> void:
 
 
 func _on_quit_pressed() -> void:
+	StatManager.commitRunToLifetimeStats()
 	get_tree().quit()
 
 

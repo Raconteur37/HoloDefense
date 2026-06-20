@@ -11,7 +11,7 @@
 	{
 	  "id": "speedy_triangle",
 	  "name": "Speedy Triangle",
-	  "health": 10,
+	  "health": 20,
 	  "damage": 10,
 	  "speed": 130,
 	  "attackTime": 1.5
@@ -19,10 +19,10 @@
 	{
 	  "id": "tanky_rectangle",
 	  "name": "Tanky Rectangle",
-	  "health": 200,
+	  "health": 160,
 	  "damage": 30,
 	  "speed": 20,
-	  "attackTime": 2
+	  "attackTime": 4
 	},
 	{
 	  "id": "shooty_diamond",
@@ -40,7 +40,7 @@
 	  "health": 4000,
 	  "damage": 1000,
 	  "speed": 5,
-	  "eventTime": 10,
+	  "eventTime": 20,
 	  "enemiesToSummon": 60
 	},
   ]

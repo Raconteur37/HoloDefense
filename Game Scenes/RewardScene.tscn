@@ -10,7 +10,7 @@
 [ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/badge_rare.tres" id="8_mj4u4"]
 [ext_resource type="StyleBox" path="res://Themes/RewardStyleBoxes/holo_defense_styles/panel_total_row.tres" id="8_ulwed"]
 [ext_resource type="StyleBox" uid="uid://bisbthgmt6akr" path="res://Themes/RewardStyleBoxes/holo_defense_styles/metric_tile_default.tres" id="9_2wwve"]
-[ext_resource type="Texture2D" uid="uid://bxyk5va6ivo4h" path="res://Textures/Shop/shard_shattered_64x64.png" id="10_jq7ek"]
+[ext_resource type="Texture2D" uid="uid://654f3qi67dsg" path="res://Textures/Shop/shard_shattered_64x64.png" id="10_jq7ek"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_o8kqw"]
 font_size = 13
@@ -306,7 +306,7 @@ label_settings = SubResource("LabelSettings_8u08c")
 
 [node name="DifNumberLabel" type="Label" parent="VBoxContainer" unique_id=1444611073]
 layout_mode = 2
-text = "1"
+text = "0"
 label_settings = SubResource("LabelSettings_gc4q8")
 
 [node name="Label2" type="Label" parent="VBoxContainer" unique_id=1350614895]
@@ -327,7 +327,7 @@ label_settings = SubResource("LabelSettings_8u08c")
 
 [node name="DifNumberLabel" type="Label" parent="VBoxContainer2" unique_id=345230769]
 layout_mode = 2
-text = "50"
+text = "0"
 label_settings = SubResource("LabelSettings_wxq4u")
 
 [node name="Label2" type="Label" parent="VBoxContainer2" unique_id=1208455131]
@@ -348,7 +348,7 @@ label_settings = SubResource("LabelSettings_8u08c")
 
 [node name="DifNumberLabel" type="Label" parent="VBoxContainer3" unique_id=1447823187]
 layout_mode = 2
-text = "10,000"
+text = "0"
 label_settings = SubResource("LabelSettings_tcncw")
 
 [node name="Label2" type="Label" parent="VBoxContainer3" unique_id=1036258234]
@@ -369,7 +369,7 @@ label_settings = SubResource("LabelSettings_8u08c")
 
 [node name="DifNumberLabel" type="Label" parent="VBoxContainer4" unique_id=1347109981]
 layout_mode = 2
-text = "32:00"
+text = "0"
 label_settings = SubResource("LabelSettings_ulwed")
 
 [node name="Label2" type="Label" parent="VBoxContainer4" unique_id=688104032]
@@ -414,7 +414,7 @@ offset_bottom = 707.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer5" unique_id=1200044852]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 133
 
 [node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer" unique_id=220412171]
 layout_mode = 2
@@ -423,7 +423,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="TierOneEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer" unique_id=357434646]
 layout_mode = 2
-text = "1000000"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator" type="HSeparator" parent="VBoxContainer5" unique_id=1795478514]
@@ -432,7 +431,7 @@ theme_override_styles/separator = ExtResource("6_wxq4u")
 
 [node name="HBoxContainer2" type="HBoxContainer" parent="VBoxContainer5" unique_id=175357520]
 layout_mode = 2
-theme_override_constants/separation = 100
+theme_override_constants/separation = 132
 
 [node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer2" unique_id=618282014]
 layout_mode = 2
@@ -441,7 +440,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="TierTwoEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer2" unique_id=631746857]
 layout_mode = 2
-text = "1000000"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator2" type="HSeparator" parent="VBoxContainer5" unique_id=1333361881]
@@ -459,7 +457,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="TierThreeEnemiesKilled" type="Label" parent="VBoxContainer5/HBoxContainer3" unique_id=1502615585]
 layout_mode = 2
-text = "10"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator3" type="HSeparator" parent="VBoxContainer5" unique_id=1994311328]
@@ -468,7 +465,7 @@ theme_override_styles/separator = ExtResource("6_wxq4u")
 
 [node name="HBoxContainer4" type="HBoxContainer" parent="VBoxContainer5" unique_id=1292191869]
 layout_mode = 2
-theme_override_constants/separation = 215
+theme_override_constants/separation = 213
 
 [node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer4" unique_id=56097011]
 layout_mode = 2
@@ -477,7 +474,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="BossesKilled" type="Label" parent="VBoxContainer5/HBoxContainer4" unique_id=1302471708]
 layout_mode = 2
-text = "10"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator4" type="HSeparator" parent="VBoxContainer5" unique_id=1175578591]
@@ -495,7 +491,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="WavesCompleted" type="Label" parent="VBoxContainer5/HBoxContainer5" unique_id=1046606060]
 layout_mode = 2
-text = "10"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator5" type="HSeparator" parent="VBoxContainer5" unique_id=340594248]
@@ -513,7 +508,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer6" unique_id=1618874195]
 layout_mode = 2
-text = "1"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator6" type="HSeparator" parent="VBoxContainer5" unique_id=1963561982]
@@ -531,7 +525,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer7" unique_id=1064230848]
 layout_mode = 2
-text = "1"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator7" type="HSeparator" parent="VBoxContainer5" unique_id=984549887]
@@ -549,7 +542,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer8" unique_id=872833835]
 layout_mode = 2
-text = "10"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator8" type="HSeparator" parent="VBoxContainer5" unique_id=1798751722]
@@ -567,7 +559,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer9" unique_id=1450366700]
 layout_mode = 2
-text = "10"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator9" type="HSeparator" parent="VBoxContainer5" unique_id=1146499355]
@@ -585,7 +576,6 @@ label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="ValueLabel" type="Label" parent="VBoxContainer5/HBoxContainer10" unique_id=850718704]
 layout_mode = 2
-text = "10000"
 label_settings = SubResource("LabelSettings_jq7ek")
 
 [node name="HSeparator10" type="HSeparator" parent="VBoxContainer5" unique_id=998679044]
@@ -626,7 +616,7 @@ label_settings = SubResource("LabelSettings_rll6f")
 
 [node name="TotalNumberLabel" type="Label" parent="RewardContainerBottom/HBoxContainer" unique_id=871286736]
 layout_mode = 2
-text = "20,000"
+text = "0"
 label_settings = SubResource("LabelSettings_ulwed")
 horizontal_alignment = 2
 
@@ -654,6 +644,7 @@ text = "BONUS REWARDS"
 label_settings = SubResource("LabelSettings_o8kqw")
 
 [node name="Bonus Rewards Label" type="Label" parent="BonusRollsContainer/VBoxContainer/Header/HBoxContainer" unique_id=736436245]
+visible = false
 layout_mode = 2
 theme_override_styles/normal = ExtResource("8_mj4u4")
 text = "3 NEW"
@@ -681,8 +672,12 @@ layout_mode = 2
 theme_override_styles/panel = ExtResource("9_2wwve")
 
 [node name="ItemTexture" type="TextureRect" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer/PanelContainer" unique_id=1779694095]
+custom_minimum_size = Vector2(64, 64)
 layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
 texture = ExtResource("10_jq7ek")
+expand_mode = 1
 
 [node name="VBoxContainer" type="VBoxContainer" parent="BonusRollsContainer/MarginContainer/BonusHolder/Item/HBoxContainer2/HBoxContainer" unique_id=74702816]
 layout_mode = 2
