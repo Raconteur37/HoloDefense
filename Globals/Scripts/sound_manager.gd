@@ -114,6 +114,11 @@ func playLoadoutMusic():
 		musicPlayer.stream = load("res://Sounds/Music/Loudout Menu Music.mp3")
 		musicPlayer.play()
 
+func playPieceUnlockedSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/piece unlocked.wav")
+	UIPlayer.volume_db = 5
+	UIPlayer.play()
+
 func stopLoadoutMusic():
 	var tween = create_tween()
 	

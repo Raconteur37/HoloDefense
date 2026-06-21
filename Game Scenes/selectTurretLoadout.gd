@@ -120,7 +120,7 @@ func _on_turret_button_pressed(btn, turretID):
 		btn.queue_free()
 		broughtArray.append(turretID)
 		add_remove_button(turretID)
-	if broughtArray.size() >= 10:
+	if broughtArray.size() >= 1:
 		_on_loadout_full()
 
 
@@ -277,3 +277,7 @@ func _refresh_player_list(_dummy = null):
 		row.add_child(status_label)
 
 		player_list.add_child(row)
+
+
+func _on_turret_info_button_2_pressed() -> void:
+	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")

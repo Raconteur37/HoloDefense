@@ -476,6 +476,14 @@ func _on_stats_toggle_toggled(toggled_on: bool) -> void:
 
 func _on_shard_button_pressed() -> void:
 	if EconomyManager.get_shards(currentRarityShard) > 0:
+		var particle = load("res://Party Horse!!!!!!/cpu_particles_2d.tscn")
+		particle = particle.instantiate()
+		particle.global_position = turretIcon.global_position
+		particle.emitting = true
+		particle.global_position.x += 150
+		particle.global_position.y += 100
+		$"../..".add_child(particle)
+		SoundManager.playPieceUnlockedSound()
 		var unlocked = false
 		EconomyManager.add_turret_shards(currentTurretID,1)
 		EconomyManager.spend_shards(currentRarityShard,1)
@@ -494,3 +502,7 @@ func _on_shard_button_pressed() -> void:
 		purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards(currentRarityShard)) + "[/color][/font_size][/center]"
 	else:
 		print("no")
+
+
+func _on_turret_info_button_2_pressed() -> void:
+	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")

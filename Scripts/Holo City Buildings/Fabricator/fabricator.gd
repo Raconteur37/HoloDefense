@@ -105,10 +105,12 @@ func updateUI() -> void:
 
 	for i in range(10):
 		if i < GameManager.turretsBrought.size():
+			turretBroughtTextures[i].show()
 			turretBroughtTextures[i].texture = TurretManager.getTurretTexture(GameManager.turretsBrought[i])
 			turretList.append(GameManager.turretsBrought[i])
 
 		if i < scrapCostTexts.size() and i < costMap.keys().size():
+			scrapCostTexts[i].show()
 			scrapCostTexts[i].text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] %d" \
 				% int(costMap.get(costMap.keys()[i]))
 

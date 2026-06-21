@@ -261,15 +261,19 @@ func updateUI():
 			var texture = TurretManager.getTurretTexture(GameManager.turretsBrought[i])
 			turretsList.append(GameManager.turretsBrought[i])
 			textures[i].texture = texture
+			textures[i].show()
 
 	var labels = [currentTurretResearchButtonLabel1,currentTurretResearchButtonLabel2,currentTurretResearchButtonLabel3,currentTurretResearchButtonLabel4,currentTurretResearchButtonLabel5,currentTurretResearchButtonLabel6,currentTurretResearchButtonLabel7,currentTurretResearchButtonLabel8,currentTurretResearchButtonLabel9,currentTurretResearchButtonLabel10]
 	for i in range(10):
-		labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
+		if i >= 0 and i < GameManager.turretsBrought.size():
+			labels[i].show()
+			labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
 
 	textures = [researchSlotTexture1,researchSlotTexture2,researchSlotTexture3,researchSlotTexture4,researchSlotTexture5,researchSlotTexture6,researchSlotTexture7,researchSlotTexture8,researchSlotTexture9,researchSlotTexture10]
 	if currentSlots <= maxSlots:
 		for i in range(currentSlots):
 			textures[i].texture = load("res://Textures/Holo City/empty research slot.png")
+			textures[i].show()
 	
 	for item in researchBarList:
 		item.value = 0
