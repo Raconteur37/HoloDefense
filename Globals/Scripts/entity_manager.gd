@@ -28,8 +28,9 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
-		StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
-		print(damage)
+		if is_instance_valid(packet.source):
+			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+		#print(damage)
 		
 	if packet.type == DamagePacket.Type.EFFECT:
 		
@@ -152,6 +153,7 @@ func onKill(turret,enemy):
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
 	StatManager.enemiesKilled += 1
+	
 	if enemy.type == Enemy.Type.BOSS:
 		SoundManager.stopBossWaveSound()
 		StatManager.bossesKilled += 1
@@ -163,7 +165,6 @@ func onKill(turret,enemy):
 		else:
 			StatManager.addStat(turret.turretID,"kills",1)
 	
-	StatManager.enemiesKilled += 1
 	enemy.queue_free()
 	
 

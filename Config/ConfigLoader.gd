@@ -144,6 +144,7 @@ func setupCityManagerItemDictionaries():
 		CityManager.researchCostScaling = labSettings.get("ResearchCostScaling")
 		CityManager.researchTimeMinScale = labSettings.get("ResearchTimeMinScale")
 		CityManager.researchTimeScale = labSettings.get("ResearchTimeReducedScaleFactor")
+		CityManager.researchTimeConsecutiveScale = labSettings.get("ResearchTimeConsecutiveScale")
 		
 		
 	# -=HANDLE FABRICATOR SETTINGS=-

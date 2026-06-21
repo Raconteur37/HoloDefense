@@ -77,8 +77,9 @@
 	"CostScaling": 1.75,
 	"ResearchBaseCost": 25,
 	"ResearchCostScaling": 0.20,
-	"ResearchTimeMinScale": 3,
-	"ResearchTimeReducedScaleFactor": 0.2
+	"ResearchTimeMinScale": 3.4,
+	"ResearchTimeReducedScaleFactor": 0.2,
+	"ResearchTimeConsecutiveScale": 0.3
   },
 
   "FabricatorSettings": {

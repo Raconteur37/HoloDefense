@@ -142,11 +142,12 @@ func hideUI():
 	rangeIndicator.hide()
 	if hideTimer != null:
 		hideTimer = null
-	var bottomUI = get_tree().current_scene
-	if bottomUI != null:
-		if bottomUI.has_node("TowerDefenseCanvas"):
-			bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-		bottomUI.removeTurretUI()
+	if get_tree() != null:
+		var bottomUI = get_tree().current_scene
+		if bottomUI != null:
+			if bottomUI.has_node("TowerDefenseCanvas"):
+				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+			bottomUI.removeTurretUI()
 		
 func removeEnergized(turretApplier):
 	energized = false

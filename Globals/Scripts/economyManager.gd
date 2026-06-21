@@ -172,6 +172,33 @@ func spend_turret_shards(turret_id, amount: int) -> bool:
 	var turret_name = idToName(turret_id)
 	return spend_from_category("turret_shards", turret_name, amount)
 
+# ---------------- Stardust API ----------------
+
+func get_stardust() -> int:
+	return economy_data.get("stardust", 0)
+
+func add_stardust(amount: int) -> void:
+	if amount <= 0: 
+		return
+	
+	# Initialize it just in case it somehow got deleted
+	if not economy_data.has("stardust"):
+		economy_data["stardust"] = 0
+		
+	economy_data["stardust"] += amount
+	stardust_changed.emit(economy_data["stardust"])
+
+func spend_stardust(amount: int) -> bool:
+	if amount <= 0: 
+		return true
+		
+	if not economy_data.has("stardust") or economy_data["stardust"] < amount: 
+		return false
+		
+	economy_data["stardust"] -= amount
+	stardust_changed.emit(economy_data["stardust"])
+	return true
+
 # ---------------- Shards API ----------------
 
 func get_shards(rarity: String) -> int:
