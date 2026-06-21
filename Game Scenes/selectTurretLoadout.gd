@@ -94,17 +94,14 @@ func _poll_member_ready_states() -> void:
 		_check_all_ready()
 
 
-# ─────────────────────────────────────────
-#  EXISTING FUNCTIONS — UNCHANGED
-# ─────────────────────────────────────────
-
 func add_turret_button(turretID):
-	var btn = Button.new()
-	btn.icon = TurretManager.getTurretTexture(turretID)
-	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
-	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
-	btn.pressed.connect(_on_turret_button_pressed.bind(btn, turretID))
-	hbox.add_child(btn)
+	if EconomyManager.is_turret_unlocked(turretID):
+		var btn = Button.new()
+		btn.icon = TurretManager.getTurretTexture(turretID)
+		btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		btn.pressed.connect(_on_turret_button_pressed.bind(btn, turretID))
+		hbox.add_child(btn)
 
 
 func add_remove_button(turretID):

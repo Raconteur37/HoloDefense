@@ -20,7 +20,7 @@
 		"bubble_turret": 0,
 		"boomerang_turret": 0
 	},
-	"wild_shards": {
+	"shards": {
 		"common_turret": 0,
 		"rare_turret": 0,
 		"super_rare_turret": 0,
@@ -35,5 +35,25 @@
 		"legendary_turret": 0,
 		"unseen_turret": 0,
 		"unstable": 0
+	},
+	"turrets_unlocked": {
+		"arrow_turret": 0,
+		"mini_sentry_turret": 0,
+		"energizer_turret": 0,
+		"railgun_turret": 0,
+		"flame_turret": 0,
+		"reaper_turret": 0,
+		"royal_turret": 0,
+		"firework_turret": 0,
+		"tesla_turret": 0,
+		"sentry_turret": 0,
+		"gold_mine_turret": 0,
+		"seismic_turret": 0,
+		"spider_turret": 0,
+		"voodoo_turret": 0,
+		"zombie_turret": 0,
+		"medic_turret": 0,
+		"bubble_turret": 0,
+		"boomerang_turret": 0
 	}
 }

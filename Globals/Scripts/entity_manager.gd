@@ -29,6 +29,7 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
 		StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+		print(damage)
 		
 	if packet.type == DamagePacket.Type.EFFECT:
 		

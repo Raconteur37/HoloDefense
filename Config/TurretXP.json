@@ -22,10 +22,10 @@
 		}
 	},
 	"turret_xp": {
-		"arrow_turret": 100,
+		"arrow_turret": 0,
 		"mini_sentry_turret": 0,
 		"energizer_turret": 0,
-		"railgun_turret": 1000,
+		"railgun_turret": 0,
 		"flame_turret": 0,
 		"reaper_turret": 0,
 		"royal_turret": 0,
@@ -42,9 +42,9 @@
 		"boomerang_turret": 0
 	},
 	"turret_level": {
-		"arrow_turret": 2,
-		"mini_sentry_turret": 3,
-		"energizer_turret": 2,
+		"arrow_turret": 1,
+		"mini_sentry_turret": 1,
+		"energizer_turret": 1,
 		"railgun_turret": 1,
 		"flame_turret": 1,
 		"reaper_turret": 1,
@@ -58,7 +58,7 @@
 		"voodoo_turret": 1,
 		"zombie_turret": 1,
 		"medic_turret": 1,
-		"bubble_turret": 3,
+		"bubble_turret": 1,
 		"boomerang_turret": 1
 	},
 	"turret_xp_gain": {

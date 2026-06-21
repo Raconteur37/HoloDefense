@@ -33,8 +33,32 @@ var turretContainer
 
 @onready var toggleStatsButton = $"../../HBoxContainer/StatsToggle"
 
-var currentTurretID: Turret.TurretID = Turret.TurretID.NONE
+@onready var statsBox = $"../../HBoxContainer"
 
+@onready var purchaseBox = $"../../PurchaseBox"
+@onready var purchaseLabel1 = $"../../PurchaseLabel"
+@onready var purchaseLabel2 = $"../../PurchaseLabel2"
+
+@onready var shardButton = $"../../PurchaseBox/ShardButton"
+@onready var shardImage =  $"../../PurchaseBox/ShardImage"
+
+# --- Shard-overlay / locked-icon visuals ---
+@onready var desaturateShader = preload("res://Shaders/desaturate.gdshader")
+
+var shardOverlay: GridContainer
+var shardSlots: Array[Panel] = []
+
+# Placeholder balance numbers — replace with your real per-rarity shard costs
+const SHARDS_TO_UNLOCK := {
+	"Common": 4,
+	"Rare": 4,
+	"Super Rare": 4,
+	"Legendary": 4,
+	"Unseen": 4
+}
+
+var currentTurretID: Turret.TurretID = Turret.TurretID.NONE
+var currentRarityShard = "common_turret"
 
 func _idToName(turretID: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[turretID].to_lower()
@@ -44,13 +68,18 @@ func _ready() -> void:
 	GameManager.previewMode = true
 	scroll.custom_minimum_size = Vector2(700, 150)
 
+	var mat := ShaderMaterial.new()
+	mat.shader = desaturateShader
+	turretIcon.material = mat
+
+	_build_shard_overlay()
+
 	for rarity in ["Common", "Rare", "Super Rare", "Legendary", "Unseen"]:
-		for turretID in TurretManager.unlockedTurrets:
+		for turretID in TurretManager.ALL_TURRETS:
 			if TurretManager.getTurretStat(turretID, "rarity") == rarity:
 				add_turret_button(turretID)
 
 	_on_turret_button_pressed(Turret.TurretID.ARROW_TURRET)
-
 
 func add_turret_button(turretID: Turret.TurretID) -> void:
 	var btn := Button.new()
@@ -60,78 +89,212 @@ func add_turret_button(turretID: Turret.TurretID) -> void:
 	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	btn.tooltip_text = _idToName(turretID)
 	btn.pressed.connect(_on_turret_button_pressed.bind(turretID))
+	if not EconomyManager.is_turret_unlocked(turretID):
+		var rect := TextureRect.new()
+		rect.texture = load("res://Textures/UI/Game/Turret Info Scene/locked_icon_32.png")
+		rect.anchor_left = 0
+		rect.anchor_top = 0
+		rect.anchor_right = 1
+		rect.anchor_bottom = 1
+		rect.offset_left = 0
+		rect.offset_top = 0
+		rect.offset_right = 0
+		rect.offset_bottom = 0
+		rect.stretch_mode = TextureRect.STRETCH_KEEP_ASPECT_CENTERED
+		rect.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		btn.add_child(rect)
 	hbox.add_child(btn)
 
 
+func _build_shard_overlay() -> void:
+	shardOverlay = GridContainer.new()
+	shardOverlay.name = "ShardOverlay"
+	shardOverlay.columns = 2
+	shardOverlay.anchor_left = 0
+	shardOverlay.anchor_top = 0
+	shardOverlay.anchor_right = 1
+	shardOverlay.anchor_bottom = 1
+	shardOverlay.add_theme_constant_override("h_separation", 2)
+	shardOverlay.add_theme_constant_override("v_separation", 2)
+	shardOverlay.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	shardOverlay.visible = false
+	turretIcon.add_child(shardOverlay)
+
+	shardSlots.clear()
+	
+	for i in range(4):
+		var slot := Panel.new()
+		slot.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		slot.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		slot.mouse_filter = Control.MOUSE_FILTER_IGNORE
+
+		var style := StyleBoxFlat.new()
+		style.bg_color = Color(1, 1, 1, 0.0)
+		style.border_width_left = 2
+		style.border_width_top = 2
+		style.border_width_right = 2
+		style.border_width_bottom = 2
+		style.border_color = Color(1, 1, 1, 0.35)
+		slot.add_theme_stylebox_override("panel", style)
+
+		shardOverlay.add_child(slot)
+		shardSlots.append(slot)
+
+func _update_shard_overlay(turretID: Turret.TurretID, is_unlocked: bool) -> void:
+	if is_unlocked:
+		shardOverlay.visible = false
+		turretIcon.material.set_shader_parameter("active_shards", 4) # Failsafe
+		return
+
+	shardOverlay.visible = true
+
+	# 1. Get the turret's rarity and set the base color for the border
+	var rarity: String = TurretManager.getTurretStat(turretID, "rarity")
+	var rarity_color: Color = Color.WHITE 
+	
+	match rarity:
+		"Common":     rarity_color = Color.DIM_GRAY
+		"Rare":       rarity_color = Color.DARK_TURQUOISE
+		"Super Rare": rarity_color = Color.MEDIUM_PURPLE
+		"Legendary":  rarity_color = Color.GOLDENROD
+		"Unseen":     rarity_color = Color.HOT_PINK
+
+	# 2. Get exact number of shards owned
+	var shards_owned: int = EconomyManager.get_turret_shards(turretID)
+	var filled_slots: int = clampi(shards_owned, 0, 4)
+
+	# Tell the shader exactly how many quadrants to light up!
+	turretIcon.material.set_shader_parameter("active_shards", filled_slots)
+
+	# 3. Loop through the 4 fixed slots and update their borders
+	for i in range(4):
+		var style: StyleBoxFlat = shardSlots[i].get_theme_stylebox("panel")
+		
+		if i < filled_slots:
+			# Fully transparent background to reveal the turret's original artwork underneath
+			style.bg_color = Color(1, 1, 1, 0.0) 
+			# Keep the glowing colored border
+			style.border_color = Color(rarity_color, 0.90) 
+		else:
+			# Empty slot styling
+			style.bg_color = Color(1, 1, 1, 0.0)
+			style.border_color = Color(1, 1, 1, 0.35)
+
 func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
+	statsBox.visible = false
+	
+	for child in infoLabelContainer.get_children():
+		child.queue_free()
+	
 	soundPlayer.play()
 	animationPlayer.play("InfoAppear")
 	currentTurretID = turretID
 
+	var is_unlocked := EconomyManager.is_turret_unlocked(turretID)
+
 	turretIcon.texture = TurretManager.getTurretTexture(turretID)
 	previewToggle.icon = TurretManager.getTurretTexture(turretID)
 	previewToggle.button_pressed = false
+	previewToggle.disabled = not is_unlocked
 
-	turretDescriptionLabel.add_theme_color_override("default_color", Color.WHITE)
-	turretDescriptionLabel.add_theme_color_override("font_shadow_color", Color(0,0,0,0))
-	turretDescriptionLabel.add_theme_color_override("font_outline_color", Color(0,0,0,0))
-	turretDescriptionLabel.add_theme_constant_override("outline_size", 0)
-	turretDescriptionLabel.add_theme_constant_override("shadow_offset_x", 0)
-	turretDescriptionLabel.add_theme_constant_override("shadow_offset_y", 0)
-	turretNameLabel.text = TurretManager.getTurretStat(turretID, "name")
+	turretIcon.material.set_shader_parameter("saturation", 1.0 if is_unlocked else 0.0)
+	_update_shard_overlay(turretID, is_unlocked)
+	
 	turretDescriptionLabel.parse_bbcode(TurretManager.getTurretStat(turretID, "description"))
+
+	turretNameLabel.text = TurretManager.getTurretStat(turretID, "name")
 	
 	typeLabel.text = TurretManager.getTurretStat(turretID, "type")
 
 	var rarity: String = TurretManager.getTurretStat(turretID, "rarity")
 	rarityLabel.text = rarity
-
-	var turretLevel = TurretManager.getTurretLevel(turretID)
-
-	if turretLevel == 1:
-		levelTwoDescription.hide()
-		levelThreeDescription.hide()
-		levelTwoProgressBar.show()
-		levelThreeProgressBar.hide()
-		lockedRequiredText.show()
-		levelTwoTexture.texture = lockedIcon
-		levelThreeTexture.texture = lockedIcon
-	elif turretLevel == 2:
-		levelTwoDescription.show()
-		levelThreeDescription.hide()
-		levelTwoProgressBar.hide()
-		levelThreeProgressBar.show()
-		lockedRequiredText.hide()
-		levelTwoTexture.texture = unlockedIcon
-		levelThreeTexture.texture = lockedIcon
-	elif turretLevel == 3:
-		levelTwoDescription.show()
-		levelThreeDescription.show()
-		levelThreeProgressBar.hide()
-		levelTwoProgressBar.hide()
-		lockedRequiredText.hide()
-		levelTwoTexture.texture = unlockedIcon
-		levelThreeTexture.texture = unlockedIcon
-
+	
 	match rarity:
-		"Common":     rarityLabel.label_settings.font_color = Color(Color.DIM_GRAY)
-		"Rare":       rarityLabel.label_settings.font_color = Color(Color.DARK_TURQUOISE)
-		"Super Rare": rarityLabel.label_settings.font_color = Color(Color.MEDIUM_PURPLE)
-		"Legendary":  rarityLabel.label_settings.font_color = Color(Color.GOLDENROD)
-		"Unseen":     rarityLabel.label_settings.font_color = Color(Color.HOT_PINK)
+		"Common":     
+			rarityLabel.label_settings.font_color = Color(Color.DIM_GRAY)
+			shardImage.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards("common_turret")) + "[/color][/font_size][/center]"
+			currentRarityShard = "common_turret"
+		"Rare":       
+			rarityLabel.label_settings.font_color = Color(Color.DARK_TURQUOISE)
+			shardImage.modulate = Color("4a6cff")
+			purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards("rare_turret")) + "[/color][/font_size][/center]"
+			currentRarityShard = "rare_turret"
+		"Super Rare": 
+			rarityLabel.label_settings.font_color = Color(Color.MEDIUM_PURPLE)
+			shardImage.modulate = Color("6c01c1")
+			purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards("super_rare_turret")) + "[/color][/font_size][/center]"
+			currentRarityShard = "super_rare_turret"
+		"Legendary":  
+			rarityLabel.label_settings.font_color = Color(Color.GOLDENROD)
+			shardImage.modulate = Color("e3b11b")
+			purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards("legendary_turret")) + "[/color][/font_size][/center]"
+			currentRarityShard = "legendary_turret"
+		"Unseen":     
+			rarityLabel.label_settings.font_color = Color(Color.HOT_PINK)
+			shardImage.modulate = Color("fc5d7f")
+			purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards("unseen_turret")) + "[/color][/font_size][/center]"
+			currentRarityShard = "unseen_turret"
 
-	var levelTwoMaxXp = TurretManager.getMaxXp(rarity, 2)
-	levelTwoProgressBar.max_value = levelTwoMaxXp
-	levelThreeProgressBar.min_value = levelTwoMaxXp
-	levelThreeProgressBar.max_value = TurretManager.getMaxXp(rarity, 3)
-	levelTwoProgressBar.value = TurretManager.getTurretXp(turretID)
-	levelThreeProgressBar.value = TurretManager.getTurretXp(turretID)
+	purchaseBox.show()
+	purchaseLabel1.show()
+	purchaseLabel2.show()
 
-	if toggleStatsButton.button_pressed:
-		buildTurretStats(turretID)
-	else:
-		var properties: Array = TurretManager.getListOfProperties(turretID)
-		createAndInsertPropertiesLabels(properties, turretID)
+	if is_unlocked:
+		purchaseBox.hide()
+		purchaseLabel1.hide()
+		purchaseLabel2.hide()
+		statsBox.visible = true
+
+		turretDescriptionLabel.add_theme_color_override("default_color", Color.WHITE)
+		turretDescriptionLabel.add_theme_color_override("font_shadow_color", Color(0,0,0,0))
+		turretDescriptionLabel.add_theme_color_override("font_outline_color", Color(0,0,0,0))
+		turretDescriptionLabel.add_theme_constant_override("outline_size", 0)
+		turretDescriptionLabel.add_theme_constant_override("shadow_offset_x", 0)
+		turretDescriptionLabel.add_theme_constant_override("shadow_offset_y", 0)
+
+
+		var turretLevel = TurretManager.getTurretLevel(turretID)
+
+		if turretLevel == 1:
+			levelTwoDescription.hide()
+			levelThreeDescription.hide()
+			levelTwoProgressBar.show()
+			levelThreeProgressBar.hide()
+			lockedRequiredText.show()
+			levelTwoTexture.texture = lockedIcon
+			levelThreeTexture.texture = lockedIcon
+		elif turretLevel == 2:
+			levelTwoDescription.show()
+			levelThreeDescription.hide()
+			levelTwoProgressBar.hide()
+			levelThreeProgressBar.show()
+			lockedRequiredText.hide()
+			levelTwoTexture.texture = unlockedIcon
+			levelThreeTexture.texture = lockedIcon
+		elif turretLevel == 3:
+			levelTwoDescription.show()
+			levelThreeDescription.show()
+			levelThreeProgressBar.hide()
+			levelTwoProgressBar.hide()
+			lockedRequiredText.hide()
+			levelTwoTexture.texture = unlockedIcon
+			levelThreeTexture.texture = unlockedIcon
+
+		var levelTwoMaxXp = TurretManager.getMaxXp(rarity, 2)
+		levelTwoProgressBar.max_value = levelTwoMaxXp
+		levelThreeProgressBar.min_value = levelTwoMaxXp
+		levelThreeProgressBar.max_value = TurretManager.getMaxXp(rarity, 3)
+		levelTwoProgressBar.value = TurretManager.getTurretXp(turretID)
+		levelThreeProgressBar.value = TurretManager.getTurretXp(turretID)
+
+		if toggleStatsButton.button_pressed:
+			buildTurretStats(turretID)
+		else:
+			
+			var properties: Array = TurretManager.getListOfProperties(turretID)
+			createAndInsertPropertiesLabels(properties, turretID)
+
 	createTooltips()
 
 
@@ -166,6 +329,7 @@ func createTooltips() -> void:
 
 
 func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.TurretID) -> void:
+
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
 
@@ -239,10 +403,6 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		infoLabelContainer.add_child(label)
 
 
-## Builds and inserts per-turret stat labels (kills, damage dealt, etc.) into
-## infoLabelContainer, pulled from StatsTracker. Dynamic per turret since each
-## turret type only has the stat keys relevant to it (e.g. energizer_turret has
-## no "kills" field) — we just render whatever keys are actually present.
 func buildTurretStats(turretID: Turret.TurretID) -> void:
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
@@ -274,9 +434,6 @@ func buildTurretStats(turretID: Turret.TurretID) -> void:
 			prefix = statDisplayConfig[stat_key][0]
 			color = statDisplayConfig[stat_key][1]
 		else:
-			# Fallback for any new stat key added to the JSON config that
-			# hasn't been given a display entry above yet — still shows up
-			# instead of silently failing to render.
 			prefix = stat_key.capitalize() + ": "
 			color = Color.WHITE
 
@@ -284,15 +441,28 @@ func buildTurretStats(turretID: Turret.TurretID) -> void:
 		var settings = turretLabel.duplicate()
 		settings.font_color = color
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD
-		label.custom_minimum_size = Vector2(278, 0)  # 836px / 3 columns
+		label.custom_minimum_size = Vector2(278, 0)
 		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
-		label.text = "%s%s" % [prefix, str(value)]
+		label.text = "%s%s" % [prefix, str(formatNumber(int(value)))]
 		label.label_settings = settings
 		infoLabelContainer.add_child(label)
 
 
 func _on_turret_info_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
+
+func formatNumber(val):
+	var stringVal = str(val)
+	var formatted = ""
+	var count = 0
+	
+	for i in range(stringVal.length() -1, -1, -1):
+		if count > 0 and count % 3 == 0:
+			formatted = "," + formatted
+		formatted = stringVal[i] + formatted
+		count += 1
+		
+	return formatted
 
 
 func _on_stats_toggle_toggled(toggled_on: bool) -> void:
@@ -302,3 +472,25 @@ func _on_stats_toggle_toggled(toggled_on: bool) -> void:
 		var properties: Array = TurretManager.getListOfProperties(currentTurretID)
 		createAndInsertPropertiesLabels(properties, currentTurretID)
 	infoLabelContainer.show()
+
+
+func _on_shard_button_pressed() -> void:
+	if EconomyManager.get_shards(currentRarityShard) > 0:
+		var unlocked = false
+		EconomyManager.add_turret_shards(currentTurretID,1)
+		EconomyManager.spend_shards(currentRarityShard,1)
+		if EconomyManager.get_turret_shards(currentTurretID) >= 4:
+			EconomyManager.unlock_turret(currentTurretID)
+			unlocked = true
+			_on_turret_button_pressed(currentTurretID)
+			for child in hbox.get_children():
+				child.queue_free()
+			for rarity in ["Common", "Rare", "Super Rare", "Legendary", "Unseen"]:
+				for turretID in TurretManager.ALL_TURRETS:
+					if TurretManager.getTurretStat(turretID, "rarity") == rarity:
+						add_turret_button(turretID)
+		EconomyManager.save_economy()
+		_update_shard_overlay(currentTurretID,unlocked)
+		purchaseLabel2.text = "[center][font_size=20][color=white]Owned x" + str(EconomyManager.get_shards(currentRarityShard)) + "[/color][/font_size][/center]"
+	else:
+		print("no")

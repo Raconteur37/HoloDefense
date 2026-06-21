@@ -33,6 +33,20 @@ func stopBossWaveSound():
 		musicPlayer.volume_db = 0.0
 	)
 
+func playGameOverMusic(win):
+	stopActiveMusic()
+	await get_tree().create_timer(1.6).timeout
+	musicPlayer.volume_db = .1
+	if win:
+		pass
+	else:
+		musicPlayer.stream = load("res://Sounds/Music/GameOverNotBad.mp3")
+	musicPlayer.play()
+	var tween = create_tween()
+	
+
+	tween.tween_property(musicPlayer, "volume_db", 5, 2)
+
 func playGenericKillSound():
 	soundPlayer.stream = load("res://Sounds/In Game Sounds/kill.wav")
 	soundPlayer.play()
@@ -104,6 +118,13 @@ func stopLoadoutMusic():
 	var tween = create_tween()
 	
 	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	
+	tween.tween_callback(musicPlayer.stop)
+
+func stopActiveMusic():
+	var tween = create_tween()
+	
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
 	
 	tween.tween_callback(musicPlayer.stop)
 

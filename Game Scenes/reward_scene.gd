@@ -54,6 +54,8 @@ var rewardConfig: Dictionary = {}
 
 var storedRewards: Array = []
 
+var nextInput = false
+
 func calculateRewards():
 	waveStardustLabel.text = "Waves " + str(wavesCompleted)
 
@@ -117,9 +119,18 @@ func _ready():
 		tryGrantReward()
 
 	startTweens()
+	
+	SoundManager.playGameOverMusic(false)
+	
+	print(TurretManager.lockedCommonTurrets)
 
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("click"):
+		if nextInput:
+			nextInput = false
+			get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+			GameManager.reset()
 	if activeTween and activeTween.is_valid():
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			activeTween.set_speed_scale(5.0)
@@ -228,6 +239,7 @@ func setInvisible():
 	$VBoxContainer5/HBoxContainer11.modulate = Color(0,0,0,0)
 	$RewardContainerBottom/HBoxContainer.modulate = Color(0,0,0,0)
 	$VBoxContainer5/HBoxContainer11.modulate = Color(0,0,0,0)
+	$InfoLabel.modulate = Color(0,0,0,0)
 	
 func formatNumber(val):
 	var stringVal = str(val)
@@ -329,6 +341,12 @@ func _on_timer_timeout() -> void:
 			activeTween.tween_property($BonusRollsContainer,"modulate",Color(1,1,1,1), 0.5)
 			displayStoredRewards()
 			activeTween.tween_callback(_on_timer_timeout)
+		24:
+			activeTween.tween_property($InfoLabel,"modulate",Color(1,1,1,1), 1)
+			activeTween.tween_callback(startInput)
+
+func startInput():
+	nextInput = true
 
 func countUp(tween,value,label,time):
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)

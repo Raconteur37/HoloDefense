@@ -698,3 +698,11 @@ label_settings = SubResource("LabelSettings_425wd")
 layout_mode = 2
 text = "x1"
 label_settings = SubResource("LabelSettings_81ej1")
+
+[node name="InfoLabel" type="RichTextLabel" parent="." unique_id=712496914]
+offset_left = 474.0
+offset_top = 912.0
+offset_right = 1385.0
+offset_bottom = 1056.0
+bbcode_enabled = true
+text = "[center][font_size=64][color=#00d4ff][pulse color=#00d4ff freq=2.0 ease=-2.0]Click anywhere to continue[/pulse][/color][/font_size][/center]"
