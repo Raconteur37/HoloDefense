@@ -9,10 +9,10 @@
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_du365"]
 [ext_resource type="Texture2D" uid="uid://blhjeflcd08w8" path="res://Textures/UI/Game/Turret Info Scene/LockedButton.png" id="7_515np"]
-[ext_resource type="Texture2D" uid="uid://bpidrsriqge5r" path="res://Textures/Citizens/UI/progress_bar_under.png" id="9_r1fv6"]
+[ext_resource type="Texture2D" uid="uid://bcu2o4ark10ss" path="res://Textures/Citizens/UI/progress_bar_under.png" id="9_r1fv6"]
 [ext_resource type="Shader" uid="uid://bgwiqp1se3o3o" path="res://Shaders/holographic_progress_bar.gdshader" id="9_ud3ts"]
 [ext_resource type="AudioStream" uid="uid://bs5dry30xukqj" path="res://Sounds/UI Sounds/Turret Select Sound.mp3" id="10_5l8ie"]
-[ext_resource type="Texture2D" uid="uid://bykgmwqoype1v" path="res://Textures/Citizens/UI/progress_bar_fill(1).png" id="10_cpjlw"]
+[ext_resource type="Texture2D" uid="uid://bhw7bgmx4v57v" path="res://Textures/Citizens/UI/progress_bar_fill(1).png" id="10_cpjlw"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="11_jeivb"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="13_s7hv8"]
@@ -297,19 +297,6 @@ vertical_alignment = 1
 layout_mode = 2
 texture = ExtResource("7_515np")
 
-[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1159922086]
-visible = false
-layout_mode = 0
-offset_left = 119.0
-offset_top = 46.0
-offset_right = 966.0
-offset_bottom = 269.0
-text = "Debug Text"
-label_settings = SubResource("LabelSettings_osgsa")
-horizontal_alignment = 1
-vertical_alignment = 1
-autowrap_mode = 2
-
 [node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1284478978]
 visible = false
 material = SubResource("ShaderMaterial_ysso4")
@@ -328,20 +315,58 @@ nine_patch_stretch = true
 texture_under = ExtResource("9_r1fv6")
 texture_progress = ExtResource("10_cpjlw")
 
+[node name="TurretDescriptionLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1668232665]
+material = SubResource("ShaderMaterial_scggw")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.067
+anchor_top = 0.179
+anchor_right = 0.95500004
+anchor_bottom = 0.83300006
+offset_left = -0.5118561
+offset_top = 0.1026535
+offset_right = 0.21612549
+offset_bottom = 0.10531616
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+text = "not input right"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer" unique_id=1385259892]
 layout_mode = 2
 texture = ExtResource("7_515np")
 
-[node name="TurretDescriptionLabel" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1841460710]
-visible = false
-layout_mode = 0
-offset_left = 113.0
-offset_top = 89.0
-offset_right = 960.0
-offset_bottom = 312.0
-text = "Debug Text"
-label_settings = SubResource("LabelSettings_osgsa")
-autowrap_mode = 2
+[node name="TurretDescriptionLabel" type="RichTextLabel" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1406197840]
+material = SubResource("ShaderMaterial_scggw")
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.067
+anchor_top = 0.179
+anchor_right = 0.95500004
+anchor_bottom = 0.83300006
+offset_left = -0.51179504
+offset_top = 0.10264969
+offset_right = 0.21618652
+offset_bottom = 0.10531616
+theme_override_colors/default_color = Color(1, 1, 1, 1)
+theme_override_colors/font_outline_color = Color(1, 1, 1, 1)
+theme_override_colors/font_shadow_color = Color(1, 1, 1, 1)
+theme_override_constants/shadow_offset_x = 0
+theme_override_constants/shadow_offset_y = 0
+theme_override_constants/outline_size = 0
+theme_override_font_sizes/normal_font_size = 32
+bbcode_enabled = true
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1941627666]
 visible = false

@@ -271,6 +271,7 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 			levelThreeTexture.texture = lockedIcon
 		elif turretLevel == 2:
 			levelTwoDescription.show()
+			levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
 			levelThreeDescription.hide()
 			levelTwoProgressBar.hide()
 			levelThreeProgressBar.show()
@@ -280,6 +281,8 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 		elif turretLevel == 3:
 			levelTwoDescription.show()
 			levelThreeDescription.show()
+			levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
+			levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
 			levelThreeProgressBar.hide()
 			levelTwoProgressBar.hide()
 			lockedRequiredText.hide()

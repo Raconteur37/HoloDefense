@@ -9,6 +9,7 @@ func _ready():
 	loadConfig()
 	initializeXpTracking()
 	loadXpData()
+	saveXpData()
 
 func getTurretString(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
@@ -54,7 +55,8 @@ func checkLevelUp(turretStr: String) -> void:
 	
 	var rarity = TurretManager.getTurretStat(TurretManager.getTurretIdFromString(turretStr), "rarity")
 	
-	var maxXp = getMaxXp(rarity, currentLevel)
+	# Ask for the XP required for the NEXT level
+	var maxXp = getMaxXp(rarity, currentLevel + 1)
 	var leveledUp = false
 
 	while maxXp > 0.0 and currentXp >= maxXp:
@@ -62,11 +64,21 @@ func checkLevelUp(turretStr: String) -> void:
 		currentLevel = turretXpData[turretStr]["level"]
 		leveledUp = true
 		
-		maxXp = getMaxXp(rarity, currentLevel)
+		# Update maxXp for the NEW next level to check the loop condition again
+		maxXp = getMaxXp(rarity, currentLevel + 1)
 
 	if leveledUp:
 		print(turretStr + " leveled up to " + str(currentLevel) + "!")
 		saveXpData()
+func incrementLevel(turret) -> void:
+	var turretStr = getTurretString(turret)
+	
+	if turretXpData.has(turretStr):
+		turretXpData[turretStr]["level"] += 1
+		saveXpData()
+		print(turretStr + " forced to level " + str(turretXpData[turretStr]["level"]))
+	else:
+		push_warning("XP Manager: Tried to increment unknown turret '%s'" % turretStr)
 
 func saveXpData():
 	var jsonString = JSON.stringify(turretXpData, "\t")
