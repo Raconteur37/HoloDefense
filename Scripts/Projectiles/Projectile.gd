@@ -2,16 +2,18 @@ extends Area2D
 class_name Projectile
 
 var velocity: Vector2 = Vector2.ZERO
-
 var shooter: Turret
 var damage: int
-var target: Node2D
+var target
 var speed: float
-var pierce : int = 0
-var enemiesPierced : int
+var pierce: int = 0
+var enemiesPierced: int
 var enemy: Enemy
 
-# Effect flags - still live here, but only used to BUILD the packet
+# Homing
+var homingStrength: float = 0.0  # 0 = no tracking, higher = tighter tracking 3-10
+
+# Effect flags
 var execute: bool = false
 var poison: bool = false
 var poisonDamage: float = 0
@@ -30,6 +32,13 @@ func _ready() -> void:
 	body_entered.connect(_on_body_entered)
 
 func _process(delta: float) -> void:
+	if homingStrength > 0.0 and target != null and is_instance_valid(target) and not target.is_queued_for_deletion():
+		var desired = (target.global_position - global_position).normalized()
+		var current = velocity.normalized()
+		var new_dir = current.lerp(desired, homingStrength * delta).normalized()
+		rotation = global_position.direction_to(target.global_position).angle()
+		velocity = new_dir * speed
+	
 	global_position += velocity * delta
 
 func _on_body_entered(body: Node) -> void:
@@ -42,14 +51,13 @@ func _on_body_entered(body: Node) -> void:
 	if pierce > 0:
 		enemiesPierced += 1
 		if enemiesPierced >= pierce:
-			queue_free()  # projectile frees itself here
+			queue_free()
 	else:
 		queue_free()
 
 func buildPacket() -> DamagePacket:
 	var fx = []
 	var fxData = {}
-
 	if execute: fx.append(EffectClass.Effect.EXECUTE)
 	if poison:
 		fx.append(EffectClass.Effect.POISON)
@@ -67,5 +75,4 @@ func buildPacket() -> DamagePacket:
 		fx.append(EffectClass.Effect.EXPLOSION)
 		fxData["explosionDamage"] = explosionDamage
 		fxData["explosionRadius"] = explosionRadius
-
 	return DamagePacket.new(damage, DamagePacket.Type.PROJECTILE, shooter, fx, fxData)

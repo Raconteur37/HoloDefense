@@ -60,23 +60,27 @@ func attack():
 		if is_instance_valid(enemy) and isPlaced:
 
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			proj.position = position
 
-
-
+			if level == 1:
+				proj.speed = projectileSpeed
+				proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 			if level >= 2:
 				proj.target = enemy
-			else:
+				proj.homingStrength = 4.0
+				proj.speed = projectileSpeed
 				proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
+			if level >= 3:
+				proj.pierce = 99
+
+
 
 			var dif = self.global_position.angle_to_point(enemy.global_position)
 
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
-
-			
-			get_parent().add_child(proj)
 
 			reloadTimer.start()
 			reloadAnimation()
