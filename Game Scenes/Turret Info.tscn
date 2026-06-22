@@ -9,7 +9,10 @@
 [ext_resource type="Shader" uid="uid://dctt32pgrbl1l" path="res://Shaders/Screen.gdshader" id="6_cxutq"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="6_du365"]
 [ext_resource type="Texture2D" uid="uid://blhjeflcd08w8" path="res://Textures/UI/Game/Turret Info Scene/LockedButton.png" id="7_515np"]
+[ext_resource type="Texture2D" uid="uid://bpidrsriqge5r" path="res://Textures/Citizens/UI/progress_bar_under.png" id="9_r1fv6"]
+[ext_resource type="Shader" uid="uid://bgwiqp1se3o3o" path="res://Shaders/holographic_progress_bar.gdshader" id="9_ud3ts"]
 [ext_resource type="AudioStream" uid="uid://bs5dry30xukqj" path="res://Sounds/UI Sounds/Turret Select Sound.mp3" id="10_5l8ie"]
+[ext_resource type="Texture2D" uid="uid://bykgmwqoype1v" path="res://Textures/Citizens/UI/progress_bar_fill(1).png" id="10_cpjlw"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="11_jeivb"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="13_s7hv8"]
@@ -36,17 +39,19 @@ shader = ExtResource("2_du365")
 shader_parameter/progress = 0.0
 shader_parameter/block_size = 100.0
 
-[sub_resource type="Gradient" id="Gradient_ekhco"]
-colors = PackedColorArray(0.74978, 0.74978, 0.74977994, 1, 0.779291, 0.779291, 0.779291, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_515np"]
-gradient = SubResource("Gradient_ekhco")
-
-[sub_resource type="Gradient" id="Gradient_du365"]
-colors = PackedColorArray(0.043137256, 0.7137255, 1, 1, 0, 0.7411765, 0, 1)
-
-[sub_resource type="GradientTexture2D" id="GradientTexture2D_5l8ie"]
-gradient = SubResource("Gradient_du365")
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_ysso4"]
+shader = ExtResource("9_ud3ts")
+shader_parameter/scan_speed = 1.2
+shader_parameter/scan_density = 22.0
+shader_parameter/scan_brightness = 0.18
+shader_parameter/shimmer_speed = 0.358000017005
+shader_parameter/shimmer_count = 4.0
+shader_parameter/shimmer_width = 0.06000000215148
+shader_parameter/shimmer_bright = 0.89600004256
+shader_parameter/edge_glow = 1.0
+shader_parameter/flicker_amount = 0.0
+shader_parameter/pulse_speed = 2.9610001406475
+shader_parameter/holo_tint = Color(0, 1, 0.94, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_scggw"]
 font_size = 39
@@ -307,6 +312,7 @@ autowrap_mode = 2
 
 [node name="LevelTwoProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelTwoTexture" unique_id=1284478978]
 visible = false
+material = SubResource("ShaderMaterial_ysso4")
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.165
@@ -314,12 +320,13 @@ anchor_top = 0.61700004
 anchor_right = 0.84200007
 anchor_bottom = 0.71000004
 offset_left = -0.82948303
-offset_top = -47.936676
+offset_top = 53.17444
 offset_right = -0.5425415
-offset_bottom = -47.926666
+offset_bottom = 53.18445
+value = 50.0
 nine_patch_stretch = true
-texture_under = SubResource("GradientTexture2D_515np")
-texture_progress = SubResource("GradientTexture2D_5l8ie")
+texture_under = ExtResource("9_r1fv6")
+texture_progress = ExtResource("10_cpjlw")
 
 [node name="LevelThreeTexture" type="TextureRect" parent="TurretInfo/LevelContainer" unique_id=1385259892]
 layout_mode = 2
@@ -356,12 +363,12 @@ autowrap_mode = 2
 visible = false
 layout_mode = 0
 offset_left = 175.55553
-offset_top = 130.44444
+offset_top = 238.22223
 offset_right = 899.55554
-offset_bottom = 170.44444
+offset_bottom = 278.22223
 nine_patch_stretch = true
-texture_under = SubResource("GradientTexture2D_515np")
-texture_progress = SubResource("GradientTexture2D_5l8ie")
+texture_under = ExtResource("9_r1fv6")
+texture_progress = ExtResource("10_cpjlw")
 
 [node name="Info Labels Container" type="GridContainer" parent="TurretInfo" unique_id=1421145813]
 z_index = 1

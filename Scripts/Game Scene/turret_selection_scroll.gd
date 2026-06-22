@@ -42,7 +42,7 @@ var turretContainer
 @onready var shardButton = $"../../PurchaseBox/ShardButton"
 @onready var shardImage =  $"../../PurchaseBox/ShardImage"
 
-# --- Shard-overlay / locked-icon visuals ---
+
 @onready var desaturateShader = preload("res://Shaders/desaturate.gdshader")
 
 var shardOverlay: GridContainer
@@ -240,6 +240,11 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 	purchaseLabel1.show()
 	purchaseLabel2.show()
 
+	levelTwoDescription.hide()
+	levelThreeDescription.hide()
+	levelTwoProgressBar.hide()
+	levelThreeProgressBar.hide()
+
 	if is_unlocked:
 		purchaseBox.hide()
 		purchaseLabel1.hide()
@@ -254,7 +259,7 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 		turretDescriptionLabel.add_theme_constant_override("shadow_offset_y", 0)
 
 
-		var turretLevel = TurretManager.getTurretLevel(turretID)
+		var turretLevel = XpManager.getCurrentLevel(turretID)
 
 		if turretLevel == 1:
 			levelTwoDescription.hide()
@@ -281,12 +286,12 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 			levelTwoTexture.texture = unlockedIcon
 			levelThreeTexture.texture = unlockedIcon
 
-		var levelTwoMaxXp = TurretManager.getMaxXp(rarity, 2)
+		var levelTwoMaxXp = XpManager.getMaxXp(TurretManager.getTurretStat(turretID,"rarity"),2)
 		levelTwoProgressBar.max_value = levelTwoMaxXp
 		levelThreeProgressBar.min_value = levelTwoMaxXp
-		levelThreeProgressBar.max_value = TurretManager.getMaxXp(rarity, 3)
-		levelTwoProgressBar.value = TurretManager.getTurretXp(turretID)
-		levelThreeProgressBar.value = TurretManager.getTurretXp(turretID)
+		levelThreeProgressBar.max_value = XpManager.getMaxXp(TurretManager.getTurretStat(turretID,"rarity"),3)
+		levelTwoProgressBar.value = XpManager.getCurrentXp(turretID)
+		levelThreeProgressBar.value = XpManager.getCurrentXp(turretID)
 
 		if toggleStatsButton.button_pressed:
 			buildTurretStats(turretID)
@@ -403,6 +408,25 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		infoLabelContainer.add_child(label)
 
 
+func appendXpLabel(turretID: Turret.TurretID) -> void:
+	var xpValue = XpManager.getCurrentXp(turretID)
+	
+	var label = Label.new()
+	var settings = turretLabel.duplicate()
+	
+	# You can change this color to whatever fits your UI theme
+	settings.font_color = Color.AQUAMARINE 
+	
+	label.autowrap_mode = TextServer.AUTOWRAP_WORD
+	label.custom_minimum_size = Vector2(278, 0)
+	label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
+	
+	# Formats the XP value nicely using your existing formatNumber function
+	label.text = "XP: %s" % str(formatNumber(int(xpValue))) 
+	label.label_settings = settings
+	
+	infoLabelContainer.add_child(label)
+
 func buildTurretStats(turretID: Turret.TurretID) -> void:
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
@@ -447,6 +471,7 @@ func buildTurretStats(turretID: Turret.TurretID) -> void:
 		label.label_settings = settings
 		infoLabelContainer.add_child(label)
 
+	appendXpLabel(turretID)
 
 func _on_turret_info_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")

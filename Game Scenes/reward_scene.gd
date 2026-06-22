@@ -112,6 +112,7 @@ func calculateRewards():
 	
 
 func _ready():
+	XpManager.saveXpData()
 	config_data = load_json("res://Config/Rewards.json")
 	var file = FileAccess.open("res://Config/Rewards.json", FileAccess.READ)
 	if file:
@@ -129,6 +130,7 @@ func _ready():
 	startTweens()
 	
 	SoundManager.playGameOverMusic(false)
+
 	
 	#print(TurretManager.lockedCommonTurrets)
 

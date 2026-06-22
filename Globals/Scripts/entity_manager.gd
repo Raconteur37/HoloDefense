@@ -68,6 +68,7 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 			packet.effectData.get("poisonTime", 0)
 		)
 		StatManager.addStat(turret.turretID,"enemies_poisoned",1)
+		XpManager.addXp(turret.turretID)
 	if EffectClass.Effect.CURSE in packet.effects:
 		EffectManager.applyCurseEffect(
 			enemy, turret,
@@ -75,10 +76,12 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 			packet.effectData.get("curseDamageAmp",0)
 		)
 		StatManager.addStat(turret.turretID,"enemies_cursed",1)
+		XpManager.addXp(turret.turretID)
 	if EffectClass.Effect.EXECUTE in packet.effects:
 		ParticleManager.playExecutionParticle(enemy)
 		killEnemy(turret, enemy)
 		StatManager.addStat(turret.turretID,"enemies_executed",1)
+		XpManager.addXp(turret.turretID)
 	if EffectClass.Effect.EXPLOSION in packet.effects:
 		ExplosionManager.summonExplosion(turret,enemy,packet.effectData)
 
@@ -163,6 +166,7 @@ func onKill(turret,enemy):
 			StatManager.addStat(turret.turretOwner.turretID,"kills",1)
 			turret.enemy = null
 		else:
+			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID,"kills",1)
 	
 	enemy.queue_free()
@@ -172,9 +176,11 @@ func healTurret(healer,turret,amountHealed):
 	if turret.health + amountHealed > turret.maxHealth:
 		turret.health = turret.maxHealth
 		StatManager.addStat(healer.turretID,"health_healed",turret.maxHealth - turret.health)
+		XpManager.addXp(turret.turretID)
 	else:
 		turret.health += amountHealed
 		StatManager.addStat(healer.turretID,"health_healed",amountHealed)
+		XpManager.addXp(turret.turretID)
 	ParticleManager.playHealParticle(turret)
 	if is_instance_valid(turret.menu):
 		turret.menu.healthUpdate()

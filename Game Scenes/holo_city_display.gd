@@ -4,6 +4,8 @@ extends Control
 
 var runTime: float = 0.0
 var runActive: bool = false
+var timeSinceLastSave: float = 0.0
+const autoSaveInterval: float = 480.0 # 8 minutes
 
 func startRun() -> void:
 	runTime = 0.0
@@ -12,6 +14,12 @@ func startRun() -> void:
 func _process(delta: float) -> void:
 	if runActive:
 		runTime += delta
+		timeSinceLastSave += delta
+		
+		if timeSinceLastSave >= autoSaveInterval:
+			XpManager.saveXpData()
+			
+			timeSinceLastSave -= autoSaveInterval
 
 # This will be so we can change the sprite
 func updateVisualStatus():

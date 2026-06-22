@@ -46,6 +46,7 @@ NetworkManager="*uid://bloj4s2x3a7k1"
 XpManager="*uid://dq05wtiw3k13y"
 StatManager="*uid://cjfeqm477su16"
 MinigameManager="*uid://cx3g5peow32fg"
+AchievementManager="*uid://cyhu87bx52ony"
 
 [display]
 

@@ -22,7 +22,7 @@ func _ready() -> void:
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
-	level = 1 # get through config from loading
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator

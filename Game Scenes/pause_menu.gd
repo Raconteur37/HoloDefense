@@ -47,3 +47,10 @@ func _on_music_toggle_toggled(toggled_on: bool) -> void:
 		SoundManager.musicOn = toggled_on
 		if not SoundManager.musicOn:
 			SoundManager.stopMusic()
+
+
+func _on_give_up_pressed() -> void:
+	get_tree().paused = false
+	get_tree().current_scene.find_child("TowerDefenseCanvas").find_child("HoloCityDisplay").runActive = false
+	StatManager.elapsedTime = get_tree().current_scene.find_child("TowerDefenseCanvas").find_child("HoloCityDisplay").runTime
+	get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")

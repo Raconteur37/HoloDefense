@@ -1,52 +1,96 @@
 extends Node
 
 var turretXpData = {}
-var save_path = "user://turret_xp_save.json"
+var savePath = "user://turret_xp_save.json"
+const steamFileName = "turret_xp_save_cloud.json"
 var configData = {} 
 
 func _ready():
 	loadConfig()
-	initialize_xp_tracking()
-	addXp(Turret.TurretID.ARROW_TURRET)
+	initializeXpTracking()
+	loadXpData()
 
-func get_turret_string(id: Turret.TurretID) -> String:
+func getTurretString(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
 
-func initialize_xp_tracking():
-	var turrets = configData.get("turret_xp", {}).keys()
+func initializeXpTracking():
+	var turrets = configData.get("turret_xp_gain", {}).keys()
 	for turret in turrets:
-		turretXpData[turret] = 0.0
+		turretXpData[turret] = {
+			"xp": 0.0,
+			"level": 1 
+		}
+
+func getMaxXp(rarity: String, level: int) -> float:
+	var raritySettings = configData.get("xp_maximum", {}).get(rarity.to_lower(), {})
+	
+	if raritySettings.is_empty():
+		push_warning("XP Manager: Rarity '%s' not found in config data." % rarity)
+		return 0.0
+
+	match level:
+		2:
+			return float(raritySettings.get("LevelTwoMaxXP", 0.0))
+		3:
+			return float(raritySettings.get("LevelThreeMaxXP", 0.0))
+		_:
+			return -1.0
 
 func addXp(turret):
-	turret = get_turret_string(turret)
-	var xp_to_add = configData.get("turret_xp_gain", {}).get(turret, 0.0)
+	turret = getTurretString(turret)
+	var xpToAdd = configData.get("turret_xp_gain", {}).get(turret, 0.0)
+	
 	if turretXpData.has(turret):
-		turretXpData[turret] += xp_to_add
+		turretXpData[turret]["xp"] += xpToAdd
 
-	check_level_up(turret)
+	checkLevelUp(turret)
 
-func check_level_up(turret):
-	# Logic to compare turret_xp_data[turret] against 
-	# config_data["xp_maximum"] based on the turret's rarity
-	pass
+func checkLevelUp(turretStr: String) -> void:
+	if not turretXpData.has(turretStr):
+		return
+
+	var currentXp = turretXpData[turretStr]["xp"]
+	var currentLevel = turretXpData[turretStr]["level"]
+	
+	var rarity = TurretManager.getTurretStat(TurretManager.getTurretIdFromString(turretStr), "rarity")
+	
+	var maxXp = getMaxXp(rarity, currentLevel)
+	var leveledUp = false
+
+	while maxXp > 0.0 and currentXp >= maxXp:
+		turretXpData[turretStr]["level"] += 1
+		currentLevel = turretXpData[turretStr]["level"]
+		leveledUp = true
+		
+		maxXp = getMaxXp(rarity, currentLevel)
+
+	if leveledUp:
+		print(turretStr + " leveled up to " + str(currentLevel) + "!")
+		saveXpData()
 
 func saveXpData():
-	# Convert the live progress dictionary to a JSON string
-	var json_string = JSON.stringify(turretXpData, "\t")
+	var jsonString = JSON.stringify(turretXpData, "\t")
 	
-	# Write the string to the persistent user folder
-	var file = FileAccess.open(save_path, FileAccess.WRITE)
+	var file = FileAccess.open(savePath, FileAccess.WRITE)
 	if file:
-		file.store_string(json_string)
+		file.store_string(jsonString)
 		file.close()
-		print("XP save successful: ", save_path)
+		print("Local XP save successful: ", savePath)
 	else:
-		push_error("Failed to save XP data! Error code: " + str(FileAccess.get_open_error()))
+		push_error("Failed to save local XP data! Error code: " + str(FileAccess.get_open_error()))
+
+	if Steam.isSteamRunning():
+		var dataBuffer = jsonString.to_utf8_buffer()
+		var success = Steam.fileWrite(steamFileName, dataBuffer, dataBuffer.size())
+		if success:
+			print("Steam Cloud XP save successful.")
+		else:
+			push_warning("Failed to write XP data to Steam Cloud.")
 
 func loadConfig():
-	var config_path = "res://Config/TurretXP.json"
-	if FileAccess.file_exists(config_path):
-		var file = FileAccess.open(config_path, FileAccess.READ)
+	var configPath = "res://Config/TurretXP.json"
+	if FileAccess.file_exists(configPath):
+		var file = FileAccess.open(configPath, FileAccess.READ)
 		var json = JSON.new()
 		var error = json.parse(file.get_as_text())
 		file.close()
@@ -57,4 +101,49 @@ func loadConfig():
 		else:
 			push_error("Failed to parse JSON config.")
 	else:
-		push_error("Config file not found at " + config_path)
+		push_error("Config file not found at " + configPath)
+
+func loadXpData():
+	var jsonString = ""
+
+	if Steam.isSteamRunning() and Steam.fileExists(steamFileName):
+		var fileSize = Steam.getFileSize(steamFileName)
+		var readResult = Steam.fileRead(steamFileName, fileSize)
+		
+		if readResult.has("buf") and readResult["ret"]:
+			jsonString = readResult["buf"].get_string_from_utf8()
+
+	if jsonString == "" and FileAccess.file_exists(savePath):
+		var file = FileAccess.open(savePath, FileAccess.READ)
+		if file:
+			jsonString = file.get_as_text()
+			file.close()
+
+	if jsonString != "":
+		var parsedData = JSON.parse_string(jsonString)
+		if typeof(parsedData) == TYPE_DICTIONARY:
+			for key in parsedData.keys():
+				if turretXpData.has(key):
+					if typeof(parsedData[key]) == TYPE_DICTIONARY:
+						turretXpData[key]["xp"] = parsedData[key].get("xp", 0.0)
+						turretXpData[key]["level"] = parsedData[key].get("level", 1)
+					else:
+						turretXpData[key]["xp"] = parsedData[key]
+						turretXpData[key]["level"] = 1
+			print("XP and Level data loaded successfully.")
+
+func getCurrentXp(turret) -> float:
+	var turretStr = getTurretString(turret)
+	if turretXpData.has(turretStr):
+		return turretXpData[turretStr]["xp"]
+	
+	push_warning("XP Manager: Tried to get XP for unknown turret '%s'" % turretStr)
+	return 0.0
+
+func getCurrentLevel(turret) -> int:
+	var turretStr = getTurretString(turret)
+	if turretXpData.has(turretStr):
+		return turretXpData[turretStr]["level"]
+		
+	push_warning("XP Manager: Tried to get Level for unknown turret '%s'" % turretStr)
+	return 1

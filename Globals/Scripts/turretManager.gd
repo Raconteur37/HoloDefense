@@ -3,9 +3,6 @@ extends Node
 signal turret_unlocked_signal(turret_id)
 
 var turretData = {}
-var turretXpData = {}
-var turretLevel = {}
-var xpMaxData = {}
 
 # Keep a master list of all turrets so we can iterate through them
 const ALL_TURRETS: Array[Turret.TurretID] = [
@@ -39,8 +36,6 @@ var lockedUnseenTurrets: Array[Turret.TurretID] = []
 
 func _ready() -> void:
 	loadTurretData()
-	loadTurretXpData()
-	loadXpMaximum()
 	
 	# Sort the turrets into their respective arrays based on Economy data
 	sort_turrets()
@@ -169,18 +164,6 @@ func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
 		return turretData[key][stat_name]
 	return default
 
-func getTurretXp(id: Turret.TurretID):
-	var key = get_turret_string(id)
-	if turretXpData.has(key):
-		return turretXpData[key]
-	return -1
-
-func getTurretLevel(id: Turret.TurretID):
-	var key = get_turret_string(id)
-	if turretLevel.has(key):
-		return turretLevel[key]
-	return -1
-
 func getListOfProperties(id: Turret.TurretID):
 	var key = get_turret_string(id)
 	var tracker : int = 0
@@ -204,31 +187,6 @@ func loadTurretData():
 	else:
 		push_error("Could not open Turret Info.json")
 
-func loadTurretXpData():
-	var file = FileAccess.open("res://Config/TurretXP.json", FileAccess.READ)
-	if file:
-		var data = JSON.parse_string(file.get_as_text())
-		if typeof(data) == TYPE_DICTIONARY:
-			if data.has("turret_xp"):
-				turretXpData = data["turret_xp"]
-			if data.has("turret_level"):
-				turretLevel = data["turret_level"]
-		else:
-			push_error("Invalid JSON format in %s" % "res://Config/TurretXP.json")
-	else:
-		push_error("Failed to open file: %s" % "res://Config/TurretXP.json")
-
-func loadXpMaximum() -> void:
-	var file = FileAccess.open("res://Config/TurretXP.json", FileAccess.READ)
-	if file:
-		var data = JSON.parse_string(file.get_as_text())
-		if typeof(data) == TYPE_DICTIONARY and data.has("xp_maximum"):
-			xpMaxData = data["xp_maximum"]
-		else:
-			push_error("Invalid JSON format or missing xp_maximum in %s" % "res://Config/TurretXP.json")
-	else:
-		push_error("Failed to open file: %s" % "res://Config/TurretXP.json")
-
 func draw_range_circle(line2d: Line2D, attack_range: float) -> Line2D:
 	line2d.clear_points()
 	var steps := 64
@@ -241,18 +199,6 @@ func draw_range_circle(line2d: Line2D, attack_range: float) -> Line2D:
 	line2d.begin_cap_mode = Line2D.LINE_CAP_NONE
 	line2d.end_cap_mode = Line2D.LINE_CAP_NONE
 	return line2d
-
-func getMaxXp(rarity: String, level: int):
-	if xpMaxData.has(rarity):
-		match level:
-			2:
-				return xpMaxData[rarity]["LevelTwoMaxXP"]
-			3:
-				return xpMaxData[rarity]["LevelThreeMaxXP"]
-		push_error("Invalid level: %s" % level)
-	else:
-		push_error("Invalid rarity: %s" % rarity)
-	return -1
 
 const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
 
@@ -330,3 +276,14 @@ func createPropertiesLabels(turret : Turret):
 			labels.append(label)
 
 	return labels
+
+func getTurretIdFromString(turret_str: String) -> int:
+	var upper_name = turret_str.to_upper()
+	
+	# Check if the uppercase string exists in the enum dictionary
+	if Turret.TurretID.has(upper_name):
+		return Turret.TurretID.get(upper_name)
+		
+	# Fallback if the string doesn't match any turret
+	push_error("XP Manager: Could not find TurretID for string '%s'" % turret_str)
+	return -1

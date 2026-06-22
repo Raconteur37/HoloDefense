@@ -95,6 +95,7 @@ func _on_attack_timer_timeout() -> void:
 					enemy.turnTurret = self
 					ParticleManager.playZombieTurnParticle(enemy)
 					StatManager.addStat(turretID,"enemies_zombified",1)
+					XpManager.addXp(turretID)
 		attackTimer.start()
 
 func _on_select_area_mouse_entered() -> void:

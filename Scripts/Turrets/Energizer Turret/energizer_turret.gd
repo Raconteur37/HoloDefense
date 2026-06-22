@@ -100,6 +100,7 @@ func applyEnergizerBuffsToTurret(turret):
 	turret.turretProviders["energized"] = self
 	turret.energized = true
 	StatManager.addStat(turretID,"turrets_energized",1)
+	XpManager.addXp(turretID)
 	ParticleManager.playEnergizedParticle(turret)
 	if turret.get("damage") != null:
 		turret.damage += ceil(energizerDamageBuff * turret.baseDamage)

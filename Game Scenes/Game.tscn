@@ -131,6 +131,11 @@ layout_mode = 2
 text = "Restart
 "
 
+[node name="GiveUp" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1961862]
+layout_mode = 2
+text = "Give Up
+"
+
 [node name="Quit" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1559157297]
 layout_mode = 2
 text = "Quit
@@ -156,6 +161,7 @@ text = "Music Volume"
 
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
+[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/GiveUp" to="PauseLayer/PauseMenu" method="_on_give_up_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
 [connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
 [connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
