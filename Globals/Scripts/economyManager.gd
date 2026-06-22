@@ -49,14 +49,17 @@ func get_default_economy() -> Dictionary:
 func merge_with_defaults(loaded: Dictionary) -> Dictionary:
 	var merged: Dictionary = get_default_economy()
 	
-	if loaded.has("stardust") and typeof(loaded["stardust"]) == TYPE_INT:
-		merged["stardust"] = loaded["stardust"]
+	# FIX: Check for both float and int, then cast to int to be safe
+	if loaded.has("stardust") and (typeof(loaded["stardust"]) == TYPE_FLOAT or typeof(loaded["stardust"]) == TYPE_INT):
+		merged["stardust"] = int(loaded["stardust"])
 	
 	for category in ["turret_shards", "shards", "shard_fragments", "turrets_unlocked"]:
 		if loaded.has(category) and typeof(loaded[category]) == TYPE_DICTIONARY:
 			for key in loaded[category].keys():
 				if merged[category].has(key):
-					merged[category][key] = loaded[category][key]
+					# It's also a good idea to cast these to int as well, 
+					# since they will also be parsed as floats from the JSON.
+					merged[category][key] = int(loaded[category][key])
 	return merged
 
 # ---------------- Load/Save ----------------

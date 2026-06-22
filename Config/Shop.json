@@ -1,0 +1,11 @@
+{
+	"roll_cost": 10,
+	"rarity_weights": {
+		"nothing": 0.91361,
+		"common": 0.05076,
+		"rare": 0.02030,
+		"super_rare": 0.01015,
+		"legendary": 0.00508,
+		"unseen": 0.00010
+	}
+}
