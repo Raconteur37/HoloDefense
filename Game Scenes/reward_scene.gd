@@ -76,7 +76,7 @@ func calculateRewards():
 	
 	stardustEarned = 0
 	#enemiesKilled = 10
-	tierOneEnemiesKilled = 10
+	#tierOneEnemiesKilled = 10
 	#turretsPlaced = 6
 	#citizensGenerated = 3
 
@@ -122,7 +122,7 @@ func _ready():
 
 	calculateRewards()
 	
-	var rollsEarned = floor(stardustTotal / 150)
+	var rollsEarned = floor(stardustTotal / 100)
 	for i in rollsEarned:
 		tryGrantReward()
 
@@ -341,7 +341,7 @@ func _on_timer_timeout() -> void:
 		21:
 			difficultyMultiplierLabel.text = "x" + str(getDifficultyMultiplier(difficultyNumber))
 			activeTween.tween_property($VBoxContainer5/HBoxContainer11,"modulate",Color(1,1,1,1), 0.5)
-			countUp(activeTween,researchCompleted,researchCompletedLabel,1)
+			activeTween.tween_callback(_on_timer_timeout)
 		22:
 			activeTween.tween_property($RewardContainerBottom/HBoxContainer,"modulate",Color(1,1,1,1), 0.3)
 			countUp(activeTween,stardustTotal,stardustTotalLabel,1)

@@ -7,6 +7,8 @@ var config: Dictionary = {}
 @export var slot_2: TextureRect
 @export var slot_3: TextureRect
 
+@onready var winLabel = $"../winLabel"
+
 var is_rolling: bool = false 
 
 func _ready() -> void:
@@ -52,77 +54,152 @@ func pull_lever() -> void:
 		EconomyManager.unlock_turret(won_turret_id)
 		var turret_name = TurretManager.get_turret_string(won_turret_id)
 		print("SlotMachine: JACKPOT! Unlocked ", turret_name)
+		winLabel.show()
+		var display_name = TurretManager.get_turret_string(won_turret_id).capitalize()
+		winLabel.text = "[center][font_size=150][b][rainbow freq=10.0 sat=1.0 val=1.0]YOU WON %s![/rainbow][/b][/font_size][/center]" % display_name
+		_spawn_jackpot_particles(won_turret_id)
+		# --- NEW: Play the jackpot celebration and wait for it to finish! ---
+		await _play_jackpot_celebration()
 		
 	# Unlock the machine for the next roll
 	is_rolling = false
+	winLabel.hide()
 
 
 # ---------------- Animation Methods ----------------
 
-func animate_spin(final_turret_id: int) -> void:
-	var total_spins = 100 # How many times the textures swap
-	var spin_delay = 0.05 # Starts fast (0.05 seconds between swaps)
+func _play_jackpot_celebration() -> void:
+	# ---> PLAY YOUR JACKPOT SOUND HERE <---
+	SoundManager.playJackPotSound()
 	
-	# Loop to create the rapid spinning effect
-	for i in range(total_spins):
-		# Assign a completely random texture to each slot
-		slot_1.texture = _get_random_texture()
-		slot_2.texture = _get_random_texture()
-		slot_3.texture = _get_random_texture()
+	var total_jumps = 20    
+	var jump_height = 40.0  
+	var up_time = 0.1      
+	var down_time = 0.2     
+	var stagger = 0.10    
+	
+	# IMPORTANT: Store the absolute starting positions to guarantee they return home!
+	var base_y1 = slot_1.position.y
+	var base_y2 = slot_2.position.y
+	var base_y3 = slot_3.position.y
+	
+	# --- SLOT 1 TWEEN ---
+	var t1 = create_tween().set_loops(total_jumps)
+	t1.tween_property(slot_1, "position:y", base_y1 - jump_height, up_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t1.tween_property(slot_1, "position:y", base_y1, down_time).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	
+	# Wait a split second to create the "wave" delay
+	await get_tree().create_timer(stagger).timeout
+	
+	# --- SLOT 2 TWEEN ---
+	var t2 = create_tween().set_loops(total_jumps)
+	t2.tween_property(slot_2, "position:y", base_y2 - jump_height, up_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t2.tween_property(slot_2, "position:y", base_y2, down_time).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	
+	# Wait another split second for the 3rd slot
+	await get_tree().create_timer(stagger).timeout
+	
+	# --- SLOT 3 TWEEN ---
+	var t3 = create_tween().set_loops(total_jumps)
+	t3.tween_property(slot_3, "position:y", base_y3 - jump_height, up_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+	t3.tween_property(slot_3, "position:y", base_y3, down_time).set_trans(Tween.TRANS_BOUNCE).set_ease(Tween.EASE_OUT)
+	
+	# Pauses the slot machine script until the very last tween (Slot 3) finishes all 10 of its jumps
+	await t3.finished
+	
+	# The final Lockout Timer before the player is allowed to roll again
+	await get_tree().create_timer(1.0).timeout
+
+func animate_spin(final_turret_id: int) -> void:
+
+	var final_tex_1: Texture2D
+	var final_tex_2: Texture2D
+	var final_tex_3: Texture2D
+	
+	if final_turret_id != -1:
+		var win_tex = TurretManager.getTurretTexture(final_turret_id)
+		final_tex_1 = win_tex
+		final_tex_2 = win_tex
+		final_tex_3 = win_tex
+	else:
+		final_tex_1 = _get_random_texture()
+		final_tex_2 = _get_random_texture()
+		final_tex_3 = _get_random_texture()
 		
-		# Wait for 'spin_delay' seconds before continuing the loop
+		while final_tex_1 == final_tex_2 and final_tex_2 == final_tex_3:
+			final_tex_3 = _get_random_texture()
+
+	var stop_1 = 15 # Slot 1 locks first
+	var stop_2 = 35 # Slot 2 locks a bit later
+	var stop_3 = 45 # Slot 3 spins the longest for dramatic effect
+	
+	var spin_delay = 0.04 # Starting speed (very fast)
+	
+	# 3. Run the spinning loop
+	for current_spin in range(stop_3):
+		
+		SoundManager.playSlotTick()
+		
+		if current_spin < stop_1:
+			slot_1.texture = _get_random_texture(slot_1.texture) 
+		elif current_spin == stop_1:
+			slot_1.texture = final_tex_1
+			_pop_animation(slot_1) 
+			SoundManager.playSlotSelect()
+			
+		# --- Reel 2 ---
+		if current_spin < stop_2:
+			slot_2.texture = _get_random_texture(slot_2.texture) 
+		elif current_spin == stop_2:
+			slot_2.texture = final_tex_2
+			_pop_animation(slot_2)
+			SoundManager.playSlotSelect()
+			
+		# --- Reel 3 ---
+		if current_spin < stop_3 - 1:
+			slot_3.texture = _get_random_texture(slot_3.texture) 
+			
+		# Wait before the next cycle
 		await get_tree().create_timer(spin_delay).timeout
 		
-		# Gradually increase the delay to make it look like the wheels are slowing down
-		spin_delay += 0.01 
-		
-	# The spin has stopped! Now set the final textures.
-	if final_turret_id != -1:
-		# It's a WIN! Make all three slots match the won turret
-		var win_texture = TurretManager.getTurretTexture(final_turret_id)
-		slot_1.texture = win_texture
-		slot_2.texture = win_texture
-		slot_3.texture = win_texture
-		
-		# Optional: Add a little "pop" effect when they win
-		_pop_animation(slot_1)
-		_pop_animation(slot_2)
-		_pop_animation(slot_3)
-	else:
-		# It's a LOSS (or refund). Ensure the slots don't accidentally match!
-		slot_1.texture = _get_random_texture()
-		slot_2.texture = _get_random_texture()
-		
-		# Keep picking a random texture for slot 3 until it's different from slot 1
-		var lose_tex_3 = _get_random_texture()
-		while lose_tex_3 == slot_1.texture:
-			lose_tex_3 = _get_random_texture()
+		# 4. Apply dynamic friction (slowdown)
+		if current_spin < stop_1:
+			spin_delay += 0.002 
+		elif current_spin < stop_2:
+			spin_delay += 0.005 
+		else:
+			spin_delay += 0.02 
 			
-		slot_3.texture = lose_tex_3
+	# 5. Lock in the final slot
+	slot_3.texture = final_tex_3
+	_pop_animation(slot_3)
+	SoundManager.playSlotSelect()
+	
+	# Add a tiny 0.5s pause at the end so the player can process 
+	# the visual result before the game prints the text/saves the economy.
+	await get_tree().create_timer(0.5).timeout
 
-
-func _get_random_texture() -> Texture2D:
-	# Grabs a random ID from the master list in TurretManager
+func _get_random_texture(current_texture: Texture2D = null) -> Texture2D:
 	var random_id = TurretManager.ALL_TURRETS.pick_random()
-	return TurretManager.getTurretTexture(random_id)
+	var new_texture = TurretManager.getTurretTexture(random_id)
+	
+	while new_texture == current_texture:
+		random_id = TurretManager.ALL_TURRETS.pick_random()
+		new_texture = TurretManager.getTurretTexture(random_id)
+		
+	return new_texture
 
 
-# A little juice to make the winning turrets bounce when they lock in
 func _pop_animation(target_node: Control) -> void:
-	# Ensure the pivot is in the center for a nice scaling effect
 	target_node.pivot_offset = target_node.size / 2.0 
 	
 	var tween = create_tween()
-	# Scale up slightly
 	tween.tween_property(target_node, "scale", Vector2(1.2, 1.2), 0.15).set_trans(Tween.TRANS_SINE)
-	# Scale back to normal
 	tween.tween_property(target_node, "scale", Vector2(1.0, 1.0), 0.15).set_trans(Tween.TRANS_BOUNCE)
 
 # ---------------- Configuration & Logic Helpers ----------------
-# (Keep load_shop_config, _get_random_rarity, and _get_turret_from_manager exactly the same as the previous response)
 
 func load_shop_config() -> void:
-	# ... [Same code as previous step] ...
 	var default_config: Dictionary = {
 		"roll_cost": 10,
 		"rarity_weights": {
@@ -142,7 +219,6 @@ func load_shop_config() -> void:
 	config = default_config
 
 func _get_random_rarity() -> String:
-	# ... [Same code as previous step] ...
 	var weights = config["rarity_weights"]
 	var total_weight: float = 0.0
 	for rarity in weights: total_weight += float(weights[rarity])
@@ -154,7 +230,6 @@ func _get_random_rarity() -> String:
 	return "nothing" 
 
 func _get_turret_from_manager(rarity: String) -> int:
-	# ... [Same code as previous step] ...
 	var pool: Array = []
 	match rarity:
 		"common": pool = TurretManager.lockedCommonTurrets
@@ -165,6 +240,55 @@ func _get_turret_from_manager(rarity: String) -> int:
 	if pool.is_empty(): return -1
 	return pool.pick_random()
 
+func _spawn_jackpot_particles(turret_id: int) -> void:
+	var tex = TurretManager.getTurretTexture(turret_id)
+	var screen_size = get_viewport().get_visible_rect().size 
+	
+	# Calculate the exact center of the screen
+	var center_pos = screen_size / 2.0 
+	
+	var waves = 40 # How many times it pops
+	var particles_per_wave = 40 # How many particles in each pop
+
+	for wave in range(waves):
+		for i in range(particles_per_wave):
+			var p = TextureRect.new()
+			p.texture = tex
+			p.expand_mode = TextureRect.EXPAND_IGNORE_SIZE
+			
+			var p_size = randf_range(20.0, 50.0)
+			p.size = Vector2(p_size, p_size)
+			p.pivot_offset = p.size / 2.0
+			p.z_index = 100 
+			
+			# ---> THE FIX: Break free from the parent's coordinate offset! <---
+			p.top_level = true 
+
+			var start_pos = center_pos + Vector2(randf_range(-15, 15), randf_range(-15, 15))
+			p.position = start_pos - (p.size / 2.0)
+
+			var colors = [Color.GOLD, Color.CYAN, Color.MAGENTA, Color.LIME_GREEN, Color.WHITE]
+			p.modulate = colors.pick_random()
+
+			add_child(p)
+
+			var angle = randf_range(0, TAU)
+			var distance = randf_range(200.0, 800.0) 
+			var end_pos = p.position + (Vector2(cos(angle), sin(angle)) * distance)
+
+			var anim_time = randf_range(1.0, 2.5)
+			
+			var t = create_tween().set_parallel(true)
+			t.tween_property(p, "position", end_pos, anim_time).set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
+			t.tween_property(p, "rotation", randf_range(-TAU*3, TAU*3), anim_time).set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
+			t.tween_property(p, "scale", Vector2.ZERO, anim_time / 2.0).set_delay(anim_time / 2.0)
+
+			t.chain().tween_callback(p.queue_free)
+			
+		await get_tree().create_timer(0.1).timeout
 
 func _on_button_pressed() -> void:
+	pull_lever()
+
+func _on_texture_button_pressed() -> void:
 	pull_lever()

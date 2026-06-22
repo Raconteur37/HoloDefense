@@ -18,6 +18,7 @@ func updateVisualStatus():
 	pass
 
 func _ready() -> void:
+	startRun()
 	healthLabel.text = "City Health: " + str(GameManager.cityHealth)
 
 func _on_area_2d_body_entered(body: Node2D) -> void:

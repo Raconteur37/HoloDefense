@@ -141,6 +141,20 @@ func enemiesIncoming():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/enemiesIncoming.wav")
 	soundPlayer.play()
 
+func playSlotTick():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/slotTick.wav")
+	UIPlayer.play()
+
+func playSlotSelect():
+	soundPlayer.stream = load("res://Sounds/UI Sounds/slotTickSelect.wav")
+	soundPlayer.play()
+
+func playJackPotSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/Jackpot.wav")
+	UIPlayer.play()
+	await get_tree().create_timer(3.3).timeout
+	UIPlayer.stop()
+	UIPlayer.play(1)
 
 func _on_music_player_finished() -> void:
 	timer.wait_time = randf_range(2.0, 6.0)

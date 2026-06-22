@@ -16,6 +16,7 @@ extends Node
 
 @onready var stardustLabel = $HBoxContainer/StardustLabel
 
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	updateLabels()
@@ -83,3 +84,8 @@ func _on_convert_5_pressed() -> void:
 		EconomyManager.add_shards("unseen_turret",1)
 		EconomyManager.save_economy()
 	updateLabels()
+
+
+func _on_home_button_pressed() -> void:
+	if not $"Slot Machine".is_rolling:
+		get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")

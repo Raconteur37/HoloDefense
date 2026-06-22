@@ -8,6 +8,7 @@ colors = PackedColorArray(0.95969, 0.0573859, 3.85046e-07, 1, 0.211765, 0, 0.992
 
 [node name="CPUParticles2D2" type="CPUParticles2D" unique_id=710161924]
 z_index = 6
+emitting = false
 amount = 100
 lifetime = 10.0
 one_shot = true
@@ -53,5 +54,5 @@ scale_amount_min = 10.0
 scale_amount_max = 10.0
 color_ramp = SubResource("Gradient_2n0d3")
 
-[connection signal="timeout" from="Timer" to="Node2D/CPUParticles2D" method="_on_timer_timeout"]
 [connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="timeout" from="Timer" to="Node2D/CPUParticles2D" method="_on_timer_timeout"]

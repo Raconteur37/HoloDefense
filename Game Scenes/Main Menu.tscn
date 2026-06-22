@@ -120,7 +120,31 @@ grow_vertical = 2
 text = "Turrets"
 label_settings = SubResource("LabelSettings_0tngy")
 
+[node name="Shop Button" type="TextureButton" parent="VBoxContainer" unique_id=609240859]
+self_modulate = Color(0.24705882, 0.44705883, 1, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_odh6e")
+texture_pressed = ExtResource("4_oi18y")
+texture_hover = ExtResource("5_skoji")
+
+[node name="Label" type="Label" parent="VBoxContainer/Shop Button" unique_id=102305279]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -25.0
+offset_top = -62.8125
+offset_right = 25.0
+offset_bottom = 62.8125
+grow_horizontal = 2
+grow_vertical = 2
+text = "Shop"
+label_settings = SubResource("LabelSettings_0tngy")
+
 [node name="Multiplayer Button" type="TextureButton" parent="VBoxContainer" unique_id=1866920329]
+visible = false
 self_modulate = Color(0.24705882, 0.44705883, 1, 1)
 layout_mode = 2
 texture_normal = ExtResource("3_odh6e")
@@ -145,4 +169,5 @@ label_settings = SubResource("LabelSettings_0tngy")
 
 [connection signal="pressed" from="VBoxContainer/Solo Button" to="." method="_on_solo_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Turrets Button" to="." method="_on_turrets_button_pressed"]
+[connection signal="pressed" from="VBoxContainer/Shop Button" to="." method="_on_shop_button_pressed"]
 [connection signal="pressed" from="VBoxContainer/Multiplayer Button" to="." method="_on_multiplayer_button_pressed"]
