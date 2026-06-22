@@ -37,7 +37,6 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Mini Sentry Turret" type="CharacterBody2D" unique_id=429676908 groups=["Turret"]]
-position = Vector2(940, 474)
 collision_mask = 12
 script = ExtResource("1_obnxa")
 
@@ -70,9 +69,17 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 
 [node name="ReloadTimer" type="Timer" parent="." unique_id=228382928]
 
+[node name="SpeedupTimer" type="Timer" parent="." unique_id=1787588397]
+one_shot = true
+
+[node name="RepairTimer" type="Timer" parent="." unique_id=186349589]
+one_shot = true
+
 [connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
 [connection signal="mouse_entered" from="SelectArea" to="MiniSentryTurretTop" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="SpeedupTimer" to="." method="_on_speedup_timer_timeout"]
+[connection signal="timeout" from="RepairTimer" to="." method="_on_repair_timer_timeout"]

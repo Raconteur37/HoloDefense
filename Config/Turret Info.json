@@ -30,9 +30,14 @@
 		"health": 15,
 		"damage": 7,
 		"range": 100,
-		"reloadTime": 0.9,
+		"reloadTime": 0.8,
 		"projectileSpeed": 500,
 		"constructionTime": 5,
+		"killSpeedupTime": 2,
+		"reloadTimeSpeedupValue": 0.2,
+		"repairTime": 4,
+		"repairTickTime": 0.5,
+		"repairAmount": 2,
 		"scaleFactor": 0.04
 	},
 	"railgun_turret": {

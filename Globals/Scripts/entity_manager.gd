@@ -116,6 +116,9 @@ func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
 		return
 
 	turret.refreshUI(turret)
+	if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
+		if turret.level == 3:
+			turret.stopRepairEvent()
 
 
 func applyArmor(damage: int, entity) -> int:
@@ -166,6 +169,9 @@ func onKill(turret,enemy):
 			StatManager.addStat(turret.turretOwner.turretID,"kills",1)
 			turret.enemy = null
 		else:
+			if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
+				if turret.level >= 2:
+					turret.startSpeedEvent()
 			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID,"kills",1)
 	

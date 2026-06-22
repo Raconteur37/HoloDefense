@@ -2,6 +2,18 @@ extends Turret
 
 class_name MiniSentryTurret
 
+var speedupTimer : Timer
+var speedup : bool = false
+var speedupReloadTime : float
+var prevReloadTime : float
+
+@onready var repairTimer : Timer = $RepairTimer
+var repairTickTime : float
+var repairAmount : int
+var repairTime : float
+
+var maxArmor
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/sentry bullet.tscn")
@@ -17,11 +29,12 @@ func _ready() -> void:
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
 	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
+	maxArmor = armor
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -35,11 +48,21 @@ func _ready() -> void:
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = baseAttackRange
 	reloadTime = baseReloadTime
+	prevReloadTime = reloadTime
 	reloadTimer.wait_time = baseReloadTime
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	baseHealth = maxHealth
+	
+	speedupTimer = $SpeedupTimer
+	speedupTimer.wait_time = TurretManager.getTurretStat(turretID,"killSpeedupTime")
+	speedupReloadTime = TurretManager.getTurretStat(turretID,"reloadTimeSpeedupValue")
+
+	repairTickTime = TurretManager.getTurretStat(turretID,"repairTickTime")
+	repairAmount = TurretManager.getTurretStat(turretID,"repairAmount")
+	repairTime = TurretManager.getTurretStat(turretID,"repairTime") # How long before like the turret doesnt take dmg
+	repairTimer.wait_time = repairTime
 
 	isPlaced = true
 
@@ -98,13 +121,36 @@ func _on_select_area_mouse_entered() -> void:
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
 
+func startSpeedEvent():
+	speedupTimer.start()
+	reloadTime = speedupReloadTime
+	reloadTimer.start()
+	reloadTimer.wait_time = reloadTime
+
+func stopRepairEvent():
+	repairTimer.start()
+
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
 	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
 	reloadTime = max(.3,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	prevReloadTime = reloadTime
 	reloadTimer.wait_time = reloadTime
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	refreshUI(self)
+
+
+func _on_speedup_timer_timeout() -> void:
+	reloadTime = prevReloadTime
+	reloadTimer.wait_time = reloadTime
+
+
+func _on_repair_timer_timeout() -> void:
+	while armor < maxArmor:
+		if not repairTimer.is_stopped():
+			break
+		armor += repairAmount
+		await get_tree().create_timer(repairTickTime).timeout
