@@ -126,6 +126,7 @@ func startSpeedEvent():
 	reloadTime = speedupReloadTime
 	reloadTimer.start()
 	reloadTimer.wait_time = reloadTime
+	refreshUI(self)
 
 func stopRepairEvent():
 	repairTimer.start()
@@ -146,11 +147,12 @@ func applyUpgrade():
 func _on_speedup_timer_timeout() -> void:
 	reloadTime = prevReloadTime
 	reloadTimer.wait_time = reloadTime
-
+	refreshUI(self)
 
 func _on_repair_timer_timeout() -> void:
 	while armor < maxArmor:
 		if not repairTimer.is_stopped():
 			break
 		armor += repairAmount
+		refreshUI(self)
 		await get_tree().create_timer(repairTickTime).timeout
