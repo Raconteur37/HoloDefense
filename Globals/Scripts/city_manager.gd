@@ -107,7 +107,7 @@ var researchLabCostMultiplier
 var researchMaxLevel
 var researchBaseCost
 var researchCostScaling
-
+var researchTimeConsecutiveScale
 
 var milestoneMoney
 var milestoneEnergy
@@ -152,6 +152,8 @@ var maxScraperLevel
 var atomizerStartWeights = []
 var atomizerEndWeights = []
 var maxAtomizerLevel
+
+
 
 @onready var autoSellMap = {
 	Item.theItem.COPPER_GEM: "autoSellCommonGem",

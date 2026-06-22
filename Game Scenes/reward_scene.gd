@@ -54,9 +54,10 @@ var rewardConfig: Dictionary = {}
 
 var storedRewards: Array = []
 
+var nextInput = false
+
 func calculateRewards():
 	waveStardustLabel.text = "Waves " + str(wavesCompleted)
-
 	
 	wavesCompleted = StatManager.wavesCompleted
 	enemiesKilled = StatManager.enemiesKilled
@@ -69,20 +70,22 @@ func calculateRewards():
 	turretsPlaced = StatManager.turretsPlaced
 	citizensGenerated = StatManager.citizensGenerated
 	researchCompleted = StatManager.researchCompleted
-	difficultyMultiplier = WaveManager.currentDifficulty
 	systemsCompleted = StatManager.systemsCompleted
+	difficultyNumber = WaveManager.currentDifficulty
+	difficultyMultiplier = getDifficultyMultiplier(difficultyNumber)
 	
 	stardustEarned = 0
-	
-	#enemiesKilled = 10000
+	#enemiesKilled = 10
+	#tierOneEnemiesKilled = 10
+	#turretsPlaced = 6
+	#citizensGenerated = 3
+
 	#wavesCompleted = 10
 	#elapsedTime = 70
-	#difficultyNumber = 6
 	#tierOneEnemiesKilled = 10
 	#tierTwoEnemiesKilled = 1000
 	#tierThreeEnemiesKilled = 100
 	#bossesKilled = 3
-	#difficultyMultiplier = 1.35
 	#stardustTotal = 20000
 	
 	stardustEarned += wavesCompleted * getParameterValue("wave_completion_value")
@@ -95,10 +98,17 @@ func calculateRewards():
 	stardustEarned += citizensGenerated * getParameterValue("citizen_creation_value")
 	stardustEarned += citizensGenerated * getParameterValue("research_completion_value")
 	
-	difficultyMultiplier = difficultyMultiplier * getDifficultyMultiplier(difficultyMultiplier)
+	#print(stardustEarned)
+	#print(difficultyMultiplier)
 	
+	#print(floor(stardustEarned * difficultyMultiplier))
 	
-	stardustTotal = floor(stardustEarned * difficultyMultiplier)
+	stardustTotal = floor(floor(stardustEarned) * difficultyMultiplier)
+	
+	EconomyManager.add_stardust(stardustTotal)
+	EconomyManager.save_economy()
+	
+	#print(stardustTotal)
 	
 
 func _ready():
@@ -112,14 +122,23 @@ func _ready():
 
 	calculateRewards()
 	
-	var rollsEarned = floor(stardustTotal / 150)
+	var rollsEarned = floor(stardustTotal / 100)
 	for i in rollsEarned:
 		tryGrantReward()
 
 	startTweens()
+	
+	SoundManager.playGameOverMusic(false)
+	
+	#print(TurretManager.lockedCommonTurrets)
 
 
 func _process(delta: float) -> void:
+	if Input.is_action_just_pressed("click"):
+		if nextInput:
+			nextInput = false
+			get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+			GameManager.reset()
 	if activeTween and activeTween.is_valid():
 		if Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
 			activeTween.set_speed_scale(5.0)
@@ -228,6 +247,7 @@ func setInvisible():
 	$VBoxContainer5/HBoxContainer11.modulate = Color(0,0,0,0)
 	$RewardContainerBottom/HBoxContainer.modulate = Color(0,0,0,0)
 	$VBoxContainer5/HBoxContainer11.modulate = Color(0,0,0,0)
+	$InfoLabel.modulate = Color(0,0,0,0)
 	
 func formatNumber(val):
 	var stringVal = str(val)
@@ -305,23 +325,23 @@ func _on_timer_timeout() -> void:
 			countUp(activeTween,citizensGenerated,citizensGeneratedLabel,1)
 		16:
 			activeTween.tween_property($VBoxContainer5/HSeparator8,"modulate",Color(1,1,1,1), 0.3)
-			countUp(activeTween,citizensGenerated,citizensGeneratedLabel,1)
+			activeTween.tween_callback(_on_timer_timeout)
 		17:
 			activeTween.tween_property($VBoxContainer5/HBoxContainer9,"modulate",Color(1,1,1,1), 0.3)
 			countUp(activeTween,researchCompleted,researchCompletedLabel,1)
 		18:
 			activeTween.tween_property($VBoxContainer5/HSeparator9,"modulate",Color(1,1,1,1), 0.3)
-			countUp(activeTween,researchCompleted,researchCompletedLabel,1)
+			activeTween.tween_callback(_on_timer_timeout)
 		19:
 			activeTween.tween_property($VBoxContainer5/HBoxContainer10,"modulate",Color(1,1,1,1), 0.3)
 			countUp(activeTween,stardustEarned,stardustEarnedLabel,1)
 		20:
 			activeTween.tween_property($VBoxContainer5/HSeparator10,"modulate",Color(1,1,1,1), 0.3)
-			countUp(activeTween,researchCompleted,researchCompletedLabel,1)
+			activeTween.tween_callback(_on_timer_timeout)
 		21:
-			difficultyMultiplierLabel.text = str(difficultyMultiplier)
+			difficultyMultiplierLabel.text = "x" + str(getDifficultyMultiplier(difficultyNumber))
 			activeTween.tween_property($VBoxContainer5/HBoxContainer11,"modulate",Color(1,1,1,1), 0.5)
-			countUp(activeTween,researchCompleted,researchCompletedLabel,1)
+			activeTween.tween_callback(_on_timer_timeout)
 		22:
 			activeTween.tween_property($RewardContainerBottom/HBoxContainer,"modulate",Color(1,1,1,1), 0.3)
 			countUp(activeTween,stardustTotal,stardustTotalLabel,1)
@@ -329,6 +349,12 @@ func _on_timer_timeout() -> void:
 			activeTween.tween_property($BonusRollsContainer,"modulate",Color(1,1,1,1), 0.5)
 			displayStoredRewards()
 			activeTween.tween_callback(_on_timer_timeout)
+		24:
+			activeTween.tween_property($InfoLabel,"modulate",Color(1,1,1,1), 1)
+			activeTween.tween_callback(startInput)
+
+func startInput():
+	nextInput = true
 
 func countUp(tween,value,label,time):
 	tween.set_trans(Tween.TRANS_QUAD).set_ease(Tween.EASE_OUT)
@@ -373,7 +399,7 @@ func rollReward() -> Dictionary:
 	
 	var totalWeight : float = cumulativeWeights.back()["cumulative"]
 	var roll : float = randf() * totalWeight
-	print("Roll num: " + str(roll))
+	#print("Roll num: " + str(roll))
 	
 	for entry in cumulativeWeights:
 		if roll <= entry["cumulative"]:
@@ -450,64 +476,75 @@ func populateItem(targetItem: Control, itemName: String, amount):
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Used for a variety of things."
 			itemTexture.texture = load("res://Textures/Shop/stardust_128x128.png")
+			EconomyManager.add_stardust(amount)
 		"Common Fragments":
 			itemNameLabel.text = "Common Fragments"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Can be turned into Common Shards."
 			itemTexture.texture = load("res://Textures/Shop/shard_shattered_64x64.png")
+			EconomyManager.add_shard_fragments("common_turret",amount)
 		"Rare Fragments":
 			itemNameLabel.text = "Rare Fragments"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Can be turned into Rare Shards."
 			itemTexture.texture = load("res://Textures/Shop/shard_shattered_64x64.png")
 			itemTexture.modulate = Color("4a6cff")
+			EconomyManager.add_shard_fragments("rare_turret",amount)
 		"Super Rare Fragments":
 			itemNameLabel.text = "Super Rare Fragments"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Can be turned into Super Rare Shards."
 			itemTexture.texture = load("res://Textures/Shop/shard_shattered_64x64.png")
 			itemTexture.modulate = Color("6c01c1")
+			EconomyManager.add_shard_fragments("super_rare_turret",amount)
 		"Legendary Fragments":
 			itemNameLabel.text = "Legendary Fragments"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Can be turned into Legendary Shards."
 			itemTexture.texture = load("res://Textures/Shop/shard_shattered_64x64.png")
 			itemTexture.modulate = Color("e3b11b")
+			EconomyManager.add_shard_fragments("legendary_turret",amount)
 		"Unseen Fragments":
 			itemNameLabel.text = "Unseen Fragments"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Can be turned into Unseen Shards."
 			itemTexture.texture = load("res://Textures/Shop/shard_shattered_64x64.png")
 			itemTexture.modulate = Color("fc5d7f")
+			EconomyManager.add_shard_fragments("unseen_turret",amount)
 		"Common Shards":
 			itemNameLabel.text = "Common Shard"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Four of them can be used to unlock any Common Turret."
 			itemTexture.texture = load("res://Textures/Shop/shard_64x64.png")
+			EconomyManager.add_shards("common_turret",amount)
 		"Rare Shards":
 			itemNameLabel.text = "Rare Shard"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Four of them can be used to unlock any Rare Turret."
 			itemTexture.texture = load("res://Textures/Shop/shard_64x64.png")
 			itemTexture.modulate = Color("4a6cff")
+			EconomyManager.add_shards("rare_turret",amount)
 		"Super Rare Shards":
 			itemNameLabel.text = "Super Rare Shard"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Four of them can be used to unlock any Super Rare Turret."
 			itemTexture.texture = load("res://Textures/Shop/shard_64x64.png")
 			itemTexture.modulate = Color("6c01c1")
+			EconomyManager.add_shards("super_rare_turret",amount)
 		"Legendary Shards":
 			itemNameLabel.text = "Legendary Shard"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Four of them can be used to unlock any Legendary Turret."
 			itemTexture.texture = load("res://Textures/Shop/shard_64x64.png")
 			itemTexture.modulate = Color("e3b11b")
+			EconomyManager.add_shards("legendary_turret",amount)
 		"Unseen Shards":
 			itemNameLabel.text = "Unseen Shard"
 			itemAmountLabel.text = "x" + str(amount)
 			itemDescriptionLabel.text = "Four of them can be used to unlock any Unseen Turret."
 			itemTexture.texture = load("res://Textures/Shop/shard_64x64.png")
 			itemTexture.modulate = Color("fc5d7f")
+			EconomyManager.add_shards("unseen_turret",amount)
 		"Random Common Turret":
 			if TurretManager.lockedCommonTurrets.size() > 1:
 				var turretID = TurretManager.lockedCommonTurrets.pick_random()
@@ -515,6 +552,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				itemAmountLabel.text = "Unlocked!"
 				itemDescriptionLabel.text = "Congrats! You unlocked a brand new turret!"
 				itemTexture.texture = TurretManager.getTurretTexture(turretID)
+				EconomyManager.unlock_turret(turretID)
 			else:
 				itemNameLabel.text = "Unstable Shard"
 				itemAmountLabel.text = "x" + str(amount)
@@ -524,6 +562,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				var shaderMat = ShaderMaterial.new()
 				shaderMat.shader = shader
 				itemTexture.material = shaderMat
+				EconomyManager.add_shards("unstable",amount)
 		"Random Rare Turret":
 			if TurretManager.lockedRareTurrets.size() > 1:
 				var turretID = TurretManager.lockedRareTurrets.pick_random()
@@ -531,6 +570,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				itemAmountLabel.text = "Unlocked!"
 				itemDescriptionLabel.text = "Congrats! You unlocked a brand new turret!"
 				itemTexture.texture = TurretManager.getTurretTexture(turretID)
+				EconomyManager.unlock_turret(turretID)
 			else:
 				itemNameLabel.text = "Unstable Shard"
 				itemAmountLabel.text = "x" + str(amount)
@@ -540,6 +580,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				var shaderMat = ShaderMaterial.new()
 				shaderMat.shader = shader
 				itemTexture.material = shaderMat
+				EconomyManager.add_shards("unstable",amount)
 		"Random Super Rare Turret":
 			if TurretManager.lockedSuperRareTurrets.size() > 1:
 				var turretID = TurretManager.lockedSuperRareTurrets.pick_random()
@@ -547,6 +588,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				itemAmountLabel.text = "Unlocked!"
 				itemDescriptionLabel.text = "Congrats! You unlocked a brand new turret!"
 				itemTexture.texture = TurretManager.getTurretTexture(turretID)
+				EconomyManager.unlock_turret(turretID)
 			else:
 				itemNameLabel.text = "Unstable Shard"
 				itemAmountLabel.text = "x" + str(amount)
@@ -556,6 +598,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				var shaderMat = ShaderMaterial.new()
 				shaderMat.shader = shader
 				itemTexture.material = shaderMat
+				EconomyManager.add_shards("unstable",amount)
 		"Random Legendary Turret":
 			if TurretManager.lockedLegendaryTurrets.size() > 1:
 				var turretID = TurretManager.lockedLegendaryTurrets.pick_random()
@@ -563,6 +606,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				itemAmountLabel.text = "Unlocked!"
 				itemDescriptionLabel.text = "Congrats! You unlocked a brand new turret!"
 				itemTexture.texture = TurretManager.getTurretTexture(turretID)
+				EconomyManager.unlock_turret(turretID)
 			else:
 				itemNameLabel.text = "Unstable Shard"
 				itemAmountLabel.text = "x" + str(amount)
@@ -572,6 +616,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				var shaderMat = ShaderMaterial.new()
 				shaderMat.shader = shader
 				itemTexture.material = shaderMat
+				EconomyManager.add_shards("unstable",amount)
 		"Random Unseen Turret":
 			if TurretManager.lockedUnseenTurrets.size() > 1:
 				var turretID = TurretManager.lockedUnseenTurrets.pick_random()
@@ -579,6 +624,7 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				itemAmountLabel.text = "Unlocked!"
 				itemDescriptionLabel.text = "Congrats! You unlocked a brand new turret!"
 				itemTexture.texture = TurretManager.getTurretTexture(turretID)
+				EconomyManager.unlock_turret(turretID)
 			else:
 				itemNameLabel.text = "Unstable Shard"
 				itemAmountLabel.text = "x" + str(amount)
@@ -588,3 +634,5 @@ func populateItem(targetItem: Control, itemName: String, amount):
 				var shaderMat = ShaderMaterial.new()
 				shaderMat.shader = shader
 				itemTexture.material = shaderMat
+				EconomyManager.add_shards("unstable",amount)
+	EconomyManager.save_economy()

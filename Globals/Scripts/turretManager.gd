@@ -1,12 +1,14 @@
 extends Node
 
+signal turret_unlocked_signal(turret_id)
+
 var turretData = {}
 var turretXpData = {}
 var turretLevel = {}
 var xpMaxData = {}
 
-# Use the enum from the Turret class for the array type
-var unlockedTurrets: Array[Turret.TurretID] = [
+# Keep a master list of all turrets so we can iterate through them
+const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.ARROW_TURRET,
 	Turret.TurretID.MINI_SENTRY_TURRET,
 	Turret.TurretID.ENERGIZER_TURRET,
@@ -27,26 +29,56 @@ var unlockedTurrets: Array[Turret.TurretID] = [
 	Turret.TurretID.BOOMERANG_TURRET
 ]
 
-var lockedCommonTurrets: Array[Turret.TurretID] = [
-
-]
-var lockedRareTurrets: Array[Turret.TurretID] = [
-
-]
-var lockedSuperRareTurrets: Array[Turret.TurretID] = [
-
-]
-var lockedLegendaryTurrets: Array[Turret.TurretID] = [
-
-]
-var lockedUnseenTurrets: Array[Turret.TurretID] = [
-
-]
+# These start empty and get filled dynamically on _ready
+var unlockedTurrets: Array[Turret.TurretID] = []
+var lockedCommonTurrets: Array[Turret.TurretID] = []
+var lockedRareTurrets: Array[Turret.TurretID] = []
+var lockedSuperRareTurrets: Array[Turret.TurretID] = []
+var lockedLegendaryTurrets: Array[Turret.TurretID] = []
+var lockedUnseenTurrets: Array[Turret.TurretID] = []
 
 func _ready() -> void:
 	loadTurretData()
 	loadTurretXpData()
 	loadXpMaximum()
+	
+	# Sort the turrets into their respective arrays based on Economy data
+	sort_turrets()
+	
+	EconomyManager.turret_unlocked_signal.connect(_on_turret_unlocked)
+
+func _on_turret_unlocked(_turret_id) -> void:
+	sort_turrets()
+
+func sort_turrets() -> void:
+	# Clear arrays just in case this is called multiple times
+	unlockedTurrets.clear()
+	lockedCommonTurrets.clear()
+	lockedRareTurrets.clear()
+	lockedSuperRareTurrets.clear()
+	lockedLegendaryTurrets.clear()
+	lockedUnseenTurrets.clear()
+
+	# Loop through every turret in the game
+	for turretID in ALL_TURRETS:
+		if EconomyManager.is_turret_unlocked(turretID):
+			unlockedTurrets.append(turretID)
+		else:
+			# If it's locked, get its rarity and put it in the right list
+			var rarity = getTurretStat(turretID, "rarity")
+			match rarity:
+				"Common":
+					lockedCommonTurrets.append(turretID)
+				"Rare":
+					lockedRareTurrets.append(turretID)
+				"Super Rare":
+					lockedSuperRareTurrets.append(turretID)
+				"Legendary":
+					lockedLegendaryTurrets.append(turretID)
+				"Unseen":
+					lockedUnseenTurrets.append(turretID)
+				_:
+					push_warning("Unknown rarity for locked turret: " + str(rarity))
 
 func get_turret_string(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()

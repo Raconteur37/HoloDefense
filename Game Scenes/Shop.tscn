@@ -12,6 +12,10 @@
 [ext_resource type="Texture2D" uid="uid://654f3qi67dsg" path="res://Textures/Shop/shard_shattered_64x64.png" id="9_bl835"]
 [ext_resource type="Shader" uid="uid://dhin76yoo42at" path="res://Shaders/unstable.gdshader" id="9_wy80l"]
 [ext_resource type="Texture2D" uid="uid://c6nhi25dpecyc" path="res://Textures/Shop/stardust_128x128.png" id="12_qcw3l"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="13_sy4b0"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="14_rmcqe"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="15_yj6kq"]
+[ext_resource type="Texture2D" uid="uid://dcuaudp0vdmqm" path="res://Textures/Shop/futuristic-purple-gradient-chevron-arrow-design-transparent-background-free-png-1097547368.png" id="16_rmcqe"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_wy80l"]
 shader = ExtResource("1_8hder")
@@ -45,34 +49,8 @@ _data = {
 &"Spin": SubResource("Animation_j6ssx")
 }
 
-[sub_resource type="FontFile" id="FontFile_dn8hd"]
-cache/0/variation_coordinates = {}
-cache/0/face_index = 0
-cache/0/embolden = 0.0
-cache/0/transform = Transform2D(1, 0, 0, 1, 0, 0)
-cache/0/spacing_top = 0
-cache/0/spacing_bottom = 0
-cache/0/spacing_space = 0
-cache/0/spacing_glyph = 0
-cache/0/baseline_offset = 0.0
-cache/0/16/0/ascent = 0.0
-cache/0/16/0/descent = 0.0
-cache/0/16/0/underline_position = 0.0
-cache/0/16/0/underline_thickness = 0.0
-cache/0/16/0/scale = 1.0
-cache/0/50/0/ascent = 0.0
-cache/0/50/0/descent = 0.0
-cache/0/50/0/underline_position = 0.0
-cache/0/50/0/underline_thickness = 0.0
-cache/0/50/0/scale = 1.0
-
-[sub_resource type="LabelSettings" id="LabelSettings_twyhd"]
-font = SubResource("FontFile_dn8hd")
-font_size = 50
-font_color = Color(0.258824, 1, 1, 1)
-outline_size = 10
-outline_color = Color(0.239216, 0, 1, 1)
-shadow_color = Color(0, 0, 0, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_yj6kq"]
+font_size = 24
 
 [sub_resource type="LabelSettings" id="LabelSettings_bl835"]
 font_size = 30
@@ -88,6 +66,11 @@ shader_parameter/holo_strength = 1.9010000902975
 
 [sub_resource type="LabelSettings" id="LabelSettings_sy4b0"]
 font_size = 55
+
+[sub_resource type="LabelSettings" id="LabelSettings_rmcqe"]
+font_size = 20
+
+[sub_resource type="LabelSettings" id="LabelSettings_vwu7l"]
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1898291336]
 script = ExtResource("1_nqpbt")
@@ -127,7 +110,7 @@ grow_horizontal = 2
 grow_vertical = 2
 texture = ExtResource("3_bl835")
 
-[node name="Slot Machine" type="Control" parent="." unique_id=2041197915]
+[node name="Slot Machine" type="Control" parent="." unique_id=2041197915 node_paths=PackedStringArray("slot_1", "slot_2", "slot_3")]
 layout_mode = 3
 anchors_preset = 8
 anchor_left = 0.5
@@ -141,14 +124,9 @@ offset_bottom = -310.0
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_c4eij")
-
-[node name="Button" type="Button" parent="Slot Machine" unique_id=1756070090]
-layout_mode = 0
-offset_left = 232.0
-offset_top = 195.0
-offset_right = 322.0
-offset_bottom = 259.0
-text = "press here"
+slot_1 = NodePath("HBoxContainer/MarginContainer/TextureRect")
+slot_2 = NodePath("HBoxContainer/MarginContainer2/TextureRect")
+slot_3 = NodePath("HBoxContainer/MarginContainer3/TextureRect")
 
 [node name="PanelContainer" type="PanelContainer" parent="Slot Machine" unique_id=545035527]
 layout_mode = 0
@@ -206,17 +184,40 @@ libraries/ = SubResource("AnimationLibrary_moqv8")
 [node name="Roll Timer" type="Timer" parent="Slot Machine" unique_id=1651824631]
 wait_time = 0.1
 
-[node name="WinLabel" type="Label" parent="Slot Machine" unique_id=1427802698]
+[node name="TextureButton" type="TextureButton" parent="Slot Machine" unique_id=1646293375]
+modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
-offset_left = -134.0
-offset_top = -179.0
-offset_right = 18.0
-offset_bottom = -110.0
-label_settings = SubResource("LabelSettings_twyhd")
+offset_left = 182.0
+offset_top = 195.0
+offset_right = 1102.0
+offset_bottom = 511.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Label" type="Label" parent="Slot Machine" unique_id=489013839]
+layout_mode = 0
+offset_left = 270.0
+offset_top = 228.0
+offset_right = 413.0
+offset_bottom = 258.0
+text = "x10     Spin!"
+label_settings = SubResource("LabelSettings_yj6kq")
+
+[node name="TextureRect" type="TextureRect" parent="Slot Machine" unique_id=1103448574]
+layout_mode = 0
+offset_left = 217.0
+offset_top = 217.0
+offset_right = 345.0
+offset_bottom = 345.0
+scale = Vector2(0.4, 0.4)
+texture = ExtResource("12_qcw3l")
 
 [node name="VBoxContainer" type="VBoxContainer" parent="." unique_id=1783086683]
-offset_right = 40.0
-offset_bottom = 40.0
+offset_left = 2.0
+offset_right = 101.0
+offset_bottom = 404.0
 
 [node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer" unique_id=1592898547]
 layout_mode = 2
@@ -378,10 +379,10 @@ text = "10"
 label_settings = SubResource("LabelSettings_bl835")
 
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=812020681]
-offset_left = 1560.0
-offset_top = 7.0
-offset_right = 1913.0
-offset_bottom = 135.0
+offset_left = 1555.0
+offset_top = 5.0
+offset_right = 1918.0
+offset_bottom = 133.0
 
 [node name="StardustIcon" type="TextureRect" parent="HBoxContainer" unique_id=917820737]
 layout_mode = 2
@@ -392,5 +393,237 @@ layout_mode = 2
 text = "1000000"
 label_settings = SubResource("LabelSettings_sy4b0")
 
-[connection signal="pressed" from="Slot Machine/Button" to="Slot Machine" method="_on_button_pressed"]
+[node name="ConvertButtons" type="HBoxContainer" parent="." unique_id=730904519]
+offset_left = 431.0
+offset_top = 930.0
+offset_right = 5831.0
+offset_bottom = 1246.0
+scale = Vector2(0.2, 0.2)
+theme_override_constants/separation = 200
+
+[node name="Convert1" type="TextureButton" parent="ConvertButtons" unique_id=2123533865]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Convert2" type="TextureButton" parent="ConvertButtons" unique_id=1227759537]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Convert3" type="TextureButton" parent="ConvertButtons" unique_id=952921351]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Convert4" type="TextureButton" parent="ConvertButtons" unique_id=1016801722]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Convert5" type="TextureButton" parent="ConvertButtons" unique_id=183284332]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 4
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="ConvertShardDisplay" type="HBoxContainer" parent="." unique_id=351785884]
+offset_left = 488.0
+offset_top = 689.0
+offset_right = 1448.0
+offset_bottom = 753.0
+theme_override_constants/separation = 160
+
+[node name="Shard1" type="TextureRect" parent="ConvertShardDisplay" unique_id=1733087995]
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="Shard2" type="TextureRect" parent="ConvertShardDisplay" unique_id=134782050]
+modulate = Color(0.2901961, 0.42352942, 1, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="Shard3" type="TextureRect" parent="ConvertShardDisplay" unique_id=412816594]
+modulate = Color(0.42352942, 0.003921569, 0.75686276, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="Shard4" type="TextureRect" parent="ConvertShardDisplay" unique_id=437009143]
+modulate = Color(0.8901961, 0.69411767, 0.105882354, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="Shard5" type="TextureRect" parent="ConvertShardDisplay" unique_id=1447605135]
+modulate = Color(0.9882353, 0.3647059, 0.49803922, 1)
+layout_mode = 2
+texture = ExtResource("8_et1ub")
+
+[node name="VBoxContainer3" type="VBoxContainer" parent="." unique_id=1653377012]
+modulate = Color(0.21176471, 0.5372549, 1, 1)
+offset_left = 1457.0
+offset_top = 778.0
+offset_right = 3031.0
+offset_bottom = 10678.0
+rotation = 1.5707964
+scale = Vector2(0.1, 0.1)
+theme_override_constants/separation = 1550
+
+[node name="Arrrow1" type="TextureRect" parent="VBoxContainer3" unique_id=1254880311]
+layout_mode = 2
+texture = ExtResource("16_rmcqe")
+
+[node name="Arrrow2" type="TextureRect" parent="VBoxContainer3" unique_id=744086648]
+layout_mode = 2
+texture = ExtResource("16_rmcqe")
+
+[node name="Arrrow3" type="TextureRect" parent="VBoxContainer3" unique_id=1128612895]
+layout_mode = 2
+texture = ExtResource("16_rmcqe")
+
+[node name="Arrrow4" type="TextureRect" parent="VBoxContainer3" unique_id=546638130]
+layout_mode = 2
+texture = ExtResource("16_rmcqe")
+
+[node name="Arrrow5" type="TextureRect" parent="VBoxContainer3" unique_id=1070286433]
+layout_mode = 2
+texture = ExtResource("16_rmcqe")
+
+[node name="Label" type="Label" parent="." unique_id=547808603]
+offset_left = 534.0
+offset_top = 950.0
+offset_right = 566.0
+offset_bottom = 975.0
+text = "x10"
+label_settings = SubResource("LabelSettings_rmcqe")
+
+[node name="Label2" type="Label" parent="." unique_id=2089284652]
+offset_left = 761.0
+offset_top = 950.0
+offset_right = 793.0
+offset_bottom = 975.0
+text = "x10"
+label_settings = SubResource("LabelSettings_rmcqe")
+
+[node name="Label3" type="Label" parent="." unique_id=1748584960]
+offset_left = 986.0
+offset_top = 950.0
+offset_right = 1018.0
+offset_bottom = 975.0
+text = "x10"
+label_settings = SubResource("LabelSettings_rmcqe")
+
+[node name="Label4" type="Label" parent="." unique_id=1413075599]
+offset_left = 1210.0
+offset_top = 950.0
+offset_right = 1242.0
+offset_bottom = 975.0
+text = "x10"
+label_settings = SubResource("LabelSettings_rmcqe")
+
+[node name="Label5" type="Label" parent="." unique_id=1753735771]
+offset_left = 1437.0
+offset_top = 950.0
+offset_right = 1469.0
+offset_bottom = 975.0
+text = "x10"
+label_settings = SubResource("LabelSettings_rmcqe")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=572924640]
+offset_left = 470.0
+offset_top = 937.0
+offset_right = 534.0
+offset_bottom = 1001.0
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+texture = ExtResource("9_bl835")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=1512376954]
+modulate = Color(0.2901961, 0.42352942, 1, 1)
+offset_left = 695.0
+offset_top = 937.0
+offset_right = 759.0
+offset_bottom = 1001.0
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+texture = ExtResource("9_bl835")
+
+[node name="TextureRect3" type="TextureRect" parent="." unique_id=1709863239]
+modulate = Color(0.42352942, 0.003921569, 0.75686276, 1)
+offset_left = 921.0
+offset_top = 937.0
+offset_right = 985.0
+offset_bottom = 1001.0
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+texture = ExtResource("9_bl835")
+
+[node name="TextureRect4" type="TextureRect" parent="." unique_id=1461427555]
+modulate = Color(0.8901961, 0.69411767, 0.105882354, 1)
+offset_left = 1145.0
+offset_top = 937.0
+offset_right = 1209.0
+offset_bottom = 1001.0
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+texture = ExtResource("9_bl835")
+
+[node name="TextureRect5" type="TextureRect" parent="." unique_id=1172160747]
+modulate = Color(0.9882353, 0.3647059, 0.49803922, 1)
+offset_left = 1368.0
+offset_top = 937.0
+offset_right = 1432.0
+offset_bottom = 1001.0
+scale = Vector2(0.8, 0.8)
+mouse_filter = 2
+texture = ExtResource("9_bl835")
+
+[node name="winLabel" type="RichTextLabel" parent="." unique_id=709000667]
+visible = false
+z_index = 7
+offset_left = 96.0
+offset_top = 236.0
+offset_right = 1906.0
+offset_bottom = 939.0
+bbcode_enabled = true
+text = "[font_size=150][center][b][rainbow freq=1.0 sat=1.0 val=1.0]YOU WON %s![/rainbow][/b][/center]"
+
+[node name="HomeButton" type="TextureButton" parent="." unique_id=478759150]
+offset_left = 12.000008
+offset_top = 1003.0
+offset_right = 932.0
+offset_bottom = 1319.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
+[node name="Label6" type="Label" parent="." unique_id=750758892]
+offset_left = 81.0
+offset_top = 1025.0
+offset_right = 126.0
+offset_bottom = 1045.0
+text = "Menu"
+label_settings = SubResource("LabelSettings_vwu7l")
+
 [connection signal="timeout" from="Slot Machine/Roll Timer" to="Slot Machine" method="_on_roll_time_timeout"]
+[connection signal="pressed" from="Slot Machine/TextureButton" to="Slot Machine" method="_on_texture_button_pressed"]
+[connection signal="pressed" from="ConvertButtons/Convert1" to="." method="_on_convert_1_pressed"]
+[connection signal="pressed" from="ConvertButtons/Convert2" to="." method="_on_convert_2_pressed"]
+[connection signal="pressed" from="ConvertButtons/Convert3" to="." method="_on_convert_3_pressed"]
+[connection signal="pressed" from="ConvertButtons/Convert4" to="." method="_on_convert_4_pressed"]
+[connection signal="pressed" from="ConvertButtons/Convert5" to="." method="_on_convert_5_pressed"]
+[connection signal="pressed" from="HomeButton" to="." method="_on_home_button_pressed"]

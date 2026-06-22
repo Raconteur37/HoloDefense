@@ -14,6 +14,7 @@ var turretsList = []
 
 # int will be the turretID (we can use this for the texture) the timer will be the timer of the current research
 var currentResearchingMap : Dictionary[Timer,int] = {}
+var timerTimesResearchedMap : Dictionary[Timer, int] = {} # <--- Tracks consecutive scale per timer
 
 var currentTurretImage1
 var currentTurretImage2
@@ -179,8 +180,7 @@ func _ready() -> void:
 	currentWorkersLabel = $menuControl/LabBackground/CurrentWorkersLabel
 
 	purchaseLabel = $menuControl/LabBackground/PurchaseLabel
-	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]
-[color=gold]$"+                     str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
+	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]\n[color=gold]$"+                      str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
 
 	descriptionLabel = $menuControl/LabBackground/Description
 
@@ -217,24 +217,29 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 func updateResearchCost(turret,amountUpgraded):
 	costMap[turret] = roundf(CityManager.researchBaseCost * pow((1 + CityManager.researchCostScaling),(amountUpgraded-1)))
 
-func researchTurret(turretID):
-	var baseTime = TurretManager.getTurretStat(turretID, "constructionTime") * CityManager.researchTimeMinScale
-	#var startMult = CityManager.researchTimeMinScale
-	#var endMult = CityManager.researchTimeScale
+func get_times_researched(turretID) -> int:
+	# Get how many times it was already completed
+	var baseTimes = GameManager.turretTempLevels.get(turretID, 1) - 1 
+	
+	# Add how many times it is CURRENTLY queued in the lab
+	var queuedTimes = 0
+	for id in currentResearchingMap.values():
+		if id == turretID:
+			queuedTimes += 1
+			
+	return baseTimes + queuedTimes
 
-	# how much to decay per level
-	#var totalDecay = startMult - endMult
-	#var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
-	# current multiplier
-	#var multiplier = startMult - (decayPerLevel * (CityManager.cityLevel - 1))
-	# floor so it never goes negative or too fast
-	#multiplier = max(multiplier, endMult)
+func researchTurret(turretID):
+	var timesResearched = get_times_researched(turretID)
+	var baseTime = TurretManager.getTurretStat(turretID, "constructionTime") * CityManager.researchTimeMinScale
+	
+	var consecutiveScaleMultiplier = CityManager.researchTimeConsecutiveScale * timesResearched
+	var scaledBaseTime = baseTime + (baseTime * consecutiveScaleMultiplier)
 
 	var totalReduction = getWorkerTotalReduction()
-	var researchTime = baseTime * (1.0 - totalReduction)
-	#var researchTime = (baseTime * multiplier) * (1.0 - totalReduction)
+	var researchTime = scaledBaseTime * (1.0 - totalReduction)
+	
 	researchTime = max(researchTime, 0.5)
-	#print("Research Time after clicked: " + str(researchTime))
 
 	usedSlots += 1
 	var timer = Timer.new()
@@ -244,6 +249,7 @@ func researchTurret(turretID):
 	
 	timer.start()
 	currentResearchingMap[timer] = turretID
+	timerTimesResearchedMap[timer] = timesResearched # Save the scale for this specific timer
 	
 	timer.timeout.connect(researchComplete.bind(timer, turretID))
 	
@@ -251,8 +257,7 @@ func researchTurret(turretID):
 
 func updateUI():
 	
-	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]
-[color=gold]$"+                     str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
+	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]\n[color=gold]$"+                      str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
 	
 	var textures = [currentTurretImage1,currentTurretImage2,currentTurretImage3,currentTurretImage4,currentTurretImage5,currentTurretImage6,currentTurretImage7,currentTurretImage8,currentTurretImage9,currentTurretImage10]
 	# loop through your turrets in the selection and fill the list respectivley with the images
@@ -261,15 +266,19 @@ func updateUI():
 			var texture = TurretManager.getTurretTexture(GameManager.turretsBrought[i])
 			turretsList.append(GameManager.turretsBrought[i])
 			textures[i].texture = texture
+			textures[i].show()
 
 	var labels = [currentTurretResearchButtonLabel1,currentTurretResearchButtonLabel2,currentTurretResearchButtonLabel3,currentTurretResearchButtonLabel4,currentTurretResearchButtonLabel5,currentTurretResearchButtonLabel6,currentTurretResearchButtonLabel7,currentTurretResearchButtonLabel8,currentTurretResearchButtonLabel9,currentTurretResearchButtonLabel10]
 	for i in range(10):
-		labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
+		if i >= 0 and i < GameManager.turretsBrought.size():
+			labels[i].show()
+			labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
 
 	textures = [researchSlotTexture1,researchSlotTexture2,researchSlotTexture3,researchSlotTexture4,researchSlotTexture5,researchSlotTexture6,researchSlotTexture7,researchSlotTexture8,researchSlotTexture9,researchSlotTexture10]
 	if currentSlots <= maxSlots:
 		for i in range(currentSlots):
 			textures[i].texture = load("res://Textures/Holo City/empty research slot.png")
+			textures[i].show()
 	
 	for item in researchBarList:
 		item.value = 0
@@ -287,6 +296,7 @@ func researchComplete(timer : Timer,turretID):
 	CityManager.addTurretTempLevel(turretID,1)
 	
 	currentResearchingMap.erase(timer)
+	timerTimesResearchedMap.erase(timer)
 	
 	GameManager.updateTurretLevels(turretID)
 	
@@ -321,7 +331,6 @@ func _on_turret_two_research_button_pressed() -> void:
 			updateResearchCost(turretsList[1],purchaseTwo)
 			researchTurret(turretsList[1])
 
-
 func _on_turret_three_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[2]):
@@ -330,7 +339,6 @@ func _on_turret_three_research_button_pressed() -> void:
 			turretLevelDisplayText3.text = "[font_size=15][color=blue]" + str(purchaseThree) + "[/color][/font_size]"
 			updateResearchCost(turretsList[2],purchaseThree)
 			researchTurret(turretsList[2])
-
 
 func _on_turret_four_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
@@ -341,7 +349,6 @@ func _on_turret_four_research_button_pressed() -> void:
 			updateResearchCost(turretsList[3],purchaseFour)
 			researchTurret(turretsList[3])
 
-
 func _on_turret_five_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[4]):
@@ -350,7 +357,6 @@ func _on_turret_five_research_button_pressed() -> void:
 			turretLevelDisplayText5.text = "[font_size=15][color=blue]" + str(purchaseFive) + "[/color][/font_size]"
 			updateResearchCost(turretsList[4],purchaseFive)
 			researchTurret(turretsList[4])
-
 
 func _on_turret_six_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
@@ -361,7 +367,6 @@ func _on_turret_six_research_button_pressed() -> void:
 			updateResearchCost(turretsList[5],purchaseSix)
 			researchTurret(turretsList[5])
 
-
 func _on_turret_seven_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[6]):
@@ -370,7 +375,6 @@ func _on_turret_seven_research_button_pressed() -> void:
 			turretLevelDisplayText7.text = "[font_size=15][color=blue]" + str(purchaseSeven) + "[/color][/font_size]"
 			updateResearchCost(turretsList[6],purchaseSeven)
 			researchTurret(turretsList[6])
-
 
 func _on_turret_eight_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
@@ -381,7 +385,6 @@ func _on_turret_eight_research_button_pressed() -> void:
 			updateResearchCost(turretsList[7],purchaseEight)
 			researchTurret(turretsList[7])
 
-
 func _on_turret_nine_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
 		if CityManager.currentEnergy >= costMap.get(turretsList[8]):
@@ -390,7 +393,6 @@ func _on_turret_nine_research_button_pressed() -> void:
 			turretLevelDisplayText9.text = "[font_size=15][color=blue]" + str(purchaseNine) + "[/color][/font_size]"
 			updateResearchCost(turretsList[8],purchaseNine)
 			researchTurret(turretsList[8])
-
 
 func _on_turret_ten_research_button_pressed() -> void:
 	if usedSlots < currentSlots:
@@ -401,7 +403,6 @@ func _on_turret_ten_research_button_pressed() -> void:
 			updateResearchCost(turretsList[9],purchaseTen)
 			researchTurret(turretsList[9])
 
-
 func _on_work_area_body_entered(body: Node2D) -> void:
 	if body is Citizen:
 		body.setJob(Citizen.Job.RESEARCHER)
@@ -409,8 +410,6 @@ func _on_work_area_body_entered(body: Node2D) -> void:
 		currentWorkersLabel.text = "Current Workers: " + str(workersHere.size())
 		updateCurrentTimers()
 		body.currentState = Citizen.State.WORKING
-
-
 
 func _on_work_area_body_exited(body: Node2D) -> void:
 	if body is Citizen:
@@ -440,26 +439,22 @@ func updateCurrentTimers():
 
 	for timer in currentResearchingMap.keys():
 		var turretID = currentResearchingMap[timer]
+		var timesResearched = timerTimesResearchedMap.get(timer, 0) # Pull the saved scale for this timer
 
-		# need the base time again to know the total duration
 		var baseTime = TurretManager.getTurretStat(turretID, "constructionTime") * CityManager.researchTimeMinScale
-		# recalculate the original multiplier for the turret
-		#var startMult = CityManager.researchTimeMinScale
-		#var endMult = CityManager.researchTimeScale
-		#var totalDecay = startMult - endMult
-		#var decayPerLevel = totalDecay / (CityManager.researchMaxLevel - 1)
-		#var multiplier = max(startMult - (decayPerLevel * (CityManager.cityLevel - 1)), endMult)
+		
+		# Apply the exact same scaling logic to get the true base time
+		var consecutiveScaleMultiplier = CityManager.researchTimeConsecutiveScale * timesResearched
+		var scaledBaseTime = baseTime + (baseTime * consecutiveScaleMultiplier)
 
 		# calc new wait time
-		var newResearchTime = (baseTime) * (1.0 - newReduction)
+		var newResearchTime = scaledBaseTime * (1.0 - newReduction)
 		newResearchTime = max(newResearchTime, maxReduction)
 
 		# rescale the remaining time
 		var percentRemaining = timer.time_left / timer.wait_time
 		timer.wait_time = newResearchTime
-		#print(timer.wait_time)
 		timer.start(newResearchTime * percentRemaining)
-
 
 func _on_purchase_slots_button_pressed() -> void:
 	if CityManager.currentMoney >= CityManager.researchLabSlotCost:

@@ -33,6 +33,20 @@ func stopBossWaveSound():
 		musicPlayer.volume_db = 0.0
 	)
 
+func playGameOverMusic(win):
+	stopActiveMusic()
+	await get_tree().create_timer(1.6).timeout
+	musicPlayer.volume_db = .1
+	if win:
+		pass
+	else:
+		musicPlayer.stream = load("res://Sounds/Music/GameOverNotBad.mp3")
+	musicPlayer.play()
+	var tween = create_tween()
+	
+
+	tween.tween_property(musicPlayer, "volume_db", 5, 2)
+
 func playGenericKillSound():
 	soundPlayer.stream = load("res://Sounds/In Game Sounds/kill.wav")
 	soundPlayer.play()
@@ -100,10 +114,22 @@ func playLoadoutMusic():
 		musicPlayer.stream = load("res://Sounds/Music/Loudout Menu Music.mp3")
 		musicPlayer.play()
 
+func playPieceUnlockedSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/piece unlocked.wav")
+	UIPlayer.volume_db = 5
+	UIPlayer.play()
+
 func stopLoadoutMusic():
 	var tween = create_tween()
 	
 	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	
+	tween.tween_callback(musicPlayer.stop)
+
+func stopActiveMusic():
+	var tween = create_tween()
+	
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
 	
 	tween.tween_callback(musicPlayer.stop)
 
@@ -115,6 +141,20 @@ func enemiesIncoming():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/enemiesIncoming.wav")
 	soundPlayer.play()
 
+func playSlotTick():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/slotTick.wav")
+	UIPlayer.play()
+
+func playSlotSelect():
+	soundPlayer.stream = load("res://Sounds/UI Sounds/slotTickSelect.wav")
+	soundPlayer.play()
+
+func playJackPotSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/Jackpot.wav")
+	UIPlayer.play()
+	await get_tree().create_timer(3.3).timeout
+	UIPlayer.stop()
+	UIPlayer.play(1)
 
 func _on_music_player_finished() -> void:
 	timer.wait_time = randf_range(2.0, 6.0)

@@ -11,7 +11,7 @@ script = ExtResource("1_t2bua")
 [node name="SoundPlayer" type="AudioStreamPlayer2D" parent="." unique_id=337391902]
 stream = SubResource("AudioStreamMP3_5ktvt")
 volume_db = 2.0
-max_polyphony = 16
+max_polyphony = 40
 bus = &"SoundFX"
 
 [node name="MusicPlayer" type="AudioStreamPlayer2D" parent="." unique_id=985591661]
@@ -19,6 +19,7 @@ bus = &"Music"
 
 [node name="UIPlayer" type="AudioStreamPlayer2D" parent="." unique_id=1070622452]
 volume_db = 10.0
+max_polyphony = 500
 bus = &"UI"
 
 [node name="Timer" type="Timer" parent="." unique_id=1858310063]

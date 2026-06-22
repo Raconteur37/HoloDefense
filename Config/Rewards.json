@@ -6,7 +6,7 @@
 	  "wave_completion_value": 3,
 	  "system_completion_value": 100,
 	  "turret_generation_value": 0.05,
-	  "citizen_creation_value": 0.30,
+	  "citizen_creation_value": 0.5,
 	  "research_completion_value": 0.20
 	},
 	"difficulty_multipliers": {

@@ -906,6 +906,7 @@ theme_override_constants/v_separation = 30
 columns = 5
 
 [node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1727073358]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -932,6 +933,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot2" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1622696353]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -958,6 +960,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot3" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=833624770]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -984,6 +987,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot4" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=498007542]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1010,6 +1014,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot5" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=368070477]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1036,6 +1041,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot6" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=500975591]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1062,6 +1068,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot7" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=672145466]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1088,6 +1095,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot8" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1022327442]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1114,6 +1122,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot9" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1486238330]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1140,6 +1149,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="CurrentTurretSlot10" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=2111324992]
+visible = false
 layout_mode = 2
 texture = ExtResource("6_rnf34")
 
@@ -1166,6 +1176,7 @@ texture_pressed = ExtResource("7_rnf34")
 texture_hover = ExtResource("8_xt6r3")
 
 [node name="costText" type="RichTextLabel" parent="menuControl/Background" unique_id=284431699]
+visible = false
 layout_mode = 0
 offset_left = 84.0
 offset_top = 216.00003
@@ -1179,6 +1190,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText6" type="RichTextLabel" parent="menuControl/Background" unique_id=969271664]
+visible = false
 layout_mode = 0
 offset_left = 84.0
 offset_top = 340.00003
@@ -1192,6 +1204,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText7" type="RichTextLabel" parent="menuControl/Background" unique_id=1111854143]
+visible = false
 layout_mode = 0
 offset_left = 248.0
 offset_top = 340.00003
@@ -1205,6 +1218,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText8" type="RichTextLabel" parent="menuControl/Background" unique_id=376910811]
+visible = false
 layout_mode = 0
 offset_left = 412.0
 offset_top = 340.00003
@@ -1218,6 +1232,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText9" type="RichTextLabel" parent="menuControl/Background" unique_id=831384220]
+visible = false
 layout_mode = 0
 offset_left = 576.0
 offset_top = 340.00003
@@ -1231,6 +1246,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText10" type="RichTextLabel" parent="menuControl/Background" unique_id=537552083]
+visible = false
 layout_mode = 0
 offset_left = 740.0
 offset_top = 340.00003
@@ -1244,6 +1260,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText2" type="RichTextLabel" parent="menuControl/Background" unique_id=1300306578]
+visible = false
 layout_mode = 0
 offset_left = 248.0
 offset_top = 216.00003
@@ -1257,6 +1274,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText3" type="RichTextLabel" parent="menuControl/Background" unique_id=1018885970]
+visible = false
 layout_mode = 0
 offset_left = 412.0
 offset_top = 216.00003
@@ -1270,6 +1288,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText4" type="RichTextLabel" parent="menuControl/Background" unique_id=285943825]
+visible = false
 layout_mode = 0
 offset_left = 576.0
 offset_top = 216.00003
@@ -1283,6 +1302,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="costText5" type="RichTextLabel" parent="menuControl/Background" unique_id=1862976737]
+visible = false
 layout_mode = 0
 offset_left = 740.0
 offset_top = 216.00003

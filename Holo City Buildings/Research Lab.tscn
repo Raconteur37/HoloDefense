@@ -327,6 +327,7 @@ theme_override_constants/v_separation = 36
 columns = 5
 
 [node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1181017836]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 stretch_mode = 2
@@ -347,6 +348,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot2" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=159475645]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -366,6 +368,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot3" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1356940862]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -385,6 +388,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot4" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=856072881]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -404,6 +408,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot5" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=462248121]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -423,6 +428,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot6" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1208253308]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -442,6 +448,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot7" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1893956083]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -461,6 +468,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot8" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=1195063884]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -480,6 +488,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot9" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=829580914]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -499,6 +508,7 @@ texture_pressed = ExtResource("5_pc4d0")
 texture_hover = ExtResource("6_tl608")
 
 [node name="CurrentTurretSlot10" type="TextureRect" parent="menuControl/LabBackground/CurrentTurretsSlotGrid" unique_id=86068186]
+visible = false
 layout_mode = 2
 texture = ExtResource("5_140bg")
 
@@ -529,6 +539,7 @@ theme_override_constants/v_separation = 120
 columns = 5
 
 [node name="TurretLevel1" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=355696690]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -538,6 +549,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel2" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=523805068]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -547,6 +559,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel3" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=847168419]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -556,6 +569,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel4" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1993177511]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -565,6 +579,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel5" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1357008887]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -574,6 +589,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel6" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=158646114]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -583,6 +599,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel7" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=2049836331]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -592,6 +609,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel8" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=419745180]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -601,6 +619,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel9" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1112560602]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -610,6 +629,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TurretLevel10" type="RichTextLabel" parent="menuControl/LabBackground/LevelDisplayGrid" unique_id=1279441611]
+visible = false
 layout_mode = 2
 bbcode_enabled = true
 text = "[font_size=15][color=blue]1[/color][/font_size]"
@@ -619,6 +639,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=807153115]
+visible = false
 layout_mode = 0
 offset_left = 76.0
 offset_top = 216.00003
@@ -632,6 +653,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText2" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=327723961]
+visible = false
 layout_mode = 0
 offset_left = 237.0
 offset_top = 216.00003
@@ -645,6 +667,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText3" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=712046992]
+visible = false
 layout_mode = 0
 offset_left = 403.0
 offset_top = 216.00003
@@ -658,6 +681,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText4" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=686349909]
+visible = false
 layout_mode = 0
 offset_left = 567.0
 offset_top = 216.00003
@@ -671,6 +695,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText5" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1713298538]
+visible = false
 layout_mode = 0
 offset_left = 731.0
 offset_top = 216.00003
@@ -684,6 +709,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText6" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=2128459886]
+visible = false
 layout_mode = 0
 offset_left = 731.0
 offset_top = 352.00003
@@ -697,6 +723,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText7" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1816821809]
+visible = false
 layout_mode = 0
 offset_left = 567.0
 offset_top = 352.00003
@@ -710,6 +737,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText8" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1607242034]
+visible = false
 layout_mode = 0
 offset_left = 403.0
 offset_top = 352.00003
@@ -723,6 +751,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText9" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=1956506204]
+visible = false
 layout_mode = 0
 offset_left = 237.0
 offset_top = 352.0
@@ -736,6 +765,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="turretOneResearchText10" type="RichTextLabel" parent="menuControl/LabBackground" unique_id=132589031]
+visible = false
 layout_mode = 0
 offset_left = 76.0
 offset_top = 352.0

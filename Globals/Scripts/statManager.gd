@@ -18,8 +18,6 @@ var currentStats = {}
 var save_path = "user://turret_stats.json"
 var default_path = "res://Config/Turret Stats.json"
 const TURRET_STATS_CLOUD_FILENAME = "turret_stats.json" # Steam Cloud filename, no path needed
-
-
 var lifetimeStats = {}
 const LIFETIME_SAVE_PATH = "user://lifetime_stats.json"
 const LIFETIME_STATS_CLOUD_FILENAME = "lifetime_stats.json" # Steam Cloud filename, no path needed
@@ -244,6 +242,7 @@ func commitRunToLifetimeStats():
 	
 	writeTurretStatsToConfig()
 	saveLifetimeStats()
+
 
 func getLifetimeStat(statName: String):
 	if lifetimeStats.has(statName):
