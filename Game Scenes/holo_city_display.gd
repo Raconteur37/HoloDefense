@@ -33,9 +33,9 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
 		GameManager.cityHealth -= body.damage
 		healthLabel.text = "City Health: " + str(GameManager.cityHealth)
-		body.queue_free()
+		WaveManager.removeActiveEnemy(body)
 		updateVisualStatus()
-		if GameManager.cityHealth <= 0:
+		if GameManager.cityHealth <= -9999999999:
 			runActive = false
 			StatManager.elapsedTime = runTime
 			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")

@@ -1,6 +1,6 @@
 extends Node
 
-var inDevMode : bool = true
+var inDevMode : bool = false
 
 func _input(event: InputEvent) -> void:
 
