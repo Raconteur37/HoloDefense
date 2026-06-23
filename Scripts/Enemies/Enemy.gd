@@ -2,9 +2,7 @@ extends CharacterBody2D
 
 class_name Enemy
 
-enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP,
-TANKY_RECTANGLE, PACKED_CIRCLE}
-
+enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE}
 enum Type {BASIC, BOSS, ELITE}
 
 var enemyName: String
@@ -18,11 +16,10 @@ var type : Type
 var tier : int
 
 var sprite : Sprite2D
-
 var hitBoxArea
 
 var destination: Vector2 = Vector2.ZERO
-var effects: Dictionary[EffectClass.Effect, EffectClass] = {} # Key is effect enum, val is the effect object
+var effects: Dictionary = {} # Key is effect enum, val is the effect object
 var curseDamageAmp: float = 0.0
 var isDead: bool = false
 var targeted: bool = false
@@ -36,11 +33,12 @@ var initialTurn: bool = false
 var turnTurret
 var zombieFollowTarget: Enemy = null
 
+# Attack logic
 var attackReady: bool = true
 var attackTimer: Timer
+var turretsInRange: Array = []
 
 var is_sent_enemy: bool = false  # true when spawned by another player sending it
-
 
 func _ready() -> void:
 	applyScaling()
@@ -48,13 +46,31 @@ func _ready() -> void:
 	attackTimer.wait_time = attackTime
 	attackTimer.one_shot = true
 	attackTimer.timeout.connect(_on_attack_timer_timeout)
+	
+	# Must add the timer to the tree so it can tick!
+	add_child(attackTimer)
 
 func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
 		return
 
 	updateDestination()
-	move()
+
+	# Clean out any turrets from the array that were recently destroyed
+	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
+
+	# If there is a turret in our Area2D range, STOP and attack it
+	if turretsInRange.size() > 0:
+		velocity = Vector2.ZERO
+		
+		if attackReady:
+			var targetTurret = turretsInRange[0]
+			EntityManager.turretTakeDamage(damage, targetTurret, null)
+			startAttackCooldown()
+	else:
+		# No turrets in Area2D range, keep walking!
+		move()
+
 	if isZombie and not initialTurn and type != Type.BOSS:
 		initZombie()
 
@@ -70,23 +86,28 @@ func updateDestination() -> void:
 func move() -> void:
 	if destination == Vector2.ZERO:
 		return
+		
 	var direction = (destination - global_position).normalized()
 	velocity = direction * speed
 	move_and_slide()
+	
 	for i in get_slide_collision_count():
 		var col = get_slide_collision(i)
 		var collider = col.get_collider()
+		
 		if collider.is_in_group("Turret"):
-			velocity = Vector2.ZERO
-			# Push enemy back out of overlap
-			global_position += col.get_normal() * speed * get_physics_process_delta_time()
-			if attackReady:
-				EntityManager.turretTakeDamage(damage, collider, null)
-				startAttackCooldown()
-			return
-	if global_position.distance_to(destination) < 5.0:
-		velocity = Vector2.ZERO
-		global_position = destination
+			# Calculates the angle of impact. 
+			# -1.0 means a head-on collision. 0.0 means sliding perfectly alongside it.
+			var impact_angle = direction.dot(col.get_normal())
+			
+			# If the angle is less than -0.4, the turret is actually blocking our forward path
+			if impact_angle < -0.4:
+				velocity = Vector2.ZERO
+				
+				if attackReady:
+					EntityManager.turretTakeDamage(damage, collider, null)
+					startAttackCooldown()
+				return 
 
 func initZombie() -> void:
 	if not is_instance_valid(turnTurret):
@@ -102,7 +123,6 @@ func initZombie() -> void:
 	set_collision_mask_value(1,false)
 	set_collision_mask_value(2,false)
 	
-
 func spawnZombieArea() -> void:
 	var area = Area2D.new()
 	var shape = CollisionShape2D.new()
@@ -141,14 +161,15 @@ func onZombieAreaEntered(body: Node) -> void:
 func onZombieAreaExit(_body: Node) -> void:
 	pass
 
+# --- New Area2D Logic for Ranged Turret Detection ---
 func _on_area_2d_body_entered(body: Node2D) -> void:
-	if body.is_in_group("Turret"):
-		if type != Type.BOSS:
-			startAttackCooldown()
-			EntityManager.turretTakeDamage(damage,body, null)
-		else:
-			EntityManager.turretTakeDamage(damage,body, null)
+	if body.is_in_group("Turret") and not turretsInRange.has(body):
+		turretsInRange.append(body)
 
+func _on_area_2d_body_exited(body: Node2D) -> void:
+	if body.is_in_group("Turret"):
+		turretsInRange.erase(body)
+# ----------------------------------------------------
 
 func startAttackCooldown() -> void:
 	if type != Type.BOSS:
@@ -174,7 +195,6 @@ func applyScaling() -> void:
 	damage *= waveDamageMult
 	health = round(health)
 	damage = round(damage)
-	#print(health)
 
 func getEnemyTier():
 	return tier

@@ -4,8 +4,6 @@ class_name ShootyDiamond
 
 var projectile = preload("res://Projectile Scenes/diamond.tscn")
 
-var turretsInRange = []
-
 func _ready():
 	enemyID = EnemyID.SHOOTY_DIAMOND
 	enemyName = EnemyManager.get_enemy_name(enemyID)

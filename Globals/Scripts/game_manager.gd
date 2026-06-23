@@ -20,7 +20,7 @@ Turret.TurretID.BUBBLE_TURRET,Turret.TurretID.BOOMERANG_TURRET]
 var turretTempLevels = {}
 
 # turretID and int of how many the player has
-#var turretStorage = {Turret.TurretID.ROYAL_TURRET : 99,Turret.TurretID.VOODOO_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99}
+#var turretStorage = {Turret.TurretID.RAILGUN_TURRET : 99,Turret.TurretID.VOODOO_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99}
 #Turret.TurretID.ENERGIZER_TURRET : 99}
 
 var turretStorage = {}

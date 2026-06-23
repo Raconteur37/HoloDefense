@@ -6,6 +6,9 @@ class_name RailgunTurret
 
 var pierce
 
+var attackedReloadTimeReduction
+var killReloadTimeReduction
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
@@ -24,9 +27,11 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	basePierce = TurretManager.getTurretStat(turretID,"pierce")
+	attackedReloadTimeReduction = TurretManager.getTurretStat(turretID,"levelTwoCooldownReduction")
+	killReloadTimeReduction = TurretManager.getTurretStat(turretID,"levelThreeCooldownReduction")
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -70,7 +75,7 @@ func attack():
 			proj.shooter = self
 			get_parent().add_child(proj)
 
-			reloadTimer.start()
+			reloadTimer.start(reloadTime)
 			reloadAnimation()
 
 			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
@@ -79,37 +84,39 @@ func attack():
 
 			$RailgunTurretTop/RailgunShoot.emitting = true
 
-func reloadAnimation():
+func reloadAnimation() -> void:
+	topSprite.frame = 1
+	stepReloadAnimation()
 
-	var frames : int = 10
+func stepReloadAnimation() -> void:
+	if shotReady:
+		topSprite.frame = 0
+		return
 
-	for x in range(frames):
+	if reloadTimer.is_stopped():
+		return
 
-		match x:
-			0:
-				topSprite.frame = 1
-			1:
-				topSprite.frame = 2
-			2:
-				topSprite.frame = 3
-			3:
-				topSprite.frame = 4
-			4:
-				topSprite.frame = 5
-			5:
-				topSprite.frame = 6
-			6:
-				topSprite.frame = 7
-			7:
-				topSprite.frame = 8
-			8:
-				topSprite.frame = 9
-			9:
-				topSprite.frame = 10
-			10:
+	var total_frames = 10
+	var current_frame = topSprite.frame
+	var frames_remaining = total_frames - current_frame
+
+	var time_left = reloadTimer.time_left
+
+	if frames_remaining > 0 and time_left > 0:
+		var time_per_frame = time_left / frames_remaining
+		
+		get_tree().create_timer(time_per_frame).timeout.connect(func():
+			
+			if shotReady:
 				topSprite.frame = 0
-		await get_tree().create_timer((reloadTime / frames)).timeout
-
+				return
+				
+			topSprite.frame = (topSprite.frame % total_frames) + 1
+			
+			stepReloadAnimation()
+		)
+	else:
+		topSprite.frame = 0
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
@@ -120,13 +127,25 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
-
+	reloadTimer.wait_time = reloadTime
 
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func attackedReloadCooldownReduction() -> void:
+	if not shotReady and not reloadTimer.is_stopped():
+		var newRemainingTime = reloadTimer.time_left - attackedReloadTimeReduction
+		
+		if newRemainingTime > 0:
+			reloadTimer.start(newRemainingTime)
+		else:
+			reloadTimer.stop()
+			shotReady = true 
+			
+			reloadTimer.wait_time = reloadTime
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)

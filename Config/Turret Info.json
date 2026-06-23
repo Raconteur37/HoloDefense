@@ -12,7 +12,7 @@
 		"health": 20,
 		"damage": 20,
 		"range": 200,
-		"reloadTime": 2.5,
+		"reloadTime": 2.75,
 		"projectileSpeed": 500,
 		"constructionTime": 6,
 		"scaleFactor": 0.05
@@ -58,6 +58,8 @@
 		"constructionTime": 25,
 		"pierce": 2,
 		"scaleFactor": 0.04,
+		"levelTwoCooldownReduction": 0.4,
+		"levelThreeCooldownReduction": 0.4,
 		"pierceScale": 0.5
 	},
 	"energizer_turret": {

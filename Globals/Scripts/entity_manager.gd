@@ -116,9 +116,14 @@ func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
 		return
 
 	turret.refreshUI(turret)
+	
 	if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
-		if turret.level == 3:
+		if turret.level >= 3:
 			turret.stopRepairEvent()
+	if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
+		if turret.level >= 2:
+			turret.attackedReloadCooldownReduction()
+			return
 
 
 func applyArmor(damage: int, entity) -> int:

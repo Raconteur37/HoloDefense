@@ -166,9 +166,6 @@ func removeActiveEnemy(enemy : Enemy):
 			activeEnemies[id] = activeEnemies.get(id) - 1
 	else:
 		push_warning("WaveManager: Tried to remove an enemy with an unregistered ID!")
-
-	# Add this line to watch the numbers!
-	print("Enemies remaining: ", activeEnemies)
 	
 	checkForEnemiesAlive()
 

@@ -35,7 +35,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		healthLabel.text = "City Health: " + str(GameManager.cityHealth)
 		WaveManager.removeActiveEnemy(body)
 		updateVisualStatus()
-		if GameManager.cityHealth <= -9999999999:
+		if GameManager.cityHealth <= -999999:
 			runActive = false
 			StatManager.elapsedTime = runTime
 			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
