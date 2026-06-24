@@ -22,16 +22,16 @@
 		}
 	},
 	"turret_xp_gain": {
-		"arrow_turret": 1.0,
-		"mini_sentry_turret": 1.0,
+		"arrow_turret": 2.0,
+		"mini_sentry_turret": 2.0,
 		"energizer_turret": 2.0,
-		"railgun_turret": 1.0,
-		"flame_turret": 1.0,
-		"reaper_turret": 1.0,
-		"royal_turret": 1.0,
-		"firework_turret": 1.0,
+		"railgun_turret": 3.0,
+		"flame_turret": 2.0,
+		"reaper_turret": 4.0,
+		"royal_turret": 3.0,
+		"firework_turret": 1.5,
 		"tesla_turret": 1.0,
-		"sentry_turret": 1.0,
+		"sentry_turret": 2.0,
 		"gold_mine_turret": 0.1,
 		"seismic_turret": 1.0,
 		"spider_turret": 0.6,
@@ -39,6 +39,6 @@
 		"zombie_turret": 1.0,
 		"medic_turret": 2,
 		"bubble_turret": 3,
-		"boomerang_turret": 1.0
+		"boomerang_turret": 2.5
 	}
 }

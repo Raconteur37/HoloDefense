@@ -8,6 +8,8 @@ var turretsInRange = []
 var energizeTimer
 var turretsEnergized : int = 0
 
+var extraEnergizeChance : float
+
 @export var maxTurretsEnergized: int
 @export var energizeTime: float
 @export var energizerDamageBuff: float
@@ -41,8 +43,9 @@ func _ready() -> void:
 	energizerProjctileSpeedBuff = TurretManager.getTurretStat(turretID, "energizerProjectileSpeedBuff")
 	energizerAttackRangeBuff = TurretManager.getTurretStat(turretID, "energizerAttackRangeBuff")
 	energizerReloadTimeBuff = TurretManager.getTurretStat(turretID, "energizerReloadTimeBuff")
+	extraEnergizeChance = TurretManager.getTurretStat(turretID, "extraEnergizeChance")
 
-	level = 1
+	level = 3#XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	line2d = $RangeArea/RangeIndicator
@@ -114,7 +117,32 @@ func applyEnergizerBuffsToTurret(turret):
 		turret.reloadTime -= round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime, 2)
 		if turret.get("reloadTimer") != null:
 			turret.reloadTimer.wait_time = turret.reloadTime
+	if level >= 2 and energizedRand:
+		if randi_range(0,100) <= extraEnergizeChance:
+			energizedRand = false
+			energizeRandomTurret()
 	refreshUI(turret)
+
+var energizedRand = true
+func energizeRandomTurret():
+	var allTurrets = []
+	for turretList in GameManager.turretsPlaced.values():
+		allTurrets.append_array(turretList)
+		
+	var validTurrets = []
+	for turret in allTurrets:
+		if is_instance_valid(turret) and not turret.energized:
+			validTurrets.append(turret)
+			
+	if validTurrets.is_empty():
+		print("All turrets are already energized!")
+		return
+		
+	var randTurret = validTurrets.pick_random()
+	
+	applyEnergizerBuffsToTurret(randTurret)
+	turretsEnergized -= 1
+	energizedRand = true
 
 func removeEnergizerBuffsToTurret(turret: Turret):
 	if is_instance_valid(turret) and turret.energized:

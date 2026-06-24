@@ -2,7 +2,7 @@ extends Node
 
 enum ExplosionType {
 	NONE,
-	FIREWORK_TURRET
+	FIREWORK_TURRET,
 }
 
 var explosionType
@@ -12,14 +12,18 @@ var turretApplier : Turret
 var location
 var particle
 
-const explosionParticlesTexture = {Turret.TurretID.FIREWORK_TURRET : {
+@onready var explosionParticlesTexture = {Turret.TurretID.FIREWORK_TURRET : {
 	"scene" : preload("res://Particle Scenes/Projectile/Firework/firework_explosion.tscn"),
-	"baseRadius" : 25
-	} # Will be turret ID and the particle location
+	"baseRadius" : 25},
+	Turret.TurretID.ENERGIZER_TURRET : {
+		"scene" : preload("res://Particle Scenes/Turrets/Energizer Turret/energizeExplosion.tscn"),
+		"baseRadius" : TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionRange")
+	}
 }
-func summonExplosion(turret : Turret, enemy : Enemy, fxData : Dictionary):
+
+func summonExplosion(turret : Turret, position : Vector2, fxData : Dictionary):
 	turretApplier = turret
-	location = enemy.global_position
+	location = position
 	
 	particle = explosionParticlesTexture.get(turretApplier.turretID).get("scene")
 	
@@ -41,7 +45,6 @@ func setExplosionDetails(turret):
 			explosionType = ExplosionType.FIREWORK_TURRET
 			if turretApplier.level >= 2:
 				print("add extra fx you bum")
-	
 	explosionType = ExplosionType.NONE
 
 

@@ -45,7 +45,7 @@
 		"name": "Railgun Turret",
 		"description": "Fires a strong piercing projectile with high damage and range, but high reload time.",
 		"levelTwo": "When attacked, decrease reload time by .4s for the current reload.",
-		"levelThree": "Decrease reload time by .4s for each enemy pierced.",
+		"levelThree": "Decrease reload time by .4s for each enemy killed.",
 		"rarity": "Rare",
 		"type": "Impactful",
 		"price": 90,
@@ -81,6 +81,9 @@
 		"energizerProjectileSpeedBuff": 0.02,
 		"energizerAttackRangeBuff": 0.02,
 		"energizerReloadTimeBuff": 0.02,
+		"explosionRange": 125,
+		"explosionDamage": 100,
+		"extraEnergizeChance": 45,
 		"scaleFactor": 0.05
 	},
 	"royal_turret": {

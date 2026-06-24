@@ -29,6 +29,9 @@ func _ready() -> void:
 	if turretTempLevels.size() < 1:
 		for item in turretsBrought:
 			turretTempLevels[item] = 0
+	if DeveloperMode.inDevMode:
+		turretStorage = {Turret.TurretID.RAILGUN_TURRET : 99,Turret.TurretID.VOODOO_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
+		Turret.TurretID.ENERGIZER_TURRET : 99}
 
 func addTurretToDict(turret : Turret):
 	if turretsPlaced.has(turret.turretID):
@@ -77,6 +80,18 @@ func getTurretAmount(turretID):
 		return turretStorage.get(turretID)
 	else:
 		return -1
+
+func getRandomTurret() -> CharacterBody2D:
+	var all_turrets = []
+	
+	for turret_list in turretsPlaced.values():
+		all_turrets.append_array(turret_list)
+	
+	if all_turrets.is_empty():
+		return null
+		
+	var random_turret = all_turrets.pick_random()
+	return random_turret
 
 func reset():
 	StatManager.commitRunToLifetimeStats()

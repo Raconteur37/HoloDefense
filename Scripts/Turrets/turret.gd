@@ -95,13 +95,6 @@ func _process(_delta: float) -> void:
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		hideUI()
-		for key in turretProviders:
-			match key:
-				"energized":
-					turretProviders.get("energized").turretsEnergized -= 1
-					turretProviders.erase("energized")
-				"bubble":
-					removeBubble()
 
 func showRange():
 	line2d.show()
@@ -181,3 +174,27 @@ func recieveBubble(bubbleHealth : float, turretApplier):
 	turretProviders["bubble"] = turretApplier 
 	ParticleManager.playBubbleParticle(self)
 	currentBubbleHealth = bubbleHealth
+
+func summonEnergizeExplosion():
+	var fxData = {}
+	var expDmg = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionDamage")
+	var expRange = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionRange")
+	fxData["explosionDamage"] = expDmg
+	fxData["explosionRadius"] = expRange
+	ExplosionManager.summonExplosion(turretProviders.get("energized"),self.global_position,fxData)
+
+func death():
+	print("called")
+	for key in turretProviders:
+		print(key)
+		match key:
+			"energized":
+				if is_instance_valid(turretProviders.get("energized")):
+					if turretProviders.get("energized").level >= 3:
+						summonEnergizeExplosion()
+					if turretProviders.get("energized").turretsEnergized -1 > 0:
+						turretProviders.get("energized").turretsEnergized -= 1
+					turretProviders.erase("energized")
+			"bubble":
+				removeBubble()
+	queue_free()

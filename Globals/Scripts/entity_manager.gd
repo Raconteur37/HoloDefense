@@ -83,7 +83,7 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 		StatManager.addStat(turret.turretID,"enemies_executed",1)
 		XpManager.addXp(turret.turretID)
 	if EffectClass.Effect.EXPLOSION in packet.effects:
-		ExplosionManager.summonExplosion(turret,enemy,packet.effectData)
+		ExplosionManager.summonExplosion(turret,enemy.global_position,packet.effectData)
 
 func killEnemy(source, enemy: Enemy) -> void:
 	if enemy.isDead:
@@ -112,7 +112,8 @@ func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
 		turret.health = 0
 		GameManager.removeTurretFromGame(turret)
 		PlacementManager.free_cell(turret.global_position)
-		turret.queue_free()
+		turret.death()
+		#turret.queue_free()
 		return
 
 	turret.refreshUI(turret)
@@ -177,6 +178,9 @@ func onKill(turret,enemy):
 			if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
 				if turret.level >= 2:
 					turret.startSpeedEvent()
+			if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
+				if turret.level >= 3:
+					turret.killReloadCooldownReduction()
 			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID,"kills",1)
 	

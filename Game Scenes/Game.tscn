@@ -23,6 +23,10 @@ shader_parameter/tint_amount = 1.0
 shader_parameter/noise_speed = 0.0
 shader_parameter/noise_scale = 16.0
 
+[sub_resource type="LabelSettings" id="LabelSettings_jek5h"]
+font_size = 200
+font_color = Color(1, 1, 1, 0.02745098)
+
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
@@ -158,6 +162,17 @@ offset_top = -26.0
 offset_right = 477.33334
 offset_bottom = -3.6666641
 text = "Music Volume"
+
+[node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=542066478]
+visible = false
+
+[node name="DevModeLabel" type="Label" parent="CanvasLayer" unique_id=454514099]
+offset_left = 56.0
+offset_top = 404.0
+offset_right = 1888.0
+offset_bottom = 661.0
+text = "DEV MODE ACTIVE"
+label_settings = SubResource("LabelSettings_jek5h")
 
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]

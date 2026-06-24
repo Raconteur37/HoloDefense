@@ -21,6 +21,8 @@
 		"placed": 0
 	},
 	"energizer_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
 		"turrets_energized": 0,
 		"damage_taken": 0,
 		"deaths": 0,

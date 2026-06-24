@@ -113,6 +113,7 @@ func calculateRewards():
 
 func _ready():
 	XpManager.saveXpData()
+	WaveManager.reset()
 	config_data = load_json("res://Config/Rewards.json")
 	var file = FileAccess.open("res://Config/Rewards.json", FileAccess.READ)
 	if file:

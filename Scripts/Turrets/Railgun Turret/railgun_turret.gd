@@ -84,36 +84,42 @@ func attack():
 
 			$RailgunTurretTop/RailgunShoot.emitting = true
 
-func reloadAnimation() -> void:
-	topSprite.frame = 1
-	stepReloadAnimation()
+var animGeneration : int = 0 
 
-func stepReloadAnimation() -> void:
+func reloadAnimation() -> void:
+	animGeneration += 1
+	topSprite.frame = 1
+	stepReloadAnimation(animGeneration)
+
+func stepReloadAnimation(gen: int) -> void:
+	if gen != animGeneration:
+		return
+
 	if shotReady:
 		topSprite.frame = 0
 		return
 
 	if reloadTimer.is_stopped():
+		topSprite.frame = 0
 		return
 
 	var total_frames = 10
 	var current_frame = topSprite.frame
 	var frames_remaining = total_frames - current_frame
-
 	var time_left = reloadTimer.time_left
 
 	if frames_remaining > 0 and time_left > 0:
 		var time_per_frame = time_left / frames_remaining
-		
+
 		get_tree().create_timer(time_per_frame).timeout.connect(func():
-			
+			if gen != animGeneration:
+				return
 			if shotReady:
 				topSprite.frame = 0
 				return
-				
+
 			topSprite.frame = (topSprite.frame % total_frames) + 1
-			
-			stepReloadAnimation()
+			stepReloadAnimation(gen)
 		)
 	else:
 		topSprite.frame = 0
@@ -136,16 +142,38 @@ func _on_select_area_mouse_exited() -> void:
 	hideUI()
 
 func attackedReloadCooldownReduction() -> void:
-	if not shotReady and not reloadTimer.is_stopped():
-		var newRemainingTime = reloadTimer.time_left - attackedReloadTimeReduction
-		
-		if newRemainingTime > 0:
-			reloadTimer.start(newRemainingTime)
-		else:
-			reloadTimer.stop()
-			shotReady = true 
-			
-			reloadTimer.wait_time = reloadTime
+	if shotReady or reloadTimer.is_stopped():
+		return
+
+	var newRemainingTime = reloadTimer.time_left - attackedReloadTimeReduction
+
+	if newRemainingTime > 0:
+		reloadTimer.start(newRemainingTime)
+		animGeneration += 1
+		stepReloadAnimation(animGeneration)
+	else:
+		reloadTimer.stop()
+		animGeneration += 1
+		shotReady = true
+		reloadTimer.wait_time = reloadTime
+		topSprite.frame = 0
+
+func killReloadCooldownReduction() -> void:
+	if shotReady or reloadTimer.is_stopped():
+		return
+
+	var newRemainingTime = reloadTimer.time_left - killReloadTimeReduction
+
+	if newRemainingTime > 0:
+		reloadTimer.start(newRemainingTime)
+		animGeneration += 1
+		stepReloadAnimation(animGeneration)
+	else:
+		reloadTimer.stop()
+		animGeneration += 1
+		shotReady = true
+		reloadTimer.wait_time = reloadTime
+		topSprite.frame = 0
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
