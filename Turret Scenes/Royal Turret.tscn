@@ -28,6 +28,17 @@ radius = 200.0
 [node name="Royal Turret" type="CharacterBody2D" unique_id=1177124083 groups=["Turret"]]
 collision_mask = 12
 script = ExtResource("1_f7742")
+price = null
+maxHealth = null
+baseHealth = null
+baseDamage = null
+baseProjectileSpeed = null
+baseAttackRange = null
+baseReloadTime = null
+upgradeTier = null
+armor = null
+level = null
+baseBuildTime = null
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=517062670]
 shape = SubResource("RectangleShape2D_11eqx")

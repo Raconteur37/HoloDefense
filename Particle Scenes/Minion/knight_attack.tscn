@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://bounayq15kbcf"]
+
+[ext_resource type="Texture2D" uid="uid://obu2vjbpd7y6" path="res://Particle Scenes/Minion/row.png" id="1_rloqk"]
+[ext_resource type="Script" uid="uid://b7w0k4prljftp" path="res://Particle Scenes/Minion/knight_attack.gd" id="2_soray"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_deoyt"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="KnightAttack" type="CPUParticles2D" unique_id=973902611]
+material = SubResource("CanvasItemMaterial_deoyt")
+scale = Vector2(1.6, 1.6)
+emitting = false
+amount = 1
+texture = ExtResource("1_rloqk")
+lifetime = 0.2
+one_shot = true
+speed_scale = 0.6
+local_coords = true
+particle_flag_align_y = true
+gravity = Vector2(0, 0)
+anim_speed_min = 0.6
+anim_speed_max = 0.6
+script = ExtResource("2_soray")

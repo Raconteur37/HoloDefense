@@ -4,21 +4,25 @@ class_name RoyalTurret
 
 var summonTimer : Timer
 
-var currentMinions = []
+var currentMinions : Array[Minion] = []
 
 @onready var knightMinion = preload("res://Minion Scenes/Knight Minion.tscn")
 
-@export var baseSummonTime : float
+var baseSummonTime : float
 
-@export var maxKnights : int
-@export var baseKnightHealth : float  = 30
-@export var baseKnightDamage : float = 10
+var maxKnights : int
+@onready var baseKnightHealth : float  = TurretManager.getMinionStat(Minion.MinionID.KNIGHT,"health")
+@onready var baseKnightDamage : float = TurretManager.getMinionStat(Minion.MinionID.KNIGHT,"damage")
+@onready var baseKnightSpeed : float = TurretManager.getMinionStat(Minion.MinionID.KNIGHT,"speed")
+@onready var baseKnightAttackTime : float = TurretManager.getMinionStat(Minion.MinionID.KNIGHT,"attackTime")
 
 var currentKnightAmount : int = 0
 
 var summonTime
 var knightHealth
 var knightDamage
+var knightSpeed
+var knightAttackTime
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
@@ -59,6 +63,8 @@ func _ready() -> void:
 	health = maxHealth
 	knightDamage = baseKnightDamage
 	knightHealth = baseKnightHealth
+	knightSpeed = baseKnightSpeed
+	knightAttackTime = knightAttackTime
 
 	applyUpgrade()
 	
@@ -73,6 +79,8 @@ func summonMinion():
 		var knight = knightMinion.instantiate()
 		knight.health = knightHealth
 		knight.damage = knightDamage
+		knight.speed = knightSpeed
+		knight.attackTime = knightAttackTime
 		knight.turretOwner = self
 
 		knight.global_position = global_position
@@ -83,13 +91,6 @@ func summonMinion():
 		currentKnightAmount += 1
 
 		get_parent().add_child(knight)
-
-func upgradeTurret():
-	baseKnightHealth += ceil(baseKnightHealth * .05)
-	knightHealth = baseKnightHealth
-	baseKnightDamage += ceil(baseKnightDamage * .05)
-	knightDamage = baseKnightDamage
-	#turret.summonTime -=  round_to_dec(turret.summonTime * upgradeTierPercent,2)
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):
@@ -111,11 +112,10 @@ func removeAllMinions():
 		if is_instance_valid(minion):
 			minion.queue_free()
 
-func removeMinion(minion):
+func removeMinion(minion : Minion):
 	currentMinions.erase(minion)
-	if minion.getName().find("Knight") > -1:
+	if minion.id == minion.MinionID.KNIGHT:
 		currentKnightAmount -= 1
-	minion.queue_free()
 
 func _on_summon_timer_timeout() -> void:
 	summonMinion()
@@ -131,8 +131,17 @@ func applyUpgrade():
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
-	summonTime = max(1,(baseSummonTime - (baseSummonTime * scaleFactor * upgradeTier)))
+	summonTime = max(2,(baseSummonTime - (baseSummonTime * scaleFactor * upgradeTier)))
 	summonTimer.wait_time = summonTime
 	knightDamage = (baseKnightDamage + (baseKnightDamage * scaleFactor * upgradeTier))
 	knightHealth = (baseKnightHealth + (baseKnightHealth * scaleFactor * upgradeTier))
+	knightSpeed = (baseKnightSpeed + (baseKnightSpeed * scaleFactor * upgradeTier))
+	knightAttackTime = (baseKnightAttackTime + (baseKnightAttackTime * scaleFactor * upgradeTier))
+	for minion : Minion in currentMinions:
+		if minion.id == Minion.MinionID.KNIGHT:
+			minion.health = knightHealth
+			minion.damage = knightDamage
+			minion.speed = knightSpeed
+			minion.attackTime = knightAttackTime
+			minion.updateAttackTime()
 	refreshUI(self)

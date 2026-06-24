@@ -6,6 +6,33 @@
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
 size = Vector2(24, 24)
 
+[sub_resource type="Shader" id="Shader_we1fa"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : source_color = vec4(1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	if (flash_modifier > 0.0) {
+		color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+		COLOR = color;
+	}
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the CanvasItem.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rahao"]
+resource_local_to_scene = true
+shader = SubResource("Shader_we1fa")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
 size = Vector2(27, 27)
 
@@ -17,7 +44,7 @@ script = ExtResource("1_nytnq")
 shape = SubResource("RectangleShape2D_m5ss4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1125880488]
-self_modulate = Color(1.5, 1, 1, 1)
+material = SubResource("ShaderMaterial_rahao")
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_ayjce")
 

@@ -92,39 +92,50 @@ func killEnemy(source, enemy: Enemy) -> void:
 	onKill(source, enemy)
 
 
-func turretTakeDamage(damage: float, turret : Turret, projectile) -> void:
-	if projectile != null:
-		if turret.hasBubble:
-			turret.currentBubbleHealth -= damage
-			bounceProjectile(projectile,turret)
-			if turret.currentBubbleHealth <= 0:
-				turret.removeBubble()
-			return
-		else:
-			projectile.queue_free()
+func turretTakeDamage(damage: float, turret, projectile) -> void:
+	if turret is Turret:
+		if projectile != null:
+			if turret.hasBubble:
+				turret.currentBubbleHealth -= damage
+				bounceProjectile(projectile,turret)
+				if turret.currentBubbleHealth <= 0:
+					turret.removeBubble()
+				return
+			else:
+				projectile.queue_free()
 
-	damage = applyArmor(damage, turret)
-	
-	turret.health -= damage
-	StatManager.addStat(turret.turretID,"damage_taken",damage)
-	
-	if turret.health <= 0:
-		turret.health = 0
-		GameManager.removeTurretFromGame(turret)
-		PlacementManager.free_cell(turret.global_position)
-		turret.death()
-		#turret.queue_free()
-		return
-
-	turret.refreshUI(turret)
-	
-	if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
-		if turret.level >= 3:
-			turret.stopRepairEvent()
-	if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
-		if turret.level >= 2:
-			turret.attackedReloadCooldownReduction()
+		damage = applyArmor(damage, turret)
+		
+		turret.health -= damage
+		StatManager.addStat(turret.turretID,"damage_taken",damage)
+		
+		if turret.health <= 0:
+			turret.health = 0
+			GameManager.removeTurretFromGame(turret)
+			PlacementManager.free_cell(turret.global_position)
+			turret.death()
+			#turret.queue_free()
 			return
+
+		turret.refreshUI(turret)
+		
+		if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
+			if turret.level >= 3:
+				turret.stopRepairEvent()
+		if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
+			if turret.level >= 2:
+				turret.attackedReloadCooldownReduction()
+				return
+	if turret is Minion:
+		turret.health -= damage
+		
+		var tween = create_tween()
+		turret.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+		tween.tween_property(turret.sprite.material, "shader_parameter/flash_modifier",0.0,0.1)
+		
+		if turret.health <= 0:
+			turret.health = 0
+			turret.death()
 
 
 func applyArmor(damage: int, entity) -> int:

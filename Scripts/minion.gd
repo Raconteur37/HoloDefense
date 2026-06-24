@@ -1,13 +1,25 @@
+extends CharacterBody2D
 
+class_name Minion
 
-extends Node
+var turretOwner : Turret
 
+var minionName : String
+var attackTime : float
+var speed : float
+var health : int
+var damage : float
+var sprite
 
-# Called when the node enters the scene tree for the first time.
-func _ready() -> void:
-	pass # Replace with function body.
+var id : MinionID
 
+enum MinionID {
+	NONE,
+	KNIGHT,
+	ARCHER,
+	BARD
+}
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
+func death():
+	turretOwner.removeMinion(self)
+	queue_free()

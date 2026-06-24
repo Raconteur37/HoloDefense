@@ -29,8 +29,8 @@ enum TurretID {
 	BOOMERANG_TURRET
 }
 
-signal hit(damage,turret)
-signal upgrade(turret)
+#signal hit(damage,turret)
+#signal upgrade(turret)
 
 var enemiesInRange = []
 

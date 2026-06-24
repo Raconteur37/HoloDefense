@@ -91,7 +91,7 @@
 		"name": "Royal Turret",
 		"description": "Creates 3 knights that attack enemies too close to the king.",
 		"levelTwo": "Creates 2 archers that attack enemies.",
-		"levelThree": "When a knight or archer defeats an enemy, heal for some health.",
+		"levelThree": "Create a bard that heals archers and knights",
 		"rarity": "Super Rare",
 		"type": "Controlling",
 		"price": 80,
@@ -101,6 +101,8 @@
 		"constructionTime": 35,
 		"summonTime": 5,
 		"maxKnights": 3,
+		"maxArchers": 2,
+		"maxBard": 1,
 		"scaleFactor": 0.05
 	},
 	"flame_turret": {

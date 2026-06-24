@@ -95,7 +95,7 @@ func move() -> void:
 		var col = get_slide_collision(i)
 		var collider = col.get_collider()
 		
-		if collider.is_in_group("Turret"):
+		if collider.is_in_group("Turret") or collider.is_in_group("Minion"):
 			# Calculates the angle of impact. 
 			# -1.0 means a head-on collision. 0.0 means sliding perfectly alongside it.
 			var impact_angle = direction.dot(col.get_normal())

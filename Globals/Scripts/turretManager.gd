@@ -3,6 +3,7 @@ extends Node
 signal turret_unlocked_signal(turret_id)
 
 var turretData = {}
+var minionData = {}
 
 # Keep a master list of all turrets so we can iterate through them
 const ALL_TURRETS: Array[Turret.TurretID] = [
@@ -36,6 +37,7 @@ var lockedUnseenTurrets: Array[Turret.TurretID] = []
 
 func _ready() -> void:
 	loadTurretData()
+	loadMinionData()
 	
 	# Sort the turrets into their respective arrays based on Economy data
 	sort_turrets()
@@ -77,6 +79,9 @@ func sort_turrets() -> void:
 
 func get_turret_string(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
+
+func get_minion_string(id: Minion.MinionID):
+	return Minion.MinionID.keys()[id].to_lower()
 
 func loadTurretByID(id: Turret.TurretID):
 	match id:
@@ -164,6 +169,12 @@ func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
 		return turretData[key][stat_name]
 	return default
 
+func getMinionStat(id: Minion.MinionID, stat_name: String, default = 1):
+	var key = get_minion_string(id)
+	if minionData.has(key) and minionData[key].has(stat_name):
+		return minionData[key][stat_name]
+	return default
+
 func getListOfProperties(id: Turret.TurretID):
 	var key = get_turret_string(id)
 	var tracker : int = 0
@@ -182,6 +193,18 @@ func loadTurretData():
 		var json_result = JSON.parse_string(json_str)
 		if typeof(json_result) == TYPE_DICTIONARY:
 			turretData = json_result
+		else:
+			push_error("Invalid JSON in Turret Info.json")
+	else:
+		push_error("Could not open Turret Info.json")
+
+func loadMinionData():
+	var file = FileAccess.open("res://Config/Minion Info.json", FileAccess.READ)
+	if file:
+		var json_str = file.get_as_text()
+		var json_result = JSON.parse_string(json_str)
+		if typeof(json_result) == TYPE_DICTIONARY:
+			minionData = json_result
 		else:
 			push_error("Invalid JSON in Turret Info.json")
 	else:

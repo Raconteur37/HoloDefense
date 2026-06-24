@@ -1,5 +1,9 @@
 {
 	"knight": {
-		"id": 1
+		"id": 1,
+		"health": 50,
+		"damage": 2,
+		"speed": 200,
+		"attackTime": 0.5
 	}
 }
