@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b8rdo7bxcfj12"]
+
+[ext_resource type="Texture2D" uid="uid://bse44edykox7a" path="res://Particle Scenes/Minion/row1.png" id="1_rdfc1"]
+[ext_resource type="Script" uid="uid://c3x5x3w7uau61" path="res://Particle Scenes/Minion/bard_heal.gd" id="2_o8fwd"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_deoyt"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 11
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="BardEffective" type="CPUParticles2D" unique_id=973902611]
+material = SubResource("CanvasItemMaterial_deoyt")
+scale = Vector2(1.6, 1.6)
+emitting = false
+amount = 1
+texture = ExtResource("1_rdfc1")
+lifetime = 0.2
+one_shot = true
+speed_scale = 0.4
+local_coords = true
+gravity = Vector2(0, 0)
+anim_speed_min = 0.6
+anim_speed_max = 0.6
+script = ExtResource("2_o8fwd")

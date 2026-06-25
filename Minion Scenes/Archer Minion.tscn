@@ -1,0 +1,77 @@
+[gd_scene format=3 uid="uid://d2qg30tjh7wwq"]
+
+[ext_resource type="Texture2D" uid="uid://dnp5tpwxohmyg" path="res://Textures/Minions/Archer Minion.png" id="1_7bh2j"]
+[ext_resource type="Script" uid="uid://g2e3s7p7ktdi" path="res://Scripts/Minions/archer_minion.gd" id="1_dnw14"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
+size = Vector2(24, 24)
+
+[sub_resource type="Shader" id="Shader_we1fa"]
+resource_local_to_scene = true
+code = "shader_type canvas_item;
+
+uniform vec4 flash_color : source_color = vec4(1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+void fragment() {
+	vec4 color = texture(TEXTURE, UV);
+	if (flash_modifier > 0.0) {
+		color.rgb = mix(color.rgb, flash_color.rgb, flash_modifier);
+		COLOR = color;
+	}
+}
+
+//void light() {
+//	// Called for every pixel for every light affecting the CanvasItem.
+//	// Uncomment to replace the default light processing function with this one.
+//}
+"
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_rahao"]
+resource_local_to_scene = true
+shader = SubResource("Shader_we1fa")
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
+size = Vector2(27, 27)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_dnw14"]
+radius = 200.0
+
+[node name="Archer" type="CharacterBody2D" unique_id=509922397 groups=["Minion"]]
+collision_mask = 4
+script = ExtResource("1_dnw14")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=517996318]
+shape = SubResource("RectangleShape2D_m5ss4")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1125880488]
+material = SubResource("ShaderMaterial_rahao")
+scale = Vector2(1.5, 1.5)
+texture = ExtResource("1_7bh2j")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=529622920]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=245942647]
+position = Vector2(-0.5, -0.5)
+shape = SubResource("RectangleShape2D_o2fih")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1521708146]
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1967080867]
+shape = SubResource("CircleShape2D_dnw14")
+
+[node name="AttackTimer" type="Timer" parent="." unique_id=1314796307]
+
+[node name="IdleTimer" type="Timer" parent="." unique_id=219536546]
+wait_time = 1.5
+autostart = true
+
+[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="timeout" from="IdleTimer" to="." method="_on_idle_timer_timeout"]

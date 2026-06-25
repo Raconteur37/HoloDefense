@@ -267,8 +267,8 @@ func createPropertiesLabels(turret : Turret):
 		"curseDamageAmp": ["Curse Damage Amp: ", Color.REBECCA_PURPLE, "%"],
 		"turnChance": ["Zombie Turn Chance: ", Color.DARK_GREEN, "%"],
 		"turnTime": ["Zombie Time: ", Color.GREEN_YELLOW, "s"],
-		"knightDamage": ["Knight Damage: ", Color.SADDLE_BROWN],
-		"knightHealth": ["Knight Health: ", Color.FOREST_GREEN],
+		"knightHealth": ["Knight Health: ", Color.DARK_SLATE_GRAY],
+		"knightDamage": ["Knight Damage: ", Color.SLATE_GRAY],
 		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
 		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE],
 		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE]
@@ -297,6 +297,53 @@ func createPropertiesLabels(turret : Turret):
 			label.add_theme_color_override("font_color", font_color)
 			label.add_theme_font_size_override("font_size", 10)
 			labels.append(label)
+			
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.ROYAL_TURRET:
+		var label = Label.new()
+		label = Label.new()
+		label.text = "Archer Summon Chance: " + str(turret.archerSummonChance) + "%"
+		label.add_theme_color_override("font_color", Color.LIGHT_CYAN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Max Archers: " + str(turret.maxArchers)
+		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Archer Health: " + str(turret.archerHealth)
+		label.add_theme_color_override("font_color", Color.LIGHT_GREEN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Archer Damage: " + str(turret.archerDamage)
+		label.add_theme_color_override("font_color", Color.LIGHT_CORAL)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+	if turret.level >= 3 and turret.turretID == Turret.TurretID.ROYAL_TURRET:
+		var label = Label.new()
+		label = Label.new()
+		label.text = "Bard Summon Chance: " + str(turret.bardSummonChance) + "%"
+		label.add_theme_color_override("font_color", Color.LIGHT_CYAN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Max Bards: " + str(turret.maxBards)
+		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Bard Health: " + str(turret.bardHealth)
+		label.add_theme_color_override("font_color", Color.LIGHT_GREEN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Bard Heal: " + str(turret.bardHeal)
+		label.add_theme_color_override("font_color", Color.MEDIUM_SEA_GREEN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+
+
 
 	return labels
 

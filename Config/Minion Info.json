@@ -1,9 +1,22 @@
 {
 	"knight": {
-		"id": 1,
 		"health": 50,
 		"damage": 2,
 		"speed": 200,
 		"attackTime": 0.5
-	}
+	},
+	"archer": {
+		"health": 25,
+		"damage": 6,
+		"speed": 50,
+		"attackTime": 3,
+		"attackRange": 175,
+		"projectileSpeed": 500
+	},
+	"bard": {
+		"health": 30,
+		"healAmount": 15,
+		"speed": 25,
+		"attackTime": 5 
+	},
 }

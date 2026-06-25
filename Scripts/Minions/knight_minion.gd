@@ -26,9 +26,6 @@ func _ready():
 func updateAttackTime():
 	attackTimer.wait_time = attackTime
 
-func getName():
-	return minionName
-
 func _physics_process(delta: float) -> void:
 	if enemy == null:
 		attackingEnemy = false

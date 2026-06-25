@@ -4,10 +4,11 @@ class_name Minion
 
 var turretOwner : Turret
 
+var maxHealth : float
 var minionName : String
 var attackTime : float
 var speed : float
-var health : int
+var health : float
 var damage : float
 var sprite
 

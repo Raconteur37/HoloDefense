@@ -184,9 +184,8 @@ func summonEnergizeExplosion():
 	ExplosionManager.summonExplosion(turretProviders.get("energized"),self.global_position,fxData)
 
 func death():
-	print("called")
+	#print("called")
 	for key in turretProviders:
-		print(key)
 		match key:
 			"energized":
 				if is_instance_valid(turretProviders.get("energized")):
