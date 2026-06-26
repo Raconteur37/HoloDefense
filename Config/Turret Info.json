@@ -104,7 +104,7 @@
 		"maxArchers": 2,
 		"archerSummonChance": 50,
 		"maxBards": 1,
-		"bardSummonChance": 99,
+		"bardSummonChance": 25,
 		"scaleFactor": 0.05
 	},
 	"flame_turret": {
@@ -112,18 +112,19 @@
 		"name": "Flame Turret",
 		"description": "Uses a flamethrower to [color=orange]ignite[/color] enemies and burn them slowly.",
 		"levelTwo": "Enemies that die ignited, [color=orange]ignite[/color] other enemies nearby.",
-		"levelThree": "When an enemy dies that this turret ignited, gain armor.",
+		"levelThree": "",
 		"rarity": "Rare",
 		"type": "Controlling",
 		"price": 50,
 		"armor": 20,
 		"health": 25,
 		"damage": 3,
-		"range": 120,
+		"range": 100,
 		"constructionTime": 25,
 		"fireDamage": 4,
 		"fireTime": 3,
 		"fireTickTime": 0.5,
+		"flameExplosionRange": 100,
 		"scaleFactor": 0.06
 	},
 	"firework_turret": {

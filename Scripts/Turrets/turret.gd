@@ -196,4 +196,5 @@ func death():
 					turretProviders.erase("energized")
 			"bubble":
 				removeBubble()
+	StatManager.addStat(turretID,"deaths",1)
 	queue_free()

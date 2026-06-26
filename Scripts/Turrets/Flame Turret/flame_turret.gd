@@ -37,7 +37,7 @@ func _ready() -> void:
 	baseFireDamage = TurretManager.getTurretStat(turretID,"fireDamage")
 	baseFireTime = TurretManager.getTurretStat(turretID,"fireTime")
 	baseDamageTickTime = TurretManager.getTurretStat(turretID,"fireTickTime")
-	level = 1
+	level = 2
 	upgradeTier = 0
 
 	line2d = $RangeArea/RangeIndicator

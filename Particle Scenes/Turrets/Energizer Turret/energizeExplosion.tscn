@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://c1y76whpejqu8"]
 
 [ext_resource type="Texture2D" uid="uid://bgjqjguahmppi" path="res://Particle Scenes/Turrets/Energizer Turret/row.png" id="1_eemat"]
+[ext_resource type="Script" uid="uid://ccnmw8slai4i3" path="res://Particle Scenes/Turrets/Energizer Turret/explosion.gd" id="2_0l1rl"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0l1rl"]
 resource_local_to_scene = true
@@ -21,3 +22,4 @@ scale_amount_min = 5.0
 scale_amount_max = 5.0
 anim_speed_min = 1.0
 anim_speed_max = 1.0
+script = ExtResource("2_0l1rl")

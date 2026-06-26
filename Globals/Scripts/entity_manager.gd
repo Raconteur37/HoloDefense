@@ -192,6 +192,15 @@ func onKill(turret,enemy):
 			if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
 				if turret.level >= 3:
 					turret.killReloadCooldownReduction()
+			if turret.turretID == Turret.TurretID.FLAME_TURRET:
+				if turret.level >= 2:
+					for effect in enemy.effects.keys():
+						if effect == EffectClass.Effect.BURN:
+							var fxData = {}
+							var expRange = TurretManager.getTurretStat(Turret.TurretID.FLAME_TURRET,"flameExplosionRange")
+							fxData["explosionRadius"] = expRange
+							#print(expRange)
+							ExplosionManager.summonExplosion(turret,enemy.global_position,fxData)
 			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID,"kills",1)
 	

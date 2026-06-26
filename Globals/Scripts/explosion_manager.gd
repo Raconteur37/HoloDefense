@@ -12,12 +12,17 @@ var turretApplier : Turret
 var location
 var particle
 
-@onready var explosionParticlesTexture = {Turret.TurretID.FIREWORK_TURRET : {
+@onready var explosionParticlesTexture = {
+	Turret.TurretID.FIREWORK_TURRET : {
 	"scene" : preload("res://Particle Scenes/Projectile/Firework/firework_explosion.tscn"),
 	"baseRadius" : 25},
 	Turret.TurretID.ENERGIZER_TURRET : {
 		"scene" : preload("res://Particle Scenes/Turrets/Energizer Turret/energizeExplosion.tscn"),
 		"baseRadius" : TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionRange")
+	},
+	Turret.TurretID.FLAME_TURRET : {
+		"scene" : preload("res://Particle Scenes/Turrets/Flame Turret/flameExplosion.tscn"),
+		"baseRadius" : TurretManager.getTurretStat(Turret.TurretID.FLAME_TURRET,"flameExplosionRange")
 	}
 }
 
@@ -34,6 +39,7 @@ func summonExplosion(turret : Turret, position : Vector2, fxData : Dictionary):
 		damage = fxData.get("explosionDamage")
 	if fxData.has("explosionRadius"):
 		radius = fxData.get("explosionRadius")
+	#if fxData.has("igniteTime")
 
 	spawnExplosionArea()
 
@@ -69,8 +75,9 @@ func spawnExplosionArea() -> void:
 		var p = particle.instantiate()
 		scene.add_child(p)
 		p.global_position = location
+		#print(explosionParticlesTexture)
 		var scaleFactor = radius / explosionParticlesTexture.get(turretApplier.turretID).get("baseRadius")
-		p.scale = Vector2(scaleFactor, scaleFactor)
+		#p.scale = Vector2(scaleFactor, scaleFactor)
 		p.amount = int(p.amount * scaleFactor)
 		p.emitting = true
 

@@ -1,0 +1,24 @@
+[gd_scene format=3 uid="uid://cd2yhq46gcdr5"]
+
+[ext_resource type="Texture2D" uid="uid://c3eaj4s0gv8pn" path="res://Particle Scenes/Turrets/Flame Turret/row2.png" id="1_ldsiv"]
+[ext_resource type="Script" uid="uid://ccnmw8slai4i3" path="res://Particle Scenes/Turrets/Energizer Turret/explosion.gd" id="2_s4txf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_0l1rl"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 11
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=369664344]
+modulate = Color(1, 1, 1, 0.69411767)
+material = SubResource("CanvasItemMaterial_0l1rl")
+emitting = false
+amount = 1
+texture = ExtResource("1_ldsiv")
+one_shot = true
+local_coords = true
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+script = ExtResource("2_s4txf")
