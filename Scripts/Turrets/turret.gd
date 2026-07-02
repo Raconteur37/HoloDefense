@@ -36,7 +36,7 @@ var enemiesInRange = []
 
 var effects : Dictionary = {}
 
-var currentParticlesMap = {}
+var currentParticlesMap : Dictionary = {}
 
 var line2d
 var reloadTimer
@@ -89,12 +89,23 @@ var turretProviders : Dictionary = {}
 
 var currentBubbleHealth : float
 
+var ignitionRounds : bool = false
+var ignitionRoundsBurnTime = 0
+var ignitionRoundsBurnDamage = 0
+
 func _process(_delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		hideUI()
+
+func applyProjectileModifiers(proj) -> void:
+	if ignitionRounds:
+		proj.burn = true 
+		proj.burnTime = ignitionRoundsBurnTime
+		proj.burnDamage = ignitionRoundsBurnDamage
+
 
 func showRange():
 	line2d.show()
@@ -198,3 +209,40 @@ func death():
 				removeBubble()
 	StatManager.addStat(turretID,"deaths",1)
 	queue_free()
+
+func giveIgnitionRounds(time, burnTime, burnDamage):
+	if not currentParticlesMap.has("Ignition Rounds"):
+		ParticleManager.playIgnitionRoundsParticle(self)
+	if effects.has("Ignition Rounds"):
+		effects.get("Ignition Rounds").wait_time = time
+		effects.get("Ignition Rounds").start()
+	else:
+		var timer = Timer.new()
+		
+		add_child(timer) 
+		
+		ignitionRoundsBurnDamage = burnDamage
+		ignitionRoundsBurnTime = burnTime
+		ignitionRounds = true
+		
+		timer.wait_time = time
+		timer.one_shot = true
+		timer.timeout.connect(removeIgnitionRounds)
+		timer.start()
+		
+		effects["Ignition Rounds"] = timer
+
+func removeIgnitionRounds():
+	if currentParticlesMap.has("Ignition Rounds"):
+		currentParticlesMap.get("Ignition Rounds").queue_free()
+		currentParticlesMap.erase("Ignition Rounds")
+	
+	if effects.has("Ignition Rounds"):
+		var timer = effects.get("Ignition Rounds")
+		if is_instance_valid(timer):
+			timer.queue_free()
+			
+	effects.erase("Ignition Rounds")
+	ignitionRounds = false
+	ignitionRoundsBurnDamage = 0
+	ignitionRoundsBurnTime = 0

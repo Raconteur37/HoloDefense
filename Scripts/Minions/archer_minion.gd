@@ -74,6 +74,7 @@ func shoot():
 	if is_instance_valid(enemy):
 
 		var proj = projectile.instantiate()
+		applyProjectileModifiers(proj)
 		get_parent().add_child(proj)
 		proj.position = position
 

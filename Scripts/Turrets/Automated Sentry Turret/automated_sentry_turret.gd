@@ -75,6 +75,7 @@ func attack():
 			currentBullets -= 1
 
 			var proj = projectile.instantiate()
+			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = (enemy.global_position - global_position).normalized() * projectileSpeed
 			proj.velocity = proj.velocity + Vector2(randf_range(-100,100),randf_range(-100, 100))

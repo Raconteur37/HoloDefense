@@ -60,6 +60,9 @@ func attack():
 		if is_instance_valid(enemy) and isPlaced:
 
 			var proj = projectile.instantiate()
+			
+			applyProjectileModifiers(proj)
+			
 			get_parent().add_child(proj)
 			proj.position = position
 

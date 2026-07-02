@@ -87,6 +87,7 @@ func attack():
 		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
 			var proj = projectile.instantiate()
+			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 			var dif = self.global_position.angle_to_point(enemy.global_position)

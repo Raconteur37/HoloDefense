@@ -3,6 +3,7 @@ extends Turret
 class_name FireworkTurret
 
 var reloading : bool = false
+var reloadGeneration : int = 0
 
 
 @export var baseExplosionDamage : float
@@ -13,6 +14,8 @@ var shotDelay : float
 var shots = 3
 var explosionDamage
 var explosionRadius
+
+var refundChance
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -32,8 +35,9 @@ func _ready() -> void:
 	baseExplosionDamage = TurretManager.getTurretStat(turretID,"explosionDamage")
 	baseExplosionRadius = TurretManager.getTurretStat(turretID,"explosionRadius")
 	shotDelay = TurretManager.getTurretStat(turretID,"shotDelay")
+	refundChance = TurretManager.getTurretStat(turretID,"refundChance")
 
-	level = 1
+	level = 3
 	upgradeTier = 0
 
 	projectile = preload("res://Projectile Scenes/firework.tscn")
@@ -68,6 +72,7 @@ func attack():
 		shotReady = true
 		if is_instance_valid(enemy) and isPlaced:
 			var proj = projectile.instantiate()
+			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 			
@@ -101,9 +106,13 @@ func attack():
 
 func reloadAnimation():
 	if not reloading:
+		reloadGeneration += 1
+		var myGeneration = reloadGeneration
 		while shots < 3:
 			reloading = true
-			await get_tree().create_timer((reloadTime)).timeout
+			await get_tree().create_timer(reloadTime).timeout
+			if myGeneration != reloadGeneration:
+				return # a refund (or a newer reload cycle) took over mid-wait, this chain is stale
 			shots += 1
 			shotReady = true
 			if shots == 1:
@@ -116,6 +125,31 @@ func reloadAnimation():
 				reloading = false
 				return
 			reloading = false
+
+
+func tryRefundShot() -> void:
+	if shots >= 3:
+		return
+	if randi_range(1,100) >= refundChance:
+		return
+
+	reloadGeneration += 1 
+	reloading = false
+
+	shots = min(shots + 1, 3)
+	shotReady = true
+
+	if shots == 1:
+		topSprite.frame = 2
+	if shots == 2:
+		topSprite.frame = 1
+	if shots == 3:
+		topSprite.frame = 0
+
+	refreshUI(self)
+
+	if shots < 3:
+		reloadAnimation()
 
 func _on_range_area_body_entered(body: Node2D) -> void:
 	if (body.is_in_group("Enemy")):

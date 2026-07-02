@@ -51,7 +51,6 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Firework Turret" type="CharacterBody2D" unique_id=111447667 groups=["Turret"]]
-position = Vector2(960, 490)
 collision_mask = 12
 script = ExtResource("1_ldtm6")
 
@@ -73,6 +72,7 @@ script = ExtResource("4_it7rg")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=47527709]
+collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=2126650264]

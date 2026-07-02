@@ -65,6 +65,7 @@ script = ExtResource("4_s4vqx")
 shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=738682570]
+collision_layer = 0
 collision_mask = 12
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=561443723]

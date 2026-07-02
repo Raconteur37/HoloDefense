@@ -101,6 +101,7 @@ particles_anim_v_frames = 1
 particles_anim_loop = true
 
 [node name="Medic Turret" type="CharacterBody2D" unique_id=750868808 groups=["Turret"]]
+collision_layer = 0
 collision_mask = 12
 script = ExtResource("1_r7f3q")
 

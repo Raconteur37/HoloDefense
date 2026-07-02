@@ -112,7 +112,7 @@
 		"name": "Flame Turret",
 		"description": "Uses a flamethrower to [color=orange]ignite[/color] enemies and burn them slowly.",
 		"levelTwo": "Enemies that die ignited, [color=orange]ignite[/color] other enemies nearby.",
-		"levelThree": "",
+		"levelThree": "Turrets within the explosion get [color=orange]igniting[/color] projectiles.",
 		"rarity": "Rare",
 		"type": "Controlling",
 		"price": 50,
@@ -123,8 +123,8 @@
 		"constructionTime": 25,
 		"fireDamage": 4,
 		"fireTime": 3,
-		"fireTickTime": 0.5,
 		"flameExplosionRange": 100,
+		"ignitionRoundsTime": 4,
 		"scaleFactor": 0.06
 	},
 	"firework_turret": {
@@ -132,7 +132,7 @@
 		"name": "Firework Turret",
 		"description": "Launches a 3 burst of fireworks in a quick succession that do area damage.",
 		"levelTwo": "Firework explosions [color=orange]ignite[/color] enemies.",
-		"levelThree": "Enemies that die to the firework explosion half the reload time of the next firework.",
+		"levelThree": "Killing an enemy has a chance to reload a shot",
 		"rarity": "Super Rare",
 		"type": "Explosive",
 		"price": 75,
@@ -145,6 +145,9 @@
 		"constructionTime": 15,
 		"explosionDamage": 100,
 		"explosionRadius": 60,
+		"burnDamage": 5,
+		"burnTime": 5,
+		"refundChance": 30,
 		"shotDelay": 0.8,
 		"scaleFactor": 0.07
 	},

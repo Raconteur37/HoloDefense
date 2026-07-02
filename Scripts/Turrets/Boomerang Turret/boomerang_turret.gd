@@ -57,6 +57,9 @@ func attack() -> void:
 	shotReady = false
 
 	var proj = projectile.instantiate()
+	
+	applyProjectileModifiers(proj)
+	
 	proj.damage = damage
 	proj.shooter = self
 	proj.pierce = pierce

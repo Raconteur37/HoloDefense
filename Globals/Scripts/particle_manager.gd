@@ -15,6 +15,8 @@ var healParticle = preload("res://Particle Scenes/Effects/Heal/Heal.tscn")
 
 var bubbleParticle = preload("res://Particle Scenes/Effects/Bubble/Bubble.tscn")
 
+var ignitionsRoundParticle = preload("res://Particle Scenes/Turrets/Flame Turret/flamingTurretEffect.tscn")
+
 func playDamageParticle(enemy):
 
 	match enemy.getName():
@@ -66,6 +68,13 @@ func playEnergizedParticle(turret):
 	#particle.global_position = turret.global_position
 	turret.add_child(particle)
 	turret.currentParticlesMap["Energized"] = particle
+
+func playIgnitionRoundsParticle(turret):
+
+	var particle = ignitionsRoundParticle.instantiate()
+	#particle.global_position = turret.global_position
+	turret.add_child(particle)
+	turret.currentParticlesMap["Ignition Rounds"] = particle
 
 func playBubbleParticle(turret):
 

@@ -60,30 +60,40 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 # This will INCLUDE explosions cus why not
 func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	var turret = packet.source
+	
+	if is_instance_valid(turret):
 
-	if EffectClass.Effect.POISON in packet.effects:
-		EffectManager.applyPoisonEffect(
-			enemy, turret,
-			packet.effectData.get("poisonDamage", 0),
-			packet.effectData.get("poisonTime", 0)
-		)
-		StatManager.addStat(turret.turretID,"enemies_poisoned",1)
-		XpManager.addXp(turret.turretID)
-	if EffectClass.Effect.CURSE in packet.effects:
-		EffectManager.applyCurseEffect(
-			enemy, turret,
-			packet.effectData.get("curseTime", 0),
-			packet.effectData.get("curseDamageAmp",0)
-		)
-		StatManager.addStat(turret.turretID,"enemies_cursed",1)
-		XpManager.addXp(turret.turretID)
-	if EffectClass.Effect.EXECUTE in packet.effects:
-		ParticleManager.playExecutionParticle(enemy)
-		killEnemy(turret, enemy)
-		StatManager.addStat(turret.turretID,"enemies_executed",1)
-		XpManager.addXp(turret.turretID)
-	if EffectClass.Effect.EXPLOSION in packet.effects:
-		ExplosionManager.summonExplosion(turret,enemy.global_position,packet.effectData)
+		if EffectClass.Effect.BURN in packet.effects:
+			EffectManager.applyBurnEffect(
+				enemy, turret,
+				packet.effectData.get("burnDamage", 0),
+				packet.effectData.get("burnTime", 0)
+			)
+			StatManager.addStat(turret.turretID,"enemies_ignited",1)
+			XpManager.addXp(turret.turretID)
+		if EffectClass.Effect.POISON in packet.effects:
+			EffectManager.applyPoisonEffect(
+				enemy, turret,
+				packet.effectData.get("poisonDamage", 0),
+				packet.effectData.get("poisonTime", 0)
+			)
+			StatManager.addStat(turret.turretID,"enemies_poisoned",1)
+			XpManager.addXp(turret.turretID)
+		if EffectClass.Effect.CURSE in packet.effects:
+			EffectManager.applyCurseEffect(
+				enemy, turret,
+				packet.effectData.get("curseTime", 0),
+				packet.effectData.get("curseDamageAmp",0)
+			)
+			StatManager.addStat(turret.turretID,"enemies_cursed",1)
+			XpManager.addXp(turret.turretID)
+		if EffectClass.Effect.EXECUTE in packet.effects:
+			ParticleManager.playExecutionParticle(enemy)
+			killEnemy(turret, enemy)
+			StatManager.addStat(turret.turretID,"enemies_executed",1)
+			XpManager.addXp(turret.turretID)
+		if EffectClass.Effect.EXPLOSION in packet.effects:
+			ExplosionManager.summonExplosion(turret,enemy.global_position,packet.effectData)
 
 func killEnemy(source, enemy: Enemy) -> void:
 	if enemy.isDead:
@@ -186,6 +196,9 @@ func onKill(turret,enemy):
 			StatManager.addStat(turret.turretOwner.turretID,"kills",1)
 			turret.enemy = null
 		else:
+			if turret.turretID == Turret.TurretID.FIREWORK_TURRET:
+				if turret.level >= 3:
+					turret.tryRefundShot()
 			if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
 				if turret.level >= 2:
 					turret.startSpeedEvent()
@@ -199,6 +212,8 @@ func onKill(turret,enemy):
 							var fxData = {}
 							var expRange = TurretManager.getTurretStat(Turret.TurretID.FLAME_TURRET,"flameExplosionRange")
 							fxData["explosionRadius"] = expRange
+							fxData["igniteTime"] = turret.fireTime
+							fxData["igniteDamage"] = turret.fireDamage
 							#print(expRange)
 							ExplosionManager.summonExplosion(turret,enemy.global_position,fxData)
 			XpManager.addXp(turret.turretID)
