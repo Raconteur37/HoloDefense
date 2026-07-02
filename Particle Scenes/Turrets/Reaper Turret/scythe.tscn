@@ -1,0 +1,22 @@
+[gd_scene format=3 uid="uid://iv3iqwixmlja"]
+
+[ext_resource type="Texture2D" uid="uid://ckowxn6c0oj2x" path="res://Particle Scenes/Turrets/Reaper Turret/scythe.png" id="1_lu21l"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_m72nu"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 12
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="CPUParticles2D" type="CPUParticles2D" unique_id=413061452]
+material = SubResource("CanvasItemMaterial_m72nu")
+emitting = false
+amount = 1
+texture = ExtResource("1_lu21l")
+lifetime = 2.0
+speed_scale = 2.0
+particle_flag_align_y = true
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0

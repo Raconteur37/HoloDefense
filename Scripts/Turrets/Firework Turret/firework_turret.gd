@@ -37,7 +37,7 @@ func _ready() -> void:
 	shotDelay = TurretManager.getTurretStat(turretID,"shotDelay")
 	refundChance = TurretManager.getTurretStat(turretID,"refundChance")
 
-	level = 3
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	projectile = preload("res://Projectile Scenes/firework.tscn")

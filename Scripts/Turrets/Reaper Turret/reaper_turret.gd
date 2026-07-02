@@ -3,12 +3,14 @@ extends Turret
 class_name ReaperTurret
 
 @export var baseExecutionChance : float
+@export var coneAngle : float = 70.0 # total width of the swing cone, in degrees - tweak in the Inspector
+
+var particle
 
 var executionChance
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/sythe.tscn")
-
 	rarity = Rarity.SUPER_RARE
 	type = Type.Dark
 	turretID = TurretID.REAPER_TURRET
@@ -24,10 +26,9 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	baseExecutionChance = TurretManager.getTurretStat(turretID,"executionChance")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
-
+	particle = $CPUParticles2D
 	upgradeTier = 0
 	level = 1
-
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -37,6 +38,7 @@ func _ready() -> void:
 	topSprite = $ReaperTurretTop
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
+	rangeArea = $RangeArea
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)
 	rangeCollisionShape.shape.radius = attackRange
@@ -46,40 +48,78 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	executionChance = baseExecutionChance
-
 	isPlaced = true
-
 	applyUpgrade()
 
 func attack():
-
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-
-		var enemy = EntityManager.getClosestEnemyFromSprite($".")
-
+		var enemy = EntityManager.getClosestEnemyFromSprite(self)
 		shotReady = false
+		
 		if is_instance_valid(enemy) and isPlaced:
-			var proj = projectile.instantiate()
-			applyProjectileModifiers(proj)
-			proj.position = position
-			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
+			
+			topSprite.look_at(enemy.global_position)
+			topSprite.rotate(PI/2)
+			
+			var aim_direction = global_position.direction_to(enemy.global_position)
+			
+			var right_direction = aim_direction.rotated(PI/2) 
+			
+			var forward_push = aim_direction * (attackRange * 0.35) 
+			var side_push = right_direction * 13 # Tweak this 25.0 to push it further right!
+			
+			particle.global_position = global_position + forward_push + side_push
+			
+			particle.look_at(enemy.global_position)
+			
+			particle.rotate(PI/2)
+			particle.emitting = true
+			var coneArea = Area2D.new()
+			coneArea.collision_mask = 0
+			coneArea.collision_layer = 0
+			coneArea.set_collision_mask_value(3, true)
 
-			var dif = self.global_position.angle_to_point(enemy.global_position)
+			var polyShape = CollisionPolygon2D.new()
+			var points = PackedVector2Array()
+			
+			points.append(Vector2.ZERO)
+			
+			
+			var numPoints = 10
+			var startAngle = -deg_to_rad(coneAngle / 2.0)
+			var endAngle = deg_to_rad(coneAngle / 2.0)
+			
+			for i in range(numPoints + 1):
+				var t = float(i) / numPoints
+				var currentAngle = lerp(startAngle, endAngle, t)
+				points.append(Vector2(cos(currentAngle), sin(currentAngle)) * attackRange)
+				
+			polyShape.polygon = points
+			coneArea.add_child(polyShape)
 
-			proj.rotation = proj.rotation + dif
-			proj.damage = damage
-			proj.shooter = self
-			var rand = randf_range(0,100)
-			if rand <= executionChance:
-				proj.execute = true
-			get_parent().add_child(proj)
+			rangeArea.add_child(coneArea)
+			coneArea.global_position = global_position
+			coneArea.look_at(enemy.global_position)
+
+			await get_tree().create_timer(.1).timeout
+
+			if is_instance_valid(coneArea):
+				for body in coneArea.get_overlapping_areas():
+					var en = body.get_parent()
+					if en.is_in_group("Enemy"):
+						EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), en)
+						
+						# Apply Execution Chance
+						if randf_range(0.0, 100.0) <= executionChance:
+							ParticleManager.playExecutionParticle(enemy)
+							EntityManager.killEnemy(self, en)
+							StatManager.addStat(turretID,"enemies_executed",1)
+
+				await get_tree().create_timer(0.5).timeout
+				coneArea.queue_free()
 
 			reloadTimer.start()
 			reloadAnimation()
-
-			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
-			topSprite.look_at(enemy.global_position)
-			topSprite.rotate(PI/2)
 
 func reloadAnimation():
 	topSprite.frame = 1
@@ -96,7 +136,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
-
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
 
@@ -107,6 +146,7 @@ func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
+	rangeCollisionShape.shape.radius = attackRange
 	projectileSpeed = (baseProjectileSpeed + (baseProjectileSpeed * scaleFactor * upgradeTier))
 	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
 	reloadTimer.wait_time = reloadTime

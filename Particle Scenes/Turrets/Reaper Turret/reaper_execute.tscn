@@ -12,14 +12,14 @@ particles_anim_loop = true
 
 [node name="CPUParticles2D" type="CPUParticles2D" unique_id=413061452]
 material = SubResource("CanvasItemMaterial_m72nu")
-emitting = false
 amount = 1
 texture = ExtResource("1_q42w1")
 lifetime = 2.0
 one_shot = true
-speed_scale = 2.0
 particle_flag_align_y = true
 gravity = Vector2(0, 0)
+scale_amount_min = 3.0
+scale_amount_max = 3.0
 anim_speed_min = 1.0
 anim_speed_max = 1.0
 script = ExtResource("2_lcx4u")
