@@ -3,11 +3,13 @@ extends Turret
 class_name ReaperTurret
 
 @export var baseExecutionChance : float
-@export var coneAngle : float = 70.0 # total width of the swing cone, in degrees - tweak in the Inspector
+@export var coneAngle : float = 0
 
 var particle
 
+var executionIncrease
 var executionChance
+var executionHold
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/sythe.tscn")
@@ -26,9 +28,11 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	baseExecutionChance = TurretManager.getTurretStat(turretID,"executionChance")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	coneAngle = TurretManager.getTurretStat(turretID,"coneAngle")
+	executionIncrease = TurretManager.getTurretStat(turretID,"executionChanceIncrease")
 	particle = $CPUParticles2D
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -48,6 +52,7 @@ func _ready() -> void:
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
 	executionChance = baseExecutionChance
+	executionHold = executionChance
 	isPlaced = true
 	applyUpgrade()
 
@@ -111,15 +116,30 @@ func attack():
 						
 						# Apply Execution Chance
 						if randf_range(0.0, 100.0) <= executionChance:
-							ParticleManager.playExecutionParticle(enemy)
-							EntityManager.killEnemy(self, en)
-							StatManager.addStat(turretID,"enemies_executed",1)
+							execute(en)
+							if level >= 3:
+								for bod in coneArea.get_overlapping_areas():
+									en = bod.get_parent()
+									if en.is_in_group("Enemy"):
+										execute(en)
+								executionChance = executionHold
+						else:
+							if level >= 2:
+								executionChance += executionIncrease
+								refreshUI(self)
 
 				await get_tree().create_timer(0.5).timeout
 				coneArea.queue_free()
 
 			reloadTimer.start()
 			reloadAnimation()
+
+func execute(enemy):
+	ParticleManager.playExecutionParticle(enemy)
+	EntityManager.killEnemy(self, enemy)
+	StatManager.addStat(turretID,"enemies_executed",1)
+	if level >= 2:
+		executionChance = executionHold
 
 func reloadAnimation():
 	topSprite.frame = 1
@@ -153,4 +173,5 @@ func applyUpgrade():
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	executionChance = (baseExecutionChance + (baseExecutionChance * scaleFactor * upgradeTier))
+	executionHold = executionChance
 	refreshUI(self)

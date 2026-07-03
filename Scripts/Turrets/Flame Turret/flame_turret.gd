@@ -37,7 +37,7 @@ func _ready() -> void:
 	baseFireDamage = TurretManager.getTurretStat(turretID,"fireDamage")
 	baseFireTime = TurretManager.getTurretStat(turretID,"fireTime")
 	baseDamageTickTime = EffectManager.getEffectStat(EffectClass.Effect.BURN,"tickTime")
-	level = XpManager.getCurrentLevel(turretID)
+	level = 3#XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	line2d = $RangeArea/RangeIndicator

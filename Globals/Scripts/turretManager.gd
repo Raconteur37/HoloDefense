@@ -245,8 +245,8 @@ func createPropertiesLabels(turret : Turret):
 		"explosionDamage": ["Explosion Damage: ", Color.CHOCOLATE],
 		"explosionRadius": ["Explosion Radius: ", Color.ROSY_BROWN],
 		"pierce": ["Pierce: ", Color.PERU],
-		"fireDamage": ["Fire Damage: ", Color.RED],
-		"fireTime": ["Fire Duration: ", Color.INDIAN_RED, "s"],
+		"fireDamage": ["Ignite Damage: ", Color.RED],
+		"fireTime": ["Ignite Duration: ", Color.INDIAN_RED, "s"],
 		"executionChance": ["Execution Chance: ", Color.BLACK, "%"],
 		"poisonChance": ["Poison Chance: ", Color.MEDIUM_SPRING_GREEN, "%"],
 		"poisonDamage": ["Poison Damage: ", Color.SPRING_GREEN],
@@ -342,7 +342,41 @@ func createPropertiesLabels(turret : Turret):
 		label.add_theme_color_override("font_color", Color.MEDIUM_SEA_GREEN)
 		label.add_theme_font_size_override("font_size", 10)
 		labels.append(label)
-
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.FLAME_TURRET:
+		var label = Label.new()
+		label.text = "Explosion Radius: " + str(TurretManager.getTurretStat(turret.turretID,"flameExplosionRange"))
+		label.add_theme_color_override("font_color", Color.ROSY_BROWN)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		if turret.level >= 3:
+			label = Label.new()
+			label.text = "Ignition Rounds Time: " + str(TurretManager.getTurretStat(turret.turretID,"ignitionRoundsTime")) + "s"
+			label.add_theme_color_override("font_color", Color.LIGHT_CORAL)
+			label.add_theme_font_size_override("font_size", 10)
+			labels.append(label)
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.FIREWORK_TURRET:
+		var label = Label.new()
+		label.text = "Ignite Damage: " + str(TurretManager.getTurretStat(turret.turretID,"burnDamage"))
+		label.add_theme_color_override("font_color", Color.RED)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Ignite Time: " + str(TurretManager.getTurretStat(turret.turretID,"burnTime"))
+		label.add_theme_color_override("font_color", Color.INDIAN_RED)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		if turret.level >= 3:
+			label = Label.new()
+			label.text = "Refund Chance: " + str(TurretManager.getTurretStat(turret.turretID,"refundChance")) + "%"
+			label.add_theme_color_override("font_color", Color.DARK_TURQUOISE)
+			label.add_theme_font_size_override("font_size", 10)
+			labels.append(label)
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.REAPER_TURRET:
+		var label = Label.new()
+		label.text = "Chance Increase: " + str(TurretManager.getTurretStat(turret.turretID,"executionChanceIncrease")) + "%"
+		label.add_theme_color_override("font_color", Color.DARK_GRAY)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
 
 
 	return labels
