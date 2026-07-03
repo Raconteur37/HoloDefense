@@ -1,9 +1,10 @@
 extends Turret
 class_name BoomerangTurret
 
-@export var baseExecutionChance: float
+
 var basePierce
 var pierce
+var pierceScale
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/boomerang.tscn")
@@ -22,6 +23,7 @@ func _ready() -> void:
 	baseBuildTime = TurretManager.getTurretStat(turretID, "constructionTime")
 	scaleFactor = TurretManager.getTurretStat(turretID, "scaleFactor")
 	basePierce = TurretManager.getTurretStat(turretID, "pierce")
+	pierceScale = TurretManager.getTurretStat(turretID, "pierceScale")
 	upgradeTier = 0
 	level = 1
 	reloadTimer = $ReloadTimer
@@ -111,5 +113,5 @@ func applyUpgrade() -> void:
 	reloadTimer.wait_time = reloadTime
 	maxHealth = baseHealth + (baseHealth * scaleFactor * upgradeTier)
 	health = maxHealth
-	pierce = int(basePierce + (basePierce * scaleFactor * upgradeTier))
+	pierce = int(basePierce + (basePierce * pierceScale * upgradeTier))
 	refreshUI(self)

@@ -337,7 +337,6 @@ func createTooltips() -> void:
 
 
 func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.TurretID) -> void:
-
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
 
@@ -387,6 +386,7 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE]
 	}
 
+	# 1. Process Standard Properties
 	for property in propertyList:
 		if not turretStatsConfig.has(property):
 			continue
@@ -395,21 +395,62 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		var color: Color = config[1]
 		var suffix: String = config[2] if config.size() > 2 else ""
 		var value = TurretManager.getTurretStat(turretID, property)
-
-		var label = Label.new()
-		var settings = turretLabel.duplicate()
-		settings.font_color = color
-		label.autowrap_mode = TextServer.AUTOWRAP_WORD
-		label.custom_minimum_size = Vector2(278, 0)  # 836px / 3 columns
-		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
-		label.text = "%s%s%s" % [prefix, str(value), suffix]
-		infoLabelContainer.add_child(label)
 		
-		#label.text_overrun_behavior = TextServer.OVERRUN_TRIM_WORD
-		label.label_settings = settings
-		label.text = "%s%s%s" % [prefix, str(value), suffix]
-		infoLabelContainer.add_child(label)
+		addStatLabel("%s%s%s" % [prefix, str(value), suffix], color, 0, true)
 
+	# 2. Process Level-Specific Upgrades
+	var current_level = XpManager.getCurrentLevel(turretID)
+	if current_level < 2:
+		return # Skip the rest if the turret isn't at least level 2
+		
+	match turretID:
+		Turret.TurretID.ROYAL_TURRET:
+			addStatLabel("Archer Summon Chance: %s%%" % TurretManager.getTurretStat(turretID, "archerSummonChance"), Color.LIGHT_CYAN, 0, true)
+			addStatLabel("Max Archers: %s" % TurretManager.getTurretStat(turretID, "maxArchers"), Color.LIGHT_GRAY, 10)
+			addStatLabel("Archer Health: %s" % TurretManager.getMinionStat(Minion.MinionID.ARCHER, "health"), Color.LIGHT_GREEN, 10)
+			addStatLabel("Archer Damage: %s" % TurretManager.getMinionStat(Minion.MinionID.ARCHER, "damage"), Color.LIGHT_CORAL, 10)
+			
+			if current_level >= 3:
+				addStatLabel("Bard Summon Chance: %s%%" % TurretManager.getTurretStat(turretID, "bardSummonChance"), Color.LIGHT_CYAN, 10)
+				addStatLabel("Max Bards: %s" % TurretManager.getTurretStat(turretID, "maxBards"), Color.LIGHT_GRAY, 10)
+				addStatLabel("Bard Health: %s" % TurretManager.getMinionStat(Minion.MinionID.BARD, "health"), Color.LIGHT_GREEN, 10)
+				addStatLabel("Bard Heal: %s" % TurretManager.getMinionStat(Minion.MinionID.BARD, "healAmount"), Color.MEDIUM_SEA_GREEN, 10)
+
+		Turret.TurretID.FLAME_TURRET:
+			addStatLabel("Explosion Radius: %s" % TurretManager.getTurretStat(turretID, "flameExplosionRange"), Color.ROSY_BROWN, 10)
+			if current_level >= 3:
+				addStatLabel("Ignition Rounds Time: %ss" % TurretManager.getTurretStat(turretID, "ignitionRoundsTime"), Color.LIGHT_CORAL, 10)
+
+		Turret.TurretID.FIREWORK_TURRET:
+			addStatLabel("Ignite Damage: %s" % TurretManager.getTurretStat(turretID, "burnDamage"), Color.RED, 10)
+			addStatLabel("Ignite Time: %s" % TurretManager.getTurretStat(turretID, "burnTime"), Color.INDIAN_RED, 10)
+			if current_level >= 3:
+				addStatLabel("Refund Chance: %s%%" % TurretManager.getTurretStat(turretID, "refundChance"), Color.DARK_TURQUOISE, 10)
+
+		Turret.TurretID.REAPER_TURRET:
+			addStatLabel("Chance Increase: %s%%" % TurretManager.getTurretStat(turretID, "executionChanceIncrease"), Color.DARK_GRAY, 10)
+
+		Turret.TurretID.SPIDER_TURRET:
+			addStatLabel("Web Chance: %s%%" % TurretManager.getTurretStat(turretID, "webChance"), Color.WHITE, 0, true)
+			addStatLabel("Web Duration: %ss" % TurretManager.getTurretStat(turretID, "webDuration"), Color.LIGHT_GRAY, 0, true)
+
+# Helper function to generate labels cleanly
+func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:
+	var label = Label.new()
+	var settings = turretLabel.duplicate()
+	settings.font_color = color
+	label.label_settings = settings
+	label.text = text
+
+	if font_size > 0:
+		label.add_theme_font_size_override("font_size", font_size)
+
+	if autowrap:
+		label.autowrap_mode = TextServer.AUTOWRAP_WORD
+		label.custom_minimum_size = Vector2(278, 0)
+		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
+
+	infoLabelContainer.add_child(label)
 
 func appendXpLabel(turretID: Turret.TurretID) -> void:
 	var xpValue = XpManager.getCurrentXp(turretID)

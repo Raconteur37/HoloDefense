@@ -25,6 +25,18 @@ func applyBurnEffect(victim,turret,damage,time):
 		victim.effects[EffectClass.Effect.BURN] = effectScene
 		victim.add_child(effectScene)
 
+func applyStunEffect(victim,turret,time):
+	if checkResetDuration(EffectClass.Effect.STUN,victim,time):
+		var effectScene = load("res://Globals/Scene/Effects/Effect.tscn")
+		effectScene = effectScene.instantiate()
+		effectScene.effect = EffectClass.Effect.STUN
+		effectScene.duration = time
+		effectScene.enemy = victim
+		effectScene.turretApplier = turret
+		victim.effects[EffectClass.Effect.STUN] = effectScene
+		victim.stunned = true
+		victim.add_child(effectScene)
+
 
 func applyPoisonEffect(victim,turret,damage,time):
 	if checkResetDuration(EffectClass.Effect.POISON,victim,time):

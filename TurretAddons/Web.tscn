@@ -1,0 +1,25 @@
+[gd_scene format=3 uid="uid://cp7i4drlw05g2"]
+
+[ext_resource type="Script" uid="uid://ctodeu5xgei08" path="res://TurretAddons/web.gd" id="1_cqjnn"]
+[ext_resource type="Texture2D" uid="uid://cl5no3x7cfgb7" path="res://Textures/Turrets/Spider Turret/web.png" id="1_jk7bd"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_cqjnn"]
+radius = 15.033297
+
+[node name="Web" type="Node2D" unique_id=166066876]
+script = ExtResource("1_cqjnn")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1009537402]
+texture = ExtResource("1_jk7bd")
+
+[node name="Area2D" type="Area2D" parent="." unique_id=1350005265]
+collision_layer = 0
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=2010804115]
+shape = SubResource("CircleShape2D_cqjnn")
+
+[node name="Timer" type="Timer" parent="." unique_id=408948580]
+one_shot = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

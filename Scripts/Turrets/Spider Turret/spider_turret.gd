@@ -2,7 +2,6 @@ extends Turret
 
 class_name SpiderTurret
 
-
 @export var basePoisonChance : float
 @export var basePoisonDuration : float
 @export var basePoisonDamage : float
@@ -10,6 +9,11 @@ class_name SpiderTurret
 var poisonDamage
 var poisonDuration
 var poisonChance
+
+var baseWebChance
+var baseWebDuration
+var webChance
+var webDuration
 
 func _ready() -> void:
 	rarity = Rarity.COMMON
@@ -29,8 +33,10 @@ func _ready() -> void:
 	basePoisonDuration = TurretManager.getTurretStat(turretID,"poisonDuration")
 	basePoisonDamage = TurretManager.getTurretStat(turretID,"poisonDamage")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	webChance = TurretManager.getTurretStat(turretID,"webChance")
+	webDuration = TurretManager.getTurretStat(turretID,"webDuration")
 
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	projectile = preload("res://Projectile Scenes/poisondart.tscn")
@@ -54,6 +60,8 @@ func _ready() -> void:
 	poisonChance = basePoisonChance
 	poisonDamage = basePoisonDamage
 	poisonDuration = basePoisonDuration
+	baseWebChance = webChance
+	baseWebDuration = webDuration
 
 	isPlaced = true
 
@@ -84,6 +92,11 @@ func attack():
 			var rand = randf_range(0,100)
 			if rand <= poisonChance:
 				proj.poison = true
+			
+			rand = randf_range(0,100)
+			if rand <= webChance:
+				proj.web = true
+				proj.webDuration = webDuration
 
 			get_parent().add_child(proj)
 
@@ -143,4 +156,6 @@ func applyUpgrade():
 	poisonChance = (basePoisonChance + (basePoisonChance * scaleFactor * upgradeTier))
 	poisonDuration = (basePoisonDuration + (basePoisonDuration * scaleFactor * upgradeTier))
 	poisonDamage = (basePoisonDamage + (basePoisonDamage * scaleFactor * upgradeTier))
+	webChance = (baseWebChance + (baseWebChance * scaleFactor * upgradeTier))
+	webDuration = (baseWebDuration + (baseWebDuration * scaleFactor * upgradeTier))
 	refreshUI(self)

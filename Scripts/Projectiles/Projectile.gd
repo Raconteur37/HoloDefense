@@ -27,6 +27,8 @@ var curseDamageAmp: float = 0.0
 var explosion: bool = false
 var explosionDamage: float = 0.0
 var explosionRadius: float = 0.0
+var web : bool = false
+var webDuration : float = 0.0
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -75,4 +77,7 @@ func buildPacket() -> DamagePacket:
 		fx.append(EffectClass.Effect.EXPLOSION)
 		fxData["explosionDamage"] = explosionDamage
 		fxData["explosionRadius"] = explosionRadius
+	if web:
+		fx.append(EffectClass.Effect.WEB)
+		fxData["webDuration"] = webDuration
 	return DamagePacket.new(damage, DamagePacket.Type.PROJECTILE, shooter, fx, fxData)

@@ -13,7 +13,9 @@ enum Effect {
 	POISON,
 	CURSE,
 	BURN,
-	EXECUTE
+	EXECUTE,
+	STUN,
+	WEB
 }
 
 var particleEffect
@@ -47,6 +49,8 @@ func _on_tick_timer_timeout() -> void:
 			EntityManager.enemyTakeDamage(buildPacket(), enemy)
 		EffectClass.Effect.CURSE:
 			enemy.curseDamageAmp = curseDamageAmplify
+		_:
+			return
 	
 	particleEffect.global_position = enemy.global_position
 	
@@ -85,6 +89,8 @@ func setParticle():
 		EffectClass.Effect.CURSE:
 			particleEffect = load("res://Particle Scenes/Effects/Curse/Curse Particle.tscn")
 
+		_:
+			return
 	
 	particleEffect = particleEffect.instantiate()
 	add_child(particleEffect)
@@ -95,3 +101,5 @@ func removeEffect():
 		
 		EffectClass.Effect.CURSE:
 			enemy.curseDamageAmp = 0
+		EffectClass.Effect.STUN:
+			enemy.stunned = false

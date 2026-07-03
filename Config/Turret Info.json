@@ -191,6 +191,8 @@
 		"poisonChance": 20,
 		"poisonDuration": 3,
 		"poisonDamage": 0.5,
+		"webChance": 30,
+		"webDuration": 3,
 		"scaleFactor": 0.05
 	},
 	"tesla_turret": {
@@ -361,7 +363,7 @@
 		"damage": 10,
 		"range": 150,
 		"reloadTime": 3,
-		"projectileSpeed": 300,
+		"projectileSpeed": 350,
 		"constructionTime": 8,
 		"pierce": 4,
 		"scaleFactor": 0.04,

@@ -4,7 +4,7 @@ class_name Boomerang
 var returnOnHit: bool = false  # if true, returns after first hit
 
 var _hasReturned: bool = false
-var _hitEnemies: Array = []  # track pierced enemies so we don't double hit
+var hitEnemies: Array = []  # track pierced enemies so we don't double hit
 
 func _ready() -> void:
 	body_entered.connect(_on_body_entered)
@@ -14,24 +14,28 @@ func launch(origin: Vector2, target: Vector2) -> void:
 	global_position = origin
 
 	var direction := (target - origin).normalized()
-	var perp := Vector2(-direction.y, direction.x)
 	var distance := origin.distance_to(target)
-	var mid := origin + direction * (distance * 0.5) + perp * (distance * 0.4)
-	var returnMid := origin + direction * (distance * 0.3) - perp * (distance * 0.3)
+	
+	var extendedDistance := distance + 100
+	var overshootTarget := origin + (direction * extendedDistance)
 
-	var travelTime := distance / speed
+	var perp := Vector2(-direction.y, direction.x)
+	
+
+	var mid := origin + direction * (extendedDistance * 0.5) + perp * (extendedDistance * 0.4)
+	var returnMid := origin + direction * (extendedDistance * 0.3) - perp * (extendedDistance * 0.3)
+
+	var travelTime := extendedDistance / speed
 	var spinSpeed := remap(speed, 200.0, 800.0, 0.6, 0.2)
 
-	# Spin tween — created first, loops forever until node is freed
 	var spinTween = create_tween().set_loops()
 	spinTween.tween_property(self, "rotation", rotation + TAU, spinSpeed)
 
-	# Movement tween — separate, does not touch rotation
 	var moveTween = create_tween()
 
 	moveTween.tween_method(
 		func(t: float):
-			global_position = _quadratic_bezier(origin, mid, target, t),
+			global_position = _quadratic_bezier(origin, mid, overshootTarget, t),
 		0.0, 1.0, travelTime
 	)
 
@@ -40,7 +44,7 @@ func launch(origin: Vector2, target: Vector2) -> void:
 	moveTween.tween_method(
 		func(t: float):
 			var shooterPos := shooter.global_position if is_instance_valid(shooter) else origin
-			global_position = _quadratic_bezier(target, returnMid, shooterPos, t)
+			global_position = _quadratic_bezier(overshootTarget, returnMid, shooterPos, t)
 			_hasReturned = true,
 		0.0, 1.0, travelTime * 0.8
 	)
@@ -56,17 +60,18 @@ func _quadratic_bezier(p0: Vector2, p1: Vector2, p2: Vector2, t: float) -> Vecto
 
 func _on_body_entered(body: Node) -> void:
 	if body == shooter:
-		# Only despawn on return, not on the way out
 		if _hasReturned:
 			queue_free()
 		return
 	if not body is Enemy:
 		return
-	if _hitEnemies.has(body):
-		return  # already hit this enemy
+	if hitEnemies.has(body):
+		return
 
-	_hitEnemies.append(body)
+	hitEnemies.append(body)
 	EntityManager.enemyTakeDamage(buildPacket(), body)
+	if hitEnemies.size() >= pierce:
+		queue_free()
 
 
 func buildPacket() -> DamagePacket:

@@ -377,7 +377,17 @@ func createPropertiesLabels(turret : Turret):
 		label.add_theme_color_override("font_color", Color.DARK_GRAY)
 		label.add_theme_font_size_override("font_size", 10)
 		labels.append(label)
-
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.SPIDER_TURRET:
+		var label = Label.new()
+		label.text = "Web Chance: " + str(TurretManager.getTurretStat(turret.turretID,"webChance")) + "%"
+		label.add_theme_color_override("font_color", Color.WHITE)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		label = Label.new()
+		label.text = "Web Duration: " + str(TurretManager.getTurretStat(turret.turretID,"webDuration")) + "s"
+		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
 
 	return labels
 

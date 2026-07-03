@@ -24,7 +24,8 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		damage += int(damage * enemy.curseDamageAmp)
 
 	if packet.type == DamagePacket.Type.EXPLOSION:
-		StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+		if is_instance_valid(packet.source):
+			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
@@ -36,11 +37,13 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		
 		if EffectClass.Effect.BURN in packet.effects:
 			enemy.health = enemy.health - damage
-			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+			if is_instance_valid(packet.source):
+				StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 		
 		if EffectClass.Effect.POISON in packet.effects:
 			enemy.health = max(1, enemy.health - damage)
-			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+			if is_instance_valid(packet.source):
+				StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
 		
 		if enemy.health <= 0:
 			killEnemy(packet.source, enemy)
@@ -62,6 +65,13 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	var turret = packet.source
 	
 	if is_instance_valid(turret):
+		
+		if EffectClass.Effect.WEB in packet.effects:
+			var web = load("res://TurretAddons/Web.tscn")
+			web = web.instantiate()
+			turret.add_child(web)
+			web.setupWeb(turret,packet.effectData.get("webDuration"),enemy.global_position)
+			
 
 		if EffectClass.Effect.BURN in packet.effects:
 			EffectManager.applyBurnEffect(

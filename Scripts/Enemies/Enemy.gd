@@ -38,6 +38,8 @@ var attackReady: bool = true
 var attackTimer: Timer
 var turretsInRange: Array = []
 
+var stunned : bool = false
+
 var is_sent_enemy: bool = false  # true when spawned by another player sending it
 
 func _ready() -> void:
@@ -52,6 +54,9 @@ func _ready() -> void:
 
 func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
+		return
+	
+	if stunned:
 		return
 
 	updateDestination()
