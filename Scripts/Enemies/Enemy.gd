@@ -191,10 +191,10 @@ func getName() -> String:
 	return enemyName
 
 func applyScaling() -> void:
-	var totalWaves = (WaveManager.systemNumber * WaveManager.get_waves_per_system()) + WaveManager.currentWave - 1
+	var totalWaves = (WaveManager.systemNumber * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
 
-	var waveHealthMult = pow(WaveManager.get_health_scale_per_wave(), totalWaves)
-	var waveDamageMult = pow(WaveManager.get_damage_scale_per_wave(), totalWaves)
+	var waveHealthMult = pow(WaveManager.getHealthScalePerWave(), totalWaves)
+	var waveDamageMult = pow(WaveManager.getDamageScalePerWave(), totalWaves)
 
 	health *= waveHealthMult
 	damage *= waveDamageMult

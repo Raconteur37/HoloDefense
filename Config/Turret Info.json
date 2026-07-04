@@ -2,7 +2,7 @@
 	"arrow_turret": {
 		"id": 1,
 		"name": "Arrow Turret",
-		"description": "The arrow turret is a sturdy and well versitile turret that shoots individual arrows at enemies.",
+		"description": "A sturdy and versitile turret that shoots individual arrows at enemies.",
 		"levelTwo": "Arrows that are fired from the turret track enemies so they never miss.",
 		"levelThree": "Shots now pierce infinitely.",
 		"rarity": "Common",

@@ -372,7 +372,7 @@ offset_bottom = 520.0
 
 [node name="Label" type="Label" parent="VBoxContainer2" unique_id=46961125]
 layout_mode = 2
-text = "WAVES COMPLETED"
+text = "WAVES REACHED"
 label_settings = SubResource("LabelSettings_8u08c")
 
 [node name="DifNumberLabel" type="Label" parent="VBoxContainer2" unique_id=345230769]
@@ -536,7 +536,7 @@ theme_override_constants/separation = 178
 
 [node name="Label" type="Label" parent="VBoxContainer5/HBoxContainer5" unique_id=1380415148]
 layout_mode = 2
-text = "Waves Completed"
+text = "Waves Reached"
 label_settings = SubResource("LabelSettings_2wwve")
 
 [node name="WavesCompleted" type="Label" parent="VBoxContainer5/HBoxContainer5" unique_id=1046606060]
