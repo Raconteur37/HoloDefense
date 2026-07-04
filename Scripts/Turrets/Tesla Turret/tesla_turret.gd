@@ -16,6 +16,12 @@ var attackingTime
 
 var shooting : bool
 
+var stunTime
+var baseChainRange
+var chainRange
+
+var maxEnemies
+
 func _ready() -> void:
 	projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
 
@@ -34,9 +40,12 @@ func _ready() -> void:
 	baseDamageTickTime = TurretManager.getTurretStat(turretID,"damageTickTime")
 	baseAttackingTime = TurretManager.getTurretStat(turretID,"attackingTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	stunTime = TurretManager.getTurretStat(turretID,"stunTime")
+	baseChainRange = TurretManager.getTurretStat(turretID,"chainRange")
+	maxEnemies = TurretManager.getTurretStat(turretID,"maxEnemies")
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -59,6 +68,7 @@ func _ready() -> void:
 	reloadTimer.wait_time = reloadTime
 	damage = baseDamage
 	health = maxHealth
+	chainRange = baseChainRange
 	damageTickTime = baseDamageTickTime
 	damageTickTimer.wait_time = damageTickTime
 	attackingTime = baseAttackingTime
@@ -114,27 +124,51 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func _on_damage_tick_timer_timeout() -> void:
-	if shooting:
-		for x in rangeArea.get_overlapping_areas():
-			if x.get_parent().is_in_group("Enemy"):
-				var enemy = x.get_parent()
-				var shockParticle = projectile.instantiate()
-				shockParticle.global_position = global_position
-
-				# Set the positions
-				var start_position = Vector2(0,0)
-				var end_position = to_local(enemy.global_position)
-				var points = [start_position,end_position]
-
-				shockParticle.points = points
-
-				# Add to the scene
-				get_parent().add_child(shockParticle)
-
-				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
-		damageTickTimer.start()
-	else:
+	if not shooting:
 		damageTickTimer.stop()
+		return
+
+	var hit_this_tick = []
+	var primary_targets = []
+
+	for x in rangeArea.get_overlapping_areas():
+		if primary_targets.size() >= maxEnemies:
+			break
+			
+		var enemy = x.get_parent()
+		if enemy.is_in_group("Enemy"):
+			primary_targets.append(enemy)
+			hit_this_tick.append(enemy)
+			strikeEnemy(self.global_position, enemy)
+
+	if level >= 3 and primary_targets.size() > 0:
+		var all_enemies = get_tree().get_nodes_in_group("Enemy")
+		
+		for primary in primary_targets:
+			for potential_target in all_enemies:
+				if potential_target in hit_this_tick:
+					continue
+				
+				var distance = primary.global_position.distance_to(potential_target.global_position)
+				if distance <= chainRange:
+					hit_this_tick.append(potential_target)
+					strikeEnemy(primary.global_position, potential_target)
+
+	damageTickTimer.start()
+
+
+func strikeEnemy(start_global_pos: Vector2, target_enemy: Node2D) -> void:
+	var shockParticle = projectile.instantiate()
+	shockParticle.global_position = start_global_pos
+	
+	get_parent().add_child(shockParticle)
+
+	var start_position = Vector2(0, 0)
+	var end_position = shockParticle.to_local(target_enemy.global_position)
+	
+	shockParticle.points = [start_position, end_position]
+
+	EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), target_enemy)
 
 func _on_attacking_timer_timeout() -> void:
 	electricityParticle.emitting = false
@@ -157,5 +191,7 @@ func applyUpgrade():
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	attackingTime = (baseAttackingTime + (baseAttackingTime * scaleFactor * upgradeTier))
+	chainRange = (baseChainRange + (baseChainRange * scaleFactor * upgradeTier))
 	damageTickTime = max(.2,(baseDamageTickTime - (baseDamageTickTime * scaleFactor * upgradeTier)))
+	maxEnemies += 1
 	refreshUI(self)

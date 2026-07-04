@@ -53,10 +53,6 @@ shader_parameter/flicker_amount = 0.0
 shader_parameter/pulse_speed = 2.9610001406475
 shader_parameter/holo_tint = Color(0, 1, 0.94, 1)
 
-[sub_resource type="LabelSettings" id="LabelSettings_scggw"]
-font_size = 39
-font_color = Color(1, 0.188235, 0.141176, 1)
-
 [sub_resource type="Animation" id="Animation_bvhjd"]
 resource_name = "InfoAppear"
 tracks/0/type = "value"
@@ -367,22 +363,6 @@ bbcode_enabled = true
 fit_content = true
 horizontal_alignment = 1
 vertical_alignment = 1
-
-[node name="RequiredText" type="Label" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=1941627666]
-visible = false
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.356
-anchor_top = 0.58400005
-anchor_right = 0.66400003
-anchor_bottom = 0.73200005
-offset_left = -0.5639343
-offset_top = -43.928833
-offset_right = -0.81591797
-offset_bottom = -35.371338
-text = "Requires Level 2"
-label_settings = SubResource("LabelSettings_scggw")
-autowrap_mode = 2
 
 [node name="LevelThreeProgress" type="TextureProgressBar" parent="TurretInfo/LevelContainer/LevelThreeTexture" unique_id=852756381]
 visible = false

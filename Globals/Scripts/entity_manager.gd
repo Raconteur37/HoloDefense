@@ -17,42 +17,54 @@ var turretsUpgradeTier = {}
 func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if enemy.isDead:
 		return
+		
+	var turret : Turret
+	if packet.source is Turret:
+		turret = packet.source
 
 	var damage = packet.damage
 
 	if enemy.effects.has(EffectClass.Effect.CURSE):
 		damage += int(damage * enemy.curseDamageAmp)
 
+	if packet.type == DamagePacket.Type.TURRET:
+		if is_instance_valid(turret):
+			StatManager.addStat(turret.turretID,"damage_dealt",damage)
+			if turret.turretID == Turret.TurretID.TESLA_TURRET:
+				if turret.level >= 2:
+					EffectManager.applyStunEffect(enemy,turret,turret.stunTime)
+
+
 	if packet.type == DamagePacket.Type.EXPLOSION:
-		if is_instance_valid(packet.source):
-			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+		if is_instance_valid(turret):
+			StatManager.addStat(turret.turretID,"damage_dealt",damage)
 
 	if packet.type == DamagePacket.Type.PROJECTILE:
 		applyProjectileEffects(packet, enemy)
-		if is_instance_valid(packet.source):
-			StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+		if is_instance_valid(turret):
+			StatManager.addStat(turret.turretID,"damage_dealt",damage)
 		#print(damage)
 		
 	if packet.type == DamagePacket.Type.EFFECT:
 		
 		if EffectClass.Effect.BURN in packet.effects:
 			enemy.health = enemy.health - damage
-			if is_instance_valid(packet.source):
-				StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+			if is_instance_valid(turret):
+				StatManager.addStat(turret.turretID,"damage_dealt",damage)
 		
 		if EffectClass.Effect.POISON in packet.effects:
 			enemy.health = max(1, enemy.health - damage)
-			if is_instance_valid(packet.source):
-				StatManager.addStat(packet.source.turretID,"damage_dealt",damage)
+			if is_instance_valid(turret):
+				StatManager.addStat(turret.turretID,"damage_dealt",damage)
 		
 		if enemy.health <= 0:
-			killEnemy(packet.source, enemy)
+			killEnemy(turret, enemy)
 		return
 
 	enemy.health -= damage
 
 	if enemy.health <= 0:
-		killEnemy(packet.source, enemy)
+		killEnemy(turret, enemy)
 	else:
 		enemy.hurtParticle.emitting = true
 		if is_instance_valid(enemy):

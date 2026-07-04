@@ -124,6 +124,7 @@ func _on_select_area_mouse_exited() -> void:
 
 func startSpeedEvent():
 	speedupTimer.start()
+	topSprite.modulate = Color.RED
 	reloadTime = speedupReloadTime
 	reloadTimer.start()
 	reloadTimer.wait_time = reloadTime
@@ -148,6 +149,7 @@ func applyUpgrade():
 func _on_speedup_timer_timeout() -> void:
 	reloadTime = prevReloadTime
 	reloadTimer.wait_time = reloadTime
+	topSprite.modulate = Color.WHITE
 	refreshUI(self)
 
 func _on_repair_timer_timeout() -> void:

@@ -26,7 +26,6 @@ var turretContainer
 
 @onready var unlockedIcon = load("res://Textures/UI/Game/Turret Info Scene/GenericButton.png")
 @onready var lockedIcon = load("res://Textures/UI/Game/Turret Info Scene/LockedButton.png")
-@onready var lockedRequiredText = $"../LevelContainer/LevelThreeTexture/RequiredText"
 @onready var animationPlayer = $"../AnimationPlayer"
 @onready var turretLabel = preload("res://Labels/turret_info_label.tres")
 @onready var soundPlayer = $"../../TurretSelectSound"
@@ -261,31 +260,39 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 
 		var turretLevel = XpManager.getCurrentLevel(turretID)
 
+		# Always show and populate the descriptions so the player can preview future upgrades
+		levelTwoDescription.show()
+		levelThreeDescription.show()
+		levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
+		levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
+
 		if turretLevel == 1:
-			levelTwoDescription.hide()
-			levelThreeDescription.hide()
+			# Level 1: Both 2 and 3 are locked (Set to 40% opacity)
+			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
+			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
+			
 			levelTwoProgressBar.show()
 			levelThreeProgressBar.hide()
-			lockedRequiredText.show()
 			levelTwoTexture.texture = lockedIcon
 			levelThreeTexture.texture = lockedIcon
+			
 		elif turretLevel == 2:
-			levelTwoDescription.show()
-			levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
-			levelThreeDescription.hide()
+			# Level 2: Level 2 is unlocked (100% opacity), Level 3 is locked (40% opacity)
+			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
+			
 			levelTwoProgressBar.hide()
 			levelThreeProgressBar.show()
-			lockedRequiredText.hide()
 			levelTwoTexture.texture = unlockedIcon
 			levelThreeTexture.texture = lockedIcon
+			
 		elif turretLevel == 3:
-			levelTwoDescription.show()
-			levelThreeDescription.show()
-			levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
-			levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
+			# Level 3: Both are unlocked (100% opacity)
+			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
+			
 			levelThreeProgressBar.hide()
 			levelTwoProgressBar.hide()
-			lockedRequiredText.hide()
 			levelTwoTexture.texture = unlockedIcon
 			levelThreeTexture.texture = unlockedIcon
 
@@ -433,6 +440,12 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		Turret.TurretID.SPIDER_TURRET:
 			addStatLabel("Web Chance: %s%%" % TurretManager.getTurretStat(turretID, "webChance"), Color.WHITE, 0, true)
 			addStatLabel("Web Duration: %ss" % TurretManager.getTurretStat(turretID, "webDuration"), Color.LIGHT_GRAY, 0, true)
+
+		Turret.TurretID.TESLA_TURRET:
+			addStatLabel("Stun Time: %ss" % TurretManager.getTurretStat(turretID, "stunTime"), Color.DARK_GRAY, 0, true)
+			if current_level >= 3:
+				addStatLabel("Chain Range: %s" % TurretManager.getTurretStat(turretID, "chainRange"), Color.CORNFLOWER_BLUE, 0, true)
+
 
 # Helper function to generate labels cleanly
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:

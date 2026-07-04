@@ -271,7 +271,8 @@ func createPropertiesLabels(turret : Turret):
 		"knightDamage": ["Knight Damage: ", Color.SLATE_GRAY],
 		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
 		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE],
-		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE]
+		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE],
+		"maxEnemies": ["Max Enemies: ", Color.DEEP_SKY_BLUE]
 	}
 	
 	if turret.hasBubble:
@@ -388,6 +389,18 @@ func createPropertiesLabels(turret : Turret):
 		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
 		label.add_theme_font_size_override("font_size", 10)
 		labels.append(label)
+	if turret.level >= 2 and turret.turretID == Turret.TurretID.TESLA_TURRET:
+		var label = Label.new()
+		label.text = "Stun Time: " + str(TurretManager.getTurretStat(turret.turretID,"stunTime")) + "s"
+		label.add_theme_color_override("font_color", Color.DARK_GRAY)
+		label.add_theme_font_size_override("font_size", 10)
+		labels.append(label)
+		if turret.level >= 3:
+			label = Label.new()
+			label.text = "Chain Range: " + str(TurretManager.getTurretStat(turret.turretID,"chainRange"))
+			label.add_theme_color_override("font_color", Color.CORNFLOWER_BLUE)
+			label.add_theme_font_size_override("font_size", 10)
+			labels.append(label)
 
 	return labels
 

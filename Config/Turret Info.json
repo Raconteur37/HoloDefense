@@ -198,9 +198,9 @@
 	"tesla_turret": {
 		"id": 10,
 		"name": "Tesla Turret",
-		"description": "Builds up charge then shocks all enemies around it for high damage.",
+		"description": "Builds up charge then shocks a limited amount of enemies around it for high damage.",
 		"levelTwo": "Enemies hit by the tesla turret are stunned slightly.",
-		"levelThree": "Electricity now chains to nearby enemies that aren't in range",
+		"levelThree": "Electricity now chains to nearby enemies.",
 		"rarity": "Super Rare",
 		"type": "Controlling",
 		"price": 75,
@@ -212,6 +212,9 @@
 		"constructionTime": 50,
 		"attackingTime": 10,
 		"damageTickTime": 0.5,
+		"stunTime": 0.3,
+		"chainRange": 90,
+		"maxEnemies": 3,
 		"scaleFactor": 0.06
 	},
 	"seismic_turret": {

@@ -34,6 +34,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		GameManager.cityHealth -= body.damage
 		healthLabel.text = "City Health: " + str(GameManager.cityHealth)
 		WaveManager.removeActiveEnemy(body)
+		body.queue_free()
 		updateVisualStatus()
 		if GameManager.cityHealth <= 0:
 			runActive = false
