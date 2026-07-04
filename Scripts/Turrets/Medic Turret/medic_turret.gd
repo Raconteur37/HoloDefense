@@ -44,7 +44,8 @@ func _ready() -> void:
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
-	topSprite = $TurretTop # TODO CHANGE PER TURRET
+	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	bodyCollisionShape = $CollisionShape2D
 	healingPulseTimer = $HealingPulseTimer
 	attackRange = baseAttackRange

@@ -17,6 +17,12 @@ var explosionRadius
 
 var refundChance
 
+var burnDamage
+var burnTime
+
+var baseBurnDamage
+var baseBurnTime
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -36,6 +42,8 @@ func _ready() -> void:
 	baseExplosionRadius = TurretManager.getTurretStat(turretID,"explosionRadius")
 	shotDelay = TurretManager.getTurretStat(turretID,"shotDelay")
 	refundChance = TurretManager.getTurretStat(turretID,"refundChance")
+	baseBurnDamage = TurretManager.getTurretStat(turretID,"burnDamage")
+	baseBurnTime = TurretManager.getTurretStat(turretID,"burnTime")
 
 	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
@@ -48,6 +56,7 @@ func _ready() -> void:
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackRange = baseAttackRange
@@ -59,6 +68,8 @@ func _ready() -> void:
 	health = maxHealth
 	explosionDamage = baseExplosionDamage
 	explosionRadius = baseExplosionRadius
+	burnTime = baseBurnTime
+	burnDamage = baseBurnDamage
 
 	isPlaced = true
 
@@ -179,6 +190,8 @@ func applyUpgrade():
 	#reloadTimer.wait_time = reloadTime
 	explosionRadius = (baseExplosionRadius + (baseExplosionRadius * scaleFactor * upgradeTier))
 	explosionDamage = (baseExplosionDamage + (baseExplosionDamage * scaleFactor * upgradeTier))
+	burnTime = (baseBurnTime + (baseBurnTime * scaleFactor * upgradeTier))
+	burnDamage = (baseBurnDamage + (baseBurnDamage * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	refreshUI(self)

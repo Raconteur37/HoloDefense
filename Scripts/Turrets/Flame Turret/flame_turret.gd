@@ -20,6 +20,12 @@ var fireDamage
 var fireTime
 var damageTickTime
 
+var ignitionRoundsTime
+var baseIgnitionRoundsTime
+
+var explosionRange
+var baseExplosionRange
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -37,7 +43,10 @@ func _ready() -> void:
 	baseFireDamage = TurretManager.getTurretStat(turretID,"fireDamage")
 	baseFireTime = TurretManager.getTurretStat(turretID,"fireTime")
 	baseDamageTickTime = EffectManager.getEffectStat(EffectClass.Effect.BURN,"tickTime")
-	level = 3#XpManager.getCurrentLevel(turretID)
+	baseIgnitionRoundsTime = TurretManager.getTurretStat(turretID,"ignitionRoundsTime")
+	baseExplosionRange = TurretManager.getTurretStat(turretID,"flameExplosionRange")
+
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	line2d = $RangeArea/RangeIndicator
@@ -46,6 +55,7 @@ func _ready() -> void:
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	turretBeam = $TurretTop/FlameArea/FlameAreaShape2D
@@ -62,6 +72,8 @@ func _ready() -> void:
 	fireTime = baseFireTime
 	damageTickTime = baseDamageTickTime
 	damageTickTimer.wait_time = damageTickTime
+	ignitionRoundsTime = baseIgnitionRoundsTime
+	explosionRange = baseExplosionRange
 
 	isPlaced = true
 
@@ -119,6 +131,8 @@ func applyUpgrade():
 	health = maxHealth
 	fireTime = (baseFireTime + (baseFireTime * scaleFactor * upgradeTier))
 	fireDamage = (baseFireDamage + (baseFireDamage * scaleFactor * upgradeTier))
+	explosionRange = (baseExplosionRange + (baseExplosionRange * scaleFactor * upgradeTier))
+	ignitionRoundsTime = (baseIgnitionRoundsTime + (baseIgnitionRoundsTime * scaleFactor * upgradeTier))
 	particleVelocity += 10
 	flameArea.position.x += .4
 	flameAreaShape.shape.height += .8

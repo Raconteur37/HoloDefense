@@ -446,6 +446,18 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 			if current_level >= 3:
 				addStatLabel("Chain Range: %s" % TurretManager.getTurretStat(turretID, "chainRange"), Color.CORNFLOWER_BLUE, 0, true)
 
+		Turret.TurretID.SEISMIC_TURRET:
+			addStatLabel("Reload Damage: %s" % TurretManager.getTurretStat(turretID, "reloadShockwaveDamage"), Color.SADDLE_BROWN, 0, true)
+			addStatLabel("Reload Tick Time: %s" % TurretManager.getTurretStat(turretID, "reloadShockwaveTickTime"), Color.ROSY_BROWN, 0, true)
+			if current_level >= 3:
+				addStatLabel("Chain Range: %s" % TurretManager.getTurretStat(turretID, "chainRange"), Color.SANDY_BROWN, 0, true)
+
+		Turret.TurretID.GOLD_MINE_TURRET:
+			addStatLabel("Extra Money: $%s" % TurretManager.getTurretStat(turretID, "extraGold"), Color.GOLDENROD, 0, true)
+			addStatLabel("Extra Money Chance: %s%%" % TurretManager.getTurretStat(turretID, "extraGoldChance"), Color.PALE_GOLDENROD, 0, true)
+			if current_level >= 3:
+				addStatLabel("Golden Buff Kill Chance: %s%%" % TurretManager.getTurretStat(turretID, "extraGoldKillChance"), Color.GOLDENROD, 0, true)
+
 
 # Helper function to generate labels cleanly
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:

@@ -232,14 +232,17 @@
 		"range": 75,
 		"reloadTime": 4,
 		"constructionTime": 15,
+		"reloadShockwaveDamage": 2,
+		"reloadShockwaveTickTime": 0.4,
+		"chainRange": 40,
 		"scaleFactor": 0.07
 	},
 	"gold_mine_turret": {
 		"id": 12,
 		"name": "Gold Mine Turret",
 		"description": "Generates you money over time.",
-		"levelTwo": "When this turret kills an enemy, get triple the money you would usually get.",
-		"levelThree": "When this turret generates money, it has a chance to double the amount.",
+		"levelTwo": "Now has a chance to generate you extra money.",
+		"levelThree": "All turrets in range of the gold mine turret now have a chance to generate extra money on kill.",
 		"rarity": "Legendary",
 		"type": "Supportive",
 		"price": 60,
@@ -253,6 +256,10 @@
 		"baseGoldProduced": 2,
 		"generateTime": 10,
 		"goldIncreaseScale": 0.5,
+		"extraGoldChance": 20,
+		"extraGold": 10,
+		"extraGoldKillChance": 10,
+		"scanTime": 5,
 		"scaleFactor": 0.05
 	},
 	"sentry_turret": {

@@ -2,6 +2,8 @@ extends Turret
 
 class_name GoldMineTurret
 
+@onready var scanTimer : Timer = $ScanTimer
+
 @export var baseGoldProduced : int
 @export var goldProductionTime: float
 @export var goldIncreaseScale: float
@@ -9,6 +11,30 @@ var baseProductionTime : float
 var generateTimer : Timer
 
 var moneyGenerated : int
+
+var baseExtraChance : float
+var extraChance : float
+
+var baseExtraGold : int
+var extraGold : int
+
+var baseKillChance : float
+var killChance : float
+
+var scanTime
+
+var turretsInRange = []
+
+func _notification(what: int) -> void:
+	if what == NOTIFICATION_PREDELETE:
+		onDeath()
+
+func onDeath():
+	for turret : Turret in turretsInRange:
+		if is_instance_valid(turret):
+			if turret.goldenBuff:
+				if turret.turretProviders["golden"] == self:
+					turret.removeGoldenBuff()
 
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/gold coin.tscn")
@@ -31,19 +57,25 @@ func _ready() -> void:
 	goldProductionTime = TurretManager.getTurretStat(turretID,"generateTime")
 	baseProductionTime = goldProductionTime
 	goldIncreaseScale = TurretManager.getTurretStat(turretID,"goldIncreaseScale")
+	baseExtraGold = TurretManager.getTurretStat(turretID,"extraGold")
+	baseExtraChance = TurretManager.getTurretStat(turretID,"extraGoldChance")
+	baseKillChance = TurretManager.getTurretStat(turretID,"extraGoldKillChance")
+	scanTime = TurretManager.getTurretStat(turretID,"scanTime")
 	
 	moneyGenerated = baseGoldProduced
 
-	level = 1
+	level = 3
 	upgradeTier = 0
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
+	rangeArea = $RangeArea
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	generateTimer = $GenerateTimer
@@ -56,10 +88,17 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	extraGold = baseExtraGold
+	extraChance = baseExtraChance
+	killChance = baseKillChance
 
 	generateTimer.wait_time = goldProductionTime
 	
 	isPlaced = true
+	
+	if level >= 3:
+		scanTimer.wait_time = scanTime
+		scanTimer.start()
 	
 	applyUpgrade()
 
@@ -114,6 +153,15 @@ func generateMoney():
 	XpManager.addXp(turretID)
 	$"Money Label".text = "$" + str(moneyGenerated)
 	$AnimationPlayer.play("Generate Gold")
+	if level >= 2:
+		await get_tree().create_timer(1).timeout
+		var rand = randf_range(1,100)
+		if rand <= extraChance:
+			CityManager.currentMoney += extraGold
+			StatManager.addStat(turretID,"gold_produced",extraGold)
+			XpManager.addXp(turretID)
+			$"Money Label".text = "$" + str(extraGold)
+			$AnimationPlayer.play("Extra Generate")
 
 func _on_generate_timer_timeout() -> void:
 	generateMoney()
@@ -123,6 +171,17 @@ func _on_select_area_mouse_entered() -> void:
 
 func _on_select_area_mouse_exited() -> void:
 	hideUI()
+
+func _on_scan_timer_timeout() -> void:
+	if not isPlaced:
+		return
+	for x in rangeArea.get_overlapping_areas():
+		var turret = x.get_parent()
+		if turret is Turret and turret != self:
+			if turret not in turretsInRange:
+				turretsInRange.append(turret)
+			if not turret.goldenBuff:
+				turret.giveGoldenBuff(self)
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
@@ -134,6 +193,9 @@ func applyUpgrade():
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	moneyGenerated = int((baseGoldProduced + (baseGoldProduced * goldIncreaseScale * upgradeTier)))
+	extraGold = int((baseExtraGold + (baseExtraGold * goldIncreaseScale * upgradeTier)))
+	extraChance = (baseExtraChance + (baseExtraChance * scaleFactor * upgradeTier))
+	killChance = (baseKillChance + (baseKillChance * scaleFactor * upgradeTier))
 	goldProductionTime = max(1,(baseProductionTime - (baseProductionTime * scaleFactor * upgradeTier)))
 	generateTimer.wait_time = goldProductionTime
 	refreshUI(self)

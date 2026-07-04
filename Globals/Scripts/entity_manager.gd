@@ -1,16 +1,11 @@
 extends Node
 
-# Check if they have "enter effects" plural
-
 enum DamageType {
-	TURRET, # The turret itself does the damage, no projectile or anything
+	TURRET,     # The turret itself does the damage, no projectile or anything
 	PROJECTILE, # The turret launched a projectile and that projectile is tied to the turret
-	
 }
 
-
 var turretXpMap = {}
-
 var turretsUpgradeTier = {}
 
 
@@ -18,184 +13,170 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if enemy.isDead:
 		return
 		
-	var turret : Turret
-	if packet.source is Turret:
-		turret = packet.source
+	if is_instance_valid(packet.source):
+		var turret = packet.source as Turret
+		var damage = packet.damage
 
-	var damage = packet.damage
+		if enemy.effects.has(EffectClass.Effect.CURSE):
+			damage += int(damage * enemy.curseDamageAmp)
 
-	if enemy.effects.has(EffectClass.Effect.CURSE):
-		damage += int(damage * enemy.curseDamageAmp)
+		# Handle specific packet types
+		match packet.type:
+			DamagePacket.Type.TURRET:
+				if is_instance_valid(turret):
+					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					if turret.turretID == Turret.TurretID.TESLA_TURRET and turret.level >= 2:
+						EffectManager.applyStunEffect(enemy, turret, turret.stunTime)
 
-	if packet.type == DamagePacket.Type.TURRET:
-		if is_instance_valid(turret):
-			StatManager.addStat(turret.turretID,"damage_dealt",damage)
-			if turret.turretID == Turret.TurretID.TESLA_TURRET:
-				if turret.level >= 2:
-					EffectManager.applyStunEffect(enemy,turret,turret.stunTime)
+			DamagePacket.Type.EXPLOSION:
+				if is_instance_valid(turret):
+					StatManager.addStat(turret.turretID, "damageDealt", damage)
 
+			DamagePacket.Type.PROJECTILE:
+				applyProjectileEffects(packet, enemy)
+				if is_instance_valid(turret):
+					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					
+			DamagePacket.Type.EFFECT:
+				if EffectClass.Effect.BURN in packet.effects:
+					enemy.health -= damage
+				elif EffectClass.Effect.POISON in packet.effects:
+					enemy.health = max(1, enemy.health - damage)
 
-	if packet.type == DamagePacket.Type.EXPLOSION:
-		if is_instance_valid(turret):
-			StatManager.addStat(turret.turretID,"damage_dealt",damage)
+				if is_instance_valid(turret) and (EffectClass.Effect.BURN in packet.effects or EffectClass.Effect.POISON in packet.effects):
+					StatManager.addStat(turret.turretID, "damageDealt", damage)
+				
+				if enemy.health <= 0:
+					killEnemy(turret, enemy)
+				return # Effects handle their own death checks, so we return early
 
-	if packet.type == DamagePacket.Type.PROJECTILE:
-		applyProjectileEffects(packet, enemy)
-		if is_instance_valid(turret):
-			StatManager.addStat(turret.turretID,"damage_dealt",damage)
-		#print(damage)
-		
-	if packet.type == DamagePacket.Type.EFFECT:
-		
-		if EffectClass.Effect.BURN in packet.effects:
-			enemy.health = enemy.health - damage
-			if is_instance_valid(turret):
-				StatManager.addStat(turret.turretID,"damage_dealt",damage)
-		
-		if EffectClass.Effect.POISON in packet.effects:
-			enemy.health = max(1, enemy.health - damage)
-			if is_instance_valid(turret):
-				StatManager.addStat(turret.turretID,"damage_dealt",damage)
-		
+		# Apply standard damage
+		enemy.health -= damage
+
 		if enemy.health <= 0:
 			killEnemy(turret, enemy)
-		return
+		else:
+			enemy.hurtParticle.emitting = true
+			if is_instance_valid(enemy):
+				var tween = create_tween()
+				enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+				tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
 
-	enemy.health -= damage
 
-	if enemy.health <= 0:
-		killEnemy(turret, enemy)
-	else:
-		enemy.hurtParticle.emitting = true
-		if is_instance_valid(enemy):
-			var tween = create_tween()
-			enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
-			tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier",0.0,0.1)
-
-# This will INCLUDE explosions cus why not
+# This will INCLUDE explosions
 func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 	var turret = packet.source
 	
-	if is_instance_valid(turret):
+	if not is_instance_valid(turret):
+		return
 		
-		if EffectClass.Effect.WEB in packet.effects:
-			var web = load("res://TurretAddons/Web.tscn")
-			web = web.instantiate()
-			turret.add_child(web)
-			web.setupWeb(turret,packet.effectData.get("webDuration"),enemy.global_position)
-			
+	if EffectClass.Effect.WEB in packet.effects:
+		var webScene = load("res://TurretAddons/Web.tscn")
+		var web = webScene.instantiate()
+		turret.add_child(web)
+		web.setupWeb(turret, packet.effectData.get("webDuration"), enemy.global_position)
 
-		if EffectClass.Effect.BURN in packet.effects:
-			EffectManager.applyBurnEffect(
-				enemy, turret,
-				packet.effectData.get("burnDamage", 0),
-				packet.effectData.get("burnTime", 0)
-			)
-			StatManager.addStat(turret.turretID,"enemies_ignited",1)
-			XpManager.addXp(turret.turretID)
-		if EffectClass.Effect.POISON in packet.effects:
-			EffectManager.applyPoisonEffect(
-				enemy, turret,
-				packet.effectData.get("poisonDamage", 0),
-				packet.effectData.get("poisonTime", 0)
-			)
-			StatManager.addStat(turret.turretID,"enemies_poisoned",1)
-			XpManager.addXp(turret.turretID)
-		if EffectClass.Effect.CURSE in packet.effects:
-			EffectManager.applyCurseEffect(
-				enemy, turret,
-				packet.effectData.get("curseTime", 0),
-				packet.effectData.get("curseDamageAmp",0)
-			)
-			StatManager.addStat(turret.turretID,"enemies_cursed",1)
-			XpManager.addXp(turret.turretID)
-		if EffectClass.Effect.EXECUTE in packet.effects:
-			ParticleManager.playExecutionParticle(enemy)
-			killEnemy(turret, enemy)
-			StatManager.addStat(turret.turretID,"enemies_executed",1)
-			XpManager.addXp(turret.turretID)
-		if EffectClass.Effect.EXPLOSION in packet.effects:
-			ExplosionManager.summonExplosion(turret,enemy.global_position,packet.effectData)
+	if EffectClass.Effect.BURN in packet.effects:
+		EffectManager.applyBurnEffect(enemy, turret, packet.effectData.get("burnDamage", 0), packet.effectData.get("burnTime", 0))
+		StatManager.addStat(turret.turretID, "enemiesIgnited", 1)
+		XpManager.addXp(turret.turretID)
+		
+	if EffectClass.Effect.POISON in packet.effects:
+		EffectManager.applyPoisonEffect(enemy, turret, packet.effectData.get("poisonDamage", 0), packet.effectData.get("poisonTime", 0))
+		StatManager.addStat(turret.turretID, "enemiesPoisoned", 1)
+		XpManager.addXp(turret.turretID)
+		
+	if EffectClass.Effect.CURSE in packet.effects:
+		EffectManager.applyCurseEffect(enemy, turret, packet.effectData.get("curseTime", 0), packet.effectData.get("curseDamageAmp", 0))
+		StatManager.addStat(turret.turretID, "enemiesCursed", 1)
+		XpManager.addXp(turret.turretID)
+		
+	if EffectClass.Effect.EXECUTE in packet.effects:
+		ParticleManager.playExecutionParticle(enemy)
+		killEnemy(turret, enemy)
+		StatManager.addStat(turret.turretID, "enemiesExecuted", 1)
+		XpManager.addXp(turret.turretID)
+		
+	if EffectClass.Effect.EXPLOSION in packet.effects:
+		ExplosionManager.summonExplosion(turret, enemy.global_position, packet.effectData)
 
-func killEnemy(source, enemy: Enemy) -> void:
+
+func killEnemy(source: Node, enemy: Enemy) -> void:
 	if enemy.isDead:
 		return
 	enemy.isDead = true
 	onKill(source, enemy)
 
 
-func turretTakeDamage(damage: float, turret, projectile) -> void:
-	if turret is Turret:
+func turretTakeDamage(damage: float, entity: Node, projectile: Node) -> void:
+	if entity is Turret:
+		var turret = entity
 		if projectile != null:
 			if turret.hasBubble:
 				turret.currentBubbleHealth -= damage
-				bounceProjectile(projectile,turret)
+				bounceProjectile(projectile, turret)
 				if turret.currentBubbleHealth <= 0:
 					turret.removeBubble()
 				return
 			else:
 				projectile.queue_free()
 
-		damage = applyArmor(damage, turret)
-		
-		turret.health -= damage
-		StatManager.addStat(turret.turretID,"damage_taken",damage)
+		var takenDamage = applyArmor(damage, turret)
+		turret.health -= takenDamage
+		StatManager.addStat(turret.turretID, "damageTaken", takenDamage)
 		
 		if turret.health <= 0:
 			turret.health = 0
 			GameManager.removeTurretFromGame(turret)
 			PlacementManager.free_cell(turret.global_position)
 			turret.death()
-			#turret.queue_free()
 			return
 
 		turret.refreshUI(turret)
 		
-		if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
-			if turret.level >= 3:
-				turret.stopRepairEvent()
-		if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
-			if turret.level >= 2:
-				turret.attackedReloadCooldownReduction()
-				return
-	if turret is Minion:
-		turret.health -= damage
+		match turret.turretID:
+			Turret.TurretID.MINI_SENTRY_TURRET:
+				if turret.level >= 3:
+					turret.stopRepairEvent()
+			Turret.TurretID.RAILGUN_TURRET:
+				if turret.level >= 2:
+					turret.attackedReloadCooldownReduction()
+					
+	elif entity is Minion:
+		var minion = entity
+		minion.health -= damage
 		
 		var tween = create_tween()
-		turret.sprite.material.set_shader_parameter("flash_modifier", 1.0)
-		tween.tween_property(turret.sprite.material, "shader_parameter/flash_modifier",0.0,0.1)
+		minion.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+		tween.tween_property(minion.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
 		
-		if turret.health <= 0:
-			turret.health = 0
-			turret.death()
+		if minion.health <= 0:
+			minion.health = 0
+			minion.death()
 
 
-func applyArmor(damage: int, entity) -> int:
+func applyArmor(damage: int, entity: Node) -> int:
 	if entity.armor <= 0:
 		return damage
 
 	var mitigated = int(damage * 0.7)  # always reduce damage by 30%
-
 	var absorbed = min(entity.armor, mitigated)
+	
 	entity.armor -= absorbed
 	entity.armor = max(entity.armor, 0)
 
 	var remainder = mitigated - absorbed  # only what armor couldn't cover hits health
 	return remainder
 
-func onKill(turret,enemy):
 
+func onKill(source: Node, enemy: Enemy) -> void:
 	var enemyName = enemy.getName()
-	
 	var tier = enemy.tier
 	
-	if tier != null:
-		if tier == 1:
-			StatManager.tierOneEnemiesKilled += 1
-		if tier == 2:
-			StatManager.tierTwoEnemiesKilled += 1
-		if tier == 3:
-			StatManager.tierThreeEnemiesKilled += 1
+	match tier:
+		1: StatManager.tierOneEnemiesKilled += 1
+		2: StatManager.tierTwoEnemiesKilled += 1
+		3: StatManager.tierThreeEnemiesKilled += 1
 
 	if enemyName == "Dummy":
 		enemy.queue_free()
@@ -203,8 +184,6 @@ func onKill(turret,enemy):
 
 	SoundManager.playGenericKillSound()
 	ParticleManager.playDeathParticle(enemy)
-
-	#GameManager.removeEnemyFromGame(enemy)
 	WaveManager.removeActiveEnemy(enemy)
 	WaveManager.checkForEnemiesAlive()
 	StatManager.enemiesKilled += 1
@@ -213,105 +192,123 @@ func onKill(turret,enemy):
 		SoundManager.stopBossWaveSound()
 		StatManager.bossesKilled += 1
 
-	if is_instance_valid(turret) and turret != null:
+	var turret = source as Turret
+	if is_instance_valid(turret):
 		if turret.is_in_group("Minion"):
-			StatManager.addStat(turret.turretOwner.turretID,"kills",1)
+			StatManager.addStat(turret.turretOwner.turretID, "kills", 1)
 			turret.enemy = null
 		else:
-			if turret.turretID == Turret.TurretID.FIREWORK_TURRET:
-				if turret.level >= 3:
-					turret.tryRefundShot()
-			if turret.turretID == Turret.TurretID.MINI_SENTRY_TURRET:
-				if turret.level >= 2:
-					turret.startSpeedEvent()
-			if turret.turretID == Turret.TurretID.RAILGUN_TURRET:
-				if turret.level >= 3:
-					turret.killReloadCooldownReduction()
-			if turret.turretID == Turret.TurretID.FLAME_TURRET:
-				if turret.level >= 2:
-					for effect in enemy.effects.keys():
-						if effect == EffectClass.Effect.BURN:
-							var fxData = {}
-							var expRange = TurretManager.getTurretStat(Turret.TurretID.FLAME_TURRET,"flameExplosionRange")
-							fxData["explosionRadius"] = expRange
-							fxData["igniteTime"] = turret.fireTime
-							fxData["igniteDamage"] = turret.fireDamage
-							#print(expRange)
-							ExplosionManager.summonExplosion(turret,enemy.global_position,fxData)
+			match turret.turretID:
+				Turret.TurretID.FIREWORK_TURRET:
+					if turret.level >= 3:
+						turret.tryRefundShot()
+				Turret.TurretID.MINI_SENTRY_TURRET:
+					if turret.level >= 2:
+						turret.startSpeedEvent()
+				Turret.TurretID.RAILGUN_TURRET:
+					if turret.level >= 3:
+						turret.killReloadCooldownReduction()
+				Turret.TurretID.FLAME_TURRET:
+					if turret.level >= 2 and EffectClass.Effect.BURN in enemy.effects:
+						var fxData = {
+							"explosionRadius": turret.explosionRange,
+							"igniteTime": turret.fireTime,
+							"igniteDamage": turret.fireDamage
+						}
+						ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+				Turret.TurretID.SEISMIC_TURRET:
+					if turret.level >= 3:
+						var fxData = {
+							"explosionRadius": turret.chainRange,
+							"explosionDamage": turret.damage
+						}
+						ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+			if turret.goldenBuff:
+				if is_instance_valid(turret.turretProviders["golden"]):
+					var rand = randf_range(0,100)
+					if rand <= turret.turretProviders["golden"].killChance:
+						CityManager.currentMoney += turret.turretProviders["golden"].extraGold
+						print("made " + str(turret.turretProviders["golden"].extraGold))
+
 			XpManager.addXp(turret.turretID)
-			StatManager.addStat(turret.turretID,"kills",1)
+			StatManager.addStat(turret.turretID, "kills", 1)
 	
 	enemy.queue_free()
-	
 
-func healTurret(healer,turret,amountHealed):
+
+func healTurret(healer: Turret, turret: Turret, amountHealed: float) -> void:
+	var actualHeal = amountHealed
+	
 	if turret.health + amountHealed > turret.maxHealth:
+		actualHeal = turret.maxHealth - turret.health
 		turret.health = turret.maxHealth
-		StatManager.addStat(healer.turretID,"health_healed",turret.maxHealth - turret.health)
-		XpManager.addXp(turret.turretID)
 	else:
 		turret.health += amountHealed
-		StatManager.addStat(healer.turretID,"health_healed",amountHealed)
-		XpManager.addXp(turret.turretID)
+		
+	StatManager.addStat(healer.turretID, "healthHealed", actualHeal)
+	XpManager.addXp(turret.turretID)
 	ParticleManager.playHealParticle(turret)
+	
 	if is_instance_valid(turret.menu):
 		turret.menu.healthUpdate()
 
-func updateTurretUpgradeTier(turretName):
 
+func updateTurretUpgradeTier(turretName: String) -> void:
 	if turretsUpgradeTier.has(turretName):
 		turretsUpgradeTier[turretName] = turretsUpgradeTier.get(turretName) + 1
 	else:
 		turretsUpgradeTier[turretName] = 1
 
-func getClosestEnemyFromSprite(turret):
-	var distance = 999999
-	var enemy = null
-	for x in turret.enemiesInRange:
-		if (is_instance_valid(x)):
-			if (turret.global_position.distance_to(x.global_position) < distance):
-				distance = turret.global_position.distance_to(x.global_position)
-				enemy = x
-	if (enemy == null):
-		return 0
-	else:
-		return enemy
 
-func increaseEnemyStats(enemy):
+func getClosestEnemyFromSprite(turret: Turret) -> Enemy:
+	var closestDistance = 999999.0
+	var targetEnemy = null
+	
+	for enemy in turret.enemiesInRange:
+		if is_instance_valid(enemy):
+			var currentDistance = turret.global_position.distance_to(enemy.global_position)
+			if currentDistance < closestDistance:
+				closestDistance = currentDistance
+				targetEnemy = enemy
+				
+	return targetEnemy
+
+
+func increaseEnemyStats(enemy: Enemy) -> void:
 	var currentWave = GameManager.currentWave
+	var statIncrease = (currentWave / 10.0) * 0.05
 
-	var statIncrease = (currentWave / 10) * .05
-
-	enemy.health += GameManager.round_to_dec(enemy.health * statIncrease,2)
-	enemy.damage += GameManager.round_to_dec(enemy.damage * statIncrease,2)
-	enemy.attackTime -= GameManager.round_to_dec(enemy.attackTime * statIncrease,2)
-	enemy.speed += GameManager.round_to_dec(enemy.speed * statIncrease,2)
-
-func round_to_dec(num, digit):
-	return round(num * pow(10.0, digit)) / pow(10.0, digit)
+	enemy.health += roundToDec(enemy.health * statIncrease, 2)
+	enemy.damage += roundToDec(enemy.damage * statIncrease, 2)
+	enemy.attackTime -= roundToDec(enemy.attackTime * statIncrease, 2)
+	enemy.speed += roundToDec(enemy.speed * statIncrease, 2)
 
 
-func bounceProjectile(projectile: Node, turret):
-	# direction away from turret center
+func roundToDec(num: float, digit: int) -> float:
+	var multiplier = pow(10.0, digit)
+	return round(num * multiplier) / multiplier
+
+
+func bounceProjectile(projectile: Node, turret: Turret) -> void:
 	var bounceDir = (projectile.global_position - turret.global_position).normalized()
 	var bounceTarget = projectile.global_position + bounceDir * 40.0
 
 	var tween = create_tween()
 	tween.set_parallel(true)
 
-	# fly outward
+	# Fly outward
 	tween.tween_property(projectile, "global_position", bounceTarget, 0.18) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_CUBIC)
 
-	# squish on impact
+	# Squish on impact
 	tween.tween_property(projectile, "scale", Vector2(1.4, 0.6), 0.07) \
 		.set_ease(Tween.EASE_OUT)
 	tween.chain().tween_property(projectile, "scale", Vector2(1.0, 1.0), 0.1) \
 		.set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_BOUNCE)
 
-	# fade out
+	# Fade out
 	tween.tween_property(projectile, "modulate:a", 0.0, 0.18) \
 		.set_ease(Tween.EASE_IN)
 
-	# remove after animation
+	# Remove after animation
 	tween.chain().tween_callback(projectile.queue_free)

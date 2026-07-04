@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://cdeuifhbp0fls"]
+
+[ext_resource type="Texture2D" uid="uid://c160d8rj11dhr" path="res://Particle Scenes/Turrets/Seismic Turret/row_output.png" id="1_b6ng8"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_oidyf"]
+particles_animation = true
+particles_anim_h_frames = 20
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="Curve" id="Curve_b6ng8"]
+_data = [Vector2(0, 0.8089888), 0.0, 0.0, 0, 0, Vector2(1, 0), 0.0, 0.0, 0, 0]
+point_count = 2
+
+[node name="SeismicReloadParticle" type="CPUParticles2D" unique_id=1452128818]
+modulate = Color(1, 1, 1, 0.287)
+material = SubResource("CanvasItemMaterial_oidyf")
+emitting = false
+amount = 10
+texture = ExtResource("1_b6ng8")
+speed_scale = 1.1
+emission_shape = 1
+emission_sphere_radius = 50.0
+gravity = Vector2(0, 0)
+scale_amount_curve = SubResource("Curve_b6ng8")
+anim_speed_min = 1.0
+anim_speed_max = 1.0

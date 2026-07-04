@@ -2,7 +2,16 @@ extends Turret
 
 class_name SeismicTurret
 
+@onready var reloadTickTimer : Timer = $ReloadTickDamageTimer
+@onready var reloadParticle : CPUParticles2D = $SeismicReloadParticle
+
 var attackParticle
+var tickTime
+var tickDamage
+var baseTickDamage
+
+var chainRange
+var baseChainRange
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -18,9 +27,13 @@ func _ready() -> void:
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	baseTickDamage = TurretManager.getTurretStat(turretID,"reloadShockwaveDamage")
+	tickTime = TurretManager.getTurretStat(turretID,"reloadShockwaveTickTime")
+	baseChainRange = TurretManager.getTurretStat(turretID,"chainRange")
+	reloadTickTimer.wait_time = tickTime
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -29,6 +42,7 @@ func _ready() -> void:
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	attackParticle = $SeismicEarthquakeParticle
@@ -41,6 +55,8 @@ func _ready() -> void:
 	reloadTimer.wait_time = reloadTime
 	damage = baseDamage
 	health = maxHealth
+	tickDamage = baseTickDamage
+	chainRange = baseChainRange
 
 	applyUpgrade()
 	
@@ -62,6 +78,9 @@ func attack():
 			await get_tree().create_timer((.3)).timeout
 
 		reloadTimer.start()
+		if level >= 2:
+			reloadTickTimer.start()
+			reloadParticle.emitting = true
 		reloadAnimation()
 
 
@@ -144,6 +163,8 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
+	reloadTickTimer.stop()
+	reloadParticle.emitting = false
 
 func _on_select_area_mouse_entered() -> void:
 	showUI(self)
@@ -159,4 +180,14 @@ func applyUpgrade():
 	reloadTimer.wait_time = reloadTime
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
+	tickDamage = (baseTickDamage + (baseTickDamage * scaleFactor * upgradeTier))
+	chainRange = (baseChainRange + (baseChainRange * scaleFactor * upgradeTier))
 	refreshUI(self)
+
+
+func _on_reload_tick_damage_timer_timeout() -> void:
+	for area in rangeArea.get_overlapping_areas():
+		var enemy = area.get_parent()
+		if enemy.is_in_group("Enemy"):
+			EntityManager.enemyTakeDamage(DamagePacket.new(tickDamage, DamagePacket.Type.TURRET, self, [], {}), enemy)
+	reloadTickTimer.start()

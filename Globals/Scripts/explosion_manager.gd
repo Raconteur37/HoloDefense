@@ -3,7 +3,8 @@ extends Node
 enum ExplosionType {
 	NONE,
 	FIREWORK_TURRET,
-	FLAME_TURRET
+	FLAME_TURRET,
+	SEISMIC_TURRET
 }
 
 var explosionType
@@ -25,6 +26,9 @@ var igniteDamage
 	},
 	Turret.TurretID.FLAME_TURRET : {
 		"scene" : preload("res://Particle Scenes/Turrets/Flame Turret/flameExplosion.tscn")
+	},
+	Turret.TurretID.SEISMIC_TURRET : {
+		"scene" : preload("res://Particle Scenes/Turrets/Seismic Turret/SeismicEarthquakeParticle.tscn")
 	}
 }
 
@@ -55,12 +59,16 @@ func setExplosionDetails(turret):
 		Turret.TurretID.FIREWORK_TURRET:
 			explosionType = ExplosionType.FIREWORK_TURRET
 			if turret.level >= 2:
-				igniteDamage = TurretManager.getTurretStat(turret.turretID,"burnDamage")
-				igniteTime = TurretManager.getTurretStat(turret.turretID,"burnTime")
+				igniteDamage = turret.burnDamage
+				igniteTime = turret.burnTime
 			return
 		
 		Turret.TurretID.FLAME_TURRET:
 			explosionType = ExplosionType.FLAME_TURRET
+			return
+		
+		Turret.TurretID.SEISMIC_TURRET:
+			explosionType = ExplosionType.SEISMIC_TURRET
 			return
 
 	explosionType = ExplosionType.NONE
@@ -127,7 +135,7 @@ func spawnExplosionArea() -> void:
 				if turretApplier.turretID == Turret.TurretID.FLAME_TURRET:
 					if turretApplier.level >= 3:
 						if enemy != turretApplier:
-							enemy.giveIgnitionRounds(TurretManager.getTurretStat(turretApplier.turretID,"ignitionRoundsTime"),turretApplier.fireTime,turretApplier.fireDamage)
+							enemy.giveIgnitionRounds(turretApplier.ignitionRoundsTime,turretApplier.fireTime,turretApplier.fireDamage)
 
 		await get_tree().create_timer(2.0).timeout
 		if is_instance_valid(area):

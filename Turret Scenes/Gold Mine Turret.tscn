@@ -36,6 +36,45 @@ size = Vector2(34, 36)
 [sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
 radius = 200.0
 
+[sub_resource type="Animation" id="Animation_k3ey7"]
+resource_name = "Extra Generate"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:rotation")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.36666667),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 6.2831855]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("Money Label:self_modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 0.56666666, 1),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("Money Label:position")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Vector2(-9, -26), Vector2(-9, -59)]
+}
+
 [sub_resource type="Animation" id="Animation_qn1xy"]
 resource_name = "Generate Gold"
 length = 2.0
@@ -138,9 +177,22 @@ tracks/3/keys = {
 "update": 0,
 "values": [Vector2(-9, -26)]
 }
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath(".:rotation")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [6.2831855]
+}
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_k3ey7"]
 _data = {
+&"Extra Generate": SubResource("Animation_k3ey7"),
 &"Generate Gold": SubResource("Animation_qn1xy"),
 &"RESET": SubResource("Animation_scs0t")
 }
@@ -150,6 +202,7 @@ font_size = 7
 font_color = Color(1, 0.815686, 0.207843, 1)
 
 [node name="Gold Mine Turret" type="CharacterBody2D" unique_id=1980592026 groups=["Turret"]]
+rotation = 6.2831855
 collision_mask = 12
 script = ExtResource("1_qn1xy")
 
@@ -172,7 +225,7 @@ shape = SubResource("RectangleShape2D_6b4j2")
 
 [node name="RangeArea" type="Area2D" parent="." unique_id=2024368938]
 collision_layer = 0
-collision_mask = 12
+collision_mask = 13
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=2005787041]
 shape = SubResource("CircleShape2D_pdpxq")
@@ -201,9 +254,12 @@ label_settings = SubResource("LabelSettings_lbwxs")
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="ScanTimer" type="Timer" parent="." unique_id=230601730]
+
 [connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
 [connection signal="timeout" from="GenerateTimer" to="." method="_on_generate_timer_timeout"]
+[connection signal="timeout" from="ScanTimer" to="." method="_on_scan_timer_timeout"]

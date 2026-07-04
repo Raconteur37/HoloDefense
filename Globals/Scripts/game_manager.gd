@@ -30,8 +30,8 @@ func _ready() -> void:
 		for item in turretsBrought:
 			turretTempLevels[item] = 0
 	if DeveloperMode.inDevMode:
-		turretStorage = {Turret.TurretID.RAILGUN_TURRET : 99,Turret.TurretID.VOODOO_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
-		Turret.TurretID.ENERGIZER_TURRET : 99, Turret.TurretID.ROYAL_TURRET : 99, Turret.TurretID.FLAME_TURRET : 99,
+		turretStorage = {Turret.TurretID.GOLD_MINE_TURRET : 99,Turret.TurretID.VOODOO_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
+		Turret.TurretID.SEISMIC_TURRET : 99, Turret.TurretID.ROYAL_TURRET : 99, Turret.TurretID.FLAME_TURRET : 99,
 		Turret.TurretID.MINI_SENTRY_TURRET : 99, Turret.TurretID.ARROW_TURRET : 99,Turret.TurretID.FIREWORK_TURRET : 99,
 		Turret.TurretID.REAPER_TURRET : 99, Turret.TurretID.SPIDER_TURRET : 99, Turret.TurretID.TESLA_TURRET : 99}
 		for item in turretStorage.keys():

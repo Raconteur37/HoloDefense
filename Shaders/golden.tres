@@ -1,0 +1,11 @@
+[gd_resource type="ShaderMaterial" format=3 uid="uid://dto2h1f6gxh5i"]
+
+[ext_resource type="Shader" uid="uid://cq4qtbkacrt05" path="res://Shaders/goldenEffect.gdshader" id="1_2sa76"]
+
+[resource]
+shader = ExtResource("1_2sa76")
+shader_parameter/gold_color = Color(1, 0.85, 0, 1)
+shader_parameter/intensity = 1.2
+shader_parameter/shine_speed = 0.2
+shader_parameter/shine_width = 0.15
+shader_parameter/mix_amount = 1.0

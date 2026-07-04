@@ -40,6 +40,7 @@ func _ready() -> void:
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
 	topSprite = $ReaperTurretTop
+	bottomSprite = $ReaperTurretBottom
 	selectArea = $SelectArea
 	bodyCollisionShape = $CollisionShape2D
 	rangeArea = $RangeArea

@@ -5,7 +5,6 @@ signal turret_unlocked_signal(turret_id)
 var turretData = {}
 var minionData = {}
 
-# Keep a master list of all turrets so we can iterate through them
 const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.ARROW_TURRET,
 	Turret.TurretID.MINI_SENTRY_TURRET,
@@ -27,7 +26,50 @@ const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.BOOMERANG_TURRET
 ]
 
-# These start empty and get filled dynamically on _ready
+const TURRET_SCENE_PATHS = {
+	Turret.TurretID.ARROW_TURRET: "res://Turret Scenes/Arrow Turret.tscn",
+	Turret.TurretID.MINI_SENTRY_TURRET: "res://Turret Scenes/Mini Sentry Turret.tscn",
+	Turret.TurretID.ENERGIZER_TURRET: "res://Turret Scenes/Energizer Turret.tscn",
+	Turret.TurretID.RAILGUN_TURRET: "res://Turret Scenes/Railgun Turret.tscn",
+	Turret.TurretID.REAPER_TURRET: "res://Turret Scenes/Reaper Turret.tscn",
+	Turret.TurretID.ROYAL_TURRET: "res://Turret Scenes/Royal Turret.tscn",
+	Turret.TurretID.FLAME_TURRET: "res://Turret Scenes/Flame Turret.tscn",
+	Turret.TurretID.FIREWORK_TURRET: "res://Turret Scenes/Firework Turret.tscn",
+	Turret.TurretID.SPIDER_TURRET: "res://Turret Scenes/Spider Turret.tscn",
+	Turret.TurretID.TESLA_TURRET: "res://Turret Scenes/Tesla Turret.tscn",
+	Turret.TurretID.SEISMIC_TURRET: "res://Turret Scenes/Seismic Turret.tscn",
+	Turret.TurretID.GOLD_MINE_TURRET: "res://Turret Scenes/Gold Mine Turret.tscn",
+	Turret.TurretID.SENTRY_TURRET: "res://Turret Scenes/Sentry Turret.tscn",
+	Turret.TurretID.VOODOO_TURRET: "res://Turret Scenes/Voodoo Turret.tscn",
+	Turret.TurretID.ZOMBIE_TURRET: "res://Turret Scenes/Zombie Turret.tscn",
+	Turret.TurretID.MEDIC_TURRET: "res://Turret Scenes/Medic Turret.tscn",
+	Turret.TurretID.BUBBLE_TURRET: "res://Turret Scenes/Bubble Turret.tscn",
+	Turret.TurretID.BOOMERANG_TURRET: "res://Turret Scenes/Boomerang Turret.tscn"
+}
+
+const TURRET_TEXTURE_PATHS = {
+	Turret.TurretID.ARROW_TURRET: "res://Textures/Turrets/Arrow Turret/ArrowTurret.png",
+	Turret.TurretID.MINI_SENTRY_TURRET: "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png",
+	Turret.TurretID.ENERGIZER_TURRET: "res://Textures/Turrets/Energizer Turret/Energizer Turret.png",
+	Turret.TurretID.RAILGUN_TURRET: "res://Textures/Turrets/Railgun Turret/RailgunTurret.png",
+	Turret.TurretID.REAPER_TURRET: "res://Textures/Turrets/Reaper Turret/ReaperTurret.png",
+	Turret.TurretID.ROYAL_TURRET: "res://Textures/Turrets/Royal Turret/RoyalTurret.png",
+	Turret.TurretID.FLAME_TURRET: "res://Textures/Turrets/Flame Turret/Flame Turret.png",
+	Turret.TurretID.FIREWORK_TURRET: "res://Textures/Turrets/Firework Turret/firework turret.png",
+	Turret.TurretID.SPIDER_TURRET: "res://Textures/Turrets/Spider Turret/Spider Turret.png",
+	Turret.TurretID.TESLA_TURRET: "res://Textures/Turrets/Tesla Turret/Tesla Turret.png",
+	Turret.TurretID.SEISMIC_TURRET: "res://Textures/Turrets/Seismic Turret/SeismicTurret.png",
+	Turret.TurretID.GOLD_MINE_TURRET: "res://Textures/Turrets/Gold Mine Turret/Gold Mine Turret.png",
+	Turret.TurretID.SENTRY_TURRET: "res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png",
+	Turret.TurretID.VOODOO_TURRET: "res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png",
+	Turret.TurretID.ZOMBIE_TURRET: "res://Textures/Turrets/Zombie Turret/Zombie Turret.png",
+	Turret.TurretID.MEDIC_TURRET: "res://Textures/Turrets/Healing Turret/Healing Turret.png",
+	Turret.TurretID.BUBBLE_TURRET: "res://Textures/Turrets/Bubble Turret/Bubble Turret.png",
+	Turret.TurretID.BOOMERANG_TURRET: "res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png"
+}
+
+const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+
 var unlockedTurrets: Array[Turret.TurretID] = []
 var lockedCommonTurrets: Array[Turret.TurretID] = []
 var lockedRareTurrets: Array[Turret.TurretID] = []
@@ -35,20 +77,17 @@ var lockedSuperRareTurrets: Array[Turret.TurretID] = []
 var lockedLegendaryTurrets: Array[Turret.TurretID] = []
 var lockedUnseenTurrets: Array[Turret.TurretID] = []
 
+
 func _ready() -> void:
 	loadTurretData()
 	loadMinionData()
-	
-	# Sort the turrets into their respective arrays based on Economy data
 	sort_turrets()
-	
 	EconomyManager.turret_unlocked_signal.connect(_on_turret_unlocked)
 
 func _on_turret_unlocked(_turret_id) -> void:
 	sort_turrets()
 
 func sort_turrets() -> void:
-	# Clear arrays just in case this is called multiple times
 	unlockedTurrets.clear()
 	lockedCommonTurrets.clear()
 	lockedRareTurrets.clear()
@@ -56,112 +95,36 @@ func sort_turrets() -> void:
 	lockedLegendaryTurrets.clear()
 	lockedUnseenTurrets.clear()
 
-	# Loop through every turret in the game
 	for turretID in ALL_TURRETS:
 		if EconomyManager.is_turret_unlocked(turretID):
 			unlockedTurrets.append(turretID)
 		else:
-			# If it's locked, get its rarity and put it in the right list
 			var rarity = getTurretStat(turretID, "rarity")
 			match rarity:
-				"Common":
-					lockedCommonTurrets.append(turretID)
-				"Rare":
-					lockedRareTurrets.append(turretID)
-				"Super Rare":
-					lockedSuperRareTurrets.append(turretID)
-				"Legendary":
-					lockedLegendaryTurrets.append(turretID)
-				"Unseen":
-					lockedUnseenTurrets.append(turretID)
-				_:
-					push_warning("Unknown rarity for locked turret: " + str(rarity))
+				"Common": lockedCommonTurrets.append(turretID)
+				"Rare": lockedRareTurrets.append(turretID)
+				"Super Rare": lockedSuperRareTurrets.append(turretID)
+				"Legendary": lockedLegendaryTurrets.append(turretID)
+				"Unseen": lockedUnseenTurrets.append(turretID)
+				_: push_warning("Unknown rarity for locked turret: " + str(rarity))
 
 func get_turret_string(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
 
-func get_minion_string(id: Minion.MinionID):
+func get_minion_string(id: Minion.MinionID) -> String:
 	return Minion.MinionID.keys()[id].to_lower()
 
-func loadTurretByID(id: Turret.TurretID):
-	match id:
-		Turret.TurretID.ARROW_TURRET:
-			return load("res://Turret Scenes/Arrow Turret.tscn")
-		Turret.TurretID.MINI_SENTRY_TURRET:
-			return load("res://Turret Scenes/Mini Sentry Turret.tscn")
-		Turret.TurretID.ENERGIZER_TURRET:
-			return load("res://Turret Scenes/Energizer Turret.tscn")
-		Turret.TurretID.RAILGUN_TURRET:
-			return load("res://Turret Scenes/Railgun Turret.tscn")
-		Turret.TurretID.REAPER_TURRET:
-			return load("res://Turret Scenes/Reaper Turret.tscn")
-		Turret.TurretID.ROYAL_TURRET:
-			return load("res://Turret Scenes/Royal Turret.tscn")
-		Turret.TurretID.FLAME_TURRET:
-			return load("res://Turret Scenes/Flame Turret.tscn")
-		Turret.TurretID.FIREWORK_TURRET:
-			return load("res://Turret Scenes/Firework Turret.tscn")
-		Turret.TurretID.SPIDER_TURRET:
-			return load("res://Turret Scenes/Spider Turret.tscn")
-		Turret.TurretID.TESLA_TURRET:
-			return load("res://Turret Scenes/Tesla Turret.tscn")
-		Turret.TurretID.SEISMIC_TURRET:
-			return load("res://Turret Scenes/Seismic Turret.tscn")
-		Turret.TurretID.GOLD_MINE_TURRET:
-			return load("res://Turret Scenes/Gold Mine Turret.tscn")
-		Turret.TurretID.SENTRY_TURRET:
-			return load("res://Turret Scenes/Sentry Turret.tscn")
-		Turret.TurretID.VOODOO_TURRET:
-			return load("res://Turret Scenes/Voodoo Turret.tscn")
-		Turret.TurretID.ZOMBIE_TURRET:
-			return load("res://Turret Scenes/Zombie Turret.tscn")
-		Turret.TurretID.MEDIC_TURRET:
-			return load("res://Turret Scenes/Medic Turret.tscn")
-		Turret.TurretID.BUBBLE_TURRET:
-			return load("res://Turret Scenes/Bubble Turret.tscn")
-		Turret.TurretID.BOOMERANG_TURRET:
-			return load("res://Turret Scenes/Boomerang Turret.tscn")
-		_:
-			push_error("Turret ID not mapped to scene")
+func loadTurretByID(id: Turret.TurretID) -> PackedScene:
+	if TURRET_SCENE_PATHS.has(id):
+		return load(TURRET_SCENE_PATHS[id])
+	push_error("Turret ID not mapped to scene")
+	return null
 
-func getTurretTexture(id: Turret.TurretID):
-	match id:
-		Turret.TurretID.ARROW_TURRET:
-			return load("res://Textures/Turrets/Arrow Turret/ArrowTurret.png")
-		Turret.TurretID.MINI_SENTRY_TURRET:
-			return load("res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png")
-		Turret.TurretID.ENERGIZER_TURRET:
-			return load("res://Textures/Turrets/Energizer Turret/Energizer Turret.png")
-		Turret.TurretID.RAILGUN_TURRET:
-			return load("res://Textures/Turrets/Railgun Turret/RailgunTurret.png")
-		Turret.TurretID.REAPER_TURRET:
-			return load("res://Textures/Turrets/Reaper Turret/ReaperTurret.png")
-		Turret.TurretID.ROYAL_TURRET:
-			return load("res://Textures/Turrets/Royal Turret/RoyalTurret.png")
-		Turret.TurretID.FLAME_TURRET:
-			return load("res://Textures/Turrets/Flame Turret/Flame Turret.png")
-		Turret.TurretID.FIREWORK_TURRET:
-			return load("res://Textures/Turrets/Firework Turret/firework turret.png")
-		Turret.TurretID.SPIDER_TURRET:
-			return load("res://Textures/Turrets/Spider Turret/Spider Turret.png")
-		Turret.TurretID.TESLA_TURRET:
-			return load("res://Textures/Turrets/Tesla Turret/Tesla Turret.png")
-		Turret.TurretID.SEISMIC_TURRET:
-			return load("res://Textures/Turrets/Seismic Turret/SeismicTurret.png")
-		Turret.TurretID.GOLD_MINE_TURRET:
-			return load("res://Textures/Turrets/Gold Mine Turret/Gold Mine Turret.png")
-		Turret.TurretID.SENTRY_TURRET:
-			return load("res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png")
-		Turret.TurretID.VOODOO_TURRET:
-			return load("res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png")
-		Turret.TurretID.ZOMBIE_TURRET:
-			return load("res://Textures/Turrets/Zombie Turret/Zombie Turret.png")
-		Turret.TurretID.MEDIC_TURRET:
-			return load("res://Textures/Turrets/Healing Turret/Healing Turret.png")
-		Turret.TurretID.BUBBLE_TURRET:
-			return load("res://Textures/Turrets/Bubble Turret/Bubble Turret.png")
-		Turret.TurretID.BOOMERANG_TURRET:
-			return load("res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png")
+func getTurretTexture(id: Turret.TurretID) -> Texture2D:
+	if TURRET_TEXTURE_PATHS.has(id):
+		return load(TURRET_TEXTURE_PATHS[id])
+	push_error("Turret ID not mapped to texture")
+	return null
 
 func getTurretStat(id: Turret.TurretID, stat_name: String, default = -1):
 	var key = get_turret_string(id)
@@ -175,22 +138,20 @@ func getMinionStat(id: Minion.MinionID, stat_name: String, default = 1):
 		return minionData[key][stat_name]
 	return default
 
-func getListOfProperties(id: Turret.TurretID):
+func getListOfProperties(id: Turret.TurretID) -> Array:
 	var key = get_turret_string(id)
-	var tracker : int = 0
 	var properties : Array = []
 	if turretData.has(key):
-		for prop in turretData[key]:
-			tracker += 1
-			if tracker >= 8:
-				properties.push_back(prop)
+		var keys = turretData[key].keys()
+		# Skips the first 8 properties matching the old tracker >= 8 logic
+		for i in range(8, keys.size()):
+			properties.append(keys[i])
 	return properties
 
-func loadTurretData():
+func loadTurretData() -> void:
 	var file = FileAccess.open("res://Config/Turret Info.json", FileAccess.READ)
 	if file:
-		var json_str = file.get_as_text()
-		var json_result = JSON.parse_string(json_str)
+		var json_result = JSON.parse_string(file.get_as_text())
 		if typeof(json_result) == TYPE_DICTIONARY:
 			turretData = json_result
 		else:
@@ -198,17 +159,16 @@ func loadTurretData():
 	else:
 		push_error("Could not open Turret Info.json")
 
-func loadMinionData():
+func loadMinionData() -> void:
 	var file = FileAccess.open("res://Config/Minion Info.json", FileAccess.READ)
 	if file:
-		var json_str = file.get_as_text()
-		var json_result = JSON.parse_string(json_str)
+		var json_result = JSON.parse_string(file.get_as_text())
 		if typeof(json_result) == TYPE_DICTIONARY:
 			minionData = json_result
 		else:
-			push_error("Invalid JSON in Turret Info.json")
+			push_error("Invalid JSON in Minion Info.json")
 	else:
-		push_error("Could not open Turret Info.json")
+		push_error("Could not open Minion Info.json")
 
 func draw_range_circle(line2d: Line2D, attack_range: float) -> Line2D:
 	line2d.clear_points()
@@ -223,11 +183,26 @@ func draw_range_circle(line2d: Line2D, attack_range: float) -> Line2D:
 	line2d.end_cap_mode = Line2D.LINE_CAP_NONE
 	return line2d
 
-const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
+func getTurretIdFromString(turret_str: String) -> int:
+	var upper_name = turret_str.to_upper()
+	if Turret.TurretID.has(upper_name):
+		return Turret.TurretID.get(upper_name)
+	push_error("XP Manager: Could not find TurretID for string '%s'" % turret_str)
+	return -1
 
-func createPropertiesLabels(turret : Turret):
+
+# --- LABEL GENERATION ---
+
+# Helper to remove label boilerplate
+func _create_stat_label(text: String, color: Color) -> Label:
+	var label = Label.new()
+	label.text = text
+	label.add_theme_color_override("font_color", color)
+	label.add_theme_font_size_override("font_size", 10)
+	return label
+
+func createPropertiesLabels(turret: Turret) -> Array:
 	var labels = []
-	
 
 	var turretStatsConfig = {
 		"health": ["Health: ", Color.FUCHSIA],
@@ -274,143 +249,68 @@ func createPropertiesLabels(turret : Turret):
 		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE],
 		"maxEnemies": ["Max Enemies: ", Color.DEEP_SKY_BLUE]
 	}
-	
+
 	if turret.hasBubble:
-		var label = Label.new()
-		label.text = "Bubble Health: " + str(turret.currentBubbleHealth)
-		label.add_theme_color_override("font_color", Color.CORNFLOWER_BLUE)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-	
+		labels.append(_create_stat_label("Bubble Health: " + str(turret.currentBubbleHealth), Color.CORNFLOWER_BLUE))
+	if turret.goldenBuff:
+		if is_instance_valid(turret.turretProviders["golden"]):
+			labels.append(_create_stat_label("Money Produce Chance: %s%%" % str(turret.turretProviders["golden"].killChance), Color.GOLD))
+			labels.append(_create_stat_label("Money Produced on Kill: $%s" % str(turret.turretProviders["golden"].extraGold), Color.GOLDENROD))
+
+
+	# General Stats
 	for prop in turretStatsConfig:
 		var value = turret.get(prop)
-		
 		if value != null:
 			var config = turretStatsConfig[prop]
-			var display_name = config[0]
-			var font_color = config[1]
 			var suffix = config[2] if config.size() > 2 else ""
-			
-			var label = Label.new()
- 	
-			label.text = display_name + str(value) + suffix
+			labels.append(_create_stat_label("%s%s%s" % [config[0], str(value), suffix], config[1]))
 
-			label.add_theme_color_override("font_color", font_color)
-			label.add_theme_font_size_override("font_size", 10)
-			labels.append(label)
-			
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.ROYAL_TURRET:
-		var label = Label.new()
-		label = Label.new()
-		label.text = "Archer Summon Chance: " + str(turret.archerSummonChance) + "%"
-		label.add_theme_color_override("font_color", Color.LIGHT_CYAN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Max Archers: " + str(turret.maxArchers)
-		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Archer Health: " + str(turret.archerHealth)
-		label.add_theme_color_override("font_color", Color.LIGHT_GREEN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Archer Damage: " + str(turret.archerDamage)
-		label.add_theme_color_override("font_color", Color.LIGHT_CORAL)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-	if turret.level >= 3 and turret.turretID == Turret.TurretID.ROYAL_TURRET:
-		var label = Label.new()
-		label = Label.new()
-		label.text = "Bard Summon Chance: " + str(turret.bardSummonChance) + "%"
-		label.add_theme_color_override("font_color", Color.LIGHT_CYAN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Max Bards: " + str(turret.maxBards)
-		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Bard Health: " + str(turret.bardHealth)
-		label.add_theme_color_override("font_color", Color.LIGHT_GREEN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Bard Heal: " + str(turret.bardHeal)
-		label.add_theme_color_override("font_color", Color.MEDIUM_SEA_GREEN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.FLAME_TURRET:
-		var label = Label.new()
-		label.text = "Explosion Radius: " + str(TurretManager.getTurretStat(turret.turretID,"flameExplosionRange"))
-		label.add_theme_color_override("font_color", Color.ROSY_BROWN)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		if turret.level >= 3:
-			label = Label.new()
-			label.text = "Ignition Rounds Time: " + str(TurretManager.getTurretStat(turret.turretID,"ignitionRoundsTime")) + "s"
-			label.add_theme_color_override("font_color", Color.LIGHT_CORAL)
-			label.add_theme_font_size_override("font_size", 10)
-			labels.append(label)
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.FIREWORK_TURRET:
-		var label = Label.new()
-		label.text = "Ignite Damage: " + str(TurretManager.getTurretStat(turret.turretID,"burnDamage"))
-		label.add_theme_color_override("font_color", Color.RED)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Ignite Time: " + str(TurretManager.getTurretStat(turret.turretID,"burnTime"))
-		label.add_theme_color_override("font_color", Color.INDIAN_RED)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		if turret.level >= 3:
-			label = Label.new()
-			label.text = "Refund Chance: " + str(TurretManager.getTurretStat(turret.turretID,"refundChance")) + "%"
-			label.add_theme_color_override("font_color", Color.DARK_TURQUOISE)
-			label.add_theme_font_size_override("font_size", 10)
-			labels.append(label)
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.REAPER_TURRET:
-		var label = Label.new()
-		label.text = "Chance Increase: " + str(TurretManager.getTurretStat(turret.turretID,"executionChanceIncrease")) + "%"
-		label.add_theme_color_override("font_color", Color.DARK_GRAY)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.SPIDER_TURRET:
-		var label = Label.new()
-		label.text = "Web Chance: " + str(TurretManager.getTurretStat(turret.turretID,"webChance")) + "%"
-		label.add_theme_color_override("font_color", Color.WHITE)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		label = Label.new()
-		label.text = "Web Duration: " + str(TurretManager.getTurretStat(turret.turretID,"webDuration")) + "s"
-		label.add_theme_color_override("font_color", Color.LIGHT_GRAY)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-	if turret.level >= 2 and turret.turretID == Turret.TurretID.TESLA_TURRET:
-		var label = Label.new()
-		label.text = "Stun Time: " + str(TurretManager.getTurretStat(turret.turretID,"stunTime")) + "s"
-		label.add_theme_color_override("font_color", Color.DARK_GRAY)
-		label.add_theme_font_size_override("font_size", 10)
-		labels.append(label)
-		if turret.level >= 3:
-			label = Label.new()
-			label.text = "Chain Range: " + str(TurretManager.getTurretStat(turret.turretID,"chainRange"))
-			label.add_theme_color_override("font_color", Color.CORNFLOWER_BLUE)
-			label.add_theme_font_size_override("font_size", 10)
-			labels.append(label)
+	# Level Specific Stats
+	if turret.level >= 2:
+		match turret.turretID:
+			Turret.TurretID.ROYAL_TURRET:
+				labels.append(_create_stat_label("Archer Summon Chance: %s%%" % turret.archerSummonChance, Color.LIGHT_CYAN))
+				labels.append(_create_stat_label("Max Archers: %s" % turret.maxArchers, Color.LIGHT_GRAY))
+				labels.append(_create_stat_label("Archer Health: %s" % turret.archerHealth, Color.LIGHT_GREEN))
+				labels.append(_create_stat_label("Archer Damage: %s" % turret.archerDamage, Color.LIGHT_CORAL))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Bard Summon Chance: %s%%" % turret.bardSummonChance, Color.LIGHT_CYAN))
+					labels.append(_create_stat_label("Max Bards: %s" % turret.maxBards, Color.LIGHT_GRAY))
+					labels.append(_create_stat_label("Bard Health: %s" % turret.bardHealth, Color.LIGHT_GREEN))
+					labels.append(_create_stat_label("Bard Heal: %s" % turret.bardHeal, Color.MEDIUM_SEA_GREEN))
+
+			Turret.TurretID.FLAME_TURRET:
+				labels.append(_create_stat_label("Explosion Radius: %s" % turret.explosionRange, Color.ROSY_BROWN))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Ignition Rounds Time: %ss" % turret.ignitionRoundsTime, Color.LIGHT_CORAL))
+
+			Turret.TurretID.FIREWORK_TURRET:
+				labels.append(_create_stat_label("Ignite Damage: %s" % turret.burnDamage, Color.RED))
+				labels.append(_create_stat_label("Ignite Time: %s" % turret.burnTime, Color.INDIAN_RED))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Refund Chance: %s%%" % turret.refundChance, Color.DARK_TURQUOISE))
+
+			Turret.TurretID.REAPER_TURRET:
+				labels.append(_create_stat_label("Chance Increase: %s%%" % turret.executionIncrease, Color.DARK_GRAY))
+
+			Turret.TurretID.SPIDER_TURRET:
+				labels.append(_create_stat_label("Web Chance: %s%%" % turret.webChance, Color.WHITE))
+				labels.append(_create_stat_label("Web Duration: %ss" % turret.webDuration, Color.LIGHT_GRAY))
+
+			Turret.TurretID.TESLA_TURRET:
+				labels.append(_create_stat_label("Stun Time: %ss" % turret.stunTime, Color.DARK_GRAY))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Chain Range: %s" % turret.chainRange, Color.CORNFLOWER_BLUE))
+
+			Turret.TurretID.SEISMIC_TURRET:
+				labels.append(_create_stat_label("Reload Damage: %s" % turret.tickDamage, Color.SADDLE_BROWN))
+				labels.append(_create_stat_label("Reload Tick Time: %ss" % turret.tickTime, Color.ROSY_BROWN))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Chain Range: %s" % turret.chainRange, Color.SANDY_BROWN))
+
+			Turret.TurretID.GOLD_MINE_TURRET:
+				labels.append(_create_stat_label("Extra Money: $%s" % turret.extraGold, Color.GOLDENROD))
+				labels.append(_create_stat_label("Extra Money Chance: %s%%" % turret.extraChance, Color.PALE_GOLDENROD))
 
 	return labels
-
-func getTurretIdFromString(turret_str: String) -> int:
-	var upper_name = turret_str.to_upper()
-	
-	# Check if the uppercase string exists in the enum dictionary
-	if Turret.TurretID.has(upper_name):
-		return Turret.TurretID.get(upper_name)
-		
-	# Fallback if the string doesn't match any turret
-	push_error("XP Manager: Could not find TurretID for string '%s'" % turret_str)
-	return -1

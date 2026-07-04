@@ -2,6 +2,7 @@
 
 [ext_resource type="Script" uid="uid://ipxbqbtef63h" path="res://Scripts/Turrets/Seismic Turret/seismic_turret.gd" id="1_4qm2s"]
 [ext_resource type="Texture2D" uid="uid://dgi3orngm0v8u" path="res://Textures/Turrets/Seismic Turret/SeismicTurretBottom.png" id="2_4qm2s"]
+[ext_resource type="PackedScene" uid="uid://cdeuifhbp0fls" path="res://Particle Scenes/Turrets/Seismic Turret/SeismicReloadParticle.tscn" id="2_5132q"]
 [ext_resource type="Texture2D" uid="uid://bb8pwdh20isby" path="res://Textures/Turrets/Seismic Turret/SeismicTurret-Sheet.png" id="3_oa8hl"]
 [ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_mcloq"]
 [ext_resource type="PackedScene" uid="uid://xxgq76thmwl4" path="res://Particle Scenes/Turrets/Seismic Turret/SeismicEarthquakeParticle.tscn" id="5_oa8hl"]
@@ -241,9 +242,12 @@ size = Vector2(34, 36)
 radius = 200.0
 
 [node name="Seismic Turret" type="CharacterBody2D" unique_id=862693282 groups=["Turret"]]
-position = Vector2(943, 517)
 collision_mask = 12
 script = ExtResource("1_4qm2s")
+
+[node name="SeismicReloadParticle" parent="." unique_id=1452128818 instance=ExtResource("2_5132q")]
+scale_amount_min = 3.0
+scale_amount_max = 3.0
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1071063332]
 shape = SubResource("RectangleShape2D_11eqx")
@@ -281,8 +285,12 @@ default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
 show_behind_parent = true
 position = Vector2(0, 0)
 
+[node name="ReloadTickDamageTimer" type="Timer" parent="." unique_id=949012944]
+one_shot = true
+
 [connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
 [connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="ReloadTickDamageTimer" to="." method="_on_reload_tick_damage_timer_timeout"]

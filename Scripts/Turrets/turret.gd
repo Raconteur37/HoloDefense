@@ -43,6 +43,7 @@ var reloadTimer
 var rangeCollisionShape
 var rangeIndicator
 var topSprite : AnimatedSprite2D
+var bottomSprite : Sprite2D
 var selectArea
 var bodyCollisionShape
 var rangeArea
@@ -92,6 +93,8 @@ var currentBubbleHealth : float
 var ignitionRounds : bool = false
 var ignitionRoundsBurnTime = 0
 var ignitionRoundsBurnDamage = 0
+
+var goldenBuff : bool = false
 
 func _process(_delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
@@ -208,6 +211,7 @@ func death():
 			"bubble":
 				removeBubble()
 	StatManager.addStat(turretID,"deaths",1)
+	
 	queue_free()
 
 func giveIgnitionRounds(time, burnTime, burnDamage):
@@ -246,3 +250,15 @@ func removeIgnitionRounds():
 	ignitionRounds = false
 	ignitionRoundsBurnDamage = 0
 	ignitionRoundsBurnTime = 0
+
+func giveGoldenBuff(turretApplier):
+	var gold_material = load("res://Shaders/golden.tres")
+	bottomSprite.material = gold_material
+	turretProviders["golden"] = turretApplier
+	goldenBuff = true
+
+func removeGoldenBuff():
+	bottomSprite.material = null
+	currentParticlesMap.erase("Golden Buff")
+	turretProviders.erase("golden")
+	goldenBuff = false
