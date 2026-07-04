@@ -70,7 +70,7 @@ func _physics_process(delta: float) -> void:
 		
 		if attackReady:
 			var targetTurret = turretsInRange[0]
-			EntityManager.turretTakeDamage(damage, targetTurret, null)
+			EntityManager.turretTakeDamage(damage, targetTurret, null,self)
 			startAttackCooldown()
 	else:
 		# No turrets in Area2D range, keep walking!
@@ -110,7 +110,7 @@ func move() -> void:
 				velocity = Vector2.ZERO
 				
 				if attackReady:
-					EntityManager.turretTakeDamage(damage, collider, null)
+					EntityManager.turretTakeDamage(damage, collider, null,self)
 					startAttackCooldown()
 				return 
 

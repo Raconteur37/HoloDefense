@@ -318,5 +318,9 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				if turret.level >= 3:
 					labels.append(_create_stat_label("Shooting Bullets Reloaded: %s" % turret.shootingReloadBullets, Color.LIGHT_GRAY))
 
+			Turret.TurretID.VOODOO_TURRET:
+				labels.append(_create_stat_label("Curse Explosion Radius: %s" % turret.curseExplosionRadius, Color.LIGHT_PINK))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Damage Reduction: %s%%" % turret.damageReduction, Color.PINK))
 
 	return labels

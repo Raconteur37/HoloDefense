@@ -303,8 +303,10 @@
 		"projectileSpeed": 350,
 		"constructionTime": 7,
 		"curseDuration": 4,
-		"curseDamageAmp": 0.20,
+		"curseDamageAmp": 20,
 		"curseChance": 20,
+		"curseExplosionRadius": 90,
+		"curseDamageReduction": 35,
 		"scaleFactor": 0.04
 	},
 	"zombie_turret": {

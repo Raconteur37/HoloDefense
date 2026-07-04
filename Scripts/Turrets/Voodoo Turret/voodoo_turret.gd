@@ -10,6 +10,12 @@ var baseCurseDuration : float
 var baseCurseDamageAmp : float
 var baseCurseChance : float
 
+var curseExplosionRadius : float
+var baseExplosionRadius : float
+
+var damageReduction
+var baseDamageReduction
+
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/voodoodoll.tscn")
 
@@ -30,13 +36,15 @@ func _ready() -> void:
 	baseCurseDamageAmp = TurretManager.getTurretStat(turretID,"curseDamageAmp")
 	baseCurseChance = TurretManager.getTurretStat(turretID,"curseChance")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
+	baseExplosionRadius = TurretManager.getTurretStat(turretID,"curseExplosionRadius")
+	baseDamageReduction = TurretManager.getTurretStat(turretID,"curseDamageReduction")
 
 	curseChance = baseCurseChance
 	curseDuration = baseCurseDuration
 	curseDamageAmp = baseCurseDamageAmp
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
@@ -57,6 +65,8 @@ func _ready() -> void:
 	damage = baseDamage
 	projectileSpeed = baseProjectileSpeed
 	health = maxHealth
+	curseExplosionRadius = baseExplosionRadius
+	damageReduction = baseDamageReduction
 
 	isPlaced = true
 
@@ -144,5 +154,7 @@ func applyUpgrade():
 	curseChance = (baseCurseChance + (baseCurseChance * scaleFactor * upgradeTier))
 	curseDamageAmp = (baseCurseDamageAmp + (baseCurseDamageAmp * scaleFactor * upgradeTier))
 	curseDuration = (baseCurseDuration + (baseCurseDuration * scaleFactor * upgradeTier))
+	damageReduction = (baseDamageReduction + (baseDamageReduction * scaleFactor * upgradeTier))
+	curseExplosionRadius = (baseExplosionRadius + (baseExplosionRadius * scaleFactor * upgradeTier))
 	health = maxHealth
 	refreshUI(self)

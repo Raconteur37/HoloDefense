@@ -4,7 +4,8 @@ enum ExplosionType {
 	NONE,
 	FIREWORK_TURRET,
 	FLAME_TURRET,
-	SEISMIC_TURRET
+	SEISMIC_TURRET,
+	VOODOO_TURRET
 }
 
 var explosionType
@@ -16,6 +17,9 @@ var particle
 
 var igniteTime
 var igniteDamage
+
+var curseDuration
+var curseDamageAmp
 
 @onready var explosionParticlesTexture = {
 	Turret.TurretID.FIREWORK_TURRET : {
@@ -29,6 +33,9 @@ var igniteDamage
 	},
 	Turret.TurretID.SEISMIC_TURRET : {
 		"scene" : preload("res://Particle Scenes/Turrets/Seismic Turret/SeismicEarthquakeParticle.tscn")
+	},
+	Turret.TurretID.VOODOO_TURRET : {
+		"scene" : preload("res://Particle Scenes/Effects/Curse/Curse Explosion.tscn")
 	}
 }
 
@@ -49,6 +56,10 @@ func summonExplosion(turret : Turret, position : Vector2, fxData : Dictionary):
 		igniteTime = fxData.get("igniteTime")
 	if fxData.has("igniteDamage"):
 		igniteDamage = fxData.get("igniteDamage")
+	if fxData.has("curseTime"):
+		curseDuration = fxData.get("curseTime")
+	if fxData.has("curseDamageAmp"):
+		curseDamageAmp = fxData.get("curseDamageAmp")
 
 	spawnExplosionArea()
 
@@ -69,6 +80,10 @@ func setExplosionDetails(turret):
 		
 		Turret.TurretID.SEISMIC_TURRET:
 			explosionType = ExplosionType.SEISMIC_TURRET
+			return
+		
+		Turret.TurretID.VOODOO_TURRET:
+			explosionType = ExplosionType.VOODOO_TURRET
 			return
 
 	explosionType = ExplosionType.NONE
@@ -131,6 +146,8 @@ func spawnExplosionArea() -> void:
 					if turretApplier.turretID == Turret.TurretID.FIREWORK_TURRET:
 						if turretApplier.level >= 2:
 							EffectManager.applyBurnEffect(enemy,turretApplier,igniteDamage,igniteTime)
+				if explosionType == ExplosionType.VOODOO_TURRET:
+					EffectManager.applyCurseEffect(enemy,turretApplier,curseDuration,curseDamageAmp)
 			if enemy.is_in_group("Turret"):
 				if turretApplier.turretID == Turret.TurretID.FLAME_TURRET:
 					if turretApplier.level >= 3:

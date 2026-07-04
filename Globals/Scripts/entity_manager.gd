@@ -18,7 +18,7 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		var damage = packet.damage
 
 		if enemy.effects.has(EffectClass.Effect.CURSE):
-			damage += int(damage * enemy.curseDamageAmp)
+			damage += int(damage * (enemy.curseDamageAmp * 0.01))
 
 		# Handle specific packet types
 		match packet.type:
@@ -108,7 +108,16 @@ func killEnemy(source: Node, enemy: Enemy) -> void:
 	onKill(source, enemy)
 
 
-func turretTakeDamage(damage: float, entity: Node, projectile: Node) -> void:
+func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) -> void:
+	if damager is Enemy:
+		if damager.effects.has(EffectClass.Effect.CURSE):
+			if is_instance_valid(damager.effects.get(EffectClass.Effect.CURSE).turretApplier):
+				if damager.effects.get(EffectClass.Effect.CURSE).turretApplier.level >= 3 and damager.effects.get(EffectClass.Effect.CURSE).turretApplier.turretID == Turret.TurretID.VOODOO_TURRET:
+					var damageReduction = damager.effects.get(EffectClass.Effect.CURSE).turretApplier.damageReduction * 0.01
+					print(damage)
+					damageReduction = damage * damageReduction
+					damage = damage - damageReduction
+					print(damage)
 	if entity is Turret:
 		var turret = entity
 		if projectile != null:
@@ -223,12 +232,22 @@ func onKill(source: Node, enemy: Enemy) -> void:
 							"explosionDamage": turret.damage
 						}
 						ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+				Turret.TurretID.VOODOO_TURRET:
+					if enemy.effects.has(EffectClass.Effect.CURSE):
+						if turret.level >= 2:
+							var fxData = {
+								"explosionRadius": turret.explosionRadius,
+								"curseTime": turret.curseDuration,
+								"curseDamageAmp": turret.curseDamageAmp
+							}
+							ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
 			if turret.goldenBuff:
 				if is_instance_valid(turret.turretProviders["golden"]):
 					var rand = randf_range(0,100)
 					if rand <= turret.turretProviders["golden"].killChance:
 						CityManager.currentMoney += turret.turretProviders["golden"].extraGold
 						print("made " + str(turret.turretProviders["golden"].extraGold))
+			
 
 			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID, "kills", 1)
