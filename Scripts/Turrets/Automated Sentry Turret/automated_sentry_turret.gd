@@ -5,11 +5,22 @@ class_name SentryTurret
 var shootTimer : Timer
 var particle
 
+@onready var shootingTickTimer : Timer = $ShootingTickTimer
+@onready var notShootingTickTimer : Timer = $NotShootingTickTimer
+
 @export var maxBullets : int # Bullets shot before needing to reload
 @export var shotTime : float # The interval of which each bullet will be shot
 
 var currentBullets
 var baseMaxBullets
+
+var shootingReloadTickTime
+var notShootingReloadTickTime
+
+var shootingReloadBullets
+var notShootingReloadBullets
+
+var shooting : bool = false
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -27,11 +38,18 @@ func _ready() -> void:
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
-	level = 1
+
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	maxBullets = TurretManager.getTurretStat(turretID,"maxBullets")
 	shotTime = TurretManager.getTurretStat(turretID,"shotTime")
+
+	shootingReloadTickTime = TurretManager.getTurretStat(turretID,"firingReloadTickTime")
+	notShootingReloadTickTime = TurretManager.getTurretStat(turretID,"notFiringReloadTickTime")
+	
+	shootingReloadBullets = int(TurretManager.getTurretStat(turretID,"firingReloadBullets"))
+	notShootingReloadBullets = int(TurretManager.getTurretStat(turretID,"notFiringReloadBullets"))
 
 	projectile = preload("res://Projectile Scenes/sentry bullet.tscn")
 	reloadTimer = $ReloadTimer
@@ -59,12 +77,24 @@ func _ready() -> void:
 	health = maxHealth
 	currentBullets = maxBullets
 	baseMaxBullets = maxBullets
+	
+	shootingTickTimer.wait_time = shootingReloadTickTime
+	notShootingTickTimer.wait_time = notShootingReloadTickTime
+	
+	if level >= 2:
+		notShootingTickTimer.start()
+		if level >= 3:
+			shootingTickTimer.start()
 
 	applyUpgrade()
 
 	isPlaced = true
 
 func attack():
+	if enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shotReady:
+		shooting = true
+	else:
+		shooting = false
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shootTimer.is_stopped():
 
 		var enemy = EntityManager.getClosestEnemyFromSprite($".")
@@ -159,4 +189,22 @@ func applyUpgrade():
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	health = maxHealth
 	maxBullets = (baseMaxBullets + (baseMaxBullets * scaleFactor * upgradeTier))
+	shootingReloadBullets += 1
+	notShootingReloadBullets += 1
 	refreshUI(self)
+
+
+func _on_shooting_tick_timer_timeout() -> void:
+	if shooting:
+		if currentBullets + shootingReloadBullets >= maxBullets:
+			currentBullets = maxBullets
+		else:
+			currentBullets += shootingReloadBullets
+
+
+func _on_not_shooting_tick_timer_timeout() -> void:
+	if not shooting:
+		if currentBullets + notShootingReloadBullets >= maxBullets:
+			currentBullets = maxBullets
+		else:
+			currentBullets += notShootingReloadBullets

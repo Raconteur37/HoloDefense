@@ -313,4 +313,10 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				labels.append(_create_stat_label("Extra Money: $%s" % turret.extraGold, Color.GOLDENROD))
 				labels.append(_create_stat_label("Extra Money Chance: %s%%" % turret.extraChance, Color.PALE_GOLDENROD))
 
+			Turret.TurretID.SENTRY_TURRET:
+				labels.append(_create_stat_label("Idle Bullets Reloaded: %s" % turret.notShootingReloadBullets, Color.DIM_GRAY))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Shooting Bullets Reloaded: %s" % turret.shootingReloadBullets, Color.LIGHT_GRAY))
+
+
 	return labels

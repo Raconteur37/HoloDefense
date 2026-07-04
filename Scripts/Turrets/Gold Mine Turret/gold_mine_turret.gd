@@ -64,7 +64,7 @@ func _ready() -> void:
 	
 	moneyGenerated = baseGoldProduced
 
-	level = 3
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	reloadTimer = $ReloadTimer

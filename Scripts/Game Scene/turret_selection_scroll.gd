@@ -243,6 +243,9 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 	levelThreeDescription.hide()
 	levelTwoProgressBar.hide()
 	levelThreeProgressBar.hide()
+	
+	levelTwoTexture.texture = lockedIcon
+	levelThreeTexture.texture = lockedIcon
 
 	if is_unlocked:
 		purchaseBox.hide()
@@ -457,6 +460,12 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 			addStatLabel("Extra Money Chance: %s%%" % TurretManager.getTurretStat(turretID, "extraGoldChance"), Color.PALE_GOLDENROD, 0, true)
 			if current_level >= 3:
 				addStatLabel("Golden Buff Kill Chance: %s%%" % TurretManager.getTurretStat(turretID, "extraGoldKillChance"), Color.GOLDENROD, 0, true)
+
+		Turret.TurretID.SENTRY_TURRET:
+			addStatLabel("Idle Bullets Reloaded: %s" % TurretManager.getTurretStat(turretID, "notFiringReloadBullets"), Color.DIM_GRAY, 0, true)
+			if current_level >= 3:
+				addStatLabel("Shooting Bullets Reloaded: %s" % TurretManager.getTurretStat(turretID, "firingReloadBullets"), Color.LIGHT_GRAY, 0, true)
+
 
 
 # Helper function to generate labels cleanly
