@@ -323,4 +323,8 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				if turret.level >= 3:
 					labels.append(_create_stat_label("Damage Reduction: %s%%" % turret.damageReduction, Color.PINK))
 
+			Turret.TurretID.ZOMBIE_TURRET:
+				labels.append(_create_stat_label("Gravestone Range: %s" % turret.gravestoneRange, Color.WEB_GRAY))
+				labels.append(_create_stat_label("Gravestone Time: %ss" % turret.gravestoneTime, Color.LIGHT_GRAY))
+
 	return labels

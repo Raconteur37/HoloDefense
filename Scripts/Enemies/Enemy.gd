@@ -33,6 +33,7 @@ var initialTurn: bool = false
 var turnTurret
 var zombieFollowTarget: Enemy = null
 
+
 # Attack logic
 var attackReady: bool = true
 var attackTimer: Timer
@@ -64,16 +65,16 @@ func _physics_process(delta: float) -> void:
 	# Clean out any turrets from the array that were recently destroyed
 	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 
-	# If there is a turret in our Area2D range, STOP and attack it
-	if turretsInRange.size() > 0:
+	# If there is a turret in our Area2D range AND we are not a zombie, STOP and attack it
+	if turretsInRange.size() > 0 and not isZombie:
 		velocity = Vector2.ZERO
 		
 		if attackReady:
 			var targetTurret = turretsInRange[0]
-			EntityManager.turretTakeDamage(damage, targetTurret, null,self)
+			EntityManager.turretTakeDamage(damage, targetTurret, null, self)
 			startAttackCooldown()
 	else:
-		# No turrets in Area2D range, keep walking!
+		# No turrets in Area2D range (or we are a zombie), keep walking!
 		move()
 
 	if isZombie and not initialTurn and type != Type.BOSS:
@@ -101,27 +102,30 @@ func move() -> void:
 		var collider = col.get_collider()
 		
 		if collider.is_in_group("Turret") or collider.is_in_group("Minion"):
-			# Calculates the angle of impact. 
-			# -1.0 means a head-on collision. 0.0 means sliding perfectly alongside it.
-			var impact_angle = direction.dot(col.get_normal())
-			
-			# If the angle is less than -0.4, the turret is actually blocking our forward path
-			if impact_angle < -0.4:
-				velocity = Vector2.ZERO
+			# Only calculate impact and stop to attack if we are NOT a zombie
+			if not isZombie:
+				# Calculates the angle of impact. 
+				# -1.0 means a head-on collision. 0.0 means sliding perfectly alongside it.
+				var impact_angle = direction.dot(col.get_normal())
 				
-				if attackReady:
-					EntityManager.turretTakeDamage(damage, collider, null,self)
-					startAttackCooldown()
-				return 
+				# If the angle is less than -0.4, the turret is actually blocking our forward path
+				if impact_angle < -0.4:
+					velocity = Vector2.ZERO
+					
+					if attackReady:
+						EntityManager.turretTakeDamage(damage, collider, null, self)
+						startAttackCooldown()
+					return
 
 func initZombie() -> void:
 	if not is_instance_valid(turnTurret):
 		return
 	initialTurn = true
 	WaveManager.removeActiveEnemy(self)
-	modulate = Color('#00ba00')
+	# Grab the sprite's material and change the glow_color directly to green
+	#sprite.material.set_shader_parameter("glow_color", Color.html('#00ba00'))
+	modulate = Color(0.085, 0.987, 0.138, 1.0)
 	spawnZombieArea()
-	startZombieTimer()
 	destination = EnemySpawnManager.getRandomOffscreenPosition()
 	set_collision_layer_value(3,false)
 	set_collision_layer_value(1,true)
@@ -141,27 +145,15 @@ func spawnZombieArea() -> void:
 	area.body_exited.connect(onZombieAreaExit)
 	add_child(area)
 
-func startZombieTimer() -> void:
-	var timer = Timer.new()
-	timer.wait_time = turnTurret.get("turnTime") if is_instance_valid(turnTurret) else 3
-	timer.one_shot = false
-	timer.autostart = true
-	timer.timeout.connect(onZombieTimerTimeout)
-	add_child(timer)
-
-func onZombieTimerTimeout() -> void:
-	var dmg = 9999
-	var packet = DamagePacket.new(dmg, DamagePacket.Type.TURRET, turnTurret)
-	EntityManager.enemyTakeDamage(packet, self)
-
 func onZombieAreaEntered(body: Node) -> void:
 	if not body.is_in_group("Enemy") or body.isZombie:
 		return
 	var chance = turnTurret.get("turnChance") if is_instance_valid(turnTurret) else 10
 	if randi_range(0, 100) <= chance:
-		body.turnTurret = turnTurret
-		body.isZombie = true
-		ParticleManager.playZombieTurnParticle(self)
+		if is_instance_valid(turnTurret):
+			EffectManager.applyZombifyEffect(body,turnTurret,turnTurret.turnTime)
+			StatManager.addStat(turnTurret.turretID,"enemies_zombified",1)
+			XpManager.addXp(turnTurret.turretID)
 
 func onZombieAreaExit(_body: Node) -> void:
 	pass

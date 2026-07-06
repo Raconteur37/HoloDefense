@@ -471,6 +471,9 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 			if current_level >= 3:
 				addStatLabel("Damage Reduction: %s%%" % TurretManager.getTurretStat(turretID, "curseDamageReduction"), Color.PINK, 0, true)
 
+		Turret.TurretID.ZOMBIE_TURRET:
+			addStatLabel("Gravestone Range: %s" % TurretManager.getTurretStat(turretID, "gravestoneRange"), Color.WEB_GRAY, 0, true)
+			addStatLabel("Gravestone Time: %ss" % TurretManager.getTurretStat(turretID, "gravestoneTime"), Color.LIGHT_GRAY, 0, true)
 
 # Helper function to generate labels cleanly
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:

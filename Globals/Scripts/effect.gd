@@ -15,13 +15,14 @@ enum Effect {
 	BURN,
 	EXECUTE,
 	STUN,
-	WEB
+	WEB,
+	ZOMBIFY
 }
 
 var particleEffect
 
 var effectName
-var damage
+var damage = 0
 var turretApplier = null # Need this to be null in case I forgot to apply the turret
 var enemy : Enemy = null # same for this
 var curseDamageAmplify : float
@@ -70,6 +71,9 @@ func buildPacket() -> DamagePacket:
 	
 		EffectClass.Effect.BURN:
 			fx.append(Effect.BURN)
+		
+		EffectClass.Effect.ZOMBIFY:
+			fx.append(Effect.ZOMBIFY)
 	
 	return DamagePacket.new(damage, DamagePacket.Type.EFFECT, turretApplier, fx, fxData)
 
@@ -103,3 +107,5 @@ func removeEffect():
 			enemy.curseDamageAmp = 0
 		EffectClass.Effect.STUN:
 			enemy.stunned = false
+		EffectClass.Effect.ZOMBIFY:
+			EntityManager.onKill(turretApplier,enemy)

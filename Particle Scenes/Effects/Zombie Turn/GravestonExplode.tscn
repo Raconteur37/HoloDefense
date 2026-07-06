@@ -1,0 +1,21 @@
+[gd_scene format=3 uid="uid://b84y62fgthcrv"]
+
+[ext_resource type="Texture2D" uid="uid://2l7ncm7li0qc" path="res://Particle Scenes/Effects/Zombie Turn/gravestoneExplosion.png" id="1_3qhsf"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_frirj"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 13
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="GravestoneExplode" type="CPUParticles2D" unique_id=392051342]
+material = SubResource("CanvasItemMaterial_frirj")
+emitting = false
+amount = 1
+texture = ExtResource("1_3qhsf")
+one_shot = true
+local_coords = true
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0

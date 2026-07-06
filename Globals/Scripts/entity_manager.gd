@@ -59,8 +59,8 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 			enemy.hurtParticle.emitting = true
 			if is_instance_valid(enemy):
 				var tween = create_tween()
-				enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
-				tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
+				#enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+				#tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
 
 
 # This will INCLUDE explosions
@@ -241,6 +241,13 @@ func onKill(source: Node, enemy: Enemy) -> void:
 								"curseDamageAmp": turret.curseDamageAmp
 							}
 							ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+				Turret.TurretID.ZOMBIE_TURRET:
+					if turret.level >= 2 and enemy.effects.has(EffectClass.Effect.ZOMBIFY):
+						var gravestone = preload("res://TurretAddons/Gravestone.tscn")
+						gravestone = gravestone.instantiate()
+						turret.add_child(gravestone)
+						gravestone.build(turret,turret.gravestoneRange,turret.gravestoneTime)
+						gravestone.global_position = enemy.global_position
 			if turret.goldenBuff:
 				if is_instance_valid(turret.turretProviders["golden"]):
 					var rand = randf_range(0,100)
@@ -252,6 +259,14 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			XpManager.addXp(turret.turretID)
 			StatManager.addStat(turret.turretID, "kills", 1)
 	
+	for body in enemy.hitBoxArea.get_overlapping_areas():
+		var entities = body.get_parent()
+		if entities.is_in_group("Gravestone"):
+			var gravestone = entities
+			EffectManager.applyZombifyEffect(enemy,gravestone.turretApplier,gravestone.turretApplier.turnTime)
+			StatManager.addStat(gravestone.turretApplier.turretID,"enemies_zombified",1)
+			XpManager.addXp(gravestone.turretApplier.turretID)
+			return
 	enemy.queue_free()
 
 

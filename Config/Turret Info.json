@@ -313,8 +313,8 @@
 		"id": 15,
 		"name": "Zombie Turret",
 		"description": "Has a chance every few seconds to [color=olive]zombify[/color] enemies in range.",
-		"levelTwo": "While zombies rot, they have a chance to heal the zombie turret.",
-		"levelThree": "Zombies now activley hunt down enemies to attempt to [color=olive]zombify[/color] them",
+		"levelTwo": "Zombies leave behind a gravestone when they die, if en enemy dies within range, they turn into a zombie.",
+		"levelThree": "After the gravestone dissipates, all enemies within range are [color=olive]zombified[/color].",
 		"rarity": "Unseen",
 		"type": "Chaotic",
 		"price": 95,
@@ -327,6 +327,8 @@
 		"constructionTime": 25,
 		"turnChance": 15,
 		"turnTime": 4,
+		"gravestoneRange": 75,
+		"gravestoneTime": 5,
 		"scaleFactor": 0.05
 	},
 	"medic_turret": {

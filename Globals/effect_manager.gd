@@ -64,6 +64,20 @@ func applyCurseEffect(victim,turret,time,damageAmp):
 		victim.effects[EffectClass.Effect.CURSE] = effectScene
 		victim.add_child(effectScene)
 
+func applyZombifyEffect(victim,turret,time):
+	if checkResetDuration(EffectClass.Effect.ZOMBIFY,victim,time):
+		ParticleManager.playZombieTurnParticle(victim)
+		var effectScene = load("res://Globals/Scene/Effects/Effect.tscn")
+		effectScene = effectScene.instantiate()
+		effectScene.effect = EffectClass.Effect.ZOMBIFY
+		effectScene.tickTime = getEffectStat(EffectClass.Effect.ZOMBIFY,"tickTime")
+		effectScene.duration = time
+		effectScene.enemy = victim
+		effectScene.turretApplier = turret
+		victim.effects[EffectClass.Effect.ZOMBIFY] = effectScene
+		victim.isZombie = true
+		victim.turnTurret = turret
+		victim.add_child(effectScene)
 
 func checkResetDuration(effect : EffectClass.Effect, victim, time):
 	if victim.effects.has(effect):

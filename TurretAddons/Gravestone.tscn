@@ -1,0 +1,105 @@
+[gd_scene format=3 uid="uid://ct2sg64othui8"]
+
+[ext_resource type="Script" uid="uid://bvmr341mjjy1f" path="res://TurretAddons/gravestone.gd" id="1_5ixhj"]
+[ext_resource type="Texture2D" uid="uid://cqeak4w2rshyp" path="res://Textures/Turrets/Zombie Turret/Gravestone.png" id="1_gm78s"]
+[ext_resource type="PackedScene" uid="uid://b84y62fgthcrv" path="res://Particle Scenes/Effects/Zombie Turn/GravestonExplode.tscn" id="3_we5in"]
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_gm78s"]
+radius = 36.05551
+
+[sub_resource type="Animation" id="Animation_5ixhj"]
+resource_name = "Fadeout"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RangeArea:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_we5in"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Sprite2D:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("RangeArea:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_2jyx1"]
+_data = {
+&"Fadeout": SubResource("Animation_5ixhj"),
+&"RESET": SubResource("Animation_we5in")
+}
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_we5in"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 13
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="Gravestone" type="Node2D" unique_id=697443448 groups=["Gravestone"]]
+script = ExtResource("1_5ixhj")
+
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=1229063065]
+texture = ExtResource("1_gm78s")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1774629523]
+collision_layer = 128
+collision_mask = 4
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1678320774]
+shape = SubResource("CircleShape2D_gm78s")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=1984236808]
+width = 2.0
+default_color = Color(0.38162273, 0.36900344, 0.36900344, 1)
+
+[node name="Timer" type="Timer" parent="." unique_id=8876966]
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=144167872]
+libraries/ = SubResource("AnimationLibrary_2jyx1")
+
+[node name="GravestoneExplode" parent="." unique_id=392051342 instance=ExtResource("3_we5in")]
+material = SubResource("CanvasItemMaterial_we5in")
+
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

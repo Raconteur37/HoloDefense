@@ -6,6 +6,9 @@
 		"tickTime": 1
 	},
 	"curse": {
-		"tickTime": 0.2
+		"tickTime": 0.5
+	},
+	"zombify": {
+		"tickTime": 1
 	}
 }

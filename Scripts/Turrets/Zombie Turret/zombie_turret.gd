@@ -10,6 +10,12 @@ var baseTurnTime
 
 var attackTimer : Timer
 
+var baseGravestoneRange : float
+var gravestoneRange : float
+
+var baseGravestoneTime : float
+var gravestoneTime : float
+
 func _ready() -> void:
 
 	projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
@@ -29,14 +35,15 @@ func _ready() -> void:
 	baseTurnChance = TurretManager.getTurretStat(turretID,"turnChance")
 	baseTurnTime = TurretManager.getTurretStat(turretID,"turnTime")
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
-	
+	baseGravestoneRange = TurretManager.getTurretStat(turretID,"gravestoneRange")
+	baseGravestoneTime = TurretManager.getTurretStat(turretID,"gravestoneTime")
 	
 
 	turnChance = baseTurnChance
 	turnTime = baseTurnTime
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	line2d = $RangeArea/RangeIndicator
 	attackTimer = $AttackTimer
@@ -55,6 +62,8 @@ func _ready() -> void:
 	rangeCollisionShape.shape.radius = attackRange
 	damage = baseDamage
 	health = maxHealth
+	gravestoneRange = baseGravestoneRange
+	gravestoneTime = baseGravestoneTime
 
 	isPlaced = true
 	
@@ -92,9 +101,7 @@ func _on_attack_timer_timeout() -> void:
 			get_parent().add_child(shockParticle)
 			if not enemy.isZombie:
 				if randi_range(0,100) <= turnChance:
-					enemy.isZombie = true
-					enemy.turnTurret = self
-					ParticleManager.playZombieTurnParticle(enemy)
+					EffectManager.applyZombifyEffect(enemy,self,turnTime)
 					StatManager.addStat(turretID,"enemies_zombified",1)
 					XpManager.addXp(turretID)
 		attackTimer.start()
@@ -113,5 +120,7 @@ func applyUpgrade():
 	attackTimer.wait_time = turnTime
 	turnChance = (baseTurnChance + (baseTurnChance * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	gravestoneRange = (baseGravestoneRange + (baseGravestoneRange * scaleFactor * upgradeTier))
+	gravestoneTime = (baseGravestoneTime + (baseGravestoneTime * scaleFactor * upgradeTier))
 	health = maxHealth
 	refreshUI(self)
