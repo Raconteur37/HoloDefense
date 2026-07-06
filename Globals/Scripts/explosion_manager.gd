@@ -5,7 +5,8 @@ enum ExplosionType {
 	FIREWORK_TURRET,
 	FLAME_TURRET,
 	SEISMIC_TURRET,
-	VOODOO_TURRET
+	VOODOO_TURRET,
+	BUBBLE_TURRET
 }
 
 var explosionType
@@ -20,6 +21,10 @@ var igniteDamage
 
 var curseDuration
 var curseDamageAmp
+
+var knockbackVelocity
+
+var stunTime
 
 @onready var explosionParticlesTexture = {
 	Turret.TurretID.FIREWORK_TURRET : {
@@ -36,6 +41,9 @@ var curseDamageAmp
 	},
 	Turret.TurretID.VOODOO_TURRET : {
 		"scene" : preload("res://Particle Scenes/Effects/Curse/Curse Explosion.tscn")
+	},
+	Turret.TurretID.BUBBLE_TURRET : {
+		"scene" : preload("res://Particle Scenes/Effects/Bubble/BubblePop.tscn")
 	}
 }
 
@@ -60,6 +68,10 @@ func summonExplosion(turret : Turret, position : Vector2, fxData : Dictionary):
 		curseDuration = fxData.get("curseTime")
 	if fxData.has("curseDamageAmp"):
 		curseDamageAmp = fxData.get("curseDamageAmp")
+	if fxData.has("knockbackVelocity"):
+		knockbackVelocity = fxData.get("knockbackVelocity")
+	if fxData.has("stunTime"):
+		stunTime = fxData.get("stunTime")
 
 	spawnExplosionArea()
 
@@ -84,6 +96,10 @@ func setExplosionDetails(turret):
 		
 		Turret.TurretID.VOODOO_TURRET:
 			explosionType = ExplosionType.VOODOO_TURRET
+			return
+		
+		Turret.TurretID.BUBBLE_TURRET:
+			explosionType = ExplosionType.BUBBLE_TURRET
 			return
 
 	explosionType = ExplosionType.NONE
@@ -148,6 +164,9 @@ func spawnExplosionArea() -> void:
 							EffectManager.applyBurnEffect(enemy,turretApplier,igniteDamage,igniteTime)
 				if explosionType == ExplosionType.VOODOO_TURRET:
 					EffectManager.applyCurseEffect(enemy,turretApplier,curseDuration,curseDamageAmp)
+				if explosionType == ExplosionType.BUBBLE_TURRET:
+					enemy.applyKnockback(turretApplier.global_position,knockbackVelocity)
+					EffectManager.applyStunEffect(enemy,turretApplier,stunTime)
 			if enemy.is_in_group("Turret"):
 				if turretApplier.turretID == Turret.TurretID.FLAME_TURRET:
 					if turretApplier.level >= 3:

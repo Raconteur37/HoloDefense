@@ -43,6 +43,9 @@ var stunned : bool = false
 
 var is_sent_enemy: bool = false  # true when spawned by another player sending it
 
+var knockbackVelocity: Vector2 = Vector2.ZERO
+var knockbackDecay: float = 1500.0 # How fast the enemy regains their footing (higher is shorter slide)
+
 func _ready() -> void:
 	applyScaling()
 	attackTimer = Timer.new()
@@ -57,7 +60,15 @@ func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
 		return
 	
+	if knockbackVelocity != Vector2.ZERO:
+		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
+	
 	if stunned:
+		# Decay the knockback even while stunned
+		if knockbackVelocity != Vector2.ZERO:
+			knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
+			velocity = knockbackVelocity
+			move_and_slide() # Allow the physical slide to happen!
 		return
 
 	updateDestination()
@@ -94,7 +105,12 @@ func move() -> void:
 		return
 		
 	var direction = (destination - global_position).normalized()
-	velocity = direction * speed
+	
+	velocity = (direction * speed) + knockbackVelocity
+	
+	if knockbackVelocity != Vector2.ZERO:
+		print("Walking: ", (direction * speed), " | Knockback: ", knockbackVelocity, " | Final Vel: ", velocity)
+	
 	move_and_slide()
 	
 	for i in get_slide_collision_count():
@@ -192,6 +208,11 @@ func applyScaling() -> void:
 	damage *= waveDamageMult
 	health = round(health)
 	damage = round(damage)
+
+func applyKnockback(origin_pos: Vector2, strength: float) -> void:
+	var push_direction = (global_position - origin_pos).normalized()
+	# Apply the burst of speed
+	knockbackVelocity = push_direction * strength
 
 func getEnemyTier():
 	return tier

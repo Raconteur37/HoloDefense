@@ -175,11 +175,20 @@ func removeEnergized(turretApplier):
 	turretProviders.get("energized").turretsEnergized -= 1
 	turretProviders.erase("energized")
 
-func removeBubble():
+func removeBubble(enemyPopped : bool):
 	if currentParticlesMap.has("Bubble"):
 		currentParticlesMap.get("Bubble").queue_free()
 		currentParticlesMap.erase("Bubble")
 	turretProviders.get("bubble").currentBubblesGiven -= 1
+	if enemyPopped:
+		var turretApplier = turretProviders.get("bubble")
+		if turretApplier.level >= 3:
+			var fxData = {
+				"knockbackVelocity": turretApplier.knockbackVelocity,
+				"explosionRadius": turretApplier.baseKnockbackRange,
+				"stunTime": turretApplier.stunTime
+			}
+			ExplosionManager.summonExplosion(turretApplier,self.global_position,fxData)
 	turretProviders.erase("bubble")
 	hasBubble = false
 
@@ -209,7 +218,7 @@ func death():
 						turretProviders.get("energized").turretsEnergized -= 1
 					turretProviders.erase("energized")
 			"bubble":
-				removeBubble()
+				removeBubble(false)
 	StatManager.addStat(turretID,"deaths",1)
 	
 	queue_free()

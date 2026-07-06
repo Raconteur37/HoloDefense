@@ -475,6 +475,20 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 			addStatLabel("Gravestone Range: %s" % TurretManager.getTurretStat(turretID, "gravestoneRange"), Color.WEB_GRAY, 0, true)
 			addStatLabel("Gravestone Time: %ss" % TurretManager.getTurretStat(turretID, "gravestoneTime"), Color.LIGHT_GRAY, 0, true)
 
+		Turret.TurretID.MEDIC_TURRET:
+			addStatLabel("Critical Thresh: %s%%" % (TurretManager.getTurretStat(turretID, "criticalThresh") * 100), Color.INDIAN_RED, 0, true)
+			addStatLabel("Bonus Heal: %s" % TurretManager.getTurretStat(turretID, "bonusHeal"), Color.PALE_GREEN, 0, true)
+			if current_level >= 3:
+				addStatLabel("Full Heal Chance: %s%%" % TurretManager.getTurretStat(turretID, "fullHealChance"), Color.MEDIUM_SPRING_GREEN, 0, true)
+
+		Turret.TurretID.BUBBLE_TURRET:
+			addStatLabel("Armor Provided: %s" % TurretManager.getTurretStat(turretID, "shieldProvided"), Color.LIGHT_GRAY, 0, true)
+			if current_level >= 3:
+				addStatLabel("Knockback Radius: %s" % TurretManager.getTurretStat(turretID, "knockbackRadius"), Color.WHITE_SMOKE, 0, true)
+				addStatLabel("Knockback Velocity: %s" % TurretManager.getTurretStat(turretID, "knockbackVelocity"), Color.FLORAL_WHITE, 0, true)
+				addStatLabel("Stun Time: %ss" % TurretManager.getTurretStat(turretID, "stunTime"), Color.SLATE_GRAY, 0, true)
+
+
 # Helper function to generate labels cleanly
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:
 	var label = Label.new()

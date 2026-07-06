@@ -17,6 +17,14 @@ var particle : CPUParticles2D
 var baseHealingAmount : float
 var baseHealingTime : float
 
+var criticalThresh : float
+
+var baseBonusHeal : float
+var bonusHeal : float
+
+var baseFullHealChance : float
+var fullHealChance : float
+
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -32,11 +40,15 @@ func _ready() -> void:
 	scaleFactor = TurretManager.getTurretStat(turretID,"scaleFactor")
 	healingTime = TurretManager.getTurretStat(turretID,"healingTime")
 	healingAmount = TurretManager.getTurretStat(turretID,"healingAmount")
+	baseBonusHeal = TurretManager.getTurretStat(turretID,"bonusHeal")
+	criticalThresh = TurretManager.getTurretStat(turretID,"criticalThresh")
+	baseFullHealChance = TurretManager.getTurretStat(turretID,"fullHealChance")
 	baseHealingAmount = healingAmount
 	baseHealingTime = healingTime
+	
 
 	upgradeTier = 0
-	level = 1
+	level = XpManager.getCurrentLevel(turretID)
 
 	particle = $HealingPulse
 	line2d = $RangeArea/RangeIndicator
@@ -52,6 +64,8 @@ func _ready() -> void:
 	line2d = TurretManager.draw_range_circle(line2d,attackRange + 5)
 	rangeCollisionShape.shape.radius = attackRange
 	health = maxHealth
+	bonusHeal = baseBonusHeal
+	fullHealChance = baseFullHealChance
 
 	healingPulseTimer.wait_time = healingTime
 
@@ -72,6 +86,7 @@ func _process(delta: float) -> void:
 		healTurrets()
 		particle.emitting = true
 		topSprite.stop()
+	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 
 
 func _on_range_area_body_entered(body: Node2D) -> void:
@@ -86,11 +101,18 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 
 func healTurrets():
 	for turret in turretsInRange:
-		if is_instance_valid(turret):
-			if turret.health < turret.maxHealth:
-				EntityManager.healTurret(self,turret,healingAmount)
-		else:
-			turretsInRange.erase(turret)
+		if turret.health < turret.maxHealth:
+			var currentHeal = healingAmount
+			if level >= 3:
+				if turret.health <= (turret.maxHealth * criticalThresh):
+					var rand = randf_range(1,100)
+					if rand <= fullHealChance:
+						turret.health = turret.maxHealth
+			if level >= 2:
+				# Assumes criticalThresh is a percentage (e.g., 0.25 for 25% max health)
+				if turret.health <= (turret.maxHealth * criticalThresh):
+					currentHeal += bonusHeal
+			EntityManager.healTurret(self, turret, currentHeal)
 
 
 func scanCurrentTurretsInRange():
@@ -120,5 +142,7 @@ func applyUpgrade():
 	healingPulseTimer.wait_time = healingTime
 	healingAmount = (baseHealingAmount + (baseHealingAmount * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
+	bonusHeal = (baseBonusHeal + (baseBonusHeal * scaleFactor * upgradeTier))
+	fullHealChance = (baseFullHealChance + (baseFullHealChance * scaleFactor * upgradeTier))
 	health = maxHealth
 	refreshUI(self)

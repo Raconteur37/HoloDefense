@@ -125,7 +125,7 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 				turret.currentBubbleHealth -= damage
 				bounceProjectile(projectile, turret)
 				if turret.currentBubbleHealth <= 0:
-					turret.removeBubble()
+					turret.removeBubble(true)
 				return
 			else:
 				projectile.queue_free()

@@ -327,4 +327,20 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				labels.append(_create_stat_label("Gravestone Range: %s" % turret.gravestoneRange, Color.WEB_GRAY))
 				labels.append(_create_stat_label("Gravestone Time: %ss" % turret.gravestoneTime, Color.LIGHT_GRAY))
 
+			Turret.TurretID.MEDIC_TURRET:
+				labels.append(_create_stat_label("Critical Thresh: %s%%" % (turret.criticalThresh * 100), Color.INDIAN_RED))
+				labels.append(_create_stat_label("Bonus Healing: %s" % turret.bonusHeal, Color.PALE_GREEN))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Full Heal Chance: %s%%" % turret.fullHealChance, Color.MEDIUM_SPRING_GREEN))
+
+			Turret.TurretID.BUBBLE_TURRET:
+				labels.append(_create_stat_label("Armor Provided: %s" % turret.shieldProvided, Color.LIGHT_GRAY))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Knockback Radius: %s" % turret.knockbackRange, Color.WHITE_SMOKE))
+					labels.append(_create_stat_label("Knockback Velocity: %s" % turret.knockbackVelocity, Color.FLORAL_WHITE))
+					labels.append(_create_stat_label("Stun Time: %ss" % turret.stunTime, Color.SLATE_GRAY))
+
+
+
+
 	return labels

@@ -13,6 +13,18 @@ var baseMaxBubbles : int
 var maxBubbles : int
 var currentBubblesGiven : int = 0
 
+var baseShieldProvided : int
+var shieldProvided : int
+
+var baseKnockbackRange : float
+var knockbackRange : float
+
+var baseKnockbackVelocity : float
+var knockbackVelocity : float
+
+var baseStunTime : float
+var stunTime : float
+
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		onDeath()
@@ -20,7 +32,7 @@ func _notification(what: int) -> void:
 func onDeath():
 	for turret in turretsInRange:
 		if is_instance_valid(turret) and turret.hasBubble:
-			turret.removeBubble()
+			turret.removeBubble(false)
 
 func _ready() -> void:
 	rarity = Rarity.RARE
@@ -37,11 +49,15 @@ func _ready() -> void:
 	baseBubbleHealth = TurretManager.getTurretStat(turretID, "bubbleHealth")
 	baseBubbleTime = TurretManager.getTurretStat(turretID, "bubbleTime")
 	baseMaxBubbles = TurretManager.getTurretStat(turretID, "maxBubbleTurrets")
+	baseShieldProvided = TurretManager.getTurretStat(turretID, "shieldProvided")
+	baseKnockbackRange = TurretManager.getTurretStat(turretID, "knockbackRadius")
+	baseKnockbackVelocity = TurretManager.getTurretStat(turretID, "knockbackVelocity")
+	baseStunTime = TurretManager.getTurretStat(turretID, "stunTime")
 	bubbleHealth = baseBubbleHealth
 	bubbleApplyTime = baseBubbleApplyTime
 	bubbleTime = baseBubbleTime
 	maxBubbles = baseMaxBubbles
-	level = 1
+	level = 3#XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
@@ -59,6 +75,10 @@ func _ready() -> void:
 	baseHealth = maxHealth
 	health = maxHealth
 	bubbleTimer.wait_time = bubbleApplyTime
+	shieldProvided = baseShieldProvided
+	stunTime = baseStunTime
+	knockbackRange = baseKnockbackRange
+	knockbackVelocity = baseKnockbackVelocity
 	applyUpgrade()
 	isPlaced = true
 	call_deferred("scanCurrentTurretsInRange")
@@ -99,6 +119,8 @@ func applyBubble(turret: Turret):
 	topSprite.play("Ready")
 	if currentBubblesGiven >= maxBubbles:
 		bubbleTimer.stop()
+	if level >= 2:
+		turret.armor += shieldProvided
 
 func scanCurrentTurretsInRange():
 	turretsInRange.clear()
@@ -130,6 +152,10 @@ func applyUpgrade():
 	maxHealth = baseHealth + (baseHealth * scaleFactor * upgradeTier)
 	health = maxHealth
 	bubbleHealth = baseBubbleHealth + (baseBubbleHealth * scaleFactor * upgradeTier)
+	shieldProvided = round(baseShieldProvided + (baseShieldProvided * scaleFactor * upgradeTier))
+	knockbackRange = baseKnockbackRange + (baseKnockbackRange * scaleFactor * upgradeTier)
+	knockbackVelocity = baseKnockbackVelocity + (baseKnockbackVelocity * scaleFactor * upgradeTier)
+	stunTime = baseStunTime + (baseStunTime * scaleFactor * upgradeTier)
 	maxBubbles += 1
 
 func _on_select_area_mouse_entered() -> void:
