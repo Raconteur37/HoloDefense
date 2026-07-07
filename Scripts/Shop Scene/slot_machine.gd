@@ -53,12 +53,11 @@ func pull_lever() -> void:
 	else:
 		EconomyManager.unlock_turret(won_turret_id)
 		var turret_name = TurretManager.get_turret_string(won_turret_id)
-		print("SlotMachine: JACKPOT! Unlocked ", turret_name)
 		winLabel.show()
 		var display_name = TurretManager.get_turret_string(won_turret_id).capitalize()
 		winLabel.text = "[center][font_size=150][b][rainbow freq=10.0 sat=1.0 val=1.0]YOU WON %s![/rainbow][/b][/font_size][/center]" % display_name
 		_spawn_jackpot_particles(won_turret_id)
-		# --- NEW: Play the jackpot celebration and wait for it to finish! ---
+
 		await _play_jackpot_celebration()
 		
 	# Unlock the machine for the next roll

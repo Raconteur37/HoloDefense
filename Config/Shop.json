@@ -1,4 +1,6 @@
 {
+	"xp_purchase_cost": 1,
+	"xp_given": 8,
 	"roll_cost": 10,
 	"rarity_weights": {
 		"nothing": 0.91361,

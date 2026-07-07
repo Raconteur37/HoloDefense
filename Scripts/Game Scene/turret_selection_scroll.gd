@@ -41,8 +41,12 @@ var turretContainer
 @onready var shardButton = $"../../PurchaseBox/ShardButton"
 @onready var shardImage =  $"../../PurchaseBox/ShardImage"
 
-
 @onready var desaturateShader = preload("res://Shaders/desaturate.gdshader")
+
+@onready var stardustTotalLabel = $"../../HBoxContainer2/StardustLabel"
+
+@onready var xpButton = $"../../XPButton"
+@onready var xpLabel = $"../../RichTextLabel"
 
 var shardOverlay: GridContainer
 var shardSlots: Array[Panel] = []
@@ -59,12 +63,16 @@ const SHARDS_TO_UNLOCK := {
 var currentTurretID: Turret.TurretID = Turret.TurretID.NONE
 var currentRarityShard = "common_turret"
 
+const SHOP_CONFIG_PATH := "res://Config/Shop.json"
+var config: Dictionary = {}
+
 func _idToName(turretID: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[turretID].to_lower()
 
 
 func _ready() -> void:
 	GameManager.previewMode = true
+	load_shop_config()
 	scroll.custom_minimum_size = Vector2(700, 150)
 
 	var mat := ShaderMaterial.new()
@@ -78,6 +86,7 @@ func _ready() -> void:
 			if TurretManager.getTurretStat(turretID, "rarity") == rarity:
 				add_turret_button(turretID)
 
+	stardustTotalLabel.text = str(EconomyManager.get_stardust())
 	_on_turret_button_pressed(Turret.TurretID.ARROW_TURRET)
 
 func add_turret_button(turretID: Turret.TurretID) -> void:
@@ -269,6 +278,9 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 		levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
 		levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
 
+		xpLabel.show()
+		xpButton.show()
+
 		if turretLevel == 1:
 			# Level 1: Both 2 and 3 are locked (Set to 40% opacity)
 			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
@@ -298,6 +310,9 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 			levelTwoProgressBar.hide()
 			levelTwoTexture.texture = unlockedIcon
 			levelThreeTexture.texture = unlockedIcon
+			
+			xpLabel.hide()
+			xpButton.hide()
 
 		var levelTwoMaxXp = XpManager.getMaxXp(TurretManager.getTurretStat(turretID,"rarity"),2)
 		levelTwoProgressBar.max_value = levelTwoMaxXp
@@ -314,6 +329,8 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 			createAndInsertPropertiesLabels(properties, turretID)
 
 	createTooltips()
+
+
 
 
 func _on_preview_button_toggled(toggled_on: bool) -> void:
@@ -630,3 +647,34 @@ func _on_shard_button_pressed() -> void:
 
 func _on_turret_info_button_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+
+func load_shop_config() -> void:
+	var default_config: Dictionary = {
+		"roll_cost": 10,
+		"rarity_weights": {
+			"nothing": 0.90, "common": 0.05, "rare": 0.02,
+			"super_rare": 0.01, "legendary": 0.005, "unseen": 0.0001
+		}
+	}
+	if FileAccess.file_exists(SHOP_CONFIG_PATH):
+		var file := FileAccess.open(SHOP_CONFIG_PATH, FileAccess.READ)
+		if file:
+			var json_str := file.get_as_text()
+			file.close()
+			var parsed = JSON.parse_string(json_str)
+			if typeof(parsed) == TYPE_DICTIONARY:
+				config = parsed
+				return
+	config = default_config
+
+
+func _on_xp_button_pressed() -> void:
+	if not EconomyManager.spend_stardust(config["xp_purchase_cost"]):
+		return
+	
+	for i in range(config["xp_given"]):
+		XpManager.addXp(currentTurretID)
+	_on_turret_button_pressed(currentTurretID)
+	XpManager.saveXpData()
+	EconomyManager.save_economy()
+	stardustTotalLabel.text = str(EconomyManager.get_stardust())

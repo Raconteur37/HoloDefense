@@ -17,6 +17,7 @@
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="13_s7hv8"]
 [ext_resource type="Texture2D" uid="uid://c5hu2wrccaiav" path="res://Textures/Shop/shard_64x64.png" id="14_3ghed"]
+[ext_resource type="Texture2D" uid="uid://c6nhi25dpecyc" path="res://Textures/Shop/stardust_128x128.png" id="18_ysso4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_ekhco"]
 shader = ExtResource("6_cxutq")
@@ -125,6 +126,9 @@ font_size = 25
 
 [sub_resource type="LabelSettings" id="LabelSettings_s7hv8"]
 font_size = 21
+
+[sub_resource type="LabelSettings" id="LabelSettings_4fnnr"]
+font_size = 55
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1033690075]
 
@@ -670,6 +674,42 @@ text = "[center][font_size=20][color=white]Owned x0[/color][/font_size][/center]
 horizontal_alignment = 1
 vertical_alignment = 1
 
+[node name="XPButton" type="TextureButton" parent="." unique_id=1578427461]
+offset_left = 1289.0
+offset_top = 895.0
+offset_right = 2209.0
+offset_bottom = 1211.0
+scale = Vector2(0.3, 0.3)
+texture_normal = ExtResource("6_du365")
+texture_pressed = ExtResource("11_jeivb")
+texture_hover = ExtResource("12_s7hv8")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=570690773]
+offset_left = 1307.0
+offset_top = 909.0
+offset_right = 1543.6666
+offset_bottom = 974.5556
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=24][img=32x32]res://Textures/Shop/stardust_128x128.png[/img] 1
+Purchase XP[/font_size]"
+horizontal_alignment = 1
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="." unique_id=877266630]
+offset_left = 1555.0
+offset_top = 5.0
+offset_right = 1918.0
+offset_bottom = 133.0
+
+[node name="StardustIcon" type="TextureRect" parent="HBoxContainer2" unique_id=1595832281]
+layout_mode = 2
+texture = ExtResource("18_ysso4")
+
+[node name="StardustLabel" type="Label" parent="HBoxContainer2" unique_id=229523015]
+layout_mode = 2
+text = "1000000"
+label_settings = SubResource("LabelSettings_4fnnr")
+
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
 [connection signal="pressed" from="TurretInfoButton" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_pressed"]
 [connection signal="pressed" from="TurretInfoButton2" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_2_pressed"]
@@ -680,3 +720,4 @@ vertical_alignment = 1
 [connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
 [connection signal="toggled" from="HBoxContainer/StatsToggle" to="TurretInfo/TurretSelectionScroll" method="_on_stats_toggle_toggled"]
 [connection signal="pressed" from="PurchaseBox/ShardButton" to="TurretInfo/TurretSelectionScroll" method="_on_shard_button_pressed"]
+[connection signal="pressed" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_pressed"]

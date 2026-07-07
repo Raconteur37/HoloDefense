@@ -120,6 +120,10 @@ func updateUI() -> void:
 			assignmentButtons[i].visible = not hasWorker
 			assignTexts[i].visible = not hasWorker
 			assignContainers[i].visible = hasWorker
+			if hasWorker:
+				citPortraits[i].texture = load(assignedWorkers[i].characterPortrait)
+			else:
+				citPortraits[i].texture = null
 
 
 func assignButtonGlow() -> void:
