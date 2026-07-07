@@ -77,10 +77,6 @@ offset_right = -122.920044
 offset_bottom = -123.119995
 metadata/_edit_use_anchors_ = true
 
-[node name="BasicCitizen" parent="." unique_id=429321666 instance=ExtResource("1_a5ly5")]
-position = Vector2(874, 541)
-speed = 200.0
-
 [node name="Node2D" type="Node2D" parent="." unique_id=275394042]
 script = ExtResource("4_5wlxu")
 
@@ -107,5 +103,7 @@ offset_left = 1791.0
 offset_top = 593.0
 offset_right = 1831.0
 offset_bottom = 633.0
+
+[node name="CharacterBody2D" parent="." unique_id=145350999 instance=ExtResource("1_a5ly5")]
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

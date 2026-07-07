@@ -184,9 +184,12 @@ func _on_generate_citizen_button_pressed() -> void:
 func onCitizenSpawn(citizen):
 	var portrait = portraitScene.instantiate()
 	
-	portrait.linkCitizen(citizen)
-	
 	portraitContainer.add_child(portrait)
+	
+	portrait.linkCitizen(citizen,false)
+	
+	citizen.citPortrait = portrait
+
 
 
 func _on_upgrade_generator_button_pressed() -> void:
@@ -241,6 +244,7 @@ func refreshSingelCitUI():
 	workProgressBar.value = 0
 	
 	# Portrait photo
+	citPortrait.texture = load(citizen.characterPortrait)
 	materialAbstract.shader = glowShader
 	match citizen.currentJob:
 		

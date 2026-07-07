@@ -277,9 +277,9 @@ func buildSelectPopup(index: int) -> void:
 	for cit: Citizen in workersHere:
 		if cit.currentJob == Citizen.Job.FABRICATOR and cit.currentState == Citizen.State.IDLE:
 			var portrait = portraitScene.instantiate()
-			portrait.linkCitizen(cit)
-			portrait.index = index
 			selectCitGrid.add_child(portrait)
+			portrait.linkCitizen(cit,true)
+			portrait.index = index
 
 
 func assignCit(index: int, cit: Citizen) -> void:

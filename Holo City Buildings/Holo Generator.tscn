@@ -5,10 +5,10 @@
 [ext_resource type="Texture2D" uid="uid://sodrahp8risd" path="res://Textures/UI/futuristic_panel_v5.png" id="2_sbyn0"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="3_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="4_8aw1o"]
-[ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="4_sc1hh"]
 [ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="4_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="5_sbyn0"]
 [ext_resource type="Texture2D" uid="uid://ccxb6l8sby55i" path="res://Shaders/electricityNoise.tres" id="5_v0sms"]
+[ext_resource type="Texture2D" uid="uid://moen1aee05ih" path="res://Textures/Citizens/HDportraits/Citizen Portraits05.png" id="7_qkuul"]
 [ext_resource type="Script" uid="uid://djc12vw56dh1b" path="res://Game Scenes/mini_map.gd" id="8_8aw1o"]
 [ext_resource type="Texture2D" uid="uid://dk3sy882rpxak" path="res://Textures/Citizens/UI/divider3.png" id="10_dldic"]
 
@@ -241,12 +241,12 @@ offset_bottom = -126.44006
 
 [node name="portrait" type="TextureRect" parent="SingleCitUI" unique_id=1642527067]
 layout_mode = 0
-offset_left = 10.0
-offset_top = 8.0
-offset_right = 114.0
-offset_bottom = 116.0
-scale = Vector2(0.6, 0.6)
-texture = ExtResource("4_sc1hh")
+offset_left = 16.0
+offset_top = -6.0
+offset_right = 416.0
+offset_bottom = 394.0
+scale = Vector2(0.25, 0.25)
+texture = ExtResource("7_qkuul")
 
 [node name="currentJobLabel" type="RichTextLabel" parent="SingleCitUI" unique_id=647272353]
 layout_mode = 0
@@ -358,12 +358,14 @@ texture_progress = SubResource("GradientTexture2D_dldic")
 clip_contents = true
 custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
-offset_left = 10.0
-offset_top = 705.0
-offset_right = 434.2857
-offset_bottom = 927.85706
-scale = Vector2(0.7, 0.7)
-columns = 10
+offset_left = 5.0000005
+offset_top = 698.0
+offset_right = 3074.9998
+offset_bottom = 2357.9995
+scale = Vector2(0.1, 0.1)
+theme_override_constants/h_separation = 425
+theme_override_constants/v_separation = 425
+columns = 7
 
 [node name="ResourceGenerationBar" type="TextureProgressBar" parent="." unique_id=1255447373]
 material = SubResource("ShaderMaterial_v0sms")

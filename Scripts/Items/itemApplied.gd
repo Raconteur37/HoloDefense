@@ -39,7 +39,8 @@ func buildItem(item):
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			energyValue = CityManager.getEnergyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/copperGem.png")
+			texture = load("res://Textures/Citizens/Gems/small_gems20.png")
+			scale = Vector2(0.6,0.6)
 		Item.theItem.QUARTZ_GEM:
 			itemName = "Quartz Gem"
 			rarity = Rarity.RARE
@@ -47,7 +48,7 @@ func buildItem(item):
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			energyValue = CityManager.getEnergyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/Quartz.png")
+			texture = load("res://Textures/Citizens/Gems/small_gems21.png")
 		Item.theItem.AMETHYST_GEM:
 			itemName = "Amethyst Gem"
 			rarity = Rarity.SUPER_RARE
@@ -55,7 +56,7 @@ func buildItem(item):
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			energyValue = CityManager.getEnergyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
+			texture = load("res://Textures/Citizens/Gems/small_gems22.png")
 		Item.theItem.DIAMOND_GEM:
 			itemName = "Diamond Gem"
 			rarity = Rarity.LEGENDARY
@@ -63,7 +64,8 @@ func buildItem(item):
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			energyValue = CityManager.getEnergyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
+			texture = load("res://Textures/Citizens/Gems/small_gems23.png")
+			scale = Vector2(0.9,0.9)
 		Item.theItem.GALACTITE_GEM:
 			itemName = "Galactite"
 			rarity = Rarity.UNSEEN
@@ -71,7 +73,7 @@ func buildItem(item):
 			type = Type.GEM
 			moneyValue = CityManager.getMoneyItemValue(actualItem)
 			energyValue = CityManager.getEnergyItemValue(actualItem)
-			texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
+			texture = load("res://Textures/Citizens/Gems/small_gems24.png")
 		Item.theItem.COMMON_SCRAP:
 			itemName = "Basic Scrap"
 			rarity = Rarity.COMMON

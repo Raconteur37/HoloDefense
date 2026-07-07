@@ -1,312 +1,61 @@
 [gd_scene format=3 uid="uid://b8jkae8udp5ox"]
 
+[ext_resource type="Texture2D" uid="uid://dofreud7p77ll" path="res://Textures/Citizens/Gems/large_gems4.png" id="2_pyhfn"]
+[ext_resource type="Texture2D" uid="uid://cako5prkt50kb" path="res://Textures/Citizens/Gems/large_gems0.png" id="3_8qmfx"]
 [ext_resource type="Script" uid="uid://ch56q6px3ad6q" path="res://Globals/Scripts/popup.gd" id="3_dqdk6"]
-[ext_resource type="Texture2D" uid="uid://bmpfhhneqea7w" path="res://Textures/Citizens/Gems/copperGem-Sheet.png" id="4_el0df"]
-[ext_resource type="Texture2D" uid="uid://c7djqtb2f7vvc" path="res://Textures/Citizens/Gems/Diamond Gem-Sheet-export.png" id="5_pyhfn"]
-[ext_resource type="Texture2D" uid="uid://nia7o2sa4l4t" path="res://Textures/Citizens/Gems/Quartz-Sheet.png" id="5_vajk7"]
-[ext_resource type="Texture2D" uid="uid://cbl8gfbtogqa1" path="res://Textures/Citizens/Gems/Sprite-0001-Sheet.png" id="6_8qmfx"]
-[ext_resource type="Texture2D" uid="uid://b2sr682c4upkh" path="res://Textures/Citizens/Gems/Amethyst-Sheet.png" id="6_pyhfn"]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_t255x"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sx27n"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xweoh"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g3imp"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_s613l"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_7dgxp"]
-atlas = ExtResource("5_pyhfn")
-region = Rect2(80, 0, 16, 16)
+[ext_resource type="Texture2D" uid="uid://cmbg1acfgy4id" path="res://Textures/Citizens/Gems/large_gems3.png" id="4_pyhfn"]
+[ext_resource type="Texture2D" uid="uid://bxwtxlgyy0gcu" path="res://Textures/Citizens/Gems/large_gems1.png" id="5_8qmfx"]
+[ext_resource type="Texture2D" uid="uid://ycujf37wocui" path="res://Textures/Citizens/Gems/large_gems2.png" id="6_xrkco"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_fxkhy"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_t255x")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_sx27n")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xweoh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g3imp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_s613l")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_7dgxp")
+"texture": ExtResource("2_pyhfn")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vajk7"]
-atlas = ExtResource("4_el0df")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pyhfn"]
-atlas = ExtResource("4_el0df")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8qmfx"]
-atlas = ExtResource("4_el0df")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_xrkco"]
-atlas = ExtResource("4_el0df")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8laiu"]
-atlas = ExtResource("4_el0df")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mmhyw"]
-atlas = ExtResource("4_el0df")
-region = Rect2(80, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_gsxj1"]
-atlas = ExtResource("4_el0df")
-region = Rect2(96, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_f7hb4"]
-atlas = ExtResource("4_el0df")
-region = Rect2(112, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_gxdpr"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_vajk7")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pyhfn")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8qmfx")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_xrkco")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8laiu")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mmhyw")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_gsxj1")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_f7hb4")
+"texture": ExtResource("3_8qmfx")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_x0wno"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_47nnp"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_8jntr"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_pv382"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_m31n0"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ya2yj"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(80, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mfr5e"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(96, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_g4oai"]
-atlas = ExtResource("5_vajk7")
-region = Rect2(112, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_r4xew"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_x0wno")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_47nnp")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_8jntr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_pv382")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_m31n0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ya2yj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mfr5e")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_g4oai")
+"texture": ExtResource("4_pyhfn")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_sn1b8"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_e8rm8"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_vxds3"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_4tni6"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_0po6f"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_5y12r"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(80, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_u31r0"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(96, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_fxkhy"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(112, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_eiqtn"]
-atlas = ExtResource("6_pyhfn")
-region = Rect2(128, 0, 16, 16)
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_ka2rg"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_sn1b8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_e8rm8")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_vxds3")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_4tni6")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_0po6f")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_5y12r")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_u31r0")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_fxkhy")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_eiqtn")
+"texture": ExtResource("5_8qmfx")
 }],
 "loop": true,
 "name": &"default",
 "speed": 10.0
 }]
 
-[sub_resource type="AtlasTexture" id="AtlasTexture_gxdpr"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(0, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_r4xew"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(16, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_ka2rg"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(32, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_smhoj"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(48, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_wwijh"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(64, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_mt0hf"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(80, 0, 16, 16)
-
-[sub_resource type="AtlasTexture" id="AtlasTexture_uv57r"]
-atlas = ExtResource("6_8qmfx")
-region = Rect2(96, 0, 16, 16)
-
 [sub_resource type="SpriteFrames" id="SpriteFrames_tfjku"]
 animations = [{
 "frames": [{
 "duration": 1.0,
-"texture": SubResource("AtlasTexture_gxdpr")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_r4xew")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_ka2rg")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_smhoj")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_wwijh")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_mt0hf")
-}, {
-"duration": 1.0,
-"texture": SubResource("AtlasTexture_uv57r")
+"texture": ExtResource("6_xrkco")
 }],
 "loop": true,
 "name": &"default",
@@ -573,6 +322,7 @@ script = ExtResource("3_dqdk6")
 layout_mode = 0
 offset_right = 33.0
 offset_bottom = 24.0
+scale = Vector2(0.5, 0.5)
 
 [node name="Control" type="Control" parent="HBoxContainer" unique_id=695390399]
 layout_mode = 2
@@ -580,25 +330,29 @@ size_flags_horizontal = 3
 
 [node name="DiamondGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=793479634]
 visible = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_fxkhy")
 autoplay = "default"
-frame_progress = 0.6002332
 
 [node name="CopperGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=938714551]
 visible = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_gxdpr")
 autoplay = "default"
 
 [node name="QuartzGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=1015820198]
 visible = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_r4xew")
 
 [node name="AmethystGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=1067825778]
 visible = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_ka2rg")
 
 [node name="GalactiteGem" type="AnimatedSprite2D" parent="HBoxContainer/Control" unique_id=213868487]
 visible = false
+scale = Vector2(0.5, 0.5)
 sprite_frames = SubResource("SpriteFrames_tfjku")
 autoplay = "default"
 

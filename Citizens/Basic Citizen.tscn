@@ -70,8 +70,8 @@ animations = [{
 }]
 
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_fwpx7"]
-radius = 4.75
-height = 13.5
+radius = 7.5
+height = 38.333374
 
 [sub_resource type="Animation" id="Animation_8ged5"]
 resource_name = "Hop"
@@ -151,19 +151,19 @@ size = Vector2(23, 41)
 [node name="CharacterBody2D" type="CharacterBody2D" unique_id=145350999 groups=["Citizen"]]
 z_index = 1
 position = Vector2(984, 628)
+scale = Vector2(0.3, 0.3)
 collision_layer = 16
 collision_mask = 48
 script = ExtResource("1_e01cn")
-speed = null
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=202216112]
-position = Vector2(-2, -3)
-scale = Vector2(4, 4)
+position = Vector2(-1.1920929e-07, -2)
 texture = ExtResource("2_6aq5k")
 
 [node name="HoverBox" type="AnimatedSprite2D" parent="Sprite2D" unique_id=580968153]
 visible = false
-position = Vector2(0.25, -0.25)
+position = Vector2(-3.3333755, -1.3335606)
+scale = Vector2(8.148166, 11.794864)
 sprite_frames = SubResource("SpriteFrames_fuy38")
 autoplay = "default"
 

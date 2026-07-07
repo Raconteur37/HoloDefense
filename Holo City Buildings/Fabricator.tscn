@@ -103,14 +103,14 @@ vertical_alignment = 1
 
 [node name="GridContainer" type="GridContainer" parent="SelectPopup/Background" unique_id=1272714329]
 layout_mode = 0
-offset_left = 73.0
-offset_top = 158.0
-offset_right = 113.0
-offset_bottom = 198.0
-scale = Vector2(1.4, 1.4)
-theme_override_constants/h_separation = 25
-theme_override_constants/v_separation = 4
-columns = 10
+offset_left = 33.0
+offset_top = 118.0
+offset_right = 2819.6665
+offset_bottom = 2298.0
+scale = Vector2(0.3, 0.3)
+theme_override_constants/h_separation = 400
+theme_override_constants/v_separation = 425
+columns = 7
 
 [node name="TextureButton" type="TextureButton" parent="SelectPopup/Background" unique_id=1229857458]
 layout_mode = 0

@@ -11,6 +11,8 @@ var sprite
 var selectUI
 var canvasLayer
 
+var sex
+
 var citizenSelectUi
 
 @onready var citName : String 
@@ -47,6 +49,9 @@ var deliverParticle : CPUParticles2D
 var navAgent : NavigationAgent2D
 
 var inventory : Dictionary = {} # This holds an enum then int like so [enum,int]
+
+var characterPortrait = null
+var citPortrait = null
 
 var gemKeys = [
 	Item.theItem.COPPER_GEM,
@@ -90,6 +95,14 @@ func _ready() -> void:
 	workTimer = $"Work Timer"
 	deliverParticle = $"Item Delivered Particle"
 	
+	if randf_range(1,100) <= 50:
+		sex = "male"
+		sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
+	else:
+		sex = "female"
+		sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites03.png")
+
+	
 	CityManager.citizenSpawned.emit(self)
 	#CityManager.cityLevel = 40
 	var bounds : Array = CityManager.generateBaseCitizenExperienceLevel()
@@ -103,6 +116,8 @@ func _ready() -> void:
 	currentState = State.IDLE
 	
 	CityManager.addCitizen(self)
+	
+
 	
 	if get_tree().current_scene is not CanvasLayer:
 		for child in get_tree().current_scene.get_children():
@@ -198,6 +213,8 @@ func setJob(job : Job):
 			hasJob = true
 		currentJob = job
 		updateJobTimer()
+	citPortrait.updatePortrait()
+	updateSprite()
 
 func updateJobTimer():
 	match currentJob:
@@ -385,3 +402,23 @@ func _on_work_timer_timeout() -> void:
 
 func _on_navigation_agent_2d_velocity_computed(safe_velocity: Vector2) -> void:
 	velocity = safe_velocity
+
+func updateSprite():
+	if sex == "male":
+		if currentJob == Job.NONE:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
+		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites04.png")
+		if currentJob == Job.RESEARCHER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites06.png")
+		if currentJob == Job.FABRICATOR:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites08.png")
+	if sex == "female":
+		if currentJob == Job.NONE:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites03.png")
+		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites05.png")
+		if currentJob == Job.RESEARCHER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites07.png")
+		if currentJob == Job.FABRICATOR:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites09.png")

@@ -66,19 +66,19 @@ func setItemImage():
 	match item.actualItem:
 
 		Item.theItem.COPPER_GEM:
-			itemImage.texture = load("res://Textures/Citizens/Gems/copperGem.png")
+			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems20.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.QUARTZ_GEM:
-			itemImage.texture = load("res://Textures/Citizens/Gems/Quartz.png")
+			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems21.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Quartz Item Popup.png")
 		Item.theItem.AMETHYST_GEM:
-			itemImage.texture = load("res://Textures/Citizens/Gems/Amethyst Gem.png")
+			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems22.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Amethyst Item Popup.png")
 		Item.theItem.DIAMOND_GEM:
-			itemImage.texture = load("res://Textures/Citizens/Gems/Diamond Gem.png")
+			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems23.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Diamond Item UI.png")
 		Item.theItem.GALACTITE_GEM:
-			itemImage.texture = load("res://Textures/Citizens/Gems/Galactite Gem.png")
+			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems24.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.COMMON_SCRAP:
 			itemImage.texture = load("res://Textures/Citizens/Scrap/Common Scrap.png")
