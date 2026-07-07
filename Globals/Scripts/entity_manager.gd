@@ -24,18 +24,18 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 		match packet.type:
 			DamagePacket.Type.TURRET:
 				if is_instance_valid(turret):
-					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					StatManager.addStat(turret.turretID, "damage_dealt", damage)
 					if turret.turretID == Turret.TurretID.TESLA_TURRET and turret.level >= 2:
 						EffectManager.applyStunEffect(enemy, turret, turret.stunTime)
 
 			DamagePacket.Type.EXPLOSION:
 				if is_instance_valid(turret):
-					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					StatManager.addStat(turret.turretID, "damage_dealt", damage)
 
 			DamagePacket.Type.PROJECTILE:
 				applyProjectileEffects(packet, enemy)
 				if is_instance_valid(turret):
-					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					StatManager.addStat(turret.turretID, "damage_dealt", damage)
 					
 			DamagePacket.Type.EFFECT:
 				if EffectClass.Effect.BURN in packet.effects:
@@ -44,7 +44,7 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 					enemy.health = max(1, enemy.health - damage)
 
 				if is_instance_valid(turret) and (EffectClass.Effect.BURN in packet.effects or EffectClass.Effect.POISON in packet.effects):
-					StatManager.addStat(turret.turretID, "damageDealt", damage)
+					StatManager.addStat(turret.turretID, "damage_dealt", damage)
 				
 				if enemy.health <= 0:
 					killEnemy(turret, enemy)
@@ -114,7 +114,6 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 			if is_instance_valid(damager.effects.get(EffectClass.Effect.CURSE).turretApplier):
 				if damager.effects.get(EffectClass.Effect.CURSE).turretApplier.level >= 3 and damager.effects.get(EffectClass.Effect.CURSE).turretApplier.turretID == Turret.TurretID.VOODOO_TURRET:
 					var damageReduction = damager.effects.get(EffectClass.Effect.CURSE).turretApplier.damageReduction * 0.01
-					print(damage)
 					damageReduction = damage * damageReduction
 					damage = damage - damageReduction
 					print(damage)
@@ -132,7 +131,7 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 
 		var takenDamage = applyArmor(damage, turret)
 		turret.health -= takenDamage
-		StatManager.addStat(turret.turretID, "damageTaken", takenDamage)
+		StatManager.addStat(turret.turretID, "damage_taken", takenDamage)
 		
 		if turret.health <= 0:
 			turret.health = 0

@@ -257,3 +257,17 @@ func getTurretStats(turretID: Turret.TurretID) -> Dictionary:
 		return currentStats[turret_key].duplicate(true)
 	else:
 		return {}
+
+func resetStats():
+	reset() 
+	
+
+	resetStatsConfig() 
+	backfillMissingTurretStats() 
+	writeTurretStatsToConfig() 
+	
+
+	lifetimeStats = getDefaultLifetimeStats() 
+	saveLifetimeStats() 
+	
+	print("All run, turret, and lifetime stats have been wiped completely!")

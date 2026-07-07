@@ -255,6 +255,10 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 	
 	levelTwoTexture.texture = lockedIcon
 	levelThreeTexture.texture = lockedIcon
+	
+	
+	xpLabel.hide()
+	xpButton.hide()
 
 	if is_unlocked:
 		purchaseBox.hide()
@@ -290,6 +294,7 @@ func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
 			levelThreeProgressBar.hide()
 			levelTwoTexture.texture = lockedIcon
 			levelThreeTexture.texture = lockedIcon
+			
 			
 		elif turretLevel == 2:
 			# Level 2: Level 2 is unlocked (100% opacity), Level 3 is locked (40% opacity)

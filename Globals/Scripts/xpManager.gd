@@ -159,3 +159,10 @@ func getCurrentLevel(turret) -> int:
 		
 	push_warning("XP Manager: Tried to get Level for unknown turret '%s'" % turretStr)
 	return 1
+
+func resetData() -> void:
+	initializeXpTracking()
+	
+	saveXpData()
+	
+	print("All XP and Level data has been completely reset to 0.")

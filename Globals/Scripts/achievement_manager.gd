@@ -7,11 +7,16 @@ const STEAM_FILE_NAME = "achievements_cloud.json"
 var achievements: Dictionary = {
 	"build_first_tower": false,
 	"survive_wave_10": false,
-	"unlock_hidden_faction": false
+	"unlock_hidden_faction": false,
+	"initial_reset": false
 }
 
 func _ready() -> void:
 	load_achievements()
+
+
+	if not achievements["initial_reset"]:
+		execute_initial_reset()
 
 # Call this when the hardcoded logic for an achievement is met
 func unlock_achievement(achievement_name: String) -> void:
@@ -74,3 +79,26 @@ func is_unlocked(achievement_name: String) -> bool:
 	# Helpful for debugging if you misspell an achievement name in another script
 	push_warning("AchievementManager: Tried to check '%s', but it doesn't exist in the registry." % achievement_name)
 	return false
+
+func execute_initial_reset() -> void:
+	print("AchievementManager: Initial reset flag is false. Wiping data...")
+	
+	# 1. CALL YOUR RESET LOGIC HERE
+	XpManager.resetData()
+	StatManager.resetStats()
+	EconomyManager.reset()
+	# e.g., XPManager.resetData()
+	# e.g., StatsManager.hardResetAllSaveData()
+	# e.g., EconomyManager.reset()
+	
+	# 2. Update the dictionary so it never happens again
+	achievements["initial_reset"] = true
+	
+	# 3. Save the updated flag locally and to the Steam Cloud
+	save_achievements()
+	
+	# Optional: If "initial_reset" is actually set up as a real achievement in your Steamworks backend, 
+	# you can push it to Steam here as well:
+	if Steam.isSteamRunning():
+		Steam.setAchievement("initial_reset")
+		Steam.storeStats()

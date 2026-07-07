@@ -223,3 +223,8 @@ func add_shard_fragments(rarity: String, amount: int) -> void:
 
 func spend_shard_fragments(rarity: String, amount: int) -> bool:
 	return spend_from_category("shard_fragments", rarity, amount)
+
+func reset() -> void:
+	economy_data = get_default_economy()
+	
+	save_economy()
