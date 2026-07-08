@@ -1,0 +1,142 @@
+[gd_scene format=3 uid="uid://caehfjmap45qn"]
+
+[ext_resource type="Script" uid="uid://cvkcnxw5cw7ad" path="res://Game Scenes/achievement_get.gd" id="1_6atv8"]
+[ext_resource type="Texture2D" uid="uid://dlp8rgy8h80hn" path="res://Textures/UI/Game/BottomUI15.png" id="2_57okb"]
+[ext_resource type="Texture2D" uid="uid://bcu2o4ark10ss" path="res://Textures/Citizens/UI/progress_bar_under.png" id="3_ue40p"]
+[ext_resource type="Texture2D" uid="uid://bhw7bgmx4v57v" path="res://Textures/Citizens/UI/progress_bar_fill(1).png" id="4_aw05g"]
+[ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="5_aw05g"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_aw05g"]
+font_size = 22
+
+[sub_resource type="Animation" id="Animation_fpakq"]
+resource_name = "FadeIn"
+length = 0.26666668
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.25),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_aw05g"]
+resource_name = "FadeOut"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_t8f4q"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("Control:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_t8f4q"]
+_data = {
+&"FadeIn": SubResource("Animation_fpakq"),
+&"FadeOut": SubResource("Animation_aw05g"),
+&"RESET": SubResource("Animation_t8f4q")
+}
+
+[node name="AchievementGet" type="CanvasLayer" unique_id=1250215214]
+script = ExtResource("1_6atv8")
+
+[node name="Control" type="Control" parent="." unique_id=1348948261]
+layout_mode = 3
+anchors_preset = 0
+offset_top = 28.0
+offset_right = 40.0
+offset_bottom = 68.0
+
+[node name="TextureRect" type="TextureRect" parent="Control" unique_id=410344458]
+modulate = Color(1, 1, 1, 0.53800005)
+layout_mode = 0
+offset_top = -193.0
+offset_right = 1920.0
+offset_bottom = 121.0
+texture = ExtResource("2_57okb")
+
+[node name="TextureProgressBar" type="TextureProgressBar" parent="Control" unique_id=2063568700]
+layout_mode = 0
+offset_top = 105.0
+offset_right = 512.0
+offset_bottom = 145.0
+scale = Vector2(3.7595093, 0.5292181)
+step = 0.01
+value = 50.0
+texture_under = ExtResource("3_ue40p")
+texture_progress = ExtResource("4_aw05g")
+tint_progress = Color(0.07608476, 0.8880144, 0.6638397, 1)
+
+[node name="Reward" type="TextureRect" parent="Control" unique_id=1405319509]
+layout_mode = 0
+offset_left = 262.0
+offset_top = -8.0
+offset_right = 302.0
+offset_bottom = 32.0
+scale = Vector2(2, 2)
+texture = ExtResource("5_aw05g")
+
+[node name="AchievementTitle" type="RichTextLabel" parent="Control" unique_id=122217515]
+layout_mode = 0
+offset_left = 696.0
+offset_top = -19.0
+offset_right = 1213.0
+offset_bottom = 30.0
+bbcode_enabled = true
+text = "[pulse color=aqua height=0.5 freq=0.5][font_size=30]That was annoying...[/font_size][/pulse]"
+horizontal_alignment = 1
+
+[node name="Unlocked Label" type="RichTextLabel" parent="Control" unique_id=735256645]
+layout_mode = 0
+offset_left = 46.0
+offset_top = 68.0
+offset_right = 563.0
+offset_bottom = 117.0
+bbcode_enabled = true
+text = "[rainbow freq=.3 sat=1 val=0.8][font_size=30]Unlocked[/font_size][/rainbow]"
+horizontal_alignment = 1
+
+[node name="DescriptionLabel" type="Label" parent="Control" unique_id=218708062]
+layout_mode = 0
+offset_left = 560.0
+offset_top = 27.0
+offset_right = 1348.0
+offset_bottom = 89.0
+text = "This is the description of the achievement even thi it can be super uper long"
+label_settings = SubResource("LabelSettings_aw05g")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Timer" type="Timer" parent="Control" unique_id=1194332201]
+one_shot = true
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=320387670]
+libraries/ = SubResource("AnimationLibrary_t8f4q")
+
+[connection signal="timeout" from="Control/Timer" to="." method="_on_timer_timeout"]

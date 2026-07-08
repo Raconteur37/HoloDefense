@@ -141,6 +141,11 @@ func enemiesIncoming():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/enemiesIncoming.wav")
 	soundPlayer.play()
 
+func playAchievementSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/achievement get.wav")
+	UIPlayer.volume_db = 5
+	UIPlayer.play()
+
 func playSlotTick():
 	UIPlayer.stream = load("res://Sounds/UI Sounds/slotTick.wav")
 	UIPlayer.play()

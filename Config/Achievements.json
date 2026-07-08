@@ -1,0 +1,18 @@
+{
+	"ACH_WAVE_5_DIFF_2": {
+		"title": "Getting Started",
+		"description": "Complete wave 5 on difficulty 2 or higher.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "mini_sentry_turret",
+		"icon_path": "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png"
+	},
+	"ACH_DEFEAT_30_DIAMONDS": {
+		"title": "That Was Difficult...",
+		"description": "Defeat 30 Shooty Diamonds in a single run.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "bubble_turret",
+		"icon_path": "res://Textures/Turrets/Bubble Turret/Bubble Turret.png"
+	}
+}

@@ -74,6 +74,10 @@ func onWaveComplete() -> void:
 	intermissionTimer = get_tree().create_timer(duration, false)
 	intermissionTimer.timeout.connect(_makeCallback(beginNextWave))
 	
+	if currentDifficulty >= 2:
+		if currentWave == 5:
+			AchievementManager.unlock_achievement("ACH_WAVE_5_DIFF_2")
+	
 	manageWaveInfoUI(duration)
 	StatManager.wavesCompleted += 1
 	currentPhase = Phase.INTERMISSION

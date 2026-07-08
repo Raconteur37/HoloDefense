@@ -26,6 +26,9 @@ func _input(event: InputEvent) -> void:
 			KEY_W:
 				if inDevMode:
 					WaveManager.beginNextWave()
+			KEY_U:
+				if inDevMode:
+					AchievementManager.unlock_achievement("ACH_WAVE_5_DIFF_2")
 				#WaveManager.onWaveComplete()
 
 			KEY_F1:

@@ -182,9 +182,18 @@ func onKill(source: Node, enemy: Enemy) -> void:
 	var tier = enemy.tier
 	
 	match tier:
-		1: StatManager.tierOneEnemiesKilled += 1
-		2: StatManager.tierTwoEnemiesKilled += 1
-		3: StatManager.tierThreeEnemiesKilled += 1
+		1:
+			StatManager.tierOneEnemiesKilled += 1
+			if enemy.enemyID == Enemy.EnemyID.BASIC_SQUARE:
+				StatManager.basicSquaresKilled += 1
+		2: 
+			StatManager.tierTwoEnemiesKilled += 1
+			if enemy.enemyID == Enemy.EnemyID.SPEEDY_TRIANGLE:
+				StatManager.speedyTrianglesKilled += 1
+		3: 
+			if enemy.enemyID == Enemy.EnemyID.SHOOTY_DIAMOND:
+				StatManager.shootyDiamondsKilled += 1
+			StatManager.tierThreeEnemiesKilled += 1
 
 	if enemyName == "Dummy":
 		enemy.queue_free()
@@ -199,6 +208,8 @@ func onKill(source: Node, enemy: Enemy) -> void:
 	if enemy.type == Enemy.Type.BOSS:
 		SoundManager.stopBossWaveSound()
 		StatManager.bossesKilled += 1
+		if enemy.enemyID == Enemy.EnemyID.HEXAGON_MOTHERSHIP:
+			StatManager.hexagonMothershipsKilled += 1
 
 	var turret = source as Turret
 	if is_instance_valid(turret):

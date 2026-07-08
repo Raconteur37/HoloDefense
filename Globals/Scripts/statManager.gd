@@ -1,4 +1,5 @@
 extends Node
+
 var wavesCompleted = 0
 var enemiesKilled = 0
 var elapsedTime = 0
@@ -13,11 +14,17 @@ var citizensGenerated = 0
 var researchCompleted = 0
 var difficultyMultiplier = 0
 var systemsCompleted = 0
+var basicSquaresKilled = 0
+var speedyTrianglesKilled = 0
+var shootyDiamondsKilled = 0
+var hexagonMothershipsKilled = 0
 var currentRun 
 var currentStats = {} 
+
 var save_path = "user://turret_stats.json"
 var default_path = "res://Config/Turret Stats.json"
 const TURRET_STATS_CLOUD_FILENAME = "turret_stats.json" # Steam Cloud filename, no path needed
+
 var lifetimeStats = {}
 const LIFETIME_SAVE_PATH = "user://lifetime_stats.json"
 const LIFETIME_STATS_CLOUD_FILENAME = "lifetime_stats.json" # Steam Cloud filename, no path needed
@@ -149,9 +156,14 @@ func reset():
 	researchCompleted = 0
 	difficultyMultiplier = 0
 	systemsCompleted = 0
+	# Added the new enemies to the run reset:
+	basicSquaresKilled = 0
+	speedyTrianglesKilled = 0
+	shootyDiamondsKilled = 0
+	hexagonMothershipsKilled = 0
 
 
-func getDefaultLifetimeStats() -> Dictionary: #all i gotta do is add lifetime stats here
+func getDefaultLifetimeStats() -> Dictionary: 
 	return {
 		"wavesCompleted": 0,
 		"enemiesKilled": 0,
@@ -160,6 +172,10 @@ func getDefaultLifetimeStats() -> Dictionary: #all i gotta do is add lifetime st
 		"tierTwoEnemiesKilled": 0,
 		"tierThreeEnemiesKilled": 0,
 		"bossesKilled": 0,
+		"basicSquaresKilled": 0,
+		"speedyTrianglesKilled": 0,
+		"shootyDiamondsKilled": 0,
+		"hexagonMothershipsKilled": 0,
 		"turretsPlaced": 0,
 		"citizensGenerated": 0,
 		"researchCompleted": 0,
@@ -238,6 +254,13 @@ func commitRunToLifetimeStats():
 	lifetimeStats["citizensGenerated"] += citizensGenerated
 	lifetimeStats["researchCompleted"] += researchCompleted
 	lifetimeStats["systemsCompleted"] += systemsCompleted
+	
+	# Added the specific enemies killed stats so they save permanently
+	lifetimeStats["basicSquaresKilled"] += basicSquaresKilled
+	lifetimeStats["speedyTrianglesKilled"] += speedyTrianglesKilled
+	lifetimeStats["shootyDiamondsKilled"] += shootyDiamondsKilled
+	lifetimeStats["hexagonMothershipsKilled"] += hexagonMothershipsKilled
+	
 	lifetimeStats["totalRuns"] += 1
 	
 	writeTurretStatsToConfig()
@@ -250,6 +273,13 @@ func getLifetimeStat(statName: String):
 	push_error("Lifetime stat not found: " + statName)
 	return null
 
+func incrementLifetimeStat(statName: String, amount: int = 1) -> void:
+	if lifetimeStats.has(statName):
+		lifetimeStats[statName] += amount
+		saveLifetimeStats()
+	else:
+		push_error("Lifetime stat not found: " + statName)
+
 func getTurretStats(turretID: Turret.TurretID) -> Dictionary:
 	var turret_key = get_turret_string(turretID)
 	
@@ -261,12 +291,10 @@ func getTurretStats(turretID: Turret.TurretID) -> Dictionary:
 func resetStats():
 	reset() 
 	
-
 	resetStatsConfig() 
 	backfillMissingTurretStats() 
 	writeTurretStatsToConfig() 
 	
-
 	lifetimeStats = getDefaultLifetimeStats() 
 	saveLifetimeStats() 
 	
