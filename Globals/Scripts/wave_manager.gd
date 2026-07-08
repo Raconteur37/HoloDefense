@@ -26,7 +26,7 @@ var tierThreeEnemyTypes: Dictionary = {"Similar": [Enemy.EnemyID.SHOOTY_DIAMOND]
 var bossEnemies: Dictionary = {"Similar": Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
 # --- State Variables ---
-var currentDifficulty: int = 1
+var currentDifficulty: int = 11
 var currentWave: int = 0
 var systemNumber: int = 0
 var currentSystem: String = "Similar"
@@ -37,8 +37,6 @@ var generation: int = 0 # Increments on reset to invalidate stale closures
 func _ready() -> void:
 	loadData()
 
-
-# --- Wave & System Flow ---
 
 func beginNextWave() -> void:
 	SoundManager.startTimer(randf_range(5.0, 20.0))
@@ -91,6 +89,8 @@ func spawnNext() -> void:
 		return
 
 	var enemyID: Enemy.EnemyID = spawnQueue.pop_front()
+	
+	
 	EnemySpawnManager.summonEnemy(enemyID)
 
 	var waveWithinSystem = ((currentWave - 1) % getWavesPerSystem()) + 1
@@ -175,12 +175,17 @@ func removeActiveEnemy(enemy: Enemy) -> void:
 			activeEnemies.erase(id)
 		else:
 			activeEnemies[id] -= 1
+			
+		# ONLY check for wave completion if we actually successfully removed a registered enemy
+		checkForEnemiesAlive()
 	else:
 		push_warning("WaveManager: Tried to remove an enemy with an unregistered ID!")
-	
-	checkForEnemiesAlive()
+		# Notice we removed the checkForEnemiesAlive() from down here!
 
 func checkForEnemiesAlive() -> void:
+	if currentPhase == Phase.INTERMISSION:
+		return
+		
 	if activeEnemies.size() <= 0:
 		onWaveComplete()
 
