@@ -1,0 +1,27 @@
+[gd_scene format=3 uid="uid://dmdysmxt6xd5r"]
+
+[ext_resource type="Texture2D" uid="uid://u4lq8x3y86el" path="res://Particle Scenes/UI/xpUpgrade.png" id="1_u2e52"]
+[ext_resource type="Script" uid="uid://o5dk4w77djf3" path="res://Particle Scenes/UI/xp_upgrade.gd" id="2_u2e52"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_8005c"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="XPUpgrade" type="CPUParticles2D" unique_id=1679695447]
+material = SubResource("CanvasItemMaterial_8005c")
+scale = Vector2(3, 3)
+emitting = false
+amount = 1
+texture = ExtResource("1_u2e52")
+lifetime = 0.5
+one_shot = true
+local_coords = true
+particle_flag_align_y = true
+spread = 0.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+script = ExtResource("2_u2e52")

@@ -15,3 +15,7 @@ func _on_turrets_button_pressed() -> void:
 
 func _on_shop_button_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Shop.tscn")
+
+
+func _on_gallary_button_pressed() -> void:
+	get_tree().change_scene_to_file("res://Game Scenes/Achievement Gallary.tscn")

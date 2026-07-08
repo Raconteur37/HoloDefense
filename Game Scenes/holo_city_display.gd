@@ -40,3 +40,4 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 			runActive = false
 			StatManager.elapsedTime = runTime
 			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
+			Engine.time_scale = 1

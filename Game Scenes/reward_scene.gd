@@ -118,12 +118,14 @@ func _ready():
 	if file:
 		rewardConfig = JSON.parse_string(file.get_as_text())
 		file.close()
-
+	
+	var division_number = rewardConfig["game_constants"]["parameters"]["bonusRewardDivision"]
+	
 	setInvisible()
 
 	calculateRewards()
 	
-	var rollsEarned = floor(stardustTotal / 100)
+	var rollsEarned = floor(stardustTotal / division_number)
 	for i in rollsEarned:
 		tryGrantReward()
 

@@ -1,6 +1,7 @@
 {
 	"game_constants": {
 	"parameters": {
+	  "bonusRewardDivision": 50,
 	  "kill_values": [0.15, 0.25, 0.40],
 	  "boss_kill_value": 50,
 	  "wave_completion_value": 3,
