@@ -17,7 +17,7 @@
 	},
 	"ACH_DEFEAT_TANKY_RECTANGLE": {
 		"title": "There's Gotta Be A Better Way!",
-		"description": "Defeat 30 Tanky Rectangles in a single run.",
+		"description": "Defeat 50 Tanky Rectangles in a single run.",
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "voodoo_turret",
@@ -25,7 +25,7 @@
 	},
 	"ACH_DEFEAT_SPEEDY_TRIANGLE": {
 		"title": "Gotcha",
-		"description": "Defeat 30 Speedy Triangles in a single run.",
+		"description": "Defeat 50 Speedy Triangles in a single run.",
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "spider_turret",
