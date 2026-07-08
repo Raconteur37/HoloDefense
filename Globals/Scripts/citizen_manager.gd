@@ -1,6 +1,7 @@
 extends Node
 
-var nameList = []
+var maleNameList = []
+var femaleNameList = []
 
 var jobSettingsDict = {}
 

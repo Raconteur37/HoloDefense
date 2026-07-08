@@ -32,7 +32,8 @@ func setupCitizenConfig():
 	var citizenSettings = json_data.get("CitizenSettings", {})
 	if not citizenSettings.is_empty():
 
-		CitizenManager.nameList = citizenSettings.get("Names", [])
+		CitizenManager.maleNameList = citizenSettings.get("male_names", [])
+		CitizenManager.femaleNameList = citizenSettings.get("female_names", [])
 
 		CitizenManager.citizenLevelScaling = citizenSettings.get("CitizenLevelScaling", 0.0)
 		CitizenManager.maxCitizenJobLevel = citizenSettings.get("MaxCitizenJobLevel", 0.0)
