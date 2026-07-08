@@ -27,6 +27,7 @@ var scrapGenLabel : RichTextLabel
 
 var cityLevelLabel : Label
 
+var citNameLabel : Label
 var citAtomizerProgressBar : TextureProgressBar
 var citGemScraperProgressBar : TextureProgressBar
 var citResearchProgressBar : TextureProgressBar
@@ -87,6 +88,7 @@ func _ready() -> void:
 	
 	cityLevelLabel = $cityLevelLabel
 	
+	citNameLabel = $SingleCitUI/Name
 	citAtomizerProgressBar = $SingleCitUI/Panel/AtomizerProgressBar
 	citGemScraperProgressBar = $SingleCitUI/Panel2/GemScraperProgressBar
 	citResearchProgressBar = $SingleCitUI/Panel3/ResearchProgressBar
@@ -229,6 +231,8 @@ func _on_upgrade_generator_button_mouse_exited() -> void:
 
 func refreshSingelCitUI():
 	var citizen : Citizen = CityManager.citizensSelected[0]
+	citNameLabel.text = citizen.citName
+	
 	citAtomizerProgressBar.max_value = CitizenManager.maxCitizenJobLevel
 	citGemScraperProgressBar.max_value = CitizenManager.maxCitizenJobLevel
 	citResearchProgressBar.max_value = CitizenManager.maxCitizenJobLevel

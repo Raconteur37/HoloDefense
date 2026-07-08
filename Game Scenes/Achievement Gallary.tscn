@@ -73,7 +73,7 @@ shader = SubResource("Shader_ho7ks")
 shader_parameter/gold_color = Color(1, 0.85, 0, 1)
 shader_parameter/intensity = 0.7250000344375
 shader_parameter/shine_speed = 0.2
-shader_parameter/shine_width = 0.012999999918980001
+shader_parameter/shine_width = 0.01299999991898
 shader_parameter/mix_amount = 1.0
 
 [sub_resource type="LabelSettings" id="LabelSettings_h7rqq"]

@@ -24,10 +24,10 @@ func pull_lever() -> void:
 		
 	# 2. Try to spend the stardust
 	if not EconomyManager.spend_stardust(config["roll_cost"]):
-		print("SlotMachine: Not enough stardust to roll!")
+		#print("SlotMachine: Not enough stardust to roll!")
 		return
 	
-	print("SlotMachine: Rolling...")
+	#print("SlotMachine: Rolling...")
 	EconomyManager.save_economy()
 	$"..".updateLabels()
 	is_rolling = true # Lock the machine

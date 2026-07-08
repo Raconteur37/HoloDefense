@@ -98,10 +98,11 @@ func _ready() -> void:
 	if randf_range(1,100) <= 50:
 		sex = "male"
 		sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
+		citName = CitizenManager.maleNameList.pick_random()
 	else:
 		sex = "female"
 		sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites03.png")
-
+		citName = CitizenManager.femaleNameList.pick_random()
 	
 	CityManager.citizenSpawned.emit(self)
 	#CityManager.cityLevel = 40
@@ -112,7 +113,7 @@ func _ready() -> void:
 
 	#print(str(jobExperience))
 
-	citName = CitizenManager.nameList.pick_random()
+
 	currentState = State.IDLE
 	
 	CityManager.addCitizen(self)
