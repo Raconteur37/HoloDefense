@@ -22,6 +22,9 @@ var hexagonMothershipsKilled = 0
 var currentRun 
 var currentStats = {} 
 
+var miniSentryKillsThisRun = 0
+
+
 var save_path = "user://turret_stats.json"
 var default_path = "res://Config/Turret Stats.json"
 const TURRET_STATS_CLOUD_FILENAME = "turret_stats.json" # Steam Cloud filename, no path needed
@@ -162,6 +165,8 @@ func reset():
 	speedyTrianglesKilled = 0
 	shootyDiamondsKilled = 0
 	hexagonMothershipsKilled = 0
+	
+	miniSentryKillsThisRun = 0
 
 
 func getDefaultLifetimeStats() -> Dictionary: 

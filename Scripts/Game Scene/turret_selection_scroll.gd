@@ -87,7 +87,7 @@ func _ready() -> void:
 				add_turret_button(turretID)
 
 	stardustTotalLabel.text = str(EconomyManager.get_stardust())
-	_on_turret_button_pressed(Turret.TurretID.ARROW_TURRET)
+	_on_turret_button_pressed(Turret.TurretID.ARROW_TURRET,false)
 
 func add_turret_button(turretID: Turret.TurretID) -> void:
 	var btn := Button.new()
@@ -96,7 +96,7 @@ func add_turret_button(turretID: Turret.TurretID) -> void:
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	btn.tooltip_text = _idToName(turretID)
-	btn.pressed.connect(_on_turret_button_pressed.bind(turretID))
+	btn.pressed.connect(_on_turret_button_pressed.bind(turretID,true))
 	if not EconomyManager.is_turret_unlocked(turretID):
 		var rect := TextureRect.new()
 		rect.texture = load("res://Textures/UI/Game/Turret Info Scene/locked_icon_32.png")
@@ -188,14 +188,15 @@ func _update_shard_overlay(turretID: Turret.TurretID, is_unlocked: bool) -> void
 			style.bg_color = Color(1, 1, 1, 0.0)
 			style.border_color = Color(1, 1, 1, 0.35)
 
-func _on_turret_button_pressed(turretID: Turret.TurretID) -> void:
+func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 	statsBox.visible = false
 	
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
 	
-	soundPlayer.play()
-	animationPlayer.play("InfoAppear")
+	if not refresh:
+		soundPlayer.play()
+		animationPlayer.play("InfoAppear")
 	currentTurretID = turretID
 
 	var is_unlocked := EconomyManager.is_turret_unlocked(turretID)
@@ -636,7 +637,7 @@ func _on_shard_button_pressed() -> void:
 		if EconomyManager.get_turret_shards(currentTurretID) >= 4:
 			EconomyManager.unlock_turret(currentTurretID)
 			unlocked = true
-			_on_turret_button_pressed(currentTurretID)
+			_on_turret_button_pressed(currentTurretID,false)
 			for child in hbox.get_children():
 				child.queue_free()
 			for rarity in ["Common", "Rare", "Super Rare", "Legendary", "Unseen"]:
@@ -679,7 +680,11 @@ func _on_xp_button_pressed() -> void:
 	
 	for i in range(config["xp_given"]):
 		XpManager.addXp(currentTurretID)
-	_on_turret_button_pressed(currentTurretID)
+	_on_turret_button_pressed(currentTurretID,true)
+	var particle = load("res://Particle Scenes/UI/XPUpgrade.tscn").instantiate()
+	$"../..".add_child(particle)
+	particle.global_position = get_global_mouse_position()
+	SoundManager.playXpPurchaseSound()
 	XpManager.saveXpData()
 	EconomyManager.save_economy()
 	stardustTotalLabel.text = str(EconomyManager.get_stardust())

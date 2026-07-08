@@ -146,6 +146,15 @@ func playAchievementSound():
 	UIPlayer.volume_db = 5
 	UIPlayer.play()
 
+func playXpPurchaseSound():
+	UIPlayer.stream = load("res://Sounds/UI Sounds/xpPurchase.wav")
+	UIPlayer.pitch_scale = randf_range(0.5, 1.5)
+	UIPlayer.volume_db = 5
+	UIPlayer.play()
+	await UIPlayer.finished
+	UIPlayer.pitch_scale = 1.0
+	#UIPlayer.pitch_scale = 1
+
 func playSlotTick():
 	UIPlayer.stream = load("res://Sounds/UI Sounds/slotTick.wav")
 	UIPlayer.play()

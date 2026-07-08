@@ -189,11 +189,17 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.tierTwoEnemiesKilled += 1
 			if enemy.enemyID == Enemy.EnemyID.SPEEDY_TRIANGLE:
 				StatManager.speedyTrianglesKilled += 1
+				if StatManager.speedyTrianglesKilled >= 30:
+					AchievementManager.unlock_achievement("ACH_DEFEAT_SPEEDY_TRIANGLE")
 			if enemy.enemyID == Enemy.EnemyID.TANKY_RECTANGLE:
 				StatManager.tankyRectanglesKilled += 1
+				if StatManager.tankyRectanglesKilled >= 30:
+					AchievementManager.unlock_achievement("ACH_DEFEAT_TANKY_RECTANGLE")
 		3: 
 			if enemy.enemyID == Enemy.EnemyID.SHOOTY_DIAMOND:
 				StatManager.shootyDiamondsKilled += 1
+				if StatManager.shootyDiamondsKilled >= 10:
+					AchievementManager.unlock_achievement("ACH_DEFEAT_30_DIAMONDS")
 			StatManager.tierThreeEnemiesKilled += 1
 
 	if enemyName == "Dummy":
@@ -211,6 +217,7 @@ func onKill(source: Node, enemy: Enemy) -> void:
 		StatManager.bossesKilled += 1
 		if enemy.enemyID == Enemy.EnemyID.HEXAGON_MOTHERSHIP:
 			StatManager.hexagonMothershipsKilled += 1
+			AchievementManager.unlock_achievement("ACH_DEFEAT_HEXAGON_MOTHERSHIP")
 
 	var turret = source as Turret
 	if is_instance_valid(turret):
@@ -223,6 +230,9 @@ func onKill(source: Node, enemy: Enemy) -> void:
 					if turret.level >= 3:
 						turret.tryRefundShot()
 				Turret.TurretID.MINI_SENTRY_TURRET:
+					StatManager.miniSentryKillsThisRun += 1
+					if StatManager.miniSentryKillsThisRun >= 200:
+						AchievementManager.unlock_achievement("ACH_MINI_SENTRY_TURRET")
 					if turret.level >= 2:
 						turret.startSpeedEvent()
 				Turret.TurretID.RAILGUN_TURRET:

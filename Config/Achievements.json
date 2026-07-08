@@ -8,11 +8,51 @@
 		"icon_path": "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png"
 	},
 	"ACH_DEFEAT_30_DIAMONDS": {
-		"title": "That Was Difficult...",
-		"description": "Defeat 30 Shooty Diamonds in a single run.",
+		"title": "That Was Annoying",
+		"description": "Defeat 10 Shooty Diamonds in a single run.",
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "bubble_turret",
 		"icon_path": "res://Textures/Turrets/Bubble Turret/Bubble Turret.png"
+	},
+	"ACH_DEFEAT_TANKY_RECTANGLE": {
+		"title": "There's Gotta Be A Better Way!",
+		"description": "Defeat 30 Tanky Rectangles in a single run.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "voodoo_turret",
+		"icon_path": "res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png"
+	},
+	"ACH_DEFEAT_SPEEDY_TRIANGLE": {
+		"title": "Gotcha",
+		"description": "Defeat 30 Speedy Triangles in a single run.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "spider_turret",
+		"icon_path": "res://Textures/Turrets/Spider Turret/Spider Turret.png"
+	},
+	"ACH_DEFEAT_HEXAGON_MOTHERSHIP": {
+		"title": "Screw Them Kids",
+		"description": "Defeat a Hexgonal Mothership.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "railgun_turret",
+		"icon_path": "res://Textures/Turrets/Railgun Turret/RailgunTurret.png"
+	},
+	"ACH_MASS_TURRETS_PLACED": {
+		"title": "A Literal Army",
+		"description": "Generate 100 Citizens in one run.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "royal_turret",
+		"icon_path": "res://Textures/Turrets/Royal Turret/RoyalTurret.png"
+	},
+	"ACH_MINI_SENTRY_TURRET": {
+		"title": "An Upgrade?",
+		"description": "Defeat 200 enemies in a single run using the Mini Sentry Turret",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "sentry_turret",
+		"icon_path": "res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png"
 	}
 }

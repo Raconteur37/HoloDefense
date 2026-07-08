@@ -282,3 +282,4 @@ func _refresh_player_list(_dummy = null):
 
 func _on_turret_info_button_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+	SoundManager.stopMusic()
