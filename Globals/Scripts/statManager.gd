@@ -23,6 +23,7 @@ var currentRun
 var currentStats = {} 
 
 var miniSentryKillsThisRun = 0
+var highestResearchLevel = 0
 
 
 var save_path = "user://turret_stats.json"

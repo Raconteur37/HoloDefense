@@ -54,5 +54,21 @@
 		"reward_type": "turret",
 		"reward_id": "sentry_turret",
 		"icon_path": "res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png"
+	},
+	"ACH_CRITICAL_KILL": {
+		"title": "Critical Kill",
+		"description": "Have a Turret defeat an enemy <= 2 health.",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "medic_turret",
+		"icon_path": "res://Textures/Turrets/Healing Turret/Healing Turret.png"
+	},
+	"ACH_TRUE_POWERUP": {
+		"title": "Next Level",
+		"description": "Research a single Turret to tier 15",
+		"is_hidden": false,
+		"reward_type": "turret",
+		"reward_id": "energizer_turret",
+		"icon_path": "res://Textures/Turrets/Energizer Turret/Energizer Turret.png"
 	}
 }
