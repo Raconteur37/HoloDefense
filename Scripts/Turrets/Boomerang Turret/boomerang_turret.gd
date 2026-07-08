@@ -25,7 +25,7 @@ func _ready() -> void:
 	basePierce = TurretManager.getTurretStat(turretID, "pierce")
 	pierceScale = TurretManager.getTurretStat(turretID, "pierceScale")
 	upgradeTier = 0
-	level = 1
+	level = 3
 	reloadTimer = $ReloadTimer
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
