@@ -75,3 +75,18 @@ func removeIgnitionRounds():
 	ignitionRounds = false
 	ignitionRoundsBurnDamage = 0
 	ignitionRoundsBurnTime = 0
+
+var hit_tween: Tween
+
+func flash_damage():
+	# If a tween is already running from a previous hit, kill it to start fresh
+	if hit_tween and hit_tween.is_running():
+		hit_tween.kill()
+		
+	hit_tween = create_tween()
+	
+	# Instantly turn it pure white
+	sprite.material.set_shader_parameter("flash_modifier", 1.0)
+	
+	# Fade it back to normal over 0.1 seconds
+	hit_tween.tween_property(sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)

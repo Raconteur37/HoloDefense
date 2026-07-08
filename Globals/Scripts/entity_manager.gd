@@ -59,8 +59,8 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 			enemy.hurtParticle.emitting = true
 			if is_instance_valid(enemy):
 				var tween = create_tween()
-				#enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
-				#tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
+				enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+				tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
 
 
 # This will INCLUDE explosions
@@ -154,13 +154,12 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 		var minion = entity
 		minion.health -= damage
 		
-		var tween = create_tween()
-		minion.sprite.material.set_shader_parameter("flash_modifier", 1.0)
-		tween.tween_property(minion.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
+		minion.flash_damage()
 		
 		if minion.health <= 0:
 			minion.health = 0
 			minion.death()
+
 
 
 func applyArmor(damage: int, entity: Node) -> int:

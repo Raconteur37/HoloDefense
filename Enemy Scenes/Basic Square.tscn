@@ -2,10 +2,22 @@
 
 [ext_resource type="Script" uid="uid://djpt348ugfkva" path="res://Scripts/Enemies/basic_square.gd" id="1_7qxr7"]
 [ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="1_e40kq"]
+[ext_resource type="Shader" uid="uid://cuymg2ewfx88n" path="res://Shaders/enemyGlow.gdshader" id="2_yhs31"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="3_0db41"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
 size = Vector2(12, 12)
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_xpxn3"]
+resource_local_to_scene = true
+shader = ExtResource("2_yhs31")
+shader_parameter/tint_color = Color(0.7104485, 0.7104485, 0.7104485, 1)
+shader_parameter/flash_color = Color(1, 1, 1, 1)
+shader_parameter/flash_modifier = 0.0
+shader_parameter/glow_color = Color(0.86076874, 0.89979166, 1, 1)
+shader_parameter/glow_thickness = 3.98000018905
+shader_parameter/pulse_speed = 4.4950002135125
+shader_parameter/pulse_strength = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
 size = Vector2(17, 16)
@@ -19,6 +31,7 @@ script = ExtResource("1_7qxr7")
 shape = SubResource("RectangleShape2D_m5ss4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2003734995]
+material = SubResource("ShaderMaterial_xpxn3")
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_e40kq")
 

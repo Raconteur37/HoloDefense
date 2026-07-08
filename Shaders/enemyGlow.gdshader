@@ -1,27 +1,50 @@
 shader_type canvas_item;
 
-uniform vec4 glow_color : source_color = vec4(1.0, 0.2, 0.3, 1.0); // enemy glow tint
-uniform float glow_intensity : hint_range(0.0, 5.0) = 2.0; // push >1 to trigger bloom
-uniform float pulse_speed : hint_range(0.0, 10.0) = 3.0;
+// --- Core Sprite Tint ---
+uniform vec4 tint_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+// --- Flash System ---
+uniform vec4 flash_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+// --- Glow System ---
+uniform vec4 glow_color : source_color = vec4(0.3, 0.9, 1.0, 1.0);
+uniform float glow_thickness : hint_range(0.0, 10.0) = 2.0;
+uniform float pulse_speed : hint_range(0.0, 10.0) = 4.0;
 uniform float pulse_strength : hint_range(0.0, 1.0) = 0.3;
-uniform float rim_width : hint_range(0.0, 0.5) = 0.15;
 
 void fragment() {
-    vec4 tex = texture(TEXTURE, UV);
-
-    // distance from edge of the square (0 at center, 1 at edge)
-    vec2 centered = abs(UV - 0.5) * 2.0;
-    float edge_dist = max(centered.x, centered.y);
-
-    // rim glow: brighter near the edges of the square
-    float rim = smoothstep(1.0 - rim_width, 1.0, edge_dist);
-
-    // pulsing brightness over time
+    vec4 base_color = texture(TEXTURE, UV);
+    
+    // Multiply the white sprite by the tint color to dye it
+    base_color.rgb *= tint_color.rgb;
+    
+    // 1. Calculate an animated pulse multiplier
     float pulse = 1.0 + sin(TIME * pulse_speed) * pulse_strength;
-
-    vec3 base_color = tex.rgb * glow_color.rgb;
-    vec3 rim_glow = glow_color.rgb * rim * glow_intensity * pulse;
-
-    // Multiply the final calculation by Godot's built-in COLOR to apply modulate
-    COLOR = vec4(base_color + rim_glow, tex.a) * COLOR;
+    
+    // 2. Read neighboring pixels to find the true edges of the sprite drawing
+    vec2 size = TEXTURE_PIXEL_SIZE * glow_thickness;
+    float outline = texture(TEXTURE, UV + vec2(-size.x, 0.0)).a;
+    outline += texture(TEXTURE, UV + vec2(0.0, size.y)).a;
+    outline += texture(TEXTURE, UV + vec2(size.x, 0.0)).a;
+    outline += texture(TEXTURE, UV + vec2(0.0, -size.y)).a;
+    outline += texture(TEXTURE, UV + vec2(-size.x, size.y)).a;
+    outline += texture(TEXTURE, UV + vec2(size.x, size.y)).a;
+    outline += texture(TEXTURE, UV + vec2(-size.x, -size.y)).a;
+    outline += texture(TEXTURE, UV + vec2(size.x, -size.y)).a;
+    
+    // Clamp the outline so it doesn't exceed 1.0 transparency
+    outline = min(outline, 1.0);
+    
+    // 3. Create the glowing outer rim, blending it onto the empty space around the sprite
+    vec4 final_color = mix(base_color, vec4(glow_color.rgb * pulse, glow_color.a), outline - base_color.a);
+    
+    // 4. Apply the damage flash (only to the core sprite, leaving the glow untouched)
+    if (flash_modifier > 0.0) {
+        vec3 flash = mix(final_color.rgb, flash_color.rgb, flash_modifier);
+        // We only apply the white flash where the original sprite's alpha exists
+        final_color.rgb = mix(final_color.rgb, flash, base_color.a);
+    }
+    
+    COLOR = final_color;
 }
