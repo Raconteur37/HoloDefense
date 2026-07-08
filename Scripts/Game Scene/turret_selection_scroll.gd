@@ -258,8 +258,9 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 	levelThreeTexture.texture = lockedIcon
 	
 	
-	xpLabel.hide()
-	xpButton.hide()
+	if not refresh:
+		xpLabel.hide()
+		xpButton.hide()
 
 	if is_unlocked:
 		purchaseBox.hide()
@@ -283,8 +284,9 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 		levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
 		levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
 
-		xpLabel.show()
-		xpButton.show()
+		if not refresh:
+			xpLabel.show()
+			xpButton.show()
 
 		if turretLevel == 1:
 			# Level 1: Both 2 and 3 are locked (Set to 40% opacity)
@@ -674,17 +676,43 @@ func load_shop_config() -> void:
 	config = default_config
 
 
-func _on_xp_button_pressed() -> void:
+func attempt_xp_purchase() -> void:
 	if not EconomyManager.spend_stardust(config["xp_purchase_cost"]):
 		return
 	
 	for i in range(config["xp_given"]):
 		XpManager.addXp(currentTurretID)
 	_on_turret_button_pressed(currentTurretID,true)
+	
 	var particle = load("res://Particle Scenes/UI/XPUpgrade.tscn").instantiate()
 	$"../..".add_child(particle)
 	particle.global_position = get_global_mouse_position()
+	
 	SoundManager.playXpPurchaseSound()
 	XpManager.saveXpData()
 	EconomyManager.save_economy()
 	stardustTotalLabel.text = str(EconomyManager.get_stardust())
+
+var is_holding_xp := false
+var xp_hold_timer := 0.0
+var xp_rapid_fire_rate := 0.1 # How fast it buys (0.1 = 10 times a second)
+
+# Connect these to your XP Button via the Node panel, or in _ready()
+func _on_xp_button_button_down() -> void:
+	is_holding_xp = true
+	attempt_xp_purchase() # Trigger the first purchase instantly!
+
+func _on_xp_button_button_up() -> void:
+	is_holding_xp = false
+
+func _on_xp_button_mouse_exited() -> void:
+	# Failsafe: Stop buying if the player drags their mouse off the button while clicking
+	is_holding_xp = false 
+
+func _process(delta: float) -> void:
+	if is_holding_xp:
+		#print("is holding")
+		xp_hold_timer += delta
+		if xp_hold_timer >= xp_rapid_fire_rate:
+			xp_hold_timer = 0.0
+			attempt_xp_purchase()

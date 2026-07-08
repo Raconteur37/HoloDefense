@@ -189,11 +189,11 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.tierTwoEnemiesKilled += 1
 			if enemy.enemyID == Enemy.EnemyID.SPEEDY_TRIANGLE:
 				StatManager.speedyTrianglesKilled += 1
-				if StatManager.speedyTrianglesKilled >= 30:
+				if StatManager.speedyTrianglesKilled >= 50:
 					AchievementManager.unlock_achievement("ACH_DEFEAT_SPEEDY_TRIANGLE")
 			if enemy.enemyID == Enemy.EnemyID.TANKY_RECTANGLE:
 				StatManager.tankyRectanglesKilled += 1
-				if StatManager.tankyRectanglesKilled >= 30:
+				if StatManager.tankyRectanglesKilled >= 50:
 					AchievementManager.unlock_achievement("ACH_DEFEAT_TANKY_RECTANGLE")
 		3: 
 			if enemy.enemyID == Enemy.EnemyID.SHOOTY_DIAMOND:

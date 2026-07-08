@@ -720,4 +720,6 @@ label_settings = SubResource("LabelSettings_4fnnr")
 [connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
 [connection signal="toggled" from="HBoxContainer/StatsToggle" to="TurretInfo/TurretSelectionScroll" method="_on_stats_toggle_toggled"]
 [connection signal="pressed" from="PurchaseBox/ShardButton" to="TurretInfo/TurretSelectionScroll" method="_on_shard_button_pressed"]
-[connection signal="pressed" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_pressed"]
+[connection signal="button_down" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_button_down"]
+[connection signal="button_up" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_button_up"]
+[connection signal="mouse_exited" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_mouse_exited"]
