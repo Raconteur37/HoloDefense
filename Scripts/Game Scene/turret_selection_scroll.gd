@@ -96,7 +96,7 @@ func add_turret_button(turretID: Turret.TurretID) -> void:
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	btn.tooltip_text = _idToName(turretID)
-	btn.pressed.connect(_on_turret_button_pressed.bind(turretID,true))
+	btn.pressed.connect(_on_turret_button_pressed.bind(turretID,false))
 	if not EconomyManager.is_turret_unlocked(turretID):
 		var rect := TextureRect.new()
 		rect.texture = load("res://Textures/UI/Game/Turret Info Scene/locked_icon_32.png")
@@ -194,9 +194,13 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
 	
+	# 1. Hide the XP UI ONLY if we are selecting a new turret, not refreshing
 	if not refresh:
 		soundPlayer.play()
 		animationPlayer.play("InfoAppear")
+		xpLabel.hide()
+		xpButton.hide()
+		
 	currentTurretID = turretID
 
 	var is_unlocked := EconomyManager.is_turret_unlocked(turretID)
@@ -256,11 +260,6 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 	
 	levelTwoTexture.texture = lockedIcon
 	levelThreeTexture.texture = lockedIcon
-	
-	
-	if not refresh:
-		xpLabel.hide()
-		xpButton.hide()
 
 	if is_unlocked:
 		purchaseBox.hide()
@@ -275,21 +274,19 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 		turretDescriptionLabel.add_theme_constant_override("shadow_offset_x", 0)
 		turretDescriptionLabel.add_theme_constant_override("shadow_offset_y", 0)
 
-
 		var turretLevel = XpManager.getCurrentLevel(turretID)
 
-		# Always show and populate the descriptions so the player can preview future upgrades
+		# Show the button only if they haven't maxed it out
+		if turretLevel < 3:
+			xpLabel.show()
+			xpButton.show()
+
 		levelTwoDescription.show()
 		levelThreeDescription.show()
 		levelTwoDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelTwo"))
 		levelThreeDescription.parse_bbcode(TurretManager.getTurretStat(turretID, "levelThree"))
 
-		if not refresh:
-			xpLabel.show()
-			xpButton.show()
-
 		if turretLevel == 1:
-			# Level 1: Both 2 and 3 are locked (Set to 40% opacity)
 			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
 			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
 			
@@ -298,9 +295,7 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 			levelTwoTexture.texture = lockedIcon
 			levelThreeTexture.texture = lockedIcon
 			
-			
 		elif turretLevel == 2:
-			# Level 2: Level 2 is unlocked (100% opacity), Level 3 is locked (40% opacity)
 			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 0.4)
 			
@@ -310,7 +305,6 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 			levelThreeTexture.texture = lockedIcon
 			
 		elif turretLevel == 3:
-			# Level 3: Both are unlocked (100% opacity)
 			levelTwoTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			levelThreeTexture.modulate = Color(1.0, 1.0, 1.0, 1.0)
 			
@@ -319,6 +313,7 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 			levelTwoTexture.texture = unlockedIcon
 			levelThreeTexture.texture = unlockedIcon
 			
+			# 2. Force the UI to hide immediately once Level 3 is reached
 			xpLabel.hide()
 			xpButton.hide()
 
@@ -332,7 +327,6 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 		if toggleStatsButton.button_pressed:
 			buildTurretStats(turretID)
 		else:
-			
 			var properties: Array = TurretManager.getListOfProperties(turretID)
 			createAndInsertPropertiesLabels(properties, turretID)
 

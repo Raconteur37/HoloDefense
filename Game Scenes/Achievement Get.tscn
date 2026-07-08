@@ -140,3 +140,4 @@ one_shot = true
 libraries/ = SubResource("AnimationLibrary_t8f4q")
 
 [connection signal="timeout" from="Control/Timer" to="." method="_on_timer_timeout"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

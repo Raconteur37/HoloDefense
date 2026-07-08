@@ -32,3 +32,7 @@ func buildAchievementBar(achievementTitle : String,achievementDescription : Stri
 
 func _on_timer_timeout() -> void:
 	animPlayer.play("FadeOut")
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "FadeOut":
+		queue_free()
