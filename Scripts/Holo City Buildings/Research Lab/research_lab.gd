@@ -302,6 +302,12 @@ func researchComplete(timer : Timer,turretID):
 	
 	StatManager.researchCompleted += 1
 	
+	var current_level = GameManager.turretTempLevels.get(turretID, 1)
+	if current_level > StatManager.highestResearchLevel:
+		StatManager.highestResearchLevel = current_level
+	if StatManager.highestResearchLevel >= 15:
+		AchievementManager.unlock_achievement("ACH_TRUE_POWERUP")
+	
 	timer.queue_free()
 	
 	for cit : Citizen in workersHere:

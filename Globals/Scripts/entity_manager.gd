@@ -225,6 +225,8 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.addStat(turret.turretOwner.turretID, "kills", 1)
 			turret.enemy = null
 		else:
+			if turret.health <= 2:
+				AchievementManager.unlock_achievement("ACH_CRITICAL_KILL")
 			match turret.turretID:
 				Turret.TurretID.FIREWORK_TURRET:
 					if turret.level >= 3:
