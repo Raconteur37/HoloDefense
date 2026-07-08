@@ -18,15 +18,19 @@ const ENEMIES = {
 func summonEnemy(enemyID : Enemy.EnemyID):
 	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
 	
+	#print("EnemySpawnManager attempting to spawn ID: ", enemyID)
+	
 	if holder and ENEMIES.has(enemyID):
-
+		#print("1. Found the preloaded scene!")
 		var enemy = ENEMIES[enemyID].instantiate()
 		
+		#print("2. Instantiated successfully! Adding to tree...")
 		holder.add_child(enemy)
 		
 		enemy.global_position = getRandomOffscreenPosition()
+		#print("3. Spawn fully complete.")
 	else:
-		push_error("Spawn failed: Holder not found or EnemyID invalid")
+		push_error("Spawn failed: Holder not found or EnemyID invalid. ID received: ", enemyID)
 
 func mothershipSpawn(mothership):
 	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")

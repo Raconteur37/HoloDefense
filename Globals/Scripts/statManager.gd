@@ -17,6 +17,7 @@ var systemsCompleted = 0
 var basicSquaresKilled = 0
 var speedyTrianglesKilled = 0
 var shootyDiamondsKilled = 0
+var tankyRectanglesKilled = 0
 var hexagonMothershipsKilled = 0
 var currentRun 
 var currentStats = {} 
@@ -176,6 +177,7 @@ func getDefaultLifetimeStats() -> Dictionary:
 		"speedyTrianglesKilled": 0,
 		"shootyDiamondsKilled": 0,
 		"hexagonMothershipsKilled": 0,
+		"tankyRectanglesKilled": 0,
 		"turretsPlaced": 0,
 		"citizensGenerated": 0,
 		"researchCompleted": 0,

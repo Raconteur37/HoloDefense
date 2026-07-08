@@ -189,6 +189,8 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.tierTwoEnemiesKilled += 1
 			if enemy.enemyID == Enemy.EnemyID.SPEEDY_TRIANGLE:
 				StatManager.speedyTrianglesKilled += 1
+			if enemy.enemyID == Enemy.EnemyID.TANKY_RECTANGLE:
+				StatManager.tankyRectanglesKilled += 1
 		3: 
 			if enemy.enemyID == Enemy.EnemyID.SHOOTY_DIAMOND:
 				StatManager.shootyDiamondsKilled += 1
