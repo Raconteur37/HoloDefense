@@ -22,7 +22,7 @@ func _ready() -> void:
 	SteamManager.lobby_join_failed.connect(_on_join_failed)
 	SteamManager.friend_invite_accepted.connect(_on_friend_invite)
 
-	# Built-in GodotSteam signals
+	# Wire directly to Steam's internal networking alerts
 	Steam.lobby_data_update.connect(_on_lobby_data_update)
 	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
 
@@ -32,17 +32,15 @@ func _ready() -> void:
 		_on_lobby_ready(SteamManager.pending_lobby_id)
 
 # ─────────────────────────────────────────
-#  HELPER: ASK STEAM FOR THE TRUTH
+#  HELPER: OWNER VERIFICATION
 # ─────────────────────────────────────────
 func is_user_host() -> bool:
 	if SteamManager.current_lobby_id == 0:
 		return false
-	# Compare the lobby owner's Steam ID with our own Steam ID
 	return Steam.getLobbyOwner(SteamManager.current_lobby_id) == Steam.getSteamID()
 
-
 # ─────────────────────────────────────────
-#  CREATE / JOIN
+#  BUTTON INTERACTIONS
 # ─────────────────────────────────────────
 func _on_create_button_pressed() -> void:
 	status_label.text = "Creating lobby..."
@@ -59,10 +57,6 @@ func _on_join_button_pressed() -> void:
 func _on_join_failed() -> void:
 	status_label.text = "Failed to join. Check the code."
 
-
-# ─────────────────────────────────────────
-#  INVITE ACCEPTED
-# ─────────────────────────────────────────
 func _on_friend_invite(_lobby_id: int) -> void:
 	if get_tree().current_scene != self:
 		get_tree().change_scene_to_file("res://Game Scenes/MainMenu.tscn")
@@ -70,9 +64,8 @@ func _on_friend_invite(_lobby_id: int) -> void:
 		status_label.text = "Joining via invite..."
 		lobby_panel.show()
 
-
 # ─────────────────────────────────────────
-#  LOBBY UI
+#  LOBBY MANAGEMENT
 # ─────────────────────────────────────────
 func _on_lobby_ready(_lobby_id: int) -> void:
 	SteamManager.pending_lobby_id = 0  
@@ -83,14 +76,12 @@ func _on_lobby_ready(_lobby_id: int) -> void:
 	status_label.hide()
 	lobby_panel.show()
 
-	# Use our bulletproof helper function
 	if is_user_host():
 		room_label.text = "Code: %d" % SteamManager.current_lobby_id
 		code_display.text = "Room Code: %d" % SteamManager.current_lobby_id
 		code_display.show()
 		start_btn.show()
 		invite_btn.show()
-		
 		Steam.setLobbyData(SteamManager.current_lobby_id, "state", "waiting")
 	else:
 		room_label.text = "Lobby"
@@ -100,17 +91,12 @@ func _on_lobby_ready(_lobby_id: int) -> void:
 
 	_refresh_players()
 
-func _on_lobby_chat_update(_lobby_id: int, _changed_id: int, _making_change_id: int, _chat_state: int) -> void:
-	_refresh_players()
-
 func _refresh_players(_dummy = null) -> void:
 	player_list.clear()
-
 	if SteamManager.current_lobby_id == 0:
 		return
 
 	var num_members = Steam.getNumLobbyMembers(SteamManager.current_lobby_id)
-	
 	for i in range(num_members):
 		var member_steam_id = Steam.getLobbyMemberByIndex(SteamManager.current_lobby_id, i)
 		var member_name = Steam.getFriendPersonaName(member_steam_id)
@@ -127,9 +113,8 @@ func _refresh_players(_dummy = null) -> void:
 func _on_invite_button_pressed() -> void:
 	SteamManager.open_invite_overlay()
 
-
 # ─────────────────────────────────────────
-#  START GAME & SCENE TRANSITION
+#  SIGNAL-SAFE NETWORK TRANSITIONS
 # ─────────────────────────────────────────
 func _on_start_button_pressed() -> void:
 	print("Start button pressed!")
@@ -138,35 +123,37 @@ func _on_start_button_pressed() -> void:
 		return
 		
 	print("Host verified. Changing lobby data to 'loading'...")
-	var success = Steam.setLobbyData(SteamManager.current_lobby_id, "state", "loading")
-	print("Lobby Data Update Success Status: ", success)
-	get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
+	Steam.setLobbyData(SteamManager.current_lobby_id, "state", "loading")
 
-func _on_lobby_data_update(lobby_id: int, _member_id: int, _success: int) -> void:
+# REMOVED STATIC TYPING FROM PARAMETERS TO PREVENT GODOT 4 SIGNAL DROPPING
+func _on_lobby_data_update(lobby_id, member_id, success) -> void:
+	print("Steam Data Update! Lobby: ", lobby_id, " | Success: ", success)
+	
+	# Update player profile rendering (resolves invisible teammate bug)
+	_refresh_players()
+	
 	if lobby_id != SteamManager.current_lobby_id or SteamManager.current_lobby_id == 0:
 		return
 	if _has_loaded:
 		return
 
 	var state = Steam.getLobbyData(lobby_id, "state")
-	print("Lobby Data Updated! New State: ", state)
-	
 	if state == "loading":
-		print("Transitioning all players to Loadout...")
+		print("Steam verification received! Transfereing to Loadout...")
 		_has_loaded = true
 		GameManager.VSmode = true
 		get_tree().change_scene_to_file("res://Game Scenes/Loadout.tscn")
 
+# REMOVED STATIC TYPING HERE AS WELL
+func _on_lobby_chat_update(lobby_id, changed_id, making_change_id, chat_state) -> void:
+	print("Steam Chat Update! Processing layout refresh...")
+	_refresh_players()
 
 # ─────────────────────────────────────────
-#  LEAVE
+#  LEAVE CONTROL UI
 # ─────────────────────────────────────────
 func _on_leave_button_pressed() -> void:
-	# Tell the manager to do its cleanup
 	SteamManager.leave_lobby()
-	
-	# Just in case the manager fails, force the local UI variable to 0
-	SteamManager.current_lobby_id = 0
 	
 	lobby_panel.hide()
 	code_display.hide()
