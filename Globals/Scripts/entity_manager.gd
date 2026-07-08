@@ -304,7 +304,7 @@ func updateTurretUpgradeTier(turretName: String) -> void:
 		turretsUpgradeTier[turretName] = 1
 
 
-func getClosestEnemyFromSprite(turret: Turret) -> Enemy:
+func getClosestEnemyFromSprite(turret) -> Enemy:
 	var closestDistance = 999999.0
 	var targetEnemy = null
 	
