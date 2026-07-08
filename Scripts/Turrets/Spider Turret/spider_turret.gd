@@ -94,10 +94,11 @@ func attack():
 			if rand <= poisonChance:
 				proj.poison = true
 			
-			rand = randf_range(0,100)
-			if rand <= webChance:
-				proj.web = true
-				proj.webDuration = webDuration
+			if level >= 2:
+				rand = randf_range(0,100)
+				if rand <= webChance:
+					proj.web = true
+					proj.webDuration = webDuration
 
 			get_parent().add_child(proj)
 
