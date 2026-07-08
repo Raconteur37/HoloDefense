@@ -178,11 +178,22 @@ func _check_launch_command_line() -> void:
 #  LEAVE LOBBY
 # ─────────────────────────────────────────
 
+# ─────────────────────────────────────────
+#  LEAVE LOBBY
+# ─────────────────────────────────────────
+
 func leave_lobby() -> void:
 	if current_lobby_id != 0:
+		# 1. Close active P2P connections with all current opponents
+		for opponent_id in get_opponent_steam_ids():
+			Steam.closeP2PSessionWithUser(opponent_id)
+			
+		# 2. Tell Steam we are leaving
 		Steam.leaveLobby(current_lobby_id)
-		current_lobby_id = 0
-		print("Left lobby")
+		print("Left lobby: ", current_lobby_id)
+
+	current_lobby_id = 0
+	pending_lobby_id = 0
 
 # ─────────────────────────────────────────
 #  P2P MESSAGING
