@@ -40,6 +40,9 @@ func _ready() -> void:
 #  CREATE / JOIN
 # ─────────────────────────────────────────
 
+func _on_lobby_chat_update(_lobby_id: int, _changed_id: int, _making_change_id: int, _chat_state: int) -> void:
+	_refresh_players()
+
 func _on_create_button_pressed() -> void:
 	if not SteamManager.steam_initialized:
 		status_label.text = "Steam not running!"
@@ -114,15 +117,21 @@ func _refresh_players(_dummy = null) -> void:
 	if SteamManager.current_lobby_id == 0:
 		return
 
-	for member in SteamManager.get_lobby_members():
-		var is_me = member["steam_id"] == SteamManager.steam_id
-		var is_owner = member["steam_id"] == Steam.getLobbyOwner(SteamManager.current_lobby_id)
+	# Query Steam directly to avoid custom manager cache bugs
+	var num_members = Steam.getNumLobbyMembers(SteamManager.current_lobby_id)
+	
+	for i in range(num_members):
+		var member_steam_id = Steam.getLobbyMemberByIndex(SteamManager.current_lobby_id, i)
+		var member_name = Steam.getFriendPersonaName(member_steam_id)
+		
+		var is_me = (member_steam_id == SteamManager.steam_id)
+		var is_owner = (member_steam_id == Steam.getLobbyOwner(SteamManager.current_lobby_id))
 		
 		var tag = ""
 		if is_owner: tag += "👑 "
 		if is_me: tag += " (You)"
 		
-		player_list.add_item("%s%s" % [tag, member["name"]])
+		player_list.add_item("%s%s" % [tag, member_name])
 
 func _on_invite_button_pressed() -> void:
 	if not SteamManager.steam_initialized:
@@ -141,7 +150,8 @@ func _on_start_button_pressed() -> void:
 	# Changing the lobby data here automatically broadcasts to all clients
 	Steam.setLobbyData(SteamManager.current_lobby_id, "state", "loading")
 
-func _on_lobby_data_update(lobby_id: int, _member_id: int, _success: bool) -> void:
+# Change _success from bool to int!
+func _on_lobby_data_update(lobby_id: int, _member_id: int, _success: int) -> void:
 	# Ignore updates from old lobbies or if we already loaded
 	if lobby_id != SteamManager.current_lobby_id or SteamManager.current_lobby_id == 0:
 		return
