@@ -26,7 +26,7 @@ var tierThreeEnemyTypes: Dictionary = {"Similar": [Enemy.EnemyID.SHOOTY_DIAMOND]
 var bossEnemies: Dictionary = {"Similar": Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
 # --- State Variables ---
-var currentDifficulty: int = 11
+var currentDifficulty: int = 1
 var currentWave: int = 0
 var systemNumber: int = 0
 var currentSystem: String = "Similar"

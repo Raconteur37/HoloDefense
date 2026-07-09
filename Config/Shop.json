@@ -2,6 +2,11 @@
 	"xp_purchase_cost": 1,
 	"xp_given": 8,
 	"roll_cost": 10,
+	"common_shard_cost": 200,
+	"rare_shard_cost": 350,
+	"super_rare_shard_cost": 500,
+	"legendary_shard_cost": 1000,
+	"unseen_shard_cost": 2000,
 	"rarity_weights": {
 		"nothing": 0.91361,
 		"common": 0.05076,

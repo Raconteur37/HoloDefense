@@ -11,6 +11,8 @@ extends Control
 @onready var waiting_label = $WaitingLabel
 @onready var readyLabel = $ReadyButton/RichTextLabel
 
+@onready var animationPlayer = $AnimationPlayer
+
 var broughtArray: Array = []
 var player_ready_states: Dictionary = {}
 var is_multiplayer: bool = false
@@ -173,7 +175,8 @@ func _on_begin_button_pressed() -> void:
 	GameManager.turretsBrought = broughtArray.duplicate()
 	for item in GameManager.turretsBrought:
 		GameManager.turretTempLevels[item] = 0
-	get_tree().change_scene_to_file("res://Game Scenes/Game.tscn")
+	SoundManager.playStartButtonSound()
+	animationPlayer.play("BeginRun")
 
 
 # ─────────────────────────────────────────
@@ -283,3 +286,8 @@ func _refresh_player_list(_dummy = null):
 func _on_turret_info_button_2_pressed() -> void:
 	get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
 	SoundManager.stopMusic()
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "BeginRun":
+		get_tree().change_scene_to_file("res://Game Scenes/Game.tscn")
