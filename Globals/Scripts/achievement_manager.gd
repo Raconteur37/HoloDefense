@@ -67,6 +67,7 @@ func _grant_reward(achievement_name: String) -> void:
 	var data = achievement_metadata[achievement_name]
 	var reward_type = data.get("reward_type", "")
 	var reward_id = data.get("reward_id", "")
+	var reward_amount = data.get("reward_amount", "")
 	
 	var achievementGetScene = load("res://Game Scenes/Achievement Get.tscn").instantiate()
 	get_tree().current_scene.add_child(achievementGetScene)
@@ -83,7 +84,11 @@ func _grant_reward(achievement_name: String) -> void:
 			# Example of how you could easily add stardust rewards later
 			EconomyManager.add_stardust(int(reward_id))
 			print("Granted achievement reward: Stardust - ", reward_id)
-			
+		
+		"shard":
+			EconomyManager.add_shards(reward_id,int(reward_amount))
+			EconomyManager.save_economy()
+		
 		_:
 			# No reward type specified, or unrecognized
 			pass

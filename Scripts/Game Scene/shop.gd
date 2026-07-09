@@ -52,7 +52,10 @@ func updateLabels():
 	stardustLabel.text = str(EconomyManager.get_stardust())
 	
 	commonShardPurchaseLabel.text = "x" + str(int(shopConfig.get("common_shard_cost")))
-
+	rareShardPurchaseLabel.text = "x" + str(int(shopConfig.get("rare_shard_cost")))
+	superRarePurchaseLabel.text = "x" + str(int(shopConfig.get("super_rare_shard_cost")))
+	legendaryPurchaseLabel.text = "x" + str(int(shopConfig.get("legendary_shard_cost")))
+	unseenPurchaseLabel.text = "x" + str(int(shopConfig.get("unseen_shard_cost")))
 
 func _on_convert_1_pressed() -> void:
 	if EconomyManager.get_shard_fragments("common_turret") >= 10:
@@ -97,3 +100,43 @@ func _on_convert_5_pressed() -> void:
 func _on_home_button_pressed() -> void:
 	if not $"Slot Machine".is_rolling:
 		get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
+
+
+func _on_texture_button_pressed() -> void:
+	if EconomyManager.get_stardust() >= int(shopConfig.get("common_shard_cost")):
+		EconomyManager.add_shards("common_turret",1)
+		EconomyManager.spend_stardust(int(shopConfig.get("common_shard_cost")))
+		EconomyManager.save_economy()
+		updateLabels()
+
+
+func _on_rare_purchase_pressed() -> void:
+	if EconomyManager.get_stardust() >= int(shopConfig.get("rare_shard_cost")):
+		EconomyManager.add_shards("rare_turret",1)
+		EconomyManager.spend_stardust(int(shopConfig.get("rare_shard_cost")))
+		EconomyManager.save_economy()
+		updateLabels()
+
+
+func _on_super_rare_purchase_pressed() -> void:
+	if EconomyManager.get_stardust() >= int(shopConfig.get("super_rare_shard_cost")):
+		EconomyManager.add_shards("super_rare_turret",1)
+		EconomyManager.spend_stardust(int(shopConfig.get("super_rare_shard_cost")))
+		EconomyManager.save_economy()
+		updateLabels()
+
+
+func _on_legendary_pressed() -> void:
+	if EconomyManager.get_stardust() >= int(shopConfig.get("legendary_shard_cost")):
+		EconomyManager.add_shards("legendary_turret",1)
+		EconomyManager.spend_stardust(int(shopConfig.get("legendary_shard_cost")))
+		EconomyManager.save_economy()
+		updateLabels()
+
+
+func _on_huh_pressed() -> void:
+	if EconomyManager.get_stardust() >= int(shopConfig.get("unseen_shard_cost")):
+		EconomyManager.add_shards("unseen_turret",1)
+		EconomyManager.spend_stardust(int(shopConfig.get("unseen_shard_cost")))
+		EconomyManager.save_economy()
+		updateLabels()
