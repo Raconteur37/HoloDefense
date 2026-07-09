@@ -109,56 +109,57 @@ func killEnemy(source: Node, enemy: Enemy) -> void:
 
 
 func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) -> void:
-	if damager is Enemy:
-		if damager.effects.has(EffectClass.Effect.CURSE):
-			if is_instance_valid(damager.effects.get(EffectClass.Effect.CURSE).turretApplier):
-				if damager.effects.get(EffectClass.Effect.CURSE).turretApplier.level >= 3 and damager.effects.get(EffectClass.Effect.CURSE).turretApplier.turretID == Turret.TurretID.VOODOO_TURRET:
-					var damageReduction = damager.effects.get(EffectClass.Effect.CURSE).turretApplier.damageReduction * 0.01
-					damageReduction = damage * damageReduction
-					damage = damage - damageReduction
-					print(damage)
-	if entity is Turret:
-		var turret = entity
-		if projectile != null:
-			if turret.hasBubble:
-				turret.currentBubbleHealth -= damage
-				bounceProjectile(projectile, turret)
-				if turret.currentBubbleHealth <= 0:
-					turret.removeBubble(true)
+	if is_instance_valid(damager):
+		if damager is Enemy:
+			if damager.effects.has(EffectClass.Effect.CURSE):
+				if is_instance_valid(damager.effects.get(EffectClass.Effect.CURSE).turretApplier):
+					if damager.effects.get(EffectClass.Effect.CURSE).turretApplier.level >= 3 and damager.effects.get(EffectClass.Effect.CURSE).turretApplier.turretID == Turret.TurretID.VOODOO_TURRET:
+						var damageReduction = damager.effects.get(EffectClass.Effect.CURSE).turretApplier.damageReduction * 0.01
+						damageReduction = damage * damageReduction
+						damage = damage - damageReduction
+						print(damage)
+		if entity is Turret:
+			var turret = entity
+			if projectile != null:
+				if turret.hasBubble:
+					turret.currentBubbleHealth -= damage
+					bounceProjectile(projectile, turret)
+					if turret.currentBubbleHealth <= 0:
+						turret.removeBubble(true)
+					return
+				else:
+					projectile.queue_free()
+
+			var takenDamage = applyArmor(damage, turret)
+			turret.health -= takenDamage
+			StatManager.addStat(turret.turretID, "damage_taken", takenDamage)
+			
+			if turret.health <= 0:
+				turret.health = 0
+				GameManager.removeTurretFromGame(turret)
+				PlacementManager.free_cell(turret.global_position)
+				turret.death()
 				return
-			else:
-				projectile.queue_free()
 
-		var takenDamage = applyArmor(damage, turret)
-		turret.health -= takenDamage
-		StatManager.addStat(turret.turretID, "damage_taken", takenDamage)
-		
-		if turret.health <= 0:
-			turret.health = 0
-			GameManager.removeTurretFromGame(turret)
-			PlacementManager.free_cell(turret.global_position)
-			turret.death()
-			return
-
-		turret.refreshUI(turret)
-		
-		match turret.turretID:
-			Turret.TurretID.MINI_SENTRY_TURRET:
-				if turret.level >= 3:
-					turret.stopRepairEvent()
-			Turret.TurretID.RAILGUN_TURRET:
-				if turret.level >= 2:
-					turret.attackedReloadCooldownReduction()
-					
-	elif entity is Minion:
-		var minion = entity
-		minion.health -= damage
-		
-		minion.flash_damage()
-		
-		if minion.health <= 0:
-			minion.health = 0
-			minion.death()
+			turret.refreshUI(turret)
+			
+			match turret.turretID:
+				Turret.TurretID.MINI_SENTRY_TURRET:
+					if turret.level >= 3:
+						turret.stopRepairEvent()
+				Turret.TurretID.RAILGUN_TURRET:
+					if turret.level >= 2:
+						turret.attackedReloadCooldownReduction()
+						
+		elif entity is Minion:
+			var minion = entity
+			minion.health -= damage
+			
+			minion.flash_damage()
+			
+			if minion.health <= 0:
+				minion.health = 0
+				minion.death()
 
 
 
