@@ -130,7 +130,7 @@ offset_right = 369.0
 offset_bottom = 148.0
 grow_horizontal = 2
 bbcode_enabled = true
-text = "[pulse color=purple height=0.5 freq=0.5][font_size=70]Achievement Gallary[/font_size][/pulse]"
+text = "[pulse color=purple height=0.5 freq=0.5][font_size=70]Achievement Gallery[/font_size][/pulse]"
 horizontal_alignment = 1
 vertical_alignment = 1
 

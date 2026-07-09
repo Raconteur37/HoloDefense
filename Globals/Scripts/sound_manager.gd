@@ -184,6 +184,14 @@ func _on_timer_timeout() -> void:
 func stopMusic():
 	musicPlayer.stop()
 
+func playStartButtonSound():
+	UIPlayer.stream = load("res://Sounds/In Game Sounds/Start Run Button.wav")
+	UIPlayer.play()
+
+func playBeginRunSound():
+	UIPlayer.stream = load("res://Sounds/In Game Sounds/Begin Run.wav")
+	UIPlayer.play()
+
 func reset():
 	if not timer.is_stopped():
 		timer.stop()

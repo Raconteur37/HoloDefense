@@ -7,6 +7,7 @@
 [ext_resource type="Script" uid="uid://drpv1stjo0bqk" path="res://Game Scenes/transitionT.gd" id="3_cemk1"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="6_35g7l"]
+[ext_resource type="Script" uid="uid://bj28g8j6vbp2p" path="res://Game Scenes/system_label.gd" id="8_h7tih"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cemk1"]
 shader = ExtResource("2_iw6a6")
@@ -27,6 +28,103 @@ shader_parameter/noise_scale = 16.0
 font_size = 200
 font_color = Color(1, 1, 1, 0.02745098)
 
+[sub_resource type="Animation" id="Animation_jek5h"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CityCanvas:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WaveData:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 1,
+"values": [false]
+}
+
+[sub_resource type="Animation" id="Animation_h7tih"]
+resource_name = "RunIntro"
+length = 8.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 4.0333333, 7),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath("CityCanvas:visible")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0, 4),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+tracks/2/type = "value"
+tracks/2/imported = false
+tracks/2/enabled = true
+tracks/2/path = NodePath("WaveData:visible")
+tracks/2/interp = 1
+tracks/2/loop_wrap = true
+tracks/2/keys = {
+"times": PackedFloat32Array(0, 7.0333333),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_reft1"]
+_data = {
+&"RESET": SubResource("Animation_jek5h"),
+&"RunIntro": SubResource("Animation_h7tih")
+}
+
+[sub_resource type="Gradient" id="Gradient_jek5h"]
+colors = PackedColorArray(0.18039216, 0.17254902, 0.23137255, 1, 0.24313726, 0.25490198, 0.37254903, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_h7tih"]
+gradient = SubResource("Gradient_jek5h")
+fill_from = Vector2(0.508547, 0)
+fill_to = Vector2(0.52136755, 1)
+
+[sub_resource type="LabelSettings" id="LabelSettings_fpifq"]
+font_size = 32
+font_color = Color(0.16470589, 0.6431373, 0.6666667, 1)
+
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
@@ -46,6 +144,7 @@ script = ExtResource("3_cemk1")
 visible = false
 
 [node name="WaveData" type="Control" parent="." unique_id=554365349]
+visible = false
 z_index = 7
 layout_mode = 3
 anchors_preset = 3
@@ -174,9 +273,43 @@ offset_bottom = 661.0
 text = "DEV MODE ACTIVE"
 label_settings = SubResource("LabelSettings_jek5h")
 
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=1693267659]
+libraries/ = SubResource("AnimationLibrary_reft1")
+
+[node name="CanvasLayer" type="CanvasLayer" parent="AnimationPlayer" unique_id=367395210]
+layer = 2
+
+[node name="TextureRect" type="TextureRect" parent="AnimationPlayer/CanvasLayer" unique_id=119957990]
+modulate = Color(1, 1, 1, 0)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = SubResource("GradientTexture2D_h7tih")
+
+[node name="System Label" type="Label" parent="AnimationPlayer/CanvasLayer/TextureRect" unique_id=1062073269]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -229.0
+offset_top = -19.5
+offset_right = 226.0
+offset_bottom = 19.5
+grow_horizontal = 2
+grow_vertical = 2
+label_settings = SubResource("LabelSettings_fpifq")
+horizontal_alignment = 1
+vertical_alignment = 1
+script = ExtResource("8_h7tih")
+
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/GiveUp" to="PauseLayer/PauseMenu" method="_on_give_up_pressed"]
 [connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
 [connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
 [connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
