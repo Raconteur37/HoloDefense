@@ -214,6 +214,7 @@ func load_shop_config() -> void:
 			var parsed = JSON.parse_string(json_str)
 			if typeof(parsed) == TYPE_DICTIONARY:
 				config = parsed
+				$"..".shopConfig = config
 				return
 	config = default_config
 
