@@ -51,7 +51,7 @@ func updateLabels():
 	
 	stardustLabel.text = str(EconomyManager.get_stardust())
 	
-	#commonShardPurchaseLabel.text = str(shopConfig)
+	commonShardPurchaseLabel.text = "x" + str(int(shopConfig.get("common_shard_cost")))
 
 
 func _on_convert_1_pressed() -> void:
