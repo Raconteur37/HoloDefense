@@ -663,7 +663,7 @@ texture = ExtResource("12_qcw3l")
 [node name="RareShardPurchaseButton" type="Control" parent="HBoxContainer2" unique_id=967702801]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer2/RareShardPurchaseButton" unique_id=1400865871]
+[node name="rarePurchase" type="TextureButton" parent="HBoxContainer2/RareShardPurchaseButton" unique_id=1400865871]
 modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
 offset_right = 920.0
@@ -697,7 +697,7 @@ texture = ExtResource("12_qcw3l")
 [node name="SuperRareShardPurchaseButton" type="Control" parent="HBoxContainer2" unique_id=386165462]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer2/SuperRareShardPurchaseButton" unique_id=247808712]
+[node name="superRarePurchase" type="TextureButton" parent="HBoxContainer2/SuperRareShardPurchaseButton" unique_id=247808712]
 modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
 offset_right = 920.0
@@ -731,7 +731,7 @@ texture = ExtResource("12_qcw3l")
 [node name="LegendaryShardPurchaseButton" type="Control" parent="HBoxContainer2" unique_id=1381533916]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer2/LegendaryShardPurchaseButton" unique_id=307232405]
+[node name="legendary" type="TextureButton" parent="HBoxContainer2/LegendaryShardPurchaseButton" unique_id=307232405]
 modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
 offset_right = 920.0
@@ -765,7 +765,7 @@ texture = ExtResource("12_qcw3l")
 [node name="UnseenShardPurchaseButton2" type="Control" parent="HBoxContainer2" unique_id=1009362132]
 layout_mode = 2
 
-[node name="TextureButton" type="TextureButton" parent="HBoxContainer2/UnseenShardPurchaseButton2" unique_id=1217143843]
+[node name="HUH" type="TextureButton" parent="HBoxContainer2/UnseenShardPurchaseButton2" unique_id=1217143843]
 modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
 offset_right = 920.0
@@ -804,3 +804,8 @@ texture = ExtResource("12_qcw3l")
 [connection signal="pressed" from="ConvertButtons/Convert4" to="." method="_on_convert_4_pressed"]
 [connection signal="pressed" from="ConvertButtons/Convert5" to="." method="_on_convert_5_pressed"]
 [connection signal="pressed" from="HomeButton" to="." method="_on_home_button_pressed"]
+[connection signal="pressed" from="HBoxContainer2/CommonShardPurchaseButton/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="HBoxContainer2/RareShardPurchaseButton/rarePurchase" to="." method="_on_rare_purchase_pressed"]
+[connection signal="pressed" from="HBoxContainer2/SuperRareShardPurchaseButton/superRarePurchase" to="." method="_on_super_rare_purchase_pressed"]
+[connection signal="pressed" from="HBoxContainer2/LegendaryShardPurchaseButton/legendary" to="." method="_on_legendary_pressed"]
+[connection signal="pressed" from="HBoxContainer2/UnseenShardPurchaseButton2/HUH" to="." method="_on_huh_pressed"]

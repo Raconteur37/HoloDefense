@@ -47,6 +47,8 @@ func beginNextWave() -> void:
 		currentWave = 0
 		beginNextSystem()
 		StatManager.systemsCompleted += 1
+		if currentDifficulty >= 3:
+			AchievementManager.unlock_achievement("ACH_SYSTEM_COMPLETE_1")
 		return
 
 	currentPhase = Phase.SUMMONING_ENEMIES

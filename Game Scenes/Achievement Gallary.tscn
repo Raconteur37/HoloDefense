@@ -205,6 +205,7 @@ offset_right = 149.0
 offset_bottom = 512.0
 scale = Vector2(2, 2)
 texture = ExtResource("7_4c5ex")
+expand_mode = 3
 
 [node name="ScrollContainer" type="ScrollContainer" parent="." unique_id=1402533468]
 offset_left = 58.0

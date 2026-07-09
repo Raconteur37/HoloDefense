@@ -5,6 +5,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "mini_sentry_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png"
 	},
 	"ACH_DEFEAT_30_DIAMONDS": {
@@ -13,6 +14,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "bubble_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Bubble Turret/Bubble Turret.png"
 	},
 	"ACH_DEFEAT_TANKY_RECTANGLE": {
@@ -21,6 +23,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "voodoo_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Voodoo Turret/Voodoo Turret.png"
 	},
 	"ACH_DEFEAT_SPEEDY_TRIANGLE": {
@@ -29,6 +32,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "spider_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Spider Turret/Spider Turret.png"
 	},
 	"ACH_DEFEAT_HEXAGON_MOTHERSHIP": {
@@ -37,6 +41,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "railgun_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Railgun Turret/RailgunTurret.png"
 	},
 	"ACH_MASS_TURRETS_PLACED": {
@@ -45,6 +50,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "royal_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Royal Turret/RoyalTurret.png"
 	},
 	"ACH_MINI_SENTRY_TURRET": {
@@ -53,6 +59,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "sentry_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Automated Sentry Turret/AutomatedSentryTurret.png"
 	},
 	"ACH_CRITICAL_KILL": {
@@ -61,6 +68,7 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "medic_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Healing Turret/Healing Turret.png"
 	},
 	"ACH_TRUE_POWERUP": {
@@ -69,6 +77,16 @@
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "energizer_turret",
+		"reward_amount": 1,
 		"icon_path": "res://Textures/Turrets/Energizer Turret/Energizer Turret.png"
+	},
+	"ACH_SYSTEM_COMPLETE_1": {
+		"title": "That's Growth!",
+		"description": "Beat a System on difficulty 3 or higher.",
+		"is_hidden": false,
+		"reward_type": "shard",
+		"reward_id": "common_turret",
+		"reward_amount": 2,
+		"icon_path": "res://Textures/Shop/shard_64x64.png"
 	}
 }

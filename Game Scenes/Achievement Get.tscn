@@ -100,6 +100,7 @@ offset_right = 302.0
 offset_bottom = 32.0
 scale = Vector2(2, 2)
 texture = ExtResource("5_aw05g")
+expand_mode = 3
 
 [node name="AchievementTitle" type="RichTextLabel" parent="Control" unique_id=122217515]
 layout_mode = 0
@@ -112,6 +113,7 @@ text = "[pulse color=aqua height=0.5 freq=0.5][font_size=30]That was annoying...
 horizontal_alignment = 1
 
 [node name="Unlocked Label" type="RichTextLabel" parent="Control" unique_id=735256645]
+visible = false
 layout_mode = 0
 offset_left = 46.0
 offset_top = 68.0
