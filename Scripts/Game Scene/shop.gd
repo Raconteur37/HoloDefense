@@ -16,6 +16,13 @@ extends Node
 
 @onready var stardustLabel = $HBoxContainer/StardustLabel
 
+@onready var commonShardPurchaseLabel = $HBoxContainer2/CommonShardPurchaseButton/Label7
+@onready var rareShardPurchaseLabel = $HBoxContainer2/RareShardPurchaseButton/Label7
+@onready var superRarePurchaseLabel = $HBoxContainer2/SuperRareShardPurchaseButton/Label7
+@onready var legendaryPurchaseLabel = $HBoxContainer2/LegendaryShardPurchaseButton/Label7
+@onready var unseenPurchaseLabel = $HBoxContainer2/UnseenShardPurchaseButton2/Label7
+
+var shopConfig
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
@@ -43,7 +50,8 @@ func updateLabels():
 	unstableShardLabel.text = str(EconomyManager.get_shards("unstable"))
 	
 	stardustLabel.text = str(EconomyManager.get_stardust())
-	print(EconomyManager.get_stardust())
+	
+	#commonShardPurchaseLabel.text = str(shopConfig)
 
 
 func _on_convert_1_pressed() -> void:
