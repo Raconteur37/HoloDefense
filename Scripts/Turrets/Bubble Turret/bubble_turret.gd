@@ -57,7 +57,7 @@ func _ready() -> void:
 	bubbleApplyTime = baseBubbleApplyTime
 	bubbleTime = baseBubbleTime
 	maxBubbles = baseMaxBubbles
-	level = 3#XpManager.getCurrentLevel(turretID)
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 	line2d = $RangeArea/RangeIndicator
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
