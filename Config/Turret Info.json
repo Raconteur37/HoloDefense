@@ -394,4 +394,24 @@
 		"scaleFactor": 0.04,
 		"pierceScale": 0.5
 	},
+	"sniper_turret": {
+		"id": 19,
+		"name": "Sniper Turret",
+		"description": "A long range, fragile turret that targets the enemies with the highest health and hits them with a strong hitscan shot.",
+		"levelTwo": "Killing an enemy has a chance to instantly reload the bullet.",
+		"levelThree": "The bullet has a chance to be silver and do extra damage",
+		"rarity": "Common",
+		"type": "Consistent",
+		"price": 25,
+		"armor": 10,
+		"health": 10,
+		"damage": 75,
+		"range": 700,
+		"reloadTime": 7,
+		"constructionTime": 17,
+		"reloadChance": 50,
+		"silverBulletChance": 30,
+		"silverBulletDamageMultiplier": 3,
+		"scaleFactor": 0.07
+	},
 }

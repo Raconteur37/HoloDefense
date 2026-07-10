@@ -39,6 +39,7 @@
 		"zombie_turret": 1.0,
 		"medic_turret": 2,
 		"bubble_turret": 3,
-		"boomerang_turret": 2.5
+		"boomerang_turret": 2.5,
+		"sniper_turret": 3
 	}
 }

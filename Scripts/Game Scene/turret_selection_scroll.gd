@@ -507,6 +507,12 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 				addStatLabel("Knockback Velocity: %s" % TurretManager.getTurretStat(turretID, "knockbackVelocity"), Color.FLORAL_WHITE, 0, true)
 				addStatLabel("Stun Time: %ss" % TurretManager.getTurretStat(turretID, "stunTime"), Color.SLATE_GRAY, 0, true)
 
+		Turret.TurretID.SNIPER_TURRET:
+			addStatLabel("Reload Chance per Kill: %s%%" % TurretManager.getTurretStat(turretID, "reloadChance"), Color.DARK_SEA_GREEN, 0, true)
+			if current_level >= 3:
+				addStatLabel("Silver Bullet Chance: %s%%" % TurretManager.getTurretStat(turretID, "silverBulletChance"), Color.WHITE_SMOKE, 0, true)
+				addStatLabel("Silver Bullet Damage Multiplier: x%s" % TurretManager.getTurretStat(turretID, "silverBulletDamageMultiplier"), Color.PALE_VIOLET_RED, 0, true)
+
 
 # Helper function to generate labels cleanly
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:

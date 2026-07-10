@@ -256,6 +256,10 @@ func onKill(source: Node, enemy: Enemy) -> void:
 				Turret.TurretID.RAILGUN_TURRET:
 					if turret.level >= 3:
 						turret.killReloadCooldownReduction()
+				Turret.TurretID.SNIPER_TURRET:
+					if turret.level >= 2:
+						if randf_range(1,100) <= turret.reloadChance:
+							turret.shotReady = true
 				Turret.TurretID.FLAME_TURRET:
 					if turret.level >= 2 and EffectClass.Effect.BURN in enemy.effects:
 						var fxData = {
