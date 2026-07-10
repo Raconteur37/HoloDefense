@@ -23,7 +23,8 @@ const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.ZOMBIE_TURRET,
 	Turret.TurretID.MEDIC_TURRET,
 	Turret.TurretID.BUBBLE_TURRET,
-	Turret.TurretID.BOOMERANG_TURRET
+	Turret.TurretID.BOOMERANG_TURRET,
+	Turret.TurretID.SNIPER_TURRET
 ]
 
 const TURRET_SCENE_PATHS = {
@@ -44,7 +45,9 @@ const TURRET_SCENE_PATHS = {
 	Turret.TurretID.ZOMBIE_TURRET: "res://Turret Scenes/Zombie Turret.tscn",
 	Turret.TurretID.MEDIC_TURRET: "res://Turret Scenes/Medic Turret.tscn",
 	Turret.TurretID.BUBBLE_TURRET: "res://Turret Scenes/Bubble Turret.tscn",
-	Turret.TurretID.BOOMERANG_TURRET: "res://Turret Scenes/Boomerang Turret.tscn"
+	Turret.TurretID.BOOMERANG_TURRET: "res://Turret Scenes/Boomerang Turret.tscn",
+	Turret.TurretID.SNIPER_TURRET: "res://Turret Scenes/Sniper Turret.tscn"
+
 }
 
 const TURRET_TEXTURE_PATHS = {
@@ -65,7 +68,9 @@ const TURRET_TEXTURE_PATHS = {
 	Turret.TurretID.ZOMBIE_TURRET: "res://Textures/Turrets/Zombie Turret/Zombie Turret.png",
 	Turret.TurretID.MEDIC_TURRET: "res://Textures/Turrets/Healing Turret/Healing Turret.png",
 	Turret.TurretID.BUBBLE_TURRET: "res://Textures/Turrets/Bubble Turret/Bubble Turret.png",
-	Turret.TurretID.BOOMERANG_TURRET: "res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png"
+	Turret.TurretID.BOOMERANG_TURRET: "res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png",
+	Turret.TurretID.SNIPER_TURRET: "res://Textures/Turrets/Sniper Turret/Sniper Turret.png"
+
 }
 
 const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
@@ -339,6 +344,12 @@ func createPropertiesLabels(turret: Turret) -> Array:
 					labels.append(_create_stat_label("Knockback Radius: %s" % turret.knockbackRange, Color.WHITE_SMOKE))
 					labels.append(_create_stat_label("Knockback Velocity: %s" % turret.knockbackVelocity, Color.FLORAL_WHITE))
 					labels.append(_create_stat_label("Stun Time: %ss" % turret.stunTime, Color.SLATE_GRAY))
+
+			Turret.TurretID.SNIPER_TURRET:
+				labels.append(_create_stat_label("Reload Chance per Kill: %s%%" % turret.reloadChance, Color.DARK_SEA_GREEN))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Silver Bullet Chance: %s%%" % turret.silverBulletChance, Color.FLORAL_WHITE))
+					labels.append(_create_stat_label("Silver Bullet Damage Multiplier: x%s" % turret.silverBulletDamageMultiplier, Color.PALE_VIOLET_RED))
 
 
 

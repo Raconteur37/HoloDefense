@@ -8,6 +8,7 @@ func _ready():
 	enemyID = EnemyID.MINI_PACKED_CIRCLE
 	enemyName = EnemyManager.get_enemy_name(enemyID)
 	health = EnemyManager.get_health(enemyID)
+	maxHealth = health
 	damage = EnemyManager.get_damage(enemyID)
 	attackTime = EnemyManager.get_attack_time(enemyID)
 	speed = EnemyManager.get_speed(enemyID)

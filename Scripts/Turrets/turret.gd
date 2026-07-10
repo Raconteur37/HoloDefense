@@ -26,7 +26,8 @@ enum TurretID {
 	TESLA_TURRET,
 	ZOMBIE_TURRET,
 	BUBBLE_TURRET,
-	BOOMERANG_TURRET
+	BOOMERANG_TURRET,
+	SNIPER_TURRET
 }
 
 #signal hit(damage,turret)

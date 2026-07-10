@@ -1,0 +1,119 @@
+[gd_scene format=3 uid="uid://cx78rwejv8a1w"]
+
+[ext_resource type="Script" uid="uid://c2rvbl3fk1epk" path="res://Scripts/Turrets/Sniper Turret/sniper_turret.gd" id="1_gh5px"]
+[ext_resource type="Texture2D" uid="uid://co4n7b01ilsx7" path="res://Textures/Turrets/Sniper Turret/Sniper Turret Bottom.png" id="2_gh5px"]
+[ext_resource type="Texture2D" uid="uid://b4cdvo77qko4v" path="res://Textures/Turrets/Sniper Turret/Sniper Turret-Sheet.png" id="3_3dcfj"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_ud60f"]
+[ext_resource type="PackedScene" uid="uid://dmdysmxt6xd5r" path="res://Particle Scenes/UI/XPUpgrade.tscn" id="5_3dcfj"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_lekxm"]
+atlas = ExtResource("3_3dcfj")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ud60f"]
+atlas = ExtResource("3_3dcfj")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_wc3d8"]
+atlas = ExtResource("3_3dcfj")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ly3cj"]
+atlas = ExtResource("3_3dcfj")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x0j1s"]
+atlas = ExtResource("3_3dcfj")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lekxm")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ud60f")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_wc3d8")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ly3cj")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x0j1s")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_lekxm")
+}],
+"loop": false,
+"name": &"Ready",
+"speed": 20.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_lekxm"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 5
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Sniper Turret" type="CharacterBody2D" unique_id=142022213 groups=["Turret"]]
+collision_mask = 12
+script = ExtResource("1_gh5px")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
+shape = SubResource("RectangleShape2D_11eqx")
+
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1737286898]
+texture = ExtResource("2_gh5px")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=587304110]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+frame = 5
+frame_progress = 1.0
+
+[node name="ShotParticle" parent="TurretTop" unique_id=1679695447 instance=ExtResource("5_3dcfj")]
+modulate = Color(0.8039216, 0.30980393, 0, 1)
+material = SubResource("CanvasItemMaterial_lekxm")
+position = Vector2(0, -17)
+scale = Vector2(0.5, 0.5)
+speed_scale = 2.0
+script = null
+
+[node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
+collision_mask = 12
+script = ExtResource("4_ud60f")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=344454377]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=142957423]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=783353897]
+
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

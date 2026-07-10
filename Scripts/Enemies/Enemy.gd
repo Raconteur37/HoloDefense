@@ -7,6 +7,7 @@ enum Type {BASIC, BOSS, ELITE}
 
 var enemyName: String
 var health: float
+var maxHealth: float
 var damage: float
 var attackTime: float
 var speed: float

@@ -17,6 +17,7 @@ func _ready():
 	enemyID = EnemyID.HEXAGON_MOTHERSHIP
 	enemyName = EnemyManager.get_enemy_name(enemyID)
 	health = EnemyManager.get_health(enemyID)
+	maxHealth = health
 	damage = EnemyManager.get_damage(enemyID)
 	type = Type.BOSS
 	speed = EnemyManager.get_speed(enemyID)
