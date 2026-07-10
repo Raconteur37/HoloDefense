@@ -2,6 +2,9 @@ extends Enemy
 
 class_name HexagonMothership
 
+@onready var animationPlayer = $AnimationPlayer
+@onready var particle = $packedCircleExplosion
+
 var summonTimer
 var summonTime
 
@@ -30,6 +33,7 @@ func _ready():
 	summonTimer.start()
 
 
+
 func _on_summon_timer_timeout() -> void:
 	if tickTimer.is_stopped():
 		tickTimer.start()
@@ -42,3 +46,17 @@ func _on_spawn_ticker_timeout() -> void:
 	if enemiesSpawned >= enemiesToSpawn:
 		tickTimer.stop()
 		enemiesSpawned = 0
+
+func playDeathAnimation():
+	summonTimer.stop()
+	set_physics_process(false)
+	animationPlayer.play("death")
+
+
+func _on_animation_player_animation_finished(anim_name: StringName) -> void:
+	if anim_name == "death":
+		var particle = load("res://Particle Scenes/Enemies/hexagonDeath.tscn").instantiate()
+		particle.global_position = self.global_position
+		get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
+		await get_tree().create_timer(0.4).timeout
+		queue_free()

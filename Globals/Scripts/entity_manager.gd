@@ -230,8 +230,10 @@ func onKill(source: Node, enemy: Enemy) -> void:
 		SoundManager.stopBossWaveSound()
 		StatManager.bossesKilled += 1
 		if enemy.enemyID == Enemy.EnemyID.HEXAGON_MOTHERSHIP:
+			enemy.playDeathAnimation()
 			StatManager.hexagonMothershipsKilled += 1
 			AchievementManager.unlock_achievement("ACH_DEFEAT_HEXAGON_MOTHERSHIP")
+			return
 
 	var turret = source as Turret
 	if is_instance_valid(turret):
