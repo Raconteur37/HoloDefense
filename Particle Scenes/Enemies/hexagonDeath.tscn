@@ -1,0 +1,29 @@
+[gd_scene format=3 uid="uid://c334fe5p4qxdt"]
+
+[ext_resource type="Texture2D" uid="uid://cdv25v2oeor82" path="res://Particle Scenes/Enemies/hexagonDeath.png" id="1_1axdd"]
+[ext_resource type="Script" uid="uid://ccnmw8slai4i3" path="res://Particle Scenes/Turrets/Energizer Turret/explosion.gd" id="2_1axdd"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dv8nh"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 14
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="hexagonExplosion" type="CPUParticles2D" unique_id=1565951162]
+z_index = 12
+y_sort_enabled = true
+material = SubResource("CanvasItemMaterial_dv8nh")
+scale = Vector2(13, 13)
+emitting = false
+amount = 1
+texture = ExtResource("1_1axdd")
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+script = ExtResource("2_1axdd")
