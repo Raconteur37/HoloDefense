@@ -47,6 +47,7 @@ XpManager="*uid://dq05wtiw3k13y"
 StatManager="*uid://cjfeqm477su16"
 MinigameManager="*uid://cx3g5peow32fg"
 AchievementManager="*uid://cyhu87bx52ony"
+SettingsManager="*uid://q4yxgre86uyt"
 
 [display]
 

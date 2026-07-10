@@ -2,7 +2,7 @@ extends CharacterBody2D
 
 class_name Enemy
 
-enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE}
+enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE, MINI_PACKED_CIRCLE}
 enum Type {BASIC, BOSS, ELITE}
 
 var enemyName: String
@@ -33,6 +33,7 @@ var initialTurn: bool = false
 var turnTurret
 var zombieFollowTarget: Enemy = null
 
+var specificDir = null
 
 # Attack logic
 var attackReady: bool = true
@@ -45,6 +46,13 @@ var is_sent_enemy: bool = false  # true when spawned by another player sending i
 
 var knockbackVelocity: Vector2 = Vector2.ZERO
 var knockbackDecay: float = 1500.0 # How fast the enemy regains their footing (higher is shorter slide)
+
+var ranged : bool = false
+
+var explosionRadius
+var explosionDamage
+
+var minisSpawned
 
 func _ready() -> void:
 	applyScaling()
@@ -80,7 +88,7 @@ func _physics_process(delta: float) -> void:
 	if turretsInRange.size() > 0 and not isZombie:
 		velocity = Vector2.ZERO
 		
-		if attackReady:
+		if attackReady and not ranged:
 			var targetTurret = turretsInRange[0]
 			EntityManager.turretTakeDamage(damage, targetTurret, null, self)
 			startAttackCooldown()
@@ -185,7 +193,7 @@ func _on_area_2d_body_exited(body: Node2D) -> void:
 # ----------------------------------------------------
 
 func startAttackCooldown() -> void:
-	if type != Type.BOSS:
+	if type != Type.BOSS and attackTimer != null:
 		attackReady = false
 		attackTimer.start()
 
@@ -193,7 +201,10 @@ func _on_attack_timer_timeout() -> void:
 	attackReady = true
 
 func getDestination() -> void:
-	destination = get_viewport().get_visible_rect().size / 2
+	if specificDir != null:
+		destination = specificDir
+	else:
+		destination = get_viewport().get_visible_rect().size / 2
 
 func getName() -> String:
 	return enemyName

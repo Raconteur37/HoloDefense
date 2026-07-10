@@ -4,6 +4,7 @@ class_name ShootyDiamond
 
 var projectile = preload("res://Projectile Scenes/diamond.tscn")
 
+
 func _ready():
 	enemyID = EnemyID.SHOOTY_DIAMOND
 	enemyName = EnemyManager.get_enemy_name(enemyID)
@@ -13,7 +14,8 @@ func _ready():
 	speed = EnemyManager.get_speed(enemyID)
 	attackRange = EnemyManager.get_range(enemyID)
 	projectileSpeed = EnemyManager.get_range(enemyID)
-	tier = 3
+	ranged = true
+	tier = EnemyManager.get_tier(enemyID)
 	sprite = $Sprite2D
 	type = Type.BASIC
 	attackTimer = $AttackTimer
@@ -38,8 +40,8 @@ func _on_attack_timer_timeout() -> void:
 			var proj = projectile.instantiate()
 			proj.position = position
 
-			proj.linear_velocity = (turret.global_position - global_position).normalized() * projectileSpeed
-
+			proj.velocity = (turret.global_position - global_position).normalized() * projectileSpeed
+			
 			var dif = self.global_position.angle_to_point(turret.global_position)
 
 			proj.rotation = proj.rotation + dif

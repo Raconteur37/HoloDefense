@@ -12,6 +12,16 @@ var turretsUpgradeTier = {}
 func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 	if enemy.isDead:
 		return
+	
+	if packet.type == DamagePacket.Type.DUMMY:
+		var damage = packet.damage
+		enemy.health -= damage
+		enemy.hurtParticle.emitting = true
+		if is_instance_valid(enemy):
+			var tween = create_tween()
+			enemy.sprite.material.set_shader_parameter("flash_modifier", 1.0)
+			tween.tween_property(enemy.sprite.material, "shader_parameter/flash_modifier", 0.0, 0.1)
+		return
 		
 	if is_instance_valid(packet.source):
 		var turret = packet.source as Turret
@@ -117,7 +127,6 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 						var damageReduction = damager.effects.get(EffectClass.Effect.CURSE).turretApplier.damageReduction * 0.01
 						damageReduction = damage * damageReduction
 						damage = damage - damageReduction
-						print(damage)
 		if entity is Turret:
 			var turret = entity
 			if projectile != null:
@@ -186,6 +195,8 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.tierOneEnemiesKilled += 1
 			if enemy.enemyID == Enemy.EnemyID.BASIC_SQUARE:
 				StatManager.basicSquaresKilled += 1
+			if enemy.enemyID == Enemy.EnemyID.MINI_PACKED_CIRCLE:
+				StatManager.miniPackedCirclesKilled += 1
 		2: 
 			StatManager.tierTwoEnemiesKilled += 1
 			if enemy.enemyID == Enemy.EnemyID.SPEEDY_TRIANGLE:
@@ -201,6 +212,8 @@ func onKill(source: Node, enemy: Enemy) -> void:
 				StatManager.shootyDiamondsKilled += 1
 				if StatManager.shootyDiamondsKilled >= 10:
 					AchievementManager.unlock_achievement("ACH_DEFEAT_30_DIAMONDS")
+			if enemy.enemyID == Enemy.EnemyID.PACKED_CIRCLE:
+				StatManager.packedCirclesKilled += 1
 			StatManager.tierThreeEnemiesKilled += 1
 
 	if enemyName == "Dummy":
@@ -291,6 +304,11 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			StatManager.addStat(gravestone.turretApplier.turretID,"enemies_zombified",1)
 			XpManager.addXp(gravestone.turretApplier.turretID)
 			return
+	
+	if enemy.enemyID == Enemy.EnemyID.PACKED_CIRCLE:
+		enemy.deathEvent()
+		return
+	
 	enemy.queue_free()
 
 

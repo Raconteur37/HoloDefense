@@ -1,0 +1,26 @@
+[gd_scene format=3 uid="uid://b64i5nlwjb0ge"]
+
+[ext_resource type="Texture2D" uid="uid://82nhc20e5fkh" path="res://Particle Scenes/Enemies/packedExplosion.png" id="1_by8of"]
+[ext_resource type="Script" uid="uid://coro1l4esmsy6" path="res://Particle Scenes/Enemies/packed_explosion.gd" id="2_by8of"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_dv8nh"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = true
+
+[node name="packedCircleExplosion" type="CPUParticles2D" unique_id=1565951162]
+material = SubResource("CanvasItemMaterial_dv8nh")
+emitting = false
+amount = 1
+texture = ExtResource("1_by8of")
+one_shot = true
+explosiveness = 1.0
+local_coords = true
+particle_flag_align_y = true
+direction = Vector2(0, 0)
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0
+script = ExtResource("2_by8of")

@@ -1,0 +1,34 @@
+[gd_scene format=3 uid="uid://dgvb5t4yhb6nu"]
+
+[ext_resource type="Script" uid="uid://jxqtpppfibv4" path="res://Game Scenes/enemy_preview.gd" id="1_ljisl"]
+[ext_resource type="PackedScene" uid="uid://rki0xi2b1e1p" path="res://Enemy Scenes/Dummy.tscn" id="2_n0j1d"]
+[ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="4_xsikj"]
+
+[node name="EnemyPreview" type="CanvasLayer" unique_id=659674864]
+process_mode = 3
+script = ExtResource("1_ljisl")
+
+[node name="EnemyPosition" type="Node2D" parent="." unique_id=2006746126]
+position = Vector2(195, 39)
+
+[node name="Background" type="TextureRect" parent="." unique_id=826236496]
+modulate = Color(0.37353867, 0.8559429, 0.9011674, 1)
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -1.5
+offset_top = -0.5
+offset_right = -1.5
+offset_bottom = -0.5
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("4_xsikj")
+
+[node name="Dummy" parent="." unique_id=1512096226 instance=ExtResource("2_n0j1d")]
+position = Vector2(193, 221)
+
+[node name="Timer" type="Timer" parent="." unique_id=740552322]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

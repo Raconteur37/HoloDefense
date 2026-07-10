@@ -14,9 +14,7 @@ shader = ExtResource("2_bvjfm")
 shader_parameter/flash_color = Color(0.79607844, 0.79607844, 0.79607844, 1)
 shader_parameter/flash_modifier = 0.0
 shader_parameter/glow_color = Color(0.3, 0.9, 1, 1)
-shader_parameter/glow_intensity = 2.0
-shader_parameter/rim_width = 0.2
-shader_parameter/rim_sharpness = 3.0
+shader_parameter/glow_thickness = 2.0
 shader_parameter/pulse_speed = 2.5
 shader_parameter/pulse_strength = 0.25
 
@@ -42,8 +40,6 @@ collision_mask = 131
 [node name="CollisionShape2D" type="CollisionShape2D" parent="HitboxArea" unique_id=504338447]
 shape = SubResource("CircleShape2D_1yly3")
 
-[node name="AttackTimer" type="Timer" parent="." unique_id=387131298]
-
 [node name="Basic Square Hurt" parent="." unique_id=1696777537 instance=ExtResource("4_kvmpk")]
 scale = Vector2(9, 9)
 amount = 30
@@ -53,4 +49,4 @@ scale_amount_max = 4.0
 color = Color(1, 1, 1, 1)
 
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_area_2d_body_entered"]
-[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]
+[connection signal="body_entered" from="HitboxArea" to="." method="_on_hitbox_area_body_entered"]

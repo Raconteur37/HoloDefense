@@ -217,7 +217,7 @@ sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=1497852027]
-collision_mask = 4
+collision_mask = 12
 script = ExtResource("4_lbwxs")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=1766739612]

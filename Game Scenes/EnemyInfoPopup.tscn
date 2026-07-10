@@ -1,0 +1,156 @@
+[gd_scene format=3 uid="uid://b4s1rkewdv6mf"]
+
+[ext_resource type="Script" uid="uid://b4b4kndbpgllq" path="res://Game Scenes/enemy_info_popup.gd" id="1_yacro"]
+[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_lq332"]
+[ext_resource type="StyleBox" uid="uid://db8ih56gmavd0" path="res://Themes/RewardStyleBoxes/holo_defense_styles/separator_subtle.tres" id="3_0ef2y"]
+[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="4_yacro"]
+[ext_resource type="PackedScene" uid="uid://dgvb5t4yhb6nu" path="res://Game Scenes/EnemyPreview.tscn" id="5_lq332"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_t07hw"]
+font_size = 23
+font_color = Color(0.84800786, 0.8812826, 0.9143204, 1)
+
+[sub_resource type="Animation" id="Animation_yacro"]
+resource_name = "Appear"
+length = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyInfoPopupBackground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_lq332"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("EnemyInfoPopupBackground:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_0ef2y"]
+_data = {
+&"Appear": SubResource("Animation_yacro"),
+&"RESET": SubResource("Animation_lq332")
+}
+
+[node name="EnemyInfoPopup" type="CanvasLayer" unique_id=432720134]
+process_mode = 3
+script = ExtResource("1_yacro")
+
+[node name="EnemyInfoPopupBackground" type="TextureRect" parent="." unique_id=554626264]
+custom_minimum_size = Vector2(500, 650)
+anchors_preset = -1
+anchor_left = 0.37
+anchor_top = 0.19900002
+anchor_right = 0.63000005
+anchor_bottom = 0.80100006
+offset_left = -0.4000244
+offset_top = 0.07998657
+offset_right = 0.39990234
+offset_bottom = -0.080078125
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_lq332")
+expand_mode = 1
+
+[node name="EnemyName" type="RichTextLabel" parent="EnemyInfoPopupBackground" unique_id=492767667]
+layout_mode = 1
+anchors_preset = -1
+anchor_right = 0.97300005
+anchor_bottom = 0.15400001
+offset_left = 10.0
+offset_right = 10.04599
+offset_bottom = -0.088005066
+bbcode_enabled = true
+text = "[pulse color=#c1e5ea  height=0.5 freq=1.5][font_size=25]Enemy Name[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="EnemyDescription" type="Label" parent="EnemyInfoPopupBackground" unique_id=667382069]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.07
+anchor_top = 0.671
+anchor_right = 0.933
+anchor_bottom = 0.869
+offset_left = -1.5258789e-05
+offset_top = -0.1499939
+offset_right = -0.17401123
+offset_bottom = 0.25994873
+text = "Basic enemy that on their own isnt much of a threat, but hundreds together can get scary."
+label_settings = SubResource("LabelSettings_t07hw")
+horizontal_alignment = 1
+autowrap_mode = 2
+
+[node name="HSeparator" type="HSeparator" parent="EnemyInfoPopupBackground" unique_id=1103865809]
+layout_mode = 0
+offset_left = 27.0
+offset_top = 77.0
+offset_right = 486.0
+offset_bottom = 81.0
+theme_override_styles/separator = ExtResource("3_0ef2y")
+
+[node name="EnemyRect" type="TextureRect" parent="EnemyInfoPopupBackground" unique_id=1243886034]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -32.0
+offset_top = -102.0
+offset_right = 8.0
+offset_bottom = -62.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(2, 2)
+texture = ExtResource("4_yacro")
+expand_mode = 3
+
+[node name="ThreatLevelLabel" type="RichTextLabel" parent="EnemyInfoPopupBackground" unique_id=1296966927]
+process_mode = 3
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.158
+anchor_top = 0.85400003
+anchor_right = 0.892
+anchor_bottom = 0.957
+offset_top = -0.10003662
+offset_bottom = -0.049987793
+bbcode_enabled = true
+text = "[font_size=25]Threat Level: [pulse color=#41de95   height=0.5 freq=1]Low[/pulse][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=2020533618]
+libraries/ = SubResource("AnimationLibrary_0ef2y")
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="." unique_id=1998695579]
+offset_left = 773.0
+offset_top = 330.0
+offset_right = 1158.0
+offset_bottom = 625.0
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="SubViewportContainer" unique_id=1111858741]
+handle_input_locally = false
+size = Vector2i(385, 295)
+render_target_update_mode = 4
+
+[node name="EnemyPreview" parent="SubViewportContainer/SubViewport" unique_id=659674864 instance=ExtResource("5_lq332")]
+
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

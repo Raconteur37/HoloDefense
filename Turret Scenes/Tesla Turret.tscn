@@ -97,7 +97,7 @@ material = SubResource("CanvasItemMaterial_cttu8")
 position = Vector2(0, 0)
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=1401525184]
-collision_mask = 4
+collision_mask = 12
 script = ExtResource("4_vkfnp")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=639638541]

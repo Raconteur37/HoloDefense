@@ -123,12 +123,13 @@ func getCost():
 	return price
 
 func refreshUI(turretInstance):
-	if turretInstance.rangeIndicator.visible:
-		var bottomUI = get_tree().current_scene
-		if bottomUI != null:
-			if bottomUI.has_node("TowerDefenseCanvas"):
-				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-			bottomUI.refreshTurretUI(turretInstance)
+	if not turretInstance is Dummy:
+		if turretInstance.rangeIndicator.visible:
+			var bottomUI = get_tree().current_scene
+			if bottomUI != null:
+				if bottomUI.has_node("TowerDefenseCanvas"):
+					bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+				bottomUI.refreshTurretUI(turretInstance)
 
 var hideTimer: SceneTreeTimer = null
 
@@ -146,15 +147,16 @@ func showUI(turretInstance):
 	)
 
 func hideUI():
-	rangeIndicator.hide()
-	if hideTimer != null:
-		hideTimer = null
-	if get_tree() != null:
-		var bottomUI = get_tree().current_scene
-		if bottomUI != null:
-			if bottomUI.has_node("TowerDefenseCanvas"):
-				bottomUI = bottomUI.find_child("TowerDefenseCanvas")
-			bottomUI.removeTurretUI()
+	if not self is Dummy:
+		rangeIndicator.hide()
+		if hideTimer != null:
+			hideTimer = null
+		if get_tree() != null:
+			var bottomUI = get_tree().current_scene
+			if bottomUI != null:
+				if bottomUI.has_node("TowerDefenseCanvas"):
+					bottomUI = bottomUI.find_child("TowerDefenseCanvas")
+				bottomUI.removeTurretUI()
 		
 func removeEnergized(turretApplier):
 	energized = false

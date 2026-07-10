@@ -13,6 +13,10 @@ resource_local_to_scene = true
 shader = ExtResource("2_fjwbi")
 shader_parameter/flash_color = Color(0.796243, 0.796243, 0.796243, 1)
 shader_parameter/flash_modifier = 0.0
+shader_parameter/glow_color = Color(0.3, 0.9, 1, 1)
+shader_parameter/glow_thickness = 2.0
+shader_parameter/pulse_speed = 4.0
+shader_parameter/pulse_strength = 0.3
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
 size = Vector2(34.5, 12.5)

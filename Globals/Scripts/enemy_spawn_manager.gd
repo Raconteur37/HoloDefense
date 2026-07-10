@@ -12,7 +12,9 @@ const ENEMIES = {
 	Enemy.EnemyID.SPEEDY_TRIANGLE: preload("res://Enemy Scenes/Speedy Triangle.tscn"),
 	Enemy.EnemyID.SHOOTY_DIAMOND: preload("res://Enemy Scenes/Shooty Diamond.tscn"),
 	Enemy.EnemyID.HEXAGON_MOTHERSHIP: preload("res://Enemy Scenes/Hexagon Mothership.tscn"),
-	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn")
+	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn"),
+	Enemy.EnemyID.PACKED_CIRCLE: preload("res://Enemy Scenes/Packed Circle.tscn"),
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
 }
 
 func summonEnemy(enemyID : Enemy.EnemyID):
@@ -22,6 +24,13 @@ func summonEnemy(enemyID : Enemy.EnemyID):
 	
 	if holder and ENEMIES.has(enemyID):
 		#print("1. Found the preloaded scene!")
+		if not SettingsManager.has_seen_enemy(enemyID):
+			SettingsManager.mark_enemy_seen(enemyID)
+			var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
+			get_tree().current_scene.add_child(enemyPopupScene)
+			enemyPopupScene.buildPopup(enemyID)
+
+		
 		var enemy = ENEMIES[enemyID].instantiate()
 		
 		#print("2. Instantiated successfully! Adding to tree...")
@@ -40,7 +49,7 @@ func mothershipSpawn(mothership):
 	if randNum <= 75:
 		enemy = ENEMIES[Enemy.EnemyID.BASIC_SQUARE].instantiate()
 	elif randNum <= 90:
-		if randf_range(0,50) < 50:
+		if randf_range(0,100) < 50:
 			enemy = ENEMIES[Enemy.EnemyID.SPEEDY_TRIANGLE].instantiate()
 		else:
 			enemy = ENEMIES[Enemy.EnemyID.TANKY_RECTANGLE].instantiate()

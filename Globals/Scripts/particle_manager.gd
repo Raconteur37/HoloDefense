@@ -6,6 +6,8 @@ var basicSquareHurtParticle = preload("res://Particle Scenes/Enemies/basic_squar
 var basicSquareDeathParticle = preload("res://Particle Scenes/Enemies/basic_square_death.tscn")
 var speedyTriangleDeathParticle = preload("res://Particle Scenes/Enemies/speedy_triangle_death.tscn")
 var shootyDiamondDeathParticle = preload("res://Particle Scenes/Enemies/shooty_diamond_death.tscn")
+var miniPackedCircleDeathParticle = preload("res://Particle Scenes/Enemies/basic_square_hurt.tscn")
+
 
 var energizedParticle = preload("res://Particle Scenes/Turrets/Energizer Turret/energized.tscn")
 
@@ -48,6 +50,10 @@ func playDeathParticle(enemy : Enemy):
 			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 		Enemy.EnemyID.SHOOTY_DIAMOND:
 			var particle = shootyDiamondDeathParticle.instantiate()
+			particle.global_position = enemy.global_position
+			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
+		Enemy.EnemyID.MINI_PACKED_CIRCLE:
+			var particle = miniPackedCircleDeathParticle.instantiate()
 			particle.global_position = enemy.global_position
 			get_tree().root.find_child("TowerDefenseCanvas", true, false).add_child(particle)
 
