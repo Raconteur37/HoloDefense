@@ -60,3 +60,18 @@ func get_event_time(enemy_id: Enemy.EnemyID) -> float:
 
 func get_enemies_to_spawn(enemy_id: Enemy.EnemyID) -> float:
 	return float(get_enemy(enemy_id).get("enemiesToSummon", 1.0))
+
+func get_description(enemy_id: Enemy.EnemyID) -> String:
+	return get_enemy(enemy_id).get("description")
+
+func get_threat_level(enemy_id: Enemy.EnemyID) -> String:
+	return get_enemy(enemy_id).get("threat_level")
+
+func get_tier(enemy_id: Enemy.EnemyID) -> int:
+	return int(get_enemy(enemy_id).get("tier", 1))
+
+func get_minis_spawned(enemy_id: Enemy.EnemyID) -> int:
+	return int(get_enemy(enemy_id).get("minis_spawned", 1))
+
+func get_explosion_radius(enemy_id: Enemy.EnemyID) -> int:
+	return int(get_enemy(enemy_id).get("explosion_radius", 1))

@@ -1,6 +1,7 @@
 [gd_scene format=3 uid="uid://dmpq4xtx5w8iq"]
 
 [ext_resource type="Texture2D" uid="uid://dpes8aon4sdmv" path="res://Particle Scenes/Effects/Curse/curse.png" id="1_2jmfu"]
+[ext_resource type="Script" uid="uid://ccnmw8slai4i3" path="res://Particle Scenes/Turrets/Energizer Turret/explosion.gd" id="2_y3bgp"]
 
 [sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_k1gls"]
 resource_local_to_scene = true
@@ -21,3 +22,4 @@ spread = 0.0
 gravity = Vector2(0, 0)
 anim_speed_min = 1.0
 anim_speed_max = 1.0
+script = ExtResource("2_y3bgp")

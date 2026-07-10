@@ -3,36 +3,48 @@
 	{
 	  "id": "basic_square",
 	  "name": "Basic Square",
+	  "tier": 1,
 	  "health": 15,
 	  "damage": 5,
 	  "speed": 50.0,
-	  "attackTime": 3.0
+	  "attackTime": 3.0,
+	  "description": "Basic enemy that on their own isnt much of a threat, but hundreds together can get difficult.",
+	  "threat_level": "Low"
 	},
 	{
 	  "id": "speedy_triangle",
 	  "name": "Speedy Triangle",
+	  "tier": 2,
 	  "health": 20,
 	  "damage": 10,
 	  "speed": 130,
-	  "attackTime": 1.5
+	  "attackTime": 1.5,
+	  "description": "A fast triangle with high speed, can really pick at your defenses if you dont have good burst damage.",
+	  "threat_level": "Medium"
 	},
 	{
 	  "id": "tanky_rectangle",
 	  "name": "Tanky Rectangle",
+	  "tier": 2,
 	  "health": 160,
 	  "damage": 30,
 	  "speed": 20,
-	  "attackTime": 4
+	  "attackTime": 4,
+	  "description": "Super slow but crazy high health, will make room for their allies to break through.",
+	  "threat_level": "Medium"
 	},
 	{
 	  "id": "shooty_diamond",
 	  "name": "Shooty Diamond",
+	  "tier": 3,
 	  "health": 100,
 	  "damage": 20,
 	  "speed": 30.0,
 	  "attackTime": 2.5,
 	  "attackRange": 350,
-	  "projectileSpeed": 400
+	  "projectileSpeed": 400,
+	  "description": "Extremely deadly, targets one turret at a time and stops to fire projectiles at it till it's destroyed.",
+	  "threat_level": "High"
 	},
 	{
 	"id": "hexagon_mothership",
@@ -41,7 +53,32 @@
 	  "damage": 1000,
 	  "speed": 5,
 	  "eventTime": 20,
-	  "enemiesToSummon": 60
+	  "enemiesToSummon": 60,
+	  "description": "One of the sacred bosses of the universe, super slow but will summon her childeren every short time.",
+	  "threat_level": "Extreme"
 	},
+	{
+	  "id": "packed_circle",
+	  "name": "Packed Circle",
+	  "tier": 3,
+	  "health": 50,
+	  "damage": 100,
+	  "explosion_radius": 100,
+	  "speed": 50,
+	  "minis_spawned": 5,
+	  "description": "Explodes when it dies into mini explosive circles that rush at your defenses. You might need some splash damage.",
+	  "threat_level": "High"
+	},
+	{
+	  "id": "mini_packed_circle",
+	  "name": "Mini Packed Circle",
+	  "tier": 1,
+	  "health": 15,
+	  "damage": 20,
+	  "explosion_radius": 75,
+	  "speed": 90,
+	  "description": "Rushes at turrets to explode, very low health and usually comes from Packed Circles.",
+	  "threat_level": "Low"
+	}
   ]
 }

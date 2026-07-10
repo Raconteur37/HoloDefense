@@ -2,7 +2,7 @@ class_name DamagePacket
 
 extends Resource
 
-enum Type { PROJECTILE, EXPLOSION, BEAM, TURRET, EFFECT, MINION }
+enum Type { PROJECTILE, EXPLOSION, BEAM, TURRET, EFFECT, MINION, DUMMY}
 
 var damage: float
 var type: Type

@@ -81,7 +81,7 @@ particle_flag_align_y = true
 spread = 0.0
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=587805032]
-collision_mask = 4
+collision_mask = 12
 script = ExtResource("4_ou1vf")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=1714469849]

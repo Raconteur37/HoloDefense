@@ -58,7 +58,7 @@ shape = SubResource("CapsuleShape2D_n1mm6")
 debug_color = Color(0.994352, 0, 0.223461, 0.42)
 
 [node name="SelectArea" type="Area2D" parent="." unique_id=1176104139]
-collision_mask = 4
+collision_mask = 12
 script = ExtResource("4_s4vqx")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=1461344343]

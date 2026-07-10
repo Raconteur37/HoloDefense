@@ -1,39 +1,49 @@
-[gd_scene load_steps=5 format=3 uid="uid://rki0xi2b1e1p"]
+[gd_scene format=3 uid="uid://rki0xi2b1e1p"]
 
 [ext_resource type="Script" uid="uid://cfsx0blktfk1g" path="res://Scripts/Enemies/dummy.gd" id="1_eph63"]
 [ext_resource type="Texture2D" uid="uid://6vib6l7erqxq" path="res://Textures/Enemies/TrainingDummy.png" id="2_78ujv"]
+[ext_resource type="PackedScene" uid="uid://bounayq15kbcf" path="res://Particle Scenes/Minion/knight_attack.tscn" id="3_78ujv"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
-size = Vector2(11, 12)
+size = Vector2(17, 28)
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_o2fih"]
-size = Vector2(22, 28)
+size = Vector2(29, 38)
 
-[node name="Dummy" type="CharacterBody2D" groups=["Enemy"]]
-position = Vector2(927, 511)
-collision_layer = 4
-collision_mask = 3
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_78ujv"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 9
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="Dummy" type="CharacterBody2D" unique_id=509313825 groups=["Turret"]]
+collision_mask = 12
 script = ExtResource("1_eph63")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="."]
-visible = false
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1315463873]
 position = Vector2(0.5, 0)
 shape = SubResource("RectangleShape2D_m5ss4")
 
-[node name="Sprite2D" type="Sprite2D" parent="."]
+[node name="Sprite2D" type="Sprite2D" parent="." unique_id=42241530]
 self_modulate = Color(1.5, 1, 1, 1)
 scale = Vector2(1.5, 1.5)
 texture = ExtResource("2_78ujv")
 
-[node name="Area2D" type="Area2D" parent="."]
+[node name="Area2D" type="Area2D" parent="." unique_id=456269512]
 position = Vector2(1, -1)
-collision_layer = 4
-collision_mask = 3
+collision_mask = 12
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D"]
-position = Vector2(-1, 1)
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=966844931]
+position = Vector2(-1.5, -1)
 shape = SubResource("RectangleShape2D_o2fih")
 
-[node name="AttackTimer" type="Timer" parent="."]
+[node name="AttackTimer" type="Timer" parent="." unique_id=1327831191]
+autostart = true
+
+[node name="KnightAttack" parent="." unique_id=973902611 instance=ExtResource("3_78ujv")]
+material = SubResource("CanvasItemMaterial_78ujv")
+script = null
 
 [connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
+[connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

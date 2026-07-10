@@ -7,23 +7,64 @@ func _ready():
 	enemyName = EnemyManager.get_enemy_name(enemyID)
 	health = EnemyManager.get_health(enemyID)
 	damage = EnemyManager.get_damage(enemyID)
-	attackTime = EnemyManager.get_attack_time(enemyID)
 	speed = EnemyManager.get_speed(enemyID)
-	tier = 3
+	tier = EnemyManager.get_tier(enemyID)
+	explosionDamage = damage
+	explosionRadius = EnemyManager.get_explosion_radius(enemyID)
+	minisSpawned = EnemyManager.get_minis_spawned(enemyID)
+	ranged = false
 	sprite = $Sprite2D
 	type = Type.BASIC
-	attackTimer = $AttackTimer
-	attackTimer.wait_time = attackTime
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
 	applyScaling()
 
+var is_dead: bool = false 
 
-func _on_attack_timer_timeout() -> void:
-	attackReady = true
-	for x in hitBoxArea.get_overlapping_areas():
-		var entity = x.get_parent()
-		if entity.is_in_group("Turret"):
-			EntityManager.turretTakeDamage(damage,entity,null)
-			attackReady = false
-			attackTimer.start()
+func deathEvent():
+	# 2. Add this check to prevent double-explosions!
+	if is_dead:
+		return
+	is_dead = true
+	
+	ExplosionManager.spawnEnemyExplosion(self, explosionRadius, explosionDamage)
+	self.hide()
+	
+	for x in range(minisSpawned):
+		spawnMinis()
+		
+	WaveManager.removeActiveEnemy(self)
+
+	await get_tree().create_timer(1).timeout
+	queue_free()
+
+func spawnMinis():
+	var tempEnemy = load("res://Enemy Scenes/Mini Packed Circle.tscn").instantiate()
+	
+	# FIX: Add to the world (parent node), NOT to this specific dying enemy
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	holder.add_child(tempEnemy) 
+	
+	WaveManager.registerActiveEnemy(tempEnemy)
+	tempEnemy.global_position = self.global_position
+
+	# Launch outward
+	var angle = randf_range(0, 2 * PI)
+	var direction = Vector2(cos(angle), sin(angle)).normalized()
+	tempEnemy.set_physics_process(false)
+
+	var tween = tempEnemy.create_tween()
+	tween.tween_property(
+		tempEnemy,
+		"global_position",
+		self.global_position + direction * 120.0,
+		0.6
+	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+	tween.tween_callback(func():
+		tempEnemy.set_physics_process(true)
+	)
+
+
+func _on_hitbox_area_body_entered(body: Node2D) -> void:
+	if body.is_in_group("Turret"):
+		deathEvent()

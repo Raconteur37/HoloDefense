@@ -3,40 +3,28 @@
 [ext_resource type="Script" uid="uid://cvxd51ntw16hy" path="res://Scripts/Projectiles/diamond.gd" id="1_eesbw"]
 [ext_resource type="Texture2D" uid="uid://cdvhl765ggvt1" path="res://Textures/Projectiles/DiamondProjectile.png" id="2_uxlkx"]
 
-[sub_resource type="CapsuleShape2D" id="CapsuleShape2D_etksh"]
-radius = 1.0
-height = 4.0
-
 [sub_resource type="CapsuleShape2D" id="CapsuleShape2D_hxa21"]
-radius = 2.0
-height = 6.0
+radius = 1.999999
+height = 5.999998
 
-[node name="Diamond" type="RigidBody2D" unique_id=1742488878 groups=["Enemy Projectile"]]
-position = Vector2(215, 128)
-rotation = 1.5708
+[node name="Area2D" type="Area2D" unique_id=526980987 groups=["Enemy Projectile"]]
+position = Vector2(-7.1153e-07, 9.53674e-07)
 collision_layer = 8
-gravity_scale = 0.0
+collision_mask = 65
 script = ExtResource("1_eesbw")
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=551831883]
-shape = SubResource("CapsuleShape2D_etksh")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1852711516]
+rotation = 1.5707964
+shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1584627821]
-position = Vector2(-7.1153e-07, 9.53674e-07)
-rotation = 1.5708
+position = Vector2(7.1153e-07, -9.53674e-07)
+rotation = -3.1415854
 texture = ExtResource("2_uxlkx")
-
-[node name="Area2D" type="Area2D" parent="." unique_id=526980987]
-position = Vector2(-7.1153e-07, 9.53674e-07)
-collision_layer = 8
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Area2D" unique_id=1852711516]
-shape = SubResource("CapsuleShape2D_hxa21")
 
 [node name="DespawnTimer" type="Timer" parent="." unique_id=1941551019]
 wait_time = 10.0
 autostart = true
 
-[connection signal="body_entered" from="Area2D" to="." method="_on_area_2d_body_entered"]
-[connection signal="body_exited" from="Area2D" to="." method="_on_area_2d_body_exited"]
+[connection signal="body_entered" from="." to="." method="_on_body_entered"]
 [connection signal="timeout" from="DespawnTimer" to="." method="_on_despawn_timer_timeout"]

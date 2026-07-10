@@ -44,6 +44,12 @@ var stunTime
 	},
 	Turret.TurretID.BUBBLE_TURRET : {
 		"scene" : preload("res://Particle Scenes/Effects/Bubble/BubblePop.tscn")
+	},
+	Enemy.EnemyID.PACKED_CIRCLE : {
+		"scene" : preload("res://Particle Scenes/Enemies/packedExplosion.tscn")
+	},
+	Enemy.EnemyID.MINI_PACKED_CIRCLE : {
+		"scene" : preload("res://Particle Scenes/Enemies/miniPackedExplosion.tscn")
 	}
 }
 
@@ -172,6 +178,63 @@ func spawnExplosionArea() -> void:
 					if turretApplier.level >= 3:
 						if enemy != turretApplier:
 							enemy.giveIgnitionRounds(turretApplier.ignitionRoundsTime,turretApplier.fireTime,turretApplier.fireDamage)
+
+		await get_tree().create_timer(2.0).timeout
+		if is_instance_valid(area):
+			area.queue_free()
+
+
+func spawnEnemyExplosion(enemy : Enemy, explosionRadius, explosionDamage) -> void:
+	particle = explosionParticlesTexture.get(enemy.enemyID).get("scene")
+	location = enemy.global_position
+
+	var area = Area2D.new()
+	var shape = CollisionShape2D.new()
+	var circle = CircleShape2D.new()
+	circle.radius = explosionRadius
+	shape.shape = circle
+	area.add_child(shape)
+	area.set_collision_mask_value(3, true)
+	area.set_collision_mask_value(1, true)
+	area.collision_layer = 1
+
+	var scene = get_tree().root.find_child("EnemyNodeHolder", true, false)
+
+	scene.add_child(area)
+	area.global_position = location
+
+
+	if particle:
+		var p = particle.instantiate() as CPUParticles2D
+		scene.add_child(p)
+		p.global_position = location
+		
+
+		var default_visual_radius = 48.0 
+		var scaleFactor = explosionRadius / default_visual_radius 
+
+		
+		
+		#p.emission_shape = CPUParticles2D.EMISSION_SHAPE_POINT
+		
+		p.scale_amount_min *= scaleFactor
+		p.scale_amount_max *= scaleFactor
+		
+		p.initial_velocity_min = 0
+		p.initial_velocity_max = 0
+
+		#p.amount = 1
+		p.one_shot = true
+		p.emitting = true
+	
+	await get_tree().create_timer(.05).timeout
+	
+	if is_instance_valid(area):
+		for body in area.get_overlapping_areas():
+			if body.name == "SelectArea":
+				var bod = body.get_parent()
+				if bod.is_in_group("Turret"):
+					EntityManager.turretTakeDamage(explosionDamage,bod,null,enemy)
 
 		await get_tree().create_timer(2.0).timeout
 		if is_instance_valid(area):

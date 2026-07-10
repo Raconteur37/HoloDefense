@@ -19,6 +19,8 @@ var speedyTrianglesKilled = 0
 var shootyDiamondsKilled = 0
 var tankyRectanglesKilled = 0
 var hexagonMothershipsKilled = 0
+var packedCirclesKilled = 0
+var miniPackedCirclesKilled = 0
 var currentRun 
 var currentStats = {} 
 
@@ -162,6 +164,8 @@ func reset():
 	difficultyMultiplier = 0
 	systemsCompleted = 0
 	# Added the new enemies to the run reset:
+	miniPackedCirclesKilled = 0
+	packedCirclesKilled = 0
 	basicSquaresKilled = 0
 	speedyTrianglesKilled = 0
 	shootyDiamondsKilled = 0
@@ -179,6 +183,8 @@ func getDefaultLifetimeStats() -> Dictionary:
 		"tierTwoEnemiesKilled": 0,
 		"tierThreeEnemiesKilled": 0,
 		"bossesKilled": 0,
+		"packedCirclesKilled": 0,
+		"miniPackedCirclesKilled": 0,
 		"basicSquaresKilled": 0,
 		"speedyTrianglesKilled": 0,
 		"shootyDiamondsKilled": 0,
@@ -268,6 +274,8 @@ func commitRunToLifetimeStats():
 	lifetimeStats["speedyTrianglesKilled"] += speedyTrianglesKilled
 	lifetimeStats["shootyDiamondsKilled"] += shootyDiamondsKilled
 	lifetimeStats["hexagonMothershipsKilled"] += hexagonMothershipsKilled
+	lifetimeStats["packedCirclesKilled"] += packedCirclesKilled
+	lifetimeStats["miniPackedCirclesKilled"] += miniPackedCirclesKilled
 	
 	lifetimeStats["totalRuns"] += 1
 	
