@@ -22,6 +22,8 @@ extends Node
 @onready var legendaryPurchaseLabel = $HBoxContainer2/LegendaryShardPurchaseButton/Label7
 @onready var unseenPurchaseLabel = $HBoxContainer2/UnseenShardPurchaseButton2/Label7
 
+@onready var codeInput : LineEdit = $CodeInput
+
 var shopConfig
 
 # Called when the node enters the scene tree for the first time.
@@ -140,3 +142,12 @@ func _on_huh_pressed() -> void:
 		EconomyManager.spend_stardust(int(shopConfig.get("unseen_shard_cost")))
 		EconomyManager.save_economy()
 		updateLabels()
+
+
+func _on_code_button_pressed() -> void:
+	match codeInput.text.to_lower():
+		"awesomeel218":
+			EconomyManager.unlock_turret(Turret.TurretID.SNIPER_TURRET)
+			codeInput.text = "Code Redeemed!"
+		_:
+			codeInput.text = "Invalid Code!"

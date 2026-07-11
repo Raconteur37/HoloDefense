@@ -796,6 +796,26 @@ offset_bottom = 140.0
 scale = Vector2(0.3, 0.3)
 texture = ExtResource("12_qcw3l")
 
+[node name="CodeInput" type="LineEdit" parent="." unique_id=1563311031]
+offset_left = 1709.0
+offset_top = 960.0
+offset_right = 1825.0625
+offset_bottom = 988.0
+text = "Code Input"
+alignment = 1
+
+[node name="codeButton" type="TextureButton" parent="CodeInput" unique_id=343935156]
+modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
+layout_mode = 0
+offset_left = -34.999996
+offset_top = 30.999998
+offset_right = 885.0
+offset_bottom = 347.0
+scale = Vector2(0.2, 0.2)
+texture_normal = ExtResource("13_sy4b0")
+texture_pressed = ExtResource("14_rmcqe")
+texture_hover = ExtResource("15_yj6kq")
+
 [connection signal="timeout" from="Slot Machine/Roll Timer" to="Slot Machine" method="_on_roll_time_timeout"]
 [connection signal="pressed" from="Slot Machine/TextureButton" to="Slot Machine" method="_on_texture_button_pressed"]
 [connection signal="pressed" from="ConvertButtons/Convert1" to="." method="_on_convert_1_pressed"]
@@ -809,3 +829,4 @@ texture = ExtResource("12_qcw3l")
 [connection signal="pressed" from="HBoxContainer2/SuperRareShardPurchaseButton/superRarePurchase" to="." method="_on_super_rare_purchase_pressed"]
 [connection signal="pressed" from="HBoxContainer2/LegendaryShardPurchaseButton/legendary" to="." method="_on_legendary_pressed"]
 [connection signal="pressed" from="HBoxContainer2/UnseenShardPurchaseButton2/HUH" to="." method="_on_huh_pressed"]
+[connection signal="pressed" from="CodeInput/codeButton" to="." method="_on_code_button_pressed"]
