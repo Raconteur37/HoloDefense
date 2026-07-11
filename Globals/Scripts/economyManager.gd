@@ -22,7 +22,8 @@ func get_default_economy() -> Dictionary:
 		"royal_turret", "firework_turret", "tesla_turret", 
 		"sentry_turret", "gold_mine_turret", "seismic_turret", 
 		"spider_turret", "voodoo_turret", "zombie_turret", 
-		"medic_turret", "bubble_turret", "boomerang_turret"
+		"medic_turret", "bubble_turret", "boomerang_turret",
+		"sniper_turret"
 	]
 	
 	var turret_defaults = {}
