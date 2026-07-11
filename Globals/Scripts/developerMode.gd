@@ -1,6 +1,6 @@
 extends Node
 
-var inDevMode : bool = true
+var inDevMode : bool = false
 
 #what
 
