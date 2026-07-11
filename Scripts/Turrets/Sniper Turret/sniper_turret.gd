@@ -89,9 +89,8 @@ func attack():
 					EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
 			else:
 				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
-			
+
 			shotReady = false
-			
 			reloadTimer.start()
 			reloadAnimation()
 
