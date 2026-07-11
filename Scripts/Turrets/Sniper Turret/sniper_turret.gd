@@ -80,7 +80,6 @@ func attack():
 
 		var enemy = targetEnemy
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
 			particle.emitting = true
 			if level >= 3:
@@ -91,7 +90,7 @@ func attack():
 			else:
 				EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)
 
-
+			shotReady = false
 			reloadTimer.start()
 			reloadAnimation()
 
