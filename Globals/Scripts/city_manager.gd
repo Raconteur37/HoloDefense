@@ -119,6 +119,8 @@ var milestoneScrapMax
 
 var assignCit = false
 
+var currentPopup = null
+
 var cityXpWeights = {
 	"purchase_upgrade": 50,
 	"spawn_citizen": 20,

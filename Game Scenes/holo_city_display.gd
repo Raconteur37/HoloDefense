@@ -13,12 +13,16 @@ func startRun() -> void:
 
 func _process(delta: float) -> void:
 	if runActive:
-		runTime += delta
-		timeSinceLastSave += delta
+		# Calculate real-world delta by dividing out the time scale
+		var real_delta = delta
+		if Engine.time_scale > 0:
+			real_delta = delta / Engine.time_scale
+		
+		runTime += real_delta
+		timeSinceLastSave += real_delta
 		
 		if timeSinceLastSave >= autoSaveInterval:
 			XpManager.saveXpData()
-			
 			timeSinceLastSave -= autoSaveInterval
 
 # This will be so we can change the sprite
@@ -34,7 +38,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		GameManager.cityHealth -= body.damage
 		healthLabel.text = "City Health: " + str(GameManager.cityHealth)
 		WaveManager.removeActiveEnemy(body)
-		body.queue_free()
+		EntityManager.onKill(null,body)
 		updateVisualStatus()
 		if GameManager.cityHealth <= 0:
 			runActive = false

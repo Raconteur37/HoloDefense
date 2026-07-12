@@ -18,6 +18,7 @@ func _ready():
 	type = Type.BASIC
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
+	rollForElite()
 	applyScaling()
 
 var is_dead: bool = false 

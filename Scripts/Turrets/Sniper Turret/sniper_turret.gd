@@ -83,7 +83,7 @@ func attack():
 		if is_instance_valid(enemy) and isPlaced:
 			particle.emitting = true
 			if level >= 3:
-				if randf_range(1,100) <= silverBulletChance:
+				if randf_range(0,100) <= silverBulletChance:
 					EntityManager.enemyTakeDamage(DamagePacket.new(damage * silverBulletDamageMultiplier, DamagePacket.Type.TURRET, self, [], {}), enemy)
 				else:
 					EntityManager.enemyTakeDamage(DamagePacket.new(damage, DamagePacket.Type.TURRET, self, [], {}), enemy)

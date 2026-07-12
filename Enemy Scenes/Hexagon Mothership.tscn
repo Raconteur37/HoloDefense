@@ -2,18 +2,255 @@
 
 [ext_resource type="Script" uid="uid://cenj3jsyuormk" path="res://Scripts/Enemies/hexagon_mothership.gd" id="1_x64ye"]
 [ext_resource type="Texture2D" uid="uid://ba4ufkdp80oca" path="res://Textures/Enemies/hexagon_enemy.png" id="2_0u5f2"]
-[ext_resource type="Shader" uid="uid://cuymg2ewfx88n" path="res://Shaders/enemyGlow.gdshader" id="4_ft5im"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="5_ft5im"]
 
+[sub_resource type="Shader" id="Shader_1ltg6"]
+code = "shader_type canvas_item;
+
+// --- Default Tint System ---
+uniform vec4 default_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+
+// --- Flash System ---
+uniform vec4 flash_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
+uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
+
+// --- Steel System ---
+uniform bool is_steel = false;
+uniform vec4 steel_tint : source_color = vec4(0.65, 0.7, 0.75, 1.0); 
+uniform float shine_speed : hint_range(0.0, 5.0) = 1.5;
+uniform float shine_width : hint_range(0.01, 0.5) = 0.15;
+
+// --- Time Fractured System ---
+uniform bool is_time_fractured = false;
+uniform float fracture_intensity : hint_range(0.0, 0.1) = 0.025;
+uniform vec4 fracture_tint : source_color = vec4(0.2, 0.9, 1.0, 1.0); 
+uniform vec4 crack_color : source_color = vec4(0.9, 0.1, 1.0, 1.0); 
+uniform float crack_glow_strength : hint_range(0.0, 5.0) = 2.5;
+
+// --- Summoner System ---
+uniform bool is_summoner = false;
+uniform vec4 summoner_color : source_color = vec4(0.6, 0.1, 0.9, 1.0); 
+uniform float pulse_frequency : hint_range(0.0, 50.0) = 25.0;
+
+// --- Windy System ---
+uniform bool is_windy = false;
+uniform vec4 wind_color : source_color = vec4(0.6, 0.9, 1.0, 1.0); 
+uniform float wind_speed : hint_range(0.0, 15.0) = 5.0;
+
+// --- Mending System ---
+uniform bool is_mending = false;
+uniform vec4 mending_color : source_color = vec4(0.2, 0.9, 0.4, 1.0); 
+uniform float float_speed : hint_range(0.0, 10.0) = 2.0;
+
+// --- Unstoppable System ---
+uniform bool is_unstoppable = false;
+uniform vec4 unstoppable_color : source_color = vec4(1.0, 0.3, 0.0, 1.0); 
+uniform float armor_speed : hint_range(0.0, 10.0) = 3.0;
+
+// --- Paracasual System ---
+uniform bool is_paracasual = false;
+uniform vec4 paracasual_base_color : source_color = vec4(0.02, 0.0, 0.05, 1.0); // Editable void background
+uniform vec4 star_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);     // Piercing white
+uniform float star_density : hint_range(10.0, 50.0) = 25.0; 
+
+// Helper function to generate random values for the stars
+float hash(vec2 p) {
+    return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
+}
+
+void fragment() {
+    vec2 sample_uv = UV;
+    vec4 base_color;
+    
+    // --- 1. Time Fractured Effect Application ---
+    if (is_time_fractured) {
+        float facetA = step(0.0, sin((UV.x + UV.y) * 15.0) + cos((UV.x - UV.y) * 10.0));
+        float facetB = step(0.0, sin((UV.x - UV.y * 1.5) * 12.0));
+        float shard_id = facetA + facetB * 2.0; 
+        
+        float time_shift = sin(TIME * 4.0 + shard_id * 1.5) * 0.5 + 0.5;
+        vec2 offset = vec2(shard_id * 0.5 - 0.75) * fracture_intensity * time_shift;
+        
+        sample_uv = UV + offset;
+        
+        float r = texture(TEXTURE, sample_uv + vec2(fracture_intensity * 0.6 * time_shift, 0.0)).r;
+        float g = texture(TEXTURE, sample_uv).g;
+        float b = texture(TEXTURE, sample_uv - vec2(fracture_intensity * 0.6 * time_shift, 0.0)).b;
+        float a = texture(TEXTURE, sample_uv).a;
+        
+        base_color = vec4(r, g, b, a);
+        
+        float crack_pattern = abs(sin((UV.x + UV.y) * 15.0 + TIME * 1.5) + cos((UV.x - UV.y) * 10.0 - TIME));
+        float core = smoothstep(0.06, 0.0, crack_pattern);
+        float outer_glow = smoothstep(0.4, 0.0, crack_pattern);
+        float total_crack_glow = (core * 2.0 + outer_glow) * a;
+        
+        base_color.rgb = mix(base_color.rgb, fracture_tint.rgb, 0.25); 
+        float crack_pulse = (0.8 + 0.4 * sin(TIME * 6.0 + shard_id));
+        base_color.rgb += crack_color.rgb * total_crack_glow * crack_glow_strength * crack_pulse;
+        
+    } else {
+        base_color = texture(TEXTURE, sample_uv);
+    }
+    
+    // Apply the Default Tint right after grabbing the texture
+    base_color *= default_tint;
+    
+    // --- 2. Summoner Effect Application ---
+    if (is_summoner && base_color.a > 0.0) {
+        float dist_from_center = distance(sample_uv, vec2(0.5, 0.5));
+        float void_core = smoothstep(0.5, 0.0, dist_from_center);
+        base_color.rgb = mix(base_color.rgb, vec3(0.02, 0.05, 0.02), void_core * 0.85);
+
+        float rings = sin(dist_from_center * pulse_frequency - TIME * 8.0);
+        rings = smoothstep(0.85, 0.95, rings); 
+
+        float rising_energy = sin(sample_uv.x * 20.0 + sin(TIME * 2.0)) * sin(sample_uv.y * 15.0 - TIME * 5.0);
+        rising_energy = smoothstep(0.7, 1.0, rising_energy);
+
+        float total_magic = max(rings, rising_energy) * base_color.a;
+        base_color.rgb += summoner_color.rgb * total_magic * 1.5;
+
+        base_color.rgb = mix(base_color.rgb, summoner_color.rgb, 0.25);
+    }
+    
+    // --- 3. Steel Effect Application ---
+    if (is_steel && base_color.a > 0.0) {
+        float luminance = dot(base_color.rgb, vec3(0.299, 0.587, 0.114));
+        vec3 grayscale = vec3(luminance);
+        
+        base_color.rgb = grayscale * steel_tint.rgb * 1.5; 
+        
+        float diagonal = (sample_uv.x + sample_uv.y) * 0.5; 
+        float shine_pos = mod(TIME * shine_speed, 2.0) - 0.5;
+        float shine_intensity = smoothstep(shine_width, 0.0, abs(diagonal - shine_pos));
+        
+        base_color.rgb += vec3(shine_intensity * 0.8);
+    }
+    
+    // --- 4. Windy Effect Application ---
+    if (is_windy && base_color.a > 0.0) {
+        vec2 centered_uv = sample_uv - vec2(0.5);
+        float radius = length(centered_uv);
+        float angle = atan(centered_uv.y, centered_uv.x);
+        
+        float primary_swirl = sin(angle * 3.0 + radius * 15.0 - TIME * wind_speed);
+        primary_swirl = smoothstep(0.75, 1.0, primary_swirl);
+        
+        float secondary_swirl = sin(angle * -2.0 + radius * 25.0 + TIME * (wind_speed * 1.5));
+        secondary_swirl = smoothstep(0.9, 1.0, secondary_swirl);
+        
+        float total_wind = max(primary_swirl, secondary_swirl);
+        
+        base_color.rgb = mix(base_color.rgb, wind_color.rgb, 0.2);
+        base_color.rgb += wind_color.rgb * total_wind * 1.5;
+    }
+    
+    // --- 5. Mending Effect Application ---
+    if (is_mending && base_color.a > 0.0) {
+        base_color.rgb = mix(base_color.rgb, mending_color.rgb, 0.25);
+        
+        vec2 float_uv = sample_uv * 6.0; 
+        float_uv.y -= TIME * float_speed; 
+        float_uv.x += sin(float_uv.y * 1.5 + TIME) * 0.2; 
+        
+        vec2 grid_uv = fract(float_uv) - 0.5; 
+        
+        float bar_thickness = 0.08;
+        float bar_length = 0.25;
+        
+        float h_bar = smoothstep(bar_length, bar_length - 0.02, abs(grid_uv.x)) * smoothstep(bar_thickness, bar_thickness - 0.02, abs(grid_uv.y));
+        float v_bar = smoothstep(bar_thickness, bar_thickness - 0.02, abs(grid_uv.x)) * smoothstep(bar_length, bar_length - 0.02, abs(grid_uv.y));
+        
+        float plus_mask = max(h_bar, v_bar);
+        float cross_pulse = 0.7 + 0.3 * sin(TIME * 5.0 + sample_uv.y * 10.0);
+        
+        base_color.rgb += mending_color.rgb * plus_mask * cross_pulse * 1.5;
+    }
+    
+    // --- 6. Unstoppable Effect Application ---
+    if (is_unstoppable && base_color.a > 0.0) {
+        base_color.rgb *= 0.25;
+        float stripe = sin((sample_uv.x + sample_uv.y) * 30.0 - TIME * armor_speed);
+        stripe = smoothstep(0.3, 0.7, stripe); 
+        float heat_pulse = 0.5 + 0.5 * sin(TIME * 3.0);
+        
+        vec3 juggernaut_energy = unstoppable_color.rgb * stripe * 2.0;
+        vec3 heat_glow = unstoppable_color.rgb * heat_pulse * 0.8;
+        base_color.rgb += juggernaut_energy + heat_glow;
+    }
+    
+    // --- 7. Paracasual Effect Application ---
+    if (is_paracasual && base_color.a > 0.0) {
+        // Crush the sprite into the editable base color silhouette
+        base_color.rgb = mix(base_color.rgb, paracasual_base_color.rgb, 0.95);
+        
+        // Layer 1: Background small stars drifting slowly
+        vec2 uv1 = sample_uv * star_density + vec2(TIME * 0.1, TIME * -0.15);
+        vec2 grid1 = floor(uv1);
+        vec2 local1 = fract(uv1);
+        float n1 = hash(grid1);
+        
+        // Draw a soft circular dot in the cell
+        float dot1 = smoothstep(0.4, 0.0, length(local1 - vec2(0.5)));
+        // Only show the star if the random hash is high enough, and make it twinkle
+        float star1 = step(0.9, n1) * dot1 * (0.5 + 0.5 * sin(TIME * 3.0 + n1 * 20.0));
+        
+        // Layer 2: Foreground larger stars drifting faster (Parallax effect)
+        vec2 uv2 = sample_uv * (star_density * 0.6) + vec2(TIME * 0.2, TIME * -0.3);
+        vec2 grid2 = floor(uv2);
+        vec2 local2 = fract(uv2);
+        float n2 = hash(grid2 + vec2(100.0)); // Offset hash so stars don't overlap layer 1 perfectly
+        
+        float dot2 = smoothstep(0.35, 0.0, length(local2 - vec2(0.5)));
+        float star2 = step(0.95, n2) * dot2 * (0.5 + 0.5 * sin(TIME * 5.0 + n2 * 10.0));
+        
+        // Combine the layers
+        float total_stars = star1 + star2 * 1.5;
+        
+        base_color.rgb += star_color.rgb * total_stars;
+    }
+
+    // --- 8. Apply the damage flash ---
+    if (flash_modifier > 0.0) {
+        vec3 flash = mix(base_color.rgb, flash_color.rgb, flash_modifier);
+        base_color.rgb = mix(base_color.rgb, flash, base_color.a);
+    }
+    
+    COLOR = base_color;
+}"
+
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_0u5f2"]
-shader = ExtResource("4_ft5im")
-shader_parameter/tint_color = Color(0.947203, 0.8670751, 0.34278628, 1)
+resource_local_to_scene = true
+shader = SubResource("Shader_1ltg6")
+shader_parameter/default_tint = Color(1, 1, 0.2627451, 1)
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_modifier = 0.0
-shader_parameter/glow_color = Color(0.37504625, 0.3268808, 0.16285816, 1)
-shader_parameter/glow_thickness = 4.690000222775
-shader_parameter/pulse_speed = 1.58400007524
-shader_parameter/pulse_strength = 1.0
+shader_parameter/is_steel = false
+shader_parameter/steel_tint = Color(0.65, 0.7, 0.75, 1)
+shader_parameter/shine_speed = 1.5
+shader_parameter/shine_width = 0.15
+shader_parameter/is_time_fractured = false
+shader_parameter/fracture_intensity = 0.025
+shader_parameter/fracture_tint = Color(0.2, 0.9, 1, 1)
+shader_parameter/crack_color = Color(0.9, 0.1, 1, 1)
+shader_parameter/crack_glow_strength = 2.5
+shader_parameter/is_summoner = false
+shader_parameter/summoner_color = Color(0.6, 0.1, 0.9, 1)
+shader_parameter/pulse_frequency = 25.0
+shader_parameter/is_windy = false
+shader_parameter/wind_color = Color(0.6, 0.9, 1, 1)
+shader_parameter/wind_speed = 5.0
+shader_parameter/is_mending = false
+shader_parameter/mending_color = Color(0.2, 0.9, 0.4, 1)
+shader_parameter/float_speed = 2.0
+shader_parameter/is_unstoppable = false
+shader_parameter/unstoppable_color = Color(1, 0.3, 0, 1)
+shader_parameter/armor_speed = 3.0
+shader_parameter/is_paracasual = false
+shader_parameter/paracasual_base_color = Color(0.02, 0, 0.05, 1)
+shader_parameter/star_color = Color(1, 1, 1, 1)
+shader_parameter/star_density = 25.0
 
 [sub_resource type="Animation" id="Animation_ft5im"]
 length = 0.001

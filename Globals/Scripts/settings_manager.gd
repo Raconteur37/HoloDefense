@@ -22,7 +22,16 @@ var default_settings: Dictionary = {
 	"tanky_rectangle": false,
 	"shooty_diamond": false,
 	"hexagon_mothership": false
-	} 
+	},
+	"eliteInfo": {
+	"steel" : false,
+	"time_fractured": false,
+	"summoner": false,
+	"windy": false,
+	"mending": false,
+	"unstoppable": false,
+	"paracasual": false
+	}
 }
 
 # The active dictionary used during gameplay
@@ -61,6 +70,14 @@ func has_seen_enemy(enemy_id: int) -> bool:
 		
 	return false
 
+func has_seen_elite(elite_id: int) -> bool:
+	var elite_str = Enemy.EliteType.keys()[elite_id].to_lower()
+	
+	if current_settings["eliteInfo"].has(elite_str):
+		return current_settings["eliteInfo"][elite_str]
+		
+	return false
+
 ## Call this right after you show the popup so it never shows again.
 func mark_enemy_seen(enemy_id: int) -> void:
 	var enemy_str = Enemy.EnemyID.keys()[enemy_id].to_lower()
@@ -68,6 +85,11 @@ func mark_enemy_seen(enemy_id: int) -> void:
 	current_settings["enemyInfo"][enemy_str] = true
 	save_settings()
 
+func mark_elite_seen(elite_id: int) -> void:
+	var elite_str = Enemy.EliteType.keys()[elite_id].to_lower()
+	
+	current_settings["eliteInfo"][elite_str] = true
+	save_settings()
 
 # ─────────────────────────────────────────
 # SAVE / LOAD LOGIC

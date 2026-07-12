@@ -23,15 +23,17 @@ func _ready():
 	speed = EnemyManager.get_speed(enemyID)
 	summonTime = EnemyManager.get_event_time(enemyID)
 	enemiesToSpawn = EnemyManager.get_enemies_to_spawn(enemyID)
-	tier = 4
+	tier = EnemyManager.get_tier(enemyID)
 	sprite = $Sprite2D
 	tickTimer = $SpawnTicker
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
 
 	summonTimer = $SummonTimer
-	summonTimer.wait_time = summonTime + 15
+	summonTimer.wait_time = summonTime
 	summonTimer.start()
+	
+	applyScaling()
 
 
 

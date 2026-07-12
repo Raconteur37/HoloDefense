@@ -1,0 +1,23 @@
+[gd_scene format=3 uid="uid://ccyax3vk0ohi3"]
+
+[ext_resource type="Texture2D" uid="uid://cl7q6woa1hpy8" path="res://Particle Scenes/Event/rift.png" id="1_uu3dc"]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_mt18x"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 14
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="Rift" type="CPUParticles2D" unique_id=1183450902]
+modulate = Color(0.5568628, 0.16862746, 1, 1)
+material = SubResource("CanvasItemMaterial_mt18x")
+amount = 20
+texture = ExtResource("1_uu3dc")
+lifetime = 2.0
+local_coords = true
+emission_shape = 1
+emission_sphere_radius = 100.0
+gravity = Vector2(0, 0)
+anim_speed_min = 1.0
+anim_speed_max = 1.0

@@ -8,13 +8,34 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jqcys"]
 resource_local_to_scene = true
 shader = ExtResource("2_jqcys")
-shader_parameter/tint_color = Color(0.78939015, 0.44422638, 0.66217554, 1)
+shader_parameter/default_tint = Color(1, 0.3529412, 1, 1)
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_modifier = 0.0
-shader_parameter/glow_color = Color(0.5566483, 0.016207207, 0.6118008, 1)
-shader_parameter/glow_thickness = 2.2970001091075
-shader_parameter/pulse_speed = 1.22800005833
-shader_parameter/pulse_strength = 0.9930000471675
+shader_parameter/is_steel = false
+shader_parameter/steel_tint = Color(0.65, 0.7, 0.75, 1)
+shader_parameter/shine_speed = 1.5
+shader_parameter/shine_width = 0.15
+shader_parameter/is_time_fractured = false
+shader_parameter/fracture_intensity = 0.025
+shader_parameter/fracture_tint = Color(0.2, 0.9, 1, 1)
+shader_parameter/crack_color = Color(0.9, 0.1, 1, 1)
+shader_parameter/crack_glow_strength = 2.5
+shader_parameter/is_summoner = false
+shader_parameter/summoner_color = Color(0.6, 0.1, 0.9, 1)
+shader_parameter/pulse_frequency = 25.0
+shader_parameter/is_windy = false
+shader_parameter/wind_color = Color(0.6, 0.9, 1, 1)
+shader_parameter/wind_speed = 5.0
+shader_parameter/is_mending = false
+shader_parameter/mending_color = Color(0.2, 0.9, 0.4, 1)
+shader_parameter/float_speed = 2.0
+shader_parameter/is_unstoppable = false
+shader_parameter/unstoppable_color = Color(1, 0.3, 0, 1)
+shader_parameter/armor_speed = 3.0
+shader_parameter/is_paracasual = false
+shader_parameter/paracasual_base_color = Color(0.02, 0, 0.05, 1)
+shader_parameter/star_color = Color(1, 1, 1, 1)
+shader_parameter/star_density = 25.0
 
 [sub_resource type="CircleShape2D" id="CircleShape2D_4s3bd"]
 radius = 10.049875

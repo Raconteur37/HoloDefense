@@ -359,5 +359,9 @@ func rollGem():
 
 
 func _on_menu_control_visibility_changed() -> void:
-	if not menu.visible:
+	if menu.visible:
+		CityManager.currentPopup = menu
+	else:
+		if CityManager.currentPopup == menu:
+			CityManager.currentPopup = null
 		minigame.stop()

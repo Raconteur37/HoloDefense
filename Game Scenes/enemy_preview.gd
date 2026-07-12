@@ -5,12 +5,25 @@ extends CanvasLayer
 @onready var timer : Timer = $Timer
 
 var enID
+var elID
 var enemy
 
 
 func _ready() -> void:
 	pass
 	#spawnEnemy(Enemy.EnemyID.PACKED_CIRCLE)
+
+func spawnElite(eliteID : Enemy.EliteType):
+	elID = eliteID
+	enemy = load("res://Enemy Scenes/Basic Square.tscn").instantiate()
+	add_child(enemy)
+	enemy.global_position = enemyPosNode.global_position
+	enemy.specificDir = dummy.global_position
+	enemy.eliteType = eliteID
+	enemy.setElite()
+	if eliteID == Enemy.EliteType.SUMMONER:
+		timer.wait_time = 9
+
 
 func spawnEnemy(enemyID : Enemy.EnemyID):
 	enID = enemyID
@@ -138,4 +151,7 @@ func mothershipSpawn(mothership):
 
 func _on_timer_timeout() -> void:
 	enemy.queue_free()
-	spawnEnemy(enID)
+	if elID != null:
+		spawnElite(elID)
+	else:
+		spawnEnemy(enID)

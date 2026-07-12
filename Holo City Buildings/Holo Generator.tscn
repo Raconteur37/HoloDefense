@@ -8,7 +8,7 @@
 [ext_resource type="Shader" uid="uid://8ujmbait121g" path="res://Holo City Buildings/Holo Generator.gdshader" id="4_tlq4f"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="5_sbyn0"]
 [ext_resource type="Texture2D" uid="uid://ccxb6l8sby55i" path="res://Shaders/electricityNoise.tres" id="5_v0sms"]
-[ext_resource type="Texture2D" uid="uid://moen1aee05ih" path="res://Textures/Citizens/HDportraits/Citizen Portraits05.png" id="7_qkuul"]
+[ext_resource type="Texture2D" uid="uid://d3yai5ncoe3f1" path="res://Textures/Citizens/HDportraits/Citizen Portraits05.png" id="7_qkuul"]
 [ext_resource type="Script" uid="uid://djc12vw56dh1b" path="res://Game Scenes/mini_map.gd" id="8_8aw1o"]
 [ext_resource type="Texture2D" uid="uid://dk3sy882rpxak" path="res://Textures/Citizens/UI/divider3.png" id="10_dldic"]
 

@@ -11,6 +11,7 @@ var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
 var turretsPlaced = {}
 
+
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.MINI_SENTRY_TURRET,Turret.TurretID.RAILGUN_TURRET,Turret.TurretID.SEISMIC_TURRET,
 Turret.TurretID.SENTRY_TURRET,Turret.TurretID.FLAME_TURRET,Turret.TurretID.ENERGIZER_TURRET,
@@ -124,3 +125,13 @@ func reset():
 	turretsBrought.clear()
 	
 	turretStorageChanged.emit()
+
+
+func format_number(num: int) -> String:
+	if num >= 1_000_000_000:
+		return "%.1fB" % (num / 1_000_000_000.0)
+	elif num >= 1_000_000:
+		return "%.1fM" % (num / 1_000_000.0)
+	elif num >= 1_000:
+		return "%.1fK" % (num / 1_000.0)
+	return str(num)

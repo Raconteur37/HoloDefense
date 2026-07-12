@@ -12,7 +12,7 @@
 [ext_resource type="PackedScene" uid="uid://fbv4xq8oy5aj" path="res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn" id="9_x4qc4"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_5eexy"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_x4qc4"]
-[ext_resource type="Texture2D" uid="uid://bmprdw32eih8g" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_5eexy"]
+[ext_resource type="Texture2D" uid="uid://epojyy5tthda" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_5eexy"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")

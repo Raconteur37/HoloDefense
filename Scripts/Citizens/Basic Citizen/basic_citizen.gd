@@ -53,6 +53,8 @@ var inventory : Dictionary = {} # This holds an enum then int like so [enum,int]
 var characterPortrait = null
 var citPortrait = null
 
+var frozen : bool = false
+
 var gemKeys = [
 	Item.theItem.COPPER_GEM,
 	Item.theItem.QUARTZ_GEM,
@@ -95,7 +97,7 @@ func _ready() -> void:
 	workTimer = $"Work Timer"
 	deliverParticle = $"Item Delivered Particle"
 	
-	if randf_range(1,100) <= 50:
+	if randf_range(0,100) <= 50:
 		sex = "male"
 		sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
 		citName = CitizenManager.maleNameList.pick_random()
@@ -129,6 +131,8 @@ func _ready() -> void:
 		canvasLayer = get_tree().current_scene
 
 func _physics_process(delta: float) -> void:
+	if frozen:
+		return
 	if currentState == State.IDLE:
 		set_collision_mask_value(5,true)
 		navAgent.set_avoidance_mask_value(1,true)

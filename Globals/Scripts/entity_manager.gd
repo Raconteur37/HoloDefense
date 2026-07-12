@@ -43,6 +43,11 @@ func enemyTakeDamage(packet: DamagePacket, enemy: Enemy) -> void:
 					StatManager.addStat(turret.turretID, "damage_dealt", damage)
 
 			DamagePacket.Type.PROJECTILE:
+				if enemy.isElite:
+					if enemy.eliteType == Enemy.EliteType.STEEL:
+						#print(EnemyManager.get_elite_steel_damage_reduction())
+						damage = damage * (1-EnemyManager.get_elite_steel_damage_reduction())
+						
 				applyProjectileEffects(packet, enemy)
 				if is_instance_valid(turret):
 					StatManager.addStat(turret.turretID, "damage_dealt", damage)
@@ -235,68 +240,69 @@ func onKill(source: Node, enemy: Enemy) -> void:
 			AchievementManager.unlock_achievement("ACH_DEFEAT_HEXAGON_MOTHERSHIP")
 			return
 
-	var turret = source as Turret
-	if is_instance_valid(turret):
-		if turret.is_in_group("Minion"):
-			StatManager.addStat(turret.turretOwner.turretID, "kills", 1)
-			turret.enemy = null
-		else:
-			if turret.health <= 2:
-				AchievementManager.unlock_achievement("ACH_CRITICAL_KILL")
-			match turret.turretID:
-				Turret.TurretID.FIREWORK_TURRET:
-					if turret.level >= 3:
-						turret.tryRefundShot()
-				Turret.TurretID.MINI_SENTRY_TURRET:
-					StatManager.miniSentryKillsThisRun += 1
-					if StatManager.miniSentryKillsThisRun >= 200:
-						AchievementManager.unlock_achievement("ACH_MINI_SENTRY_TURRET")
-					if turret.level >= 2:
-						turret.startSpeedEvent()
-				Turret.TurretID.RAILGUN_TURRET:
-					if turret.level >= 3:
-						turret.killReloadCooldownReduction()
-				Turret.TurretID.SNIPER_TURRET:
-					if turret.level >= 2:
-						if randf_range(1,100) <= turret.reloadChance:
-							turret.shotReady = true
-				Turret.TurretID.FLAME_TURRET:
-					if turret.level >= 2 and EffectClass.Effect.BURN in enemy.effects:
-						var fxData = {
-							"explosionRadius": turret.explosionRange,
-							"igniteTime": turret.fireTime,
-							"igniteDamage": turret.fireDamage
-						}
-						ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
-				Turret.TurretID.SEISMIC_TURRET:
-					if turret.level >= 3:
-						var fxData = {
-							"explosionRadius": turret.chainRange,
-							"explosionDamage": turret.damage
-						}
-						ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
-				Turret.TurretID.VOODOO_TURRET:
-					if enemy.effects.has(EffectClass.Effect.CURSE):
+	if source is Turret:
+		var turret = source as Turret
+		if is_instance_valid(turret):
+			if turret.is_in_group("Minion"):
+				StatManager.addStat(turret.turretOwner.turretID, "kills", 1)
+				turret.enemy = null
+			else:
+				if turret.health <= 2:
+					AchievementManager.unlock_achievement("ACH_CRITICAL_KILL")
+				match turret.turretID:
+					Turret.TurretID.FIREWORK_TURRET:
+						if turret.level >= 3:
+							turret.tryRefundShot()
+					Turret.TurretID.MINI_SENTRY_TURRET:
+						StatManager.miniSentryKillsThisRun += 1
+						if StatManager.miniSentryKillsThisRun >= 200:
+							AchievementManager.unlock_achievement("ACH_MINI_SENTRY_TURRET")
 						if turret.level >= 2:
+							turret.startSpeedEvent()
+					Turret.TurretID.RAILGUN_TURRET:
+						if turret.level >= 3:
+							turret.killReloadCooldownReduction()
+					Turret.TurretID.SNIPER_TURRET:
+						if turret.level >= 2:
+							if randf_range(0,100) <= turret.reloadChance:
+								turret.shotReady = true
+					Turret.TurretID.FLAME_TURRET:
+						if turret.level >= 2 and EffectClass.Effect.BURN in enemy.effects:
 							var fxData = {
-								"explosionRadius": turret.explosionRadius,
-								"curseTime": turret.curseDuration,
-								"curseDamageAmp": turret.curseDamageAmp
+								"explosionRadius": turret.explosionRange,
+								"igniteTime": turret.fireTime,
+								"igniteDamage": turret.fireDamage
 							}
 							ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
-				Turret.TurretID.ZOMBIE_TURRET:
-					if turret.level >= 2 and enemy.effects.has(EffectClass.Effect.ZOMBIFY):
-						var gravestone = preload("res://TurretAddons/Gravestone.tscn")
-						gravestone = gravestone.instantiate()
-						turret.add_child(gravestone)
-						gravestone.build(turret,turret.gravestoneRange,turret.gravestoneTime)
-						gravestone.global_position = enemy.global_position
-			if turret.goldenBuff:
-				if is_instance_valid(turret.turretProviders["golden"]):
-					var rand = randf_range(0,100)
-					if rand <= turret.turretProviders["golden"].killChance:
-						CityManager.currentMoney += turret.turretProviders["golden"].extraGold
-						print("made " + str(turret.turretProviders["golden"].extraGold))
+					Turret.TurretID.SEISMIC_TURRET:
+						if turret.level >= 3:
+							var fxData = {
+								"explosionRadius": turret.chainRange,
+								"explosionDamage": turret.damage
+							}
+							ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+					Turret.TurretID.VOODOO_TURRET:
+						if enemy.effects.has(EffectClass.Effect.CURSE):
+							if turret.level >= 2:
+								var fxData = {
+									"explosionRadius": turret.explosionRadius,
+									"curseTime": turret.curseDuration,
+									"curseDamageAmp": turret.curseDamageAmp
+								}
+								ExplosionManager.summonExplosion(turret, enemy.global_position, fxData)
+					Turret.TurretID.ZOMBIE_TURRET:
+						if turret.level >= 2 and enemy.effects.has(EffectClass.Effect.ZOMBIFY):
+							var gravestone = preload("res://TurretAddons/Gravestone.tscn")
+							gravestone = gravestone.instantiate()
+							turret.add_child(gravestone)
+							gravestone.build(turret,turret.gravestoneRange,turret.gravestoneTime)
+							gravestone.global_position = enemy.global_position
+				if turret.goldenBuff:
+					if is_instance_valid(turret.turretProviders["golden"]):
+						var rand = randf_range(0,100)
+						if rand <= turret.turretProviders["golden"].killChance:
+							CityManager.currentMoney += turret.turretProviders["golden"].extraGold
+							print("made " + str(turret.turretProviders["golden"].extraGold))
 			
 
 			XpManager.addXp(turret.turretID)
@@ -314,6 +320,18 @@ func onKill(source: Node, enemy: Enemy) -> void:
 	if enemy.enemyID == Enemy.EnemyID.PACKED_CIRCLE:
 		enemy.deathEvent()
 		return
+	
+	if enemy.isElite:
+		if enemy.eliteType == Enemy.EliteType.TIME_FRACTURED:
+			var allEnemies = get_tree().get_nodes_in_group("Enemy")
+			for anotherEnemy : Enemy in allEnemies:
+				if anotherEnemy.isElite and anotherEnemy.eliteType == Enemy.EliteType.TIME_FRACTURED:
+					enemy.queue_free()
+					if anotherEnemy != enemy:
+						return
+			var allCitizens = get_tree().get_nodes_in_group("Citizen")
+			for citizen : Citizen in allCitizens:
+				citizen.frozen = false
 	
 	enemy.queue_free()
 
