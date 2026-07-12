@@ -230,6 +230,7 @@ func applyScaling() -> void:
 	var systemDamageMult = WaveManager.getScaledSystemDamageMultiplier()
 	var systemSpeedMult = WaveManager.getScaledSystemSpeedMultiplier()
 
+	#print(health)
 	health *= (waveHealthMult * systemHealthMult)
 	damage *= (waveDamageMult * systemDamageMult)
 	
@@ -237,6 +238,7 @@ func applyScaling() -> void:
 
 	health = round(health)
 	damage = round(damage)
+	#print(health)
 
 func applyKnockback(origin_pos: Vector2, strength: float) -> void:
 	var push_direction = (global_position - origin_pos).normalized()
