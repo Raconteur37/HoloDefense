@@ -105,7 +105,7 @@ func healTurrets():
 			var currentHeal = healingAmount
 			if level >= 3:
 				if turret.health <= (turret.maxHealth * criticalThresh):
-					var rand = randf_range(1,100)
+					var rand = randf_range(0,100)
 					if rand <= fullHealChance:
 						turret.health = turret.maxHealth
 			if level >= 2:

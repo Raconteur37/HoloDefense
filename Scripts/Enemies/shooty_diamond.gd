@@ -24,6 +24,7 @@ func _ready():
 	hitBoxArea = $HitboxArea
 	attackTimer.wait_time = attackTime
 	attackTimer.start()
+	rollForElite()
 	applyScaling()
 
 	$Area2D/CollisionShape2D.shape.radius = attackRange

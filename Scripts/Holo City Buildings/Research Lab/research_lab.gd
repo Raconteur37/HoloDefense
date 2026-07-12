@@ -194,7 +194,7 @@ func _ready() -> void:
 
 func _process(delta: float) -> void:
 	if menu.visible:
-		descriptionLabel.text = "[font_size=30][color=#3FE0FF]Energy: " + str(CityManager.currentEnergy) + "[/color][/font_size]"
+		descriptionLabel.text = "[font_size=30][color=#3FE0FF]Energy: " + str(GameManager.format_number(GameManager.round_to_dec(CityManager.currentEnergy,2))) + "[/color][/font_size]"
 		if currentResearchingMap.size() > 0:
 			var index = 0
 			for timer in currentResearchingMap:

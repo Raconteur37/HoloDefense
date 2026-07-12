@@ -61,7 +61,7 @@ func _ready() -> void:
 
 	titleLabel = $menuControl/Background/Title
 	descriptionLabel = $menuControl/Background/Description
-	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(CityManager.currentScrap) + "[/color][/font_size]"
+	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(GameManager.format_number(CityManager.currentScrap)) + "[/color][/font_size]"
 	purchaseLabel = $menuControl/Background/PurchaseLabel
 	currentWorkersLabel = $menuControl/Background/CurrentWorkersLabel
 	purchaseSlotsButton = $menuControl/Background/purchaseSlotsButton
@@ -97,7 +97,7 @@ func _ready() -> void:
 
 func _process(_delta: float) -> void:
 	CityManager.assignCit = selectCitPopup.visible
-	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(CityManager.currentScrap) + "[/color][/font_size]"
+	descriptionLabel.text = "[font_size=30][color=#DDC6B6]Scrap: " + str(GameManager.format_number(CityManager.currentScrap)) + "[/color][/font_size]"
 
 func updateUI() -> void:
 	purchaseLabel.text = "[font_size=16][color=white]Purchase Fabricator Slot[/color]\n[color=gold]$%s[/color][/font_size]" \
@@ -325,13 +325,25 @@ func _on_select_area_input_event(_viewport, event: InputEvent, _shape_idx) -> vo
 
 
 func _on_menu_control_visibility_changed() -> void:
-	if not menu.visible and autoBuildSelect != -1:
-		autoBuildSelect = -1
-		removeButtonGlow()
+	if menu.visible:
+		CityManager.currentPopup = menu
+	else:
+		if CityManager.currentPopup == menu:
+			CityManager.currentPopup = null
+			
+		# Your existing hide logic
+		if autoBuildSelect != -1:
+			autoBuildSelect = -1
+			removeButtonGlow()
 
 
 func _on_select_popup_visibility_changed() -> void:
-	if not selectCitPopup.visible:
+	if selectCitPopup.visible:
+		CityManager.currentPopup = selectCitPopup
+	else:
+		if CityManager.currentPopup == selectCitPopup:
+			CityManager.currentPopup = null
+			
 		for child in selectCitGrid.get_children():
 			child.queue_free()
 
@@ -343,6 +355,7 @@ func _on_purchase_slots_button_pressed() -> void:
 		currentSlots += 1
 		if currentSlots >= maxSlots:
 			purchaseSlotsButton.hide()
+			purchaseLabel.hide()
 		CityManager.fabricatorSlotCost = CityManager.baseFabricatorSlotCost * (currentSlots * CityManager.fabricatorCostMultiplier)
 		updateUI()
 

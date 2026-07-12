@@ -17,6 +17,7 @@ func _ready():
 	attackTimer.wait_time = attackTime
 	hurtParticle = $"Basic Square Hurt"
 	hitBoxArea = $HitboxArea
+	rollForElite()
 	applyScaling()
 
 

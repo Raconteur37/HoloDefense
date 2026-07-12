@@ -187,9 +187,12 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 
 func _on_menu_control_visibility_changed() -> void:
 	if atomizerMenu.visible:
+		CityManager.currentPopup = atomizerMenu
 		buildMenu()
 		minigame.start()
 	else:
+		if CityManager.currentPopup == atomizerMenu:
+			CityManager.currentPopup = null
 		minigame.stop()
 
 

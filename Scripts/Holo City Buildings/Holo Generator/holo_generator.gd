@@ -109,10 +109,10 @@ func _ready() -> void:
 	materialAbstract = ShaderMaterial.new()
 	glowShader = load("res://Shaders/pulsing_glow.gdshader")
 	
-	upgradeGenLabel.text = "Upgrade\n Generator\n $" + str(CityManager.generatorUpgradeCost)
-	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(CityManager.moneyGenerated)
-	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(CityManager.energyGenerated)
-	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(CityManager.scrapGenerated) 
+	upgradeGenLabel.text = "Upgrade\n Generator\n $" + str(GameManager.format_number(CityManager.generatorUpgradeCost))
+	moneyGenLabel.text = "[img]res://Textures/Icons/icon_moneybag.png[/img] Generated: " + str(GameManager.format_number(CityManager.moneyGenerated))
+	energyGenLabel.text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] Generated: " + str(GameManager.format_number(GameManager.round_to_dec(CityManager.energyGenerated,2)))
+	scrapGenLabel.text = "[img]res://Textures/Citizens/Scrap/Common Scrap.png[/img] Generated: " + str(GameManager.format_number(CityManager.scrapGenerated)) 
 	
 	citGenLabel.text = "Generate Citizen \nEnergy: " + str(CityManager.citizenGenCost)
 
@@ -120,9 +120,9 @@ func _ready() -> void:
 func _process(_delta: float) -> void:
 	# Edit labels and such
 	resourceBar.value = resourceTimer.wait_time - resourceTimer.time_left
-	moneyLabel.text = "[img=48x48]res://Textures/Icons/icon_moneybag.png[/img]  " + str(CityManager.getCurrentMoney())
-	energyLabel.text = "[img=48x48]res://Textures/Icons/icon_bolt_final.png[/img]  " + str(GameManager.round_to_dec(CityManager.getCurrentEnergy(),2))
-	scrapLabel.text = "[img=48x48]res://Textures/Citizens/Scrap/Common Scrap.png[/img]  " + str(CityManager.getCurrentScrap())
+	moneyLabel.text = "[img=48x48]res://Textures/Icons/icon_moneybag.png[/img]  " + str(GameManager.format_number(CityManager.getCurrentMoney()))
+	energyLabel.text = "[img=48x48]res://Textures/Icons/icon_bolt_final.png[/img]  " + str(GameManager.format_number(GameManager.round_to_dec(CityManager.getCurrentEnergy(),2)))
+	scrapLabel.text = "[img=48x48]res://Textures/Citizens/Scrap/Common Scrap.png[/img]  " + str(GameManager.format_number(CityManager.getCurrentScrap()))
 	cityLevelLabel.text = "Ctiy Level: " + str(CityManager.cityLevel)
 	integrityLabel.text = "[pulse color=pink height=0.5 freq=0.1][font_size=26]City Integrity: " + str(GameManager.cityHealth) + "[/font_size][/pulse]"
 	
@@ -180,7 +180,7 @@ func _on_generate_citizen_button_pressed() -> void:
 		StatManager.citizensGenerated += 1
 		if StatManager.citizensGenerated >= 100:
 			AchievementManager.unlock_achievement("ACH_MASS_TURRETS_PLACED")
-		citGenLabel.text = "Generate Citizen \nEnergy: " + str(round((round(100 * CityManager.citizenGenCost)/100)))
+		citGenLabel.text = "Generate Citizen \nEnergy: " + str(GameManager.format_number(round((round(100 * CityManager.citizenGenCost)/100))))
 		var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
 		var loadedScene = genScene.instantiate()
 		citizenGenGrid.add_child(loadedScene)
@@ -201,10 +201,10 @@ func _on_upgrade_generator_button_pressed() -> void:
 		CityManager.currentMoney -= CityManager.generatorUpgradeCost
 		CityManager.addCityXp("purchase_upgrade")
 		CityManager.upgradeGenerator()
-		upgradeGenLabel.text = "Upgrade\n Generator \n$" + str(CityManager.generatorUpgradeCost)
-		moneyGenLabel.text = "Money Gen: " + str(CityManager.moneyGenerated)
-		energyGenLabel.text = "Energy Gen: " + str(CityManager.energyGenerated)
-		scrapGenLabel.text = "Scrap Gen: " + str(CityManager.scrapGenerated) 
+		upgradeGenLabel.text = "Upgrade\n Generator \n$" + str(GameManager.format_number(CityManager.generatorUpgradeCost))
+		moneyGenLabel.text = "Money Gen: " + str(GameManager.format_number(CityManager.moneyGenerated))
+		energyGenLabel.text = "Energy Gen: " + str(GameManager.format_number(CityManager.energyGenerated))
+		scrapGenLabel.text = "Scrap Gen: " + str(GameManager.format_number(CityManager.scrapGenerated)) 
 		generatorLevelLabel.text = "[pulse color=aqua height=0.5 freq=0.5][font_size=26]Generator Level: " + str(CityManager.generatorLevel) + "[/font_size][/pulse]" 
 		_on_upgrade_generator_button_mouse_entered()
 		

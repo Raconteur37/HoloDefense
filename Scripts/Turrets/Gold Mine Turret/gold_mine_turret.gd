@@ -155,7 +155,7 @@ func generateMoney():
 	$AnimationPlayer.play("Generate Gold")
 	if level >= 2:
 		await get_tree().create_timer(1).timeout
-		var rand = randf_range(1,100)
+		var rand = randf_range(0,100)
 		if rand <= extraChance:
 			CityManager.currentMoney += extraGold
 			StatManager.addStat(turretID,"gold_produced",extraGold)

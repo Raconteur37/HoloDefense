@@ -4,6 +4,7 @@ class_name Enemy
 
 enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE, MINI_PACKED_CIRCLE}
 enum Type {BASIC, BOSS, ELITE}
+enum EliteType {STEEL, TIME_FRACTURED, SUMMONER, WINDY, MENDING, UNSTOPPABLE, PARACASUAL}
 
 var enemyName: String
 var health: float
@@ -15,6 +16,8 @@ var attackRange : float
 var projectileSpeed : float
 var type : Type
 var tier : int
+var isElite : bool = false
+var eliteType
 
 var sprite : Sprite2D
 var hitBoxArea
@@ -55,6 +58,10 @@ var explosionDamage
 
 var minisSpawned
 
+var summonCopyTimer: Timer
+var mendingTimer: Timer
+var mendingRadius: float = EnemyManager.get_elite_mending_heal_radius()
+
 func _ready() -> void:
 	applyScaling()
 	attackTimer = Timer.new()
@@ -65,14 +72,18 @@ func _ready() -> void:
 	# Must add the timer to the tree so it can tick!
 	add_child(attackTimer)
 
+func _draw() -> void:
+	if isElite and eliteType == EliteType.MENDING:
+		draw_arc(Vector2.ZERO, mendingRadius, 0.0, TAU, 64, Color(0.2, 0.9, 0.4, 0.6), 3.0)
+
 func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
 		return
 	
-	if knockbackVelocity != Vector2.ZERO:
+	if knockbackVelocity != Vector2.ZERO and eliteType != EliteType.UNSTOPPABLE:
 		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 	
-	if stunned:
+	if stunned and eliteType != EliteType.UNSTOPPABLE:
 		# Decay the knockback even while stunned
 		if knockbackVelocity != Vector2.ZERO:
 			knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
@@ -116,9 +127,6 @@ func move() -> void:
 	var direction = (destination - global_position).normalized()
 	
 	velocity = (direction * speed) + knockbackVelocity
-	
-	if knockbackVelocity != Vector2.ZERO:
-		print("Walking: ", (direction * speed), " | Knockback: ", knockbackVelocity, " | Final Vel: ", velocity)
 	
 	move_and_slide()
 	
@@ -211,13 +219,22 @@ func getName() -> String:
 	return enemyName
 
 func applyScaling() -> void:
-	var totalWaves = (WaveManager.systemNumber * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
+
+	var priorSystems = max(0, WaveManager.systemNumber - 1)
+	var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
 
 	var waveHealthMult = pow(WaveManager.getHealthScalePerWave(), totalWaves)
 	var waveDamageMult = pow(WaveManager.getDamageScalePerWave(), totalWaves)
 
-	health *= waveHealthMult
-	damage *= waveDamageMult
+	var systemHealthMult = WaveManager.getScaledSystemHealthMultiplier()
+	var systemDamageMult = WaveManager.getScaledSystemDamageMultiplier()
+	var systemSpeedMult = WaveManager.getScaledSystemSpeedMultiplier()
+
+	health *= (waveHealthMult * systemHealthMult)
+	damage *= (waveDamageMult * systemDamageMult)
+	
+	speed *= systemSpeedMult 
+
 	health = round(health)
 	damage = round(damage)
 
@@ -228,3 +245,128 @@ func applyKnockback(origin_pos: Vector2, strength: float) -> void:
 
 func getEnemyTier():
 	return tier
+
+func rollForElite() -> void:
+	# Bosses typically shouldn't be overwritten as standard elites
+	if type == Type.BOSS:
+		return
+		
+	#if DeveloperMode.inDevMode:
+	#	isElite = true
+	#	eliteType = EliteType.MENDING
+	#	damage = 9999
+	#	sprite.material.set_shader_parameter("is_paracasual", true)
+	#	if not SettingsManager.has_seen_elite(eliteType):
+	#		SettingsManager.mark_elite_seen(eliteType)
+	#		var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
+	#		get_tree().current_scene.add_child(enemyPopupScene)
+	#		enemyPopupScene.buildElitePopup(eliteType)
+	#	return
+		
+
+	# 1. Check if the current system has reached the Elite System Threshold
+	if WaveManager.systemNumber >= WaveManager.getEliteSystemThresh():
+		
+		# 2. Calculate total waves completed to scale the chance
+		var priorSystems = max(0, WaveManager.systemNumber - 1)
+		var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
+		
+		var chance = WaveManager.getScaledEliteChance(WaveManager.currentDifficulty, totalWaves)
+		
+		if randf_range(0.0, 100.0) <= chance:
+			
+			type = Type.ELITE
+			isElite = true
+			
+			var all_elite_types = EliteType.values()
+			eliteType = all_elite_types[randi() % all_elite_types.size()]
+			
+			setElite()
+			
+			if not SettingsManager.has_seen_enemy(eliteType):
+				SettingsManager.mark_enemy_seen(eliteType)
+				var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
+				get_tree().current_scene.add_child(enemyPopupScene)
+				enemyPopupScene.buildElitePopup(eliteType)
+
+func setElite():
+	match eliteType:
+		EliteType.STEEL:
+			sprite.material.set_shader_parameter("is_steel", true)
+		EliteType.TIME_FRACTURED:
+			var allCitizens = get_tree().get_nodes_in_group("Citizen")
+			for citizen : Citizen in allCitizens:
+				citizen.frozen = true
+			sprite.material.set_shader_parameter("is_time_fractured", true)
+		EliteType.SUMMONER:
+			sprite.material.set_shader_parameter("is_summoner", true)
+			summonCopy()
+		EliteType.WINDY:
+			sprite.material.set_shader_parameter("is_windy", true)
+			speed += speed * EnemyManager.get_elite_windy_speed_increase()
+		EliteType.MENDING:
+			sprite.material.set_shader_parameter("is_mending", true)
+			startMending()
+		EliteType.UNSTOPPABLE:
+			sprite.material.set_shader_parameter("is_unstoppable", true)
+			health += maxHealth * EnemyManager.get_absorbent_health_increase()
+		EliteType.PARACASUAL:
+			sprite.material.set_shader_parameter("is_paracasual", true)
+			damage = 999999
+
+func summonCopy() -> void:
+	if summonCopyTimer != null:
+		return
+		
+	var spawnInterval = EnemyManager.get_elite_summoner_spawn_interval()
+	
+	# Create and configure the repeating timer
+	summonCopyTimer = Timer.new()
+	summonCopyTimer.wait_time = spawnInterval
+	summonCopyTimer.one_shot = false # Make it repeat continuously
+	summonCopyTimer.timeout.connect(_on_summon_timer_timeout)
+	
+	add_child(summonCopyTimer)
+	summonCopyTimer.start()
+
+func _on_summon_timer_timeout() -> void:
+	# Stop summoning if this enemy has been killed
+	if isDead or stunned or isZombie:
+		return
+		
+	var alliesCount = EnemyManager.get_elite_summoner_allies_summoned()
+	
+	for i in range(alliesCount):
+		EnemySpawnManager.summonCopy(self,self.enemyID)
+		
+		# Note: If your EnemySpawnManager.summonEnemy() function allows you to pass 
+		# a spawn position, you should update it to spawn them near this elite!
+		# Example: EnemySpawnManager.summonEnemy(self.enemyID, global_position)
+
+func startMending() -> void:
+	if mendingTimer != null:
+		return
+		
+	var healInterval = EnemyManager.get_elite_mending_heal_interval()
+	
+	mendingTimer = Timer.new()
+	mendingTimer.wait_time = healInterval
+	mendingTimer.one_shot = false
+	mendingTimer.timeout.connect(_on_mending_timer_timeout)
+	
+	add_child(mendingTimer)
+	mendingTimer.start()
+
+func _on_mending_timer_timeout() -> void:
+	if isDead or stunned:
+		return
+		
+	var heal_amount_pct = EnemyManager.get_elite_mending_heal_amount()
+	var all_enemies = get_tree().get_nodes_in_group("Enemy")
+	
+	for e in all_enemies:
+		if is_instance_valid(e) and not e.isDead and not e.isZombie:
+			if global_position.distance_to(e.global_position) <= mendingRadius:
+				e.health += (e.maxHealth * heal_amount_pct)
+				if e.health > e.maxHealth:
+					e.health = e.maxHealth

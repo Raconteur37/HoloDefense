@@ -38,6 +38,5 @@ func deathEvent():
 
 
 func _on_hitbox_area_body_entered(body: Node2D) -> void:
-	print(body)
 	if body.is_in_group("Turret"):
 		deathEvent()

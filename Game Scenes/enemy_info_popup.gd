@@ -12,8 +12,10 @@ var canClick = false
 
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
+	if CityManager.currentPopup != null:
+		CityManager.currentPopup.hide()
 	animPlayer.play("Appear")
-	#buildPopup(Enemy.EnemyID.BASIC_SQUARE)
+	#buildElitePopup(Enemy.EliteType.PARACASUAL)
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
@@ -23,6 +25,7 @@ func _process(delta: float) -> void:
 			get_tree().paused = false
 
 func buildPopup(enemyID : Enemy.EnemyID):
+	enemyThreatLabel.show()
 	enemyNameLabel.text = "[pulse color=#c1e5ea  height=0.5 freq=1.5][font_size=25]" + EnemyManager.get_enemy_name(enemyID) + "[/font_size][/pulse]"
 	enemyDescriptionLabel.text = str(EnemyManager.get_description(enemyID))
 	var threatLevel = EnemyManager.get_threat_level(enemyID)
@@ -36,6 +39,12 @@ func buildPopup(enemyID : Enemy.EnemyID):
 		"Extreme":
 			enemyThreatLabel.text = "[font_size=25]Threat Level: [pulse color=#b54131  height=0.5 freq=1]" + threatLevel + "[/pulse][/font_size]"
 	enemyPreview.spawnEnemy(enemyID)
+
+func buildElitePopup(eliteType : Enemy.EliteType):
+	enemyThreatLabel.hide()
+	enemyNameLabel.text = "[pulse color=#c1e5ea  height=0.5 freq=1.5][font_size=25]" + EnemyManager.get_elite_name(eliteType) + "[/font_size][/pulse]"
+	enemyDescriptionLabel.text = str(EnemyManager.get_elite_description(eliteType))
+	enemyPreview.spawnElite(eliteType)
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Appear":

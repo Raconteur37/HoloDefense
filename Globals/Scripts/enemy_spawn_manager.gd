@@ -7,6 +7,16 @@ func _ready() -> void:
 
 # Preload all your scenes at the top of the script
 # This stores the "template" in memory once
+const NON_BOSS_ENEMIES = {
+	Enemy.EnemyID.BASIC_SQUARE: preload("res://Enemy Scenes/Basic Square.tscn"),
+	Enemy.EnemyID.SPEEDY_TRIANGLE: preload("res://Enemy Scenes/Speedy Triangle.tscn"),
+	Enemy.EnemyID.SHOOTY_DIAMOND: preload("res://Enemy Scenes/Shooty Diamond.tscn"),
+	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn"),
+	Enemy.EnemyID.PACKED_CIRCLE: preload("res://Enemy Scenes/Packed Circle.tscn"),
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
+}
+
+
 const ENEMIES = {
 	Enemy.EnemyID.BASIC_SQUARE: preload("res://Enemy Scenes/Basic Square.tscn"),
 	Enemy.EnemyID.SPEEDY_TRIANGLE: preload("res://Enemy Scenes/Speedy Triangle.tscn"),
@@ -15,6 +25,11 @@ const ENEMIES = {
 	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn"),
 	Enemy.EnemyID.PACKED_CIRCLE: preload("res://Enemy Scenes/Packed Circle.tscn"),
 	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
+}
+
+const BOSSES = {
+	Enemy.EnemyID.HEXAGON_MOTHERSHIP: preload("res://Enemy Scenes/Hexagon Mothership.tscn"),
+
 }
 
 func summonEnemy(enemyID : Enemy.EnemyID):
@@ -109,6 +124,30 @@ func getRandomOffscreenPosition() -> Vector2:
 			
 	return spawn_pos
 
+func summonCopy(summoner,enemyID):
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+
+	var enemy = ENEMIES[enemyID].instantiate()
+	holder.add_child(enemy)
+	enemy.global_position = summoner.global_position
+	WaveManager.registerActiveEnemy(enemy)
+
+	# Launch outward
+	var angle = randf_range(0, 2 * PI)
+	var direction = Vector2(cos(angle), sin(angle)).normalized()
+	enemy.set_physics_process(false)
+
+	var tween = enemy.create_tween()
+	tween.tween_property(
+		enemy,
+		"global_position",
+		summoner.global_position + direction * 120.0,
+		0.6
+	).set_ease(Tween.EASE_OUT).set_trans(Tween.TRANS_EXPO)
+	tween.tween_callback(func():
+		enemy.set_physics_process(true)
+		enemy.getDestination()
+	)
 
 # Another player called this on YOUR machine to send you an enemy
 @rpc("any_peer", "reliable")
@@ -129,3 +168,79 @@ func receiveEnemy(enemyID: int):
 func sendEnemy(enemyID: Enemy.EnemyID, target_peer_id: int):
 	# RPCs can't send enums directly, cast to int
 	receiveEnemy.rpc_id(target_peer_id, enemyID as int)
+
+func riftEvent():
+	var riftScene = load("res://Game Scenes/RiftEvent.tscn").instantiate()
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	holder.add_child(riftScene)
+
+func bossEvent():
+	match WaveManager.currentSystem:
+		
+		"Similar":
+			summonEnemy(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
+
+func formationEvent():
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	if not holder:
+		return
+
+	# Handle popups once per type so we don't spawn 100 popups at the exact same time
+	var typesInFormation = [
+		Enemy.EnemyID.BASIC_SQUARE, 
+		Enemy.EnemyID.TANKY_RECTANGLE, 
+		Enemy.EnemyID.SPEEDY_TRIANGLE, 
+		Enemy.EnemyID.SHOOTY_DIAMOND
+	]
+	
+	for type in typesInFormation:
+		if not SettingsManager.has_seen_enemy(type):
+			SettingsManager.mark_enemy_seen(type)
+			var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
+			get_tree().current_scene.add_child(enemyPopupScene)
+			enemyPopupScene.buildPopup(type)
+
+	var viewRect = get_viewport().get_visible_rect()
+	var viewHeight = viewRect.size.y
+
+	# Randomly pick Left (true) or Right (false) side
+	var isLeftSide = (randi() % 2 == 0)
+	var margin = 60.0
+	
+	var currentX = -margin if isLeftSide else viewRect.size.x + margin
+	var stepDir = -1.0 if isLeftSide else 1.0 
+
+	currentX = spawnFormationGroup(Enemy.EnemyID.BASIC_SQUARE, 5, 40.0, 40.0, currentX, stepDir, viewHeight, holder)
+	
+	currentX = spawnFormationGroup(Enemy.EnemyID.TANKY_RECTANGLE, 2, 85.0, 70.0, currentX, stepDir, viewHeight, holder)
+	
+	currentX = spawnFormationGroup(Enemy.EnemyID.SPEEDY_TRIANGLE, 3, 50.0, 50.0, currentX, stepDir, viewHeight, holder)
+	
+	spawnFormationGroup(Enemy.EnemyID.SHOOTY_DIAMOND, 2, 100.0, 80.0, currentX, stepDir, viewHeight, holder)
+
+
+
+func spawnFormationGroup(enemyID: Enemy.EnemyID, cols: int, ySpacing: float, xSpacing: float, startX: float, stepDir: float, viewHeight: float, holder: Node) -> float:
+	var currentX = startX
+	
+	for col in range(cols):
+		var numRows = int(viewHeight / ySpacing)
+		
+		var yStart = (viewHeight - ((numRows - 1) * ySpacing)) / 2.0
+		
+		for row in range(numRows):
+			var enemy = ENEMIES[enemyID].instantiate()
+			holder.add_child(enemy)
+			
+			enemy.global_position = Vector2(currentX, yStart + (row * ySpacing))
+			WaveManager.registerActiveEnemy(enemy)
+			
+			# If the enemies default to idle upon spawn, ensure they start walking
+			if enemy.has_method("getDestination"):
+				enemy.getDestination()
+		
+		# Move the X position further backwards offscreen for the next column
+		currentX += (xSpacing * stepDir)
+		
+	# Return the X position for the next enemy type, adding a small buffer space between groups
+	return currentX + (30.0 * stepDir)
