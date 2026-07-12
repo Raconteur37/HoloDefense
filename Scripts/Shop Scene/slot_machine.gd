@@ -179,12 +179,30 @@ func animate_spin(final_turret_id: int) -> void:
 	await get_tree().create_timer(0.5).timeout
 
 func _get_random_texture(current_texture: Texture2D = null) -> Texture2D:
-	var random_id = TurretManager.ALL_TURRETS.pick_random()
+	# 1. Compile a list of ONLY locked turrets
+	var locked_pool: Array = []
+	locked_pool.append_array(TurretManager.lockedCommonTurrets)
+	locked_pool.append_array(TurretManager.lockedRareTurrets)
+	locked_pool.append_array(TurretManager.lockedSuperRareTurrets)
+	locked_pool.append_array(TurretManager.lockedLegendaryTurrets)
+	locked_pool.append_array(TurretManager.lockedUnseenTurrets)
+	
+	# Safety Fallback: If the player has unlocked EVERYTHING, 
+	# fall back to all turrets so the pick_random() doesn't crash on an empty array.
+	if locked_pool.is_empty():
+		locked_pool = TurretManager.ALL_TURRETS
+	
+	# 2. Pick a random ID from the locked pool
+	var random_id = locked_pool.pick_random()
 	var new_texture = TurretManager.getTurretTexture(random_id)
 	
-	while new_texture == current_texture:
-		random_id = TurretManager.ALL_TURRETS.pick_random()
+	# 3. Ensure the texture doesn't match the one currently displaying to force visual spinning
+	# (Also add a safety check in case there's only 1 locked turret left)
+	var attempts = 0
+	while new_texture == current_texture and attempts < 10:
+		random_id = locked_pool.pick_random()
 		new_texture = TurretManager.getTurretTexture(random_id)
+		attempts += 1
 		
 	return new_texture
 
