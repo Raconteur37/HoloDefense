@@ -371,7 +371,7 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 
 	var turretStatsConfig = {
 		"constructionTime": ["Construction Time: ", Color.GOLDENROD, "s"],
-		"price": ["Scrap Cost: ", Color.GOLDENROD],
+		"price": ["Scrap Cost: ", Color.SADDLE_BROWN],
 		"health": ["Health: ", Color.FUCHSIA],
 		"armor": ["Armor: ", Color.GRAY],
 		"damage": ["Damage: ", Color.RED],
@@ -513,9 +513,29 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 				addStatLabel("Silver Bullet Chance: %s%%" % TurretManager.getTurretStat(turretID, "silverBulletChance"), Color.WHITE_SMOKE, 0, true)
 				addStatLabel("Silver Bullet Damage Multiplier: x%s" % TurretManager.getTurretStat(turretID, "silverBulletDamageMultiplier"), Color.PALE_VIOLET_RED, 0, true)
 
+		Turret.TurretID.MORTAR_TURRET:
+			addStatLabel("Fire Pool Time: %ss" % TurretManager.getTurretStat(turretID, "poolLifetime"), Color.ORANGE_RED, 0, true)
+			addStatLabel("Fire Pool Radius: %s" % TurretManager.getTurretStat(turretID, "poolRadius"), Color.WHITE, 0, true)
+			addStatLabel("Fire Pool Ignite Time: %ss" % TurretManager.getTurretStat(turretID, "poolIgniteTime"), Color.INDIAN_RED, 0, true)
+			addStatLabel("Fire Pool Damage: %ss" % TurretManager.getTurretStat(turretID, "poolIgniteDamage"), Color.INDIAN_RED, 0, true)
+			if current_level >= 3:
+				addStatLabel("Extra Shots: %s" % TurretManager.getTurretStat(turretID, "extraShots"), Color.GRAY, 0, true)
 
-# Helper function to generate labels cleanly
+
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:
+	var panel = PanelContainer.new()
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.05, 0.05, 0.05, 0.7) # Dark semi-transparent background
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	panel.add_theme_stylebox_override("panel", style)
+	
 	var label = Label.new()
 	var settings = turretLabel.duplicate()
 	settings.font_color = color
@@ -527,13 +547,29 @@ func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool
 
 	if autowrap:
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD
-		label.custom_minimum_size = Vector2(278, 0)
+		panel.custom_minimum_size = Vector2(278, 0)
+		panel.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
 		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
 
-	infoLabelContainer.add_child(label)
+	panel.add_child(label)
+	infoLabelContainer.add_child(panel)
+
 
 func appendXpLabel(turretID: Turret.TurretID) -> void:
 	var xpValue = XpManager.getCurrentXp(turretID)
+	
+	var panel = PanelContainer.new()
+	var style = StyleBoxFlat.new()
+	style.bg_color = Color(0.05, 0.05, 0.05, 0.7)
+	style.corner_radius_top_left = 6
+	style.corner_radius_top_right = 6
+	style.corner_radius_bottom_left = 6
+	style.corner_radius_bottom_right = 6
+	style.content_margin_left = 8
+	style.content_margin_right = 8
+	style.content_margin_top = 4
+	style.content_margin_bottom = 4
+	panel.add_theme_stylebox_override("panel", style)
 	
 	var label = Label.new()
 	var settings = turretLabel.duplicate()
@@ -542,14 +578,16 @@ func appendXpLabel(turretID: Turret.TurretID) -> void:
 	settings.font_color = Color.AQUAMARINE 
 	
 	label.autowrap_mode = TextServer.AUTOWRAP_WORD
-	label.custom_minimum_size = Vector2(278, 0)
+	panel.custom_minimum_size = Vector2(278, 0)
+	panel.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
 	label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
 	
 	# Formats the XP value nicely using your existing formatNumber function
 	label.text = "XP: %s" % str(formatNumber(int(xpValue))) 
 	label.label_settings = settings
 	
-	infoLabelContainer.add_child(label)
+	panel.add_child(label)
+	infoLabelContainer.add_child(panel)
 
 func buildTurretStats(turretID: Turret.TurretID) -> void:
 	for child in infoLabelContainer.get_children():
@@ -585,15 +623,33 @@ func buildTurretStats(turretID: Turret.TurretID) -> void:
 			prefix = stat_key.capitalize() + ": "
 			color = Color.WHITE
 
+		var panel = PanelContainer.new()
+		var style = StyleBoxFlat.new()
+		style.bg_color = Color(0.05, 0.05, 0.05, 0.7)
+		style.corner_radius_top_left = 6
+		style.corner_radius_top_right = 6
+		style.corner_radius_bottom_left = 6
+		style.corner_radius_bottom_right = 6
+		style.content_margin_left = 8
+		style.content_margin_right = 8
+		style.content_margin_top = 4
+		style.content_margin_bottom = 4
+		panel.add_theme_stylebox_override("panel", style)
+
 		var label = Label.new()
 		var settings = turretLabel.duplicate()
 		settings.font_color = color
 		label.autowrap_mode = TextServer.AUTOWRAP_WORD
-		label.custom_minimum_size = Vector2(278, 0)
+		
+		panel.custom_minimum_size = Vector2(278, 0)
+		panel.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
 		label.size_flags_horizontal = Control.SIZE_FILL | Control.SIZE_EXPAND
+		
 		label.text = "%s%s" % [prefix, str(formatNumber(int(value)))]
 		label.label_settings = settings
-		infoLabelContainer.add_child(label)
+		
+		panel.add_child(label)
+		infoLabelContainer.add_child(panel)
 
 	appendXpLabel(turretID)
 

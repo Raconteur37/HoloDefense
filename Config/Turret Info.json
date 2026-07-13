@@ -413,5 +413,31 @@
 		"silverBulletChance": 30.0,
 		"silverBulletDamageMultiplier": 3.0,
 		"scaleFactor": 0.05
-	}
+	},
+	"mortar_turret": {
+		"id": 20.0,
+		"name": "Mortar Turret",
+		"description": "Launches mortar shells that create a massive explosion, but only works far range.",
+		"levelTwo": "Mortar shells leave behind a pool of fire that [color=orange]ignites[/color] enemies.",
+		"levelThree": "Launches extra mortar shots after a delay.",
+		"rarity": "Common",
+		"type": "Explosive",
+		"price": 50.0,
+		"armor": 25.0,
+		"health": 30.0,
+		"range": 625.0,
+		"innerRange": 125,
+		"reloadTime": 10,
+		"constructionTime": 25.5,
+		"explosionDamage": 40.0,
+		"explosionRadius": 100.0,
+		"poolIgniteDamage": 4,
+		"poolIgniteTime": 3,
+		"poolLifetime": 5,
+		"poolRadius": 100,
+		"shotDelay": 0.55,
+		"travelTime": 1.25,
+		"extraShots": 2,
+		"scaleFactor": 0.04
+	},
 }

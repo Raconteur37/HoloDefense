@@ -1,0 +1,194 @@
+[gd_scene format=3 uid="uid://c1srhgq6swcd0"]
+
+[ext_resource type="Script" uid="uid://co8rsf62fat2e" path="res://Scripts/Turrets/Mortar Turret/mortar_turret.gd" id="1_qt0mw"]
+[ext_resource type="Texture2D" uid="uid://0hb7t81gx50s" path="res://Textures/Turrets/Mortar Turret/Mortar Turret Bottom.png" id="2_qt0mw"]
+[ext_resource type="Texture2D" uid="uid://rgyompq2l5dy" path="res://Textures/Turrets/Mortar Turret/Mortar Turret-Sheet.png" id="3_eto3m"]
+[ext_resource type="PackedScene" uid="uid://dj3evkvismepg" path="res://Particle Scenes/Turrets/Mortar Turret/mortarShoot.tscn" id="4_eto3m"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_x5dds"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7g4w2"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(0, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_x5dds"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(32, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_5juyy"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(64, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_vvv6g"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(96, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_qmixh"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(128, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_h3td5"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(160, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_ud7al"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(192, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_26rsv"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(224, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_rwfy4"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(256, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_omhe3"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(288, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_riafc"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(320, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_dw8cu"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(352, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_7cn2i"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(384, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_uhf0l"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(416, 0, 32, 32)
+
+[sub_resource type="AtlasTexture" id="AtlasTexture_1krsp"]
+atlas = ExtResource("3_eto3m")
+region = Rect2(448, 0, 32, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7g4w2")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_x5dds")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_5juyy")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_vvv6g")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_qmixh")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_h3td5")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_ud7al")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_26rsv")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_rwfy4")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_omhe3")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_riafc")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_dw8cu")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_7cn2i")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_uhf0l")
+}, {
+"duration": 1.0,
+"texture": SubResource("AtlasTexture_1krsp")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_eto3m"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 16
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[node name="Mortar Turret" type="CharacterBody2D" unique_id=142022213 groups=["Turret"]]
+collision_mask = 12
+script = ExtResource("1_qt0mw")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
+shape = SubResource("RectangleShape2D_11eqx")
+
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1737286898]
+texture = ExtResource("2_qt0mw")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=587304110]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="CPUParticles2D" parent="TurretTop" unique_id=369664344 instance=ExtResource("4_eto3m")]
+material = SubResource("CanvasItemMaterial_eto3m")
+position = Vector2(4, -27)
+lifetime = 0.5
+
+[node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
+collision_mask = 12
+script = ExtResource("4_x5dds")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=344454377]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=142957423]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="InvalidRangeArea" type="Area2D" parent="." unique_id=883598706]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="InvalidRangeArea" unique_id=264195881]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="InvalidRangeArea" unique_id=1204158125]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=783353897]
+
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="body_entered" from="InvalidRangeArea" to="." method="_on_invalid_range_area_body_entered"]
+[connection signal="body_exited" from="InvalidRangeArea" to="." method="_on_invalid_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]

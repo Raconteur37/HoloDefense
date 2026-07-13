@@ -134,17 +134,28 @@ func stopActiveMusic():
 	tween.tween_callback(musicPlayer.stop)
 
 func cityLevelUp():
-	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/DashReady.mp3")
-	soundPlayer.play()
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/Hollo City Sounds/DashReady.mp3")
+	asoundPlayer.volume_db = 5
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
 
 func enemiesIncoming():
 	soundPlayer.stream = load("res://Sounds/Hollo City Sounds/enemiesIncoming.wav")
 	soundPlayer.play()
 
 func playAchievementSound():
-	UIPlayer.stream = load("res://Sounds/UI Sounds/achievement get.wav")
-	UIPlayer.volume_db = 5
-	UIPlayer.play()
+	var achievementPlayer = AudioStreamPlayer2D.new()
+	achievementPlayer.stream = load("res://Sounds/UI Sounds/achievement get.wav")
+	achievementPlayer.volume_db = 5
+	
+	add_child(achievementPlayer)
+	achievementPlayer.play()
+	
+	achievementPlayer.finished.connect(achievementPlayer.queue_free)
 
 func playXpPurchaseSound():
 	UIPlayer.stream = load("res://Sounds/UI Sounds/xpPurchase.wav")

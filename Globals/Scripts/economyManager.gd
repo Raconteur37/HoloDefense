@@ -10,24 +10,17 @@ signal economy_loaded
 signal economy_saved
 signal stardust_changed(new_value: int)
 signal currency_changed(category: String, key: String, new_value: int)
-signal turret_unlocked_signal(turret_id) # <--- ADD THIS LINE
+signal turret_unlocked_signal(turret_id)
 
 func _ready() -> void:
 	load_economy()
 
 func get_default_economy() -> Dictionary:
-	var turret_keys = [
-		"arrow_turret", "mini_sentry_turret", "energizer_turret", 
-		"railgun_turret", "flame_turret", "reaper_turret", 
-		"royal_turret", "firework_turret", "tesla_turret", 
-		"sentry_turret", "gold_mine_turret", "seismic_turret", 
-		"spider_turret", "voodoo_turret", "zombie_turret", 
-		"medic_turret", "bubble_turret", "boomerang_turret",
-		"sniper_turret"
-	]
-	
 	var turret_defaults = {}
-	for t in turret_keys:
+	
+	for turret_id in TurretManager.ALL_TURRETS:
+		var t = TurretManager.get_turret_string(turret_id)
+		
 		if t == "arrow_turret":
 			turret_defaults[t] = 1
 		else:
