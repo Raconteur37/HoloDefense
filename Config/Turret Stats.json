@@ -135,5 +135,12 @@
 		"damage_taken": 0,
 		"deaths": 0,
 		"placed": 0
+	},
+	"mortar_turret": {
+		"kills": 0,
+		"damage_dealt": 0,
+		"damage_taken": 0,
+		"deaths": 0,
+		"placed": 0
 	}
 }

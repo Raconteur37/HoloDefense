@@ -11,12 +11,14 @@ var popupScene = preload("res://Globals/Scene/Popup.tscn")
 
 var turretsPlaced = {}
 
+var difficultySave = 1
+
 
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.MINI_SENTRY_TURRET,Turret.TurretID.RAILGUN_TURRET,Turret.TurretID.SEISMIC_TURRET,
 Turret.TurretID.SENTRY_TURRET,Turret.TurretID.FLAME_TURRET,Turret.TurretID.ENERGIZER_TURRET,
 Turret.TurretID.GOLD_MINE_TURRET,Turret.TurretID.TESLA_TURRET,Turret.TurretID.ZOMBIE_TURRET,
-Turret.TurretID.BUBBLE_TURRET,Turret.TurretID.BOOMERANG_TURRET]
+Turret.TurretID.BUBBLE_TURRET,Turret.TurretID.BOOMERANG_TURRET,Turret.TurretID.MORTAR_TURRET]
 
 var turretTempLevels = {}
 
@@ -34,7 +36,7 @@ func _ready() -> void:
 		turretStorage = {Turret.TurretID.MEDIC_TURRET : 99,Turret.TurretID.SNIPER_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
 		Turret.TurretID.SEISMIC_TURRET : 99, Turret.TurretID.ROYAL_TURRET : 99, Turret.TurretID.FLAME_TURRET : 99,
 		Turret.TurretID.SENTRY_TURRET : 99, Turret.TurretID.ARROW_TURRET : 99,Turret.TurretID.FIREWORK_TURRET : 99,
-		Turret.TurretID.REAPER_TURRET : 99, Turret.TurretID.SPIDER_TURRET : 99, Turret.TurretID.TESLA_TURRET : 99}
+		Turret.TurretID.REAPER_TURRET : 99, Turret.TurretID.MORTAR_TURRET : 99, Turret.TurretID.TESLA_TURRET : 99}
 		for item in turretStorage.keys():
 			turretTempLevels[item] = 0
 

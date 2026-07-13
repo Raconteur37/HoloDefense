@@ -6,7 +6,8 @@ enum ExplosionType {
 	FLAME_TURRET,
 	SEISMIC_TURRET,
 	VOODOO_TURRET,
-	BUBBLE_TURRET
+	BUBBLE_TURRET,
+	MORTAR_TURRET
 }
 
 var explosionType
@@ -21,6 +22,9 @@ var igniteDamage
 
 var curseDuration
 var curseDamageAmp
+
+var lingeringPoolTime
+var lingeringPoolRadius
 
 var knockbackVelocity
 
@@ -50,6 +54,9 @@ var stunTime
 	},
 	Enemy.EnemyID.MINI_PACKED_CIRCLE : {
 		"scene" : preload("res://Particle Scenes/Enemies/miniPackedExplosion.tscn")
+	},
+	Turret.TurretID.MORTAR_TURRET: {
+		"scene" : preload("res://Particle Scenes/Turrets/Mortar Turret/mortarExplosion.tscn")
 	}
 }
 
@@ -78,6 +85,11 @@ func summonExplosion(turret : Turret, position : Vector2, fxData : Dictionary):
 		knockbackVelocity = fxData.get("knockbackVelocity")
 	if fxData.has("stunTime"):
 		stunTime = fxData.get("stunTime")
+	if fxData.has("lingeringPoolTime"):
+		lingeringPoolTime = fxData.get("lingeringPoolTime")
+	if fxData.has("lingeringPoolRadius"):
+		lingeringPoolRadius = fxData.get("lingeringPoolRadius")
+
 
 	spawnExplosionArea()
 
@@ -106,6 +118,10 @@ func setExplosionDetails(turret):
 		
 		Turret.TurretID.BUBBLE_TURRET:
 			explosionType = ExplosionType.BUBBLE_TURRET
+			return
+		
+		Turret.TurretID.MORTAR_TURRET:
+			explosionType = ExplosionType.MORTAR_TURRET
 			return
 
 	explosionType = ExplosionType.NONE
@@ -165,9 +181,8 @@ func spawnExplosionArea() -> void:
 				if explosionType == ExplosionType.FLAME_TURRET:
 					EffectManager.applyBurnEffect(enemy,turretApplier,igniteDamage,igniteTime)
 				if explosionType == ExplosionType.FIREWORK_TURRET:
-					if turretApplier.turretID == Turret.TurretID.FIREWORK_TURRET:
-						if turretApplier.level >= 2:
-							EffectManager.applyBurnEffect(enemy,turretApplier,igniteDamage,igniteTime)
+					if turretApplier.level >= 2:
+						EffectManager.applyBurnEffect(enemy,turretApplier,igniteDamage,igniteTime)
 				if explosionType == ExplosionType.VOODOO_TURRET:
 					EffectManager.applyCurseEffect(enemy,turretApplier,curseDuration,curseDamageAmp)
 				if explosionType == ExplosionType.BUBBLE_TURRET:
@@ -182,6 +197,7 @@ func spawnExplosionArea() -> void:
 		await get_tree().create_timer(2.0).timeout
 		if is_instance_valid(area):
 			area.queue_free()
+
 
 
 func spawnEnemyExplosion(enemy : Enemy, explosionRadius, explosionDamage) -> void:
