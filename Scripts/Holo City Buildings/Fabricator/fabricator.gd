@@ -14,6 +14,14 @@ var emptyTurretAutoBuildTextureHover = preload("res://Textures/UI/Game/Turret In
 @onready var menu = $menuControl
 @onready var selectCitPopup = $SelectPopup
 @onready var selectCitGrid = $SelectPopup/Background/GridContainer
+@onready var targetingPopup = $TargetingPopup
+@onready var specificTargetPopup = $SpecificTargetPopup
+
+@onready var specificTargetBackground = $SpecificTargetPopup/Background
+@onready var specTargetGrid = $SpecificTargetPopup/Background/GridContainer
+@onready var targetEnemyTexture = $SpecificTargetPopup/Background/EnemyTexture
+@onready var mediumPriorityButton = $"SpecificTargetPopup/Background/Medium Priority Button"
+@onready var highPriorityButton = $"SpecificTargetPopup/Background/High Priority Button"
 
 @onready var costText1 = $menuControl/Background/costText
 @onready var costText2 = $menuControl/Background/costText2
@@ -48,11 +56,20 @@ var scrapCostTexts: Array = []
 var autoBuildButtons: Array = []
 var autoFabricateTimers: Array = []
 
+var currentTargetTurret : Turret.TurretID
+var currentTargetEnemy = -1
+
+var enemyTargetButtons: Array = []
+var enemySelectGroup := ButtonGroup.new()
+var priorityButtonGroup := ButtonGroup.new()
+
 var assignedWorkers: Array = [null,null,null,null,null,null,null,null,null,null]
 var assignedAutoBuildList: Array = [null,null,null,null,null,null,null,null,null,null]
 
 var glowShader
 var materialAbstract
+
+const ENEMY_BUTTON_SIZE := Vector2(96, 96)
 
 
 func _ready() -> void:
@@ -82,6 +99,11 @@ func _ready() -> void:
 		turretBroughtTextures.append(currentSlot)
 		turretBroughtPanels.append(currentSlot.get_node("Panel"))
 
+		currentSlot.mouse_filter = Control.MOUSE_FILTER_STOP
+		currentSlot.gui_input.connect(_on_turret_texture_gui_input.bind(i - 1))
+		currentSlot.mouse_entered.connect(_on_turret_texture_mouse_entered.bind(i - 1))
+		currentSlot.mouse_exited.connect(_on_turret_texture_mouse_exited.bind(i - 1))
+
 		var timer = Timer.new()
 		timer.wait_time = 3.0
 		timer.autostart = false
@@ -91,6 +113,13 @@ func _ready() -> void:
 
 	for turret in GameManager.turretsBrought:
 		costMap[turret] = TurretManager.getTurretStat(turret, "price")
+
+	mediumPriorityButton.toggle_mode = true
+	highPriorityButton.toggle_mode = true
+	mediumPriorityButton.button_group = priorityButtonGroup
+	highPriorityButton.button_group = priorityButtonGroup
+	mediumPriorityButton.toggled.connect(_on_priority_button_toggled.bind("Medium"))
+	highPriorityButton.toggled.connect(_on_priority_button_toggled.bind("High"))
 
 	updateUI()
 
@@ -126,19 +155,28 @@ func updateUI() -> void:
 				citPortraits[i].texture = null
 
 
+func _apply_glow(target: CanvasItem) -> void:
+	if glowShader == null:
+		glowShader = load("res://Shaders/pulsing_glow.gdshader")
+	var mat = ShaderMaterial.new()
+	mat.shader = glowShader
+	target.material = mat
+
+
+func _remove_glow(target: CanvasItem) -> void:
+	target.material = null
+
+
 func assignButtonGlow() -> void:
 	if autoBuildSelect == -1:
 		return
-	glowShader = load("res://Shaders/pulsing_glow.gdshader")
 	for panel in turretBroughtPanels:
-		var mat = ShaderMaterial.new()
-		mat.shader = glowShader
-		panel.material = mat
+		_apply_glow(panel)
 
 
 func removeButtonGlow() -> void:
 	for panel in turretBroughtPanels:
-		panel.material = null
+		_remove_glow(panel)
 
 
 func fabricateTurret(turretListIndex: int) -> void:
@@ -414,3 +452,110 @@ func _on_turret_auto_build_10_pressed() -> void: _on_auto_build_pressed(9)
 func _on_turret_cancel_button_10_pressed() -> void: _on_cancel_pressed(9)
 func _on_turret_fabricate_button_10_pressed() -> void: _on_turret_fabricate_pressed(9)
 func _on_turret_assignment_button_10_pressed() -> void: _on_assignment_button_pressed(9)
+
+
+func _on_targeting_back_pressed() -> void:
+	menu.show()
+	targetingPopup.hide()
+
+
+func _on_targeting_popup_visibility_changed() -> void:
+	pass # Replace with function body.
+
+
+func _on_spec_targeting_back_pressed() -> void:
+	menu.show()
+	specificTargetPopup.hide()
+
+
+func _on_turret_texture_gui_input(event: InputEvent, index: int) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT and event.pressed:
+		_on_turret_texture_pressed(index)
+
+
+func _on_turret_texture_mouse_entered(index: int) -> void:
+	if index < turretBroughtPanels.size():
+		_apply_glow(turretBroughtPanels[index])
+
+
+func _on_turret_texture_mouse_exited(index: int) -> void:
+	if index < turretBroughtPanels.size():
+		_remove_glow(turretBroughtPanels[index])
+
+
+func _on_turret_texture_pressed(index: int) -> void:
+	if index < 0 or index >= GameManager.turretsBrought.size():
+		return
+	var turretID = GameManager.turretsBrought[index]
+	menu.hide()
+	buildSpecificTargetPopup(turretID)
+	specificTargetPopup.show()
+
+
+func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
+	currentTargetTurret = turretID
+	currentTargetEnemy = -1
+
+	specificTargetBackground.texture = TurretManager.getTurretTexture(turretID)
+	targetEnemyTexture.texture = null
+
+	mediumPriorityButton.set_pressed_no_signal(false)
+	highPriorityButton.set_pressed_no_signal(false)
+
+	for child in specTargetGrid.get_children():
+		child.queue_free()
+	enemyTargetButtons.clear()
+
+	for enemyID in EnemySpawnManager.ENEMY_IDS:
+		var wrapper = Control.new()
+		wrapper.custom_minimum_size = ENEMY_BUTTON_SIZE
+		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
+
+		var glowPanel = Panel.new()
+		glowPanel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		glowPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
+		glowPanel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		wrapper.add_child(glowPanel)
+
+		var btn = TextureButton.new()
+		btn.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		btn.texture_normal = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
+		btn.ignore_texture_size = true
+		btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
+		btn.toggle_mode = true
+		btn.button_group = enemySelectGroup
+		btn.pressed.connect(_on_enemy_target_button_pressed.bind(enemyID))
+		btn.toggled.connect(_on_enemy_button_toggled.bind(btn, glowPanel))
+		btn.mouse_entered.connect(_on_enemy_button_mouse_entered.bind(btn, glowPanel))
+		btn.mouse_exited.connect(_on_enemy_button_mouse_exited.bind(glowPanel))
+		wrapper.add_child(btn)
+
+		specTargetGrid.add_child(wrapper)
+		enemyTargetButtons.append(btn)
+
+
+func _on_enemy_target_button_pressed(enemyID) -> void:
+	currentTargetEnemy = enemyID
+	targetEnemyTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
+
+
+func _on_enemy_button_mouse_entered(btn: TextureButton, panel: Panel) -> void:
+	if not btn.button_pressed:
+		_apply_glow(panel)
+
+
+func _on_enemy_button_mouse_exited(panel: Panel) -> void:
+	_remove_glow(panel)
+
+
+func _on_enemy_button_toggled(pressed: bool, btn: TextureButton, panel: Panel) -> void:
+	if pressed:
+		_remove_glow(panel)
+	elif btn.is_hovered():
+		_apply_glow(panel)
+
+
+func _on_priority_button_toggled(pressed: bool, priorityName: String) -> void:
+	if not pressed:
+		return
+	print("Turret ID: ", currentTargetTurret, " | Enemy ID: ", currentTargetEnemy, " | Priority: ", priorityName)

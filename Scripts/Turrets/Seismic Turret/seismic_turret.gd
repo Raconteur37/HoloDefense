@@ -166,12 +166,6 @@ func _on_reload_timer_timeout() -> void:
 	reloadTickTimer.stop()
 	reloadParticle.emitting = false
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))

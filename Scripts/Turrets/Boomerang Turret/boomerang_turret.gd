@@ -53,7 +53,7 @@ func _ready() -> void:
 func attack() -> void:
 	if not shotReady or enemiesInRange.is_empty() or not isPlaced:
 		return
-	var enemy = EntityManager.getClosestEnemyFromSprite(self)
+	var enemy = filterEnemy()
 	if not is_instance_valid(enemy):
 		return
 
@@ -96,13 +96,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 
 func applyUpgrade() -> void:

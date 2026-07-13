@@ -78,7 +78,7 @@ func _ready() -> void:
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		shotReady = false
-		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+		var enemy = filterEnemy()
 		await get_tree().create_timer(shotDelay).timeout
 		shotReady = true
 		if is_instance_valid(enemy) and isPlaced:
@@ -174,12 +174,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)

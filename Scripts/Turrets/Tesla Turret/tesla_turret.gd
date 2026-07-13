@@ -177,12 +177,6 @@ func _on_attacking_timer_timeout() -> void:
 	shotReady = false
 	reloadAnimation()
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))

@@ -129,12 +129,6 @@ func _on_healing_pulse_timer_timeout() -> void:
 	if not healReady:
 		healReady = true
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))

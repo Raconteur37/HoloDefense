@@ -166,12 +166,6 @@ func generateMoney():
 func _on_generate_timer_timeout() -> void:
 	generateMoney()
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func _on_scan_timer_timeout() -> void:
 	if not isPlaced:
 		return

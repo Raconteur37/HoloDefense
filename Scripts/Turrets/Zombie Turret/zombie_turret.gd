@@ -106,11 +106,6 @@ func _on_attack_timer_timeout() -> void:
 					XpManager.addXp(turretID)
 		attackTimer.start()
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)

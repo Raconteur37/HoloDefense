@@ -13,6 +13,8 @@ var turretsPlaced = {}
 
 var difficultySave = 1
 
+var turretTargetToggle: bool = false
+var turretTargetting
 
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.MINI_SENTRY_TURRET,Turret.TurretID.RAILGUN_TURRET,Turret.TurretID.SEISMIC_TURRET,

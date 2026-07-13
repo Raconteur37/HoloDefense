@@ -23,7 +23,7 @@ var sprite : Sprite2D
 var hitBoxArea
 
 var destination: Vector2 = Vector2.ZERO
-var effects: Dictionary = {} # Key is effect enum, val is the effect object
+var effects: Dictionary = {} 
 var curseDamageAmp: float = 0.0
 var isDead: bool = false
 var targeted: bool = false
@@ -46,10 +46,10 @@ var turretsInRange: Array = []
 
 var stunned : bool = false
 
-var is_sent_enemy: bool = false  # true when spawned by another player sending it
+var is_sent_enemy: bool = false  
 
 var knockbackVelocity: Vector2 = Vector2.ZERO
-var knockbackDecay: float = 1500.0 # How fast the enemy regains their footing (higher is shorter slide)
+var knockbackDecay: float = 1500.0 
 
 var ranged : bool = false
 
@@ -62,6 +62,11 @@ var summonCopyTimer: Timer
 var mendingTimer: Timer
 var mendingRadius: float = EnemyManager.get_elite_mending_heal_radius()
 
+# Tracking variables for targeting/highlighting
+var highlighted: bool = false
+var mouseIn : bool = false
+var targetting
+
 func _ready() -> void:
 	applyScaling()
 	attackTimer = Timer.new()
@@ -69,12 +74,28 @@ func _ready() -> void:
 	attackTimer.one_shot = true
 	attackTimer.timeout.connect(_on_attack_timer_timeout)
 	
-	# Must add the timer to the tree so it can tick!
 	add_child(attackTimer)
 
 func _draw() -> void:
 	if isElite and eliteType == EliteType.MENDING:
 		draw_arc(Vector2.ZERO, mendingRadius, 0.0, TAU, 64, Color(0.2, 0.9, 0.4, 0.6), 3.0)
+
+func _process(delta: float) -> void:
+	var is_mouse_near = global_position.distance_to(get_global_mouse_position()) < 50.0
+	
+	# Highlight if GameManager says we are looking AND the mouse is close enough
+	var should_highlight = is_mouse_near and GameManager.turretTargetToggle
+	
+	if should_highlight != highlighted:
+		highlighted = should_highlight
+		
+		if sprite and sprite.material:
+			targetting = true
+			sprite.material.set_shader_parameter("is_highlighted", highlighted)
+	
+	if is_mouse_near and not GameManager.turretTargetToggle and targetting:
+		targetting = false
+		GameManager.turretTargetting.manualTarget = self
 
 func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
@@ -84,19 +105,16 @@ func _physics_process(delta: float) -> void:
 		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 	
 	if stunned and eliteType != EliteType.UNSTOPPABLE:
-		# Decay the knockback even while stunned
 		if knockbackVelocity != Vector2.ZERO:
 			knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 			velocity = knockbackVelocity
-			move_and_slide() # Allow the physical slide to happen!
+			move_and_slide() 
 		return
 
 	updateDestination()
 
-	# Clean out any turrets from the array that were recently destroyed
 	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 
-	# If there is a turret in our Area2D range AND we are not a zombie, STOP and attack it
 	if turretsInRange.size() > 0 and not isZombie:
 		velocity = Vector2.ZERO
 		
@@ -105,7 +123,6 @@ func _physics_process(delta: float) -> void:
 			EntityManager.turretTakeDamage(damage, targetTurret, null, self)
 			startAttackCooldown()
 	else:
-		# No turrets in Area2D range (or we are a zombie), keep walking!
 		move()
 
 	if isZombie and not initialTurn and type != Type.BOSS:
@@ -135,13 +152,9 @@ func move() -> void:
 		var collider = col.get_collider()
 		
 		if collider.is_in_group("Turret") or collider.is_in_group("Minion"):
-			# Only calculate impact and stop to attack if we are NOT a zombie
 			if not isZombie:
-				# Calculates the angle of impact. 
-				# -1.0 means a head-on collision. 0.0 means sliding perfectly alongside it.
 				var impact_angle = direction.dot(col.get_normal())
 				
-				# If the angle is less than -0.4, the turret is actually blocking our forward path
 				if impact_angle < -0.4:
 					velocity = Vector2.ZERO
 					
@@ -155,8 +168,6 @@ func initZombie() -> void:
 		return
 	initialTurn = true
 	WaveManager.removeActiveEnemy(self)
-	# Grab the sprite's material and change the glow_color directly to green
-	#sprite.material.set_shader_parameter("glow_color", Color.html('#00ba00'))
 	modulate = Color(0.085, 0.987, 0.138, 1.0)
 	spawnZombieArea()
 	destination = EnemySpawnManager.getRandomOffscreenPosition()
@@ -191,7 +202,6 @@ func onZombieAreaEntered(body: Node) -> void:
 func onZombieAreaExit(_body: Node) -> void:
 	pass
 
-# --- New Area2D Logic for Ranged Turret Detection ---
 func _on_area_2d_body_entered(body: Node2D) -> void:
 	if body.is_in_group("Turret") and not turretsInRange.has(body):
 		turretsInRange.append(body)
@@ -199,7 +209,6 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 func _on_area_2d_body_exited(body: Node2D) -> void:
 	if body.is_in_group("Turret"):
 		turretsInRange.erase(body)
-# ----------------------------------------------------
 
 func startAttackCooldown() -> void:
 	if type != Type.BOSS and attackTimer != null:
@@ -219,7 +228,6 @@ func getName() -> String:
 	return enemyName
 
 func applyScaling() -> void:
-
 	var priorSystems = max(0, WaveManager.systemNumber - 1)
 	var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
 
@@ -230,53 +238,31 @@ func applyScaling() -> void:
 	var systemDamageMult = WaveManager.getScaledSystemDamageMultiplier()
 	var systemSpeedMult = WaveManager.getScaledSystemSpeedMultiplier()
 
-	#print(health)
 	health *= (waveHealthMult * systemHealthMult)
 	damage *= (waveDamageMult * systemDamageMult)
-	
 	speed *= systemSpeedMult 
 
 	health = round(health)
 	damage = round(damage)
-	#print(health)
 
 func applyKnockback(origin_pos: Vector2, strength: float) -> void:
 	var push_direction = (global_position - origin_pos).normalized()
-	# Apply the burst of speed
 	knockbackVelocity = push_direction * strength
 
 func getEnemyTier():
 	return tier
 
 func rollForElite() -> void:
-	# Bosses typically shouldn't be overwritten as standard elites
 	if type == Type.BOSS:
 		return
 		
-	#if DeveloperMode.inDevMode:
-	#	isElite = true
-	#	eliteType = EliteType.MENDING
-	#	damage = 9999
-	#	sprite.material.set_shader_parameter("is_paracasual", true)
-	#	if not SettingsManager.has_seen_elite(eliteType):
-	#		SettingsManager.mark_elite_seen(eliteType)
-	#		var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
-	#		get_tree().current_scene.add_child(enemyPopupScene)
-	#		enemyPopupScene.buildElitePopup(eliteType)
-	#	return
-		
-
-	# 1. Check if the current system has reached the Elite System Threshold
 	if WaveManager.systemNumber >= WaveManager.getEliteSystemThresh():
-		
-		# 2. Calculate total waves completed to scale the chance
 		var priorSystems = max(0, WaveManager.systemNumber - 1)
 		var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
 		
 		var chance = WaveManager.getScaledEliteChance(WaveManager.currentDifficulty, totalWaves)
 		
 		if randf_range(0.0, 100.0) <= chance:
-			
 			type = Type.ELITE
 			isElite = true
 			
@@ -322,17 +308,15 @@ func summonCopy() -> void:
 		
 	var spawnInterval = EnemyManager.get_elite_summoner_spawn_interval()
 	
-	# Create and configure the repeating timer
 	summonCopyTimer = Timer.new()
 	summonCopyTimer.wait_time = spawnInterval
-	summonCopyTimer.one_shot = false # Make it repeat continuously
+	summonCopyTimer.one_shot = false 
 	summonCopyTimer.timeout.connect(_on_summon_timer_timeout)
 	
 	add_child(summonCopyTimer)
 	summonCopyTimer.start()
 
 func _on_summon_timer_timeout() -> void:
-	# Stop summoning if this enemy has been killed
 	if isDead or stunned or isZombie:
 		return
 		
@@ -340,10 +324,6 @@ func _on_summon_timer_timeout() -> void:
 	
 	for i in range(alliesCount):
 		EnemySpawnManager.summonCopy(self,self.enemyID)
-		
-		# Note: If your EnemySpawnManager.summonEnemy() function allows you to pass 
-		# a spawn position, you should update it to spawn them near this elite!
-		# Example: EnemySpawnManager.summonEnemy(self.enemyID, global_position)
 
 func startMending() -> void:
 	if mendingTimer != null:
@@ -372,3 +352,25 @@ func _on_mending_timer_timeout() -> void:
 				e.health += (e.maxHealth * heal_amount_pct)
 				if e.health > e.maxHealth:
 					e.health = e.maxHealth
+
+
+func set_highlighted(is_high: bool) -> void:
+	highlighted = is_high
+	if sprite and sprite.material:
+		sprite.material.set_shader_parameter("is_highlighted", highlighted)
+
+func highlight_target(is_targeted: bool) -> void:
+	if is_targeted:
+		if sprite and sprite.material:
+			sprite.material.set_shader_parameter("is_targeted", true)
+	else:
+		if sprite and sprite.material:
+			sprite.material.set_shader_parameter("is_targeted", false)
+
+# --- Mouse Detection Signals ---
+
+func _on_hitbox_area_mouse_entered() -> void:
+	mouseIn = true
+
+func _on_hitbox_area_mouse_exited() -> void:
+	mouseIn = false

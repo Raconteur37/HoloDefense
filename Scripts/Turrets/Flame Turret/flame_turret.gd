@@ -138,10 +138,3 @@ func applyUpgrade():
 	flameAreaShape.shape.height += .8
 	flameParticle.process_material.set("initial_velocity",Vector2(particleVelocity,particleVelocity))
 	refreshUI(self)
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()

@@ -2,6 +2,8 @@ extends CharacterBody2D
 
 class_name Turret
 
+var targetCursor = load("res://Textures/UI/Cursor/targetCursor.png")
+
 var isPlaced : bool = false
 var selected : bool = false
 var shotReady : bool = true
@@ -98,12 +100,86 @@ var ignitionRoundsBurnDamage = 0
 
 var goldenBuff : bool = false
 
-func _process(_delta: float) -> void:
+# -= Target =-
+var target = null
+var priorityTarget : Enemy.EnemyID
+
+var priorityType = "None"
+
+var isHovering : bool = false
+var isTargetDragging : bool = false
+var targetLine : Line2D
+var manualTarget = null
+var lineAnimTime : float = 0.0
+
+
+func createLine():
+	if targetLine != null:
+		targetLine.queue_free()
+	
+	toggleTargetEnemyHighlight(true)
+	GameManager.turretTargetToggle = true
+	GameManager.turretTargetting = self
+	
+	targetLine = Line2D.new()
+	targetLine.width = 4.0
+	targetLine.default_color = Color(1.0, 0.2, 0.2, 0.8)
+	targetLine.z_index = 10
+	
+	# Smooths out the ends of the line
+	targetLine.begin_cap_mode = Line2D.LINE_CAP_ROUND
+	targetLine.end_cap_mode = Line2D.LINE_CAP_ROUND
+	
+	targetLine.hide()
+	add_child(targetLine)
+
+func _process(delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
+	
+	if isTargetDragging:
+		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
+			stopDragging()
+			return
+			
+		if is_instance_valid(targetLine):
+			targetLine.set_point_position(1, get_local_mouse_position())
+			
+			lineAnimTime += delta * 15.0 
+			targetLine.width = 4.0 + (sin(lineAnimTime) * 2.0)
+			var alpha = 0.5 + (sin(lineAnimTime * 1.5) * 0.5) 
+			targetLine.default_color = Color(1.0, 0.3 + (alpha * 0.4), 0.3, 0.4 + (alpha * 0.6))
 
 func _notification(what: int) -> void:
 	if what == NOTIFICATION_PREDELETE:
 		hideUI()
+
+func _input(event: InputEvent) -> void:
+	if event is InputEventMouseButton and event.button_index == MOUSE_BUTTON_LEFT:
+		if event.is_pressed() and isHovering and not isTargetDragging:
+			createLine()
+			isTargetDragging = true
+			targetLine.clear_points()
+			targetLine.add_point(Vector2.ZERO)
+			targetLine.add_point(get_local_mouse_position())
+			targetLine.show()
+			
+			# Prevents other turrets or nodes behind this from also responding to the click
+			get_viewport().set_input_as_handled()
+			
+		elif not event.is_pressed() and isTargetDragging:
+			stopDragging()
+
+func stopDragging() -> void:
+	isTargetDragging = false
+	
+	toggleTargetEnemyHighlight(false)
+	#print(target)
+	GameManager.turretTargetToggle = false
+	targetLine.hide()
+	
+	if not isHovering:
+		hideUI()
+		clearCursor()
 
 func applyProjectileModifiers(proj) -> void:
 	if ignitionRounds:
@@ -111,6 +187,11 @@ func applyProjectileModifiers(proj) -> void:
 		proj.burnTime = ignitionRoundsBurnTime
 		proj.burnDamage = ignitionRoundsBurnDamage
 
+func changeCursor():
+	Input.set_custom_mouse_cursor(targetCursor)
+
+func clearCursor():
+	Input.set_custom_mouse_cursor(null)
 
 func showRange():
 	line2d.show()
@@ -223,6 +304,7 @@ func death():
 					turretProviders.erase("energized")
 			"bubble":
 				removeBubble(false)
+	toggleTargetEnemyHighlight(false)
 	StatManager.addStat(turretID,"deaths",1)
 	
 	queue_free()
@@ -275,3 +357,49 @@ func removeGoldenBuff():
 	currentParticlesMap.erase("Golden Buff")
 	turretProviders.erase("golden")
 	goldenBuff = false
+
+func _on_select_area_mouse_entered() -> void:
+	toggleTargetEnemyHighlight(true)
+	isHovering = true
+	showUI(self)
+	changeCursor()
+
+func _on_select_area_mouse_exited() -> void:
+	isHovering = false
+	toggleTargetEnemyHighlight(false)
+	# Only hide UI if we aren't currently dragging a line out of the turret
+	if not isTargetDragging:
+		hideUI()
+		clearCursor()
+
+func toggleTargetEnemyHighlight(toggle):
+	if toggle:
+		if is_instance_valid(manualTarget):
+			manualTarget.highlight_target(true)
+		else:
+			manualTarget = null
+	else:
+		if is_instance_valid(manualTarget):
+			manualTarget.highlight_target(false)
+
+func filterEnemy():
+	if is_instance_valid(manualTarget) and enemiesInRange.has(manualTarget):
+		return manualTarget
+		
+	var closest_priority_enemy = null
+	var shortest_dist = INF
+	
+	for en in enemiesInRange:
+		if is_instance_valid(en) and en.enemyID == priorityTarget:
+			var dist = global_position.distance_squared_to(en.global_position)
+			if dist < shortest_dist:
+				shortest_dist = dist
+				closest_priority_enemy = en
+				
+	if priorityType == "High":
+		return closest_priority_enemy
+		
+	if priorityType == "Medium" and closest_priority_enemy != null:
+		return closest_priority_enemy
+		
+	return EntityManager.getClosestEnemyFromSprite(self)
