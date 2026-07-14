@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="8_nb3ge"]
 [ext_resource type="Texture2D" uid="uid://dqqe8f0g2rd61" path="res://Textures/Holo City/locked_icon.png" id="8_rnf34"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="8_xt6r3"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="9_nb3ge"]
+[ext_resource type="Texture2D" uid="uid://bd8f5hp6t31m7" path="res://Textures/Enemies/Basic Square.png" id="9_nb3ge"]
 [ext_resource type="Texture2D" uid="uid://blo8yccv3eife" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon_hover.png" id="11_e2s21"]
 [ext_resource type="Texture2D" uid="uid://cto0ljlxxgwvl" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon.png" id="11_xt6r3"]
 
