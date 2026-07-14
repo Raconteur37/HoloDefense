@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d180avbvjdhen"]
 
 [ext_resource type="Script" uid="uid://qmmnk0j12kne" path="res://Scripts/Enemies/tanky_rectangle.gd" id="1_tj2gn"]
-[ext_resource type="Texture2D" uid="uid://cwqfnlu4a4ok2" path="res://Textures/Enemies/rectangle_enemy.png" id="2_shkqd"]
+[ext_resource type="Texture2D" uid="uid://ybwhk2cak7v8" path="res://Textures/Enemies/rectangle_enemy.png" id="2_shkqd"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="4_fjwbi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
@@ -310,6 +310,7 @@ shader_parameter/star_density = 25.0
 size = Vector2(34.5, 12.5)
 
 [node name="Tanky Rectangle" type="CharacterBody2D" unique_id=1902235866 groups=["Enemy"]]
+position = Vector2(1102, -2960)
 scale = Vector2(2, 2)
 collision_layer = 4
 collision_mask = 3

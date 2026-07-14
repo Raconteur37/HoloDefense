@@ -164,10 +164,12 @@ func getEnemyFromTier(tierDict: Dictionary) -> Enemy.EnemyID:
 	return pool[randi() % pool.size()]
 
 func getActiveTiers(waveWithinSystem: int) -> Dictionary:
+	var pastFirstSystem: bool = systemNumber > 0
+	
 	return {
 		"first":  true,
-		"second": waveWithinSystem >= secondTierUnlockWave,
-		"third":  waveWithinSystem >= thirdTierUnlockWave,
+		"second": pastFirstSystem or waveWithinSystem >= secondTierUnlockWave,
+		"third":  pastFirstSystem or waveWithinSystem >= thirdTierUnlockWave,
 	}
 
 func removeActiveEnemy(enemy: Enemy) -> void:

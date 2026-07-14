@@ -49,6 +49,7 @@ shader_parameter/star_density = 25.0
 size = Vector2(17, 16)
 
 [node name="Basic Square" type="CharacterBody2D" unique_id=24300298 groups=["Enemy"]]
+position = Vector2(995, -3412)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_7qxr7")

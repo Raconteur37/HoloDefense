@@ -30,7 +30,7 @@ func _ready():
 	hitBoxArea = $HitboxArea
 
 	summonTimer = $SummonTimer
-	summonTimer.wait_time = summonTime + 5
+	summonTimer.wait_time = summonTime
 	summonTimer.start()
 	
 	applyScaling()

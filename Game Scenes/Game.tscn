@@ -143,53 +143,6 @@ script = ExtResource("3_cemk1")
 [node name="TowerDefenseCanvas" parent="." unique_id=1084623525 instance=ExtResource("2_vq8dx")]
 visible = false
 
-[node name="WaveData" type="Control" parent="." unique_id=554365349]
-visible = false
-z_index = 7
-layout_mode = 3
-anchors_preset = 3
-anchor_left = 1.0
-anchor_top = 1.0
-anchor_right = 1.0
-anchor_bottom = 1.0
-offset_left = 1614.0
-offset_top = 1004.0
-offset_right = 1654.0
-offset_bottom = 1044.0
-grow_horizontal = 0
-grow_vertical = 0
-script = ExtResource("2_h7tih")
-
-[node name="DifficultyLabel" type="Label" parent="WaveData" unique_id=1705205662]
-layout_mode = 0
-offset_left = -45.0
-offset_right = 45.0
-offset_bottom = 23.0
-text = "Difficulty: 1"
-
-[node name="SystemLabel" type="Label" parent="WaveData" unique_id=262830801]
-layout_mode = 0
-offset_left = 54.0
-offset_right = 144.0
-offset_bottom = 23.0
-text = "System: 1/5"
-
-[node name="WaveLabel" type="Label" parent="WaveData" unique_id=1185415126]
-layout_mode = 0
-offset_left = 152.0
-offset_right = 276.0
-offset_bottom = 23.0
-text = "Current Wave: 0"
-
-[node name="IntermissionLabel" type="Label" parent="WaveData" unique_id=683259587]
-layout_mode = 0
-offset_left = 12.0
-offset_top = 34.0
-offset_right = 182.0
-offset_bottom = 57.0
-
-[node name="Timer" type="Timer" parent="WaveData" unique_id=49351372]
-
 [node name="PauseLayer" type="CanvasLayer" parent="." unique_id=188488245]
 visible = false
 
@@ -261,6 +214,53 @@ offset_top = -26.0
 offset_right = 477.33334
 offset_bottom = -3.6666641
 text = "Music Volume"
+
+[node name="WaveData" type="Control" parent="." unique_id=554365349]
+visible = false
+z_index = 22
+layout_mode = 3
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = 1614.0
+offset_top = 1004.0
+offset_right = 1654.0
+offset_bottom = 1044.0
+grow_horizontal = 0
+grow_vertical = 0
+script = ExtResource("2_h7tih")
+
+[node name="DifficultyLabel" type="Label" parent="WaveData" unique_id=1705205662]
+layout_mode = 0
+offset_left = -45.0
+offset_right = 45.0
+offset_bottom = 23.0
+text = "Difficulty: 1"
+
+[node name="SystemLabel" type="Label" parent="WaveData" unique_id=262830801]
+layout_mode = 0
+offset_left = 54.0
+offset_right = 144.0
+offset_bottom = 23.0
+text = "System: 1/5"
+
+[node name="WaveLabel" type="Label" parent="WaveData" unique_id=1185415126]
+layout_mode = 0
+offset_left = 152.0
+offset_right = 276.0
+offset_bottom = 23.0
+text = "Current Wave: 0"
+
+[node name="IntermissionLabel" type="Label" parent="WaveData" unique_id=683259587]
+layout_mode = 0
+offset_left = 12.0
+offset_top = 34.0
+offset_right = 182.0
+offset_bottom = 57.0
+
+[node name="Timer" type="Timer" parent="WaveData" unique_id=49351372]
 
 [node name="CanvasLayer" type="CanvasLayer" parent="." unique_id=542066478]
 visible = false
