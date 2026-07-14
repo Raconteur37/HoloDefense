@@ -89,10 +89,10 @@
 	  {
 		 "id":"hexagon_mothership",
 		 "name":"Hexagonal Mothership",
-		 "health":5000,
+		 "health":4500,
 		 "damage":1000,
 		 "speed":5,
-		 "eventTime":20,
+		 "eventTime":30,
 		 "enemiesToSummon":60,
 		 "description":"One of the sacred bosses of the universe, super slow but will summon her childeren every couple seconds.",
 		 "threat_level":"Extreme"

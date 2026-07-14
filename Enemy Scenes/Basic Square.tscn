@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://dq8r764ghas4c"]
 
 [ext_resource type="Script" uid="uid://djpt348ugfkva" path="res://Scripts/Enemies/basic_square.gd" id="1_7qxr7"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="1_e40kq"]
+[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="1_e40kq"]
 [ext_resource type="Shader" uid="uid://yrdagse31yg5" path="res://Shaders/enemyShader.gdshader" id="2_yhs31"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="3_0db41"]
 
@@ -11,9 +11,14 @@ size = Vector2(12, 12)
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_xpxn3"]
 resource_local_to_scene = true
 shader = ExtResource("2_yhs31")
+shader_parameter/is_highlighted = false
+shader_parameter/highlight_color = Color(0.9509773, 1, 0.19999999, 1)
 shader_parameter/default_tint = Color(0.52906674, 0.5290667, 0.5290667, 1)
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_modifier = 0.0
+shader_parameter/is_targeted = false
+shader_parameter/target_color = Color(0.9607843, 0.79562384, 0, 1)
+shader_parameter/target_speed = 1.5
 shader_parameter/is_steel = false
 shader_parameter/steel_tint = Color(0.65, 0.7, 0.75, 1)
 shader_parameter/shine_speed = 1.5
@@ -49,7 +54,6 @@ collision_mask = 3
 script = ExtResource("1_7qxr7")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=841419490]
-visible = false
 shape = SubResource("RectangleShape2D_m5ss4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2003734995]
@@ -58,7 +62,6 @@ scale = Vector2(1.5, 1.5)
 texture = ExtResource("1_e40kq")
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=56280738]
-visible = false
 collision_layer = 4
 collision_mask = 195
 
@@ -76,4 +79,6 @@ scale_amount_max = 4.0
 color = Color(1, 1, 1, 1)
 
 [connection signal="body_entered" from="HitboxArea" to="." method="_on_area_2d_body_entered"]
+[connection signal="body_exited" from="HitboxArea" to="." method="_on_hitbox_area_body_exited"]
+[connection signal="mouse_entered" from="HitboxArea" to="." method="_on_hitbox_area_mouse_entered"]
 [connection signal="timeout" from="AttackTimer" to="." method="_on_attack_timer_timeout"]

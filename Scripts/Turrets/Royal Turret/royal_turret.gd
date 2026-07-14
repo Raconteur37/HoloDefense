@@ -214,12 +214,6 @@ func removeMinion(minion : Minion):
 func _on_summon_timer_timeout() -> void:
 	summonMinion()
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func applyUpgrade(): #TODO FIX THIS ATTACK TIME
 	upgradeTier = GameManager.getTurretTempLevel(turretID)
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))

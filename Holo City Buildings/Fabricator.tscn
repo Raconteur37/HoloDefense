@@ -8,8 +8,10 @@
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="7_rnf34"]
 [ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="7_xt6r3"]
 [ext_resource type="Texture2D" uid="uid://c7f1kirvy486r" path="res://Textures/Citizens/UI/Job Inactive.png" id="8_e2s21"]
+[ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="8_nb3ge"]
 [ext_resource type="Texture2D" uid="uid://dqqe8f0g2rd61" path="res://Textures/Holo City/locked_icon.png" id="8_rnf34"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="8_xt6r3"]
+[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="9_nb3ge"]
 [ext_resource type="Texture2D" uid="uid://blo8yccv3eife" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon_hover.png" id="11_e2s21"]
 [ext_resource type="Texture2D" uid="uid://cto0ljlxxgwvl" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon.png" id="11_xt6r3"]
 
@@ -40,6 +42,7 @@ anchor_bottom = 0.5
 grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("1_auhoa")
+enemyButtonScale = 1.5
 
 [node name="Fabricator Sprite" type="AnimatedSprite2D" parent="." unique_id=2033949305]
 scale = Vector2(4, 4)
@@ -119,6 +122,145 @@ offset_bottom = 16.0
 scale = Vector2(5, 5)
 texture_normal = ExtResource("8_e2s21")
 
+[node name="SpecificTargetPopup" type="Popup" parent="." unique_id=816449564]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(900, 810)
+
+[node name="Background" type="TextureRect" parent="SpecificTargetPopup" unique_id=1266821484]
+self_modulate = Color(1, 1, 1, 0.16600001)
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -405.0
+offset_right = 450.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("8_nb3ge")
+
+[node name="Title" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=1889716449]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25800002
+anchor_right = 0.74200004
+anchor_bottom = 0.054
+offset_left = -0.2000122
+offset_top = 3.0
+offset_right = 0.19995117
+offset_bottom = 7.2599983
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[font_size=32][color=light_blue]Choose A Target and Priority[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="SpecificTargetPopup/Background" unique_id=31389980]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 72.0
+offset_right = 2821.6665
+offset_bottom = 898.6666
+scale = Vector2(0.3, 0.3)
+theme_override_constants/h_separation = 400
+theme_override_constants/v_separation = 425
+columns = 5
+
+[node name="TurretTargetingLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=506519698]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 699.0
+offset_right = 564.0
+offset_bottom = 763.0
+bbcode_enabled = true
+text = "[font_size=16][color=white]Back[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="specTargetingBack" type="TextureButton" parent="SpecificTargetPopup/Background" unique_id=685152226]
+modulate = Color(1, 1, 1, 0.42745098)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -114.0
+offset_top = -124.0
+offset_right = 806.0
+offset_bottom = 192.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25825343, 0.28350347)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="EnemyTexture" type="TextureRect" parent="SpecificTargetPopup/Background" unique_id=626538993]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
+offset_left = 422.0
+offset_top = 383.0
+offset_right = 477.0
+offset_bottom = 432.0
+texture = ExtResource("9_nb3ge")
+expand_mode = 2
+
+[node name="PriorityLabel" type="Label" parent="SpecificTargetPopup/Background" unique_id=1074915515]
+layout_mode = 0
+offset_left = 308.0
+offset_top = 335.0
+offset_right = 597.0
+offset_bottom = 378.0
+text = "Current Priority:
+None"
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
+
+[node name="Medium Priority Button" type="CheckButton" parent="SpecificTargetPopup/Background" unique_id=1250209593]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 544.0
+offset_right = 346.0
+offset_bottom = 568.0
+
+[node name="High Priority Button" type="CheckButton" parent="SpecificTargetPopup/Background" unique_id=1534975009]
+layout_mode = 0
+offset_left = 586.0
+offset_top = 544.0
+offset_right = 630.0
+offset_bottom = 568.0
+
+[node name="highPrioLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=1378732794]
+layout_mode = 0
+offset_left = 522.0
+offset_top = 567.0
+offset_right = 691.0
+offset_bottom = 672.0
+bbcode_enabled = true
+text = "[pulse color=red height=0.5 freq=1][font_size=20]High Priority[/font_size][/pulse]
+Will not attack unless this enemy is in range."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mediumPrioLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=2128902768]
+layout_mode = 0
+offset_left = 242.0
+offset_top = 567.0
+offset_right = 411.0
+offset_bottom = 672.0
+bbcode_enabled = true
+text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]
+Will attack this enemy over others in range."
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="menuControl" type="Popup" parent="." unique_id=262165376]
 oversampling_override = 1.0
 initial_position = 1
@@ -176,9 +318,9 @@ vertical_alignment = 1
 
 [node name="PurchaseLabel" type="RichTextLabel" parent="menuControl/Background" unique_id=1497680425]
 layout_mode = 0
-offset_left = 359.0
+offset_left = 365.0
 offset_top = 715.0
-offset_right = 573.0
+offset_right = 579.0
 offset_bottom = 779.0
 bbcode_enabled = true
 text = "[font_size=16][color=white]Purchase Fabrication Slot[/color]
@@ -202,9 +344,9 @@ anchor_left = 0.5
 anchor_top = 1.0
 anchor_right = 0.5
 anchor_bottom = 1.0
-offset_left = -105.0
+offset_left = -99.0
 offset_top = -108.0
-offset_right = 815.0
+offset_right = 821.0
 offset_bottom = 208.0
 grow_horizontal = 2
 grow_vertical = 0
@@ -925,8 +1067,8 @@ anchor_top = 1.0
 anchor_right = 1.2820001
 anchor_bottom = 1.613
 offset_left = 0.0040006638
-offset_right = 869.476
-offset_bottom = 296.384
+offset_right = 920.004
+offset_bottom = 316.0
 scale = Vector2(0.054907024, 0.062049408)
 texture_normal = ExtResource("4_eino3")
 texture_pressed = ExtResource("7_rnf34")
@@ -1320,6 +1462,7 @@ vertical_alignment = 1
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
 [connection signal="visibility_changed" from="SelectPopup" to="." method="_on_select_popup_visibility_changed"]
 [connection signal="pressed" from="SelectPopup/Background/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="SpecificTargetPopup/Background/specTargetingBack" to="." method="_on_spec_targeting_back_pressed"]
 [connection signal="visibility_changed" from="menuControl" to="." method="_on_menu_control_visibility_changed"]
 [connection signal="pressed" from="menuControl/Background/purchaseSlotsButton" to="." method="_on_purchase_slots_button_pressed"]
 [connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot1/TurretAssignmentButton1" to="." method="_on_turret_assignment_button_1_pressed"]

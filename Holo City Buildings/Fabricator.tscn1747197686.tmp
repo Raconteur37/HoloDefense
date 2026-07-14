@@ -1,0 +1,1502 @@
+[gd_scene format=3 uid="uid://dx6dlk4xpstr1"]
+
+[ext_resource type="Script" uid="uid://d3slsfox83yyw" path="res://Scripts/Holo City Buildings/Fabricator/fabricator.gd" id="1_auhoa"]
+[ext_resource type="Texture2D" uid="uid://2si1gmu2bndp" path="res://Textures/Holo City/fabricator.png" id="1_dtl4p"]
+[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_auhoa"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="4_eino3"]
+[ext_resource type="Texture2D" uid="uid://yng6e6uyedcd" path="res://Textures/Holo City/empty research slot.png" id="6_rnf34"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="7_rnf34"]
+[ext_resource type="Texture2D" uid="uid://d1xm430abcbhr" path="res://Textures/Citizens/Basic Citizen One.png" id="7_xt6r3"]
+[ext_resource type="Texture2D" uid="uid://c7f1kirvy486r" path="res://Textures/Citizens/UI/Job Inactive.png" id="8_e2s21"]
+[ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="8_nb3ge"]
+[ext_resource type="Texture2D" uid="uid://dqqe8f0g2rd61" path="res://Textures/Holo City/locked_icon.png" id="8_rnf34"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="8_xt6r3"]
+[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="9_nb3ge"]
+[ext_resource type="Texture2D" uid="uid://blo8yccv3eife" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon_hover.png" id="11_e2s21"]
+[ext_resource type="Texture2D" uid="uid://cto0ljlxxgwvl" path="res://Textures/UI/Game/Turret Info Scene/assign_citizen_icon.png" id="11_xt6r3"]
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_nb3ge"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("1_dtl4p")
+}],
+"loop": true,
+"name": &"new_animation",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_811nt"]
+size = Vector2(68.75, 68.5)
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_sehjt"]
+size = Vector2(276, 263)
+
+[node name="Fabricator" type="Control" unique_id=2144121985 groups=["Holo City Building"]]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_auhoa")
+
+[node name="Fabricator Sprite" type="AnimatedSprite2D" parent="." unique_id=2033949305]
+scale = Vector2(4, 4)
+sprite_frames = SubResource("SpriteFrames_nb3ge")
+animation = &"new_animation"
+
+[node name="Work Area" type="Area2D" parent="." unique_id=1668946692]
+scale = Vector2(4, 4)
+collision_layer = 32
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=135921919]
+position = Vector2(0.125, 1.25)
+shape = SubResource("RectangleShape2D_811nt")
+debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
+
+[node name="Select Area" type="Area2D" parent="." unique_id=1167511845]
+collision_layer = 32
+collision_mask = 48
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=220490818]
+shape = SubResource("RectangleShape2D_sehjt")
+debug_color = Color(0.306587, 0.494173, 1, 0.42)
+
+[node name="SelectPopup" type="Popup" parent="." unique_id=959841432]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(900, 810)
+
+[node name="Background" type="TextureRect" parent="SelectPopup" unique_id=1204328069]
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -405.0
+offset_right = 450.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("2_auhoa")
+
+[node name="Title" type="RichTextLabel" parent="SelectPopup/Background" unique_id=349911411]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25800002
+anchor_right = 0.74200004
+anchor_bottom = 0.054
+offset_left = -0.2000122
+offset_top = 3.0
+offset_right = 0.19995117
+offset_bottom = 7.2599983
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[font_size=32][color=light_blue]Select Citizen[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="SelectPopup/Background" unique_id=1272714329]
+layout_mode = 0
+offset_left = 33.0
+offset_top = 118.0
+offset_right = 2819.6665
+offset_bottom = 2298.0
+scale = Vector2(0.3, 0.3)
+theme_override_constants/h_separation = 400
+theme_override_constants/v_separation = 425
+columns = 7
+
+[node name="TextureButton" type="TextureButton" parent="SelectPopup/Background" unique_id=1229857458]
+layout_mode = 0
+offset_right = 32.0
+offset_bottom = 16.0
+scale = Vector2(5, 5)
+texture_normal = ExtResource("8_e2s21")
+
+[node name="SpecificTargetPopup" type="Popup" parent="." unique_id=816449564]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(900, 810)
+
+[node name="Background" type="TextureRect" parent="SpecificTargetPopup" unique_id=1266821484]
+self_modulate = Color(1, 1, 1, 0.16600001)
+texture_filter = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -450.0
+offset_top = -405.0
+offset_right = 450.0
+offset_bottom = 405.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("8_nb3ge")
+
+[node name="Title" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=1889716449]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25800002
+anchor_right = 0.74200004
+anchor_bottom = 0.054
+offset_left = -0.2000122
+offset_top = 3.0
+offset_right = 0.19995117
+offset_bottom = 7.2599983
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[font_size=32][color=light_blue]Choose A Target and Priority[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="GridContainer" type="GridContainer" parent="SpecificTargetPopup/Background" unique_id=31389980]
+layout_mode = 0
+offset_left = 35.0
+offset_top = 72.0
+offset_right = 2821.6665
+offset_bottom = 898.6666
+scale = Vector2(0.3, 0.3)
+theme_override_constants/h_separation = 400
+theme_override_constants/v_separation = 425
+columns = 6
+
+[node name="TurretTargetingLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=506519698]
+layout_mode = 0
+offset_left = 350.0
+offset_top = 699.0
+offset_right = 564.0
+offset_bottom = 763.0
+bbcode_enabled = true
+text = "[font_size=16][color=white]Back[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="specTargetingBack" type="TextureButton" parent="SpecificTargetPopup/Background" unique_id=685152226]
+modulate = Color(1, 1, 1, 0.42745098)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -114.0
+offset_top = -124.0
+offset_right = 806.0
+offset_bottom = 192.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25825343, 0.28350347)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="EnemyTexture" type="TextureRect" parent="SpecificTargetPopup/Background" unique_id=626538993]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
+offset_left = 422.0
+offset_top = 383.0
+offset_right = 477.0
+offset_bottom = 432.0
+texture = ExtResource("9_nb3ge")
+expand_mode = 2
+
+[node name="Label" type="Label" parent="SpecificTargetPopup/Background" unique_id=1074915515]
+layout_mode = 0
+offset_left = 393.0
+offset_top = 349.0
+offset_right = 514.0
+offset_bottom = 369.0
+text = "Current Priority"
+
+[node name="Medium Priority Button" type="CheckButton" parent="SpecificTargetPopup/Background" unique_id=1250209593]
+layout_mode = 0
+offset_left = 302.0
+offset_top = 544.0
+offset_right = 346.0
+offset_bottom = 568.0
+
+[node name="High Priority Button" type="CheckButton" parent="SpecificTargetPopup/Background" unique_id=1534975009]
+layout_mode = 0
+offset_left = 586.0
+offset_top = 544.0
+offset_right = 630.0
+offset_bottom = 568.0
+
+[node name="highPrioLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=1378732794]
+layout_mode = 0
+offset_left = 522.0
+offset_top = 567.0
+offset_right = 691.0
+offset_bottom = 672.0
+bbcode_enabled = true
+text = "[pulse color=red height=0.5 freq=1][font_size=20]High Priority[/font_size][/pulse]
+Will not attack unless this enemy is in range."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="mediumPrioLabel" type="RichTextLabel" parent="SpecificTargetPopup/Background" unique_id=2128902768]
+layout_mode = 0
+offset_left = 242.0
+offset_top = 567.0
+offset_right = 411.0
+offset_bottom = 672.0
+bbcode_enabled = true
+text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]
+Will attack this enemy over others in range."
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="menuControl" type="Popup" parent="." unique_id=262165376]
+oversampling_override = 1.0
+initial_position = 1
+size = Vector2i(900, 810)
+
+[node name="Background" type="TextureRect" parent="menuControl" unique_id=1243271547]
+texture_filter = 1
+anchors_preset = -1
+anchor_left = 0.22600001
+anchor_top = 0.15400001
+anchor_right = 0.77400005
+anchor_bottom = 0.846
+offset_left = 0.45599365
+offset_top = 0.51197815
+offset_right = -0.4560547
+offset_bottom = -0.5120239
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+texture = ExtResource("2_auhoa")
+
+[node name="Title" type="RichTextLabel" parent="menuControl/Background" unique_id=771367386]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.25800002
+anchor_right = 0.74200004
+anchor_bottom = 0.054
+offset_left = -0.2000122
+offset_top = 3.0
+offset_right = 0.19995117
+offset_bottom = 7.2599983
+grow_horizontal = 2
+bbcode_enabled = true
+text = "[font_size=32][color=light_blue]Fabricator[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Description" type="RichTextLabel" parent="menuControl/Background" unique_id=784606772]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -321.0
+offset_top = -330.99997
+offset_right = 321.0
+offset_bottom = -258.99997
+grow_horizontal = 2
+grow_vertical = 2
+bbcode_enabled = true
+text = "[font_size=16][color=white]debug text[/color][/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="PurchaseLabel" type="RichTextLabel" parent="menuControl/Background" unique_id=1497680425]
+layout_mode = 0
+offset_left = 365.0
+offset_top = 715.0
+offset_right = 579.0
+offset_bottom = 779.0
+bbcode_enabled = true
+text = "[font_size=16][color=white]Purchase Fabrication Slot[/color]
+[color=gold]                     $100[/color][/font_size]"
+
+[node name="CurrentWorkersLabel" type="RichTextLabel" parent="menuControl/Background" unique_id=1771280142]
+layout_mode = 0
+offset_left = 340.0
+offset_top = 48.0
+offset_right = 557.0
+offset_bottom = 81.0
+bbcode_enabled = true
+text = "Current Workers: 0"
+horizontal_alignment = 1
+
+[node name="purchaseSlotsButton" type="TextureButton" parent="menuControl/Background" unique_id=1012398997]
+modulate = Color(1, 1, 1, 0.42745098)
+layout_mode = 1
+anchors_preset = 7
+anchor_left = 0.5
+anchor_top = 1.0
+anchor_right = 0.5
+anchor_bottom = 1.0
+offset_left = -99.0
+offset_top = -108.0
+offset_right = 821.0
+offset_bottom = 208.0
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25825343, 0.28350347)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="FabricateSlotGrid" type="GridContainer" parent="menuControl/Background" unique_id=169746227]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 443.0
+offset_right = 458.0
+offset_bottom = 542.0
+scale = Vector2(2, 2)
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 35
+columns = 5
+
+[node name="FabricateSlot1" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=1163930360]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton1" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1" unique_id=923332920]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1" unique_id=1661946798]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer1" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1" unique_id=1139549710]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0780001
+anchor_right = 1.059
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 0.0039978027
+offset_right = 25.612
+offset_bottom = 20.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1" unique_id=2030215078]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1" unique_id=292110145]
+layout_mode = 2
+
+[node name="TurretCancelButton1" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1/VBoxContainer" unique_id=1843165110]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild1" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1/VBoxContainer" unique_id=1804036078]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot2" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=515812806]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton2" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2" unique_id=36862757]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2" unique_id=1402233595]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer2" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2" unique_id=726012237]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23400001
+anchor_top = 1.562
+anchor_right = 1.2160001
+anchor_bottom = 2.562
+offset_left = 2.9880009
+offset_top = -15.484001
+offset_right = 14.587997
+offset_bottom = -7.484001
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2" unique_id=930410542]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2" unique_id=1660780206]
+layout_mode = 2
+
+[node name="TurretCancelButton2" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2/VBoxContainer" unique_id=190875534]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild2" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2/VBoxContainer" unique_id=180515322]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot3" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=2046501074]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton3" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3" unique_id=336835028]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3" unique_id=1395803853]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer3" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3" unique_id=2076290532]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0780001
+anchor_right = 1.059
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 0.0039978027
+offset_right = 19.612
+offset_bottom = 8.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3" unique_id=959240557]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3" unique_id=2121579619]
+layout_mode = 2
+
+[node name="TurretCancelButton3" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3/VBoxContainer" unique_id=638554259]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild3" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3/VBoxContainer" unique_id=1497398212]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot4" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=100460816]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton4" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4" unique_id=1293994470]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4" unique_id=1733773904]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer4" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4" unique_id=126969104]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0780001
+anchor_right = 1.2160001
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 0.0039978027
+offset_right = 14.587997
+offset_bottom = 8.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4" unique_id=2067768596]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4" unique_id=1286603328]
+layout_mode = 2
+
+[node name="TurretCancelButton4" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4/VBoxContainer" unique_id=1135481056]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild4" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4/VBoxContainer" unique_id=667663934]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot5" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=327979640]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton5" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5" unique_id=837082625]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5" unique_id=514099989]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer5" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5" unique_id=1765559938]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0
+anchor_right = 1.2160001
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 2.5
+offset_right = 14.587997
+offset_bottom = 8.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5" unique_id=937736636]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5" unique_id=1771605466]
+layout_mode = 2
+
+[node name="TurretCancelButton5" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5/VBoxContainer" unique_id=722182263]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild5" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5/VBoxContainer" unique_id=837237293]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot6" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=989029549]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton6" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6" unique_id=436784607]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6" unique_id=1541533205]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer6" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6" unique_id=823481012]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0780001
+anchor_right = 1.2160001
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 0.0039978027
+offset_right = 14.587997
+offset_bottom = 8.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6" unique_id=1886239544]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6" unique_id=63694406]
+layout_mode = 2
+
+[node name="TurretCancelButton6" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6/VBoxContainer" unique_id=279921283]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild6" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6/VBoxContainer" unique_id=700943885]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot7" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=778016250]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton7" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7" unique_id=1282241675]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7" unique_id=1154676481]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer7" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7" unique_id=1784818279]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23400001
+anchor_top = 1.562
+anchor_right = 1.2160001
+anchor_bottom = 2.562
+offset_left = 2.9880009
+offset_top = -15.484001
+offset_right = 14.587997
+offset_bottom = -7.484001
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7" unique_id=1172496174]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7" unique_id=481649983]
+layout_mode = 2
+
+[node name="TurretCancelButton7" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7/VBoxContainer" unique_id=1322374546]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild7" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7/VBoxContainer" unique_id=1056695848]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot8" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=96465208]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton8" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8" unique_id=1267515412]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8" unique_id=153608851]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer8" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8" unique_id=1493879974]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23400001
+anchor_top = 1.562
+anchor_right = 1.2160001
+anchor_bottom = 2.562
+offset_left = 2.9880009
+offset_top = -15.484001
+offset_right = 14.587997
+offset_bottom = -7.484001
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8" unique_id=1248015448]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8" unique_id=355811900]
+layout_mode = 2
+
+[node name="TurretCancelButton8" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8/VBoxContainer" unique_id=1564239023]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild8" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8/VBoxContainer" unique_id=862313944]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot9" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=1997611070]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton9" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9" unique_id=1170891705]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9" unique_id=856095512]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer9" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9" unique_id=506671930]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.23400001
+anchor_top = 1.562
+anchor_right = 1.2160001
+anchor_bottom = 2.562
+offset_left = 2.9880009
+offset_top = -15.484001
+offset_right = 14.587997
+offset_bottom = -7.484001
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9" unique_id=1918236078]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9" unique_id=635605890]
+layout_mode = 2
+
+[node name="TurretCancelButton9" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9/VBoxContainer" unique_id=276118751]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild9" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9/VBoxContainer" unique_id=239706348]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="FabricateSlot10" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid" unique_id=873829913]
+layout_mode = 2
+texture = ExtResource("8_rnf34")
+
+[node name="TurretAssignmentButton10" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10" unique_id=2144981169]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.004008293
+offset_top = 3.5000153
+offset_right = 869.476
+offset_bottom = 299.884
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="turretAssignText" type="RichTextLabel" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10" unique_id=1429088775]
+visible = false
+layout_mode = 0
+offset_left = -3.4999924
+offset_top = 38.000015
+offset_right = 36.500008
+offset_bottom = 56.000015
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=5][color=#00FFFF]Assign
+Worker[/color][/font_size]"
+fit_content = true
+horizontal_alignment = 1
+
+[node name="turretAssignmentContainer10" type="HBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10" unique_id=862674593]
+visible = false
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.141
+anchor_top = 1.0780001
+anchor_right = 1.2160001
+anchor_bottom = 2.0530002
+offset_left = 0.012000561
+offset_top = 0.0039978027
+offset_right = 14.587997
+offset_bottom = 8.803993
+scale = Vector2(0.6, 0.6)
+
+[node name="TextureRect" type="TextureRect" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10" unique_id=383182273]
+layout_mode = 2
+texture = ExtResource("7_xt6r3")
+expand_mode = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10" unique_id=399315581]
+layout_mode = 2
+
+[node name="TurretCancelButton10" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10/VBoxContainer" unique_id=1844174397]
+layout_mode = 2
+texture_normal = ExtResource("8_e2s21")
+stretch_mode = 3
+
+[node name="TurretAutoBuild10" type="TextureButton" parent="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10/VBoxContainer" unique_id=344765689]
+layout_mode = 2
+texture_normal = ExtResource("11_xt6r3")
+texture_hover = ExtResource("11_e2s21")
+
+[node name="CurrentTurretsSlotGrid" type="GridContainer" parent="menuControl/Background" unique_id=1083992945]
+layout_mode = 0
+offset_left = 98.0
+offset_top = 148.00003
+offset_right = 458.0
+offset_bottom = 248.00003
+scale = Vector2(2, 2)
+theme_override_constants/h_separation = 50
+theme_override_constants/v_separation = 30
+columns = 5
+
+[node name="CurrentTurretSlot1" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1727073358]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=1966946972]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton1" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot1" unique_id=2108192226]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 920.004
+offset_bottom = 316.0
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot2" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1622696353]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=1738549064]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton2" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot2" unique_id=1152379447]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot3" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=833624770]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=363187679]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton3" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot3" unique_id=1759796277]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot4" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=498007542]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=2003736376]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton4" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot4" unique_id=1821410692]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot5" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=368070477]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=1553238064]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton5" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot5" unique_id=1007720175]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot6" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=500975591]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1844103603]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton6" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot6" unique_id=1674534078]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot7" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=672145466]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=1290348172]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton7" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot7" unique_id=1391462861]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot8" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1022327442]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1292852395]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton8" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot8" unique_id=1852762418]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot9" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=1486238330]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=1651050796]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton9" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot9" unique_id=632331009]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="CurrentTurretSlot10" type="TextureRect" parent="menuControl/Background/CurrentTurretsSlotGrid" unique_id=2111324992]
+visible = false
+layout_mode = 2
+texture = ExtResource("6_rnf34")
+
+[node name="Panel" type="Panel" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=1024392231]
+layout_mode = 0
+offset_left = -10.0
+offset_top = 31.5
+offset_right = 42.0
+offset_bottom = 52.0
+
+[node name="turretFabricateButton10" type="TextureButton" parent="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot10" unique_id=385314433]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = -0.29700002
+anchor_top = 1.0
+anchor_right = 1.2820001
+anchor_bottom = 1.613
+offset_left = 0.0040006638
+offset_right = 869.476
+offset_bottom = 296.384
+scale = Vector2(0.054907024, 0.062049408)
+texture_normal = ExtResource("4_eino3")
+texture_pressed = ExtResource("7_rnf34")
+texture_hover = ExtResource("8_xt6r3")
+
+[node name="costText" type="RichTextLabel" parent="menuControl/Background" unique_id=284431699]
+visible = false
+layout_mode = 0
+offset_left = 84.0
+offset_top = 216.00003
+offset_right = 177.0
+offset_bottom = 246.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText6" type="RichTextLabel" parent="menuControl/Background" unique_id=969271664]
+visible = false
+layout_mode = 0
+offset_left = 84.0
+offset_top = 340.00003
+offset_right = 177.0
+offset_bottom = 370.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText7" type="RichTextLabel" parent="menuControl/Background" unique_id=1111854143]
+visible = false
+layout_mode = 0
+offset_left = 248.0
+offset_top = 340.00003
+offset_right = 341.0
+offset_bottom = 370.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText8" type="RichTextLabel" parent="menuControl/Background" unique_id=376910811]
+visible = false
+layout_mode = 0
+offset_left = 412.0
+offset_top = 340.00003
+offset_right = 505.0
+offset_bottom = 370.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText9" type="RichTextLabel" parent="menuControl/Background" unique_id=831384220]
+visible = false
+layout_mode = 0
+offset_left = 576.0
+offset_top = 340.00003
+offset_right = 669.0
+offset_bottom = 370.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText10" type="RichTextLabel" parent="menuControl/Background" unique_id=537552083]
+visible = false
+layout_mode = 0
+offset_left = 740.0
+offset_top = 340.00003
+offset_right = 833.0
+offset_bottom = 370.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText2" type="RichTextLabel" parent="menuControl/Background" unique_id=1300306578]
+visible = false
+layout_mode = 0
+offset_left = 248.0
+offset_top = 216.00003
+offset_right = 341.0
+offset_bottom = 246.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText3" type="RichTextLabel" parent="menuControl/Background" unique_id=1018885970]
+visible = false
+layout_mode = 0
+offset_left = 412.0
+offset_top = 216.00003
+offset_right = 505.0
+offset_bottom = 246.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText4" type="RichTextLabel" parent="menuControl/Background" unique_id=285943825]
+visible = false
+layout_mode = 0
+offset_left = 576.0
+offset_top = 216.00003
+offset_right = 669.0
+offset_bottom = 246.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="costText5" type="RichTextLabel" parent="menuControl/Background" unique_id=1862976737]
+visible = false
+layout_mode = 0
+offset_left = 740.0
+offset_top = 216.00003
+offset_right = 833.0
+offset_bottom = 246.00003
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=16x16]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+fit_content = true
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
+[connection signal="body_exited" from="Work Area" to="." method="_on_work_area_body_exited"]
+[connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="visibility_changed" from="SelectPopup" to="." method="_on_select_popup_visibility_changed"]
+[connection signal="pressed" from="SelectPopup/Background/TextureButton" to="." method="_on_texture_button_pressed"]
+[connection signal="pressed" from="SpecificTargetPopup/Background/specTargetingBack" to="." method="_on_spec_targeting_back_pressed"]
+[connection signal="visibility_changed" from="menuControl" to="." method="_on_menu_control_visibility_changed"]
+[connection signal="pressed" from="menuControl/Background/purchaseSlotsButton" to="." method="_on_purchase_slots_button_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot1/TurretAssignmentButton1" to="." method="_on_turret_assignment_button_1_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1/VBoxContainer/TurretCancelButton1" to="." method="_on_turret_cancel_button_1_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot1/turretAssignmentContainer1/VBoxContainer/TurretAutoBuild1" to="." method="_on_turret_auto_build_1_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot2/TurretAssignmentButton2" to="." method="_on_turret_assignment_button_2_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2/VBoxContainer/TurretCancelButton2" to="." method="_on_turret_cancel_button_2_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot2/turretAssignmentContainer2/VBoxContainer/TurretAutoBuild2" to="." method="_on_turret_auto_build_2_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot3/TurretAssignmentButton3" to="." method="_on_turret_assignment_button_3_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3/VBoxContainer/TurretCancelButton3" to="." method="_on_turret_cancel_button_3_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot3/turretAssignmentContainer3/VBoxContainer/TurretAutoBuild3" to="." method="_on_turret_auto_build_3_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot4/TurretAssignmentButton4" to="." method="_on_turret_assignment_button_4_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4/VBoxContainer/TurretCancelButton4" to="." method="_on_turret_cancel_button_4_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot4/turretAssignmentContainer4/VBoxContainer/TurretAutoBuild4" to="." method="_on_turret_auto_build_4_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot5/TurretAssignmentButton5" to="." method="_on_turret_assignment_button_5_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5/VBoxContainer/TurretCancelButton5" to="." method="_on_turret_cancel_button_5_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot5/turretAssignmentContainer5/VBoxContainer/TurretAutoBuild5" to="." method="_on_turret_auto_build_5_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot6/TurretAssignmentButton6" to="." method="_on_turret_assignment_button_6_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6/VBoxContainer/TurretCancelButton6" to="." method="_on_turret_cancel_button_6_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot6/turretAssignmentContainer6/VBoxContainer/TurretAutoBuild6" to="." method="_on_turret_auto_build_6_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot7/TurretAssignmentButton7" to="." method="_on_turret_assignment_button_7_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7/VBoxContainer/TurretCancelButton7" to="." method="_on_turret_cancel_button_7_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot7/turretAssignmentContainer7/VBoxContainer/TurretAutoBuild7" to="." method="_on_turret_auto_build_7_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot8/TurretAssignmentButton8" to="." method="_on_turret_assignment_button_8_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8/VBoxContainer/TurretCancelButton8" to="." method="_on_turret_cancel_button_8_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot8/turretAssignmentContainer8/VBoxContainer/TurretAutoBuild8" to="." method="_on_turret_auto_build_8_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot9/TurretAssignmentButton9" to="." method="_on_turret_assignment_button_9_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9/VBoxContainer/TurretCancelButton9" to="." method="_on_turret_cancel_button_9_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot9/turretAssignmentContainer9/VBoxContainer/TurretAutoBuild9" to="." method="_on_turret_auto_build_9_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot10/TurretAssignmentButton10" to="." method="_on_turret_assignment_button_10_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10/VBoxContainer/TurretCancelButton10" to="." method="_on_turret_cancel_button_10_pressed"]
+[connection signal="pressed" from="menuControl/Background/FabricateSlotGrid/FabricateSlot10/turretAssignmentContainer10/VBoxContainer/TurretAutoBuild10" to="." method="_on_turret_auto_build_10_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot1/turretFabricateButton1" to="." method="_on_turret_fabricate_button_1_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot2/turretFabricateButton2" to="." method="_on_turret_fabricate_button_2_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot3/turretFabricateButton3" to="." method="_on_turret_fabricate_button_3_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot4/turretFabricateButton4" to="." method="_on_turret_fabricate_button_4_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot5/turretFabricateButton5" to="." method="_on_turret_fabricate_button_5_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot6/turretFabricateButton6" to="." method="_on_turret_fabricate_button_6_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot7/turretFabricateButton7" to="." method="_on_turret_fabricate_button_7_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot8/turretFabricateButton8" to="." method="_on_turret_fabricate_button_8_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot9/turretFabricateButton9" to="." method="_on_turret_fabricate_button_9_pressed"]
+[connection signal="pressed" from="menuControl/Background/CurrentTurretsSlotGrid/CurrentTurretSlot10/turretFabricateButton10" to="." method="_on_turret_fabricate_button_10_pressed"]

@@ -5,6 +5,21 @@ signal turret_unlocked_signal(turret_id)
 var turretData = {}
 var minionData = {}
 
+var targetableTurrets: Array = [
+	Turret.TurretID.ARROW_TURRET,
+	Turret.TurretID.SENTRY_TURRET,
+	Turret.TurretID.MINI_SENTRY_TURRET,
+	Turret.TurretID.FIREWORK_TURRET,
+	Turret.TurretID.RAILGUN_TURRET,
+	Turret.TurretID.REAPER_TURRET,
+	Turret.TurretID.SPIDER_TURRET,
+	Turret.TurretID.VOODOO_TURRET,
+	Turret.TurretID.BOOMERANG_TURRET,
+	Turret.TurretID.SNIPER_TURRET,
+	Turret.TurretID.MORTAR_TURRET,
+	Turret.TurretID.GOLD_MINE_TURRET,
+]
+
 const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.ARROW_TURRET,
 	Turret.TurretID.MINI_SENTRY_TURRET,
@@ -362,6 +377,8 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				if turret.level >= 3:
 					labels.append(_create_stat_label("Extra Shots: %s" % turret.extraShots, Color.GRAY))
 
-
-
 	return labels
+
+# Helper function for the UI to call
+func canTurretTarget(id) -> bool:
+	return targetableTurrets.has(id)

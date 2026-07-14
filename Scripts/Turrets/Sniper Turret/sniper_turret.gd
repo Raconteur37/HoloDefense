@@ -20,6 +20,7 @@ func _ready() -> void:
 	type = Type.Midieval
 	turretID = TurretID.SNIPER_TURRET
 
+	projectile = "placeholder"
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	baseHealth = TurretManager.getTurretStat(turretID,"health")
@@ -66,8 +67,13 @@ func _ready() -> void:
 	isPlaced = true
 
 func _process(delta: float) -> void:
+	super(delta)
+	
+	enemiesInRange = enemiesInRange.filter(func(enemy): return is_instance_valid(enemy))
+	
 	if enemiesInRange.size() > 0:
-		targetEnemy = getHighestEnemyHealthInRange()
+		targetEnemy = filterEnemy()
+		
 		if is_instance_valid(targetEnemy):
 			topSprite.look_at(targetEnemy.global_position)
 			topSprite.rotate(PI/2)
@@ -112,13 +118,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
-
 func getHighestEnemyHealthInRange() -> Enemy:
 	var valid_enemies = enemiesInRange.filter(func(enemy): return is_instance_valid(enemy))
 	
@@ -131,6 +130,32 @@ func getHighestEnemyHealthInRange() -> Enemy:
 	)
 	
 	return highest_health_enemy
+
+func filterEnemy() -> Enemy:
+	# 1. Manual Target always overrides everything else
+	if is_instance_valid(manualTarget) and enemiesInRange.has(manualTarget):
+		return manualTarget
+		
+	# 2. Scan for the closest enemy that matches our priority ID
+	var closest_priority_enemy = null
+	var shortest_dist = INF
+	
+	for en in enemiesInRange:
+		if is_instance_valid(en) and en.enemyID == priorityTarget:
+			var dist = global_position.distance_squared_to(en.global_position)
+			if dist < shortest_dist:
+				shortest_dist = dist
+				closest_priority_enemy = en
+				
+	# 3. High Priority: ONLY shoot the priority target (returns null if not found)
+	if priorityType == "High":
+		return closest_priority_enemy
+		
+	# 4. Medium Priority: Shoot the priority target IF they exist
+	if priorityType == "Medium" and closest_priority_enemy != null:
+		return closest_priority_enemy
+		
+	return getHighestEnemyHealthInRange()
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)

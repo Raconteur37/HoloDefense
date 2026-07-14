@@ -14,6 +14,11 @@ var healthRichLabelText
 
 var bottomUI
 
+var enemyPrioTexture
+var prioInfoLabel
+var prioLabel
+var enemyPrioPanel
+
 var turretsAvailableGrid
 
 @onready var turretLabel = preload("res://Labels/turret_info_label.tres")
@@ -32,6 +37,11 @@ func _ready() -> void:
 	turretStatsGrid = $BottomUI/TurretData/TurretStatsGridContainer
 	healthBar = $"BottomUI/TurretData/Health Bar"
 	healthRichLabelText = $BottomUI/TurretData/RichTextLabel
+	
+	prioInfoLabel = $BottomUI/TurretData/PrioInfo
+	prioLabel = $BottomUI/TurretData/PriorityLabel
+	enemyPrioTexture = $BottomUI/TurretData/EnemyPrioTexture
+	enemyPrioPanel = $BottomUI/TurretData/Panel
 
 
 	GameManager.turretStorageChanged.connect(refreshUI)
@@ -74,7 +84,31 @@ func refreshTurretUI(turret : Turret):
 	turretImage.texture = TurretManager.getTurretTexture(turret.turretID)
 	turretNameLabel.text = str(turret.turretName) + "\n Lvl: " + str(turret.level) + " Tier: " + str(turret.upgradeTier)
 	turretDataUI.show()
-	
+	prioInfoLabel.hide()
+	enemyPrioTexture.hide()
+	enemyPrioPanel.hide()
+	prioLabel.hide()
+	#print("hererher " + turret.priorityType)
+	if turret.projectile != null:
+		prioInfoLabel.show()
+		enemyPrioTexture.show()
+		enemyPrioPanel.show()
+		prioLabel.show()
+		if turret.priorityType == "Medium" and turret.priorityTarget != null:
+			prioInfoLabel.hide()
+			prioLabel.text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]"
+			enemyPrioTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[turret.priorityTarget])
+			return
+		if turret.priorityType == "High"  and turret.priorityTarget != null:
+			prioInfoLabel.hide()
+			enemyPrioTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[turret.priorityTarget])
+			prioLabel.text = "[pulse color=red height=0.5 freq=1][font_size=20]High Priority[/font_size][/pulse]"
+			return
+		else:
+			prioInfoLabel.show()
+			enemyPrioTexture.texture = null
+			prioLabel.text = "[pulse color=gray height=0.5 freq=1][font_size=20]No Target[/font_size][/pulse]"
+
 func removeTurretUI():
 	for child in turretStatsGrid.get_children():
 		child.queue_free()

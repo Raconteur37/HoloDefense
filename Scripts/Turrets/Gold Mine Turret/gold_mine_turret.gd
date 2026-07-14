@@ -107,8 +107,9 @@ func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		var enemy = EntityManager.getClosestEnemyFromSprite($".")
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
 
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
@@ -165,12 +166,6 @@ func generateMoney():
 
 func _on_generate_timer_timeout() -> void:
 	generateMoney()
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 func _on_scan_timer_timeout() -> void:
 	if not isPlaced:

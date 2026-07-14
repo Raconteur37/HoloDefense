@@ -90,10 +90,12 @@ func _ready() -> void:
 
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		var enemy = EntityManager.getClosestEnemyFromSprite(self)
+		
+		var enemy = filterEnemy()
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
 			
 			particle.emitting = true
 
@@ -166,12 +168,11 @@ func _on_reload_timer_timeout() -> void:
 	shotReady = true
 
 func _on_select_area_mouse_entered() -> void:
-	showUI(self)
+	super()
 	innerRangeLine.show()
 
-
 func _on_select_area_mouse_exited() -> void:
-	hideUI()
+	super()
 	innerRangeLine.hide()
 
 

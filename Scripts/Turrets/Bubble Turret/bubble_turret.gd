@@ -157,9 +157,3 @@ func applyUpgrade():
 	knockbackVelocity = baseKnockbackVelocity + (baseKnockbackVelocity * scaleFactor * upgradeTier)
 	stunTime = baseStunTime + (baseStunTime * scaleFactor * upgradeTier)
 	maxBubbles += 1
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()

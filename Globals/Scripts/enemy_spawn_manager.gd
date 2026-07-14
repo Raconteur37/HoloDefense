@@ -16,6 +16,26 @@ const NON_BOSS_ENEMIES = {
 	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
 }
 
+const ENEMY_IDS = [
+	Enemy.EnemyID.BASIC_SQUARE,
+	Enemy.EnemyID.SPEEDY_TRIANGLE,
+	Enemy.EnemyID.SHOOTY_DIAMOND,
+	Enemy.EnemyID.HEXAGON_MOTHERSHIP,
+	Enemy.EnemyID.TANKY_RECTANGLE,
+	Enemy.EnemyID.PACKED_CIRCLE,
+	Enemy.EnemyID.MINI_PACKED_CIRCLE
+]
+
+const ENEMY_TEXTURES = {
+	Enemy.EnemyID.BASIC_SQUARE: "res://Textures/Enemies/Basic Square.png",
+	Enemy.EnemyID.SPEEDY_TRIANGLE: "res://Textures/Enemies/triangle_enemy.png",
+	Enemy.EnemyID.SHOOTY_DIAMOND: "res://Textures/Enemies/diamond_enemy.png",
+	Enemy.EnemyID.HEXAGON_MOTHERSHIP: "res://Textures/Enemies/hexagon_enemy.png",
+	Enemy.EnemyID.TANKY_RECTANGLE: "res://Textures/Enemies/rectangle_enemy.png",
+	Enemy.EnemyID.PACKED_CIRCLE: "res://Textures/Enemies/circle_enemy.png",
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: "res://Textures/Enemies/circle_enemy.png"
+	}
+
 
 const ENEMIES = {
 	Enemy.EnemyID.BASIC_SQUARE: preload("res://Enemy Scenes/Basic Square.tscn"),

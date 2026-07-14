@@ -13,6 +13,8 @@ var turretsPlaced = {}
 
 var difficultySave = 1
 
+var turretTargetToggle: bool = false
+var turretTargetting
 
 # an enum list of IDs of the turrets you brought for the run
 var turretsBrought = [Turret.TurretID.ARROW_TURRET,Turret.TurretID.MINI_SENTRY_TURRET,Turret.TurretID.RAILGUN_TURRET,Turret.TurretID.SEISMIC_TURRET,
@@ -27,6 +29,8 @@ var turretTempLevels = {}
 #Turret.TurretID.ENERGIZER_TURRET : 99}
 
 var turretStorage = {}
+
+var fabricator
 
 func _ready() -> void:
 	if turretTempLevels.size() < 1:
@@ -82,6 +86,21 @@ func updateTurretLevels(turretID):
 			else:
 				turretsPlaced.get(turretID).erase(turret)
 
+func updatePriority(turretID, enemyID, type):
+	if turretsPlaced.has(turretID):
+		var turret_array = turretsPlaced.get(turretID)
+		
+		# Loop backwards from the end of the array to 0
+		for i in range(turret_array.size() - 1, -1, -1):
+			var turret = turret_array[i]
+			
+			if is_instance_valid(turret):
+				turret.priorityTarget = enemyID
+				turret.priorityType = type
+			else:
+				# Safely remove the invalid turret without breaking the loop
+				turret_array.remove_at(i)
+
 func getTurretAmount(turretID):
 	if turretStorage.has(turretID):
 		return turretStorage.get(turretID)
@@ -128,6 +147,9 @@ func reset():
 	
 	turretStorageChanged.emit()
 
+func updatePriorities():
+	if fabricator != null:
+		fabricator.updateTurretPriorities()
 
 func format_number(num: int) -> String:
 	if num >= 1_000_000_000:

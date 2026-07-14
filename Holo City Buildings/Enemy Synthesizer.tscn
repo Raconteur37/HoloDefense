@@ -6,7 +6,7 @@
 [ext_resource type="Texture2D" uid="uid://cs8xgwf7i1yxy" path="res://Textures/Enemies/diamond_enemy.png" id="3_be4bi"]
 [ext_resource type="Texture2D" uid="uid://7l2ipapi3iqh" path="res://Textures/Enemies/triangle_enemy.png" id="4_5ie4i"]
 [ext_resource type="Texture2D" uid="uid://ba4ufkdp80oca" path="res://Textures/Enemies/hexagon_enemy.png" id="5_cot1n"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="7_rradh"]
+[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="7_rradh"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_i6yja"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_wo6u2"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_qngbw"]

@@ -357,6 +357,7 @@ func _try_place(world_pos: Vector2) -> void:
 	StatManager.turretsPlaced += 1
 	if GameManager.getTurretAmount(_current_id) <= 0:
 		cancel_placement()
+	GameManager.updatePriorities()
 
 # ─── Draw ─────────────────────────────────────────────────────────────────────
 

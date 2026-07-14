@@ -145,9 +145,34 @@ func _on_huh_pressed() -> void:
 
 
 func _on_code_button_pressed() -> void:
-	match codeInput.text.to_lower():
-		"awesomeel218":
-			EconomyManager.unlock_turret(Turret.TurretID.SNIPER_TURRET)
-			codeInput.text = "Code Redeemed!"
-		_:
+	var input_string = codeInput.text.strip_edges().to_lower()
+	
+	if input_string == "":
+		return
+		
+	if SettingsManager.redeem_code(input_string):
+		
+		match input_string:
+			"awesomeel218":
+				EconomyManager.unlock_turret(Turret.TurretID.SNIPER_TURRET)
+			"superrare420":
+				EconomyManager.add_shards("super_rare_turret", 4)
+				updateLabels()
+			"ohemgee":
+				EconomyManager.add_shards("legendary_turret", 1)
+				updateLabels()
+		codeInput.text = "Code Redeemed!"
+	else:
+		if not SettingsManager.is_code_valid(input_string):
 			codeInput.text = "Invalid Code!"
+		else:
+			codeInput.text = "Already Redeemed!"
+
+
+func _on_code_input_mouse_entered() -> void:
+	codeInput.text = ""
+
+
+func _on_code_input_mouse_exited() -> void:
+	if codeInput.text == "":
+		codeInput.text = "Code Input"

@@ -91,18 +91,17 @@ func _ready() -> void:
 	isPlaced = true
 
 func attack():
-	if enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shotReady:
-		shooting = true
-	else:
-		shooting = false
+	# Default to false every frame. We only set it to true if we actually pull the trigger.
+	shooting = false
+	
 	if shotReady and enemiesInRange.size() > 0 and isPlaced and currentBullets > 0 and shootTimer.is_stopped():
 
-		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+		var enemy = filterEnemy()
 
-		if is_instance_valid(enemy) and isPlaced:
+		if is_instance_valid(enemy):
+			shooting = true  # NOW we know we are actually shooting at something
 
 			var animInstance = currentBullets % 4
-
 			currentBullets -= 1
 
 			var proj = projectile.instantiate()
@@ -117,6 +116,7 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 			get_parent().add_child(proj)
+			
 			var mouse_pos = selectArea.get_local_mouse_position()
 
 			# check if mouse is inside each shot and if so then refresh the ui so u can see bullets
@@ -126,12 +126,9 @@ func attack():
 				Transform2D(0, mouse_pos)
 			):
 				refreshUI(self)
-			
 
-			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 			topSprite.look_at(enemy.global_position)
 			topSprite.rotate(PI/2)
-
 			
 			match animInstance:
 				0:
@@ -172,12 +169,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 	currentBullets = maxBullets
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 func applyUpgrade():
 	upgradeTier = GameManager.getTurretTempLevel(turretID)

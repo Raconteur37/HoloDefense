@@ -193,9 +193,3 @@ func applyUpgrade():
 			removeEnergizerBuffsToTurret(turret)
 			applyEnergizerBuffsToTurret(turret)
 	refreshUI(self)
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()

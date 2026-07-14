@@ -61,10 +61,12 @@ func _ready() -> void:
 func attack():
 
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		var enemy = EntityManager.getClosestEnemyFromSprite($".")
+		var enemy = filterEnemy()
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
+			
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
 			proj.global_position = topSprite.global_position
@@ -136,12 +138,6 @@ func _on_range_area_body_exited(body: Node2D) -> void:
 func _on_reload_timer_timeout() -> void:
 	shotReady = true
 	reloadTimer.wait_time = reloadTime
-
-func _on_select_area_mouse_entered() -> void:
-	showUI(self)
-
-func _on_select_area_mouse_exited() -> void:
-	hideUI()
 
 func attackedReloadCooldownReduction() -> void:
 	if shotReady or reloadTimer.is_stopped():
