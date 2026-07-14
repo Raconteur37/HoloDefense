@@ -94,6 +94,7 @@ func refreshTurretUI(turret : Turret):
 		enemyPrioTexture.show()
 		enemyPrioPanel.show()
 		prioLabel.show()
+		#print(turret.priorityType)
 		if turret.priorityType == "Medium" and turret.priorityTarget != null:
 			prioInfoLabel.hide()
 			prioLabel.text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]"
@@ -108,6 +109,7 @@ func refreshTurretUI(turret : Turret):
 			prioInfoLabel.show()
 			enemyPrioTexture.texture = null
 			prioLabel.text = "[pulse color=gray height=0.5 freq=1][font_size=20]No Target[/font_size][/pulse]"
+
 
 func removeTurretUI():
 	for child in turretStatsGrid.get_children():

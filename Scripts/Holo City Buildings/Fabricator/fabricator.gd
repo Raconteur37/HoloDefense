@@ -648,7 +648,6 @@ func _on_priority_button_toggled(pressed: bool, priorityName: String) -> void:
 	if pressed:
 		currentPriority = priorityName
 
-
 		if priorityName == "Medium":
 			highPriorityButton.set_pressed_no_signal(false)
 		else:
@@ -658,16 +657,18 @@ func _on_priority_button_toggled(pressed: bool, priorityName: String) -> void:
 		data["priority"] = priorityName
 		turretTargetingData[currentTargetTurret] = data
 		updateTurretPriorities()
-		#print("Turret ID: ", currentTargetTurret, " | Enemy ID: ", currentTargetEnemy, " | Priority: ", priorityName)
+		# print("Turret ID: ", currentTargetTurret, " | Enemy ID: ", currentTargetEnemy, " | Priority: ", priorityName)
 	else:
 		if currentPriority == priorityName:
-			currentPriority = ""
+			currentPriority = "None"
 			_deselect_current_enemy()
 			turretTargetingData.erase(currentTargetTurret)
-			#print("Turret ID: ", currentTargetTurret, " | Priority and enemy target cleared")
+			
+			# FIX: Explicitly tell the GameManager to clear the priority for this turret
+			# since it is no longer in the dictionary for updateTurretPriorities() to find.
+			GameManager.updatePriority(currentTargetTurret, null, "None")
+			
 			updateTurretPriorities()
-			#GameManager.updatePriority(currentTargetTurret,null,"None")
-
 func updateTurretPriorities():
 	for turret in turretTargetingData:
 		var currTargetTurret = turret
