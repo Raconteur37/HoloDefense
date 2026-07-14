@@ -60,9 +60,10 @@ func _ready() -> void:
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		var enemy = filterEnemy()
-		shotReady = false
 		
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
 			
 			topSprite.look_at(enemy.global_position)
 			topSprite.rotate(PI/2)

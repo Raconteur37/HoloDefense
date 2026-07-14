@@ -77,11 +77,24 @@ func _ready() -> void:
 
 func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-		shotReady = false
 		var enemy = filterEnemy()
-		await get_tree().create_timer(shotDelay).timeout
-		shotReady = true
-		if is_instance_valid(enemy) and isPlaced:
+		
+		# 1. Only begin the firing sequence if a valid target is found
+		if is_instance_valid(enemy):
+			shotReady = false # Lock shooting so we don't fire every frame
+			
+			await get_tree().create_timer(shotDelay).timeout
+			
+			# 2. Safety Check: Did the turret get sold or run out of ammo during the delay?
+			if not isPlaced or shots <= 0:
+				return
+				
+			# 3. Safety Check: Did the enemy die during the delay?
+			# If so, abort the shot so we don't waste ammo, and ready up again.
+			if not is_instance_valid(enemy):
+				shotReady = true
+				return
+				
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
 			proj.position = position
@@ -98,22 +111,21 @@ func attack():
 			get_parent().add_child(proj)
 
 			shots -= 1
+			
+			# Handle sprites and reload states based on remaining ammo
 			if shots == 0:
 				topSprite.frame = 3
-			if shots == 1:
-				topSprite.frame = 2
-			if shots == 2:
-				topSprite.frame = 1
-
-
-			if shots == 0:
+				# DO NOT set shotReady to true here; reloadAnimation will do it when ammo is restored.
 				reloadAnimation()
+			elif shots == 1:
+				topSprite.frame = 2
+				shotReady = true
+			elif shots == 2:
+				topSprite.frame = 1
+				shotReady = true
 
-			#dif = topSprite.global_position.angle_to_point(enemy.global_position)
 			topSprite.look_at(enemy.global_position)
 			topSprite.rotate(PI/2)
-	if shots <= 0:
-		shotReady = false
 
 func reloadAnimation():
 	if not reloading:

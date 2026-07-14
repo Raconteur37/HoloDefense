@@ -53,7 +53,9 @@ func _ready() -> void:
 func attack() -> void:
 	if not shotReady or enemiesInRange.is_empty() or not isPlaced:
 		return
+
 	var enemy = filterEnemy()
+	
 	if not is_instance_valid(enemy):
 		return
 

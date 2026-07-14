@@ -112,6 +112,8 @@ var targetLine : Line2D
 var manualTarget = null
 var lineAnimTime : float = 0.0
 
+func _ready() -> void:
+	GameManager.updatePriorities()
 
 func createLine():
 	if targetLine != null:
@@ -135,8 +137,6 @@ func createLine():
 
 func _process(delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
-	
-	print(priorityType)
 	
 	if isTargetDragging:
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -398,6 +398,7 @@ func filterEnemy():
 				shortest_dist = dist
 				closest_priority_enemy = en
 				
+
 	if priorityType == "High":
 		return closest_priority_enemy
 		

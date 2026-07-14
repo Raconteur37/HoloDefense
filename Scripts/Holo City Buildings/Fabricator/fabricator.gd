@@ -14,7 +14,6 @@ var emptyTurretAutoBuildTextureHover = preload("res://Textures/UI/Game/Turret In
 @onready var menu = $menuControl
 @onready var selectCitPopup = $SelectPopup
 @onready var selectCitGrid = $SelectPopup/Background/GridContainer
-@onready var targetingPopup = $TargetingPopup
 @onready var specificTargetPopup = $SpecificTargetPopup
 @onready var priorityLabel = $SpecificTargetPopup/Background/PriorityLabel
 
@@ -483,7 +482,6 @@ func _on_turret_assignment_button_10_pressed() -> void: _on_assignment_button_pr
 
 func _on_targeting_back_pressed() -> void:
 	menu.show()
-	targetingPopup.hide()
 
 
 func _on_targeting_popup_visibility_changed() -> void:
@@ -514,6 +512,8 @@ func _on_turret_texture_pressed(index: int) -> void:
 	if index < 0 or index >= GameManager.turretsBrought.size():
 		return
 	var turretID = GameManager.turretsBrought[index]
+	if not TurretManager.canTurretTarget(turretID):
+		return 
 	menu.hide()
 	buildSpecificTargetPopup(turretID)
 	specificTargetPopup.show()
@@ -523,6 +523,9 @@ func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
 	currentTargetTurret = turretID
 	currentTargetEnemy = -1
 	currentPriority = ""
+	
+	# Default label to No Target when opening
+	priorityLabel.text = "No Target"
 
 	specificTargetBackground.texture = TurretManager.getTurretTexture(turretID)
 	targetEnemyTexture.texture = null
@@ -583,6 +586,7 @@ func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
 			btn.set_pressed_no_signal(true)
 			currentTargetEnemy = enemyID
 			targetEnemyTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
+			priorityLabel.text = "Current Priority: \n" + EnemyManager.get_enemy_name(enemyID)
 			_apply_glow(glowPanel)
 
 	match savedPriority:
@@ -601,7 +605,16 @@ func _on_enemy_target_button_pressed(enemyID) -> void:
 
 	var data: Dictionary = turretTargetingData.get(currentTargetTurret, {})
 	data["enemy"] = enemyID
+	
+	# Auto-default to Medium if no priority is currently selected
+	if currentPriority == "":
+		currentPriority = "Medium"
+		data["priority"] = "Medium"
+		mediumPriorityButton.set_pressed_no_signal(true)
+		highPriorityButton.set_pressed_no_signal(false)
+		
 	turretTargetingData[currentTargetTurret] = data
+	updateTurretPriorities()
 
 
 func _on_enemy_button_mouse_entered(panel: Panel) -> void:
@@ -623,6 +636,8 @@ func _on_enemy_button_toggled(pressed: bool, btn: TextureButton, panel: Panel) -
 func _deselect_current_enemy() -> void:
 	currentTargetEnemy = -1
 	targetEnemyTexture.texture = null
+	priorityLabel.text = "No Target"
+	
 	for i in range(enemyTargetButtons.size()):
 		var btn = enemyTargetButtons[i]
 		if btn.button_pressed:
@@ -651,7 +666,8 @@ func _on_priority_button_toggled(pressed: bool, priorityName: String) -> void:
 			_deselect_current_enemy()
 			turretTargetingData.erase(currentTargetTurret)
 			#print("Turret ID: ", currentTargetTurret, " | Priority and enemy target cleared")
-			GameManager.updatePriority(currentTargetTurret,null,"None")
+			updateTurretPriorities()
+			#GameManager.updatePriority(currentTargetTurret,null,"None")
 
 func updateTurretPriorities():
 	for turret in turretTargetingData:

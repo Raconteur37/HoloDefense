@@ -17,6 +17,7 @@ var bottomUI
 var enemyPrioTexture
 var prioInfoLabel
 var prioLabel
+var enemyPrioPanel
 
 var turretsAvailableGrid
 
@@ -40,6 +41,7 @@ func _ready() -> void:
 	prioInfoLabel = $BottomUI/TurretData/PrioInfo
 	prioLabel = $BottomUI/TurretData/PriorityLabel
 	enemyPrioTexture = $BottomUI/TurretData/EnemyPrioTexture
+	enemyPrioPanel = $BottomUI/TurretData/Panel
 
 
 	GameManager.turretStorageChanged.connect(refreshUI)
@@ -82,16 +84,26 @@ func refreshTurretUI(turret : Turret):
 	turretImage.texture = TurretManager.getTurretTexture(turret.turretID)
 	turretNameLabel.text = str(turret.turretName) + "\n Lvl: " + str(turret.level) + " Tier: " + str(turret.upgradeTier)
 	turretDataUI.show()
-	print("hererher " + turret.priorityType)
-	if turret.priorityType == "Medium":
-		prioInfoLabel.hide()
-		prioLabel.text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]"
-		enemyPrioTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[turret.priorityTarget])
-	else:
-		if turret.priorityType == "High":
+	prioInfoLabel.hide()
+	enemyPrioTexture.hide()
+	enemyPrioPanel.hide()
+	prioLabel.hide()
+	#print("hererher " + turret.priorityType)
+	if turret.projectile != null:
+		prioInfoLabel.show()
+		enemyPrioTexture.show()
+		enemyPrioPanel.show()
+		prioLabel.show()
+		if turret.priorityType == "Medium" and turret.priorityTarget != null:
+			prioInfoLabel.hide()
+			prioLabel.text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]"
+			enemyPrioTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[turret.priorityTarget])
+			return
+		if turret.priorityType == "High"  and turret.priorityTarget != null:
 			prioInfoLabel.hide()
 			enemyPrioTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[turret.priorityTarget])
-			pass
+			prioLabel.text = "[pulse color=red height=0.5 freq=1][font_size=20]High Priority[/font_size][/pulse]"
+			return
 		else:
 			prioInfoLabel.show()
 			enemyPrioTexture.texture = null

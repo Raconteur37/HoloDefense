@@ -74,8 +74,10 @@ func attack():
 
 		var enemy = filterEnemy()
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
+			
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
 			proj.position = position

@@ -93,8 +93,9 @@ func attack():
 		
 		var enemy = filterEnemy()
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
 			
 			particle.emitting = true
 

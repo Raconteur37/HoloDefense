@@ -172,6 +172,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Panel" type="Panel" parent="BottomUI/TurretData" unique_id=2101148287]
+visible = false
 layout_mode = 0
 offset_left = 1434.0
 offset_top = 56.0

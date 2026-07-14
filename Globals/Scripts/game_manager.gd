@@ -86,16 +86,20 @@ func updateTurretLevels(turretID):
 			else:
 				turretsPlaced.get(turretID).erase(turret)
 
-func updatePriority(turretID,enemyID,type):
+func updatePriority(turretID, enemyID, type):
 	if turretsPlaced.has(turretID):
-		for turret : Turret in turretsPlaced.get(turretID):
+		var turret_array = turretsPlaced.get(turretID)
+		
+		# Loop backwards from the end of the array to 0
+		for i in range(turret_array.size() - 1, -1, -1):
+			var turret = turret_array[i]
+			
 			if is_instance_valid(turret):
 				turret.priorityTarget = enemyID
-				turret.priorityTarget = type
-				#print(turret)
-				#print(turret.priorityTarget)
+				turret.priorityType = type
 			else:
-				turretsPlaced.get(turretID).erase(turret)
+				# Safely remove the invalid turret without breaking the loop
+				turret_array.remove_at(i)
 
 func getTurretAmount(turretID):
 	if turretStorage.has(turretID):

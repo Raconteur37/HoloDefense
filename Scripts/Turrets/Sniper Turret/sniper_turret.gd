@@ -20,6 +20,7 @@ func _ready() -> void:
 	type = Type.Midieval
 	turretID = TurretID.SNIPER_TURRET
 
+	projectile = "placeholder"
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	baseHealth = TurretManager.getTurretStat(turretID,"health")

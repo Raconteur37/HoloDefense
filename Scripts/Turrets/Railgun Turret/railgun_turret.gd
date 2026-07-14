@@ -63,8 +63,10 @@ func attack():
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
 		var enemy = filterEnemy()
 
-		shotReady = false
 		if is_instance_valid(enemy) and isPlaced:
+			
+			shotReady = false
+			
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
 			proj.global_position = topSprite.global_position
