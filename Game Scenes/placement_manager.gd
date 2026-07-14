@@ -351,6 +351,7 @@ func _try_place(world_pos: Vector2) -> void:
 		range_indicator.visible = false
 	_occupied[cell] = true
 	GameManager.removeTurretFromStorage(_current_id, 1)
+	GameManager.updatePriorities()
 	turret_placed.emit(cell, turret)
 	GameManager.addTurretToDict(turret)
 	StatManager.addStat(turret.turretID,"placed",1)

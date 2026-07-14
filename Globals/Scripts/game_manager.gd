@@ -30,6 +30,8 @@ var turretTempLevels = {}
 
 var turretStorage = {}
 
+var fabricator
+
 func _ready() -> void:
 	if turretTempLevels.size() < 1:
 		for item in turretsBrought:
@@ -84,6 +86,17 @@ func updateTurretLevels(turretID):
 			else:
 				turretsPlaced.get(turretID).erase(turret)
 
+func updatePriority(turretID,enemyID,type):
+	if turretsPlaced.has(turretID):
+		for turret : Turret in turretsPlaced.get(turretID):
+			if is_instance_valid(turret):
+				turret.priorityTarget = enemyID
+				turret.priorityTarget = type
+				#print(turret)
+				#print(turret.priorityTarget)
+			else:
+				turretsPlaced.get(turretID).erase(turret)
+
 func getTurretAmount(turretID):
 	if turretStorage.has(turretID):
 		return turretStorage.get(turretID)
@@ -130,6 +143,9 @@ func reset():
 	
 	turretStorageChanged.emit()
 
+func updatePriorities():
+	if fabricator != null:
+		fabricator.updateTurretPriorities()
 
 func format_number(num: int) -> String:
 	if num >= 1_000_000_000:

@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://d180avbvjdhen"]
 
 [ext_resource type="Script" uid="uid://qmmnk0j12kne" path="res://Scripts/Enemies/tanky_rectangle.gd" id="1_tj2gn"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square.png" id="2_shkqd"]
+[ext_resource type="Texture2D" uid="uid://cwqfnlu4a4ok2" path="res://Textures/Enemies/rectangle_enemy.png" id="2_shkqd"]
 [ext_resource type="PackedScene" uid="uid://yt8pvfqgkksr" path="res://Particle Scenes/Enemies/basic_square_hurt.tscn" id="4_fjwbi"]
 
 [sub_resource type="RectangleShape2D" id="RectangleShape2D_m5ss4"]
@@ -316,17 +316,15 @@ collision_mask = 3
 script = ExtResource("1_tj2gn")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=339938909]
-visible = false
 shape = SubResource("RectangleShape2D_m5ss4")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=1421080025]
 material = SubResource("ShaderMaterial_u0uip")
 position = Vector2(-9.536743e-07, 0)
-scale = Vector2(4.25, 1.5)
+scale = Vector2(0.26, 0.25)
 texture = ExtResource("2_shkqd")
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=2144376255]
-visible = false
 collision_layer = 4
 collision_mask = 3
 

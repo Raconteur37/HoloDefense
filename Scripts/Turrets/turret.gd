@@ -102,7 +102,7 @@ var goldenBuff : bool = false
 
 # -= Target =-
 var target = null
-var priorityTarget : Enemy.EnemyID
+var priorityTarget = null
 
 var priorityType = "None"
 
@@ -135,6 +135,8 @@ func createLine():
 
 func _process(delta: float) -> void:
 	get_tree().call_group("Turret", "attack")
+	
+	print(priorityType)
 	
 	if isTargetDragging:
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):

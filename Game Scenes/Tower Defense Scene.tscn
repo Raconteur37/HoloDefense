@@ -159,6 +159,44 @@ bbcode_enabled = true
 text = "[img=32x32]res://Textures/Icons/Health Icon.png[/img] "
 fit_content = true
 
+[node name="PriorityLabel" type="RichTextLabel" parent="BottomUI/TurretData" unique_id=1236265219]
+layout_mode = 0
+offset_left = 1403.0
+offset_top = 161.0
+offset_right = 1586.0
+offset_bottom = 206.0
+bbcode_enabled = true
+text = "[pulse color=yellow height=0.5 freq=1][font_size=20]Medium Priority[/font_size][/pulse]
+"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Panel" type="Panel" parent="BottomUI/TurretData" unique_id=2101148287]
+layout_mode = 0
+offset_left = 1434.0
+offset_top = 56.0
+offset_right = 1544.0
+offset_bottom = 170.0
+
+[node name="EnemyPrioTexture" type="TextureRect" parent="BottomUI/TurretData" unique_id=1884708674]
+custom_minimum_size = Vector2(20, 20)
+layout_mode = 0
+offset_left = 1443.0
+offset_top = 66.0
+offset_right = 1535.0
+offset_bottom = 158.0
+expand_mode = 2
+
+[node name="PrioInfo" type="Label" parent="BottomUI/TurretData" unique_id=1402006943]
+layout_mode = 0
+offset_left = 1587.0
+offset_top = 88.0
+offset_right = 1776.0
+offset_bottom = 154.0
+text = "Choose target priority by
+selecting a turret in the
+Fabricator"
+
 [node name="HoverControl" type="Control" parent="." unique_id=581000435]
 layout_mode = 3
 anchors_preset = 2

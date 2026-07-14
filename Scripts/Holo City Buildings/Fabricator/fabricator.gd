@@ -16,6 +16,7 @@ var emptyTurretAutoBuildTextureHover = preload("res://Textures/UI/Game/Turret In
 @onready var selectCitGrid = $SelectPopup/Background/GridContainer
 @onready var targetingPopup = $TargetingPopup
 @onready var specificTargetPopup = $SpecificTargetPopup
+@onready var priorityLabel = $SpecificTargetPopup/Background/PriorityLabel
 
 @onready var specificTargetBackground = $SpecificTargetPopup/Background
 @onready var specTargetGrid = $SpecificTargetPopup/Background/GridContainer
@@ -58,10 +59,14 @@ var autoFabricateTimers: Array = []
 
 var currentTargetTurret : Turret.TurretID
 var currentTargetEnemy = -1
+var currentPriority: String = ""
 
 var enemyTargetButtons: Array = []
+var enemyTargetPanels: Array = []
 var enemySelectGroup := ButtonGroup.new()
-var priorityButtonGroup := ButtonGroup.new()
+
+# turretID -> {"enemy": Enemy.EnemyID, "priority": String}
+var turretTargetingData: Dictionary = {}
 
 var assignedWorkers: Array = [null,null,null,null,null,null,null,null,null,null]
 var assignedAutoBuildList: Array = [null,null,null,null,null,null,null,null,null,null]
@@ -69,12 +74,21 @@ var assignedAutoBuildList: Array = [null,null,null,null,null,null,null,null,null
 var glowShader
 var materialAbstract
 
-const ENEMY_BUTTON_SIZE := Vector2(96, 96)
+# Base ("1x") sizes for the enemy target cards. Actual size used is
+# these multiplied by enemyButtonScale below.
+const ENEMY_CARD_BASE_SIZE := Vector2(140, 190)
+const ENEMY_ICON_BASE_SIZE := Vector2(104, 104)
+
+## Scales the enemy target cards/icons in the SpecificTargetPopup.
+## 1.0 = base size, 1.5 = 50% bigger, etc.
+@export var enemyButtonScale: float = 1.0
 
 
 func _ready() -> void:
 	menu.hide()
 	selectCitPopup.hide()
+	
+	GameManager.fabricator = self
 
 	titleLabel = $menuControl/Background/Title
 	descriptionLabel = $menuControl/Background/Description
@@ -116,8 +130,6 @@ func _ready() -> void:
 
 	mediumPriorityButton.toggle_mode = true
 	highPriorityButton.toggle_mode = true
-	mediumPriorityButton.button_group = priorityButtonGroup
-	highPriorityButton.button_group = priorityButtonGroup
 	mediumPriorityButton.toggled.connect(_on_priority_button_toggled.bind("Medium"))
 	highPriorityButton.toggled.connect(_on_priority_button_toggled.bind("High"))
 
@@ -165,6 +177,21 @@ func _apply_glow(target: CanvasItem) -> void:
 
 func _remove_glow(target: CanvasItem) -> void:
 	target.material = null
+
+
+func _make_transparent_stylebox() -> StyleBoxFlat:
+	# NOTE: must be a real (drawing) StyleBox, not StyleBoxEmpty.
+	# StyleBoxEmpty issues no draw call at all, so a Panel using it has
+	# no geometry for a shader material to render onto - the glow would
+	# never appear no matter what. A fully transparent StyleBoxFlat still
+	# draws a quad (just invisible), which the glow shader can then paint over.
+	var sb = StyleBoxFlat.new()
+	sb.bg_color = Color(1, 1, 1, 0)
+	sb.corner_radius_top_left = 8
+	sb.corner_radius_top_right = 8
+	sb.corner_radius_bottom_left = 8
+	sb.corner_radius_bottom_right = 8
+	return sb
 
 
 func assignButtonGlow() -> void:
@@ -495,6 +522,7 @@ func _on_turret_texture_pressed(index: int) -> void:
 func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
 	currentTargetTurret = turretID
 	currentTargetEnemy = -1
+	currentPriority = ""
 
 	specificTargetBackground.texture = TurretManager.getTurretTexture(turretID)
 	targetEnemyTexture.texture = null
@@ -505,20 +533,37 @@ func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
 	for child in specTargetGrid.get_children():
 		child.queue_free()
 	enemyTargetButtons.clear()
+	enemyTargetPanels.clear()
+
+	var savedData: Dictionary = turretTargetingData.get(turretID, {})
+	var savedEnemy = savedData.get("enemy", -1)
+	var savedPriority: String = savedData.get("priority", "")
+
+	var cardSize = ENEMY_CARD_BASE_SIZE * enemyButtonScale
+	var iconSize = ENEMY_ICON_BASE_SIZE * enemyButtonScale
 
 	for enemyID in EnemySpawnManager.ENEMY_IDS:
 		var wrapper = Control.new()
-		wrapper.custom_minimum_size = ENEMY_BUTTON_SIZE
+		wrapper.custom_minimum_size = cardSize
 		wrapper.mouse_filter = Control.MOUSE_FILTER_PASS
 
+		# Tall card panel behind the icon - this is what glows.
 		var glowPanel = Panel.new()
 		glowPanel.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
 		glowPanel.mouse_filter = Control.MOUSE_FILTER_IGNORE
-		glowPanel.add_theme_stylebox_override("panel", StyleBoxEmpty.new())
+		glowPanel.add_theme_stylebox_override("panel", _make_transparent_stylebox())
 		wrapper.add_child(glowPanel)
 
+		# Icon button, centered inside the card at a fixed size.
 		var btn = TextureButton.new()
-		btn.set_anchors_and_offsets_preset(Control.PRESET_FULL_RECT)
+		btn.anchor_left = 0.5
+		btn.anchor_right = 0.5
+		btn.anchor_top = 0.5
+		btn.anchor_bottom = 0.5
+		btn.offset_left = -iconSize.x / 2.0
+		btn.offset_right = iconSize.x / 2.0
+		btn.offset_top = -iconSize.y / 2.0
+		btn.offset_bottom = iconSize.y / 2.0
 		btn.texture_normal = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
 		btn.ignore_texture_size = true
 		btn.stretch_mode = TextureButton.STRETCH_KEEP_ASPECT_CENTERED
@@ -526,36 +571,91 @@ func buildSpecificTargetPopup(turretID: Turret.TurretID) -> void:
 		btn.button_group = enemySelectGroup
 		btn.pressed.connect(_on_enemy_target_button_pressed.bind(enemyID))
 		btn.toggled.connect(_on_enemy_button_toggled.bind(btn, glowPanel))
-		btn.mouse_entered.connect(_on_enemy_button_mouse_entered.bind(btn, glowPanel))
-		btn.mouse_exited.connect(_on_enemy_button_mouse_exited.bind(glowPanel))
+		btn.mouse_entered.connect(_on_enemy_button_mouse_entered.bind(glowPanel))
+		btn.mouse_exited.connect(_on_enemy_button_mouse_exited.bind(btn, glowPanel))
 		wrapper.add_child(btn)
 
 		specTargetGrid.add_child(wrapper)
 		enemyTargetButtons.append(btn)
+		enemyTargetPanels.append(glowPanel)
+
+		if savedEnemy != -1 and enemyID == savedEnemy:
+			btn.set_pressed_no_signal(true)
+			currentTargetEnemy = enemyID
+			targetEnemyTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
+			_apply_glow(glowPanel)
+
+	match savedPriority:
+		"Medium":
+			currentPriority = "Medium"
+			mediumPriorityButton.set_pressed_no_signal(true)
+		"High":
+			currentPriority = "High"
+			highPriorityButton.set_pressed_no_signal(true)
 
 
 func _on_enemy_target_button_pressed(enemyID) -> void:
 	currentTargetEnemy = enemyID
 	targetEnemyTexture.texture = load(EnemySpawnManager.ENEMY_TEXTURES[enemyID])
+	priorityLabel.text = "Current Priority: \n" + EnemyManager.get_enemy_name(enemyID)
+
+	var data: Dictionary = turretTargetingData.get(currentTargetTurret, {})
+	data["enemy"] = enemyID
+	turretTargetingData[currentTargetTurret] = data
 
 
-func _on_enemy_button_mouse_entered(btn: TextureButton, panel: Panel) -> void:
+func _on_enemy_button_mouse_entered(panel: Panel) -> void:
+	_apply_glow(panel)
+
+
+func _on_enemy_button_mouse_exited(btn: TextureButton, panel: Panel) -> void:
 	if not btn.button_pressed:
-		_apply_glow(panel)
-
-
-func _on_enemy_button_mouse_exited(panel: Panel) -> void:
-	_remove_glow(panel)
+		_remove_glow(panel)
 
 
 func _on_enemy_button_toggled(pressed: bool, btn: TextureButton, panel: Panel) -> void:
-	if pressed:
-		_remove_glow(panel)
-	elif btn.is_hovered():
+	if pressed or btn.is_hovered():
 		_apply_glow(panel)
+	else:
+		_remove_glow(panel)
+
+
+func _deselect_current_enemy() -> void:
+	currentTargetEnemy = -1
+	targetEnemyTexture.texture = null
+	for i in range(enemyTargetButtons.size()):
+		var btn = enemyTargetButtons[i]
+		if btn.button_pressed:
+			btn.set_pressed_no_signal(false)
+		_remove_glow(enemyTargetPanels[i])
 
 
 func _on_priority_button_toggled(pressed: bool, priorityName: String) -> void:
-	if not pressed:
-		return
-	print("Turret ID: ", currentTargetTurret, " | Enemy ID: ", currentTargetEnemy, " | Priority: ", priorityName)
+	if pressed:
+		currentPriority = priorityName
+
+
+		if priorityName == "Medium":
+			highPriorityButton.set_pressed_no_signal(false)
+		else:
+			mediumPriorityButton.set_pressed_no_signal(false)
+
+		var data: Dictionary = turretTargetingData.get(currentTargetTurret, {})
+		data["priority"] = priorityName
+		turretTargetingData[currentTargetTurret] = data
+		updateTurretPriorities()
+		#print("Turret ID: ", currentTargetTurret, " | Enemy ID: ", currentTargetEnemy, " | Priority: ", priorityName)
+	else:
+		if currentPriority == priorityName:
+			currentPriority = ""
+			_deselect_current_enemy()
+			turretTargetingData.erase(currentTargetTurret)
+			#print("Turret ID: ", currentTargetTurret, " | Priority and enemy target cleared")
+			GameManager.updatePriority(currentTargetTurret,null,"None")
+
+func updateTurretPriorities():
+	for turret in turretTargetingData:
+		var currTargetTurret = turret
+		var currTargetEnemy = turretTargetingData[currTargetTurret].get("enemy")
+		var priorityName = turretTargetingData[currTargetTurret].get("priority")
+		GameManager.updatePriority(currTargetTurret,currTargetEnemy,priorityName)
