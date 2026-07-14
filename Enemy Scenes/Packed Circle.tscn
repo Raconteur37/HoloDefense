@@ -309,6 +309,7 @@ shader_parameter/star_density = 25.0
 [sub_resource type="CircleShape2D" id="CircleShape2D_1yly3"]
 
 [node name="Packed Circle" type="CharacterBody2D" unique_id=24300298 groups=["Enemy"]]
+position = Vector2(1185, -3975)
 collision_layer = 4
 collision_mask = 3
 script = ExtResource("1_g1mtm")
