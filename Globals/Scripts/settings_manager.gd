@@ -31,6 +31,11 @@ var default_settings: Dictionary = {
 	"mending": false,
 	"unstoppable": false,
 	"paracasual": false
+	},
+	"codesRedeemed": {
+	"awesomeel218": false,
+	"superrare420": false,
+	"ohemgee": false
 	}
 }
 
@@ -173,3 +178,36 @@ func _merge_with_defaults(loaded: Dictionary) -> void:
 	
 	# Save immediately to ensure the physical file is updated with any new missing keys
 	save_settings()
+
+# ─────────────────────────────────────────
+# CODES REDEEMED HELPERS
+# ─────────────────────────────────────────
+
+
+func is_code_valid(code: String) -> bool:
+	var code_lower = code.to_lower()
+	return current_settings["codesRedeemed"].has(code_lower)
+
+
+func has_redeemed_code(code: String) -> bool:
+	var code_lower = code.to_lower()
+	if current_settings["codesRedeemed"].has(code_lower):
+		return current_settings["codesRedeemed"][code_lower]
+	return false
+
+
+func redeem_code(code: String) -> bool:
+	var code_lower = code.to_lower()
+	
+	# 1. Check if it's a real code
+	if not current_settings["codesRedeemed"].has(code_lower):
+		return false
+		
+	# 2. Check if they already claimed it
+	if current_settings["codesRedeemed"][code_lower] == true:
+		return false
+		
+	# 3. Mark as redeemed and save!
+	current_settings["codesRedeemed"][code_lower] = true
+	save_settings()
+	return true

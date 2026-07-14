@@ -8,8 +8,8 @@
 [ext_resource type="Texture2D" uid="uid://c8n31rc7tfs17" path="res://Textures/UI/Game/Turret Info Scene/BackgroundPlain.png" id="3_bl835"]
 [ext_resource type="Texture2D" uid="uid://decjq45umif71" path="res://Textures/Turrets/Mini Sentry Turret/MiniSentryTurret.png" id="3_ycuo2"]
 [ext_resource type="Texture2D" uid="uid://camtps7iscofx" path="res://Textures/Turrets/Railgun Turret/RailgunTurret.png" id="4_4wxbc"]
-[ext_resource type="Texture2D" uid="uid://c5hu2wrccaiav" path="res://Textures/Shop/shard_64x64.png" id="8_et1ub"]
-[ext_resource type="Texture2D" uid="uid://654f3qi67dsg" path="res://Textures/Shop/shard_shattered_64x64.png" id="9_bl835"]
+[ext_resource type="Texture2D" uid="uid://wlfaevklk5o0" path="res://Textures/Shop/shard_64x64.png" id="8_et1ub"]
+[ext_resource type="Texture2D" uid="uid://bxyk5va6ivo4h" path="res://Textures/Shop/shard_shattered_64x64.png" id="9_bl835"]
 [ext_resource type="Shader" uid="uid://dhin76yoo42at" path="res://Shaders/unstable.gdshader" id="9_wy80l"]
 [ext_resource type="Texture2D" uid="uid://c6nhi25dpecyc" path="res://Textures/Shop/stardust_128x128.png" id="12_qcw3l"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="13_sy4b0"]
@@ -71,6 +71,9 @@ font_size = 55
 font_size = 20
 
 [sub_resource type="LabelSettings" id="LabelSettings_vwu7l"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_681bw"]
+font_size = 20
 
 [node name="CanvasLayer" type="CanvasLayer" unique_id=1898291336]
 script = ExtResource("1_nqpbt")
@@ -797,9 +800,9 @@ scale = Vector2(0.3, 0.3)
 texture = ExtResource("12_qcw3l")
 
 [node name="CodeInput" type="LineEdit" parent="." unique_id=1563311031]
-offset_left = 1709.0
+offset_left = 1678.0
 offset_top = 960.0
-offset_right = 1825.0625
+offset_right = 1850.0
 offset_bottom = 988.0
 text = "Code Input"
 alignment = 1
@@ -807,14 +810,26 @@ alignment = 1
 [node name="codeButton" type="TextureButton" parent="CodeInput" unique_id=343935156]
 modulate = Color(0.44705883, 0.44313726, 0.58431375, 1)
 layout_mode = 0
-offset_left = -34.999996
+offset_left = -7.999998
 offset_top = 30.999998
-offset_right = 885.0
+offset_right = 912.0
 offset_bottom = 347.0
 scale = Vector2(0.2, 0.2)
 texture_normal = ExtResource("13_sy4b0")
 texture_pressed = ExtResource("14_rmcqe")
 texture_hover = ExtResource("15_yj6kq")
+
+[node name="Label7" type="Label" parent="CodeInput" unique_id=1514014521]
+layout_mode = 0
+offset_left = 8.0
+offset_top = 45.0
+offset_right = 167.0
+offset_bottom = 79.0
+text = "Redeem"
+label_settings = SubResource("LabelSettings_681bw")
+horizontal_alignment = 1
+vertical_alignment = 1
+autowrap_mode = 2
 
 [connection signal="timeout" from="Slot Machine/Roll Timer" to="Slot Machine" method="_on_roll_time_timeout"]
 [connection signal="pressed" from="Slot Machine/TextureButton" to="Slot Machine" method="_on_texture_button_pressed"]
@@ -829,4 +844,6 @@ texture_hover = ExtResource("15_yj6kq")
 [connection signal="pressed" from="HBoxContainer2/SuperRareShardPurchaseButton/superRarePurchase" to="." method="_on_super_rare_purchase_pressed"]
 [connection signal="pressed" from="HBoxContainer2/LegendaryShardPurchaseButton/legendary" to="." method="_on_legendary_pressed"]
 [connection signal="pressed" from="HBoxContainer2/UnseenShardPurchaseButton2/HUH" to="." method="_on_huh_pressed"]
+[connection signal="mouse_entered" from="CodeInput" to="." method="_on_code_input_mouse_entered"]
+[connection signal="mouse_exited" from="CodeInput" to="." method="_on_code_input_mouse_exited"]
 [connection signal="pressed" from="CodeInput/codeButton" to="." method="_on_code_button_pressed"]
