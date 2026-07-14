@@ -82,7 +82,6 @@ const ENEMY_ICON_BASE_SIZE := Vector2(104, 104)
 ## 1.0 = base size, 1.5 = 50% bigger, etc.
 @export var enemyButtonScale: float = 1.0
 
-
 func _ready() -> void:
 	menu.hide()
 	selectCitPopup.hide()
