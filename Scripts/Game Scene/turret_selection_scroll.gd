@@ -445,6 +445,12 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 				addStatLabel("Bard Health: %s" % TurretManager.getMinionStat(Minion.MinionID.BARD, "health"), Color.LIGHT_GREEN, 10)
 				addStatLabel("Bard Heal: %s" % TurretManager.getMinionStat(Minion.MinionID.BARD, "healAmount"), Color.MEDIUM_SEA_GREEN, 10)
 
+		Turret.TurretID.ENERGIZER_TURRET:
+			if current_level >= 3:
+				addStatLabel("Explosion Damage: %s" % TurretManager.getTurretStat(turretID, "energizeExplosionDamage"), Color.ROSY_BROWN, 10)
+				addStatLabel("Explosion Range: %s" % TurretManager.getTurretStat(turretID, "energizeExplosionRange"), Color.ROSY_BROWN, 10)
+
+
 		Turret.TurretID.FLAME_TURRET:
 			addStatLabel("Explosion Radius: %s" % TurretManager.getTurretStat(turretID, "flameExplosionRange"), Color.ROSY_BROWN, 10)
 			if current_level >= 3:

@@ -45,7 +45,7 @@ func _ready() -> void:
 	energizerReloadTimeBuff = TurretManager.getTurretStat(turretID, "energizerReloadTimeBuff")
 	extraEnergizeChance = TurretManager.getTurretStat(turretID, "extraEnergizeChance")
 
-	level = 3#XpManager.getCurrentLevel(turretID)
+	level = XpManager.getCurrentLevel(turretID)
 	upgradeTier = 0
 
 	line2d = $RangeArea/RangeIndicator

@@ -144,6 +144,7 @@ text = "Shop"
 label_settings = SubResource("LabelSettings_0tngy")
 
 [node name="Multiplayer Button" type="TextureButton" parent="VBoxContainer" unique_id=1866920329]
+visible = false
 self_modulate = Color(0.24705882, 0.44705883, 1, 1)
 layout_mode = 2
 texture_normal = ExtResource("3_odh6e")
