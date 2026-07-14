@@ -81,8 +81,8 @@
 		"energizerProjectileSpeedBuff": 0.02,
 		"energizerAttackRangeBuff": 0.02,
 		"energizerReloadTimeBuff": 0.02,
-		"explosionRange": 125.0,
-		"explosionDamage": 100.0,
+		"energizeExplosionRange": 125.0,
+		"energizeExplosionDamage": 100.0,
 		"extraEnergizeChance": 45.0,
 		"scaleFactor": 0.05
 	},

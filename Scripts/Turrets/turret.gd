@@ -287,8 +287,8 @@ func recieveBubble(bubbleHealth : float, turretApplier):
 
 func summonEnergizeExplosion():
 	var fxData = {}
-	var expDmg = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionDamage")
-	var expRange = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"explosionRange")
+	var expDmg = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"energizeExplosionDamage")
+	var expRange = TurretManager.getTurretStat(Turret.TurretID.ENERGIZER_TURRET,"energizeExplosionRange")
 	fxData["explosionDamage"] = expDmg
 	fxData["explosionRadius"] = expRange
 	ExplosionManager.summonExplosion(turretProviders.get("energized"),self.global_position,fxData)
