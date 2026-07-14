@@ -158,9 +158,11 @@ func _on_code_button_pressed() -> void:
 			"superrare420":
 				EconomyManager.add_shards("super_rare_turret", 4)
 				updateLabels()
+				EconomyManager.save_economy()
 			"ohemgee":
 				EconomyManager.add_shards("legendary_turret", 1)
 				updateLabels()
+				EconomyManager.save_economy()
 		codeInput.text = "Code Redeemed!"
 	else:
 		if not SettingsManager.is_code_valid(input_string):

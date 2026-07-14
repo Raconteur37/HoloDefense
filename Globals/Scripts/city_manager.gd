@@ -191,7 +191,7 @@ func _ready() -> void:
 	currentMoney = startingCash
 	currentEnergy = startingEnergy
 	currentScrap = startingScrap
-	currentMoney = 999999
+	#currentMoney = 999999
 	#currentEnergy = 999999
 	#currentScrap = 999999
 	updateGemChanceWeights()
