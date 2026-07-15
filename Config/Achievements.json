@@ -46,7 +46,7 @@
 	},
 	"ACH_MASS_TURRETS_PLACED": {
 		"title": "A Literal Army",
-		"description": "Generate 100 Citizens in one run.",
+		"description": "Generate 60 Citizens in one run.",
 		"is_hidden": false,
 		"reward_type": "turret",
 		"reward_id": "royal_turret",
@@ -86,6 +86,15 @@
 		"is_hidden": false,
 		"reward_type": "shard",
 		"reward_id": "common_turret",
+		"reward_amount": 2,
+		"icon_path": "res://Textures/Shop/shard_64x64.png"
+	},
+	"ACH_SYSTEM_COMPLETE_2": {
+		"title": "Feeling the lag?",
+		"description": "Beat two Systems on difficulty 4 or higher",
+		"is_hidden": false,
+		"reward_type": "shard",
+		"reward_id": "rare_turret",
 		"reward_amount": 2,
 		"icon_path": "res://Textures/Shop/shard_64x64.png"
 	}

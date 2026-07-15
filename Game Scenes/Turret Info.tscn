@@ -130,7 +130,7 @@ font_size = 21
 [sub_resource type="LabelSettings" id="LabelSettings_4fnnr"]
 font_size = 55
 
-[node name="CanvasLayer" type="CanvasLayer" unique_id=1033690075]
+[node name="CanvasLayer2" type="CanvasLayer" unique_id=1033690075]
 
 [node name="ScreenFilter" type="ColorRect" parent="." unique_id=1145954247]
 show_behind_parent = true

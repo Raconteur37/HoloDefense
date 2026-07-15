@@ -178,7 +178,7 @@ func _on_generate_citizen_button_pressed() -> void:
 		CityManager.currentEnergy -= CityManager.citizenGenCost
 		CityManager.updateGenCitizenCost()
 		StatManager.citizensGenerated += 1
-		if StatManager.citizensGenerated >= 100:
+		if StatManager.citizensGenerated >= 60:
 			AchievementManager.unlock_achievement("ACH_MASS_TURRETS_PLACED")
 		citGenLabel.text = "Generate Citizen \nEnergy: " + str(GameManager.format_number(round((round(100 * CityManager.citizenGenCost)/100))))
 		var genScene = load("res://Game Scenes/HoloCitizenGenerationScene.tscn")
