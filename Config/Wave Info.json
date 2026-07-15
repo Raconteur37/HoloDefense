@@ -15,7 +15,7 @@
 		 "wavesPerSystem":10,
 		 "enemyMultiplierPerSystem":3,
 		 "healthMultiplierPerSystem":2.25,
-		 "speedMultiplierPerSystem":1.8,
+		 "speedMultiplierPerSystem":1.6,
 		 "damageMultiplierPerSystem":1.7,
 		 "spawnIntervalReductionPerSystem":0.5,
 		 "tierTwoWaveThresh":3,

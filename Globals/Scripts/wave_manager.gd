@@ -96,7 +96,7 @@ func spawnNext() -> void:
 	
 	EnemySpawnManager.summonEnemy(enemyID)
 
-	var waveWithinSystem = ((currentWave - 1) % getWavesPerSystem()) + 1
+	var waveWithinSystem = getWaveWithinSystem()
 	var interval = getSpawnInterval(currentDifficulty, waveWithinSystem)
 	
 	# Passing false to respect the pause state
@@ -109,9 +109,13 @@ func buildSpawnQueue() -> Array:
 		queue.append(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
 		SoundManager.playBossWaveSound()
 
-	var waveWithinSystem = ((currentWave - 1) % getWavesPerSystem()) + 1
-	var baseline = getStartingEnemies() + (waveWithinSystem * getWaveEnemyGrowth())
+	var waveWithinSystem = getWaveWithinSystem()
+	var totalWaveIndex = getTotalWaveIndex()
+
+
+	var baseline = getStartingEnemies() + (totalWaveIndex * getWaveEnemyGrowth())
 	var difficultyMult = getEnemyCountMultiplier(currentDifficulty)
+
 	var waveProgressMult = getWaveCountScale(currentDifficulty, waveWithinSystem)
 	var systemMult = getScaledSystemEnemyMultiplier()
 
@@ -211,7 +215,7 @@ func scheduleEventRoll(queueSize: int) -> void:
 	if systemNumber < getEventSystemThresh():
 		return
 
-	var waveWithinSystem = ((currentWave - 1) % getWavesPerSystem()) + 1
+	var waveWithinSystem = getWaveWithinSystem()
 	var estimatedDuration = estimateWaveDuration(waveWithinSystem, queueSize)
 	var eventDelay = randf_range(0.0, estimatedDuration)
 	var waveAtSchedule = currentWave
@@ -255,6 +259,15 @@ func isBossWave() -> bool:
 func getCurrentSystem() -> int:
 	return ceili(float(currentWave) / float(getWavesPerSystem()))
 
+func getWaveWithinSystem() -> int:
+	return ((currentWave - 1) % getWavesPerSystem()) + 1
+
+func getTotalWaveIndex() -> int:
+	# Cumulative wave count across the ENTIRE run — never resets at a system boundary.
+	# systemNumber is 0 during system 1, so this lines up correctly: system 1 waves
+	# are indices 1-10, system 2 waves are 11-20, etc.
+	return (systemNumber * getWavesPerSystem()) + getWaveWithinSystem()
+
 func getDifficulty(level: int) -> Dictionary:
 	for entry in waveData.get("difficulties", []):
 		if entry.get("level") == level:
@@ -295,12 +308,12 @@ func getSystemSpeedMultiplier() -> float: return float(waveData["baseline"]["sys
 func getSystemDamageMultiplier() -> float: return float(waveData["baseline"]["systemScaling"]["damageMultiplierPerSystem"])
 func getSystemSpawnIntervalReduction() -> float: return float(waveData["baseline"]["systemScaling"]["spawnIntervalReductionPerSystem"])
 
-# Scaled Multipliers based on current system
-func getScaledSystemEnemyMultiplier() -> float: return pow(getSystemEnemyMultiplier(), systemNumber - 1)
-func getScaledSystemHealthMultiplier() -> float: return pow(getSystemHealthMultiplier(), systemNumber - 1) # NEW
-func getScaledSystemSpeedMultiplier() -> float: return pow(getSystemSpeedMultiplier(), systemNumber - 1) # NEW
-func getScaledSystemDamageMultiplier() -> float: return pow(getSystemDamageMultiplier(), systemNumber - 1) # NEW
-func getScaledSystemSpawnIntervalReduction() -> float: return pow(getSystemSpawnIntervalReduction(), systemNumber - 1) # NEW
+
+func getScaledSystemEnemyMultiplier() -> float: return pow(getSystemEnemyMultiplier(), systemNumber)
+func getScaledSystemHealthMultiplier() -> float: return pow(getSystemHealthMultiplier(), systemNumber) # NEW
+func getScaledSystemSpeedMultiplier() -> float: return pow(getSystemSpeedMultiplier(), systemNumber) # NEW
+func getScaledSystemDamageMultiplier() -> float: return pow(getSystemDamageMultiplier(), systemNumber) # NEW
+func getScaledSystemSpawnIntervalReduction() -> float: return pow(getSystemSpawnIntervalReduction(), systemNumber) # NEW
 
 # --- [5] Wave Scaling Config ---
 func getHealthScalePerWave() -> float: return float(waveData["baseline"]["waveScaling"]["healthScalePerWave"])
@@ -318,7 +331,13 @@ func getSpawnInterval(level: int, waveWithinSystem: int = 1) -> float:
 	var base = float(getDifficulty(level).get("spawn_interval_sec", 1.0))
 	var decay = getSpawnIntervalDecay(level)
 	var floorInterval = getBaseSpawnInterval()
-	var interval = base * pow(decay, waveWithinSystem - 1)
+	# --- REVAMP: system-level speed-up ---
+	# spawnIntervalReductionPerSystem was already in the config and had a scaled
+	# getter (getScaledSystemSpawnIntervalReduction), but nothing multiplied it in —
+	# so spawn interval reset to the difficulty's base value at the start of every
+	# system instead of continuing to ramp up. Wired in below.
+	var systemReduction = getScaledSystemSpawnIntervalReduction()
+	var interval = base * pow(decay, waveWithinSystem - 1) * systemReduction
 	return maxf(interval, floorInterval)
 
 func getWaveCountScale(level: int, waveWithinSystem: int) -> float:

@@ -262,6 +262,11 @@ func removeEnergized(turretApplier):
 	turretProviders.get("energized").turretsEnergized -= 1
 	turretProviders.erase("energized")
 
+func reapplyEnergize():
+	if is_instance_valid(turretProviders.get("energized")):
+		turretProviders.get("energized").removeEnergizerBuffsToTurret(self)
+		turretProviders.get("energized").applyEnergizerBuffsToTurret(self)
+
 func removeBubble(enemyPopped : bool):
 	if currentParticlesMap.has("Bubble"):
 		currentParticlesMap.get("Bubble").queue_free()

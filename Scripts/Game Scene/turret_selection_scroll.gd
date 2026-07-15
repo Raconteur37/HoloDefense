@@ -71,6 +71,7 @@ func _idToName(turretID: Turret.TurretID) -> String:
 
 
 func _ready() -> void:
+	
 	GameManager.previewMode = true
 	load_shop_config()
 	scroll.custom_minimum_size = Vector2(700, 150)
@@ -194,7 +195,6 @@ func _on_turret_button_pressed(turretID: Turret.TurretID, refresh) -> void:
 	for child in infoLabelContainer.get_children():
 		child.queue_free()
 	
-	# 1. Hide the XP UI ONLY if we are selecting a new turret, not refreshing
 	if not refresh:
 		soundPlayer.play()
 		animationPlayer.play("InfoAppear")
@@ -393,8 +393,8 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 		"poisonChance": ["Poison Chance: ", Color.MEDIUM_SPRING_GREEN, "%"],
 		"poisonDamage": ["Poison Damage: ", Color.SPRING_GREEN],
 		"poisonDuration": ["Poison Duration: ", Color.MEDIUM_SEA_GREEN, "s"],
-		"moneyGenerated": ["Money Generated: $", Color.GOLD],
-		"goldProductionTime": ["Generation Time: ", Color.DARK_GOLDENROD, "s"],
+		"baseGoldProduced": ["Money Generated: $", Color.GOLD],
+		"generateTime": ["Generation Time: ", Color.DARK_GOLDENROD, "s"],
 		"healingAmount": ["Healing Amount: ", Color.GREEN_YELLOW],
 		"healingTime": ["Healing Time: ", Color.SEA_GREEN, "s"],
 		"summonTime": ["Summon Time: ", Color.ROSY_BROWN, "s"],

@@ -2,7 +2,7 @@
    "elite": [
 	  {
 		"steel" : {
-			"name": "Steal Elite",
+			"name": "Steel Elite",
 			"description": "Takes massively reduced damage from projectiles.",
 			"damage_reduction": 0.80
 		},

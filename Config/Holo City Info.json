@@ -75,8 +75,8 @@
 	"ResearchMaxLevel": 50,
 	"BaseSlotCost": 100,
 	"CostScaling": 1.75,
-	"ResearchBaseCost": 25,
-	"ResearchCostScaling": 0.20,
+	"ResearchBaseCost": 50,
+	"ResearchCostScaling": 0.25,
 	"ResearchTimeMinScale": 3.4,
 	"ResearchTimeReducedScaleFactor": 0.2,
 	"ResearchTimeConsecutiveScale": 0.3

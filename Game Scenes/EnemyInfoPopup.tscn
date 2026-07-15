@@ -3,7 +3,7 @@
 [ext_resource type="Script" uid="uid://b4b4kndbpgllq" path="res://Game Scenes/enemy_info_popup.gd" id="1_yacro"]
 [ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="2_lq332"]
 [ext_resource type="StyleBox" uid="uid://db8ih56gmavd0" path="res://Themes/RewardStyleBoxes/holo_defense_styles/separator_subtle.tres" id="3_0ef2y"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="4_yacro"]
+[ext_resource type="Texture2D" uid="uid://dxia4xumya1c3" path="res://Textures/Enemies/Basic Square22.png" id="4_yacro"]
 [ext_resource type="PackedScene" uid="uid://dgvb5t4yhb6nu" path="res://Game Scenes/EnemyPreview.tscn" id="5_lq332"]
 
 [sub_resource type="LabelSettings" id="LabelSettings_t07hw"]
