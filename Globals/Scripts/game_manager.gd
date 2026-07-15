@@ -33,11 +33,12 @@ var turretStorage = {}
 var fabricator
 
 func _ready() -> void:
+	randomize()
 	if turretTempLevels.size() < 1:
 		for item in turretsBrought:
 			turretTempLevels[item] = 0
 	if DeveloperMode.inDevMode:
-		turretStorage = {Turret.TurretID.MEDIC_TURRET : 99,Turret.TurretID.SNIPER_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
+		turretStorage = {Turret.TurretID.MEDIC_TURRET : 99,Turret.TurretID.ENERGIZER_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
 		Turret.TurretID.SEISMIC_TURRET : 99, Turret.TurretID.ROYAL_TURRET : 99, Turret.TurretID.FLAME_TURRET : 99,
 		Turret.TurretID.SENTRY_TURRET : 99, Turret.TurretID.ARROW_TURRET : 99,Turret.TurretID.FIREWORK_TURRET : 99,
 		Turret.TurretID.REAPER_TURRET : 99, Turret.TurretID.MORTAR_TURRET : 99, Turret.TurretID.TESLA_TURRET : 99}
@@ -83,6 +84,19 @@ func updateTurretLevels(turretID):
 		for turret : Turret in turretsPlaced.get(turretID):
 			if is_instance_valid(turret):
 				turret.applyUpgrade()
+				if turret.energized:
+					if turret.get("damage") != null:
+						turret.damage += ceil(turret.turretProviders["energized"].energizerDamageBuff * turret.baseDamage)
+					if turret.get("projectileSpeed") != null:
+						turret.projectileSpeed += ceil(turret.turretProviders["energized"].energizerProjctileSpeedBuff * turret.baseProjectileSpeed)
+					if turret.get("attackRange") != null:
+						turret.attackRange += ceil(turret.turretProviders["energized"].energizerAttackRangeBuff * turret.baseAttackRange)
+						turret.line2d = TurretManager.draw_range_circle(turret.line2d, turret.attackRange)
+						turret.rangeCollisionShape.shape.radius = turret.attackRange
+					if turret.get("reloadTime") != null:
+						turret.reloadTime -= round_to_dec(turret.turretProviders["energized"].energizerReloadTimeBuff * turret.baseReloadTime, 2)
+						if turret.get("reloadTimer") != null:
+							turret.reloadTimer.wait_time = turret.reloadTime
 			else:
 				turretsPlaced.get(turretID).erase(turret)
 

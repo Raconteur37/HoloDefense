@@ -79,7 +79,6 @@ func _process(delta: float) -> void:
 	energizeReady = false
 	for turret in turretsInRange:
 		if is_instance_valid(turret) and turret != self and not turret.energized:
-			turretsEnergized += 1
 			applyEnergizerBuffsToTurret(turret)
 			break
 
@@ -92,11 +91,14 @@ func _on_range_area_body_entered(body: Node2D) -> void:
 		energizeTimer.start(energizeTime)
 
 func _on_range_area_body_exited(body: Node2D) -> void:
-	if isPlaced:
-		turretsInRange.erase(body)
-		# If a turret left range, free up its energize slot
-		if turretsEnergized > 0:
-			turretsEnergized -= 1
+	if not isPlaced:
+		return
+
+	turretsInRange.erase(body)
+
+	if not body.is_in_group("Turret"):
+		return
+	removeEnergizerBuffsToTurret(body)
 
 func applyEnergizerBuffsToTurret(turret):
 	if not is_instance_valid(turret) or turret.energized:
@@ -118,6 +120,7 @@ func applyEnergizerBuffsToTurret(turret):
 		turret.reloadTime -= round_to_dec(energizerReloadTimeBuff * turret.baseReloadTime, 2)
 		if turret.get("reloadTimer") != null:
 			turret.reloadTimer.wait_time = turret.reloadTime
+	turretsEnergized += 1
 	if level >= 2 and energizedRand:
 		if randi_range(0,100) <= extraEnergizeChance:
 			energizedRand = false
@@ -132,7 +135,8 @@ func energizeRandomTurret():
 		
 	var validTurrets = []
 	for turret in allTurrets:
-		if is_instance_valid(turret) and not turret.energized:
+		# --- FIX: exclude self so the energizer can't roll itself as the bonus target.
+		if is_instance_valid(turret) and turret != self and not turret.energized:
 			validTurrets.append(turret)
 			
 	if validTurrets.is_empty():
@@ -146,8 +150,10 @@ func energizeRandomTurret():
 	energizedRand = true
 
 func removeEnergizerBuffsToTurret(turret: Turret):
-	if is_instance_valid(turret) and turret.energized:
+	if is_instance_valid(turret) and turret.energized and turret.turretProviders.get("energized") == self:
 		turret.removeEnergized(self)
+		if turretsEnergized > 0:
+			turretsEnergized -= 1
 
 func round_to_dec(num, digit):
 	return round(num * pow(10.0, digit)) / pow(10.0, digit)

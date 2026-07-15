@@ -128,9 +128,14 @@ func animate_spin(final_turret_id: int) -> void:
 		while final_tex_1 == final_tex_2 and final_tex_2 == final_tex_3:
 			final_tex_3 = _get_random_texture()
 
+	# --- NEW LOGIC: Check if the first two match ---
+	var has_tease = (final_tex_1 == final_tex_2)
+
 	var stop_1 = 15 # Slot 1 locks first
 	var stop_2 = 35 # Slot 2 locks a bit later
-	var stop_3 = 45 # Slot 3 spins the longest for dramatic effect
+	
+	# If they match, keep the dramatic 45. Otherwise, end it quickly at 38.
+	var stop_3 = 45 if has_tease else 38 
 	
 	var spin_delay = 0.04 # Starting speed (very fast)
 	
@@ -167,8 +172,12 @@ func animate_spin(final_turret_id: int) -> void:
 		elif current_spin < stop_2:
 			spin_delay += 0.005 
 		else:
-			spin_delay += 0.02 
-			
+			# --- NEW LOGIC: Only apply dramatic friction if it's a tease ---
+			if has_tease:
+				spin_delay += 0.02 
+			else:
+				spin_delay += 0.005 # Keep it rolling fast since it's a guaranteed loss
+				
 	# 5. Lock in the final slot
 	slot_3.texture = final_tex_3
 	_pop_animation(slot_3)
