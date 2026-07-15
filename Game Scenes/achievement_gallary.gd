@@ -57,10 +57,30 @@ func populate_achievements() -> void:
 		title_node.text = "[pulse color=#c53a9d  height=0.5 freq=0.5][font_size=25] " + ach_data.get("title", "Unknown Achievement") + "[/font_size][/pulse]"
 		desc_node.text = ach_data.get("description", "No description provided.")
 		
-		# Load the icon texture
 		var icon_path = ach_data.get("icon_path", "")
 		if icon_path != "" and ResourceLoader.exists(icon_path):
 			reward_icon.texture = load(icon_path)
+			
+		# --- NEW: Check reward data and tint the icon ---
+		# Adjust the dictionary keys ("reward_type", "shard_type") to match your actual metadata structure
+		var reward_type = ach_data.get("reward_type", "")
+		var shard_type = ach_data.get("reward_id", "") 
+				
+		if reward_type == "shard" and shard_type == "common_turret":
+			reward_icon.modulate = Color("#ffff")
+		if reward_type == "shard" and shard_type == "rare_turret":
+			reward_icon.modulate = Color("#4a6cff")
+		if reward_type == "shard" and shard_type == "super_rare_turret":
+			reward_icon.modulate = Color("#6c01c1")
+		if reward_type == "shard" and shard_type == "legendary_turret":
+			reward_icon.modulate = Color("e3b11b")
+		if reward_type == "shard" and shard_type == "unseen_turret":
+			reward_icon.modulate = Color("fc5d7f")
+		if reward_type == "shard" and shard_type == "unstable":
+			var unstable_material = ShaderMaterial.new()
+			unstable_material.shader = load("res://Shaders/unstable.gdshader")
+			
+			reward_icon.material = unstable_material
 			
 		# 4. Check if the player has actually unlocked it yet!
 		var is_unlocked = AchievementManager.is_unlocked(ach_key)
