@@ -40,8 +40,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		WaveManager.removeActiveEnemy(body)
 		EntityManager.onKill(null,body)
 		updateVisualStatus()
-		#if GameManager.cityHealth <= 0:
-		#	runActive = false
-		#	StatManager.elapsedTime = runTime
-		#	get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
-		#	Engine.time_scale = 1
+		if GameManager.cityHealth <= 0:
+			runActive = false
+			StatManager.elapsedTime = runTime
+			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")

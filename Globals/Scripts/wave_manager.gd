@@ -170,7 +170,7 @@ func getEnemyFromTier(tierDict: Dictionary) -> Enemy.EnemyID:
 	return pool[randi() % pool.size()]
 
 func getActiveTiers(waveWithinSystem: int) -> Dictionary:
-	var pastFirstSystem: bool = systemNumber >= 2
+	var pastFirstSystem: bool = systemNumber > 1
 	
 	return {
 		"first":  true,
@@ -265,10 +265,7 @@ func getWaveWithinSystem() -> int:
 	return ((currentWave - 1) % getWavesPerSystem()) + 1
 
 func getTotalWaveIndex() -> int:
-	# Cumulative wave count across the ENTIRE run — never resets at a system boundary.
-	# systemNumber is 0 during system 1, so this lines up correctly: system 1 waves
-	# are indices 1-10, system 2 waves are 11-20, etc.
-	return (systemNumber * getWavesPerSystem()) + getWaveWithinSystem()
+	return ((systemNumber - 1) * getWavesPerSystem()) + getWaveWithinSystem()
 
 func getDifficulty(level: int) -> Dictionary:
 	for entry in waveData.get("difficulties", []):
@@ -311,11 +308,11 @@ func getSystemDamageMultiplier() -> float: return float(waveData["baseline"]["sy
 func getSystemSpawnIntervalReduction() -> float: return float(waveData["baseline"]["systemScaling"]["spawnIntervalReductionPerSystem"])
 
 
-func getScaledSystemEnemyMultiplier() -> float: return pow(getSystemEnemyMultiplier(), systemNumber)
-func getScaledSystemHealthMultiplier() -> float: return pow(getSystemHealthMultiplier(), systemNumber) # NEW
-func getScaledSystemSpeedMultiplier() -> float: return pow(getSystemSpeedMultiplier(), systemNumber) # NEW
-func getScaledSystemDamageMultiplier() -> float: return pow(getSystemDamageMultiplier(), systemNumber) # NEW
-func getScaledSystemSpawnIntervalReduction() -> float: return pow(getSystemSpawnIntervalReduction(), systemNumber) # NEW
+func getScaledSystemEnemyMultiplier() -> float: return pow(getSystemEnemyMultiplier(), maxi(0, systemNumber - 1))
+func getScaledSystemHealthMultiplier() -> float: return pow(getSystemHealthMultiplier(), maxi(0, systemNumber - 1))
+func getScaledSystemSpeedMultiplier() -> float: return pow(getSystemSpeedMultiplier(), maxi(0, systemNumber - 1))
+func getScaledSystemDamageMultiplier() -> float: return pow(getSystemDamageMultiplier(), maxi(0, systemNumber - 1))
+func getScaledSystemSpawnIntervalReduction() -> float: return pow(getSystemSpawnIntervalReduction(), maxi(0, systemNumber - 1))
 
 # --- [5] Wave Scaling Config ---
 func getHealthScalePerWave() -> float: return float(waveData["baseline"]["waveScaling"]["healthScalePerWave"])
