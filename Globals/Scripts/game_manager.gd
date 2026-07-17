@@ -140,6 +140,8 @@ func reset():
 	SoundManager.reset()
 	StatManager.reset()
 	
+	Engine.time_scale = 1
+	
 	cityHealth = 100
 	previewMode = false
 	VSmode = false

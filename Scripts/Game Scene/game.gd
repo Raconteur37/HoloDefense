@@ -55,7 +55,6 @@ func _input(event: InputEvent):
 
 func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "RunIntro":
-		# 3. Enable inputs now that the animation is done!
 		can_interact = true 
 		
 		WaveManager.beginNextSystem()

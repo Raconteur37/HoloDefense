@@ -173,6 +173,7 @@ func _on_begin_button_pressed() -> void:
 	if is_multiplayer:
 		return
 	SoundManager.stopLoadoutMusic()
+	#get_tree().get_first_node_in_group("CityCanvas").hide()
 	GameManager.turretsBrought = broughtArray.duplicate()
 	for item in GameManager.turretsBrought:
 		GameManager.turretTempLevels[item] = 0

@@ -228,22 +228,19 @@ func getName() -> String:
 	return enemyName
 
 func applyScaling() -> void:
-	var priorSystems = max(0, WaveManager.systemNumber - 1)
-	var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
-
-	var waveHealthMult = pow(WaveManager.getHealthScalePerWave(), totalWaves)
-	var waveDamageMult = pow(WaveManager.getDamageScalePerWave(), totalWaves)
-
+	print(health)
+	var waveHealthMult = pow(WaveManager.getHealthScalePerWave(), WaveManager.currentWave - 1)
+	var waveDamageMult = pow(WaveManager.getDamageScalePerWave(), WaveManager.currentWave - 1)
 	var systemHealthMult = WaveManager.getScaledSystemHealthMultiplier()
 	var systemDamageMult = WaveManager.getScaledSystemDamageMultiplier()
 	var systemSpeedMult = WaveManager.getScaledSystemSpeedMultiplier()
 
-	health *= (waveHealthMult * systemHealthMult)
-	damage *= (waveDamageMult * systemDamageMult)
-	speed *= systemSpeedMult 
+	health = round(health * waveHealthMult * systemHealthMult)
+	damage = round(damage * waveDamageMult * systemDamageMult)
+	speed *= systemSpeedMult
+	
+	print(health)
 
-	health = round(health)
-	damage = round(damage)
 
 func applyKnockback(origin_pos: Vector2, strength: float) -> void:
 	var push_direction = (global_position - origin_pos).normalized()
