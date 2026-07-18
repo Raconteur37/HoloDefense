@@ -1,6 +1,6 @@
 [gd_scene format=3 uid="uid://fbv4xq8oy5aj"]
 
-[ext_resource type="Texture2D" uid="uid://1662bpbnnxh3" path="res://Textures/Citizens/Scrap/Common Scrap.png" id="1_q1fjq"]
+[ext_resource type="Texture2D" uid="uid://c7hldvxvf86hj" path="res://Textures/Citizens/Scrap/small_scrap0.png" id="1_qss1m"]
 [ext_resource type="Script" uid="uid://dp5ekmtjamv4f" path="res://Particle Scenes/Citizens/Scrap Particles/scrap_particle.gd" id="2_qss1m"]
 
 [sub_resource type="Gradient" id="Gradient_qss1m"]
@@ -9,7 +9,7 @@ colors = PackedColorArray(1, 1, 1, 1, 0, 0, 0, 0)
 [node name="ScrapParticle" type="CPUParticles2D" unique_id=1393696331]
 emitting = false
 amount = 3
-texture = ExtResource("1_q1fjq")
+texture = ExtResource("1_qss1m")
 lifetime = 0.5
 one_shot = true
 local_coords = true
@@ -20,6 +20,8 @@ spread = 180.0
 gravity = Vector2(0, -800)
 radial_accel_min = 18.35
 radial_accel_max = 18.35
+scale_amount_min = 0.35
+scale_amount_max = 0.35
 color_ramp = SubResource("Gradient_qss1m")
 script = ExtResource("2_qss1m")
 

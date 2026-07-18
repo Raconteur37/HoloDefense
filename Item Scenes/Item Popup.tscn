@@ -256,30 +256,30 @@ vertical_alignment = 1
 
 [node name="ItemImage" type="TextureRect" parent="MainBackground" unique_id=1935488791]
 texture_filter = 1
+custom_minimum_size = Vector2(40, 40)
 layout_mode = 0
 offset_left = 166.0
 offset_top = 68.0
 offset_right = 258.0
 offset_bottom = 154.0
+expand_mode = 2
 
 [node name="ValueLabel" type="RichTextLabel" parent="MainBackground" unique_id=303202599]
 layout_mode = 0
-offset_left = 78.0
-offset_top = 223.0
-offset_right = 214.0
-offset_bottom = 246.0
-scale = Vector2(2, 2)
+offset_left = 146.0
+offset_top = 231.0
+offset_right = 282.0
+offset_bottom = 254.0
 bbcode_enabled = true
 text = "Value: [color=gold]$0[/color]"
 horizontal_alignment = 1
 
 [node name="AmountLabel" type="RichTextLabel" parent="MainBackground" unique_id=2006703190]
 layout_mode = 0
-offset_left = 92.0
-offset_top = 177.0
-offset_right = 215.0
-offset_bottom = 200.0
-scale = Vector2(2, 2)
+offset_left = 154.0
+offset_top = 190.0
+offset_right = 277.0
+offset_bottom = 213.0
 bbcode_enabled = true
 text = "Amount: [color=gray]0[/color]"
 horizontal_alignment = 1
@@ -365,11 +365,10 @@ texture = ExtResource("7_1qfsm")
 [node name="AmountLabel" type="RichTextLabel" parent="SellSliderBackground" unique_id=1279814674]
 top_level = true
 layout_mode = 0
-offset_left = 86.0
-offset_top = 11.0
-offset_right = 210.0
-offset_bottom = 34.0
-scale = Vector2(2, 2)
+offset_left = 149.0
+offset_top = 24.0
+offset_right = 273.0
+offset_bottom = 47.0
 bbcode_enabled = true
 text = "[color=white]x100[/color]"
 horizontal_alignment = 1
@@ -377,11 +376,10 @@ horizontal_alignment = 1
 [node name="SellAmountText" type="RichTextLabel" parent="SellSliderBackground" unique_id=1048981790]
 top_level = true
 layout_mode = 0
-offset_left = 2.0
-offset_top = 179.0
-offset_right = 214.0
-offset_bottom = 205.0
-scale = Vector2(2, 2)
+offset_left = 107.0
+offset_top = 193.0
+offset_right = 319.0
+offset_bottom = 219.0
 bbcode_enabled = true
 text = "[color=gold]$0[/color]"
 horizontal_alignment = 1
@@ -496,11 +494,10 @@ texture = ExtResource("7_1qfsm")
 [node name="AmountLabel" type="RichTextLabel" parent="ConvertSliderBackground" unique_id=390353410]
 top_level = true
 layout_mode = 0
-offset_left = 86.0
-offset_top = 11.0
-offset_right = 210.0
-offset_bottom = 34.0
-scale = Vector2(2, 2)
+offset_left = 149.0
+offset_top = 23.0
+offset_right = 273.0
+offset_bottom = 46.0
 bbcode_enabled = true
 text = "[color=white]x100[/color]"
 horizontal_alignment = 1
@@ -508,11 +505,10 @@ horizontal_alignment = 1
 [node name="ConvertAmountText" type="RichTextLabel" parent="ConvertSliderBackground" unique_id=179886786]
 top_level = true
 layout_mode = 0
-offset_left = 2.0
-offset_top = 179.0
-offset_right = 214.0
-offset_bottom = 205.0
-scale = Vector2(2, 2)
+offset_left = 110.0
+offset_top = 187.0
+offset_right = 322.0
+offset_bottom = 213.0
 bbcode_enabled = true
 text = "[color=blue]Energy: 0[/color]"
 horizontal_alignment = 1
@@ -598,11 +594,10 @@ texture = ExtResource("7_1qfsm")
 [node name="ScrapAmountPlateLabel" type="RichTextLabel" parent="ConvertScrapbackground" unique_id=249800820]
 top_level = true
 layout_mode = 0
-offset_left = 86.0
-offset_top = 11.0
-offset_right = 210.0
-offset_bottom = 34.0
-scale = Vector2(2, 2)
+offset_left = 149.0
+offset_top = 23.0
+offset_right = 273.0
+offset_bottom = 46.0
 bbcode_enabled = true
 text = "[color=white]x100[/color]"
 horizontal_alignment = 1
@@ -610,11 +605,10 @@ horizontal_alignment = 1
 [node name="ScrapAmountText" type="RichTextLabel" parent="ConvertScrapbackground" unique_id=2683360]
 top_level = true
 layout_mode = 0
-offset_left = 2.0
-offset_top = 179.0
-offset_right = 214.0
-offset_bottom = 205.0
-scale = Vector2(2, 2)
+offset_left = 112.0
+offset_top = 197.0
+offset_right = 324.0
+offset_bottom = 223.0
 bbcode_enabled = true
 text = "[color=yellow]Scrap: x0[/color]"
 horizontal_alignment = 1

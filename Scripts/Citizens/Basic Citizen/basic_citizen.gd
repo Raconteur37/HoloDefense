@@ -412,18 +412,22 @@ func updateSprite():
 	if sex == "male":
 		if currentJob == Job.NONE:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
-		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+		if currentJob == Job.GEM_SCRAPER:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites04.png")
+		if currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/scrapper.png")
 		if currentJob == Job.RESEARCHER:
-			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites06.png")
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/reseacher.png")
 		if currentJob == Job.FABRICATOR:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites08.png")
 	if sex == "female":
 		if currentJob == Job.NONE:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites03.png")
-		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+		if currentJob == Job.GEM_SCRAPER:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites05.png")
+		if currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/scrapper (2).png")
 		if currentJob == Job.RESEARCHER:
-			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites07.png")
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/researcher_female.png")
 		if currentJob == Job.FABRICATOR:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites09.png")

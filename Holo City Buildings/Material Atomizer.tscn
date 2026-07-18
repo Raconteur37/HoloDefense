@@ -3,16 +3,20 @@
 [ext_resource type="Texture2D" uid="uid://cl1w315ytgevd" path="res://Textures/Holo City/material atomizer.png" id="1_825rj"]
 [ext_resource type="Script" uid="uid://drtdd34x6jorj" path="res://Scripts/Holo City Buildings/Material Atomizer/material_atomizer.gd" id="1_hjxic"]
 [ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="3_s38yo"]
-[ext_resource type="Texture2D" uid="uid://1662bpbnnxh3" path="res://Textures/Citizens/Scrap/Common Scrap.png" id="4_s38yo"]
-[ext_resource type="Texture2D" uid="uid://lbmpbra6w8sv" path="res://Textures/Citizens/Scrap/Rare Scrap.png" id="5_6tu65"]
-[ext_resource type="Texture2D" uid="uid://c1hlg2cxbnqtb" path="res://Textures/Citizens/Scrap/Super Rare Scrap.png" id="6_4gpin"]
-[ext_resource type="Texture2D" uid="uid://brsdd1jhlp5ir" path="res://Textures/Citizens/Scrap/Legendary Scrap.png" id="7_wf6c0"]
-[ext_resource type="Texture2D" uid="uid://dh201h6a6n18x" path="res://Textures/Citizens/Scrap/Unseen Scrap.png" id="8_5eexy"]
+[ext_resource type="Texture2D" uid="uid://be3dsqqyvd31w" path="res://Textures/Citizens/Scrap/large scrap0.png" id="4_yp0bg"]
+[ext_resource type="Texture2D" uid="uid://c0feubwke6myd" path="res://Textures/Citizens/Scrap/large scrap1.png" id="5_pj5qo"]
+[ext_resource type="Texture2D" uid="uid://4par3xed2mix" path="res://Textures/Citizens/Scrap/large scrap2.png" id="6_i6td2"]
+[ext_resource type="Texture2D" uid="uid://cci6btl6wkua4" path="res://Textures/Citizens/Scrap/large scrap3.png" id="7_vsbpk"]
+[ext_resource type="Texture2D" uid="uid://bbx4a1vf51tnc" path="res://Textures/Citizens/Scrap/large scrap4.png" id="8_kt0ny"]
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_wf6c0"]
 [ext_resource type="PackedScene" uid="uid://fbv4xq8oy5aj" path="res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn" id="9_x4qc4"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_5eexy"]
+[ext_resource type="Texture2D" uid="uid://bvrnlyr3s50ta" path="res://Textures/Citizens/Scrap/small_scrap2.png" id="11_c1s5v"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_x4qc4"]
 [ext_resource type="Texture2D" uid="uid://epojyy5tthda" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_5eexy"]
+[ext_resource type="Texture2D" uid="uid://dygjxfwt8trnh" path="res://Textures/Citizens/Scrap/small_scrap4.png" id="12_n48i4"]
+[ext_resource type="Texture2D" uid="uid://djun61fvujfki" path="res://Textures/Citizens/Scrap/small_scrap1.png" id="13_u8gel"]
+[ext_resource type="Texture2D" uid="uid://1uf6biqx1y1h" path="res://Textures/Citizens/Scrap/small_scrap3.png" id="14_eiext"]
 
 [sub_resource type="AtlasTexture" id="AtlasTexture_hjxic"]
 atlas = ExtResource("1_825rj")
@@ -143,27 +147,27 @@ theme_override_constants/separation = 35
 
 [node name="commonImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=246598507]
 layout_mode = 2
-texture = ExtResource("4_s38yo")
+texture = ExtResource("4_yp0bg")
 expand_mode = 2
 
 [node name="rareImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1459962014]
 layout_mode = 2
-texture = ExtResource("5_6tu65")
+texture = ExtResource("5_pj5qo")
 expand_mode = 2
 
 [node name="superRareImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1829621510]
 layout_mode = 2
-texture = ExtResource("6_4gpin")
+texture = ExtResource("6_i6td2")
 expand_mode = 2
 
 [node name="legendaryImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=739962533]
 layout_mode = 2
-texture = ExtResource("7_wf6c0")
+texture = ExtResource("7_vsbpk")
 expand_mode = 2
 
 [node name="unseenImage" type="TextureRect" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1185081127]
 layout_mode = 2
-texture = ExtResource("8_5eexy")
+texture = ExtResource("8_kt0ny")
 expand_mode = 2
 
 [node name="ScrapParticle1" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1393696331 instance=ExtResource("9_x4qc4")]
@@ -174,25 +178,25 @@ script = null
 [node name="ScrapParticle2" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1473834724 instance=ExtResource("9_x4qc4")]
 position = Vector2(95.5, -3)
 amount = 6
-texture = ExtResource("5_6tu65")
+texture = ExtResource("11_c1s5v")
 script = null
 
 [node name="ScrapParticle3" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=1264225584 instance=ExtResource("9_x4qc4")]
 position = Vector2(173, -3)
 amount = 6
-texture = ExtResource("6_4gpin")
+texture = ExtResource("12_n48i4")
 script = null
 
 [node name="ScrapParticle4" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=751844056 instance=ExtResource("9_x4qc4")]
 position = Vector2(245.5, -3)
 amount = 6
-texture = ExtResource("7_wf6c0")
+texture = ExtResource("13_u8gel")
 script = null
 
 [node name="ScrapParticle5" parent="menuControl/AtomizerMenuBackground/ScrapDisplayContainer" unique_id=5785249 instance=ExtResource("9_x4qc4")]
 position = Vector2(322.5, -3)
 amount = 6
-texture = ExtResource("8_5eexy")
+texture = ExtResource("14_eiext")
 script = null
 
 [node name="ScrapChanceDisplayContainer" type="HBoxContainer" parent="menuControl/AtomizerMenuBackground" unique_id=693695137]
