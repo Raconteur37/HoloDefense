@@ -33,6 +33,8 @@ var currentSystem: String = "Similar"
 var currentPhase: Phase = Phase.IDLE
 var generation: int = 0 # Increments on reset to invalidate stale closures
 
+# --- Message Variables ---
+var eventNotified : bool = true
 
 func _ready() -> void:
 	loadData()
@@ -61,7 +63,17 @@ func beginNextWave() -> void:
 
 func beginNextSystem() -> void:
 	systemNumber += 1
+	
 	currentSystem = "Similar"
+	
+	if systemNumber == 1:
+		PopupManager.systemStartPopup()
+	
+	if systemNumber >= 2:
+		PopupManager.systemFinishPopup()
+		get_tree().create_timer(randi_range(20,40), false).timeout.connect(_makeCallback(func():
+			PopupManager.eventNotify()
+		))
 
 	intermissionDuration = getSystemTransitionTime(currentDifficulty)
 	
@@ -84,6 +96,8 @@ func onWaveComplete() -> void:
 	manageWaveInfoUI(duration)
 	StatManager.wavesCompleted += 1
 	currentPhase = Phase.INTERMISSION
+
+
 
 
 # --- Spawning Logic ---
@@ -242,15 +256,17 @@ func rollForEvent() -> void:
 		startEvent()
 
 func startEvent():
-	print("started event")
 	var events = ["Boss","Rift","Formation"]
 	match events.pick_random():
 		"Boss":
 			EnemySpawnManager.bossEvent()
+			PopupManager.eventPopup("boss")
 		"Rift":
 			EnemySpawnManager.riftEvent()
+			PopupManager.eventPopup("rift")
 		"Formation":
 			EnemySpawnManager.formationEvent()
+			PopupManager.eventPopup("formation")
 
 
 # --- Data Getters ---

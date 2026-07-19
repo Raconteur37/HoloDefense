@@ -55,6 +55,8 @@ var citPortrait = null
 
 var frozen : bool = false
 
+var idleTimerNotify : bool = false
+
 var gemKeys = [
 	Item.theItem.COPPER_GEM,
 	Item.theItem.QUARTZ_GEM,
@@ -86,6 +88,8 @@ var jobExperience : Dictionary[Job,float] = {
 @onready var popupScene = preload("res://Globals/Scene/Popup.tscn")
 @onready var scrapParticle = preload("res://Particle Scenes/Citizens/Scrap Particles/scrapParticle.tscn")
 @onready var area2d = $Area2D
+
+@onready var idleTimer = $IdleTimer
 
 func _ready() -> void:
 	animationPlayer = $AnimationPlayer
@@ -131,6 +135,12 @@ func _ready() -> void:
 		canvasLayer = get_tree().current_scene
 
 func _physics_process(delta: float) -> void:
+	if currentJob == Job.NONE and idleTimer.is_stopped():
+		idleTimer.start()
+	if not idleTimer.is_stopped() and not idleTimerNotify:
+		if idleTimer.time_left <= 10:
+			idleTimerNotify = true
+			PopupManager.idleWorkerPopup()
 	if frozen:
 		return
 	if currentState == State.IDLE:
@@ -190,7 +200,9 @@ func destinationReachedFunc():
 		setWorkDestination()
 	timeSinceMove = 0
 	if currentJob == Job.NONE:
+		updateSprite()
 		scanJobArea()
+		citPortrait.updatePortrait()
 	else:
 		updateJobTimer()
 
@@ -214,6 +226,8 @@ func scanJobArea():
 func setJob(job : Job):
 	if currentJob != job:
 		if not hasJob:
+			idleTimer.stop()
+			idleTimerNotify = false
 			currentState = State.WORKING
 			hasJob = true
 		currentJob = job
@@ -412,18 +426,31 @@ func updateSprite():
 	if sex == "male":
 		if currentJob == Job.NONE:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites02.png")
-		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+		if currentJob == Job.GEM_SCRAPER:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites04.png")
+		if currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/scrapper.png")
 		if currentJob == Job.RESEARCHER:
-			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites06.png")
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/reseacher.png")
 		if currentJob == Job.FABRICATOR:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites08.png")
 	if sex == "female":
 		if currentJob == Job.NONE:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites03.png")
-		if currentJob == Job.GEM_SCRAPER or currentJob == Job.MATERIAL_ATOMIZER:
+		if currentJob == Job.GEM_SCRAPER:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites05.png")
+		if currentJob == Job.MATERIAL_ATOMIZER:
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/scrapper (2).png")
 		if currentJob == Job.RESEARCHER:
-			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites07.png")
+			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/researcher_female.png")
 		if currentJob == Job.FABRICATOR:
 			sprite.texture = load("res://Textures/Citizens/Citizens_sprites/character_sprites09.png")
+
+
+func _on_idle_timer_timeout() -> void:
+	var rand = randi_range(0,100)
+	if rand <= 50:
+		setJob(Job.GEM_SCRAPER)
+	else:
+		setJob(Job.MATERIAL_ATOMIZER)
+	setWorkDestination()

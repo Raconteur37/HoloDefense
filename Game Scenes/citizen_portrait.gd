@@ -34,7 +34,7 @@ func updatePortrait():
 	if citizen.currentJob == citizen.Job.GEM_SCRAPER:
 		portrait.texture_normal = load("res://Textures/Citizens/HDportraits/Citizen Portraits03.png")
 	if citizen.currentJob == citizen.Job.MATERIAL_ATOMIZER:
-		portrait.texture_normal = load("res://Textures/Citizens/HDportraits/Citizen Portraits03.png")
+		portrait.texture_normal = load("res://Textures/Citizens/HDportraits/material_portrait.png")
 	if citizen.currentJob == citizen.Job.RESEARCHER:
 		portrait.texture_normal = load("res://Textures/Citizens/HDportraits/Citizen Portraits02.png")
 	if citizen.currentJob == citizen.Job.FABRICATOR:

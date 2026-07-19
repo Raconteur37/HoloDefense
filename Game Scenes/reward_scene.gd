@@ -112,6 +112,7 @@ func calculateRewards():
 	
 
 func _ready():
+	PopupManager.losingPopup()
 	XpManager.saveXpData()
 	config_data = load_json("res://Config/Rewards.json")
 	var file = FileAccess.open("res://Config/Rewards.json", FileAccess.READ)

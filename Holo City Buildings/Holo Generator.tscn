@@ -205,25 +205,27 @@ text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 20"
 fit_content = true
 
 [node name="MaterialGridContainer" type="GridContainer" parent="." unique_id=1159347093]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 0
-offset_left = 35.0
-offset_top = 400.0
-offset_right = 35.0
-offset_bottom = 400.0
+offset_left = 22.0
+offset_top = 396.0
+offset_right = 42.0
+offset_bottom = 416.0
 scale = Vector2(0.8, 0.8)
 theme_override_constants/h_separation = 20
 
 [node name="GemGridContainer" type="GridContainer" parent="." unique_id=1547950966]
+custom_minimum_size = Vector2(20, 20)
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.832
 anchor_top = 0.74100006
 anchor_right = 0.85800004
 anchor_bottom = 0.78300005
-offset_left = -1428.4401
-offset_top = -400.2801
-offset_right = -1428.3601
-offset_bottom = -399.64008
+offset_left = -1403.4401
+offset_top = -405.2801
+offset_right = -1403.3601
+offset_bottom = -404.64008
 scale = Vector2(0.8, 0.8)
 theme_override_constants/h_separation = 20
 

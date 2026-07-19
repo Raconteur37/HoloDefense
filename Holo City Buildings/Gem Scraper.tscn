@@ -11,7 +11,7 @@
 [ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_wakga"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_4dxt3"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_5ct8a"]
-[ext_resource type="Texture2D" uid="uid://epojyy5tthda" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_4dxt3"]
+[ext_resource type="Texture2D" uid="uid://bmprdw32eih8g" path="res://Textures/Holo City/arrow_down_empty.svg" id="12_4dxt3"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j705"]
 animations = [{

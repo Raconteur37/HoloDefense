@@ -203,6 +203,37 @@ func playBeginRunSound():
 	UIPlayer.stream = load("res://Sounds/In Game Sounds/Begin Run.wav")
 	UIPlayer.play()
 
+func playCaptainAppear():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/commander appear.wav")
+	asoundPlayer.volume_db = 5
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
+func playCaptainLeave():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/commander leave.wav")
+	asoundPlayer.volume_db = 5
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
+func playCaptainSpeak():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/captain speak.wav")
+	asoundPlayer.pitch_scale = 1.2
+	asoundPlayer.volume_db = 1
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
 func reset():
 	if not timer.is_stopped():
 		timer.stop()

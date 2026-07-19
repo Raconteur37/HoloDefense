@@ -81,19 +81,19 @@ func setItemImage():
 			itemImage.texture = load("res://Textures/Citizens/Gems/small_gems24.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.COMMON_SCRAP:
-			itemImage.texture = load("res://Textures/Citizens/Scrap/Common Scrap.png")
+			itemImage.texture = load("res://Textures/Citizens/Scrap/small_scrap0.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.RARE_SCRAP:
-			itemImage.texture = load("res://Textures/Citizens/Scrap/Rare Scrap.png")
+			itemImage.texture = load("res://Textures/Citizens/Scrap/small_scrap2.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.SUPER_RARE_SCRAP:
-			itemImage.texture = load("res://Textures/Citizens/Scrap/Super Rare Scrap.png")
+			itemImage.texture = load("res://Textures/Citizens/Scrap/small_scrap4.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.LEGENDARY_SCRAP:
-			itemImage.texture = load("res://Textures/Citizens/Scrap/Legendary Scrap.png")
+			itemImage.texture = load("res://Textures/Citizens/Scrap/small_scrap1.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 		Item.theItem.UNSEEN_SCRAP:
-			itemImage.texture = load("res://Textures/Citizens/Scrap/Unseen Scrap.png")
+			itemImage.texture = load("res://Textures/Citizens/Scrap/small_scrap3.png")
 			mainBackground.texture = load("res://Textures/UI/Item/Copper Gem UI.png")
 
 
