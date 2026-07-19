@@ -257,28 +257,37 @@ func researchTurret(turretID):
 
 func updateUI():
 	
-	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]\n[color=gold]$"+                      str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
+	purchaseLabel.text = "[font_size=16][color=white]Purchase Research Slot[/color]\n[color=gold]$"+                     str(CityManager.researchLabSlotCost)+"[/color][/font_size]"
 	
 	var textures = [currentTurretImage1,currentTurretImage2,currentTurretImage3,currentTurretImage4,currentTurretImage5,currentTurretImage6,currentTurretImage7,currentTurretImage8,currentTurretImage9,currentTurretImage10]
-	# loop through your turrets in the selection and fill the list respectivley with the images
+	var labels = [currentTurretResearchButtonLabel1,currentTurretResearchButtonLabel2,currentTurretResearchButtonLabel3,currentTurretResearchButtonLabel4,currentTurretResearchButtonLabel5,currentTurretResearchButtonLabel6,currentTurretResearchButtonLabel7,currentTurretResearchButtonLabel8,currentTurretResearchButtonLabel9,currentTurretResearchButtonLabel10]
+	var levelDisplays = [turretLevelDisplayText1, turretLevelDisplayText2, turretLevelDisplayText3, turretLevelDisplayText4, turretLevelDisplayText5, turretLevelDisplayText6, turretLevelDisplayText7, turretLevelDisplayText8, turretLevelDisplayText9, turretLevelDisplayText10]
+	
+	turretsList.clear()
+	
 	for i in range(10):
-		if i >= 0 and i < GameManager.turretsBrought.size():
-			var texture = TurretManager.getTurretTexture(GameManager.turretsBrought[i])
-			turretsList.append(GameManager.turretsBrought[i])
+		if i < GameManager.turretsBrought.size():
+			var current_turret = GameManager.turretsBrought[i]
+			
+			var texture = TurretManager.getTurretTexture(current_turret)
+			turretsList.append(current_turret)
 			textures[i].texture = texture
 			textures[i].show()
-
-	var labels = [currentTurretResearchButtonLabel1,currentTurretResearchButtonLabel2,currentTurretResearchButtonLabel3,currentTurretResearchButtonLabel4,currentTurretResearchButtonLabel5,currentTurretResearchButtonLabel6,currentTurretResearchButtonLabel7,currentTurretResearchButtonLabel8,currentTurretResearchButtonLabel9,currentTurretResearchButtonLabel10]
-	for i in range(10):
-		if i >= 0 and i < GameManager.turretsBrought.size():
+			
 			labels[i].show()
-			labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(costMap.keys()[i]))
+			labels[i].text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] " + str(costMap.get(current_turret))
+			
+			levelDisplays[i].show()
+		else:
+			textures[i].hide()
+			labels[i].hide()
+			levelDisplays[i].hide()
 
-	textures = [researchSlotTexture1,researchSlotTexture2,researchSlotTexture3,researchSlotTexture4,researchSlotTexture5,researchSlotTexture6,researchSlotTexture7,researchSlotTexture8,researchSlotTexture9,researchSlotTexture10]
+	var researchSlotTextures = [researchSlotTexture1,researchSlotTexture2,researchSlotTexture3,researchSlotTexture4,researchSlotTexture5,researchSlotTexture6,researchSlotTexture7,researchSlotTexture8,researchSlotTexture9,researchSlotTexture10]
 	if currentSlots <= maxSlots:
 		for i in range(currentSlots):
-			textures[i].texture = load("res://Textures/Holo City/empty research slot.png")
-			textures[i].show()
+			researchSlotTextures[i].texture = load("res://Textures/Holo City/empty research slot.png")
+			researchSlotTextures[i].show()
 	
 	for item in researchBarList:
 		item.value = 0
@@ -286,7 +295,7 @@ func updateUI():
 	for i in range(10):
 		if i < currentResearchingMap.values().size():
 			var texture = TurretManager.getTurretTexture(currentResearchingMap.values()[i])
-			textures[i].texture = texture
+			researchSlotTextures[i].texture = texture
 		else:
 			break
 

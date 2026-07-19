@@ -2,72 +2,42 @@
 
 [ext_resource type="Script" uid="uid://duxa60ajs1be1" path="res://Game Scenes/commander_popup.gd" id="1_p8e4y"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="2_g47f4"]
-[ext_resource type="Texture2D" uid="uid://c1iuxbchvor2q" path="res://Textures/Citizens/Captain/holo_captain0.png" id="3_x3ayv"]
-[ext_resource type="Texture2D" uid="uid://dl7x1ed7l6suk" path="res://Textures/Citizens/HDportraits/Citizen Portraits00.png" id="4_55dbv"]
+[ext_resource type="Shader" uid="uid://cc2tvfejffklt" path="res://Shaders/CommanderPopup.gdshader" id="2_x3ayv"]
+[ext_resource type="Texture2D" uid="uid://12spurike5pi" path="res://Textures/Citizens/Captain/holo_captain0.png" id="3_x3ayv"]
+[ext_resource type="Texture2D" uid="uid://csuf03j8hd56i" path="res://Textures/Citizens/HDportraits/Citizen Portraits00.png" id="4_55dbv"]
 [ext_resource type="Script" uid="uid://0el41adfdavt" path="res://Game Scenes/speaking_label.gd" id="5_g47f4"]
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_55dbv"]
+shader = ExtResource("2_x3ayv")
+shader_parameter/chromatic_offset = 0.005
+shader_parameter/scanline_speed = 3.0
+shader_parameter/scanline_density = 40.0
+shader_parameter/scanline_opacity = 0.15
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_x3ayv"]
+shader = ExtResource("2_x3ayv")
+shader_parameter/chromatic_offset = 0.005
+shader_parameter/scanline_speed = 3.0
+shader_parameter/scanline_density = 40.0
+shader_parameter/scanline_opacity = 0.15
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_hwe54"]
+shader = ExtResource("2_x3ayv")
+shader_parameter/chromatic_offset = 0.005
+shader_parameter/scanline_speed = 3.0
+shader_parameter/scanline_density = 40.0
+shader_parameter/scanline_opacity = 0.15
 
 [sub_resource type="LabelSettings" id="LabelSettings_x3ayv"]
 font_size = 32
-font_color = Color(0.22990283, 0.8001747, 0.8284995, 1)
-
-[sub_resource type="Animation" id="Animation_g47f4"]
-resource_name = "Appear"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="Animation" id="Animation_x3ayv"]
-resource_name = "Disappear"
-length = 0.5
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 0.5),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
-}
-
-[sub_resource type="Animation" id="Animation_55dbv"]
-length = 0.001
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("Control:modulate")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0),
-"transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 1)]
-}
-
-[sub_resource type="AnimationLibrary" id="AnimationLibrary_hwe54"]
-_data = {
-&"Appear": SubResource("Animation_g47f4"),
-&"Disappear": SubResource("Animation_x3ayv"),
-&"RESET": SubResource("Animation_55dbv")
-}
+font_color = Color(0.87244934, 0.89880395, 0.93404996, 1)
 
 [node name="CommanderPopup" type="CanvasLayer" unique_id=2023091783]
+layer = 5
 script = ExtResource("1_p8e4y")
 
 [node name="Control" type="Control" parent="." unique_id=1682773135]
+material = SubResource("ShaderMaterial_55dbv")
 layout_mode = 3
 anchors_preset = 0
 offset_right = 40.0
@@ -76,6 +46,7 @@ scale = Vector2(0.5, 0.5)
 
 [node name="Background" type="TextureRect" parent="Control" unique_id=1307208586]
 modulate = Color(0.95124716, 0.95065504, 0.8849817, 1)
+material = SubResource("ShaderMaterial_x3ayv")
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
@@ -83,14 +54,16 @@ texture = ExtResource("2_g47f4")
 
 [node name="Captain" type="TextureRect" parent="Control" unique_id=1226122969]
 layout_mode = 0
-offset_left = 60.0
-offset_top = 64.0
-offset_right = 299.0
-offset_bottom = 275.0
+offset_left = 56.0
+offset_top = 66.0
+offset_right = 295.0
+offset_bottom = 277.0
 texture = ExtResource("3_x3ayv")
 expand_mode = 2
 
 [node name="CaptainPortrait" type="TextureRect" parent="Control" unique_id=818446415]
+visible = false
+material = SubResource("ShaderMaterial_hwe54")
 layout_mode = 0
 offset_left = 39.0
 offset_top = 19.0
@@ -118,8 +91,3 @@ horizontal_alignment = 1
 vertical_alignment = 1
 autowrap_mode = 2
 script = ExtResource("5_g47f4")
-
-[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=441852781]
-libraries/ = SubResource("AnimationLibrary_hwe54")
-
-[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

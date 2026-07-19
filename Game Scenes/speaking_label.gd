@@ -9,11 +9,19 @@ func startTyping(new_text: String):
 	visible_characters = 0 
 	
 	var tween = create_tween()
-	
 	var total_duration = new_text.length() * typing_speed
 	
 	tween.tween_property(self, "visible_characters", new_text.length(), total_duration)
 	
+	var sound_interval = typing_speed * 3.0 
+	
+
+	while visible_characters < new_text.length():
+		SoundManager.playCaptainSpeak() 
+
+		await get_tree().create_timer(sound_interval).timeout
+		
+
 	await get_tree().create_timer(popupScene.time).timeout
 	
-	popupScene.animationPlayer.play("Disappear")
+	popupScene.hide_popup()

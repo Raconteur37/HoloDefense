@@ -28,7 +28,7 @@ var bossEnemies: Dictionary = {"Similar": Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 # --- State Variables ---
 var currentDifficulty: int = 1
 var currentWave: int = 0
-var systemNumber: int = 1
+var systemNumber: int = 0
 var currentSystem: String = "Similar"
 var currentPhase: Phase = Phase.IDLE
 var generation: int = 0 # Increments on reset to invalidate stale closures
@@ -66,8 +66,12 @@ func beginNextSystem() -> void:
 	
 	currentSystem = "Similar"
 	
+	if systemNumber == 1:
+		PopupManager.systemStartPopup()
+	
 	if systemNumber >= 2:
-		get_tree().create_timer(randi_range(0,20), false).timeout.connect(_makeCallback(func():
+		PopupManager.systemFinishPopup()
+		get_tree().create_timer(randi_range(20,40), false).timeout.connect(_makeCallback(func():
 			PopupManager.eventNotify()
 		))
 

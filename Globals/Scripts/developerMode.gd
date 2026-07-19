@@ -31,6 +31,7 @@ func _input(event: InputEvent) -> void:
 					WaveManager.beginNextWave()
 			KEY_E:
 				if inDevMode:
+					PopupManager.eventPopup("formation")
 					EnemySpawnManager.formationEvent()
 			KEY_U:
 				if inDevMode:
