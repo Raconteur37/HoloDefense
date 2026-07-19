@@ -13,6 +13,7 @@ var default_settings: Dictionary = {
 	"Music Volume": 100,
 	"SFX": true,
 	"SFX Volume": 100,
+	"tutorial_done": false,
 	
 	# We use a nested dictionary to track which enemies have been seen.
 	# Keys will be String(enemy_id), Values will be true/false.
@@ -195,6 +196,14 @@ func has_redeemed_code(code: String) -> bool:
 		return current_settings["codesRedeemed"][code_lower]
 	return false
 
+
+func mark_tutorial_done() -> void:
+	current_settings["tutorial_done"] = true
+	save_settings()
+
+
+func is_tutorial_done() -> bool:
+	return current_settings.get("tutorial_done", false)
 
 func redeem_code(code: String) -> bool:
 	var code_lower = code.to_lower()

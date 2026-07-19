@@ -12,7 +12,7 @@ var time
 
 func _ready() -> void:
 	speakingLabel.text = ""
-	SoundManager.playCaptainAppear()
+	#SoundManager.playCaptainAppear()
 	#expression = "speaking"
 	#msg = "Commander, a rift has been spotted in our system, there is a 22% chance it will appear while we are here."
 	#time = 9
