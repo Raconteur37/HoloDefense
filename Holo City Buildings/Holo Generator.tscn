@@ -179,7 +179,7 @@ offset_right = 673.0
 offset_bottom = 1096.0
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[img=48x48]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 2000"
+text = "[img=48x48]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 0"
 fit_content = true
 
 [node name="MoneyRichLabel" type="RichTextLabel" parent="." unique_id=679291886]
@@ -190,7 +190,7 @@ offset_right = 505.0
 offset_bottom = 1117.0
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[img]res://Textures/Icons/icon_moneybag.png[/img] 2000000"
+text = "[img]res://Textures/Icons/icon_moneybag.png[/img] 0"
 fit_content = true
 
 [node name="EnergyRichLabel" type="RichTextLabel" parent="." unique_id=1118865785]
@@ -201,7 +201,7 @@ offset_right = 889.0
 offset_bottom = 1118.0
 theme_override_font_sizes/normal_font_size = 32
 bbcode_enabled = true
-text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 20"
+text = "[img]res://Textures/Icons/icon_bolt_final.png[/img] 0"
 fit_content = true
 
 [node name="MaterialGridContainer" type="GridContainer" parent="." unique_id=1159347093]
