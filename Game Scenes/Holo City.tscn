@@ -104,6 +104,6 @@ offset_top = 593.0
 offset_right = 1831.0
 offset_bottom = 633.0
 
-[node name="CharacterBody2D" parent="." unique_id=145350999 instance=ExtResource("1_a5ly5")]
+[node name="StartingCitizen" parent="." unique_id=145350999 instance=ExtResource("1_a5ly5")]
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

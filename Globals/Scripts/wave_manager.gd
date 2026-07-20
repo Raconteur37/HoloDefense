@@ -225,9 +225,7 @@ func registerActiveEnemy(enemy: Enemy) -> void:
 # --- Event System ---
 
 func scheduleEventRoll(queueSize: int) -> void:
-	# systemNumber is 0 for the whole first system and only increments in beginNextSystem(),
-	# so this compares directly against eventSystemThresh. Flip to "- 1" if you intend
-	# eventSystemThresh to line up with the displayed/first system instead.
+
 	if systemNumber < getEventSystemThresh():
 		return
 
