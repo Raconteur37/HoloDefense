@@ -1,5 +1,7 @@
 extends CanvasLayer
 
+# I made this on a plane flight lol
+
 @onready var background = $Control/Background
 @onready var captainTexture = $Control/Captain
 @onready var speakingLabel = $"Control/Speaking Label"
