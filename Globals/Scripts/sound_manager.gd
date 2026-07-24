@@ -234,6 +234,28 @@ func playCaptainSpeak():
 	
 	asoundPlayer.finished.connect(asoundPlayer.queue_free)
 
+func playMenuButtonSound():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/Button Pressed.wav")
+	asoundPlayer.pitch_scale = 1.5
+	asoundPlayer.volume_db = 1.2
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
+func playBackButtonSound():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/Button Pressed Reversed.wav")
+	asoundPlayer.pitch_scale = 1.2
+	asoundPlayer.volume_db = 1.2
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
 func reset():
 	if not timer.is_stopped():
 		timer.stop()

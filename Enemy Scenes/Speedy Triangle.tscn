@@ -19,6 +19,11 @@ uniform vec4 default_tint : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform vec4 flash_color : source_color = vec4(1.0, 1.0, 1.0, 1.0);
 uniform float flash_modifier : hint_range(0.0, 1.0) = 0.0;
 
+// --- Zombie System ---
+uniform bool is_zombie = false;
+uniform vec4 zombie_flesh_color : source_color = vec4(0.35, 0.5, 0.25, 1.0); // Sickly green
+uniform vec4 zombie_rot_color : source_color = vec4(0.15, 0.2, 0.1, 1.0);    // Dark decay
+
 // --- Target System ---
 uniform bool is_targeted = false;
 uniform vec4 target_color : source_color = vec4(1.0, 0.1, 0.1, 1.0); // Bright red crosshair
@@ -105,6 +110,23 @@ void fragment() {
     
     // Apply the Default Tint right after grabbing the texture
     base_color *= default_tint;
+
+	if (is_zombie && base_color.a > 0.0) {
+        // Base fleshy green mix over the original texture
+        base_color.rgb = mix(base_color.rgb, zombie_flesh_color.rgb, 0.85);
+        
+        // Refined melting/oozing effect
+        // We use sine waves to create vertical, drooping streaks that slowly slide downward
+        float x_distortion = sin(sample_uv.y * 10.0 + TIME * 0.5) * 0.1;
+        float melt_streak = sin((sample_uv.x + x_distortion) * 25.0);
+        float downward_flow = cos(sample_uv.y * 12.0 - TIME * 1.2);
+        
+        // Combine them into a smooth, dripping pattern
+        float melt_pattern = (melt_streak * downward_flow) * 0.5 + 0.5;
+        
+        // Add the dark rot colors smoothly into the melting crevices
+        base_color.rgb = mix(base_color.rgb, zombie_rot_color.rgb, smoothstep(0.3, 0.7, melt_pattern));
+    }
     
     // --- 2. Summoner Effect Application ---
     if (is_summoner && base_color.a > 0.0) {
@@ -275,6 +297,9 @@ shader_parameter/highlight_color = Color(1, 0.8, 0.2, 1)
 shader_parameter/default_tint = Color(0.9098039, 0.1882353, 0.33333334, 1)
 shader_parameter/flash_color = Color(1, 1, 1, 1)
 shader_parameter/flash_modifier = 0.0
+shader_parameter/is_zombie = false
+shader_parameter/zombie_flesh_color = Color(0.35, 0.5, 0.25, 1)
+shader_parameter/zombie_rot_color = Color(0.15, 0.2, 0.1, 1)
 shader_parameter/is_targeted = false
 shader_parameter/target_color = Color(1, 0.70639575, 0.10196078, 1)
 shader_parameter/target_speed = 1.5

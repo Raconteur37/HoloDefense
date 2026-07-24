@@ -68,6 +68,7 @@ func attack():
 			shotReady = false
 			
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.global_position = topSprite.global_position
 			proj.pierce = pierce
@@ -77,7 +78,7 @@ func attack():
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
-			get_parent().add_child(proj)
+
 
 			reloadTimer.start(reloadTime)
 			reloadAnimation()

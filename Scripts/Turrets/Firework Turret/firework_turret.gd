@@ -96,6 +96,7 @@ func attack():
 				return
 				
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
@@ -108,7 +109,7 @@ func attack():
 			proj.explosion = true
 			proj.explosionDamage = explosionDamage
 			proj.explosionRadius = explosionRadius
-			get_parent().add_child(proj)
+
 
 			shots -= 1
 			

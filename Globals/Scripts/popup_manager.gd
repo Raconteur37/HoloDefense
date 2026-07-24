@@ -84,6 +84,21 @@ func idleWorkerPopup():
 		commandPopup.time = 8
 		commandPopup.msg = "Commander, we have idle workers, if you don't assign them to something, I will."
 
+func clearCaptainPopups():
+	if activeCaptainPopup != null:
+		activeCaptainPopup.queue_free()
+		activeCaptainPopup = null
+
+func soloNotify():
+	if activeCaptainPopup == null:
+		var commandPopup = commanderPopup.instantiate()
+		getPopupParent().add_child(commandPopup)
+		commandPopup.expression = "speaking"
+		commandPopup.time = 8
+		commandPopup.msg = "Setup the parameters before we begin our journey."
+		commandPopup.get_child(0).global_position.x += 30
+		commandPopup.get_child(0).global_position.y += 75
+
 func enemiesIncomingPopup(timeRemaining):
 	var popScene = popup.instantiate()
 	var canvasLayer

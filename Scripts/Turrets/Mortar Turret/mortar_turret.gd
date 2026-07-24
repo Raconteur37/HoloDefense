@@ -101,7 +101,6 @@ func attack():
 
 			var proj = projectile.instantiate()
 			
-			
 			get_parent().add_child(proj)
 			
 			proj.travel_time = travelTime

@@ -1,0 +1,60 @@
+[gd_scene format=3 uid="uid://d7crbmhs2jr4"]
+
+[ext_resource type="Script" uid="uid://cojg8sh8ib2pd" path="res://Game Scenes/turret_preview.gd" id="1_56cyf"]
+[ext_resource type="Texture2D" uid="uid://b6b2j2fqpvpjm" path="res://Textures/UI/Main Menu/bg_background.png" id="2_bew52"]
+[ext_resource type="PackedScene" uid="uid://cvw7qyeaji4s7" path="res://Turret Scenes/Tesla Turret.tscn" id="3_gglmy"]
+
+[node name="TurretPreview" type="CanvasLayer" unique_id=284159951]
+script = ExtResource("1_56cyf")
+
+[node name="TextureRect2" type="TextureRect" parent="." unique_id=689357752]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("2_bew52")
+
+[node name="TurretPlace" type="Control" parent="." unique_id=373202445]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="Tesla Turret" parent="TurretPlace" unique_id=1364315204 instance=ExtResource("3_gglmy")]
+
+[node name="EnemyPlace" type="Control" parent="." unique_id=940356413]
+layout_mode = 3
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -283.0
+offset_right = 20.0
+offset_bottom = -243.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=77205515]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+mouse_filter = 0
+
+[node name="Timer" type="Timer" parent="." unique_id=1656038165]
+wait_time = 5.0
+autostart = true
+
+[connection signal="timeout" from="Timer" to="." method="_on_timer_timeout"]

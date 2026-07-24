@@ -139,7 +139,7 @@ func spawnExplosionArea() -> void:
 	area.set_collision_mask_value(1, true)
 	area.collision_layer = 1
 
-	var scene = get_tree().root.find_child("EnemyNodeHolder", true, false)
+	var scene = getTargetCanvas()
 
 	scene.add_child(area)
 	area.global_position = location
@@ -214,7 +214,7 @@ func spawnEnemyExplosion(enemy : Enemy, explosionRadius, explosionDamage) -> voi
 	area.set_collision_mask_value(1, true)
 	area.collision_layer = 1
 
-	var scene = get_tree().root.find_child("EnemyNodeHolder", true, false)
+	var scene = getTargetCanvas()
 
 	scene.add_child(area)
 	area.global_position = location
@@ -255,3 +255,20 @@ func spawnEnemyExplosion(enemy : Enemy, explosionRadius, explosionDamage) -> voi
 		await get_tree().create_timer(2.0).timeout
 		if is_instance_valid(area):
 			area.queue_free()
+
+func getTargetCanvas() -> Node:
+	var tree = get_tree()
+	if not tree:
+		return null
+		
+	var td_canvas = tree.root.find_child("EnemyNodeHolder", true, false)
+	if td_canvas:
+		return td_canvas
+		
+	var current_scene = tree.current_scene
+	if current_scene:
+		var canvas_layers = current_scene.find_children("*", "CanvasLayer")
+		if canvas_layers.size() > 0:
+			return canvas_layers[0] 
+			
+	return null

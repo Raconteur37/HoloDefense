@@ -168,7 +168,7 @@ func initZombie() -> void:
 		return
 	initialTurn = true
 	WaveManager.removeActiveEnemy(self)
-	modulate = Color(0.085, 0.987, 0.138, 1.0)
+	sprite.material.set_shader_parameter("is_zombie", true)
 	spawnZombieArea()
 	destination = EnemySpawnManager.getRandomOffscreenPosition()
 	set_collision_layer_value(3,false)

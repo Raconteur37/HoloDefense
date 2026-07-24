@@ -88,8 +88,9 @@ func attack():
 		if is_instance_valid(enemy) and isPlaced:
 			
 			shotReady = false
-			
+
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
@@ -97,7 +98,7 @@ func attack():
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
-			get_parent().add_child(proj)
+
 
 			reloadTimer.start()
 			reloadAnimation()

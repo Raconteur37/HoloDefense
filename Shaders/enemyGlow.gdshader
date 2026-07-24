@@ -1,5 +1,10 @@
 shader_type canvas_item;
 
+// --- Zombie System ---
+uniform bool is_zombie = false;
+uniform vec4 zombie_flesh_color : source_color = vec4(0.35, 0.5, 0.25, 1.0); // Sickly green
+uniform vec4 zombie_rot_color : source_color = vec4(0.15, 0.2, 0.1, 1.0);    // Dar
+
 // --- Highlight System ---
 uniform bool is_highlighted = false;
 uniform vec4 highlight_color : source_color = vec4(1.0, 0.8, 0.2, 1.0); // Bright yellow/gold
@@ -97,6 +102,23 @@ void fragment() {
     
     // Apply the Default Tint right after grabbing the texture
     base_color *= default_tint;
+
+	if (is_zombie && base_color.a > 0.0) {
+        // Base fleshy green mix over the original texture
+        base_color.rgb = mix(base_color.rgb, zombie_flesh_color.rgb, 0.85);
+        
+        // Refined melting/oozing effect
+        // We use sine waves to create vertical, drooping streaks that slowly slide downward
+        float x_distortion = sin(sample_uv.y * 10.0 + TIME * 0.5) * 0.1;
+        float melt_streak = sin((sample_uv.x + x_distortion) * 25.0);
+        float downward_flow = cos(sample_uv.y * 12.0 - TIME * 1.2);
+        
+        // Combine them into a smooth, dripping pattern
+        float melt_pattern = (melt_streak * downward_flow) * 0.5 + 0.5;
+        
+        // Add the dark rot colors smoothly into the melting crevices
+        base_color.rgb = mix(base_color.rgb, zombie_rot_color.rgb, smoothstep(0.3, 0.7, melt_pattern));
+    }
     
     // --- 2. Summoner Effect Application ---
     if (is_summoner && base_color.a > 0.0) {

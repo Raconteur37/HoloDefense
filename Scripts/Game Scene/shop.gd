@@ -153,6 +153,10 @@ func _on_code_button_pressed() -> void:
 	if SettingsManager.redeem_code(input_string):
 		
 		match input_string:
+			"superduperdev!":
+				EconomyManager.add_stardust(9999999999)
+				updateLabels()
+				EconomyManager.save_economy()
 			"awesomeel218":
 				EconomyManager.unlock_turret(Turret.TurretID.SNIPER_TURRET)
 			"superrare420":
