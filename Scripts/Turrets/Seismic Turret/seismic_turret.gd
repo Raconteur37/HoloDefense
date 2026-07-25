@@ -15,8 +15,8 @@ var baseChainRange
 
 func _ready() -> void:
 	rarity = Rarity.RARE
-	type = Type.Elemental
 	turretID = TurretID.SEISMIC_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName =  TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

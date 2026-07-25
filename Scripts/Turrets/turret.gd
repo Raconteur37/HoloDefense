@@ -61,7 +61,7 @@ var preview : bool = true
 
 enum Rarity { COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
 var rarity : Rarity
-enum Type {Midieval, Modern, Future, Elemental, Armory, Dark, Biological, Magic, Idk}
+enum Type {CONSISTENT, SUPPORTIVE, CHAOTIC, DEBUFFER, TANKY, CONTROLLING, FORTUITOUS, EXPLOSIVE, SUMMONER, IMPACTFUL}
 var type : Type
 var turretID : TurretID
 

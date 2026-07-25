@@ -22,8 +22,8 @@ func _ready() -> void:
 
 
 	rarity = Rarity.UNSEEN
-	type = Type.Dark
 	turretID = TurretID.ZOMBIE_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

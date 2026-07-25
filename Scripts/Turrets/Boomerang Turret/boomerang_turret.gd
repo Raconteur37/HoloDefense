@@ -9,8 +9,8 @@ var pierceScale
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/boomerang.tscn")
 	rarity = Rarity.COMMON
-	type = Type.Dark
 	turretID = TurretID.BOOMERANG_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID, "name")
 	price = TurretManager.getTurretStat(turretID, "price")
 	maxHealth = TurretManager.getTurretStat(turretID, "health")

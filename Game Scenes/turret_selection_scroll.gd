@@ -2,8 +2,11 @@ extends Control
 
 @onready var scroll = $ScrollContainer
 @onready var hbox = $ScrollContainer/HBoxContainer
-
+@onready var bringingGrid = $"../BringingGrid"
 @onready var preview = $"../SubViewportContainer/SubViewport/TurretPreview"
+@onready var turretTittleLabel = $"../../TurretTitle"
+@onready var typeLabel = $"../../TypeLabel"
+
 
 var broughtArray: Array = []
 var player_ready_states: Dictionary = {}
@@ -61,22 +64,32 @@ func add_turret_button(turretID):
 func add_remove_button(turretID):
 	var btn = Button.new()
 	btn.icon = TurretManager.getTurretTexture(turretID)
-	btn.custom_minimum_size = Vector2(150, 150)
+	
+	btn.flat = true 
+	btn.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER 
+	
+	btn.custom_minimum_size = Vector2(24, 24)
 	btn.expand_icon = true
 	btn.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
+	
+	btn.mouse_entered.connect(func(): btn.modulate = Color(1.5, 1.5, 1.5, 1.0))
+
+	btn.mouse_exited.connect(func(): btn.modulate = Color.WHITE)
+	
 	btn.pressed.connect(_on_remove_button_pressed.bind(btn, turretID))
 	
-	# Connect the hover signal here as well so the preview updates for selected turrets
 	btn.mouse_entered.connect(_on_button_hovered.bind(turretID))
 	
-	#bringingGrid.add_child(btn)
+	bringingGrid.add_child(btn)
 
 
 func _on_button_hovered(turretID) -> void:
-	# Ensure the preview node exists and has the method before calling it to prevent crashes
+
 	if preview and preview.has_method("buildPreview"):
 		preview.buildPreview(turretID)
+	turretTittleLabel.text = TurretManager.getTurretStat(turretID,"name")
+	typeLabel.text = TurretManager.getColorRawType(turretID)
 
 
 func _on_turret_button_pressed(btn, turretID):

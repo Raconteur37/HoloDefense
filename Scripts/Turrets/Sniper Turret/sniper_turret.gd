@@ -17,10 +17,10 @@ var targetEnemy
 func _ready() -> void:
 
 	rarity = Rarity.COMMON
-	type = Type.Midieval
 	turretID = TurretID.SNIPER_TURRET
 
 	projectile = "placeholder"
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	baseHealth = TurretManager.getTurretStat(turretID,"health")

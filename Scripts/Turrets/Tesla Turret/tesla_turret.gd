@@ -26,8 +26,8 @@ func _ready() -> void:
 	projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
 
 	rarity = Rarity.SUPER_RARE
-	type = Type.Elemental
 	turretID = TurretID.TESLA_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

@@ -28,8 +28,8 @@ func onDeath():
 
 func _ready() -> void:
 	rarity = Rarity.RARE
-	type = Type.Future
 	turretID = TurretID.ENERGIZER_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID, "name")
 	price = TurretManager.getTurretStat(turretID, "price")
 	maxHealth = TurretManager.getTurretStat(turretID, "health")

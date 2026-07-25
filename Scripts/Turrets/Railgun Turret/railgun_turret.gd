@@ -14,8 +14,8 @@ func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
 
 	rarity = Rarity.RARE
-	type = Type.Armory
 	turretID = TurretID.RAILGUN_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

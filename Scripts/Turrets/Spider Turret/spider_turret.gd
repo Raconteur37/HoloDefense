@@ -17,8 +17,8 @@ var webDuration
 
 func _ready() -> void:
 	rarity = Rarity.COMMON
-	type = Type.Biological
 	turretID = TurretID.SPIDER_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

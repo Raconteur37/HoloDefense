@@ -203,7 +203,7 @@ func onKill(source: Node, enemy: Enemy) -> void:
 
 	
 	if source is Turret or source.is_in_group("Minion"):
-		if not source.preview:
+		if source.preview:
 			ParticleManager.playDeathParticle(enemy)
 			enemy.queue_free()
 			return

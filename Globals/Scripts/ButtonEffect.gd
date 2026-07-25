@@ -58,6 +58,8 @@ func findButtonSound(buttonName):
 			SoundManager.playMenuButtonSound()
 		"Challenge Button":
 			SoundManager.playMenuButtonSound()
+		"Sandbox Button":
+			SoundManager.playMenuButtonSound()
 
 func findNextProcess(buttonName):
 	match buttonName:

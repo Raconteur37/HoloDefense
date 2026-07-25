@@ -40,8 +40,8 @@ func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/gold coin.tscn")
 
 	rarity = Rarity.LEGENDARY
-	type = Type.Midieval
 	turretID = TurretID.GOLD_MINE_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

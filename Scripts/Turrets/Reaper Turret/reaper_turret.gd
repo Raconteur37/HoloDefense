@@ -14,8 +14,8 @@ var executionHold
 func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/sythe.tscn")
 	rarity = Rarity.SUPER_RARE
-	type = Type.Dark
 	turretID = TurretID.REAPER_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

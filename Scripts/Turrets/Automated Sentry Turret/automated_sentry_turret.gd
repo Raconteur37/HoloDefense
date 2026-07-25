@@ -24,9 +24,9 @@ var shooting : bool = false
 
 func _ready() -> void:
 	rarity = Rarity.RARE
-	type = Type.Armory
 	turretID = TurretID.SENTRY_TURRET
 
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")

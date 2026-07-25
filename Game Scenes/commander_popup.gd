@@ -4,8 +4,8 @@ extends CanvasLayer
 
 @onready var background = $Control/Background
 @onready var captainTexture = $Control/Captain
-@onready var speakingLabel = $"Control/Speaking Label"
-
+@onready var speakingLabel = $"Control2/Speaking Label"
+@onready var labelHolder = $Control2
 @onready var main_control = $Control
 
 var expression
@@ -18,7 +18,9 @@ func _ready() -> void:
 	#expression = "speaking"
 	#msg = "Commander, a rift has been spotted in our system, there is a 22% chance it will appear while we are here."
 	#time = 9
-	
+	labelHolder.global_position = main_control.global_position
+	labelHolder.global_position.x += 136
+	labelHolder.global_position.y += 80
 	show_popup()
 
 func initiatePopup():

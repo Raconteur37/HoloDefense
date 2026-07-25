@@ -26,8 +26,8 @@ var baseBurnTime
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
-	type = Type.Idk
 	turretID = TurretID.FIREWORK_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
