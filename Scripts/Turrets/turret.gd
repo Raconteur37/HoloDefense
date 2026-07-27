@@ -57,7 +57,7 @@ var projectile
 
 var menu
 
-var preview : bool = true
+var preview : bool = false
 
 enum Rarity { COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
 var rarity : Rarity

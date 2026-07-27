@@ -70,7 +70,7 @@ func findNextProcess(buttonName):
 			get_tree().current_scene.find_child("GenericButtonHolder").show()
 			get_tree().current_scene.find_child("Play Button Holder").hide()
 			get_tree().current_scene.find_child("Solo Frame").hide()
-			SoundManager.stopLoadoutMusic()
+			SoundManager.stopMusic()
 		"Play Button":
 			get_tree().current_scene.find_child("Play Button Holder").show()
 			get_tree().current_scene.find_child("GenericButtonHolder").hide()

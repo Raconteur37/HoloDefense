@@ -201,6 +201,10 @@ func onKill(source: Node, enemy: Enemy) -> void:
 	var enemyName = enemy.getName()
 	var tier = enemy.tier
 
+	if source == null:
+		ParticleManager.playDeathParticle(enemy)
+		enemy.queue_free()
+		return
 	
 	if source is Turret or source.is_in_group("Minion"):
 		if source.preview:

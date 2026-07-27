@@ -34,13 +34,13 @@ func stopBossWaveSound():
 	)
 
 func playGameOverMusic(win):
-	stopActiveMusic()
+	stopMusic()
 	await get_tree().create_timer(1.6).timeout
 	musicPlayer.volume_db = .1
 	if win:
 		pass
 	else:
-		musicPlayer.stream = load("res://Sounds/Music/GameOverNotBad.mp3")
+		musicPlayer.stream = load("res://Sounds/Music/Game Over.mp3")
 	musicPlayer.play()
 	var tween = create_tween()
 	
@@ -93,26 +93,31 @@ func setMusicVolume(value: float):
 	musicVolume = value
 	var bus_idx = AudioServer.get_bus_index(MUSIC_BUS_NAME)
 	
-	# Convert 0-100 to 0.0-1.0
 	var linear_volume = musicVolume / 100.0
 	
 	if linear_volume <= 0:
 		AudioServer.set_bus_mute(bus_idx, true)
 	else:
 		AudioServer.set_bus_mute(bus_idx, false)
-		# Use linear_to_db for smooth, natural volume scaling
+
 		AudioServer.set_bus_volume_db(bus_idx, linear_to_db(linear_volume))
 
 func playInWaveMusic():
 	musicPlayer.volume_db = 0
-	if musicOn and not musicPlayer.playing:
+	if musicOn:
 		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
 		musicPlayer.play()
 
 func playLoadoutMusic():
-	if musicOn and not musicPlayer.playing:
+	if musicOn:
+		musicPlayer.volume_db = 3
+		musicPlayer.stream = load("res://Sounds/Music/Loadout.mp3")
+		musicPlayer.play()
+
+func playTurretMusic():
+	if musicOn:
 		musicPlayer.volume_db = 5
-		musicPlayer.stream = load("res://Sounds/Music/Loudout Menu Music.mp3")
+		musicPlayer.stream = load("res://Sounds/Music/Turret Info Music.mp3")
 		musicPlayer.play()
 
 func playPieceUnlockedSound():
@@ -120,19 +125,10 @@ func playPieceUnlockedSound():
 	UIPlayer.volume_db = 5
 	UIPlayer.play()
 
-func stopLoadoutMusic():
+func stopMusic():
 	var tween = create_tween()
 	
-	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
-	
-	tween.tween_callback(musicPlayer.stop)
-
-func stopActiveMusic():
-	var tween = create_tween()
-	
-	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
-	
-	tween.tween_callback(musicPlayer.stop)
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 0.5)
 
 func cityLevelUp():
 	var asoundPlayer = AudioStreamPlayer2D.new()
@@ -192,9 +188,6 @@ func startTimer(time : float):
 
 func _on_timer_timeout() -> void:
 	playInWaveMusic()
-
-func stopMusic():
-	musicPlayer.stop()
 
 func playStartButtonSound():
 	UIPlayer.stream = load("res://Sounds/In Game Sounds/Start Run Button.wav")

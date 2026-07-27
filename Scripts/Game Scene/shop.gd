@@ -31,11 +31,6 @@ func _ready() -> void:
 	updateLabels()
 
 
-# Called every frame. 'delta' is the elapsed time since the previous frame.
-func _process(delta: float) -> void:
-	pass
-
-
 func updateLabels():
 	commonFragmentLabel.text = str(EconomyManager.get_shard_fragments("common_turret"))
 	rareFragmentLabel.text = str(EconomyManager.get_shard_fragments("rare_turret"))
