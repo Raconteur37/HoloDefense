@@ -224,7 +224,8 @@ func playCaptainLeave():
 func playCaptainSpeak():
 	var asoundPlayer = AudioStreamPlayer2D.new()
 	asoundPlayer.stream = load("res://Sounds/UI Sounds/captain speak.wav")
-	asoundPlayer.pitch_scale = 1.2
+	#asoundPlayer.pitch_scale = 0.9
+	asoundPlayer.pitch_scale = randf_range(0.9,0.95)
 	asoundPlayer.volume_db = 1
 	
 	add_child(asoundPlayer)
