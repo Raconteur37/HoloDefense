@@ -137,7 +137,7 @@ func summonMinion():
 		knight.attackTime = knightAttackTime
 		knight.turretOwner = self
 
-		knight.global_position = to_local(global_position)
+		knight.position = position
 		knight.velocity = Vector2(randi_range(-1,1),randi_range(-1,1)).normalized() * 500
 
 		currentMinions.append(knight)
