@@ -48,6 +48,8 @@ func playGameOverMusic(win):
 	tween.tween_property(musicPlayer, "volume_db", 5, 2)
 
 func playGenericKillSound():
+	if soundPlayer.pitch_scale != 1:
+		soundPlayer.pitch_scale = 1
 	soundPlayer.stream = load("res://Sounds/In Game Sounds/kill.wav")
 	soundPlayer.play()
 
@@ -104,7 +106,7 @@ func setMusicVolume(value: float):
 
 func playInWaveMusic():
 	musicPlayer.volume_db = 0
-	if musicOn:
+	if musicOn and not musicPlayer.playing:
 		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
 		musicPlayer.play()
 
@@ -129,6 +131,8 @@ func stopMusic():
 	var tween = create_tween()
 	
 	tween.tween_property(musicPlayer, "volume_db", -80.0, 0.5)
+	
+	tween.tween_callback(musicPlayer.stop)
 
 func cityLevelUp():
 	var asoundPlayer = AudioStreamPlayer2D.new()
