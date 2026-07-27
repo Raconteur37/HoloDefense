@@ -13,6 +13,8 @@ var canvasLayer
 
 var sex
 
+var tutorial = false
+
 var citizenSelectUi
 
 @onready var citName : String 
@@ -448,9 +450,10 @@ func updateSprite():
 
 
 func _on_idle_timer_timeout() -> void:
-	var rand = randi_range(0,100)
-	if rand <= 50:
-		setJob(Job.GEM_SCRAPER)
-	else:
-		setJob(Job.MATERIAL_ATOMIZER)
-	setWorkDestination()
+	if not tutorial:
+		var rand = randi_range(0,100)
+		if rand <= 50:
+			setJob(Job.GEM_SCRAPER)
+		else:
+			setJob(Job.MATERIAL_ATOMIZER)
+		setWorkDestination()

@@ -7,7 +7,9 @@
 [ext_resource type="Script" uid="uid://drpv1stjo0bqk" path="res://Game Scenes/transitionT.gd" id="3_cemk1"]
 [ext_resource type="PackedScene" uid="uid://bt48rpule0qcq" path="res://Game Scenes/Holo City.tscn" id="4_iw6a6"]
 [ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="6_35g7l"]
+[ext_resource type="Shader" uid="uid://cp0pkusqt5dat" path="res://Shaders/Portal.gdshader" id="8_fpifq"]
 [ext_resource type="Script" uid="uid://bj28g8j6vbp2p" path="res://Game Scenes/system_label.gd" id="8_h7tih"]
+[ext_resource type="Script" uid="uid://duv3dutwign4b" path="res://Game Scenes/portal_image.gd" id="9_sq2g1"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cemk1"]
 shader = ExtResource("2_iw6a6")
@@ -33,38 +35,86 @@ length = 0.001
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/0/path = NodePath("CityCanvas:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
-"update": 0,
-"values": [Color(1, 1, 1, 0)]
+"update": 1,
+"values": [true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CityCanvas:visible")
+tracks/1/path = NodePath("WaveData:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [true]
+"values": [false]
 }
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("WaveData:visible")
+tracks/2/path = NodePath("AnimationPlayer/CanvasLayer/PortalImage:material:shader_parameter/holo_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
 "times": PackedFloat32Array(0),
 "transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0, 0.5, 1, 1)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer/CanvasLayer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
 "values": [false]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer/CanvasLayer/PortalImage:material:shader_parameter/overdrive_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 0, 0.40018785, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 0.42400002)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer/CanvasLayer/System Label:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
 }
 
 [sub_resource type="Animation" id="Animation_h7tih"]
@@ -73,23 +123,23 @@ length = 8.0
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
-tracks/0/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/0/path = NodePath("CityCanvas:visible")
 tracks/0/interp = 1
 tracks/0/loop_wrap = true
 tracks/0/keys = {
-"times": PackedFloat32Array(0, 4.0333333, 7),
-"transitions": PackedFloat32Array(1, 1, 1),
-"update": 0,
-"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+"times": PackedFloat32Array(0, 6),
+"transitions": PackedFloat32Array(1, 1),
+"update": 1,
+"values": [false, true]
 }
 tracks/1/type = "value"
 tracks/1/imported = false
 tracks/1/enabled = true
-tracks/1/path = NodePath("CityCanvas:visible")
+tracks/1/path = NodePath("WaveData:visible")
 tracks/1/interp = 1
 tracks/1/loop_wrap = true
 tracks/1/keys = {
-"times": PackedFloat32Array(0, 4),
+"times": PackedFloat32Array(0, 6),
 "transitions": PackedFloat32Array(1, 1),
 "update": 1,
 "values": [false, true]
@@ -97,14 +147,62 @@ tracks/1/keys = {
 tracks/2/type = "value"
 tracks/2/imported = false
 tracks/2/enabled = true
-tracks/2/path = NodePath("WaveData:visible")
+tracks/2/path = NodePath("AnimationPlayer/CanvasLayer/PortalImage:material:shader_parameter/holo_color")
 tracks/2/interp = 1
 tracks/2/loop_wrap = true
 tracks/2/keys = {
-"times": PackedFloat32Array(0, 7.0333333),
-"transitions": PackedFloat32Array(1, 1),
+"times": PackedFloat32Array(0, 3.5333333, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(0.36189318, 0.6796954, 1, 0), Color(0, 0.5, 1, 1), Color(0, 0.49995556, 1, 0)]
+}
+tracks/3/type = "value"
+tracks/3/imported = false
+tracks/3/enabled = true
+tracks/3/path = NodePath("AnimationPlayer/CanvasLayer:visible")
+tracks/3/interp = 1
+tracks/3/loop_wrap = true
+tracks/3/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
 "update": 1,
-"values": [false, true]
+"values": [true]
+}
+tracks/4/type = "value"
+tracks/4/imported = false
+tracks/4/enabled = true
+tracks/4/path = NodePath("AnimationPlayer/CanvasLayer/PortalImage:material:shader_parameter/overdrive_color")
+tracks/4/interp = 1
+tracks/4/loop_wrap = true
+tracks/4/keys = {
+"times": PackedFloat32Array(0, 3.5, 6),
+"transitions": PackedFloat32Array(1, 1, 1),
+"update": 0,
+"values": [Color(1, 0, 0.40018785, 0), Color(1, 0, 0.4, 1), Color(1, 0, 0.40018785, 0)]
+}
+tracks/5/type = "value"
+tracks/5/imported = false
+tracks/5/enabled = true
+tracks/5/path = NodePath("AnimationPlayer/CanvasLayer/TextureRect:modulate")
+tracks/5/interp = 1
+tracks/5/loop_wrap = true
+tracks/5/keys = {
+"times": PackedFloat32Array(6.0666666, 8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+tracks/6/type = "value"
+tracks/6/imported = false
+tracks/6/enabled = true
+tracks/6/path = NodePath("AnimationPlayer/CanvasLayer/System Label:modulate")
+tracks/6/interp = 1
+tracks/6/loop_wrap = true
+tracks/6/keys = {
+"times": PackedFloat32Array(7, 8),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
 }
 
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_reft1"]
@@ -113,8 +211,20 @@ _data = {
 &"RunIntro": SubResource("Animation_h7tih")
 }
 
+[sub_resource type="Gradient" id="Gradient_fpifq"]
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
+
+[sub_resource type="GradientTexture2D" id="GradientTexture2D_sq2g1"]
+gradient = SubResource("Gradient_fpifq")
+
+[sub_resource type="ShaderMaterial" id="ShaderMaterial_cywrt"]
+shader = ExtResource("8_fpifq")
+shader_parameter/intensity = 1.0
+shader_parameter/holo_color = Color(0, 0.5, 1, 1)
+shader_parameter/overdrive_color = Color(1, 0, 0.40018785, 0)
+
 [sub_resource type="Gradient" id="Gradient_jek5h"]
-colors = PackedColorArray(0.18039216, 0.17254902, 0.23137255, 1, 0.24313726, 0.25490198, 0.37254903, 1)
+colors = PackedColorArray(0, 0, 0, 1, 0, 0, 0, 1)
 
 [sub_resource type="GradientTexture2D" id="GradientTexture2D_h7tih"]
 gradient = SubResource("Gradient_jek5h")
@@ -123,12 +233,12 @@ fill_to = Vector2(0.52136755, 1)
 
 [sub_resource type="LabelSettings" id="LabelSettings_fpifq"]
 font_size = 32
-font_color = Color(0.16470589, 0.6431373, 0.6666667, 1)
 
 [node name="Game" type="Node2D" unique_id=408729152]
 script = ExtResource("1_lgx4p")
 
 [node name="transition" type="ColorRect" parent="." unique_id=58088488]
+visible = false
 z_index = 1
 material = SubResource("ShaderMaterial_cemk1")
 custom_minimum_size = Vector2(1920, 1080)
@@ -278,26 +388,41 @@ libraries/ = SubResource("AnimationLibrary_reft1")
 
 [node name="CanvasLayer" type="CanvasLayer" parent="AnimationPlayer" unique_id=367395210]
 layer = 2
+visible = false
 
-[node name="TextureRect" type="TextureRect" parent="AnimationPlayer/CanvasLayer" unique_id=119957990]
-modulate = Color(1, 1, 1, 0)
+[node name="TextureRect" type="TextureRect" parent="AnimationPlayer/CanvasLayer" unique_id=519695636]
+modulate = Color(1, 1, 1, 0.42400002)
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
 grow_horizontal = 2
 grow_vertical = 2
-texture = SubResource("GradientTexture2D_h7tih")
+texture = SubResource("GradientTexture2D_sq2g1")
 
-[node name="System Label" type="Label" parent="AnimationPlayer/CanvasLayer/TextureRect" unique_id=1062073269]
-layout_mode = 1
+[node name="PortalImage" type="TextureRect" parent="AnimationPlayer/CanvasLayer" unique_id=119957990]
+material = SubResource("ShaderMaterial_cywrt")
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -544.0
+offset_top = -230.0
+offset_right = -544.0
+offset_bottom = -230.0
+grow_horizontal = 2
+grow_vertical = 2
+scale = Vector2(1.5, 1.5)
+texture = SubResource("GradientTexture2D_h7tih")
+script = ExtResource("9_sq2g1")
+
+[node name="System Label" type="Label" parent="AnimationPlayer/CanvasLayer" unique_id=1062073269]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -229.0
+offset_left = -227.5
 offset_top = -19.5
-offset_right = 226.0
+offset_right = 227.5
 offset_bottom = 19.5
 grow_horizontal = 2
 grow_vertical = 2

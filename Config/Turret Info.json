@@ -93,7 +93,7 @@
 		"levelTwo": "Has a chance to creates 2 archers that attack enemies, arrows inherit Arrow Turret level properties.",
 		"levelThree": "Has a chance to create a bard that heals archers and knights",
 		"rarity": "Super Rare",
-		"type": "Controlling",
+		"type": "Summoner",
 		"price": 80.0,
 		"armor": 35.0,
 		"health": 20.0,

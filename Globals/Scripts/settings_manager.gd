@@ -36,7 +36,8 @@ var default_settings: Dictionary = {
 	"codesRedeemed": {
 	"awesomeel218": false,
 	"superrare420": false,
-	"ohemgee": false
+	"ohemgee": false,
+	"superduperdev!": false
 	}
 }
 

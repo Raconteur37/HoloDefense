@@ -35,7 +35,7 @@ var fabricator
 func _ready() -> void:
 	randomize()
 	if turretTempLevels.size() < 1:
-		for item in turretsBrought:
+		for item in TurretManager.ALL_TURRETS:
 			turretTempLevels[item] = 0
 	if DeveloperMode.inDevMode:
 		turretStorage = {Turret.TurretID.MEDIC_TURRET : 99,Turret.TurretID.ENERGIZER_TURRET : 99,Turret.TurretID.ZOMBIE_TURRET : 99,Turret.TurretID.BOOMERANG_TURRET : 99, Turret.TurretID.BUBBLE_TURRET : 99,
@@ -78,6 +78,8 @@ func removeTurretFromStorage(turretID,amount):
 func getTurretTempLevel(turretID):
 	if turretTempLevels.has(turretID):
 		return turretTempLevels.get(turretID)
+	else:
+		return 0
 
 func updateTurretLevels(turretID):
 	if turretsPlaced.has(turretID):

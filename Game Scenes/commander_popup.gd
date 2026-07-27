@@ -1,9 +1,10 @@
 extends CanvasLayer
 
+# I made this on a plane flight lol
+
 @onready var background = $Control/Background
 @onready var captainTexture = $Control/Captain
 @onready var speakingLabel = $"Control/Speaking Label"
-
 @onready var main_control = $Control
 
 var expression
@@ -16,7 +17,6 @@ func _ready() -> void:
 	#expression = "speaking"
 	#msg = "Commander, a rift has been spotted in our system, there is a 22% chance it will appear while we are here."
 	#time = 9
-	
 	show_popup()
 
 func initiatePopup():

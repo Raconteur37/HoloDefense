@@ -8,6 +8,9 @@
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_jqcys"]
 resource_local_to_scene = true
 shader = ExtResource("2_jqcys")
+shader_parameter/is_zombie = false
+shader_parameter/zombie_flesh_color = Color(0.35, 0.5, 0.25, 1)
+shader_parameter/zombie_rot_color = Color(0.15, 0.2, 0.1, 1)
 shader_parameter/is_highlighted = false
 shader_parameter/highlight_color = Color(1, 0.8, 0.2, 1)
 shader_parameter/default_tint = Color(1, 0.3529412, 1, 1)

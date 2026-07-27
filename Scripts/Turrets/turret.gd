@@ -57,9 +57,11 @@ var projectile
 
 var menu
 
+var preview : bool = true
+
 enum Rarity { COMMON, RARE, SUPER_RARE, LEGENDARY, UNSEEN}
 var rarity : Rarity
-enum Type {Midieval, Modern, Future, Elemental, Armory, Dark, Biological, Magic, Idk}
+enum Type {CONSISTENT, SUPPORTIVE, CHAOTIC, DEBUFFER, TANKY, CONTROLLING, FORTUITOUS, EXPLOSIVE, SUMMONER, IMPACTFUL}
 var type : Type
 var turretID : TurretID
 
@@ -208,6 +210,8 @@ func getCost():
 	return price
 
 func refreshUI(turretInstance):
+	if preview:
+		return
 	if not turretInstance is Dummy:
 		if turretInstance.rangeIndicator.visible:
 			var bottomUI = get_tree().current_scene
@@ -232,6 +236,8 @@ func showUI(turretInstance):
 	)
 
 func hideUI():
+	if preview:
+		return
 	if not self is Dummy:
 		rangeIndicator.hide()
 		if hideTimer != null:

@@ -214,6 +214,59 @@ func getTurretIdFromString(turret_str: String) -> int:
 	return -1
 
 
+func getTurretTypeEnum(id: Turret.TurretID) -> Turret.Type:
+	var type_str = getTurretStat(id, "type", "")
+	
+	if type_str == "":
+		push_warning("Turret Manager: No type found for turret ID " + str(id) + ". Defaulting to CONSISTENT.")
+		return Turret.Type.CONSISTENT
+		
+	var upper_name = type_str.to_upper().replace(" ", "_")
+	
+	if Turret.Type.has(upper_name):
+		return Turret.Type.get(upper_name)
+		
+	push_error("Turret Manager: Could not find Turret.Type enum for string '%s'" % type_str)
+	return Turret.Type.CONSISTENT # Fallback default
+
+func getTurretTypeStringByID(id: Turret.TurretID) -> String:
+
+	var type_enum = getTurretTypeEnum(id)
+	
+	var raw_string = Turret.Type.keys()[type_enum]
+	
+	var formatted_string = raw_string.substr(0, 1).to_upper() + raw_string.substr(1).to_lower()
+	
+	return formatted_string
+
+func getColorRawType(id: Turret.TurretID):
+	
+	var raw = getTurretTypeStringByID(id)
+	
+	match raw.to_lower():
+		"consistent":
+			return "[steel]Consistent[/steel]"
+		"impactful":
+			return "[impactful]✧Impactful✧[/impactful]"
+		"supportive":
+			return "[supportive]◇Supportive◇[/supportive]"
+		"fortuitous":
+			return "[fortuitous]Fortuitous[/fortuitous]"
+		"explosive":
+			return "[explosive]Explosive[/explosive]"
+		"chaotic":
+			return "[chaotic]⟳Chaotic⟳[/chaotic]"
+		"debuffer":
+			return "[debuffer]↓Debuffer↓[/debuffer]"
+		"tanky":
+			return "[tanky]⛨Tanky⛨[/tanky]"
+		"summoner":
+			return "[summoner]Summoner[/summoner]"
+		"controlling":
+			return "[controlling speed=3.0]Controlling[/controlling]"
+		_:
+			return "balls"
+
 # --- LABEL GENERATION ---
 
 # Helper to remove label boilerplate

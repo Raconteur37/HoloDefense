@@ -93,24 +93,28 @@ func applyProjectileEffects(packet: DamagePacket, enemy: Enemy) -> void:
 
 	if EffectClass.Effect.BURN in packet.effects:
 		EffectManager.applyBurnEffect(enemy, turret, packet.effectData.get("burnDamage", 0), packet.effectData.get("burnTime", 0))
-		StatManager.addStat(turret.turretID, "enemies_ignited", 1)
-		XpManager.addXp(turret.turretID)
+		if not turret.preview:
+			StatManager.addStat(turret.turretID, "enemies_ignited", 1)
+			XpManager.addXp(turret.turretID)
 		
 	if EffectClass.Effect.POISON in packet.effects:
 		EffectManager.applyPoisonEffect(enemy, turret, packet.effectData.get("poisonDamage", 0), packet.effectData.get("poisonTime", 0))
-		StatManager.addStat(turret.turretID, "enemies_poisoned", 1)
-		XpManager.addXp(turret.turretID)
+		if not turret.preview:
+			StatManager.addStat(turret.turretID, "enemies_poisoned", 1)
+			XpManager.addXp(turret.turretID)
 		
 	if EffectClass.Effect.CURSE in packet.effects:
 		EffectManager.applyCurseEffect(enemy, turret, packet.effectData.get("curseTime", 0), packet.effectData.get("curseDamageAmp", 0))
-		StatManager.addStat(turret.turretID, "enemies_cursed", 1)
-		XpManager.addXp(turret.turretID)
+		if not turret.preview:
+			StatManager.addStat(turret.turretID, "enemies_cursed", 1)
+			XpManager.addXp(turret.turretID)
 		
 	if EffectClass.Effect.EXECUTE in packet.effects:
 		ParticleManager.playExecutionParticle(enemy)
 		killEnemy(turret, enemy)
-		StatManager.addStat(turret.turretID, "enemies_executed", 1)
-		XpManager.addXp(turret.turretID)
+		if not turret.preview:
+			StatManager.addStat(turret.turretID, "enemies_executed", 1)
+			XpManager.addXp(turret.turretID)
 		
 	if EffectClass.Effect.EXPLOSION in packet.effects:
 		ExplosionManager.summonExplosion(turret, enemy.global_position, packet.effectData)
@@ -124,6 +128,8 @@ func killEnemy(source: Node, enemy: Enemy) -> void:
 
 
 func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) -> void:
+	if entity is Turret and entity.preview:
+		return
 	if is_instance_valid(damager):
 		if damager is Enemy:
 			if damager.effects.has(EffectClass.Effect.CURSE):
@@ -194,7 +200,14 @@ func applyArmor(damage: int, entity: Node) -> int:
 func onKill(source: Node, enemy: Enemy) -> void:
 	var enemyName = enemy.getName()
 	var tier = enemy.tier
+
 	
+	if source is Turret or source.is_in_group("Minion"):
+		if source.preview:
+			ParticleManager.playDeathParticle(enemy)
+			enemy.queue_free()
+			return
+
 	match tier:
 		1:
 			StatManager.tierOneEnemiesKilled += 1
@@ -302,7 +315,7 @@ func onKill(source: Node, enemy: Enemy) -> void:
 						var rand = randf_range(0,100)
 						if rand <= turret.turretProviders["golden"].killChance:
 							CityManager.currentMoney += turret.turretProviders["golden"].extraGold
-							print("made " + str(turret.turretProviders["golden"].extraGold))
+							#print("made " + str(turret.turretProviders["golden"].extraGold))
 			
 
 			XpManager.addXp(turret.turretID)

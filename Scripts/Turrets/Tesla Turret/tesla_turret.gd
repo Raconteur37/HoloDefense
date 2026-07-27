@@ -26,8 +26,8 @@ func _ready() -> void:
 	projectile = preload("res://Particle Scenes/Turrets/Tesla Turret/Electricity Shoot.tscn")
 
 	rarity = Rarity.SUPER_RARE
-	type = Type.Elemental
 	turretID = TurretID.TESLA_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -164,7 +164,7 @@ func strikeEnemy(start_global_pos: Vector2, target_enemy: Node2D) -> void:
 	
 	get_parent().add_child(shockParticle)
 
-	var start_position = Vector2(0, 0)
+	var start_position = to_local(Vector2(0, 0))
 	var end_position = shockParticle.to_local(target_enemy.global_position)
 	
 	shockParticle.points = [start_position, end_position]

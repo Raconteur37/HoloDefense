@@ -20,12 +20,14 @@ var currentPopup
 @onready var fabricator = cityCanvas.find_child("Fabricator")
 @onready var researchLab = cityCanvas.find_child("ResearchLab")
 @onready var towerDefenseScene = $TowerDefenseCanvas
+@onready var arrow = $CanvasLayer2/Arrow
 
 var secondCit
 
 func _ready() -> void:
 	cityCanvas.process_mode = Node.PROCESS_MODE_DISABLED
 	skipButtonContainer.hide()
+	startingCitizen.tutorial = true
 
 func _input(event: InputEvent) -> void:
 	
@@ -64,11 +66,8 @@ func _input(event: InputEvent) -> void:
 			return
 		if stage == 44:
 			return
-		
 		if stage == 11:
-			if startingCitizen.selected: 
-				stageActive = false
-				stage += 1
+			return
 				
 		else:
 			stageActive = false
@@ -77,6 +76,10 @@ func _input(event: InputEvent) -> void:
 
 # Called every frame. 'delta' is the elapsed time since the previous frame.
 func _process(delta: float) -> void:
+	if stage == 11:
+		if startingCitizen.selected: 
+			stageActive = false
+			stage += 1
 	if stage == 44:
 		if GameManager.turretsPlaced.size() >= 1:
 			stageActive = false
@@ -125,6 +128,7 @@ func _process(delta: float) -> void:
 			if child is CharacterBody2D:
 				if child != startingCitizen:
 					secondCit = child
+					secondCit.tutorial = true
 					stageActive = false
 					stage += 1
 	if stage >= 17 and stage <= 21:
@@ -162,11 +166,17 @@ func _process(delta: float) -> void:
 		cityCanvas.show()
 	if stage == 5 and not stageActive:
 		stageActive = true
+		fabricator.hide()
 		activatePopup("Take a look to my left, you'll see the Generator Level and the City level as well as the resources the generator produces.","speaking")
+		#arrow.show()
+		arrow.position = Vector2(248,161)
 	if stage == 6 and not stageActive:
+		fabricator.show()
 		stageActive = true
 		activatePopup("This is the progress bar for the production, as well as where you can generate citizens and upgrade the generator.","speaking")
+		arrow.position = Vector2(372,383)
 	if stage == 7 and not stageActive:
+		arrow.hide()
 		stageActive = true
 		activatePopup("Here you can see the current resources you have and the integrity of the city.","speaking")
 	if stage == 8 and not stageActive:
@@ -174,19 +184,23 @@ func _process(delta: float) -> void:
 		activatePopup("You will need to balance Money, Scrap, and Energy, if you mismanage this, the city will fall.","speaking")
 	if stage == 9 and not stageActive:
 		stageActive = true
-		activatePopup("Here is where you can keep track of Citizens and at the bottom there is a mini map of where enemies are in the System.","speaking")
+		activatePopup("Here is where you can keep track of Citizens and below is a mini map of where enemies are in the System.","speaking")
+		#arrow.show()
+		#arrow.rotation = 180
+		#arrow.position = Vector2(157,733)
 	if stage == 10 and not stageActive:
 		stageActive = true
-		activatePopup("(No, that Citizen there isn't me)","speaking")
+		activatePopup("(No, that Citizen isn't me)","speaking")
 	if stage == 11 and not stageActive:
 		cityCanvas.process_mode = Node.PROCESS_MODE_ALWAYS
 		stageActive = true
-		activatePopup("You can select the Citizen by clicking on them or their portrait here....do so now.","speaking")
+		activatePopup("You can select the Citizen by clicking on them or their portrait....do so now.","speaking")
 	if stage == 12 and not stageActive:
-		cityCanvas.process_mode = Node.PROCESS_MODE_DISABLED
+		cityCanvas.process_mode = Node.PROCESS_MODE_ALWAYS
 		stageActive = true
 		activatePopup("Great, here you can see their name, job proficiency, and their current working progress.","speaking")
 	if stage == 13 and not stageActive:
+		cityCanvas.process_mode = Node.PROCESS_MODE_DISABLED
 		stageActive = true
 		activatePopup("They will become more proficient the more they work the same job.","speaking")
 	if stage == 14 and not stageActive:

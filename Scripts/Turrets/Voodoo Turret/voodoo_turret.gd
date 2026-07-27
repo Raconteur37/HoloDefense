@@ -20,8 +20,8 @@ func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/voodoodoll.tscn")
 
 	rarity = Rarity.COMMON
-	type = Type.Magic
 	turretID = TurretID.VOODOO_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -73,17 +73,17 @@ func _ready() -> void:
 	applyUpgrade()
 
 func attack():
-
 	if shotReady and enemiesInRange.size() > 0 and isPlaced:
-
 		var enemy = filterEnemy()
 
 		if is_instance_valid(enemy) and isPlaced:
-
 			shotReady = false
 
 			var proj = projectile.instantiate()
 			applyProjectileModifiers(proj)
+			
+			get_parent().add_child(proj)
+			
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
 
@@ -93,15 +93,11 @@ func attack():
 			proj.damage = damage
 			proj.shooter = self
 
-
 			proj.curseTime = curseDuration
 			proj.curseDamageAmp = curseDamageAmp
 			var rand = randf_range(0,100)
 			if rand <= curseChance:
 				proj.curse = true
-
-
-			get_parent().add_child(proj)
 
 			reloadTimer.start()
 			reloadAnimation()

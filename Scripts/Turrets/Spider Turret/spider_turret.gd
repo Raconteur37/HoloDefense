@@ -17,8 +17,8 @@ var webDuration
 
 func _ready() -> void:
 	rarity = Rarity.COMMON
-	type = Type.Biological
 	turretID = TurretID.SPIDER_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -79,6 +79,7 @@ func attack():
 			shotReady = false
 			
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
@@ -102,7 +103,7 @@ func attack():
 					proj.web = true
 					proj.webDuration = webDuration
 
-			get_parent().add_child(proj)
+
 
 			reloadTimer.start()
 			reloadAnimation()

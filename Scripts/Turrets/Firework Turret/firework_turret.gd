@@ -26,8 +26,8 @@ var baseBurnTime
 # Called when the node enters the scene tree for the first time.
 func _ready() -> void:
 	rarity = Rarity.RARE
-	type = Type.Idk
 	turretID = TurretID.FIREWORK_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -96,6 +96,7 @@ func attack():
 				return
 				
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.position = position
 			proj.velocity = proj.global_position.direction_to(enemy.global_position) * projectileSpeed
@@ -108,7 +109,7 @@ func attack():
 			proj.explosion = true
 			proj.explosionDamage = explosionDamage
 			proj.explosionRadius = explosionRadius
-			get_parent().add_child(proj)
+
 
 			shots -= 1
 			

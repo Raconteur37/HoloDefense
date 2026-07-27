@@ -209,7 +209,7 @@ debug_use_custom = true
 debug_path_custom_color = Color(1, 1, 0.329412, 1)
 
 [node name="IdleTimer" type="Timer" parent="." unique_id=778169022]
-wait_time = 25.0
+wait_time = 35.0
 autostart = true
 
 [connection signal="mouse_entered" from="Area2D" to="." method="_on_area_2d_mouse_entered"]

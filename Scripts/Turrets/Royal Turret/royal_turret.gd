@@ -65,8 +65,8 @@ func _notification(what: int) -> void:
 
 func _ready() -> void:
 	rarity = Rarity.SUPER_RARE
-	type = Type.Midieval
 	turretID = TurretID.ROYAL_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -137,7 +137,7 @@ func summonMinion():
 		knight.attackTime = knightAttackTime
 		knight.turretOwner = self
 
-		knight.global_position = global_position
+		knight.global_position = to_local(global_position)
 		knight.velocity = Vector2(randi_range(-1,1),randi_range(-1,1)).normalized() * 500
 
 		currentMinions.append(knight)

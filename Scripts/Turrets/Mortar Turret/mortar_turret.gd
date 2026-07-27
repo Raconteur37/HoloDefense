@@ -28,9 +28,9 @@ func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/mortar shell.tscn")
 
 	rarity = Rarity.COMMON
-	type = Type.Midieval
 	turretID = TurretID.MORTAR_TURRET
 
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	baseHealth = TurretManager.getTurretStat(turretID,"health")
@@ -100,7 +100,6 @@ func attack():
 			particle.emitting = true
 
 			var proj = projectile.instantiate()
-			
 			
 			get_parent().add_child(proj)
 			

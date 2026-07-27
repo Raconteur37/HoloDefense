@@ -22,8 +22,8 @@ func _ready() -> void:
 
 
 	rarity = Rarity.UNSEEN
-	type = Type.Dark
 	turretID = TurretID.ZOMBIE_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -88,7 +88,7 @@ func _on_attack_timer_timeout() -> void:
 		for enemy in enemiesInRange:
 			var shockParticle = projectile.instantiate()
 			shockParticle.modulate = Color(0.0, 0.458, 0.0, 1.0)
-			shockParticle.global_position = global_position
+			shockParticle.global_position = to_local(global_position)
 
 			# Set the positions
 			var start_position = Vector2(0,0)

@@ -1,7 +1,7 @@
 shader_type canvas_item;
 
 // Number of orbs
-uniform int orb_count : hint_range(1, 100) = 12;
+uniform int orb_count : hint_range(1, 1100) = 12;
 
 // Orb radius in normalized UV space (0–1)
 uniform float orb_radius : hint_range(0.001, 0.2) = 0.05;

@@ -3,8 +3,8 @@
 [ext_resource type="Script" uid="uid://duxa60ajs1be1" path="res://Game Scenes/commander_popup.gd" id="1_p8e4y"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="2_g47f4"]
 [ext_resource type="Shader" uid="uid://cc2tvfejffklt" path="res://Shaders/CommanderPopup.gdshader" id="2_x3ayv"]
-[ext_resource type="Texture2D" uid="uid://c1iuxbchvor2q" path="res://Textures/Citizens/Captain/holo_captain0.png" id="3_x3ayv"]
-[ext_resource type="Texture2D" uid="uid://dl7x1ed7l6suk" path="res://Textures/Citizens/HDportraits/Citizen Portraits00.png" id="4_55dbv"]
+[ext_resource type="Texture2D" uid="uid://12spurike5pi" path="res://Textures/Citizens/Captain/holo_captain0.png" id="3_x3ayv"]
+[ext_resource type="Texture2D" uid="uid://csuf03j8hd56i" path="res://Textures/Citizens/HDportraits/Citizen Portraits00.png" id="4_55dbv"]
 [ext_resource type="Script" uid="uid://0el41adfdavt" path="res://Game Scenes/speaking_label.gd" id="5_g47f4"]
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_55dbv"]
@@ -29,7 +29,7 @@ shader_parameter/scanline_density = 40.0
 shader_parameter/scanline_opacity = 0.15
 
 [sub_resource type="LabelSettings" id="LabelSettings_x3ayv"]
-font_size = 32
+font_size = 30
 font_color = Color(0.87244934, 0.89880395, 0.93404996, 1)
 
 [node name="CommanderPopup" type="CanvasLayer" unique_id=2023091783]
@@ -75,15 +75,14 @@ expand_mode = 2
 
 [node name="Speaking Label" type="Label" parent="Control" unique_id=1346183719]
 layout_mode = 1
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = 324.0
-offset_top = 40.0
-offset_right = 841.0
-offset_bottom = 231.0
+anchors_preset = -1
+anchor_top = 0.1
+anchor_right = 7.7250004
+anchor_bottom = 3.1250002
+offset_left = 322.0
+offset_top = 36.0
+offset_right = 567.0
+offset_bottom = 147.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "This is a test msg debug if you see this then there is something wrong with the function."

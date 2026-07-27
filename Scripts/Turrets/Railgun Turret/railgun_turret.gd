@@ -14,8 +14,8 @@ func _ready() -> void:
 	projectile = preload("res://Projectile Scenes/railgunbullet.tscn")
 
 	rarity = Rarity.RARE
-	type = Type.Armory
 	turretID = TurretID.RAILGUN_TURRET
+	type = TurretManager.getTurretTypeEnum(turretID)
 	turretName = TurretManager.getTurretStat(turretID,"name")
 	price = TurretManager.getTurretStat(turretID,"price")
 	maxHealth = TurretManager.getTurretStat(turretID,"health")
@@ -68,6 +68,7 @@ func attack():
 			shotReady = false
 			
 			var proj = projectile.instantiate()
+			get_parent().add_child(proj)
 			applyProjectileModifiers(proj)
 			proj.global_position = topSprite.global_position
 			proj.pierce = pierce
@@ -77,7 +78,7 @@ func attack():
 			proj.rotation = proj.rotation + dif
 			proj.damage = damage
 			proj.shooter = self
-			get_parent().add_child(proj)
+
 
 			reloadTimer.start(reloadTime)
 			reloadAnimation()

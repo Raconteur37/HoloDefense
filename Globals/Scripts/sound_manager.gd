@@ -61,6 +61,7 @@ func playManualGenSound(num):
 	UIPlayer.play()
 
 func playDifficultySound(num):
+	soundPlayer.pitch_scale = 0.6
 	match num:
 		
 		1:
@@ -122,7 +123,7 @@ func playPieceUnlockedSound():
 func stopLoadoutMusic():
 	var tween = create_tween()
 	
-	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
 	
 	tween.tween_callback(musicPlayer.stop)
 
@@ -228,6 +229,28 @@ func playCaptainSpeak():
 	asoundPlayer.stream = load("res://Sounds/UI Sounds/captain speak.wav")
 	asoundPlayer.pitch_scale = 1.2
 	asoundPlayer.volume_db = 1
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
+func playMenuButtonSound():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/Button Pressed.wav")
+	asoundPlayer.pitch_scale = 1.5
+	asoundPlayer.volume_db = 1.2
+	
+	add_child(asoundPlayer)
+	asoundPlayer.play()
+	
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+
+func playBackButtonSound():
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/Button Pressed Reversed.wav")
+	asoundPlayer.pitch_scale = 1.2
+	asoundPlayer.volume_db = 1.2
 	
 	add_child(asoundPlayer)
 	asoundPlayer.play()
