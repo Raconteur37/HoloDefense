@@ -71,6 +71,7 @@ func _idToName(turretID: Turret.TurretID) -> String:
 
 
 func _ready() -> void:
+	SoundManager.playTurretMusic()
 	
 	GameManager.previewMode = true
 	load_shop_config()

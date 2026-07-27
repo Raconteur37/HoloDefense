@@ -14,6 +14,18 @@ var is_rolling: bool = false
 func _ready() -> void:
 	load_shop_config()
 	randomize()
+	
+	var locked_pool: Array = []
+	locked_pool.append_array(TurretManager.lockedCommonTurrets)
+	locked_pool.append_array(TurretManager.lockedRareTurrets)
+	locked_pool.append_array(TurretManager.lockedSuperRareTurrets)
+	locked_pool.append_array(TurretManager.lockedLegendaryTurrets)
+	locked_pool.append_array(TurretManager.lockedUnseenTurrets)
+
+	if locked_pool.size() <= 1:
+		$TextureButton.hide()
+		$Label.text = "You unlocked all the turrets!"
+		$TextureRect.hide()
 
 # ---------------- Action Methods ----------------
 
@@ -183,12 +195,10 @@ func animate_spin(final_turret_id: int) -> void:
 	_pop_animation(slot_3)
 	SoundManager.playSlotSelect()
 	
-	# Add a tiny 0.5s pause at the end so the player can process 
-	# the visual result before the game prints the text/saves the economy.
 	await get_tree().create_timer(0.5).timeout
 
 func _get_random_texture(current_texture: Texture2D = null) -> Texture2D:
-	# 1. Compile a list of ONLY locked turrets
+
 	var locked_pool: Array = []
 	locked_pool.append_array(TurretManager.lockedCommonTurrets)
 	locked_pool.append_array(TurretManager.lockedRareTurrets)
@@ -196,17 +206,14 @@ func _get_random_texture(current_texture: Texture2D = null) -> Texture2D:
 	locked_pool.append_array(TurretManager.lockedLegendaryTurrets)
 	locked_pool.append_array(TurretManager.lockedUnseenTurrets)
 	
-	# Safety Fallback: If the player has unlocked EVERYTHING, 
-	# fall back to all turrets so the pick_random() doesn't crash on an empty array.
+
 	if locked_pool.is_empty():
 		locked_pool = TurretManager.ALL_TURRETS
 	
-	# 2. Pick a random ID from the locked pool
 	var random_id = locked_pool.pick_random()
 	var new_texture = TurretManager.getTurretTexture(random_id)
 	
-	# 3. Ensure the texture doesn't match the one currently displaying to force visual spinning
-	# (Also add a safety check in case there's only 1 locked turret left)
+	
 	var attempts = 0
 	while new_texture == current_texture and attempts < 10:
 		random_id = locked_pool.pick_random()
