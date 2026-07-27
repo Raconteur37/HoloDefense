@@ -1,7 +1,7 @@
 {
 	"CitizenSettings": {
 		"male_names": ["Elliott","Carter","Manny","Bartholemeul","Chavez","Tristan","Jordan","Alex","Greg","Jerry"],
-		"female_names": ["Cookie","Ros","Tracy","Meredith","Aaryn","Jackie","Kit","Maddy","Vivian"],
+		"female_names": ["Cookie","Tracy","Meredith","Aaryn","Jackie","Kit","Maddy","Vivian"],
 		"CitizenLevelScaling": 0.12,
 		"MaxCitizenJobLevel": 50,
 		"Job": {

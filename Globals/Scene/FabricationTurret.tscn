@@ -1,7 +1,7 @@
 [gd_scene format=3 uid="uid://bocwj4fbdsixx"]
 
 [ext_resource type="Script" uid="uid://dibxyyh57es8n" path="res://Globals/Scripts/fabrication_turret.gd" id="1_khxyq"]
-[ext_resource type="Material" uid="uid://bc43benyegtlp" path="res://Shaders/fabricate.tres" id="2_yknu0"]
+[ext_resource type="Material" uid="uid://d0flkf4c4jesn" path="res://Shaders/Fabrications.tres" id="2_yknu0"]
 [ext_resource type="Texture2D" uid="uid://ntlwx4mvflkl" path="res://Textures/Turrets/Arrow Turret/ArrowTurret.png" id="3_pa55t"]
 
 [sub_resource type="Animation" id="Animation_1psic"]

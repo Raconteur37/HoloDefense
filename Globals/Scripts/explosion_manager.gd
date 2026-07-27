@@ -171,7 +171,7 @@ func spawnExplosionArea() -> void:
 	await get_tree().create_timer(.05).timeout
 
 	# do the special posion or curse or whatever here
-	if is_instance_valid(area):
+	if is_instance_valid(area) and is_instance_valid(turretApplier):
 		for body in area.get_overlapping_areas():
 			#print("area: ", body.name, " | owner: ", body.owner, " | parent: ", body.get_parent())
 			var enemy = body.get_parent()

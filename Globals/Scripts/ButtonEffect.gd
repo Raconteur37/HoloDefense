@@ -70,6 +70,7 @@ func findNextProcess(buttonName):
 			get_tree().current_scene.find_child("GenericButtonHolder").show()
 			get_tree().current_scene.find_child("Play Button Holder").hide()
 			get_tree().current_scene.find_child("Solo Frame").hide()
+			SoundManager.stopLoadoutMusic()
 		"Play Button":
 			get_tree().current_scene.find_child("Play Button Holder").show()
 			get_tree().current_scene.find_child("GenericButtonHolder").hide()
@@ -78,6 +79,7 @@ func findNextProcess(buttonName):
 			PopupManager.soloNotify()
 			get_tree().current_scene.find_child("Solo Frame").show()
 			get_tree().current_scene.find_child("Play Button Holder").hide()
+			SoundManager.playLoadoutMusic()
 		"Turrets Button":
 			get_tree().change_scene_to_file("res://Game Scenes/Turret Info.tscn")
 		"Shop Button":

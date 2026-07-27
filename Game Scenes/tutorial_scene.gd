@@ -3,7 +3,7 @@ extends Control
 # FOR THOSE OF YOU SIFTING THROUGH MY CODE JUST KNOW THAT IM AWARE HOW
 # MUCH THIS SUCKS BUT ITS FINE CUS IM NOT WORKING WITH ANYONE SO YEAH
 
-var stage = 4
+var stage = 0
 var stageActive = false
 
 var inputActive = false

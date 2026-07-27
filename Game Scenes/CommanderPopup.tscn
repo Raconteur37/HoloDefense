@@ -29,7 +29,7 @@ shader_parameter/scanline_density = 40.0
 shader_parameter/scanline_opacity = 0.15
 
 [sub_resource type="LabelSettings" id="LabelSettings_x3ayv"]
-font_size = 17
+font_size = 30
 font_color = Color(0.87244934, 0.89880395, 0.93404996, 1)
 
 [node name="CommanderPopup" type="CanvasLayer" unique_id=2023091783]
@@ -73,23 +73,16 @@ offset_bottom = 289.0
 texture = ExtResource("4_55dbv")
 expand_mode = 2
 
-[node name="Control2" type="Control" parent="." unique_id=418254383]
-layout_mode = 3
-anchors_preset = 0
-offset_left = 134.0
-offset_top = 16.0
-offset_right = 174.0
-offset_bottom = 56.0
-
-[node name="Speaking Label" type="Label" parent="Control2" unique_id=1346183719]
+[node name="Speaking Label" type="Label" parent="Control" unique_id=1346183719]
 layout_mode = 1
 anchors_preset = -1
 anchor_top = 0.1
 anchor_right = 7.7250004
 anchor_bottom = 3.1250002
-offset_left = 12.0
-offset_right = -14.0
-offset_bottom = -3.0000076
+offset_left = 322.0
+offset_top = 36.0
+offset_right = 567.0
+offset_bottom = 147.0
 grow_horizontal = 2
 grow_vertical = 2
 text = "This is a test msg debug if you see this then there is something wrong with the function."

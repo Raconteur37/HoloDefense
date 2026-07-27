@@ -78,6 +78,8 @@ func removeTurretFromStorage(turretID,amount):
 func getTurretTempLevel(turretID):
 	if turretTempLevels.has(turretID):
 		return turretTempLevels.get(turretID)
+	else:
+		return 0
 
 func updateTurretLevels(turretID):
 	if turretsPlaced.has(turretID):

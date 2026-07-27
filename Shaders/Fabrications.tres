@@ -5,7 +5,7 @@
 [resource]
 resource_local_to_scene = true
 shader = ExtResource("1_gqsvy")
-shader_parameter/progress = 0.5
+shader_parameter/progress = 1.0
 shader_parameter/tile_count = 18
 shader_parameter/edge_glow_color = Color(0, 0.85, 1, 1)
 shader_parameter/edge_glow_width = 0.08

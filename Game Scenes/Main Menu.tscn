@@ -18,9 +18,13 @@
 [ext_resource type="PackedScene" uid="uid://d7crbmhs2jr4" path="res://Game Scenes/Turret Preview.tscn" id="14_vmtwt"]
 [ext_resource type="Texture2D" uid="uid://bxyjg1twn77ye" path="res://Textures/UI/Main Menu/stat_bar_track.png" id="16_elppw"]
 [ext_resource type="Script" uid="uid://be4k5kxmk0vgt" path="res://FX/rich_text_label_steel.gd" id="18_6qg4u"]
+[ext_resource type="Texture2D" uid="uid://dd3jgn3u5ebbc" path="res://Textures/UI/Main Menu/slider_handle.png" id="18_vjlh3"]
+[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="19_5l8gd"]
 [ext_resource type="Script" uid="uid://cebjptjwcxq8m" path="res://FX/rich_label_chaotic.gd" id="19_72rfk"]
 [ext_resource type="Script" uid="uid://b3jyhbqrne8vo" path="res://FX/supportive_rich_label.gd" id="20_2hop5"]
+[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="20_qo807"]
 [ext_resource type="Script" uid="uid://ck3jqsaqirhst" path="res://FX/fortuitous_rich_label.gd" id="21_gm7qj"]
+[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="21_tlcwe"]
 [ext_resource type="Script" uid="uid://bqflipj0tew50" path="res://FX/explsoive_rich_label.gd" id="22_sfqoe"]
 [ext_resource type="Script" uid="uid://djvsaljj04xxe" path="res://FX/chaotic_rich_label.gd" id="23_uf61o"]
 [ext_resource type="Script" uid="uid://c361cwa776wwr" path="res://FX/debuffer_rich_label.gd" id="24_5ogq3"]
@@ -32,13 +36,13 @@
 shader = ExtResource("1_jugox")
 shader_parameter/orb_count = 100
 shader_parameter/orb_radius = 0.0010000000475
-shader_parameter/speed = 0.2690000127775
+shader_parameter/speed = 0.2000000095
 shader_parameter/orb_color = Color(0.7490196, 0.77254903, 0.8, 1)
 
 [sub_resource type="ShaderMaterial" id="ShaderMaterial_cc3vf"]
 shader = ExtResource("7_vmtwt")
 shader_parameter/intensity = 1.0
-shader_parameter/holo_color = Color(0.46711743, 0.7346035, 1, 1)
+shader_parameter/holo_color = Color(0.46728477, 0.734698, 1, 0)
 shader_parameter/overdrive_color = Color(1, 0, 0.016462803, 1)
 
 [sub_resource type="Gradient" id="Gradient_elppw"]
@@ -105,6 +109,72 @@ metadata/_custom_type_script = "uid://ck22cew20jqkd"
 script = ExtResource("27_8ugml")
 metadata/_custom_type_script = "uid://ydpbnw82mrqg"
 
+[sub_resource type="Animation" id="Animation_tlcwe"]
+resource_name = "Launch"
+length = 2.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath(".:modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 2),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="Animation" id="Animation_5l8gd"]
+resource_name = "PortalAppear"
+length = 3.0
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PortalFX:material:shader_parameter/holo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 3),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [Color(0.46728477, 0.734698, 1, 0), Color(0.46728477, 0.734698, 1, 1)]
+}
+
+[sub_resource type="Animation" id="Animation_qo807"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("PortalFX:material:shader_parameter/holo_color")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(0.46728477, 0.734698, 1, 0)]
+}
+tracks/1/type = "value"
+tracks/1/imported = false
+tracks/1/enabled = true
+tracks/1/path = NodePath(".:modulate")
+tracks/1/interp = 1
+tracks/1/loop_wrap = true
+tracks/1/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [Color(1, 1, 1, 1)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_tlcwe"]
+_data = {
+&"Launch": SubResource("Animation_tlcwe"),
+&"PortalAppear": SubResource("Animation_5l8gd"),
+&"RESET": SubResource("Animation_qo807")
+}
+
 [node name="MainMenu" type="Control" unique_id=2012560204]
 layout_mode = 3
 anchors_preset = 15
@@ -164,7 +234,6 @@ offset_bottom = 880.0
 texture = ExtResource("6_vmtwt")
 
 [node name="PortalFX" type="TextureRect" parent="." unique_id=1848406783]
-modulate = Color(1, 1, 1, 0.14400001)
 self_modulate = Color(1, 1, 1, 0.296)
 z_index = 100
 material = SubResource("ShaderMaterial_cc3vf")
@@ -527,6 +596,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Solo Frame" type="TextureRect" parent="." unique_id=37394482]
+visible = false
 layout_mode = 0
 offset_left = 598.0
 offset_top = 286.0
@@ -584,13 +654,13 @@ anchor_left = 0.091000006
 anchor_top = 0.148
 anchor_right = 0.24700001
 anchor_bottom = 0.55
-offset_left = 0.50717163
-offset_top = 0.120025635
-offset_right = 0.19296265
-offset_bottom = -0.21420288
+offset_left = -108.064255
+offset_top = -2.7371597
+offset_right = 135.05002
+offset_bottom = -151.21432
 theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 20
-columns = 2
+columns = 5
 
 [node name="MiniBackground" type="TextureRect" parent="Solo Frame" unique_id=1208448321]
 layout_mode = 0
@@ -636,11 +706,44 @@ stretch = true
 handle_input_locally = false
 size = Vector2i(350, 350)
 size_2d_override = Vector2i(400, 400)
-render_target_update_mode = 4
+render_target_update_mode = 0
 
 [node name="TurretPreview" parent="Solo Frame/SubViewportContainer/SubViewport" unique_id=284159951 instance=ExtResource("14_vmtwt")]
 
+[node name="Difficulty Slider" type="HSlider" parent="Solo Frame" unique_id=893651150]
+layout_mode = 0
+offset_left = 44.285713
+offset_top = 615.7143
+offset_right = 1014.2857
+offset_bottom = 679.7143
+theme_override_icons/grabber = ExtResource("18_vjlh3")
+theme_override_icons/grabber_highlight = ExtResource("18_vjlh3")
+min_value = 1.0
+max_value = 11.0
+value = 1.0
+
+[node name="BeginButton" type="TextureButton" parent="Solo Frame" unique_id=1787733616]
+visible = false
+self_modulate = Color(0.8235295, 0.22745098, 0.5427679, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38000003
+anchor_top = 0.74100006
+anchor_right = 0.619
+anchor_bottom = 0.887
+offset_left = -441.57147
+offset_top = -148.7814
+offset_right = 104.56433
+offset_bottom = 48.958557
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("19_5l8gd")
+texture_pressed = ExtResource("20_qo807")
+texture_hover = ExtResource("21_tlcwe")
+
 [node name="TurretTitle" type="Label" parent="." unique_id=1670114693]
+visible = false
 layout_mode = 0
 offset_left = 1405.0
 offset_top = 604.0
@@ -652,6 +755,7 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="TypeLabel" type="RichTextLabel" parent="." unique_id=2019381348]
+visible = false
 layout_mode = 0
 offset_left = 1418.0
 offset_top = 631.0
@@ -663,3 +767,37 @@ autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
 custom_effects = [SubResource("RichTextEffect_72rfk"), SubResource("RichTextEffect_2hop5"), SubResource("RichTextEffect_gm7qj"), SubResource("RichTextEffect_sfqoe"), SubResource("RichTextEffect_uf61o"), SubResource("RichTextEffect_5ogq3"), SubResource("RichTextEffect_72713"), SubResource("RichTextEffect_kejo7"), SubResource("RichTextEffect_8ugml"), SubResource("RichTextEffect_vjlh3")]
+
+[node name="LaunchLabel" type="RichTextLabel" parent="." unique_id=970467990]
+visible = false
+layout_mode = 0
+offset_left = 712.0
+offset_top = 611.0
+offset_right = 860.0
+offset_bottom = 647.0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[steel]Launch[/steel]"
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_72rfk"), SubResource("RichTextEffect_2hop5"), SubResource("RichTextEffect_gm7qj"), SubResource("RichTextEffect_sfqoe"), SubResource("RichTextEffect_uf61o"), SubResource("RichTextEffect_5ogq3"), SubResource("RichTextEffect_72713"), SubResource("RichTextEffect_kejo7"), SubResource("RichTextEffect_8ugml"), SubResource("RichTextEffect_vjlh3")]
+
+[node name="DifficultyLabel" type="RichTextLabel" parent="." unique_id=445949493]
+visible = false
+layout_mode = 0
+offset_left = 869.0
+offset_top = 687.0
+offset_right = 1083.0
+offset_bottom = 725.0
+bbcode_enabled = true
+text = "[pulse color=green height=0.5 freq=0.3][font_size=20]Difficulty:  1[/font_size][/pulse]"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803390945]
+libraries/ = SubResource("AnimationLibrary_tlcwe")
+
+[connection signal="visibility_changed" from="Solo Frame" to="." method="_on_solo_frame_visibility_changed"]
+[connection signal="value_changed" from="Solo Frame/Difficulty Slider" to="." method="_on_difficulty_slider_value_changed"]
+[connection signal="pressed" from="Solo Frame/BeginButton" to="." method="_on_begin_button_pressed"]
+[connection signal="pressed" from="Solo Frame/BeginButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
+[connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]

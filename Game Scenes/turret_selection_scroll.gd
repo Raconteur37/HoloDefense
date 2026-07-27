@@ -6,7 +6,8 @@ extends Control
 @onready var preview = $"../SubViewportContainer/SubViewport/TurretPreview"
 @onready var turretTittleLabel = $"../../TurretTitle"
 @onready var typeLabel = $"../../TypeLabel"
-
+@onready var launchLabel = $"../../LaunchLabel"
+@onready var launchButton = $"../BeginButton"
 
 var broughtArray: Array = []
 var player_ready_states: Dictionary = {}
@@ -58,6 +59,8 @@ func add_turret_button(turretID):
 		# Connect the hover signal to the new preview function
 		btn.mouse_entered.connect(_on_button_hovered.bind(turretID))
 		
+		btn.mouse_exited.connect(_on_button_exited)
+		
 		hbox.add_child(btn)
 
 
@@ -81,8 +84,17 @@ func add_remove_button(turretID):
 	
 	btn.mouse_entered.connect(_on_button_hovered.bind(turretID))
 	
+	btn.mouse_exited.connect(_on_button_exited)
+	
 	bringingGrid.add_child(btn)
 
+
+func _on_button_exited() -> void:
+	if preview and preview.has_method("clear"):
+		preview.clear()
+		
+	turretTittleLabel.text = ""
+	typeLabel.text = ""
 
 func _on_button_hovered(turretID) -> void:
 
@@ -97,12 +109,17 @@ func _on_turret_button_pressed(btn, turretID):
 		btn.queue_free()
 		broughtArray.append(turretID)
 		add_remove_button(turretID)
+		launchLabel.show()
+		launchButton.show()
 
 
 func _on_remove_button_pressed(btn, turretID):
 	btn.queue_free()
 	add_turret_button(turretID)
 	broughtArray.erase(turretID)
+	if broughtArray.size() <= 0:
+		launchLabel.hide()
+		launchButton.hide()
 
 
 func _on_turret_info_button_pressed() -> void:
@@ -118,20 +135,18 @@ func _on_begin_button_pressed() -> void:
 	for item in GameManager.turretsBrought:
 		GameManager.turretTempLevels[item] = 0
 	SoundManager.playStartButtonSound()
+	$"../../AnimationPlayer".play("Launch")
+	PopupManager.clearCaptainPopups()
+	launchButton.disabled = true
 
 
-# ─────────────────────────────────────────
-#  SMOOTH SCROLLING LOGIC
-# ─────────────────────────────────────────
+
 func _on_scroll_gui_input(event: InputEvent) -> void:
 	if event is InputEventMouseButton and event.is_pressed():
-		# Only trigger if the mouse wheel is scrolling up or down
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP or event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
 			
-			# accept_event() tells Godot to cancel its default choppy scrolling
 			scroll.accept_event()
 			
-			# If a tween isn't actively running, sync the target to the current position
 			if not scroll_tween or not scroll_tween.is_running():
 				target_scroll = scroll.scroll_horizontal
 				
@@ -140,13 +155,11 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				target_scroll = max(0, target_scroll - scroll_amount)
 			elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN:
-				# Calculate the max limit so it doesn't overshoot the end of the container
 				var max_scroll = max(0, hbox.size.x - scroll.size.x)
 				target_scroll = min(max_scroll, target_scroll + scroll_amount)
 				
 			if scroll_tween:
 				scroll_tween.kill()
 				
-			# Tween the horizontal position for a premium UI feel
 			scroll_tween = create_tween().set_trans(Tween.TRANS_EXPO).set_ease(Tween.EASE_OUT)
 			scroll_tween.tween_property(scroll, "scroll_horizontal", target_scroll, 0.4)

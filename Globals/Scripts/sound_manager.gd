@@ -61,6 +61,7 @@ func playManualGenSound(num):
 	UIPlayer.play()
 
 func playDifficultySound(num):
+	soundPlayer.pitch_scale = 0.6
 	match num:
 		
 		1:
@@ -122,7 +123,7 @@ func playPieceUnlockedSound():
 func stopLoadoutMusic():
 	var tween = create_tween()
 	
-	tween.tween_property(musicPlayer, "volume_db", -80.0, 5)
+	tween.tween_property(musicPlayer, "volume_db", -80.0, 1)
 	
 	tween.tween_callback(musicPlayer.stop)
 
