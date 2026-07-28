@@ -4,80 +4,94 @@ shader_type canvas_item;
 uniform float intensity : hint_range(1.0, 11.0) = 1.0;
 
 // Base holographic cyan/blue
-uniform vec4 holo_color : source_color = vec4(0.0, 0.5, 1.0, 1.0);
+uniform vec4 holo_color : source_color = vec4(0.0, 0.6, 1.0, 1.0);
 // High-energy color that takes over at intensity 11
-uniform vec4 overdrive_color : source_color = vec4(1.0, 0.0, 0.4, 1.0); 
+uniform vec4 overdrive_color : source_color = vec4(1.0, 0.0, 0.3, 1.0); 
 
-// Helper function to generate random values for the data squares
+// Smooth pseudo-random hash for data generation
 float hash(vec2 p) {
     return fract(sin(dot(p, vec2(12.9898, 78.233))) * 43758.5453);
 }
 
 void fragment() {
-    // Normalize the 1-11 scale to a 0.0-1.0 range for smoother math
+    // Normalize intensity to 0.0 - 1.0
     float t = (intensity - 1.0) / 10.0;
     
-    // Center the UV coordinates so the singularity is perfectly in the middle
-    vec2 centered_uv = UV - vec2(0.5);
+    vec2 uv = UV - 0.5;
+    float r = length(uv);
+    float theta = atan(uv.y, uv.x);
     
-    // Convert to polar coordinates (radius and angle) for the suction effect
-    float radius = length(centered_uv);
-    float angle = atan(centered_uv.y, centered_uv.x);
+    // --- 1. Core Masks ---
+    // Crisp event horizon (the absolute black hole in the center)
+    float core_mask = smoothstep(0.06, 0.12, r);
+    // Smooth fade out at the edges so it blends into your UI panel
+    float edge_fade = smoothstep(0.48, 0.2, r);
     
-    // --- 1. Math for the Suction Warp ---
-    // Speed increases drastically as intensity goes up
-    float pull_speed = TIME * (1.0 + t * 8.0);
+    // --- 2. Gravitational Math (Spaghettification) ---
+    // Inverse radius curves space: things stretch dramatically as they fall in
+    float inv_r = 0.25 / (r + 0.02);
     
-    // Invert the radius so coordinates stretch out toward infinity at the center
-    float inverse_radius = 0.5 / (radius + 0.01);
+    // Speed scales drastically with intensity
+    float pull_speed = TIME * (2.0 + t * 8.0);
+    float spin_speed = TIME * (0.5 + t * 3.0);
     
-    // Pull inward by adding speed to the inverse radius
-    float radius_warp = inverse_radius + pull_speed;
+    // Twist the space to create the whirlpool effect
+    float twist = inv_r * (1.0 + t * 3.0);
+    float warped_theta = theta + twist - spin_speed;
     
-    // Add a twist that gets stronger at high intensity
-    float twist_strength = t * 2.5;
-    float angle_warp = angle + (inverse_radius * twist_strength);
+    // --- 3. Clean Procedural Data Arcs ---
+    // Create concentric rings falling inward
+    float ring_domain = inv_r * 8.0 - pull_speed; 
+    float ring_id = floor(ring_domain);
+    float ring_local = fract(ring_domain);
     
-    // --- 2. Procedural Data Squares ---
-    // Create a grid out of the warped polar coordinates
-    // We add more rings and slices as intensity increases
-    vec2 grid_uv = vec2(radius_warp * 6.0, angle_warp * (8.0 + t * 12.0)); 
+    // Make the rings crisp and thin
+    float ring_line = smoothstep(0.1, 0.3, ring_local) * smoothstep(0.9, 0.7, ring_local);
     
-    vec2 cell = floor(grid_uv);
-    vec2 local_uv = fract(grid_uv);
+    // Generate a random seed for each ring
+    float r_hash = hash(vec2(ring_id, 1.0));
     
-    // Random chance for a square to spawn in a cell
-    float random_val = hash(cell);
+    // Alternate spin directions per ring for a high-tech machinery feel
+    float dir = r_hash > 0.5 ? 1.0 : -1.0;
     
-    // Increase the density of squares at higher intensities
-    float density = 0.6 + (t * 0.3);
-    float square_mask = step(density, random_val); 
+    // Segment the rings into dashed data chunks
+    // (Using floor ensures an integer number of segments so there is no visual seam!)
+    float segments = floor(8.0 + r_hash * 20.0); 
+    float seg_theta = warped_theta * dir * (segments / 6.28318);
+    float seg_id = floor(seg_theta);
+    float seg_local = fract(seg_theta);
     
-    // Carve out the square shape from the local cell (adds padding so they don't touch)
-    float box = step(0.15, local_uv.x) * step(local_uv.x, 0.85) *
-                step(0.15, local_uv.y) * step(local_uv.y, 0.85);
-                
-    float final_squares = square_mask * box;
+    // Crisp edges for the individual data arcs
+    float arc = smoothstep(0.05, 0.15, seg_local) * smoothstep(0.95, 0.85, seg_local);
     
-    // --- 3. The Core and Edge Fading ---
-    // Hollow out the absolute center so it looks like a black hole
-    float core_mask = smoothstep(0.0, 0.1, radius);
+    // Randomly drop some arcs to make it look like streaming digital data
+    float drop_hash = hash(vec2(ring_id, seg_id));
+    float data_density = 0.4 + (t * 0.4); // Populates more data as intensity rises
+    float is_visible = step(1.0 - data_density, drop_hash);
     
-    // Fade out the edges of the TextureRect so it blends seamlessly into your UI
-    float edge_fade = smoothstep(0.5, 0.2, radius);
+    float data_rings = ring_line * arc * is_visible;
     
-    // --- 4. Color and Glow Blending ---
-    // Exponentially shift to the overdrive color so it only really hits at level 9, 10, and 11
-    vec4 current_color = mix(holo_color, overdrive_color, pow(t, 2.5));
+    // --- 4. Accretion Disc (Event Horizon Glow) ---
+    // A bright, intense energy ring bordering the singularity
+    float horizon = smoothstep(0.18, 0.11, r) * smoothstep(0.05, 0.11, r);
+    float pulse = 1.0 + 0.4 * sin(TIME * (8.0 + t * 12.0));
+    horizon *= pulse;
     
-    // Add a pulsing energy glow around the singularity
-    float glow = (0.05 / (radius + 0.01)) * (1.0 + sin(TIME * 15.0 * t) * 0.5 * t);
+    // --- 5. Color and Composition ---
+    vec4 color_mix = mix(holo_color, overdrive_color, pow(t, 1.5));
     
-    // Combine the squares and the glow, apply the masks
-    float final_alpha = (final_squares + glow) * core_mask * edge_fade;
+    // Add extreme heat (white/yellow) to the horizon at high intensities
+    vec3 heat_color = mix(color_mix.rgb, vec3(1.0, 0.9, 0.8), t * 0.7);
+    vec3 final_rgb = mix(color_mix.rgb, heat_color, horizon);
     
-    // Boost overall brightness at high intensity
-    final_alpha *= (1.0 + t * 2.0);
+    // Ambient suction glow
+    float ambient_glow = (0.02 / (r + 0.01)) * t;
     
-    COLOR = vec4(current_color.rgb, clamp(final_alpha, 0.0, 1.0) * current_color.a);
+    // Combine layers
+    float final_alpha = (data_rings + (horizon * 2.5) + ambient_glow) * core_mask * edge_fade;
+    
+    // Global brightness boost for maximum chaos at intensity 11
+    final_alpha *= (1.0 + t * 1.5);
+    
+    COLOR = vec4(final_rgb, clamp(final_alpha, 0.0, 1.0) * color_mix.a);
 }

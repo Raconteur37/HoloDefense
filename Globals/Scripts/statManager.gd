@@ -62,8 +62,7 @@ func loadStats():
 	var json_string = ""
 	var loaded_from_cloud = false
 	
-	# Check Steam Cloud first - replace this check with however SteamManager
-	# tracks init success, e.g. SteamManager.is_initialized, if you have one
+
 	if Engine.has_singleton("Steam") and Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp() and Steam.fileExists(TURRET_STATS_CLOUD_FILENAME):
 		var file_size = Steam.getFileSize(TURRET_STATS_CLOUD_FILENAME)
 		var result = Steam.fileRead(TURRET_STATS_CLOUD_FILENAME, file_size)

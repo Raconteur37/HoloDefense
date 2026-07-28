@@ -31,7 +31,7 @@ font_size = 200
 font_color = Color(1, 1, 1, 0.02745098)
 
 [sub_resource type="Animation" id="Animation_jek5h"]
-length = 0.001
+length = 0.06666667
 tracks/0/type = "value"
 tracks/0/imported = false
 tracks/0/enabled = true
@@ -404,13 +404,14 @@ material = SubResource("ShaderMaterial_cywrt")
 anchors_preset = 15
 anchor_right = 1.0
 anchor_bottom = 1.0
-offset_left = -544.0
-offset_top = -230.0
-offset_right = -544.0
-offset_bottom = -230.0
+offset_left = -453.00003
+offset_top = -236.0
+offset_right = -453.0
+offset_bottom = -236.0
 grow_horizontal = 2
 grow_vertical = 2
 scale = Vector2(1.5, 1.5)
+size_flags_horizontal = 4
 texture = SubResource("GradientTexture2D_h7tih")
 script = ExtResource("9_sq2g1")
 
