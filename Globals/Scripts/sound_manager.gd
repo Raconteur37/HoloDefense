@@ -63,33 +63,45 @@ func playManualGenSound(num):
 	UIPlayer.play()
 
 func playDifficultySound(num):
-	soundPlayer.pitch_scale = 0.6
-	match num:
-		
-		1:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 1 Select.wav")
-		2:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 2 Select.wav")
-		3:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 3 Select.wav")
-		4:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 4 Select.wav")
-		5:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 5 Select.wav")
-		6:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 6 Select.wav")
-		7:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 7 Select.wav")
-		8:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 8 Select.wav")
-		9:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 9 Select.wav")
-		10:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 10 Select.wav")
-		11:
-			soundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 11 Select.wav")
+	for old_sound in get_tree().get_nodes_in_group("difficulty_ui_sounds"):
+		old_sound.queue_free()
 
-	soundPlayer.play()
+	var asoundPlayer = AudioStreamPlayer2D.new()
+	
+	asoundPlayer.add_to_group("difficulty_ui_sounds")
+	
+	asoundPlayer.stream = load("res://Sounds/UI Sounds/Button Pressed.wav")
+	asoundPlayer.pitch_scale = 0.6
+	asoundPlayer.volume_db = 1
+	
+	add_child(asoundPlayer)
+
+	match num:
+		1:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 1 Select.wav")
+		2:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 2 Select.wav")
+		3:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 3 Select.wav")
+		4:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 4 Select.wav")
+		5:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 5 Select.wav")
+		6:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 6 Select.wav")
+		7:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 7 Select.wav")
+		8:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 8 Select.wav")
+		9:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 9 Select.wav")
+		10:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 10 Select.wav")
+		11:
+			asoundPlayer.stream = load("res://Sounds/UI Sounds/Difficulty 11 Select.wav")
+
+	asoundPlayer.finished.connect(asoundPlayer.queue_free)
+	asoundPlayer.play()
 
 func setMusicVolume(value: float):
 	musicVolume = value

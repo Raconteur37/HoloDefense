@@ -43,7 +43,6 @@ func get_default_economy() -> Dictionary:
 func merge_with_defaults(loaded: Dictionary) -> Dictionary:
 	var merged: Dictionary = get_default_economy()
 	
-	# FIX: Check for both float and int, then cast to int to be safe
 	if loaded.has("stardust") and (typeof(loaded["stardust"]) == TYPE_FLOAT or typeof(loaded["stardust"]) == TYPE_INT):
 		merged["stardust"] = int(loaded["stardust"])
 	
@@ -51,12 +50,10 @@ func merge_with_defaults(loaded: Dictionary) -> Dictionary:
 		if loaded.has(category) and typeof(loaded[category]) == TYPE_DICTIONARY:
 			for key in loaded[category].keys():
 				if merged[category].has(key):
-					# It's also a good idea to cast these to int as well, 
-					# since they will also be parsed as floats from the JSON.
 					merged[category][key] = int(loaded[category][key])
 	return merged
 
-# ---------------- Load/Save ----------------
+
 func load_economy() -> void:
 	var loaded_dict: Dictionary = {}
 	var found_save := false
@@ -90,7 +87,7 @@ func load_economy() -> void:
 
 	if not found_save:
 		print("EconomyManager: no save found, starting fresh — writing baseline file")
-		save_economy()  # <-- the fix: actually persist the default the first time
+		save_economy()
 
 	economy_loaded_successfully = true
 	economy_loaded.emit()
@@ -119,7 +116,6 @@ func save_economy() -> void:
 
 	economy_saved.emit()
 
-# ---------------- Turret Unlock API ----------------
 
 func is_turret_unlocked(turret_id) -> bool:
 	var turret_name = idToName(turret_id)
@@ -128,18 +124,15 @@ func is_turret_unlocked(turret_id) -> bool:
 func unlock_turret(turret_id) -> void:
 	var turret_name = idToName(turret_id)
 	if economy_data["turrets_unlocked"].has(turret_name):
-		# Prevent double-unlocks just in case
 		if economy_data["turrets_unlocked"][turret_name] == 0:
 			economy_data["turrets_unlocked"][turret_name] = 1
 			currency_changed.emit("turrets_unlocked", turret_name, 1)
 			
-			# Tell the rest of the game a turret was unlocked!
 			turret_unlocked_signal.emit(turret_id)
 			
-			# Automatically save the game so they don't lose the unlock
+
 			save_economy()
 
-# ---------------- Helper Methods ----------------
 
 func idToName(turretID: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[turretID].to_lower()
@@ -169,7 +162,6 @@ func spend_turret_shards(turret_id, amount: int) -> bool:
 	var turret_name = idToName(turret_id)
 	return spend_from_category("turret_shards", turret_name, amount)
 
-# ---------------- Stardust API ----------------
 
 func get_stardust() -> int:
 	return economy_data.get("stardust", 0)
@@ -196,7 +188,6 @@ func spend_stardust(amount: int) -> bool:
 	stardust_changed.emit(economy_data["stardust"])
 	return true
 
-# ---------------- Shards API ----------------
 
 func get_shards(rarity: String) -> int:
 	return economy_data["shards"].get(rarity, 0)
@@ -207,7 +198,6 @@ func add_shards(rarity: String, amount: int) -> void:
 func spend_shards(rarity: String, amount: int) -> bool:
 	return spend_from_category("shards", rarity, amount)
 
-# ---------------- Shard Fragments API ----------------
 
 func get_shard_fragments(rarity: String) -> int:
 	return economy_data["shard_fragments"].get(rarity, 0)
