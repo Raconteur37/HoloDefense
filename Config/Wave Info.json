@@ -5,9 +5,9 @@
 	  "maxEnemiesPerWave":2000,
 	  "baseSpawnIntervalSec":0.10,
 	  "eventSystemThresh":2,
-	  "eliteSystemThresh":2,
+	  "eliteSystemThresh":3,
 	  "riftEvent":{
-		 "enemiesSpawned":200,
+		 "enemiesSpawned":100,
 		 "enemySpawnInterval":0.25
 	  },
 	  "systemScaling":{
@@ -43,7 +43,7 @@
 		 "spawnIntervalDecayPerWave":0.97,
 		 "intermission_duration_sec":14.0,
 		 "systemTransitionDurationSec":90.0,
-		 "eventChance":30,
+		 "eventChance":10,
 		 "eliteChance": 10,
 		 "eliteChanceIncreasePerWave": 0.5
 	  },
@@ -56,7 +56,7 @@
 		 "spawnIntervalDecayPerWave":0.96,
 		 "intermission_duration_sec":12.0,
 		 "systemTransitionDurationSec":80.0,
-		 "eventChance":40,
+		 "eventChance":20,
 		 "eliteChance": 12,
 		 "eliteChanceIncreasePerWave": 0.75
 	  },
@@ -69,7 +69,7 @@
 		 "spawnIntervalDecayPerWave":0.95,
 		 "intermission_duration_sec":10.0,
 		 "systemTransitionDurationSec":70.0,
-		 "eventChance":50,
+		 "eventChance":30,
 		 "eliteChance": 13,
 		 "eliteChanceIncreasePerWave": 1
 	  },
@@ -82,7 +82,7 @@
 		 "spawnIntervalDecayPerWave":0.92,
 		 "intermission_duration_sec":8.5,
 		 "systemTransitionDurationSec":70.0,
-		 "eventChance":60,
+		 "eventChance":40,
 		 "eliteChance": 15,
 		 "eliteChanceIncreasePerWave": 1.25
 	  },
@@ -95,7 +95,7 @@
 		 "spawnIntervalDecayPerWave":0.90,
 		 "intermission_duration_sec":7.0,
 		 "systemTransitionDurationSec":70.0,
-		 "eventChance":60,
+		 "eventChance":40,
 		 "eliteChance": 18,
 		 "eliteChanceIncreasePerWave": 1.50
 	  },
@@ -108,7 +108,7 @@
 		 "spawnIntervalDecayPerWave":0.88,
 		 "intermission_duration_sec":6.0,
 		 "systemTransitionDurationSec":60.0,
-		 "eventChance":60,
+		 "eventChance":40,
 		 "eliteChance": 20,
 		 "eliteChanceIncreasePerWave": 1.75
 	  },
@@ -121,7 +121,7 @@
 		 "spawnIntervalDecayPerWave":0.83,
 		 "intermission_duration_sec":5.0,
 		 "systemTransitionDurationSec":50.0,
-		 "eventChance":70,
+		 "eventChance":50,
 		 "eliteChance": 22,
 		 "eliteChanceIncreasePerWave": 2
 	  },
@@ -134,7 +134,7 @@
 		 "spawnIntervalDecayPerWave":0.76,
 		 "intermission_duration_sec":4.0,
 		 "systemTransitionDurationSec":40.0,
-		 "eventChance":80,
+		 "eventChance":60,
 		 "eliteChance": 24,
 		 "eliteChanceIncreasePerWave": 2.25
 	  },
@@ -147,7 +147,7 @@
 		 "spawnIntervalDecayPerWave":0.72,
 		 "intermission_duration_sec":3.0,
 		 "systemTransitionDurationSec":40.0,
-		 "eventChance":80,
+		 "eventChance":70,
 		 "eliteChance": 26,
 		 "eliteChanceIncreasePerWave": 2.5
 	  },
@@ -160,7 +160,7 @@
 		 "spawnIntervalDecayPerWave":0.67,
 		 "intermission_duration_sec":2.0,
 		 "systemTransitionDurationSec":40.0,
-		 "eventChance":90,
+		 "eventChance":80,
 		 "eliteChance": 28,
 		 "eliteChanceIncreasePerWave": 2.75
 	  },

@@ -140,7 +140,7 @@ func _physics_process(delta: float) -> void:
 	if currentJob == Job.NONE and idleTimer.is_stopped():
 		idleTimer.start()
 	if not idleTimer.is_stopped() and not idleTimerNotify:
-		if idleTimer.time_left <= 10:
+		if idleTimer.time_left <= 10 and not moving:
 			idleTimerNotify = true
 			PopupManager.idleWorkerPopup()
 	if frozen:
@@ -450,7 +450,7 @@ func updateSprite():
 
 
 func _on_idle_timer_timeout() -> void:
-	if not tutorial:
+	if not tutorial and not moving:
 		var rand = randi_range(0,100)
 		if rand <= 50:
 			setJob(Job.GEM_SCRAPER)
