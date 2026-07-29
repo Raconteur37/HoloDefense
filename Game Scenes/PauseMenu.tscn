@@ -1,3 +1,102 @@
 [gd_scene format=3 uid="uid://b218yfp6f3ska"]
 
+[ext_resource type="Texture2D" uid="uid://bnndxlgdgkgrt" path="res://Textures/UI/Pause Menu/pause_panel_skinny.png" id="1_hn52h"]
+[ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="1_rlhcc"]
+[ext_resource type="Texture2D" uid="uid://cuykmb8fplm73" path="res://Textures/UI/Main Menu/Buttons/button_default_small.png" id="3_i0q8t"]
+[ext_resource type="Texture2D" uid="uid://cye4enxt8gsl1" path="res://Textures/UI/Main Menu/Buttons/button_pressed_small.png" id="4_xa3tf"]
+[ext_resource type="Texture2D" uid="uid://o2my66pb3cy8" path="res://Textures/UI/Main Menu/Buttons/button_highlighted_small.png" id="5_ugkah"]
+
+[sub_resource type="LabelSettings" id="LabelSettings_i0q8t"]
+font_size = 22
+
+[sub_resource type="LabelSettings" id="LabelSettings_7n6qv"]
+
 [node name="PauseMenu" type="CanvasLayer" unique_id=270034768]
+script = ExtResource("1_rlhcc")
+
+[node name="Background" type="TextureRect" parent="." unique_id=1734593535]
+anchors_preset = -1
+anchor_left = 0.40100002
+anchor_top = 0.25500003
+anchor_right = 0.59900004
+anchor_bottom = 0.74500006
+offset_left = 170.07996
+offset_top = 244.59998
+offset_right = -170.08008
+offset_bottom = -244.6001
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("1_hn52h")
+
+[node name="GeneralButtons" type="Control" parent="Background" unique_id=104134826]
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 44.0
+offset_top = -147.0
+offset_right = 84.0
+offset_bottom = -107.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/GeneralButtons" unique_id=671229781]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = -16
+
+[node name="Resume" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1056447518]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/Resume" unique_id=310456830]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Resume2" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1656164258]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/Resume2" unique_id=1746684327]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Resume"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Header" type="Label" parent="." unique_id=663359143]
+offset_left = 931.0
+offset_top = 365.0
+offset_right = 988.0
+offset_bottom = 385.0
+text = "Paused"
+label_settings = SubResource("LabelSettings_7n6qv")

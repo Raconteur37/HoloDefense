@@ -261,8 +261,7 @@ func rollForElite() -> void:
 			type = Type.ELITE
 			isElite = true
 			
-			var all_elite_types = EliteType.values()
-			eliteType = all_elite_types[randi() % all_elite_types.size()]
+			getEliteTypeForEnemy()
 			
 			setElite()
 			
@@ -271,6 +270,25 @@ func rollForElite() -> void:
 				var enemyPopupScene = load("res://Game Scenes/EnemyInfoPopup.tscn").instantiate()
 				get_tree().current_scene.add_child(enemyPopupScene)
 				enemyPopupScene.buildElitePopup(eliteType)
+
+func getEliteTypeForEnemy():
+	match enemyID:
+		
+		EnemyID.BASIC_SQUARE:
+			var all = EliteType.values()
+			eliteType = all[randi() % all.size()]
+		EnemyID.SPEEDY_TRIANGLE:
+			var types = [EliteType.UNSTOPPABLE,EliteType.WINDY,EliteType.PARACASUAL]
+			eliteType = types.pick_random()
+		EnemyID.SHOOTY_DIAMOND:
+			var types = [EliteType.TIME_FRACTURED,EliteType.STEEL,EliteType.MENDING,EliteType.SUMMONER,EliteType.PARACASUAL]
+			eliteType = types.pick_random()
+		EnemyID.TANKY_RECTANGLE:
+			var types = [EliteType.TIME_FRACTURED,EliteType.STEEL,EliteType.WINDY,EliteType.SUMMONER,EliteType.UNSTOPPABLE,EliteType.MENDING]
+			eliteType = types.pick_random()
+		EnemyID.PACKED_CIRCLE:
+			var types = [EliteType.WINDY,EliteType.PARACASUAL,EliteType.SUMMONER]
+			eliteType = types.pick_random()
 
 func setElite():
 	match eliteType:

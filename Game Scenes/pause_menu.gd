@@ -1,4 +1,6 @@
-extends Control
+extends CanvasLayer
+
+@onready var background = $Background
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -18,12 +20,12 @@ func _input(event):
 func toggle_pause():
 	var new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
-	$"..".visible = new_pause_state # Show/hide the menu
+	visible = new_pause_state 
 
 
 func _on_button_pressed() -> void:
 	get_tree().paused = false
-	$"..".visible = false
+	visible = false
 
 
 func _on_restart_pressed() -> void:
