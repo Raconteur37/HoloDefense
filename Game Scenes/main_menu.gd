@@ -27,6 +27,8 @@ func _ready() -> void:
 	
 	SteamManager.lobby_join_status.connect(_on_join_attempt_finished)
 	SteamManager.lobby_members_updated.connect(_update_player_labels)
+	SteamManager.opponent_left_lobby.connect(resetMultiplayerData)
+	SteamManager.lobby_disconnected.connect(_on_lobby_disconnected)
 	
 	portal.hide()
 	SoundManager.stopMusic()
@@ -91,23 +93,37 @@ func _on_invite_button_pressed() -> void:
 
 func _on_join_attempt_finished(success: bool):
 	if success and SteamManager.lobbyHost != SteamManager.steam_name:
+		$"Back Button".show()
 		soloFrame.hide()
 		multiplayerFrame.show()
 		lobbyHost.hide()
 		lobbyGuest.show()
 		playButtonHolder.hide()
 		genericButtonHolder.hide()
+		$"Multiplayer Frame/ContainerOne".hide()
 		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + Steam.getLobbyData(SteamManager.lobbyID,"lobby_host") +  "[/font_size][/pulse]"
 	else:
 		print("Failed to join")
 
 func _update_player_labels():
 	if SteamManager.lobbyHost == SteamManager.steam_name:
-		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5] " + SteamManager.opponentName + "[font_size=32][/font_size][/pulse]"
+		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName + "[font_size=32][/font_size][/pulse]"
+		if SteamManager.opponentName != null:
+			$"Multiplayer Frame/Lobby Host/Start Button".show()
+			$"Multiplayer Frame/Lobby Host/Invite Button".hide()
 	else:
 		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName +  "[/font_size][/pulse]"
-
+	
+	
 func resetMultiplayerData():
 	$"Multiplayer Frame/Lobby Host".hide()
 	$"Multiplayer Frame/Lobby Guest".hide()
 	$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = ""
+
+func _on_lobby_disconnected():
+	
+	# Hide multiplayer stuff
+	resetMultiplayerData()
+	
+	joinButton.show()
+	createButton.show()
