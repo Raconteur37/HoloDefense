@@ -133,3 +133,12 @@ func _on_lobby_chat_update(lobby_id: int, changed_id: int, making_change_id: int
 		lobby_disconnected.emit()
 	else:
 		updateLobby()
+
+
+func check_player_count() -> int:
+	if lobbyID == 0:
+		return 0
+		
+	var current_players = Steam.getNumLobbyMembers(lobbyID)
+	
+	return current_players

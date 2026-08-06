@@ -108,12 +108,11 @@ func _on_join_attempt_finished(success: bool):
 func _update_player_labels():
 	if SteamManager.lobbyHost == SteamManager.steam_name:
 		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName + "[font_size=32][/font_size][/pulse]"
-		if SteamManager.opponentName != null:
-			$"Multiplayer Frame/Lobby Host/Start Button".show()
-			$"Multiplayer Frame/Lobby Host/Invite Button".hide()
 	else:
 		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName +  "[/font_size][/pulse]"
-	
+	if SteamManager.check_player_count() >= 2:
+		$"Multiplayer Frame/Lobby Host/Invite Button".hide()
+		$"Multiplayer Frame/Lobby Host/Start Button".start()
 	
 func resetMultiplayerData():
 	$"Multiplayer Frame/Lobby Host".hide()
