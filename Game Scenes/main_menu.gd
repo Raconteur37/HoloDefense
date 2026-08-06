@@ -1,6 +1,16 @@
 extends Control
 
 @onready var soloFrame = $"Solo Frame"
+@onready var multiplayerFrame = $"Multiplayer Frame"
+
+@onready var createButton = $"Multiplayer Frame/ContainerOne/Create Button"
+@onready var joinButton = $"Multiplayer Frame/ContainerOne/Join Button"
+
+@onready var lobbyHost = $"Multiplayer Frame/Lobby Host"
+@onready var lobbyGuest = $"Multiplayer Frame/Lobby Guest"
+
+@onready var playButtonHolder = $"Play Button Holder"
+@onready var genericButtonHolder = $GenericButtonHolder
 
 @onready var portal = $PortalFX
 @onready var difficultySlider = $"Solo Frame/Difficulty Slider"
@@ -14,6 +24,10 @@ extends Control
 @onready var animationPlayer = $AnimationPlayer
 
 func _ready() -> void:
+	
+	SteamManager.lobby_join_status.connect(_on_join_attempt_finished)
+	SteamManager.lobby_members_updated.connect(_update_player_labels)
+	
 	portal.hide()
 	SoundManager.stopMusic()
 	Engine.time_scale = 1
@@ -58,3 +72,42 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 	if anim_name == "Launch":
 		get_tree().change_scene_to_file("res://Game Scenes/Game.tscn")
 		GameManager.difficultySave = WaveManager.currentDifficulty
+
+
+# Multiplayer Manager
+
+
+func _on_create_button_pressed() -> void:
+	#soloFrame.show()
+	#multiplayerFrame.hide()
+	joinButton.hide()
+	createButton.hide()
+	lobbyHost.show()
+	SteamManager.create_vs_lobby()
+
+
+func _on_invite_button_pressed() -> void:
+	SteamManager.invite_user()
+
+func _on_join_attempt_finished(success: bool):
+	if success and SteamManager.lobbyHost != SteamManager.steam_name:
+		soloFrame.hide()
+		multiplayerFrame.show()
+		lobbyHost.hide()
+		lobbyGuest.show()
+		playButtonHolder.hide()
+		genericButtonHolder.hide()
+		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + Steam.getLobbyData(SteamManager.lobbyID,"lobby_host") +  "[/font_size][/pulse]"
+	else:
+		print("Failed to join")
+
+func _update_player_labels():
+	if SteamManager.lobbyHost == SteamManager.steam_name:
+		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5] " + SteamManager.opponentName + "[font_size=32][/font_size][/pulse]"
+	else:
+		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName +  "[/font_size][/pulse]"
+
+func resetMultiplayerData():
+	$"Multiplayer Frame/Lobby Host".hide()
+	$"Multiplayer Frame/Lobby Guest".hide()
+	$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = ""

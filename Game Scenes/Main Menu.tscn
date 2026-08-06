@@ -629,16 +629,16 @@ scale = Vector2(2.44544, 2.33681)
 [node name="HBoxContainer" type="HBoxContainer" parent="Solo Frame/TurretSelectionScroll/ScrollContainer" unique_id=401401111]
 layout_mode = 2
 
-[node name="RichTextLabel" type="RichTextLabel" parent="Solo Frame" unique_id=1960348843]
+[node name="CurrentLoadoutLabel" type="RichTextLabel" parent="Solo Frame" unique_id=1960348843]
 layout_mode = 1
 anchors_preset = -1
 anchor_left = 0.079
 anchor_top = 0.012
 anchor_right = 0.25
 anchor_bottom = 0.20600002
-offset_left = -0.7213974
+offset_left = -16.435684
 offset_top = 0.27999973
-offset_right = 0.35717773
+offset_right = -15.357117
 offset_bottom = 0.2828064
 bbcode_enabled = true
 text = "[pulse color=#9ffff5 height=0.5 freq=0.3][font_size=32]Current Loadout[/font_size][/pulse]"
@@ -654,9 +654,9 @@ anchor_left = 0.091000006
 anchor_top = 0.148
 anchor_right = 0.24700001
 anchor_bottom = 0.55
-offset_left = -108.064255
+offset_left = -123.77854
 offset_top = -2.7371597
-offset_right = 135.05002
+offset_right = 119.335724
 offset_bottom = -151.21432
 theme_override_constants/h_separation = 5
 theme_override_constants/v_separation = 20
@@ -742,6 +742,61 @@ texture_normal = ExtResource("19_5l8gd")
 texture_pressed = ExtResource("20_qo807")
 texture_hover = ExtResource("21_tlcwe")
 
+[node name="MultiplayerHolder" type="Control" parent="Solo Frame" unique_id=828499172]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Solo Frame/MultiplayerHolder" unique_id=235567978]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 448.26852
+offset_top = 152.37715
+offset_right = 665.71436
+offset_bottom = 246.04567
+bbcode_enabled = true
+text = "[pulse color=#9ffff5 height=0.5 freq=0.3][font_size=28]VS[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BringingGrid" type="GridContainer" parent="Solo Frame/MultiplayerHolder" unique_id=1521863769]
+clip_contents = true
+custom_minimum_size = Vector2(16, 16)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.091000006
+anchor_top = 0.148
+anchor_right = 0.24700001
+anchor_bottom = 0.55
+offset_left = 599.217
+offset_top = 111.08
+offset_right = 1079.9769
+offset_bottom = 272.00003
+theme_override_constants/h_separation = 5
+theme_override_constants/v_separation = 20
+columns = 5
+
+[node name="OpponentName" type="RichTextLabel" parent="Solo Frame/MultiplayerHolder" unique_id=2058194272]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 605.411
+offset_top = 9.52
+offset_right = 1048.5715
+offset_bottom = 158.76
+bbcode_enabled = true
+text = "[pulse color=#9ffff5 height=0.5 freq=0.3][font_size=32]Opponent name here[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [node name="TurretTitle" type="Label" parent="." unique_id=1670114693]
 visible = false
 layout_mode = 0
@@ -796,8 +851,225 @@ text = "[pulse color=green height=0.5 freq=0.3][font_size=20]Difficulty:  1[/fon
 [node name="AnimationPlayer" type="AnimationPlayer" parent="." unique_id=803390945]
 libraries/ = SubResource("AnimationLibrary_tlcwe")
 
+[node name="Multiplayer Frame" type="TextureRect" parent="." unique_id=1384049047]
+visible = false
+layout_mode = 0
+offset_left = 598.0
+offset_top = 286.0
+offset_right = 2162.2856
+offset_bottom = 1096.0
+scale = Vector2(0.7, 0.7)
+texture = ExtResource("11_hh4mj")
+
+[node name="ContainerOne" type="HBoxContainer" parent="Multiplayer Frame" unique_id=1183086460]
+layout_mode = 0
+offset_left = 327.14285
+offset_top = 610.0
+offset_right = 1315.1428
+offset_bottom = 701.0
+theme_override_constants/separation = 400
+
+[node name="Create Button" type="TextureButton" parent="Multiplayer Frame/ContainerOne" unique_id=338394868]
+layout_mode = 2
+texture_normal = ExtResource("11_elppw")
+texture_pressed = ExtResource("12_6qg4u")
+texture_hover = ExtResource("13_72rfk")
+
+[node name="Create Label" type="Label" parent="Multiplayer Frame/ContainerOne/Create Button" unique_id=846688052]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.143
+anchor_right = 0.95600003
+anchor_bottom = 0.846
+offset_left = 0.063999176
+offset_top = -0.012969971
+offset_right = -0.06399536
+offset_bottom = 0.014030457
+grow_horizontal = 2
+grow_vertical = 2
+text = "Create"
+label_settings = SubResource("LabelSettings_cc3vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Join Button" type="TextureButton" parent="Multiplayer Frame/ContainerOne" unique_id=516115933]
+layout_mode = 2
+texture_normal = ExtResource("11_elppw")
+texture_pressed = ExtResource("12_6qg4u")
+texture_hover = ExtResource("13_72rfk")
+
+[node name="Join Label" type="Label" parent="Multiplayer Frame/ContainerOne/Join Button" unique_id=363582646]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.143
+anchor_right = 0.95600003
+anchor_bottom = 0.846
+offset_left = 0.063999176
+offset_top = -0.012969971
+offset_right = -0.06399536
+offset_bottom = 0.014030457
+grow_horizontal = 2
+grow_vertical = 2
+text = "Join"
+label_settings = SubResource("LabelSettings_cc3vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lobby Host" type="Control" parent="Multiplayer Frame" unique_id=1667343407]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="Title" type="RichTextLabel" parent="Multiplayer Frame/Lobby Host" unique_id=511200467]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 511.1257
+offset_top = 10.948589
+offset_right = 1048.5715
+offset_bottom = 150.33154
+bbcode_enabled = true
+text = "[pulse color=green height=0.5 freq=1][font_size=32]Awaiting Opponent[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Invite Button" type="TextureButton" parent="Multiplayer Frame/Lobby Host" unique_id=197460733]
+layout_mode = 0
+offset_left = 642.8571
+offset_top = 610.0
+offset_right = 936.8571
+offset_bottom = 701.0
+texture_normal = ExtResource("11_elppw")
+texture_pressed = ExtResource("12_6qg4u")
+texture_hover = ExtResource("13_72rfk")
+
+[node name="Invite Label" type="Label" parent="Multiplayer Frame/Lobby Host/Invite Button" unique_id=1801350927]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.143
+anchor_right = 0.95600003
+anchor_bottom = 0.846
+offset_left = 0.063999176
+offset_top = -0.012969971
+offset_right = -0.06399536
+offset_bottom = 0.014030457
+grow_horizontal = 2
+grow_vertical = 2
+text = "Invite"
+label_settings = SubResource("LabelSettings_cc3vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OpponentNameLabel" type="RichTextLabel" parent="Multiplayer Frame/Lobby Host" unique_id=933119911]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 511.1257
+offset_top = 205.2343
+offset_right = 1048.5715
+offset_bottom = 344.61725
+bbcode_enabled = true
+text = "[pulse color=purple height=0.5 freq=0.5][font_size=32][/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Start Button" type="TextureButton" parent="Multiplayer Frame/Lobby Host" unique_id=1759780426]
+visible = false
+layout_mode = 0
+offset_left = 642.8571
+offset_top = 610.0
+offset_right = 936.8571
+offset_bottom = 701.0
+texture_normal = ExtResource("11_elppw")
+texture_pressed = ExtResource("12_6qg4u")
+texture_hover = ExtResource("13_72rfk")
+
+[node name="Invite Label" type="Label" parent="Multiplayer Frame/Lobby Host/Start Button" unique_id=737860400]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.044000003
+anchor_top = 0.143
+anchor_right = 0.95600003
+anchor_bottom = 0.846
+offset_left = 0.063999176
+offset_top = -0.012969971
+offset_right = -0.06399536
+offset_bottom = 0.014030457
+grow_horizontal = 2
+grow_vertical = 2
+text = "Start"
+label_settings = SubResource("LabelSettings_cc3vf")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Lobby Guest" type="Control" parent="Multiplayer Frame" unique_id=353390996]
+visible = false
+anchors_preset = 0
+offset_right = 40.0
+offset_bottom = 40.0
+
+[node name="CurrentLoadoutLabel" type="RichTextLabel" parent="Multiplayer Frame/Lobby Guest" unique_id=1835756958]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 511.1257
+offset_top = 10.948589
+offset_right = 1048.5715
+offset_bottom = 150.33154
+bbcode_enabled = true
+text = "[pulse color=green height=0.5 freq=1][font_size=32]Current Opponent:[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="OpponentNameLabel" type="RichTextLabel" parent="Multiplayer Frame/Lobby Guest" unique_id=773316271]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 511.1257
+offset_top = 268.09143
+offset_right = 1048.5715
+offset_bottom = 407.4744
+bbcode_enabled = true
+text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]Opponent Name[/font_size][/pulse]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="AwaitingLabel" type="RichTextLabel" parent="Multiplayer Frame/Lobby Guest" unique_id=1024423103]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.079
+anchor_top = 0.012
+anchor_right = 0.25
+anchor_bottom = 0.20600002
+offset_left = 511.1257
+offset_top = 523.8057
+offset_right = 1048.5715
+offset_bottom = 663.18866
+bbcode_enabled = true
+text = "[font_size=32]Waiting For Host...[/font_size]"
+horizontal_alignment = 1
+vertical_alignment = 1
+
 [connection signal="visibility_changed" from="Solo Frame" to="." method="_on_solo_frame_visibility_changed"]
 [connection signal="value_changed" from="Solo Frame/Difficulty Slider" to="." method="_on_difficulty_slider_value_changed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
+[connection signal="pressed" from="Multiplayer Frame/ContainerOne/Create Button" to="." method="_on_create_button_pressed"]
+[connection signal="pressed" from="Multiplayer Frame/Lobby Host/Invite Button" to="." method="_on_invite_button_pressed"]

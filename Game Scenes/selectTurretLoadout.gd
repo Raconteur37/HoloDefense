@@ -32,8 +32,6 @@ func _ready() -> void:
 			if TurretManager.getTurretStat(turret, "rarity") == rarity:
 				add_turret_button(turret)
 
-	is_multiplayer = GameManager.VSmode
-
 	if is_multiplayer:
 		# ← Reset lobby state so _process doesn't instantly trigger
 		if SteamManager.is_host():
