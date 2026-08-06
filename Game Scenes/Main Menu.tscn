@@ -852,7 +852,6 @@ text = "[pulse color=green height=0.5 freq=0.3][font_size=20]Difficulty:  1[/fon
 libraries/ = SubResource("AnimationLibrary_tlcwe")
 
 [node name="Multiplayer Frame" type="TextureRect" parent="." unique_id=1384049047]
-visible = false
 layout_mode = 0
 offset_left = 598.0
 offset_top = 286.0
@@ -918,7 +917,6 @@ horizontal_alignment = 1
 vertical_alignment = 1
 
 [node name="Lobby Host" type="Control" parent="Multiplayer Frame" unique_id=1667343407]
-visible = false
 anchors_preset = 0
 offset_right = 40.0
 offset_bottom = 40.0

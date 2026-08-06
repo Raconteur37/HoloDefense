@@ -13,6 +13,8 @@ var opponentName : String
 
 signal lobby_join_status(success: bool)
 signal lobby_members_updated()
+signal opponent_left_lobby()
+signal lobby_disconnected()
 
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
@@ -40,6 +42,7 @@ func _ready() -> void:
 	Steam.lobby_joined.connect(_on_lobby_joined)
 	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
 
+
 func _process(_delta: float) -> void:
 	if steam_initialized:
 		Steam.run_callbacks()
@@ -55,6 +58,8 @@ func _on_lobby_created(connect_result: int, lobby_id: int):
 		Steam.setLobbyData(lobby_id, "lobby_name", "VS Lobby")
 		Steam.setLobbyData(lobby_id, "lobby_host", steam_name)
 		lobbyHost = steam_name
+		
+		updateLobby()
 		
 	else:
 		print("Failed to create lobby. Error code: ", connect_result)
@@ -74,13 +79,15 @@ func _on_lobby_join_requested(lobby_id: int, friend_id: int) -> void:
 func _on_lobby_joined(lobby_id: int, permissions: int, locked: bool, response: int) -> void:
 	if response == 1:
 		lobbyID = lobby_id
+		lobbyHost = Steam.getLobbyData(lobby_id, "lobby_host")
 		
 		var room_name = Steam.getLobbyData(lobby_id, "lobby_name")
 		print("Joined room: ", room_name)
 		
 		var host_id = Steam.getLobbyOwner(lobby_id)
 		lobby_join_status.emit(true)
-			
+		
+		updateLobby()
 	else:
 		print("Failed to join lobby. Steam response code: ", response)
 		lobby_join_status.emit(false)
@@ -117,9 +124,12 @@ func updateLobby() -> void:
 
 
 func _on_lobby_chat_update(lobby_id: int, changed_id: int, making_change_id: int, chat_state: int) -> void:
-	print("Lobby updated! Chat state: ", chat_state)
 	
-	updateLobby()
-	
-	if chat_state == 2 or chat_state == 4:
-		print("A player has left the lobby.")
+	if chat_state == 2 or chat_state == 4 or chat_state == 8:
+		print("The opponent left or disconnected. Destroying lobby.")
+		
+		leaveLobby()
+		
+		lobby_disconnected.emit()
+	else:
+		updateLobby()
