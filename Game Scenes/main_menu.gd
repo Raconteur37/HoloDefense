@@ -23,6 +23,8 @@ extends Control
 
 @onready var animationPlayer = $AnimationPlayer
 
+@onready var enemyGridContainer = $"Solo Frame/MultiplayerHolder/enemyBringingGrid"
+
 
 func _ready() -> void:
 	_connect_steam_manager_signals()
@@ -46,6 +48,9 @@ func _connect_steam_manager_signals() -> void:
 		SteamManager.lobby_disconnected.connect(_on_lobby_disconnected)
 	if not SteamManager.match_state_changed.is_connected(_on_match_state_changed):
 		SteamManager.match_state_changed.connect(_on_match_state_changed)
+	if not SteamManager.opponent_loadout_changed.is_connected(_on_opponent_loadout_changed):
+		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
+
 
 func _on_opponent_left() -> void:
 	if SteamManager.lobbyHost == SteamManager.steam_name:
@@ -146,9 +151,9 @@ func resetMultiplayerData() -> void:
 	multiplayerFrame.hide()
 	$"Play Button Holder".hide()
 	$GenericButtonHolder.show()
+	GameManager.VSmode = false
 
 func _on_lobby_disconnected() -> void:
-	resetMultiplayerData()
 	$"Multiplayer Frame/ContainerOne".show()
 	joinButton.show()
 	createButton.show()
@@ -166,3 +171,52 @@ func _on_match_state_changed(new_state: String) -> void:
 		soloFrame.show()
 		$"Solo Frame/MultiplayerHolder".show()
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
+
+
+# --- Loadout & Slots ---
+
+func _equip_local_turret(slot_number: int, turret_name: String) -> void:
+	var slot_string = "slot_" + str(slot_number)
+	
+	# 1. Send the data to Steam so the opponent sees it
+	SteamManager.set_loadout_slot(slot_string, turret_name)
+	print("Equipped ", turret_name, " in ", slot_string)
+	
+	# 2. Update your own local UI here
+	# $"Solo Frame/MultiplayerHolder/MySlot1".texture = load(...)
+
+
+
+func _on_opponent_loadout_changed(slot: String, turret_name: String) -> void:
+	
+	for child in enemyGridContainer.get_children():
+		child.queue_free()
+	
+	$"Solo Frame/MultiplayerHolder/RichTextLabel".text = turret_name
+	
+	match slot:
+		"slot_1":
+			pass # $"Solo Frame/MultiplayerHolder/OpponentSlot1".texture = loaded_texture
+		"slot_2":
+			pass
+		"slot_3":
+			pass
+		"slot_4":
+			pass
+		"slot_5":
+			pass
+		"slot_6":
+			pass
+		"slot_7":
+			pass
+		"slot_8":
+			pass
+		"slot_9":
+			pass
+		"slot_10":
+			pass
+
+
+func _on_ready_button_pressed() -> void:
+	$ReadyLabel.text = "[steel]Locked In[/steel]"
+	$"Solo Frame/ReadyButton".modulate = Color.LAWN_GREEN
