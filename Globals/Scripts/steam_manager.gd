@@ -15,6 +15,7 @@ signal lobby_join_status(success: bool)
 signal lobby_members_updated()
 signal opponent_left_lobby()
 signal lobby_disconnected()
+signal match_state_changed(new_state: String)
 
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
@@ -40,7 +41,7 @@ func _ready() -> void:
 	Steam.lobby_created.connect(_on_lobby_created)
 	Steam.join_requested.connect(_on_lobby_join_requested)
 	Steam.lobby_joined.connect(_on_lobby_joined)
-	Steam.lobby_chat_update.connect(_on_lobby_chat_update)
+	Steam.lobby_data_update.connect(_on_lobby_data_update)
 
 
 func _process(_delta: float) -> void:
@@ -112,27 +113,29 @@ func updateLobby() -> void:
 		
 	opponentName = ""
 	
-	var num_members = Steam.getNumLobbyMembers(lobbyID)
+	var numMembers = Steam.getNumLobbyMembers(lobbyID)
 	
-	for i in range(num_members):
-		var member_steam_id = Steam.getLobbyMemberByIndex(lobbyID, i)
+	for i in range(numMembers):
+		var memberSteamId = Steam.getLobbyMemberByIndex(lobbyID, i)
 		
-		if member_steam_id != steam_id:
-			opponentName = Steam.getFriendPersonaName(member_steam_id)
+		if memberSteamId != steam_id:
+			opponentName = Steam.getFriendPersonaName(memberSteamId)
 			
 	lobby_members_updated.emit()
 
 
-func _on_lobby_chat_update(lobby_id: int, changed_id: int, making_change_id: int, chat_state: int) -> void:
-	
-	if chat_state == 2 or chat_state == 4 or chat_state == 8:
-		print("The opponent left or disconnected. Destroying lobby.")
+func _on_lobby_data_update(lobbyId: int, memberId: int, success: bool) -> void:
+	if memberId == lobbyId:
+		var currentState = Steam.getLobbyData(lobbyId, "match_state")
 		
-		leaveLobby()
-		
-		lobby_disconnected.emit()
-	else:
-		updateLobby()
+		if currentState != "":
+			match_state_changed.emit(currentState)
+			
+	# Check if an INDIVIDUAL player updated their loadout data
+	elif memberId != steam_id:
+		var opponentTurret = Steam.getLobbyMemberData(lobbyId, memberId, "slot_1")
+		if opponentTurret != "":
+			print("Opponent equipped: ", opponentTurret)
 
 
 func check_player_count() -> int:
@@ -142,3 +145,9 @@ func check_player_count() -> int:
 	var current_players = Steam.getNumLobbyMembers(lobbyID)
 	
 	return current_players
+
+func advance_to_loadout() -> void:
+	if lobbyHost != steam_name:
+		return
+		
+	Steam.setLobbyData(lobbyID, "match_state", "loadout")
