@@ -75,8 +75,15 @@ func leaveLobby() -> void:
 
 
 func advance_to_loadout() -> void:
-	if lobbyHost != steam_name:
+	if lobbyID == 0:
 		return
+		
+	var current_owner_id = Steam.getLobbyOwner(lobbyID)
+	
+	if current_owner_id != steam_id:
+		print("Only the host can advance the state.")
+		
+	print("Host is advancing match state to loadout...")
 	Steam.setLobbyData(lobbyID, "match_state", "loadout")
 
 

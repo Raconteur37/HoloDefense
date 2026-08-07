@@ -173,20 +173,6 @@ func _on_match_state_changed(new_state: String) -> void:
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
 
 
-# --- Loadout & Slots ---
-
-func _equip_local_turret(slot_number: int, turret_name: String) -> void:
-	var slot_string = "slot_" + str(slot_number)
-	
-	# 1. Send the data to Steam so the opponent sees it
-	SteamManager.set_loadout_slot(slot_string, turret_name)
-	print("Equipped ", turret_name, " in ", slot_string)
-	
-	# 2. Update your own local UI here
-	# $"Solo Frame/MultiplayerHolder/MySlot1".texture = load(...)
-
-
-
 func _on_opponent_loadout_changed(slot: String, turret_name: String) -> void:
 	
 	for child in enemyGridContainer.get_children():
