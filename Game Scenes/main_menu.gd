@@ -29,7 +29,8 @@ func _ready() -> void:
 	SteamManager.lobby_members_updated.connect(_update_player_labels)
 	SteamManager.opponent_left_lobby.connect(resetMultiplayerData)
 	SteamManager.lobby_disconnected.connect(_on_lobby_disconnected)
-	
+	SteamManager.match_state_changed.connect(_on_match_state_changed)
+
 	portal.hide()
 	SoundManager.stopMusic()
 	Engine.time_scale = 1
@@ -107,12 +108,12 @@ func _on_join_attempt_finished(success: bool):
 
 func _update_player_labels():
 	if SteamManager.lobbyHost == SteamManager.steam_name:
-		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName + "[font_size=32][/font_size][/pulse]"
+		$"Multiplayer Frame/Lobby Host/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName + "[/font_size][/pulse]"
 	else:
 		$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = "[pulse color=purple height=0.5 freq=0.5][font_size=32]" + SteamManager.opponentName +  "[/font_size][/pulse]"
 	if SteamManager.check_player_count() >= 2:
 		$"Multiplayer Frame/Lobby Host/Invite Button".hide()
-		$"Multiplayer Frame/Lobby Host/Start Button".start()
+		$"Multiplayer Frame/Lobby Host/Start Button".show()
 	
 func resetMultiplayerData():
 	$"Multiplayer Frame/Lobby Host".hide()
@@ -126,3 +127,15 @@ func _on_lobby_disconnected():
 	
 	joinButton.show()
 	createButton.show()
+
+
+func _on_start_button_pressed() -> void:
+	GameManager.VSmode = true
+	SteamManager.advance_to_loadout()
+
+func _on_match_state_changed(new_state: String):
+	if new_state == "loadout":
+		resetMultiplayerData()
+		soloFrame.show()
+		$"Solo Frame/MultiplayerHolder".show()
+		$"Solo Frame/MultiplayerHolder/OpponentName".text = "[pulse color=#9ffff5 height=0.5 freq=0.3][font_size=32]" + SteamManager.opponentName + "[/font_size][/pulse]"

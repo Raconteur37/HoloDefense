@@ -1073,3 +1073,4 @@ vertical_alignment = 1
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="Multiplayer Frame/ContainerOne/Create Button" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="Multiplayer Frame/Lobby Host/Invite Button" to="." method="_on_invite_button_pressed"]
+[connection signal="pressed" from="Multiplayer Frame/Lobby Host/Start Button" to="." method="_on_start_button_pressed"]
