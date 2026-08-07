@@ -135,10 +135,12 @@ func _on_remove_button_pressed(btn, turretID):
 func _sync_loadout_to_steam():
 	if not is_multiplayer:
 		return
-		
-	var loadout_string = ",".join(broughtArray)
-	
-	SteamManager.add_turret_to_loadout(loadout_string)
+
+	var turret_names: Array[String] = []
+	for turret_id in broughtArray:
+		turret_names.append(TurretManager.get_turret_string(turret_id))
+
+	SteamManager.set_loadout_slot("loadout_list", ",".join(turret_names))
 
 
 func _on_turret_info_button_pressed() -> void:

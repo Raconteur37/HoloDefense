@@ -194,17 +194,3 @@ func set_loadout_slot(slot_name: String, turret_name: String) -> void:
 		return
 		
 	Steam.setLobbyMemberData(lobbyID, slot_name, turret_name)
-
-
-func add_turret_to_loadout(turret_name: String) -> void:
-	if lobbyID == 0:
-		return
-		
-	var current_loadout = Steam.getLobbyMemberData(lobbyID, steam_id, "loadout_list")
-	
-	if current_loadout == "":
-		current_loadout = turret_name
-	else:
-		current_loadout += "," + turret_name
-		
-	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)

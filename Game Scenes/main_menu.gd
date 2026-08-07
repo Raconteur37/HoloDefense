@@ -174,33 +174,37 @@ func _on_match_state_changed(new_state: String) -> void:
 
 
 func _on_opponent_loadout_changed(slot: String, turret_name: String) -> void:
-	
+	if slot != "loadout_list":
+		return
+
 	for child in enemyGridContainer.get_children():
 		child.queue_free()
-	
-	$"Solo Frame/MultiplayerHolder/RichTextLabel".text = turret_name
-	
-	match slot:
-		"slot_1":
-			pass # $"Solo Frame/MultiplayerHolder/OpponentSlot1".texture = loaded_texture
-		"slot_2":
-			pass
-		"slot_3":
-			pass
-		"slot_4":
-			pass
-		"slot_5":
-			pass
-		"slot_6":
-			pass
-		"slot_7":
-			pass
-		"slot_8":
-			pass
-		"slot_9":
-			pass
-		"slot_10":
-			pass
+
+	if turret_name == "":
+		return
+
+	for turret_str in turret_name.split(","):
+		if turret_str == "":
+			continue
+
+		var turret_id = TurretManager.getTurretIdFromString(turret_str)
+		if turret_id == -1:
+			continue
+
+		var texture = TurretManager.getTurretTexture(turret_id)
+		if texture == null:
+			continue
+
+		var icon = Button.new()
+		icon.icon = texture
+		icon.flat = true
+		icon.disabled = true
+		icon.icon_alignment = HORIZONTAL_ALIGNMENT_CENTER
+		icon.expand_icon = true
+		icon.custom_minimum_size = Vector2(24, 24)
+		icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
+		icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
+		enemyGridContainer.add_child(icon)
 
 
 func _on_ready_button_pressed() -> void:
