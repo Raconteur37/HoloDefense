@@ -14,7 +14,6 @@ extends Control
 
 var broughtArray: Array = []
 var player_ready_states: Dictionary = {}
-var is_multiplayer: bool = false
 var is_ready: bool = false
 var has_started: bool = false
 var has_triggered_start: bool = false
@@ -24,11 +23,6 @@ var target_scroll: float = 0.0
 var scroll_tween: Tween
 
 func _ready() -> void:
-	#SoundManager.playLoadoutMusic()
-	#difSlider.value = GameManager.difficultySave
-	
-	#scroll.custom_minimum_size = Vector2(700, 150)
-	
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	
@@ -39,14 +33,14 @@ func _ready() -> void:
 			if TurretManager.getTurretStat(turret, "rarity") == rarity:
 				add_turret_button(turret)
 
-	if is_multiplayer:
-		# <- Reset lobby state so _process doesn't instantly trigger
-		if SteamManager.is_host():
-			Steam.setLobbyData(SteamManager.current_lobby_id, "state", "waiting")
-
-	if is_multiplayer:
-		for member in SteamManager.get_lobby_members():
-			player_ready_states[member["steam_id"]] = false
+	if GameManager.VSmode:
+		if SteamManager.lobbyID != 0 and SteamManager.check_player_count() > 0:
+			if Steam.getLobbyOwner(SteamManager.lobbyID) == SteamManager.steam_id:
+				Steam.setLobbyData(SteamManager.lobbyID, "state", "waiting")
+				
+		for member in Steam.getNumLobbyMembers(SteamManager.lobbyID):
+			var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, member)
+			player_ready_states[mem_id] = false
 
 
 func add_turret_button(turretID):
@@ -57,9 +51,7 @@ func add_turret_button(turretID):
 		btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		btn.pressed.connect(_on_turret_button_pressed.bind(btn, turretID))
 		
-		# Connect the hover signal to the new preview function
 		btn.mouse_entered.connect(_on_button_hovered.bind(turretID))
-		
 		btn.mouse_exited.connect(_on_button_exited)
 		
 		hbox.add_child(btn)
@@ -78,13 +70,10 @@ func add_remove_button(turretID):
 	btn.size_flags_vertical = Control.SIZE_EXPAND_FILL
 	
 	btn.mouse_entered.connect(func(): btn.modulate = Color(1.5, 1.5, 1.5, 1.0))
-
 	btn.mouse_exited.connect(func(): btn.modulate = Color.WHITE)
 	
 	btn.pressed.connect(_on_remove_button_pressed.bind(btn, turretID))
-	
 	btn.mouse_entered.connect(_on_button_hovered.bind(turretID))
-	
 	btn.mouse_exited.connect(_on_button_exited)
 	
 	bringingGrid.add_child(btn)
@@ -97,8 +86,8 @@ func _on_button_exited() -> void:
 	turretTittleLabel.text = ""
 	typeLabel.text = ""
 
-func _on_button_hovered(turretID) -> void:
 
+func _on_button_hovered(turretID) -> void:
 	if preview and preview.has_method("buildPreview"):
 		preview.buildPreview(turretID)
 	turretTittleLabel.text = TurretManager.getTurretStat(turretID,"name")
@@ -132,8 +121,10 @@ func _on_remove_button_pressed(btn, turretID):
 		launchLabel.hide()
 		launchButton.hide()
 
+
 func _sync_loadout_to_steam():
-	if not is_multiplayer:
+	# Only block this if we are not actually in a multiplayer lobby
+	if SteamManager.lobbyID == 0:
 		return
 
 	var turret_names: Array[String] = []
@@ -148,10 +139,10 @@ func _on_turret_info_button_pressed() -> void:
 
 
 func _on_begin_button_pressed() -> void:
-	if is_multiplayer:
+	if GameManager.VSmode:
 		return
+		
 	SoundManager.stopMusic()
-	#get_tree().get_first_node_in_group("CityCanvas").hide()
 	GameManager.turretsBrought = broughtArray.duplicate()
 	for item in GameManager.turretsBrought:
 		GameManager.turretTempLevels[item] = 0
@@ -160,6 +151,14 @@ func _on_begin_button_pressed() -> void:
 	PopupManager.clearCaptainPopups()
 	launchButton.disabled = true
 
+
+func _on_ready_button_pressed() -> void:
+	$ReadyLabel.text = "[steel]Locked In[/steel]"
+	$"Solo Frame/ReadyButton".modulate = Color.LAWN_GREEN
+	
+	# Broadcast readiness to the opponent!
+	if SteamManager.lobbyID != 0:
+		SteamManager.set_loadout_slot("is_ready", "true")
 
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
@@ -171,7 +170,7 @@ func _on_scroll_gui_input(event: InputEvent) -> void:
 			if not scroll_tween or not scroll_tween.is_running():
 				target_scroll = scroll.scroll_horizontal
 				
-			var scroll_amount = 150 # Adjust this to change how fast/far one wheel click moves
+			var scroll_amount = 150 
 			
 			if event.button_index == MOUSE_BUTTON_WHEEL_UP:
 				target_scroll = max(0, target_scroll - scroll_amount)
