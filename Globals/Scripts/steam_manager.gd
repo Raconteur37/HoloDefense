@@ -15,7 +15,7 @@ signal lobby_members_updated()
 signal opponent_left_lobby()
 signal lobby_disconnected()
 signal match_state_changed(new_state: String)
-signal opponent_loadout_changed(slot: String, turret_name: String)	
+signal opponent_loadout_changed(slot: String, turret_name: String)    
 
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
@@ -82,8 +82,8 @@ func advance_to_loadout() -> void:
 	
 	if current_owner_id != steam_id:
 		print("Only the host can advance the state.")
+		return # <-- The missing return has been added here
 		
-
 	Steam.setLobbyData(lobbyID, "match_state", "loadout")
 
 
@@ -149,14 +149,15 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		lobby_join_status.emit(false)
 
 
-func _on_lobby_data_update(lobby_id: int, member_id: int, success: bool) -> void:
+func _on_lobby_data_update(success, lobby_id: int, member_id: int) -> void:
 	if member_id == lobby_id:
 		var currentState = Steam.getLobbyData(lobby_id, "match_state")
 		if currentState != "":
 			match_state_changed.emit(currentState)
 			
 	elif member_id != steam_id:
-		var slots_to_check = ["slot_1", "slot_2", "slot_3", "slot_4","slot_5","slot_6","slot_7","slot_8","slot_9","slot_10"]
+		# Added "loadout_list" to the end here just in case you use the array method
+		var slots_to_check = ["slot_1", "slot_2", "slot_3", "slot_4", "slot_5", "slot_6", "slot_7", "slot_8", "slot_9", "slot_10", "loadout_list"]
 		
 		for slot in slots_to_check:
 			var opponentTurret = Steam.getLobbyMemberData(lobby_id, member_id, slot)
@@ -185,6 +186,9 @@ func _on_lobby_chat_update(lobby_id: int, changed_id: int, _making_change_id: in
 			opponent_left_lobby.emit()
 			updateLobby()
 
+
+# --- Loadout Management ---
+
 func set_loadout_slot(slot_name: String, turret_name: String) -> void:
 	if lobbyID == 0:
 		return
@@ -192,7 +196,6 @@ func set_loadout_slot(slot_name: String, turret_name: String) -> void:
 	Steam.setLobbyMemberData(lobbyID, slot_name, turret_name)
 
 
-# In SteamManager.gd
 func add_turret_to_loadout(turret_name: String) -> void:
 	if lobbyID == 0:
 		return
