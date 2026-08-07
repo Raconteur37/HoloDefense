@@ -166,7 +166,7 @@ func _on_start_button_pressed() -> void:
 
 func _on_match_state_changed(new_state: String) -> void:
 	if new_state == "loadout":
-		resetMultiplayerData()
+		#resetMultiplayerData()
 		multiplayerFrame.hide()
 		soloFrame.show()
 		$"Solo Frame/MultiplayerHolder".show()
