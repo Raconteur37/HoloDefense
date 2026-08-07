@@ -15,7 +15,7 @@ signal lobby_members_updated()
 signal opponent_left_lobby()
 signal lobby_disconnected()
 signal match_state_changed(new_state: String)
-
+signal opponent_loadout_changed(slot: String, turret_name: String)	
 
 func _ready() -> void:
 	print("=== STEAM MANAGER READY ===")
@@ -142,15 +142,19 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		lobby_join_status.emit(false)
 
 
-func _on_lobby_data_update(success, lobby_id: int, member_id: int) -> void:
+func _on_lobby_data_update(lobby_id: int, member_id: int, success: bool) -> void:
 	if member_id == lobby_id:
 		var currentState = Steam.getLobbyData(lobby_id, "match_state")
 		if currentState != "":
 			match_state_changed.emit(currentState)
+			
 	elif member_id != steam_id:
-		var opponentTurret = Steam.getLobbyMemberData(lobby_id, member_id, "slot_1")
-		if opponentTurret != "":
-			print("Opponent equipped: ", opponentTurret)
+		var slots_to_check = ["slot_1", "slot_2", "slot_3", "slot_4","slot_5","slot_6","slot_7","slot_8","slot_9","slot_10"]
+		
+		for slot in slots_to_check:
+			var opponentTurret = Steam.getLobbyMemberData(lobby_id, member_id, slot)
+			if opponentTurret != "":
+				opponent_loadout_changed.emit(slot, opponentTurret)
 
 
 func _on_lobby_chat_update(lobby_id: int, changed_id: int, _making_change_id: int, chat_state: int) -> void:
@@ -173,3 +177,24 @@ func _on_lobby_chat_update(lobby_id: int, changed_id: int, _making_change_id: in
 			opponentName = ""
 			opponent_left_lobby.emit()
 			updateLobby()
+
+func set_loadout_slot(slot_name: String, turret_name: String) -> void:
+	if lobbyID == 0:
+		return
+		
+	Steam.setLobbyMemberData(lobbyID, slot_name, turret_name)
+
+
+# In SteamManager.gd
+func add_turret_to_loadout(turret_name: String) -> void:
+	if lobbyID == 0:
+		return
+		
+	var current_loadout = Steam.getLobbyMemberData(lobbyID, steam_id, "loadout_list")
+	
+	if current_loadout == "":
+		current_loadout = turret_name
+	else:
+		current_loadout += "," + turret_name
+		
+	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)

@@ -742,6 +742,26 @@ texture_normal = ExtResource("19_5l8gd")
 texture_pressed = ExtResource("20_qo807")
 texture_hover = ExtResource("21_tlcwe")
 
+[node name="ReadyButton" type="TextureButton" parent="Solo Frame" unique_id=570502137]
+visible = false
+self_modulate = Color(0.8235295, 0.22745098, 0.5427679, 1)
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.38000003
+anchor_top = 0.74100006
+anchor_right = 0.619
+anchor_bottom = 0.887
+offset_left = -441.57147
+offset_top = -148.7814
+offset_right = 104.56433
+offset_bottom = 48.958557
+grow_horizontal = 2
+grow_vertical = 0
+scale = Vector2(0.25, 0.25)
+texture_normal = ExtResource("19_5l8gd")
+texture_pressed = ExtResource("20_qo807")
+texture_hover = ExtResource("21_tlcwe")
+
 [node name="MultiplayerHolder" type="Control" parent="Solo Frame" unique_id=828499172]
 visible = false
 anchors_preset = 0
@@ -764,7 +784,7 @@ text = "[pulse color=#9ffff5 height=0.5 freq=0.3][font_size=28]VS[/font_size][/p
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="BringingGrid" type="GridContainer" parent="Solo Frame/MultiplayerHolder" unique_id=1521863769]
+[node name="enemyBringingGrid" type="GridContainer" parent="Solo Frame/MultiplayerHolder" unique_id=1521863769]
 clip_contents = true
 custom_minimum_size = Vector2(16, 16)
 layout_mode = 1
@@ -833,6 +853,21 @@ offset_bottom = 647.0
 mouse_filter = 2
 bbcode_enabled = true
 text = "[steel]Launch[/steel]"
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_72rfk"), SubResource("RichTextEffect_2hop5"), SubResource("RichTextEffect_gm7qj"), SubResource("RichTextEffect_sfqoe"), SubResource("RichTextEffect_uf61o"), SubResource("RichTextEffect_5ogq3"), SubResource("RichTextEffect_72713"), SubResource("RichTextEffect_kejo7"), SubResource("RichTextEffect_8ugml"), SubResource("RichTextEffect_vjlh3")]
+
+[node name="ReadyLabel" type="RichTextLabel" parent="." unique_id=423123534]
+visible = false
+layout_mode = 0
+offset_left = 712.0
+offset_top = 611.0
+offset_right = 860.0
+offset_bottom = 647.0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[steel]Ready[/steel]"
 autowrap_mode = 2
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1070,6 +1105,9 @@ vertical_alignment = 1
 [connection signal="value_changed" from="Solo Frame/Difficulty Slider" to="." method="_on_difficulty_slider_value_changed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
+[connection signal="pressed" from="Solo Frame/ReadyButton" to="." method="_on_begin_button_pressed"]
+[connection signal="pressed" from="Solo Frame/ReadyButton" to="." method="_on_ready_button_pressed"]
+[connection signal="pressed" from="Solo Frame/ReadyButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="Multiplayer Frame/ContainerOne/Create Button" to="." method="_on_create_button_pressed"]
 [connection signal="pressed" from="Multiplayer Frame/Lobby Host/Invite Button" to="." method="_on_invite_button_pressed"]

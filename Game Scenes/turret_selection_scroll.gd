@@ -9,6 +9,9 @@ extends Control
 @onready var launchLabel = $"../../LaunchLabel"
 @onready var launchButton = $"../BeginButton"
 
+@onready var readyButton = $"../ReadyButton"
+@onready var readyLabel = $"../../ReadyLabel"
+
 var broughtArray: Array = []
 var player_ready_states: Dictionary = {}
 var is_multiplayer: bool = false
@@ -107,17 +110,35 @@ func _on_turret_button_pressed(btn, turretID):
 		btn.queue_free()
 		broughtArray.append(turretID)
 		add_remove_button(turretID)
-		launchLabel.show()
-		launchButton.show()
+		
+		_sync_loadout_to_steam()
+		
+		if not GameManager.VSmode:
+			launchLabel.show()
+			launchButton.show()
+		else:
+			readyButton.show()
+			readyLabel.show()
 
 
 func _on_remove_button_pressed(btn, turretID):
 	btn.queue_free()
 	add_turret_button(turretID)
 	broughtArray.erase(turretID)
+	
+	_sync_loadout_to_steam()
+	
 	if broughtArray.size() <= 0:
 		launchLabel.hide()
 		launchButton.hide()
+
+func _sync_loadout_to_steam():
+	if not is_multiplayer:
+		return
+		
+	var loadout_string = ",".join(broughtArray)
+	
+	SteamManager.add_turret_to_loadout(loadout_string)
 
 
 func _on_turret_info_button_pressed() -> void:
