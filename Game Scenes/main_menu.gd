@@ -121,8 +121,6 @@ func _on_join_attempt_finished(success: bool) -> void:
 		playButtonHolder.hide()
 		genericButtonHolder.hide()
 		$"Multiplayer Frame/ContainerOne".hide()
-		# Opponent name label is filled in by _update_player_labels(),
-		# which fires right after via SteamManager.lobby_members_updated.
 	else:
 		print("Failed to join")
 
@@ -142,7 +140,12 @@ func resetMultiplayerData() -> void:
 	$"Multiplayer Frame/Lobby Host".hide()
 	$"Multiplayer Frame/Lobby Guest".hide()
 	$"Multiplayer Frame/Lobby Guest/OpponentNameLabel".text = ""
-
+	$"Solo Frame/MultiplayerHolder".hide()
+	$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label("", "#9ffff5", 0.3)
+	soloFrame.hide()
+	multiplayerFrame.hide()
+	$"Play Button Holder".hide()
+	$GenericButtonHolder.show()
 
 func _on_lobby_disconnected() -> void:
 	resetMultiplayerData()
@@ -159,6 +162,7 @@ func _on_start_button_pressed() -> void:
 func _on_match_state_changed(new_state: String) -> void:
 	if new_state == "loadout":
 		resetMultiplayerData()
+		multiplayerFrame.hide()
 		soloFrame.show()
 		$"Solo Frame/MultiplayerHolder".show()
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
