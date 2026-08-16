@@ -7,7 +7,7 @@ extends CanvasLayer
 
 func _ready() -> void:
 	pass
-	#buildPreview(Turret.TurretID.ZOMBIE_TURRET)
+	#buildPreview(Turret.TurretID.ROYAL_TURRET)
 
 func buildPreview(turret : Turret.TurretID):
 	timer.start()

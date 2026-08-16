@@ -160,11 +160,11 @@ func _on_damage_tick_timer_timeout() -> void:
 
 func strikeEnemy(start_global_pos: Vector2, target_enemy: Node2D) -> void:
 	var shockParticle = projectile.instantiate()
-	shockParticle.global_position = start_global_pos
+	shockParticle.global_position = to_local(start_global_pos)
 	
 	get_parent().add_child(shockParticle)
 
-	var start_position = to_local(Vector2(0, 0))
+	var start_position = self.global_position
 	var end_position = shockParticle.to_local(target_enemy.global_position)
 	
 	shockParticle.points = [start_position, end_position]

@@ -299,7 +299,7 @@ shader_parameter/zombie_flesh_color = Color(0.35, 0.5, 0.25, 1)
 shader_parameter/zombie_rot_color = Color(0.15, 0.2, 0.1, 1)
 shader_parameter/is_highlighted = false
 shader_parameter/highlight_color = Color(1, 0.8, 0.2, 1)
-shader_parameter/default_tint = Color(1, 1, 1, 1)
+shader_parameter/default_tint = Color(0.9143204, 0.9143204, 0.9143204, 1)
 shader_parameter/flash_color = Color(0.79607844, 0.79607844, 0.79607844, 1)
 shader_parameter/flash_modifier = 0.0
 shader_parameter/is_targeted = false
@@ -311,7 +311,7 @@ shader_parameter/shine_speed = 1.5
 shader_parameter/shine_width = 0.15
 shader_parameter/is_time_fractured = false
 shader_parameter/fracture_intensity = 0.025
-shader_parameter/fracture_tint = Color(0.3, 0.9, 1, 1)
+shader_parameter/fracture_tint = Color(0.2, 0.9, 1, 1)
 shader_parameter/crack_color = Color(0.9, 0.1, 1, 1)
 shader_parameter/crack_glow_strength = 2.5
 shader_parameter/is_summoner = false
@@ -340,6 +340,7 @@ collision_mask = 3
 script = ExtResource("1_g1mtm")
 
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=841419490]
+visible = false
 shape = SubResource("CircleShape2D_bvjfm")
 
 [node name="Sprite2D" type="Sprite2D" parent="." unique_id=2003734995]
@@ -348,6 +349,7 @@ scale = Vector2(0.013, 0.013)
 texture = ExtResource("3_g1mtm")
 
 [node name="HitboxArea" type="Area2D" parent="." unique_id=56280738]
+visible = false
 collision_layer = 4
 collision_mask = 131
 

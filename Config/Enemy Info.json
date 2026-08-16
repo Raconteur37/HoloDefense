@@ -92,7 +92,7 @@
 		 "health":4500,
 		 "damage":1000,
 		 "speed":5,
-		 "eventTime":30,
+		 "eventTime":25,
 		 "enemiesToSummon":60,
 		 "description":"One of the sacred bosses of the universe, super slow but will summon her childeren every couple seconds.",
 		 "threat_level":"Extreme"
@@ -102,7 +102,7 @@
 		 "name":"Packed Circle",
 		 "tier":3,
 		 "health":35,
-		 "damage":100,
+		 "damage":75,
 		 "explosion_radius":100,
 		 "speed":50,
 		 "minis_spawned":5,
@@ -119,6 +119,18 @@
 		 "speed":90,
 		 "description":"Rushes at turrets to explode, very low health and usually comes from Packed Circles.",
 		 "threat_level":"Low"
+	  },
+	  {
+		 "id":"drilling_cone",
+		 "name":"Drilling Cone",
+		 "tier":2,
+		 "health":190,
+		 "damage":5,
+		 "attackTime":0.4,
+		 "speed":35,
+		 "attackRange": 200,
+		 "description":"Locks onto a turret and rushes at it to drill it down to dust.",
+		 "threat_level":"High"
 	  }
    ]
 }

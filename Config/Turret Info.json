@@ -149,7 +149,7 @@
 		"burnTime": 5.0,
 		"refundChance": 30.0,
 		"shotDelay": 0.8,
-		"scaleFactor": 0.07
+		"scaleFactor": 0.06
 	},
 	"reaper_turret": {
 		"id": 8.0,
@@ -222,7 +222,7 @@
 		"name": "Seismic Turret",
 		"description": "Rumbles the ground with a shockwave, destroying all enemies in a close range.",
 		"levelTwo": "While the turret is reloading, it creates a mini shockwave that continuously does damage.",
-		"levelThree": "When an enemy is killed my a shockwave, it creates another shockwave that chains to other enemies.",
+		"levelThree": "When an enemy is killed by a shockwave, it creates another shockwave that chains to other enemies.",
 		"rarity": "Rare",
 		"type": "Tanky",
 		"price": 35.0,
@@ -439,5 +439,25 @@
 		"travelTime": 1.25,
 		"extraShots": 2,
 		"scaleFactor": 0.04
+	},
+	"shield_turret": {
+		"id": 21.0,
+		"name": "Shield Turret",
+		"description": "Every few seconds knocks back enemies in range.",
+		"levelTwo": "When another Shield Turret is placed adjacent to this one, gain damage resistance.",
+		"levelThree": "Every few seconds, provide all non Shield Turrets adjacent to this turret armor.",
+		"rarity": "Common",
+		"type": "Tanky",
+		"price": 25.0,
+		"armor": 50.0,
+		"health": 50.0,
+		"range": 45.0,
+		"reloadTime": 6,
+		"constructionTime": 15.5,
+		"knockbackVelocity": 700.0,
+		"damageResistance": 30,
+		"armorProvided": 3,
+		"armorTime": 2,
+		"scaleFactor": 0.03
 	},
 }

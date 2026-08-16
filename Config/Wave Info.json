@@ -44,8 +44,8 @@
 		 "intermission_duration_sec":14.0,
 		 "systemTransitionDurationSec":90.0,
 		 "eventChance":10,
-		 "eliteChance": 10,
-		 "eliteChanceIncreasePerWave": 0.5
+		 "eliteChance": 1,
+		 "eliteChanceIncreasePerWave": 0.2
 	  },
 	  {
 		 "level":2,
@@ -57,8 +57,8 @@
 		 "intermission_duration_sec":12.0,
 		 "systemTransitionDurationSec":80.0,
 		 "eventChance":20,
-		 "eliteChance": 12,
-		 "eliteChanceIncreasePerWave": 0.75
+		 "eliteChance": 2,
+		 "eliteChanceIncreasePerWave": 0.23
 	  },
 	  {
 		 "level":3,
@@ -70,8 +70,8 @@
 		 "intermission_duration_sec":10.0,
 		 "systemTransitionDurationSec":70.0,
 		 "eventChance":30,
-		 "eliteChance": 13,
-		 "eliteChanceIncreasePerWave": 1
+		 "eliteChance": 3,
+		 "eliteChanceIncreasePerWave": 0.25
 	  },
 	  {
 		 "level":4,
@@ -83,8 +83,8 @@
 		 "intermission_duration_sec":8.5,
 		 "systemTransitionDurationSec":70.0,
 		 "eventChance":40,
-		 "eliteChance": 15,
-		 "eliteChanceIncreasePerWave": 1.25
+		 "eliteChance": 3,
+		 "eliteChanceIncreasePerWave": 0.3
 	  },
 	  {
 		 "level":5,
@@ -96,8 +96,8 @@
 		 "intermission_duration_sec":7.0,
 		 "systemTransitionDurationSec":70.0,
 		 "eventChance":40,
-		 "eliteChance": 18,
-		 "eliteChanceIncreasePerWave": 1.50
+		 "eliteChance": 4,
+		 "eliteChanceIncreasePerWave": 0.3
 	  },
 	  {
 		 "level":6,
@@ -109,8 +109,8 @@
 		 "intermission_duration_sec":6.0,
 		 "systemTransitionDurationSec":60.0,
 		 "eventChance":40,
-		 "eliteChance": 20,
-		 "eliteChanceIncreasePerWave": 1.75
+		 "eliteChance": 5,
+		 "eliteChanceIncreasePerWave": 0.4
 	  },
 	  {
 		 "level":7,
@@ -122,8 +122,8 @@
 		 "intermission_duration_sec":5.0,
 		 "systemTransitionDurationSec":50.0,
 		 "eventChance":50,
-		 "eliteChance": 22,
-		 "eliteChanceIncreasePerWave": 2
+		 "eliteChance": 6,
+		 "eliteChanceIncreasePerWave": 0.4
 	  },
 	  {
 		 "level":8,
@@ -135,8 +135,8 @@
 		 "intermission_duration_sec":4.0,
 		 "systemTransitionDurationSec":40.0,
 		 "eventChance":60,
-		 "eliteChance": 24,
-		 "eliteChanceIncreasePerWave": 2.25
+		 "eliteChance": 6,
+		 "eliteChanceIncreasePerWave": 0.42
 	  },
 	  {
 		 "level":9,
@@ -148,8 +148,8 @@
 		 "intermission_duration_sec":3.0,
 		 "systemTransitionDurationSec":40.0,
 		 "eventChance":70,
-		 "eliteChance": 26,
-		 "eliteChanceIncreasePerWave": 2.5
+		 "eliteChance": 7,
+		 "eliteChanceIncreasePerWave": 0.5
 	  },
 	  {
 		 "level":10,
@@ -161,8 +161,8 @@
 		 "intermission_duration_sec":2.0,
 		 "systemTransitionDurationSec":40.0,
 		 "eventChance":80,
-		 "eliteChance": 28,
-		 "eliteChanceIncreasePerWave": 2.75
+		 "eliteChance": 8,
+		 "eliteChanceIncreasePerWave": 0.6
 	  },
 	  {
 		 "level":11,
@@ -174,8 +174,8 @@
 		 "intermission_duration_sec":1.0,
 		 "systemTransitionDurationSec":35.0,
 		 "eventChance":90,
-		 "eliteChance": 30,
-		 "eliteChanceIncreasePerWave": 3
+		 "eliteChance": 8.2,
+		 "eliteChanceIncreasePerWave": 0.6
 	  }
    ]
 }

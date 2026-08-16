@@ -128,6 +128,9 @@ func killEnemy(source: Node, enemy: Enemy) -> void:
 
 
 func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) -> void:
+	
+	var damageResPercent = 0
+	
 	if entity is Turret and entity.preview:
 		return
 	if is_instance_valid(damager):
@@ -150,7 +153,19 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 				else:
 					projectile.queue_free()
 
-			var takenDamage = applyArmor(damage, turret)
+			match turret.turretID:
+				Turret.TurretID.MINI_SENTRY_TURRET:
+					if turret.level >= 3:
+						turret.stopRepairEvent()
+				Turret.TurretID.RAILGUN_TURRET:
+					if turret.level >= 2:
+						turret.attackedReloadCooldownReduction()
+				Turret.TurretID.SHIELD_TURRET:
+					if turret.damageResActive:
+						damageResPercent += turret.damageResistance
+			
+			var reducedDamage = damage * (1 - (0.01 * damageResPercent))
+			var takenDamage = applyArmor(reducedDamage, turret)
 			turret.health -= takenDamage
 			StatManager.addStat(turret.turretID, "damage_taken", takenDamage)
 			
@@ -161,16 +176,14 @@ func turretTakeDamage(damage: float, entity: Node, projectile: Node, damager) ->
 				turret.death()
 				return
 
+			var flash_tween = turret.create_tween()
+			turret.modulate = Color(4.0, 4.0, 4.0, 1.0) 
+			flash_tween.tween_property(turret, "modulate", Color.WHITE, 0.15)
+
 			turret.refreshUI(turret)
 			
-			match turret.turretID:
-				Turret.TurretID.MINI_SENTRY_TURRET:
-					if turret.level >= 3:
-						turret.stopRepairEvent()
-				Turret.TurretID.RAILGUN_TURRET:
-					if turret.level >= 2:
-						turret.attackedReloadCooldownReduction()
-						
+
+				
 		elif entity is Minion:
 			var minion = entity
 			minion.health -= damage
@@ -187,13 +200,13 @@ func applyArmor(damage: int, entity: Node) -> int:
 	if entity.armor <= 0:
 		return damage
 
-	var mitigated = int(damage * 0.7)  # always reduce damage by 30%
+	var mitigated = int(damage * 0.7) 
 	var absorbed = min(entity.armor, mitigated)
 	
 	entity.armor -= absorbed
 	entity.armor = max(entity.armor, 0)
 
-	var remainder = mitigated - absorbed  # only what armor couldn't cover hits health
+	var remainder = mitigated - absorbed 
 	return remainder
 
 

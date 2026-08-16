@@ -40,7 +40,8 @@ const ALL_TURRETS: Array[Turret.TurretID] = [
 	Turret.TurretID.BUBBLE_TURRET,
 	Turret.TurretID.BOOMERANG_TURRET,
 	Turret.TurretID.SNIPER_TURRET,
-	Turret.TurretID.MORTAR_TURRET
+	Turret.TurretID.MORTAR_TURRET,
+	Turret.TurretID.SHIELD_TURRET
 ]
 
 const TURRET_SCENE_PATHS = {
@@ -63,7 +64,8 @@ const TURRET_SCENE_PATHS = {
 	Turret.TurretID.BUBBLE_TURRET: "res://Turret Scenes/Bubble Turret.tscn",
 	Turret.TurretID.BOOMERANG_TURRET: "res://Turret Scenes/Boomerang Turret.tscn",
 	Turret.TurretID.SNIPER_TURRET: "res://Turret Scenes/Sniper Turret.tscn",
-	Turret.TurretID.MORTAR_TURRET: "res://Turret Scenes/Mortar Turret.tscn"
+	Turret.TurretID.MORTAR_TURRET: "res://Turret Scenes/Mortar Turret.tscn",
+	Turret.TurretID.SHIELD_TURRET: "res://Turret Scenes/Shield Turret.tscn"
 
 }
 
@@ -87,8 +89,8 @@ const TURRET_TEXTURE_PATHS = {
 	Turret.TurretID.BUBBLE_TURRET: "res://Textures/Turrets/Bubble Turret/Bubble Turret.png",
 	Turret.TurretID.BOOMERANG_TURRET: "res://Textures/Turrets/Boomerang Turret/Boomerang Turret.png",
 	Turret.TurretID.SNIPER_TURRET: "res://Textures/Turrets/Sniper Turret/Sniper Turret.png",
-	Turret.TurretID.MORTAR_TURRET: "res://Textures/Turrets/Mortar Turret/Mortar Turret.png"
-
+	Turret.TurretID.MORTAR_TURRET: "res://Textures/Turrets/Mortar Turret/Mortar Turret.png",
+	Turret.TurretID.SHIELD_TURRET: "res://Textures/Turrets/Shield Turret/Shield Turret.png"
 }
 
 const STAT_ITEM_SCENE = preload("res://Globals/Scene/TurretDescription/StatisticItem.tscn")
@@ -323,7 +325,8 @@ func createPropertiesLabels(turret: Turret) -> Array:
 		"bubbleApplyTime": ["Bubble Apply Time: ", Color.CORNFLOWER_BLUE, "s"],
 		"bubbleHealth": ["Bubble Provided Health: ", Color.DEEP_SKY_BLUE],
 		"maxBubbles": ["Max Bubbles: ", Color.DEEP_SKY_BLUE],
-		"maxEnemies": ["Max Enemies: ", Color.DEEP_SKY_BLUE]
+		"maxEnemies": ["Max Enemies: ", Color.DEEP_SKY_BLUE],
+		"knockbackVel": ["Knockback Velocity: ", Color.ANTIQUE_WHITE]
 	}
 
 	if turret.hasBubble:
@@ -429,7 +432,16 @@ func createPropertiesLabels(turret: Turret) -> Array:
 				labels.append(_create_stat_label("Fire Pool Ignite Damage: %ss" % turret.poolIgniteDamage, Color.INDIAN_RED))
 				if turret.level >= 3:
 					labels.append(_create_stat_label("Extra Shots: %s" % turret.extraShots, Color.GRAY))
+			
+			Turret.TurretID.SHIELD_TURRET:
+				if turret.damageResActive:
+					labels.append(_create_stat_label("Damage Resistance: %s%%" % turret.damageResistance, Color.DARK_GRAY))
+				if turret.level >= 3:
+					labels.append(_create_stat_label("Armor Provided: %s" % turret.armorProvided, Color.LIGHT_GRAY))
+					labels.append(_create_stat_label("Armor Provided Time: %ss" % turret.armorTime, Color.SLATE_GRAY))
 
+
+			
 	return labels
 
 # Helper function for the UI to call

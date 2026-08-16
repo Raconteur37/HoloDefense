@@ -4,7 +4,7 @@ extends Label
 
 func _ready():
 	# Test it out when the scene plays
-	var system = WaveManager.currentSystem
+	var system = WaveManager.systemNumber
 	var difficulty = WaveManager.currentDifficulty
 	await get_tree().create_timer(1).timeout
 	start_typing("Attempt #" + str(int(StatManager.getLifetimeStat("totalRuns")) + 1) + "\n" +

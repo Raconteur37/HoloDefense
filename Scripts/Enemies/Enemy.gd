@@ -2,7 +2,8 @@ extends CharacterBody2D
 
 class_name Enemy
 
-enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE, MINI_PACKED_CIRCLE}
+enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE, MINI_PACKED_CIRCLE,
+DRILLING_CONE}
 enum Type {BASIC, BOSS, ELITE}
 enum EliteType {STEEL, TIME_FRACTURED, SUMMONER, WINDY, MENDING, UNSTOPPABLE, PARACASUAL}
 
@@ -83,7 +84,6 @@ func _draw() -> void:
 func _process(delta: float) -> void:
 	var is_mouse_near = global_position.distance_to(get_global_mouse_position()) < 50.0
 	
-	# Highlight if GameManager says we are looking AND the mouse is close enough
 	var should_highlight = is_mouse_near and GameManager.turretTargetToggle
 	
 	if should_highlight != highlighted:
@@ -101,12 +101,11 @@ func _physics_process(delta: float) -> void:
 	if is_sent_enemy and not multiplayer.is_server():
 		return
 	
-	if knockbackVelocity != Vector2.ZERO and eliteType != EliteType.UNSTOPPABLE:
+	if knockbackVelocity != Vector2.ZERO:
 		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 	
 	if stunned and eliteType != EliteType.UNSTOPPABLE:
 		if knockbackVelocity != Vector2.ZERO:
-			knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 			velocity = knockbackVelocity
 			move_and_slide() 
 		return
@@ -116,16 +115,37 @@ func _physics_process(delta: float) -> void:
 	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 
 	if turretsInRange.size() > 0 and not isZombie:
-		velocity = Vector2.ZERO
+		var targetTurret = turretsInRange[0]
 		
+		if knockbackVelocity != Vector2.ZERO:
+			velocity = knockbackVelocity
+			move_and_slide()
+		else:
+			var dist_to_turret = global_position.distance_to(targetTurret.global_position)
+			
+			var current_attack_range = attackRange if attackRange > 0.0 else 40.0
+			
+			if dist_to_turret > current_attack_range:
+				var direction = (targetTurret.global_position - global_position).normalized()
+				velocity = direction * speed
+			else:
+				velocity = Vector2.ZERO
+			
+			move_and_slide()
+
+		# Attack logic
 		if attackReady and not ranged:
-			var targetTurret = turretsInRange[0]
-			EntityManager.turretTakeDamage(damage, targetTurret, null, self)
-			startAttackCooldown()
+			var dist_to_turret = global_position.distance_to(targetTurret.global_position)
+			var current_attack_range = attackRange if attackRange > 0.0 else 40.0
+			
+			# Only deal damage if we have walked back into physical range
+			if dist_to_turret <= current_attack_range:
+				EntityManager.turretTakeDamage(damage, targetTurret, null, self)
+				startAttackCooldown()
 	else:
 		move()
 
-	if isZombie and not initialTurn and type != Type.BOSS:
+	if isZombie and not initialTurn:
 		initZombie()
 
 func updateDestination() -> void:
@@ -158,7 +178,7 @@ func move() -> void:
 				if impact_angle < -0.4:
 					velocity = Vector2.ZERO
 					
-					if attackReady:
+					if attackReady and enemyID != EnemyID.PACKED_CIRCLE:
 						EntityManager.turretTakeDamage(damage, collider, null, self)
 						startAttackCooldown()
 					return
@@ -241,6 +261,8 @@ func applyScaling() -> void:
 
 
 func applyKnockback(origin_pos: Vector2, strength: float) -> void:
+	if type == Type.BOSS or eliteType == EliteType.UNSTOPPABLE:
+		return
 	var push_direction = (global_position - origin_pos).normalized()
 	knockbackVelocity = push_direction * strength
 

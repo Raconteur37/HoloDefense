@@ -18,7 +18,7 @@ var _placing: bool = false
 var _current_id: Turret.TurretID
 var _ghost: Node2D = null
 var _ghost_sprite: Sprite2D = null
-var _occupied: Dictionary = {}
+var _occupied: Dictionary = {}  # Vector2i cell -> turret Node
 var _hovered_cell: Vector2i = Vector2i(-9999, -9999)
 var _range_radius: float = 0.0
 
@@ -34,7 +34,18 @@ var _sell_turret_node: Node = null
 var _sell_sprite: Sprite2D = null
 var _sell_sprite_original_material: Material = null
 
+const ORTHOGONAL_OFFSETS := [
+	Vector2i(1, 0), Vector2i(-1, 0), Vector2i(0, 1), Vector2i(0, -1)
+]
+const DIAGONAL_OFFSETS := [
+	Vector2i(1, 1), Vector2i(1, -1), Vector2i(-1, 1), Vector2i(-1, -1)
+]
+
 signal turret_placed(cell: Vector2i, turret: Node)
+
+func _ready() -> void:
+	add_to_group("TurretPlacementManager")
+
 
 func begin_placement(id: Turret.TurretID) -> void:
 	if _placing and _current_id == id:
@@ -103,6 +114,28 @@ func _set_ghost_tint(valid: bool) -> void:
 	if _ghost_sprite:
 		_ghost_sprite.modulate = Color(0.5, 1.0, 0.5, 0.6) if valid \
 								 else Color(1.0, 0.4, 0.4, 0.6)
+
+# ─── Turret queries ───────────────────────────────────────────────────────────
+
+func getTurretAtCell(cell: Vector2i) -> Node:
+	var turret = _occupied.get(cell)
+	if turret and is_instance_valid(turret):
+		return turret
+	return null
+
+
+func getAdjacentTurrets(world_pos: Vector2, includeDiagonals: bool = false) -> Array:
+	var cell := _world_to_cell(world_pos)
+	var offsets: Array = ORTHOGONAL_OFFSETS.duplicate()
+	if includeDiagonals:
+		offsets.append_array(DIAGONAL_OFFSETS)
+
+	var found: Array = []
+	for offset in offsets:
+		var neighborTurret := getTurretAtCell(cell + offset)
+		if neighborTurret:
+			found.append(neighborTurret)
+	return found
 
 # ─── Sell shader helpers ──────────────────────────────────────────────────────
 
@@ -226,16 +259,9 @@ func _try_hotbar_select(idx: int) -> void:
 
 func _on_right_pressed(world_pos: Vector2) -> void:
 	var cell := _world_to_cell(world_pos)
-	if _occupied.has(cell):
-		var holder := get_tree().current_scene.find_child("TurretNodeHolder")
-		if holder:
-			var cell_world := _cell_to_world(cell)
-			for child in holder.get_children():
-				if child.global_position.distance_to(cell_world) < tile_size * 0.5:
-					_sell_turret_node = child
-					break
-		if _sell_turret_node == null:
-			return
+	var turret := getTurretAtCell(cell)
+	if turret:
+		_sell_turret_node = turret
 		_sell_cell = cell
 		_sell_progress = 0.0
 		_right_held = true
@@ -258,20 +284,14 @@ func _on_right_released() -> void:
 
 
 func _try_sell(cell: Vector2i) -> void:
-	if not _occupied.has(cell):
+	var turret := getTurretAtCell(cell)
+	if not turret:
 		return
 	var world_pos := _cell_to_world(cell)
-	var holder := get_tree().current_scene.find_child("TurretNodeHolder")
-	if holder:
-		for child in holder.get_children():
-			if child.global_position.distance_to(world_pos) < tile_size * 0.5:
-				#print(round(child.price * 0.5))
-				#print(child.price)
-				CityManager.currentScrap += round(child.price * 0.5)
-				GameManager.removeTurretFromGame(child)
-				StatManager.turretsPlaced -= 1
-				child.queue_free()
-				break
+	CityManager.currentScrap += round(turret.price * 0.5)
+	GameManager.removeTurretFromGame(turret)
+	StatManager.turretsPlaced -= 1
+	turret.queue_free()
 	# Shader node is gone with the turret, just clear refs
 	_sell_sprite = null
 	_sell_sprite_original_material = null
@@ -349,7 +369,7 @@ func _try_place(world_pos: Vector2) -> void:
 	var range_indicator = turret.get_node_or_null("RangeArea/RangeIndicator")
 	if range_indicator:
 		range_indicator.visible = false
-	_occupied[cell] = true
+	_occupied[cell] = turret
 	GameManager.removeTurretFromStorage(_current_id, 1)
 	turret_placed.emit(cell, turret)
 	GameManager.addTurretToDict(turret)

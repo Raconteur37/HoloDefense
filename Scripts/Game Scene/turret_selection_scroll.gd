@@ -526,6 +526,11 @@ func createAndInsertPropertiesLabels(propertyList: Array, turretID: Turret.Turre
 			if current_level >= 3:
 				addStatLabel("Extra Shots: %s" % TurretManager.getTurretStat(turretID, "extraShots"), Color.GRAY, 0, true)
 
+		Turret.TurretID.SHIELD_TURRET:
+			addStatLabel("Knockback Velocity: %s" % TurretManager.getTurretStat(turretID, "knockbackVelocity"), Color.ANTIQUE_WHITE, 0, true)
+			if current_level >= 2:
+				addStatLabel("Adjacent Shield Turret Damage Resistance: %s%%" % TurretManager.getTurretStat(turretID, "damageResistance"), Color.DARK_GRAY, 0, true)
+
 
 func addStatLabel(text: String, color: Color, font_size: int = 0, autowrap: bool = false) -> void:
 	var panel = PanelContainer.new()
@@ -611,7 +616,8 @@ func buildTurretStats(turretID: Turret.TurretID) -> void:
 		"enemies_cursed": ["Enemies Cursed: ", Color.MEDIUM_PURPLE],
 		"enemies_zombified": ["Enemies Zombified: ", Color.SPRING_GREEN],
 		"health_healed": ["Health Healed: ", Color.GREEN_YELLOW],
-		"bubbles_provided": ["Bubbles Provided: ", Color.DEEP_SKY_BLUE]
+		"bubbles_provided": ["Bubbles Provided: ", Color.DEEP_SKY_BLUE],
+		"enemies_pushed": ["Enemies Knocked Back: ", Color.ANTIQUE_WHITE]
 	}
 
 	var stats: Dictionary = StatManager.getTurretStats(turretID)

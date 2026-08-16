@@ -12,6 +12,7 @@ font_size = 22
 [sub_resource type="LabelSettings" id="LabelSettings_7n6qv"]
 
 [node name="PauseMenu" type="CanvasLayer" unique_id=270034768]
+visible = false
 script = ExtResource("1_rlhcc")
 
 [node name="Background" type="TextureRect" parent="." unique_id=1734593535]
@@ -43,7 +44,7 @@ grow_vertical = 2
 layout_mode = 0
 offset_right = 40.0
 offset_bottom = 40.0
-theme_override_constants/separation = -16
+theme_override_constants/separation = -7
 
 [node name="Resume" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1056447518]
 layout_mode = 2
@@ -69,13 +70,13 @@ label_settings = SubResource("LabelSettings_i0q8t")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="Resume2" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1656164258]
+[node name="GiveUp" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1656164258]
 layout_mode = 2
 texture_normal = ExtResource("3_i0q8t")
 texture_pressed = ExtResource("4_xa3tf")
 texture_hover = ExtResource("5_ugkah")
 
-[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/Resume2" unique_id=1746684327]
+[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/GiveUp" unique_id=1746684327]
 layout_mode = 1
 anchors_preset = 8
 anchor_left = 0.5
@@ -88,7 +89,214 @@ offset_right = 41.5
 offset_bottom = 14.0
 grow_horizontal = 2
 grow_vertical = 2
-text = "Resume"
+text = "Give Up"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1894713703]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/Settings" unique_id=1744027439]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Settings"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Quit" type="TextureButton" parent="Background/GeneralButtons/VBoxContainer" unique_id=1804888066]
+modulate = Color(0.6709894, 0.34949183, 0.3222564, 1)
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/GeneralButtons/VBoxContainer/Quit" unique_id=1289303456]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.19100001
+anchor_top = 0.34600002
+anchor_right = 0.78200006
+anchor_bottom = 0.65400004
+offset_left = 49.345997
+offset_top = 0.013998032
+offset_right = -41.40802
+offset_bottom = -0.014003754
+grow_horizontal = 2
+grow_vertical = 2
+text = "Quit To Desktop"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Settings Buttons" type="Control" parent="Background" unique_id=574068075]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 44.0
+offset_top = -147.0
+offset_right = 84.0
+offset_bottom = -107.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/Settings Buttons" unique_id=417433092]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = -7
+
+[node name="Audio" type="TextureButton" parent="Background/Settings Buttons/VBoxContainer" unique_id=905159352]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/Settings Buttons/VBoxContainer/Audio" unique_id=1383811445]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Audio"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Graphics" type="TextureButton" parent="Background/Settings Buttons/VBoxContainer" unique_id=1987616745]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/Settings Buttons/VBoxContainer/Graphics" unique_id=1125921395]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Graphics"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="BackSettings" type="TextureButton" parent="Background/Settings Buttons/VBoxContainer" unique_id=1917111222]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/Settings Buttons/VBoxContainer/BackSettings" unique_id=544899252]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
+label_settings = SubResource("LabelSettings_i0q8t")
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Audio Settings" type="Control" parent="Background" unique_id=647745580]
+visible = false
+layout_mode = 1
+anchors_preset = 4
+anchor_top = 0.5
+anchor_bottom = 0.5
+offset_left = 44.0
+offset_top = -147.0
+offset_right = 84.0
+offset_bottom = -107.0
+grow_vertical = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Background/Audio Settings" unique_id=932870427]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 40.0
+theme_override_constants/separation = 17
+
+[node name="Label" type="Label" parent="Background/Audio Settings/VBoxContainer" unique_id=1897666999]
+layout_mode = 2
+text = "Music Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="musicVolume" type="HSlider" parent="Background/Audio Settings/VBoxContainer/Label" unique_id=406949162]
+layout_mode = 0
+offset_top = 21.0
+offset_right = 294.0
+offset_bottom = 37.0
+value = 100.0
+
+[node name="Label2" type="Label" parent="Background/Audio Settings/VBoxContainer" unique_id=512448483]
+layout_mode = 2
+text = "UI Volume"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="uiVolume" type="HSlider" parent="Background/Audio Settings/VBoxContainer/Label2" unique_id=1622724747]
+layout_mode = 0
+offset_top = 21.0
+offset_right = 294.0
+offset_bottom = 37.0
+value = 100.0
+
+[node name="BackAudioSettings" type="TextureButton" parent="Background/Audio Settings/VBoxContainer" unique_id=1031902799]
+layout_mode = 2
+texture_normal = ExtResource("3_i0q8t")
+texture_pressed = ExtResource("4_xa3tf")
+texture_hover = ExtResource("5_ugkah")
+
+[node name="Label" type="Label" parent="Background/Audio Settings/VBoxContainer/BackAudioSettings" unique_id=1946176137]
+layout_mode = 1
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -41.5
+offset_top = -14.0
+offset_right = 41.5
+offset_bottom = 14.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Back"
 label_settings = SubResource("LabelSettings_i0q8t")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -100,3 +308,12 @@ offset_right = 988.0
 offset_bottom = 385.0
 text = "Paused"
 label_settings = SubResource("LabelSettings_7n6qv")
+
+[connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/GiveUp" to="." method="_on_give_up_pressed"]
+[connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
+[connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/Quit" to="." method="_on_quit_pressed"]
+[connection signal="pressed" from="Background/Settings Buttons/VBoxContainer/Audio" to="." method="_on_audio_pressed"]
+[connection signal="pressed" from="Background/Settings Buttons/VBoxContainer/BackSettings" to="." method="_on_back_settings_pressed"]
+[connection signal="value_changed" from="Background/Audio Settings/VBoxContainer/Label/musicVolume" to="." method="_on_music_volume_value_changed"]
+[connection signal="value_changed" from="Background/Audio Settings/VBoxContainer/Label2/uiVolume" to="." method="_on_ui_volume_value_changed"]
+[connection signal="pressed" from="Background/Audio Settings/VBoxContainer/BackAudioSettings" to="." method="_on_back_audio_settings_pressed"]

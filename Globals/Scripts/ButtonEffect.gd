@@ -72,9 +72,8 @@ func findNextProcess(buttonName):
 			get_tree().current_scene.find_child("Solo Frame").hide()
 			get_tree().current_scene.find_child("Multiplayer Frame").hide()
 			get_tree().current_scene.find_child("Lobby Host").hide()
-			if SteamManager.lobbyID != 0:
-				SteamManager.leaveLobby()
-				get_tree().current_scene.resetMultiplayerData()
+			SteamManager.leaveLobby()
+			get_tree().current_scene.resetMultiplayerData()
 			SoundManager.stopMusic()
 		"Play Button":
 			get_tree().current_scene.find_child("Play Button Holder").show()
@@ -95,5 +94,4 @@ func findNextProcess(buttonName):
 			get_tree().current_scene.find_child("Multiplayer Frame").show()
 			get_tree().current_scene.find_child("Play Button Holder").hide()
 			get_tree().current_scene.find_child("Create Button").show()
-			get_tree().current_scene.find_child("Join Button").show()
 			get_tree().current_scene.find_child("ContainerOne").show()

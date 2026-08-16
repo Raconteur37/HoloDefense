@@ -1,0 +1,83 @@
+[gd_scene format=3 uid="uid://0mq5vntbprx"]
+
+[ext_resource type="Script" uid="uid://b51finmc8guv7" path="res://Scripts/Turrets/Shield Turret/shield_turret.gd" id="1_qirwi"]
+[ext_resource type="Texture2D" uid="uid://bdbflatxhmltq" path="res://Textures/Turrets/Shield Turret/Shield Turret Bottom.png" id="2_hfofw"]
+[ext_resource type="Texture2D" uid="uid://bcclbrd3b83xd" path="res://Textures/Turrets/Shield Turret/Shield Turret Top.png" id="3_ek7we"]
+[ext_resource type="Script" uid="uid://dwe6qbtl74vw3" path="res://Scripts/Turrets/Arrow Turret/turret_area_2d.gd" id="4_1b5hi"]
+[ext_resource type="PackedScene" uid="uid://6i2tlkn5fb8f" path="res://Particle Scenes/Effects/Bubble/BubblePop.tscn" id="5_hfofw"]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_11eqx"]
+size = Vector2(30, 32)
+
+[sub_resource type="SpriteFrames" id="SpriteFrames_t4unk"]
+animations = [{
+"frames": [{
+"duration": 1.0,
+"texture": ExtResource("3_ek7we")
+}],
+"loop": true,
+"name": &"Ready",
+"speed": 5.0
+}]
+
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_6b4j2"]
+size = Vector2(34, 36)
+
+[sub_resource type="CircleShape2D" id="CircleShape2D_pdpxq"]
+radius = 200.0
+
+[sub_resource type="CanvasItemMaterial" id="CanvasItemMaterial_hfofw"]
+resource_local_to_scene = true
+particles_animation = true
+particles_anim_h_frames = 12
+particles_anim_v_frames = 1
+particles_anim_loop = false
+
+[node name="Shield Turret" type="CharacterBody2D" unique_id=142022213 groups=["Turret"]]
+collision_mask = 12
+script = ExtResource("1_qirwi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=1665666865]
+shape = SubResource("RectangleShape2D_11eqx")
+
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1737286898]
+texture = ExtResource("2_hfofw")
+
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=587304110]
+sprite_frames = SubResource("SpriteFrames_t4unk")
+animation = &"Ready"
+
+[node name="SelectArea" type="Area2D" parent="." unique_id=2002168853]
+collision_mask = 12
+script = ExtResource("4_1b5hi")
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="SelectArea" unique_id=344454377]
+shape = SubResource("RectangleShape2D_6b4j2")
+
+[node name="RangeArea" type="Area2D" parent="." unique_id=1159918842]
+collision_layer = 0
+collision_mask = 12
+
+[node name="CollisionShape2D" type="CollisionShape2D" parent="RangeArea" unique_id=1336302784]
+shape = SubResource("CircleShape2D_pdpxq")
+
+[node name="RangeIndicator" type="Line2D" parent="RangeArea" unique_id=142957423]
+width = 2.0
+default_color = Color(0.388235, 0.388235, 0.388235, 0.764706)
+
+[node name="ReloadTimer" type="Timer" parent="." unique_id=783353897]
+
+[node name="ArmorProvider" type="Timer" parent="." unique_id=124387098]
+
+[node name="BubblePop" parent="." unique_id=1183450902 instance=ExtResource("5_hfofw")]
+material = SubResource("CanvasItemMaterial_hfofw")
+scale_amount_min = 2.0
+scale_amount_max = 2.0
+script = null
+
+[connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
+[connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
+[connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
+[connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]
+[connection signal="timeout" from="ReloadTimer" to="." method="_on_reload_timer_timeout"]
+[connection signal="timeout" from="ArmorProvider" to="." method="_on_armor_provider_timeout"]

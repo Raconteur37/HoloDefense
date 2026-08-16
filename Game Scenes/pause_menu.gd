@@ -1,6 +1,12 @@
-extends Control
+extends CanvasLayer
 
 @onready var background = $Background
+
+@onready var generalButtons = $Background/GeneralButtons
+@onready var settingsButtons = $"Background/Settings Buttons"
+@onready var audioSettings = $"Background/Audio Settings"
+
+@onready var giveup = $Background/GeneralButtons/VBoxContainer/GiveUp
 
 func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
@@ -20,8 +26,16 @@ func _input(event):
 func toggle_pause():
 	var new_pause_state = not get_tree().paused
 	get_tree().paused = new_pause_state
-	visible = new_pause_state 
-
+	visible = new_pause_state
+	if visible:
+		generalButtons.show()
+		settingsButtons.hide()
+		audioSettings.hide()
+		if get_tree().current_scene.find_child("TowerDefenseCanvas") != null:
+			if get_tree().current_scene.find_child("TowerDefenseCanvas").find_child("HoloCityDisplay").runActive:
+				giveup.show()
+		else:
+			giveup.hide()
 
 func _on_button_pressed() -> void:
 	get_tree().paused = false
@@ -39,15 +53,8 @@ func _on_quit_pressed() -> void:
 	get_tree().quit()
 
 
-
 func _on_music_volume_value_changed(value: float) -> void:
 	SoundManager.setMusicVolume(value)
-
-
-func _on_music_toggle_toggled(toggled_on: bool) -> void:
-		SoundManager.musicOn = toggled_on
-		if not SoundManager.musicOn:
-			SoundManager.stopMusic()
 
 
 func _on_give_up_pressed() -> void:
@@ -55,3 +62,27 @@ func _on_give_up_pressed() -> void:
 	get_tree().current_scene.find_child("TowerDefenseCanvas").find_child("HoloCityDisplay").runActive = false
 	StatManager.elapsedTime = get_tree().current_scene.find_child("TowerDefenseCanvas").find_child("HoloCityDisplay").runTime
 	get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
+
+
+func _on_back_settings_pressed() -> void:
+	settingsButtons.hide()
+	generalButtons.show()
+
+
+func _on_back_audio_settings_pressed() -> void:
+	audioSettings.hide()
+	settingsButtons.show()
+
+
+func _on_audio_pressed() -> void:
+	audioSettings.show()
+	settingsButtons.hide()
+
+
+func _on_settings_pressed() -> void:
+	settingsButtons.show()
+	generalButtons.hide()
+
+
+func _on_ui_volume_value_changed(value: float) -> void:
+	SoundManager.setUIVolume(value)

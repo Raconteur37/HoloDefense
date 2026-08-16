@@ -19,17 +19,15 @@ var secondTierUnlockWave: int
 var thirdTierUnlockWave: int
 
 # --- Enemy Configurations ---
-var systems: Array[String] = ["Similar", "Ordered", "Anti-Ordered", "Mixed"]
-var tierOneEnemyTypes: Dictionary = {"Similar": [Enemy.EnemyID.BASIC_SQUARE]}
-var tierTwoEnemyTypes: Dictionary = {"Similar": [Enemy.EnemyID.SPEEDY_TRIANGLE, Enemy.EnemyID.TANKY_RECTANGLE]}
-var tierThreeEnemyTypes: Dictionary = {"Similar": [Enemy.EnemyID.SHOOTY_DIAMOND]}
-var bossEnemies: Dictionary = {"Similar": Enemy.EnemyID.HEXAGON_MOTHERSHIP}
+var tierOneEnemyTypes: Dictionary = {1: [Enemy.EnemyID.BASIC_SQUARE]}
+var tierTwoEnemyTypes: Dictionary = {1: [Enemy.EnemyID.SPEEDY_TRIANGLE, Enemy.EnemyID.TANKY_RECTANGLE], 2:[Enemy.EnemyID.DRILLING_CONE]}
+var tierThreeEnemyTypes: Dictionary = {1: [Enemy.EnemyID.SHOOTY_DIAMOND], 2:[Enemy.EnemyID.PACKED_CIRCLE]}
+var bossEnemies: Dictionary = {1: Enemy.EnemyID.HEXAGON_MOTHERSHIP}
 
 # --- State Variables ---
 var currentDifficulty: int = 1
 var currentWave: int = 0
 var systemNumber: int = 0
-var currentSystem: String = "Similar"
 var currentPhase: Phase = Phase.IDLE
 var generation: int = 0 # Increments on reset to invalidate stale closures
 
@@ -38,7 +36,6 @@ var eventNotified : bool = true
 
 func _ready() -> void:
 	loadData()
-
 
 func beginNextWave() -> void:
 	SoundManager.startTimer(randf_range(5.0, 20.0))
@@ -63,8 +60,6 @@ func beginNextWave() -> void:
 
 func beginNextSystem() -> void:
 	systemNumber += 1
-	
-	currentSystem = "Similar"
 	
 	if systemNumber == 1:
 		PopupManager.systemStartPopup()
@@ -97,9 +92,6 @@ func onWaveComplete() -> void:
 	StatManager.wavesCompleted += 1
 	currentPhase = Phase.INTERMISSION
 
-
-
-
 # --- Spawning Logic ---
 
 func spawnNext() -> void:
@@ -108,7 +100,6 @@ func spawnNext() -> void:
 		return
 
 	var enemyID: Enemy.EnemyID = spawnQueue.pop_front()
-	
 	
 	EnemySpawnManager.summonEnemy(enemyID)
 
@@ -122,12 +113,12 @@ func buildSpawnQueue() -> Array:
 	var queue: Array = []
 
 	if isBossWave():
-		queue.append(Enemy.EnemyID.HEXAGON_MOTHERSHIP)
+		var bossID = bossEnemies.get(systemNumber, bossEnemies.get(1, Enemy.EnemyID.HEXAGON_MOTHERSHIP))
+		queue.append(bossID)
 		SoundManager.playBossWaveSound()
 
 	var waveWithinSystem = getWaveWithinSystem()
 	var totalWaveIndex = getTotalWaveIndex()
-
 
 	var baseline = getStartingEnemies() + (totalWaveIndex * getWaveEnemyGrowth())
 	var difficultyMult = getEnemyCountMultiplier(currentDifficulty)
@@ -174,14 +165,18 @@ func buildSpawnQueue() -> Array:
 
 	return queue
 
-
 # --- Enemy Management ---
 
 func getEnemyFromTier(tierDict: Dictionary) -> Enemy.EnemyID:
-	var pool: Array = tierDict.get(currentSystem, [])
+	var pool: Array = tierDict.get(systemNumber, [])
+	
+	if pool.is_empty():
+		pool = tierDict.get(1, [])
+		
 	if pool.is_empty():
 		return Enemy.EnemyID.BASIC_SQUARE
-	return pool[randi() % pool.size()]
+		
+	return pool.pick_random()
 
 func getActiveTiers(waveWithinSystem: int) -> Dictionary:
 	var pastFirstSystem: bool = systemNumber > 1
@@ -205,7 +200,6 @@ func removeActiveEnemy(enemy: Enemy) -> void:
 		checkForEnemiesAlive()
 	else:
 		push_warning("WaveManager: Tried to remove an enemy with an unregistered ID!")
-		# Notice we removed the checkForEnemiesAlive() from down here!
 
 func checkForEnemiesAlive() -> void:
 	if currentPhase == Phase.INTERMISSION:
@@ -221,11 +215,9 @@ func registerActiveEnemy(enemy: Enemy) -> void:
 	else:
 		activeEnemies[id] = 1
 
-
 # --- Event System ---
 
 func scheduleEventRoll(queueSize: int) -> void:
-
 	if systemNumber < getEventSystemThresh():
 		return
 
@@ -266,7 +258,6 @@ func startEvent():
 			EnemySpawnManager.formationEvent()
 			PopupManager.eventPopup("formation")
 
-
 # --- Data Getters ---
 
 func isBossWave() -> bool:
@@ -295,7 +286,7 @@ func getMaxEnemiesPerWave() -> int: return int(waveData["baseline"]["maxEnemiesP
 func getBaseSpawnInterval() -> float: return float(waveData["baseline"]["baseSpawnIntervalSec"])
 func getBossMinWave() -> int: return int(waveData["baseline"]["bossMinWave"])
 
-# --- [2] Thresholds, Events & Elites (NEW) ---
+# --- [2] Thresholds, Events & Elites ---
 func getEventSystemThresh() -> int: return int(waveData["baseline"]["eventSystemThresh"])
 func getEliteSystemThresh() -> int: return int(waveData["baseline"]["eliteSystemThresh"])
 func getRiftEventEnemiesSpawned() -> int: return int(waveData["baseline"]["riftEvent"]["enemiesSpawned"])
@@ -314,13 +305,12 @@ func getWavesPerSystem() -> int: return int(waveData["baseline"]["systemScaling"
 func getTierTwoEnemyWaveThresh() -> float: return float(waveData["baseline"]["systemScaling"]["tierTwoWaveThresh"])
 func getTierThreeEnemyWaveThresh() -> float: return float(waveData["baseline"]["systemScaling"]["tierThreeWaveThresh"])
 
-# Base Multipliers (NEW)
+# Base Multipliers
 func getSystemEnemyMultiplier() -> float: return float(waveData["baseline"]["systemScaling"]["enemyMultiplierPerSystem"])
 func getSystemHealthMultiplier() -> float: return float(waveData["baseline"]["systemScaling"]["healthMultiplierPerSystem"])
 func getSystemSpeedMultiplier() -> float: return float(waveData["baseline"]["systemScaling"]["speedMultiplierPerSystem"])
 func getSystemDamageMultiplier() -> float: return float(waveData["baseline"]["systemScaling"]["damageMultiplierPerSystem"])
 func getSystemSpawnIntervalReduction() -> float: return float(waveData["baseline"]["systemScaling"]["spawnIntervalReductionPerSystem"])
-
 
 func getScaledSystemEnemyMultiplier() -> float: return pow(getSystemEnemyMultiplier(), maxi(0, systemNumber - 1))
 func getScaledSystemHealthMultiplier() -> float: return pow(getSystemHealthMultiplier(), maxi(0, systemNumber - 1))
@@ -338,17 +328,12 @@ func getEnemyCountMultiplier(level: int) -> float: return float(getDifficulty(le
 func getSystemTransitionTime(level: int) -> float: return float(getDifficulty(level).get("systemTransitionDurationSec", 1.0))
 func getSpawnIntervalDecay(level: int) -> float: return float(getDifficulty(level).get("spawnIntervalDecayPerWave", 1.0))
 func getIntermissionDuration(level: int) -> float: return float(getDifficulty(level).get("intermission_duration_sec", 10.0))
-func getEventChance(level: int) -> float: return float(getDifficulty(level).get("eventChance", 0.0)) # NEW
+func getEventChance(level: int) -> float: return float(getDifficulty(level).get("eventChance", 0.0))
 
 func getSpawnInterval(level: int, waveWithinSystem: int = 1) -> float:
 	var base = float(getDifficulty(level).get("spawn_interval_sec", 1.0))
 	var decay = getSpawnIntervalDecay(level)
 	var floorInterval = getBaseSpawnInterval()
-	# --- REVAMP: system-level speed-up ---
-	# spawnIntervalReductionPerSystem was already in the config and had a scaled
-	# getter (getScaledSystemSpawnIntervalReduction), but nothing multiplied it in —
-	# so spawn interval reset to the difficulty's base value at the start of every
-	# system instead of continuing to ramp up. Wired in below.
 	var systemReduction = getScaledSystemSpawnIntervalReduction()
 	var interval = base * pow(decay, waveWithinSystem - 1) * systemReduction
 	return maxf(interval, floorInterval)
@@ -404,7 +389,6 @@ func reset() -> void:
 	currentWave = 0
 	systemNumber = 0
 	currentDifficulty = 1
-	currentSystem = systems[0]
 	currentPhase = Phase.IDLE
 
 func _makeCallback(fn: Callable) -> Callable:

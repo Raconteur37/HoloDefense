@@ -4,7 +4,6 @@ extends Control
 @onready var multiplayerFrame = $"Multiplayer Frame"
 
 @onready var createButton = $"Multiplayer Frame/ContainerOne/Create Button"
-@onready var joinButton = $"Multiplayer Frame/ContainerOne/Join Button"
 
 @onready var lobbyHost = $"Multiplayer Frame/Lobby Host"
 @onready var lobbyGuest = $"Multiplayer Frame/Lobby Guest"
@@ -125,7 +124,6 @@ func _on_animation_player_animation_finished(anim_name: StringName) -> void:
 # --- Multiplayer UI ---
 
 func _on_create_button_pressed() -> void:
-	joinButton.hide()
 	createButton.hide()
 	lobbyHost.show()
 	SteamManager.create_vs_lobby()
@@ -175,7 +173,6 @@ func resetMultiplayerData() -> void:
 
 func _on_lobby_disconnected() -> void:
 	$"Multiplayer Frame/ContainerOne".show()
-	joinButton.show()
 	createButton.show()
 
 

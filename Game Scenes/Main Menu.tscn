@@ -898,9 +898,9 @@ texture = ExtResource("11_hh4mj")
 
 [node name="ContainerOne" type="HBoxContainer" parent="Multiplayer Frame" unique_id=1183086460]
 layout_mode = 0
-offset_left = 327.14285
+offset_left = 615.7143
 offset_top = 610.0
-offset_right = 1315.1428
+offset_right = 1603.7144
 offset_bottom = 701.0
 theme_override_constants/separation = 400
 
@@ -924,30 +924,6 @@ offset_bottom = 0.014030457
 grow_horizontal = 2
 grow_vertical = 2
 text = "Create"
-label_settings = SubResource("LabelSettings_cc3vf")
-horizontal_alignment = 1
-vertical_alignment = 1
-
-[node name="Join Button" type="TextureButton" parent="Multiplayer Frame/ContainerOne" unique_id=516115933]
-layout_mode = 2
-texture_normal = ExtResource("11_elppw")
-texture_pressed = ExtResource("12_6qg4u")
-texture_hover = ExtResource("13_72rfk")
-
-[node name="Join Label" type="Label" parent="Multiplayer Frame/ContainerOne/Join Button" unique_id=363582646]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.044000003
-anchor_top = 0.143
-anchor_right = 0.95600003
-anchor_bottom = 0.846
-offset_left = 0.063999176
-offset_top = -0.012969971
-offset_right = -0.06399536
-offset_bottom = 0.014030457
-grow_horizontal = 2
-grow_vertical = 2
-text = "Join"
 label_settings = SubResource("LabelSettings_cc3vf")
 horizontal_alignment = 1
 vertical_alignment = 1
@@ -1105,8 +1081,8 @@ vertical_alignment = 1
 [connection signal="value_changed" from="Solo Frame/Difficulty Slider" to="." method="_on_difficulty_slider_value_changed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="Solo Frame/BeginButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
-[connection signal="pressed" from="Solo Frame/ReadyButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="Solo Frame/ReadyButton" to="." method="_on_ready_button_pressed"]
+[connection signal="pressed" from="Solo Frame/ReadyButton" to="." method="_on_begin_button_pressed"]
 [connection signal="pressed" from="Solo Frame/ReadyButton" to="Solo Frame/TurretSelectionScroll" method="_on_begin_button_pressed"]
 [connection signal="animation_finished" from="AnimationPlayer" to="." method="_on_animation_player_animation_finished"]
 [connection signal="pressed" from="Multiplayer Frame/ContainerOne/Create Button" to="." method="_on_create_button_pressed"]

@@ -84,6 +84,13 @@ func spawnEnemy(enemyID : Enemy.EnemyID):
 			for x in range(20):
 				mothershipSpawn(enemy)
 				await get_tree().create_timer(0.1).timeout
+		
+		Enemy.EnemyID.DRILLING_CONE:
+			enemy = load("res://Enemy Scenes/Drilling Cone.tscn").instantiate()
+			enemy.turretsInRange.append(dummy)
+			add_child(enemy)
+			enemy.global_position = enemyPosNode.global_position
+			enemy.specificDir = dummy.global_position
 
 func packedCicle(circle):
 	var tempEnemy = load("res://Enemy Scenes/Mini Packed Circle.tscn").instantiate()

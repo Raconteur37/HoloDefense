@@ -13,7 +13,7 @@ func startRun() -> void:
 
 func _process(delta: float) -> void:
 	if runActive:
-		# Calculate real-world delta by dividing out the time scale
+		# get real time
 		var real_delta = delta
 		if Engine.time_scale > 0:
 			real_delta = delta / Engine.time_scale
@@ -25,7 +25,7 @@ func _process(delta: float) -> void:
 			XpManager.saveXpData()
 			timeSinceLastSave -= autoSaveInterval
 
-# This will be so we can change the sprite
+
 func updateVisualStatus():
 	pass
 
@@ -40,7 +40,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		WaveManager.removeActiveEnemy(body)
 		EntityManager.onKill(null,body)
 		updateVisualStatus()
-		if GameManager.cityHealth <= 0:
+		if GameManager.cityHealth <= 0 and not DeveloperMode.inDevMode:
 			runActive = false
 			StatManager.elapsedTime = runTime
 			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")

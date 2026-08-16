@@ -182,3 +182,5 @@ func add_turret_to_loadout(turret_name: String) -> void:
 	else:
 		current_loadout += "," + turret_name
 	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)
+
+# --- Ready Manage ---

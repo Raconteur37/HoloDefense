@@ -42,8 +42,8 @@ func _ready() -> void:
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
 	rangeIndicator = $RangeArea/RangeIndicator
-	topSprite = $MiniSentryTurretTop
-	bottomSprite = $MiniSentryTurretBottom
+	topSprite = $TurretTop
+	bottomSprite = $TurretBottom
 	bodyCollisionShape = $CollisionShape2D
 	attackRange = baseAttackRange
 	line2d = TurretManager.draw_range_circle(line2d,attackRange)

@@ -43,10 +43,10 @@ script = ExtResource("1_obnxa")
 [node name="CollisionShape2D" type="CollisionShape2D" parent="." unique_id=96376919]
 shape = SubResource("RectangleShape2D_11eqx")
 
-[node name="MiniSentryTurretBottom" type="Sprite2D" parent="." unique_id=1716814338]
+[node name="TurretBottom" type="Sprite2D" parent="." unique_id=1716814338]
 texture = ExtResource("2_ef2mh")
 
-[node name="MiniSentryTurretTop" type="AnimatedSprite2D" parent="." unique_id=215182851]
+[node name="TurretTop" type="AnimatedSprite2D" parent="." unique_id=215182851]
 sprite_frames = SubResource("SpriteFrames_t4unk")
 animation = &"Ready"
 
@@ -77,7 +77,7 @@ one_shot = true
 one_shot = true
 
 [connection signal="mouse_entered" from="SelectArea" to="." method="_on_select_area_mouse_entered"]
-[connection signal="mouse_entered" from="SelectArea" to="MiniSentryTurretTop" method="_on_area_2d_mouse_entered"]
+[connection signal="mouse_entered" from="SelectArea" to="TurretTop" method="_on_area_2d_mouse_entered"]
 [connection signal="mouse_exited" from="SelectArea" to="." method="_on_select_area_mouse_exited"]
 [connection signal="body_entered" from="RangeArea" to="." method="_on_range_area_body_entered"]
 [connection signal="body_exited" from="RangeArea" to="." method="_on_range_area_body_exited"]

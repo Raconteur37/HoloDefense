@@ -32,7 +32,7 @@
 		"firework_turret": 1.5,
 		"tesla_turret": 1.0,
 		"sentry_turret": 2.0,
-		"gold_mine_turret": 0.1,
+		"gold_mine_turret": 1,
 		"seismic_turret": 1.0,
 		"spider_turret": 1.2,
 		"voodoo_turret": 1.1,
@@ -41,6 +41,7 @@
 		"bubble_turret": 3,
 		"boomerang_turret": 2.5,
 		"sniper_turret": 3,
-		"mortar_turret": 1.25
+		"mortar_turret": 1.25,
+		"shield_turret": 0.50
 	}
 }

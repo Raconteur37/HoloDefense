@@ -13,7 +13,8 @@ const NON_BOSS_ENEMIES = {
 	Enemy.EnemyID.SHOOTY_DIAMOND: preload("res://Enemy Scenes/Shooty Diamond.tscn"),
 	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn"),
 	Enemy.EnemyID.PACKED_CIRCLE: preload("res://Enemy Scenes/Packed Circle.tscn"),
-	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn"),
+	Enemy.EnemyID.DRILLING_CONE: preload("res://Enemy Scenes/Drilling Cone.tscn")
 }
 
 const ENEMY_IDS = [
@@ -23,7 +24,8 @@ const ENEMY_IDS = [
 	Enemy.EnemyID.HEXAGON_MOTHERSHIP,
 	Enemy.EnemyID.TANKY_RECTANGLE,
 	Enemy.EnemyID.PACKED_CIRCLE,
-	Enemy.EnemyID.MINI_PACKED_CIRCLE
+	Enemy.EnemyID.MINI_PACKED_CIRCLE,
+	Enemy.EnemyID.DRILLING_CONE
 ]
 
 const ENEMY_TEXTURES = {
@@ -33,7 +35,8 @@ const ENEMY_TEXTURES = {
 	Enemy.EnemyID.HEXAGON_MOTHERSHIP: "res://Textures/Enemies/hexagon_enemy.png",
 	Enemy.EnemyID.TANKY_RECTANGLE: "res://Textures/Enemies/rectangle_enemy.png",
 	Enemy.EnemyID.PACKED_CIRCLE: "res://Textures/Enemies/circle_enemy.png",
-	Enemy.EnemyID.MINI_PACKED_CIRCLE: "res://Textures/Enemies/circle_enemy.png"
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: "res://Textures/Enemies/circle_enemy.png",
+	Enemy.EnemyID.DRILLING_CONE: "res://Textures/Enemies/cone_enemy.png"
 	}
 
 
@@ -44,7 +47,8 @@ const ENEMIES = {
 	Enemy.EnemyID.HEXAGON_MOTHERSHIP: preload("res://Enemy Scenes/Hexagon Mothership.tscn"),
 	Enemy.EnemyID.TANKY_RECTANGLE: preload("res://Enemy Scenes/Tanky Rectangle.tscn"),
 	Enemy.EnemyID.PACKED_CIRCLE: preload("res://Enemy Scenes/Packed Circle.tscn"),
-	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn")
+	Enemy.EnemyID.MINI_PACKED_CIRCLE: preload("res://Enemy Scenes/Mini Packed Circle.tscn"),
+	Enemy.EnemyID.DRILLING_CONE: preload("res://Enemy Scenes/Drilling Cone.tscn")
 }
 
 const BOSSES = {

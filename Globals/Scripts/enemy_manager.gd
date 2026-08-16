@@ -84,6 +84,8 @@ func get_minis_spawned(enemy_id: Enemy.EnemyID) -> int:
 func get_explosion_radius(enemy_id: Enemy.EnemyID) -> int:
 	return int(get_enemy(enemy_id).get("explosion_radius", 1))
 
+func get_drill_speed(enemy_id: Enemy.EnemyID):
+	return int(get_enemy(enemy_id).get("drill_speed", 0.5))
 
 # --- Elite Getters ---
 

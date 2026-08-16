@@ -30,7 +30,8 @@ enum TurretID {
 	BUBBLE_TURRET,
 	BOOMERANG_TURRET,
 	SNIPER_TURRET,
-	MORTAR_TURRET
+	MORTAR_TURRET,
+	SHIELD_TURRET
 }
 
 #signal hit(damage,turret)
@@ -138,7 +139,7 @@ func createLine():
 	add_child(targetLine)
 
 func _process(delta: float) -> void:
-	get_tree().call_group("Turret", "attack")
+	attack()
 	
 	if isTargetDragging:
 		if not Input.is_mouse_button_pressed(MOUSE_BUTTON_LEFT):
@@ -417,3 +418,6 @@ func filterEnemy():
 		return closest_priority_enemy
 		
 	return EntityManager.getClosestEnemyFromSprite(self)
+
+func attack():
+	return

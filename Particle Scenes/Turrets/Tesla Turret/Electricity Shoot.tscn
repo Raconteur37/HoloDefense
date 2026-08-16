@@ -5,6 +5,7 @@
 
 [node name="Line2D" type="Line2D" unique_id=1080195471]
 z_index = 7
+y_sort_enabled = true
 width = 75.0
 texture = ExtResource("1_hx2ob")
 texture_mode = 1

@@ -142,6 +142,7 @@ func _process(delta: float) -> void:
 	if Input.is_action_just_pressed("click"):
 		if nextInput:
 			nextInput = false
+			PopupManager.clearCaptainPopups()
 			get_tree().change_scene_to_file("res://Game Scenes/Main Menu.tscn")
 			GameManager.reset()
 	if activeTween and activeTween.is_valid():

@@ -17,6 +17,8 @@ func getPopupParent() -> Node:
 	return get_tree().current_scene
 
 func eventNotify():
+	if activeCaptainPopup != null:
+		activeCaptainPopup.queue_free()
 	var commandPopup = commanderPopup.instantiate()
 	getPopupParent().add_child(commandPopup)
 	commandPopup.msg = "Commander, in this current system there is a " + str(WaveManager.getEventChance(WaveManager.currentDifficulty)) + "% chance an abnormality will occur."
@@ -40,6 +42,8 @@ func eventPopup(event : String):
 		commandPopup.msg = "Commander, the shapes are developing formation tactics, I advise we do the same."
 
 func systemFinishPopup():
+	if activeCaptainPopup != null:
+		activeCaptainPopup.queue_free()
 	var commandPopup = commanderPopup.instantiate()
 	getPopupParent().add_child(commandPopup)
 	commandPopup.expression = "happy"
@@ -58,6 +62,8 @@ func systemFinishPopup():
 		return
 
 func losingPopup():
+	if activeCaptainPopup != null:
+		activeCaptainPopup.queue_free()
 	await get_tree().create_timer(randi_range(5,11)).timeout
 	var commandPopup = commanderPopup.instantiate()
 	getPopupParent().add_child(commandPopup)

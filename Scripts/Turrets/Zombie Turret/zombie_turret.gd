@@ -30,6 +30,7 @@ func _ready() -> void:
 	baseHealth = maxHealth
 	baseDamage = TurretManager.getTurretStat(turretID,"damage")
 	baseAttackRange = TurretManager.getTurretStat(turretID,"range")
+	baseReloadTime = TurretManager.getTurretStat(turretID,"reloadTime")
 	armor = TurretManager.getTurretStat(turretID,"armor")
 	baseBuildTime = TurretManager.getTurretStat(turretID,"constructionTime")
 	baseTurnChance = TurretManager.getTurretStat(turretID,"turnChance")
@@ -47,7 +48,8 @@ func _ready() -> void:
 
 	line2d = $RangeArea/RangeIndicator
 	attackTimer = $AttackTimer
-	attackTimer.wait_time = turnTime
+	reloadTime = baseReloadTime
+	attackTimer.wait_time = reloadTime
 	var rangeShapeDup = $RangeArea/CollisionShape2D.shape.duplicate()
 	rangeCollisionShape = $RangeArea/CollisionShape2D
 	rangeCollisionShape.shape = rangeShapeDup
@@ -88,11 +90,10 @@ func _on_attack_timer_timeout() -> void:
 		for enemy in enemiesInRange:
 			var shockParticle = projectile.instantiate()
 			shockParticle.modulate = Color(0.0, 0.458, 0.0, 1.0)
-			shockParticle.global_position = to_local(global_position)
+			shockParticle.global_position = to_local(self.global_position)
 
-			# Set the positions
-			var start_position = Vector2(0,0)
-			var end_position = to_local(enemy.global_position)
+			var start_position = self.global_position
+			var end_position = shockParticle.to_local(enemy.global_position)
 			var points = [start_position,end_position]
 
 			shockParticle.points = points
@@ -112,7 +113,8 @@ func applyUpgrade():
 	damage = (baseDamage + (baseDamage * scaleFactor * upgradeTier))
 	attackRange = (baseAttackRange + (baseAttackRange * scaleFactor * upgradeTier))
 	turnTime = (baseTurnTime + (baseTurnTime * scaleFactor * upgradeTier))
-	attackTimer.wait_time = turnTime
+	reloadTime = max(1,(baseReloadTime - (baseReloadTime * scaleFactor * upgradeTier)))
+	attackTimer.wait_time = reloadTime
 	turnChance = (baseTurnChance + (baseTurnChance * scaleFactor * upgradeTier))
 	maxHealth = (baseHealth + (baseHealth * scaleFactor * upgradeTier))
 	gravestoneRange = (baseGravestoneRange + (baseGravestoneRange * scaleFactor * upgradeTier))

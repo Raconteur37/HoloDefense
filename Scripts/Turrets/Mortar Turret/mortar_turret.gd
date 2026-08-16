@@ -95,6 +95,8 @@ func attack():
 
 		if is_instance_valid(enemy) and isPlaced:
 			
+			var enemyPos = enemy.global_position
+			
 			shotReady = false
 			
 			particle.emitting = true
@@ -104,11 +106,11 @@ func attack():
 			get_parent().add_child(proj)
 			
 			proj.travel_time = travelTime
-			proj.fire(position, enemy.global_position)
+			proj.fire(position, enemyPos)
 			proj.shooter = self
 			
 			# Flip the sprite horizontally based on which side the enemy is on
-			if enemy.global_position.x < global_position.x:
+			if enemyPos.x < global_position.x:
 				topSprite.flip_h = true  # Enemy is to the left
 			else:
 				topSprite.flip_h = false # Enemy is to the right
@@ -123,10 +125,10 @@ func attack():
 					get_parent().add_child(proj)
 					
 					proj.travel_time = travelTime
-					proj.fire(position, enemy.global_position)
+					proj.fire(position, enemyPos)
 					proj.shooter = self
 					
-					if enemy.global_position.x < global_position.x:
+					if enemyPos.x < global_position.x:
 						topSprite.flip_h = true  # Enemy is to the left
 					else:
 						topSprite.flip_h = false # Enemy is to the right

@@ -24,7 +24,6 @@ func _ready():
 var is_dead: bool = false 
 
 func deathEvent():
-	# 2. Add this check to prevent double-explosions!
 	if is_dead:
 		return
 	is_dead = true
