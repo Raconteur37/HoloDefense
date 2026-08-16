@@ -8,7 +8,7 @@ func _ready():
 	var difficulty = WaveManager.currentDifficulty
 	await get_tree().create_timer(1).timeout
 	start_typing("Attempt #" + str(int(StatManager.getLifetimeStat("totalRuns")) + 1) + "\n" +
-	"System: " + system + "\n" +
+	"System: " + str(1) + "\n" +
 	"Estimated Difficulty: " + str(difficulty))
 	await get_tree().create_timer(3.5).timeout
 	if WaveManager.currentDifficulty <= 5:

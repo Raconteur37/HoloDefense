@@ -70,6 +70,8 @@ func _on_back_settings_pressed() -> void:
 
 
 func _on_back_audio_settings_pressed() -> void:
+	$"Background/Audio Settings/VBoxContainer/Label/musicVolume".value = SoundManager.musicVolume
+	$"Background/Audio Settings/VBoxContainer/Label2/uiVolume".value = SoundManager.uiVolume
 	audioSettings.hide()
 	settingsButtons.show()
 
