@@ -202,19 +202,38 @@ func _on_match_state_changed(new_state: String) -> void:
 		$"Solo Frame/MultiplayerHolder".show()
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
 		
-		if GameManager.VSmode and SteamManager.lobbyHost != SteamManager.steam_name:
-			$"Solo Frame/BeginButton".hide()
-			$"Solo Frame/ReadyButton".show()
-			
+		if GameManager.VSmode:
+			if SteamManager.lobbyHost == SteamManager.steam_name:
+				launchButton.show()
+				launchLabel.show()
+				
+				$"Solo Frame/ReadyButton".hide() 
+				$"Solo Frame/ReadyLabel".hide()
+			else:
+				# GUEST: Hide Launch, Show Ready
+				launchButton.hide()
+				launchLabel.hide()
+				
+				$"Solo Frame/ReadyButton".show() 
+				$"Solo Frame/ReadyLabel".show()
+				
 	elif new_state == "start_game":
+		# Both players receive this state from the host and start the game
 		animationPlayer.play("Launch")
 
 
 func _on_opponent_loadout_changed(slot: String, data: String) -> void:
-	if slot == "is_ready" and data == "true":
-		print("Opponent is ready!")
-		is_opponent_ready = true
-		_check_both_ready()
+	if slot == "is_ready":
+		if data == "true":
+			is_opponent_ready = true
+			if SteamManager.lobbyHost == SteamManager.steam_name:
+				launchLabel.text = "LAUNCH"
+				launchButton.disabled = false
+		else:
+			is_opponent_ready = false
+			if SteamManager.lobbyHost == SteamManager.steam_name:
+				launchLabel.text = "WAITING FOR GUEST..."
+				launchButton.disabled = true
 		return
 		
 	if slot != "loadout_list":
