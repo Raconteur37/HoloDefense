@@ -4,7 +4,13 @@ extends Label
 
 func _ready():
 	# Test it out when the scene plays
-	var system = WaveManager.systemNumber
+	if GameManager.VSmode:
+		await get_tree().create_timer(1).timeout
+		start_typing(SteamManager.steam_name + " VS. " + SteamManager.opponentName)
+		await get_tree().create_timer(3.5).timeout
+		var randPhrases = ["Burn their city to the ground.","Show them their creator.","It's about to be lights out for them."]
+		start_typing(randPhrases.pick_random())
+		return
 	var difficulty = WaveManager.currentDifficulty
 	await get_tree().create_timer(1).timeout
 	start_typing("Attempt #" + str(int(StatManager.getLifetimeStat("totalRuns")) + 1) + "\n" +

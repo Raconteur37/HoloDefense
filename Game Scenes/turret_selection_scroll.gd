@@ -22,6 +22,13 @@ var has_triggered_start: bool = false
 var target_scroll: float = 0.0
 var scroll_tween: Tween
 
+# Backstop poll - re-reads Steam member data directly on an interval instead
+# of relying solely on lobby_data_update callbacks arriving. Callbacks can
+# race or lag in either direction (host->guest vs guest->host), which is
+# what caused the order-dependent launch behavior.
+var _poll_accumulator: float = 0.0
+const POLL_INTERVAL: float = 0.5
+
 func _ready() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
 	scroll.vertical_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
@@ -48,6 +55,16 @@ func _ready() -> void:
 		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
 
 
+func _process(delta: float) -> void:
+	if not _is_vs_match() or has_triggered_start:
+		return
+
+	_poll_accumulator += delta
+	if _poll_accumulator >= POLL_INTERVAL:
+		_poll_accumulator = 0.0
+		_poll_ready_states()
+
+
 # GameManager.VSmode is the intended source of truth, but if something on the
 # guest's join path (invite accept / pending_lobby_id flow) never sets it,
 # actually being in a Steam lobby is a reliable fallback - it's real network
@@ -66,8 +83,28 @@ func _sync_ready_states_dict() -> void:
 		if not player_ready_states.has(mem_id):
 			player_ready_states[mem_id] = false
 
-	# Catches the case where an opponent finishes joining after we already
-	# readied up locally - re-check now that they're in the dict.
+	_check_all_ready()
+
+
+# Ground-truth reconciliation - reads every member's actual is_ready value
+# directly from Steam rather than trusting whatever arrived via callback.
+# This is what makes the launch order-independent: it doesn't matter who
+# readied last or whether either side's push notification landed, this
+# will catch up within one POLL_INTERVAL regardless.
+func _poll_ready_states() -> void:
+	if SteamManager.lobbyID == 0:
+		return
+
+	var numMembers = Steam.getNumLobbyMembers(SteamManager.lobbyID)
+	for i in range(numMembers):
+		var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, i)
+		var ready_str: String
+		if mem_id == SteamManager.steam_id:
+			ready_str = "true" if is_local_ready else "false"
+		else:
+			ready_str = Steam.getLobbyMemberData(SteamManager.lobbyID, mem_id, "is_ready")
+		player_ready_states[mem_id] = (ready_str == "true")
+
 	_check_all_ready()
 
 
@@ -226,8 +263,6 @@ func _check_all_ready() -> void:
 	if expected_count < 2:
 		return
 
-	# Don't trust a dict that hasn't caught up to the real lobby size yet -
-	# this is what let the host launch solo before.
 	if player_ready_states.size() < expected_count:
 		return
 
