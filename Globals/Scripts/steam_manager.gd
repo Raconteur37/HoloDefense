@@ -107,6 +107,19 @@ func updateLobby() -> void:
 
 	lobby_members_updated.emit()
 
+
+func get_opponent_id() -> int:
+	if lobbyID == 0:
+		return 0
+
+	var numMembers = Steam.getNumLobbyMembers(lobbyID)
+	for i in range(numMembers):
+		var memberSteamId = Steam.getLobbyMemberByIndex(lobbyID, i)
+		if memberSteamId != steam_id:
+			return memberSteamId
+
+	return 0
+
 # --- Steam callbacks ---
 
 func _on_lobby_created(connect_result: int, lobby_id: int) -> void:

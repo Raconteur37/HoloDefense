@@ -28,6 +28,16 @@ func _ready() -> void:
 	
 	scroll.gui_input.connect(_on_scroll_gui_input)
 
+	# Both button pairs start hidden until a turret is brought. This is the
+	# actual overlap fix - previously only .show() was ever called, never
+	# .hide() on the opposite pair, so whichever button defaulted to visible
+	# in the .tscn (BeginButton) would bleed through in VS mode for both
+	# host and guest.
+	launchButton.hide()
+	launchLabel.hide()
+	readyButton.hide()
+	readyLabel.hide()
+
 	for rarity in ["Common", "Rare", "Super Rare", "Legendary", "Unseen"]:
 		for turret in TurretManager.unlockedTurrets:
 			if TurretManager.getTurretStat(turret, "rarity") == rarity:
@@ -41,6 +51,8 @@ func _ready() -> void:
 		for member in Steam.getNumLobbyMembers(SteamManager.lobbyID):
 			var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, member)
 			player_ready_states[mem_id] = false
+
+		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
 
 func add_turret_button(turretID):
 	if EconomyManager.is_turret_unlocked(turretID):
@@ -101,12 +113,17 @@ func _on_turret_button_pressed(btn, turretID):
 		
 		_sync_loadout_to_steam()
 		
+		# Only one button pair should ever be visible at a time.
 		if not GameManager.VSmode:
 			launchLabel.show()
 			launchButton.show()
+			readyLabel.hide()
+			readyButton.hide()
 		else:
 			readyButton.show()
 			readyLabel.show()
+			launchLabel.hide()
+			launchButton.hide()
 
 
 func _on_remove_button_pressed(btn, turretID):
@@ -119,6 +136,8 @@ func _on_remove_button_pressed(btn, turretID):
 	if broughtArray.size() <= 0:
 		launchLabel.hide()
 		launchButton.hide()
+		readyLabel.hide()
+		readyButton.hide()
 
 
 func _sync_loadout_to_steam():
@@ -167,6 +186,47 @@ func _on_ready_button_pressed() -> void:
 		
 		if SteamManager.lobbyID != 0:
 			SteamManager.set_loadout_slot("is_ready", "false")
+
+	player_ready_states[SteamManager.steam_id] = is_local_ready
+	_check_all_ready()
+
+
+func _on_opponent_loadout_changed(slot: String, value: String) -> void:
+	if slot != "is_ready":
+		return
+
+	var opponent_id = SteamManager.get_opponent_id()
+	if opponent_id != 0:
+		player_ready_states[opponent_id] = (value == "true")
+
+	_check_all_ready()
+
+
+func _check_all_ready() -> void:
+	if has_triggered_start or not GameManager.VSmode:
+		return
+
+	if player_ready_states.is_empty():
+		return
+
+	for player_id in player_ready_states:
+		if not player_ready_states[player_id]:
+			return
+
+	# Everyone in the lobby is readied up - fire the launch locally.
+	has_triggered_start = true
+	_start_vs_match()
+
+
+func _start_vs_match() -> void:
+	SoundManager.stopMusic()
+	GameManager.turretsBrought = broughtArray.duplicate()
+	for item in GameManager.turretsBrought:
+		GameManager.turretTempLevels[item] = 0
+	SoundManager.playStartButtonSound()
+	$"../../AnimationPlayer".play("Launch")
+	PopupManager.clearCaptainPopups()
+	readyButton.disabled = true
 
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
