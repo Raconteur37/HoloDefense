@@ -22,12 +22,42 @@ var has_triggered_start: bool = false
 var target_scroll: float = 0.0
 var scroll_tween: Tween
 
-# Backstop poll - re-reads Steam member data directly on an interval instead
-# of relying solely on lobby_data_update callbacks arriving. Callbacks can
-# race or lag in either direction (host->guest vs guest->host), which is
-# what caused the order-dependent launch behavior.
 var _poll_accumulator: float = 0.0
 const POLL_INTERVAL: float = 0.5
+
+# --- TEMP DEBUG OVERLAY ---
+# Flip to false (or delete this block + its calls) once the transition bug
+# is found. Shows local ready-state + trigger status on-screen so you and
+# your friend can each just look at your own screen / screenshot it after
+# a test run, instead of needing console access on a Steam build.
+const DEBUG_OVERLAY: bool = true
+var _debug_label: Label
+
+func _create_debug_overlay() -> void:
+	_debug_label = Label.new()
+	_debug_label.add_theme_color_override("font_color", Color.YELLOW)
+	_debug_label.add_theme_font_size_override("font_size", 16)
+	_debug_label.position = Vector2(10, 10)
+	_debug_label.z_index = 4096
+	_debug_label.top_level = true
+	_debug_label.mouse_filter = Control.MOUSE_FILTER_IGNORE
+	add_child(_debug_label)
+
+func _update_debug_overlay() -> void:
+	if not _debug_label:
+		return
+	var is_host = SteamManager.lobbyID != 0 and Steam.getLobbyOwner(SteamManager.lobbyID) == SteamManager.steam_id
+	var txt = "steam_id=%d  is_host=%s\nvsmode=%s  is_vs_match=%s\ntriggered=%s\n" % [
+		SteamManager.steam_id, str(is_host),
+		str(GameManager.VSmode), str(_is_vs_match()),
+		str(has_triggered_start)
+	]
+	txt += "ready_states (%d/%d expected):\n" % [player_ready_states.size(), SteamManager.check_player_count()]
+	for pid in player_ready_states:
+		txt += "  %d: %s\n" % [pid, str(player_ready_states[pid])]
+	_debug_label.text = txt
+# --- END TEMP DEBUG OVERLAY ---
+
 
 func _ready() -> void:
 	scroll.horizontal_scroll_mode = ScrollContainer.SCROLL_MODE_SHOW_NEVER
@@ -54,6 +84,9 @@ func _ready() -> void:
 		SteamManager.lobby_members_updated.connect(_sync_ready_states_dict)
 		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
 
+		if DEBUG_OVERLAY:
+			_create_debug_overlay()
+
 
 func _process(delta: float) -> void:
 	if not _is_vs_match() or has_triggered_start:
@@ -64,11 +97,10 @@ func _process(delta: float) -> void:
 		_poll_accumulator = 0.0
 		_poll_ready_states()
 
+	if DEBUG_OVERLAY:
+		_update_debug_overlay()
 
-# GameManager.VSmode is the intended source of truth, but if something on the
-# guest's join path (invite accept / pending_lobby_id flow) never sets it,
-# actually being in a Steam lobby is a reliable fallback - it's real network
-# state, not a local flag either side could forget to set.
+
 func _is_vs_match() -> bool:
 	return GameManager.VSmode or SteamManager.lobbyID != 0
 
@@ -86,11 +118,6 @@ func _sync_ready_states_dict() -> void:
 	_check_all_ready()
 
 
-# Ground-truth reconciliation - reads every member's actual is_ready value
-# directly from Steam rather than trusting whatever arrived via callback.
-# This is what makes the launch order-independent: it doesn't matter who
-# readied last or whether either side's push notification landed, this
-# will catch up within one POLL_INTERVAL regardless.
 func _poll_ready_states() -> void:
 	if SteamManager.lobbyID == 0:
 		return
@@ -284,6 +311,9 @@ func _start_vs_match() -> void:
 	$"../../AnimationPlayer".play("Launch")
 	PopupManager.clearCaptainPopups()
 	readyButton.disabled = true
+
+	if DEBUG_OVERLAY and _debug_label:
+		_debug_label.text += "\n>>> _start_vs_match FIRED <<<"
 
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
