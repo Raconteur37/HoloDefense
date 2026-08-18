@@ -23,6 +23,8 @@ extends Control
 @onready var animationPlayer = $AnimationPlayer
 @onready var enemyGridContainer = $"Solo Frame/MultiplayerHolder/enemyBringingGrid"
 
+var is_local_ready: bool = false
+var is_opponent_ready: bool = false
 
 func _ready() -> void:
 	_connect_steam_manager_signals()
@@ -33,6 +35,10 @@ func _ready() -> void:
 	if not SettingsManager.is_tutorial_done():
 		get_tree().change_scene_to_file("res://Game Scenes/Tutorial Scene.tscn")
 	difficultySlider.value = GameManager.difficultySave
+	
+	# Connect the launch button via code to ensure it triggers our ready logic
+	if not launchButton.pressed.is_connected(_on_begin_button_pressed):
+		launchButton.pressed.connect(_on_begin_button_pressed)
 
 
 func _connect_steam_manager_signals() -> void:
@@ -169,6 +175,14 @@ func resetMultiplayerData() -> void:
 	$"Play Button Holder".hide()
 	$GenericButtonHolder.show()
 	GameManager.VSmode = false
+	
+	# Reset ready states
+	is_local_ready = false
+	is_opponent_ready = false
+	if launchButton:
+		launchButton.disabled = false
+	if launchLabel:
+		launchLabel.text = "LAUNCH"
 
 
 func _on_lobby_disconnected() -> void:
@@ -187,12 +201,16 @@ func _on_match_state_changed(new_state: String) -> void:
 		soloFrame.show()
 		$"Solo Frame/MultiplayerHolder".show()
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
+	elif new_state == "start_game":
+		# Both players receive this state from the host and start the game
+		animationPlayer.play("Launch")
 
 
 func _on_opponent_loadout_changed(slot: String, data: String) -> void:
 	if slot == "is_ready" and data == "true":
 		print("Opponent is ready!")
-		# Put logic to start game or check if both are ready here
+		is_opponent_ready = true
+		_check_both_ready()
 		return
 		
 	if slot != "loadout_list":
@@ -226,3 +244,23 @@ func _on_opponent_loadout_changed(slot: String, data: String) -> void:
 		icon.size_flags_horizontal = Control.SIZE_EXPAND_FILL
 		icon.size_flags_vertical = Control.SIZE_EXPAND_FILL
 		enemyGridContainer.add_child(icon)
+
+
+# --- Ready Up Logic ---
+
+func _on_begin_button_pressed() -> void:
+	if GameManager.VSmode:
+		is_local_ready = true
+		launchButton.disabled = true
+		launchLabel.text = "READY..."
+		SteamManager.set_loadout_slot("is_ready", "true")
+		_check_both_ready()
+	else:
+		# If playing solo, just start normally
+		animationPlayer.play("Launch")
+
+
+func _check_both_ready() -> void:
+	if is_local_ready and is_opponent_ready:
+		if SteamManager.lobbyHost == SteamManager.steam_name:
+			Steam.setLobbyData(SteamManager.lobbyID, "match_state", "start_game")

@@ -153,10 +153,9 @@ func _on_begin_button_pressed() -> void:
 
 
 func _on_ready_button_pressed() -> void:
-	$ReadyLabel.text = "[steel]Locked In[/steel]"
+	$ReadyLabel.text = "[steel]Ready[/steel]"
 	$"Solo Frame/ReadyButton".modulate = Color.LAWN_GREEN
 	
-	# Broadcast readiness to the opponent!
 	if SteamManager.lobbyID != 0:
 		SteamManager.set_loadout_slot("is_ready", "true")
 

@@ -14,6 +14,9 @@ var opponentName: String = ""
 var current_match_state: String = ""
 var current_difficulty: float = -1.0
 
+var is_local_ready: bool = false
+var is_opponent_ready: bool = false
+
 signal lobby_join_status(success: bool)
 signal lobby_members_updated()
 signal opponent_left_lobby()
@@ -167,7 +170,7 @@ func _on_lobby_chat_update(lobby_id: int, changed_id: int, _making_change_id: in
 			opponent_left_lobby.emit()
 			updateLobby()
 
-# --- Loadout Management ---
+
 func set_loadout_slot(slot_name: String, data: String) -> void:
 	if lobbyID == 0:
 		return
@@ -182,5 +185,3 @@ func add_turret_to_loadout(turret_name: String) -> void:
 	else:
 		current_loadout += "," + turret_name
 	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)
-
-# --- Ready Manage ---

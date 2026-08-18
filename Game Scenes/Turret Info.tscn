@@ -15,7 +15,6 @@
 [ext_resource type="Texture2D" uid="uid://bhw7bgmx4v57v" path="res://Textures/Citizens/UI/progress_bar_fill(1).png" id="10_cpjlw"]
 [ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="11_jeivb"]
 [ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="12_s7hv8"]
-[ext_resource type="Script" uid="uid://cpblsm0g5qt4j" path="res://Game Scenes/pause_menu.gd" id="13_s7hv8"]
 [ext_resource type="Texture2D" uid="uid://c5hu2wrccaiav" path="res://Textures/Shop/shard_64x64.png" id="14_3ghed"]
 [ext_resource type="Texture2D" uid="uid://c6nhi25dpecyc" path="res://Textures/Shop/stardust_128x128.png" id="18_ysso4"]
 
@@ -550,73 +549,6 @@ text = "[pulse color=aqua height=0.5 freq=0.5][font_size=90]Menu[/font_size][/pu
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="PauseLayer" type="CanvasLayer" parent="." unique_id=300087697]
-layer = 3
-visible = false
-
-[node name="PauseMenu" type="Control" parent="PauseLayer" unique_id=960133533]
-process_mode = 3
-z_index = 2
-layout_mode = 3
-anchors_preset = 8
-anchor_left = 0.5
-anchor_top = 0.5
-anchor_right = 0.5
-anchor_bottom = 0.5
-offset_left = -322.0
-offset_top = -345.0
-offset_right = 22.0
-offset_bottom = 194.0
-grow_horizontal = 2
-grow_vertical = 2
-script = ExtResource("13_s7hv8")
-
-[node name="PanelContainer" type="PanelContainer" parent="PauseLayer/PauseMenu" unique_id=1679615524]
-layout_mode = 0
-offset_right = 474.0
-offset_bottom = 482.0
-scale = Vector2(1.5, 1.5)
-
-[node name="ColorRect" type="ColorRect" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1337058406]
-layout_mode = 2
-color = Color(0.24840015, 0.24840018, 0.24840015, 1)
-
-[node name="VBoxContainer" type="VBoxContainer" parent="PauseLayer/PauseMenu/PanelContainer" unique_id=1034337867]
-layout_mode = 2
-theme_override_constants/separation = 90
-
-[node name="Button" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1096775891]
-layout_mode = 2
-text = "Resume"
-icon_alignment = 1
-
-[node name="Restart" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=494773307]
-layout_mode = 2
-text = "Menu"
-
-[node name="Quit" type="Button" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1468282030]
-layout_mode = 2
-text = "Quit
-"
-
-[node name="Music Toggle" type="CheckButton" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=490331608]
-layout_mode = 2
-button_pressed = true
-action_mode = 0
-text = "Music"
-
-[node name="Music Volume" type="HSlider" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer" unique_id=1363980060]
-layout_mode = 2
-value = 100.0
-
-[node name="Label" type="Label" parent="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" unique_id=1709862819]
-layout_mode = 0
-offset_left = 3.3333335
-offset_top = -26.0
-offset_right = 477.33334
-offset_bottom = -3.6666641
-text = "Music Volume"
-
 [node name="HBoxContainer" type="HBoxContainer" parent="." unique_id=885930249]
 z_index = 1
 offset_left = 747.0
@@ -714,11 +646,6 @@ label_settings = SubResource("LabelSettings_4fnnr")
 [connection signal="toggled" from="TurretInfo/VBoxContainer3/PreviewButton" to="TurretInfo/TurretSelectionScroll" method="_on_preview_button_toggled"]
 [connection signal="pressed" from="TurretInfoButton" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_pressed"]
 [connection signal="pressed" from="TurretInfoButton2" to="TurretInfo/TurretSelectionScroll" method="_on_turret_info_button_2_pressed"]
-[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Button" to="PauseLayer/PauseMenu" method="_on_button_pressed"]
-[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Restart" to="PauseLayer/PauseMenu" method="_on_restart_pressed"]
-[connection signal="pressed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Quit" to="PauseLayer/PauseMenu" method="_on_quit_pressed"]
-[connection signal="toggled" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Toggle" to="PauseLayer/PauseMenu" method="_on_music_toggle_toggled"]
-[connection signal="value_changed" from="PauseLayer/PauseMenu/PanelContainer/VBoxContainer/Music Volume" to="PauseLayer/PauseMenu" method="_on_music_volume_value_changed"]
 [connection signal="toggled" from="HBoxContainer/StatsToggle" to="TurretInfo/TurretSelectionScroll" method="_on_stats_toggle_toggled"]
 [connection signal="pressed" from="PurchaseBox/ShardButton" to="TurretInfo/TurretSelectionScroll" method="_on_shard_button_pressed"]
 [connection signal="button_down" from="XPButton" to="TurretInfo/TurretSelectionScroll" method="_on_xp_button_button_down"]

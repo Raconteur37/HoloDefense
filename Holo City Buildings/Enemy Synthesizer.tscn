@@ -2,14 +2,28 @@
 
 [ext_resource type="Script" uid="uid://dluoj8j4sf02s" path="res://Scripts/Holo City Buildings/Enemy Synthesizer/enemy_synthesizer.gd" id="1_w7cup"]
 [ext_resource type="Texture2D" uid="uid://bfo8eg6fmk5va" path="res://Textures/Holo City/Enemy Synthesizer.png" id="2_w7cup"]
-[ext_resource type="Texture2D" uid="uid://c2rbho05ryi0v" path="res://Textures/UI/Game/Turret Info Scene/InfoSpace.png" id="3_5csfg"]
 [ext_resource type="Texture2D" uid="uid://cs8xgwf7i1yxy" path="res://Textures/Enemies/diamond_enemy.png" id="3_be4bi"]
 [ext_resource type="Texture2D" uid="uid://7l2ipapi3iqh" path="res://Textures/Enemies/triangle_enemy.png" id="4_5ie4i"]
 [ext_resource type="Texture2D" uid="uid://ba4ufkdp80oca" path="res://Textures/Enemies/hexagon_enemy.png" id="5_cot1n"]
-[ext_resource type="Texture2D" uid="uid://d0blv4ne2amvt" path="res://Textures/Enemies/Basic Square22.png" id="7_rradh"]
-[ext_resource type="Texture2D" uid="uid://cmb7efcto8ecg" path="res://Textures/UI/Game/Turret Info Scene/GenericButton.png" id="9_i6yja"]
-[ext_resource type="Texture2D" uid="uid://30tm0ak5knuj" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Pressed.png" id="10_wo6u2"]
-[ext_resource type="Texture2D" uid="uid://ddfryx7k4ypms" path="res://Textures/UI/Game/Turret Info Scene/GenericButton_Hover.png" id="11_qngbw"]
+[ext_resource type="Texture2D" uid="uid://btr2g3dx4mvp" path="res://Textures/Holo City/Enemy Synth/deploy_panel_dark.png" id="6_b6rcd"]
+[ext_resource type="Texture2D" uid="uid://b5j4yvyrm8xs0" path="res://Textures/Holo City/Enemy Synth/slot_white.png" id="7_w7cup"]
+[ext_resource type="Texture2D" uid="uid://bd8f5hp6t31m7" path="res://Textures/Enemies/Basic Square.png" id="7_y70tk"]
+[ext_resource type="Texture2D" uid="uid://804s120b3icn" path="res://Textures/Holo City/Enemy Synth/cost_tag.png" id="8_1ukwv"]
+[ext_resource type="Texture2D" uid="uid://tdopjjum2uac" path="res://Textures/Holo City/Enemy Synth/cost_tag_pressed.png" id="9_rradh"]
+[ext_resource type="Texture2D" uid="uid://cqnuwur0ivx55" path="res://Textures/Holo City/Enemy Synth/cost_tag_highlighted(1).png" id="11_w7cup"]
+[ext_resource type="Texture2D" uid="uid://bl41kwc4slh1" path="res://Textures/Holo City/Enemy Synth/button_send_wave.png" id="12_1i3ej"]
+[ext_resource type="Texture2D" uid="uid://cbaobhepxnst6" path="res://Textures/Holo City/Enemy Synth/button_send_wave_pressed.png" id="13_b2gmc"]
+[ext_resource type="Texture2D" uid="uid://jv2ss5u2fdj0" path="res://Textures/Holo City/Enemy Synth/button_send_wave_highlighted.png" id="14_yrdsf"]
+[ext_resource type="Script" uid="uid://be4k5kxmk0vgt" path="res://FX/rich_text_label_steel.gd" id="15_xr27a"]
+[ext_resource type="Script" uid="uid://cebjptjwcxq8m" path="res://FX/rich_label_chaotic.gd" id="16_b2bnu"]
+[ext_resource type="Script" uid="uid://b3jyhbqrne8vo" path="res://FX/supportive_rich_label.gd" id="17_mwqjb"]
+[ext_resource type="Script" uid="uid://ck3jqsaqirhst" path="res://FX/fortuitous_rich_label.gd" id="18_a0l45"]
+[ext_resource type="Script" uid="uid://bqflipj0tew50" path="res://FX/explsoive_rich_label.gd" id="19_rpusb"]
+[ext_resource type="Script" uid="uid://djvsaljj04xxe" path="res://FX/chaotic_rich_label.gd" id="20_cd7n4"]
+[ext_resource type="Script" uid="uid://c361cwa776wwr" path="res://FX/debuffer_rich_label.gd" id="21_8ld35"]
+[ext_resource type="Script" uid="uid://bf3qtanrdj22f" path="res://FX/tanky_rich_label.gd" id="22_5f2eq"]
+[ext_resource type="Script" uid="uid://ck22cew20jqkd" path="res://FX/summoner_rich_label.gd" id="23_wuc5a"]
+[ext_resource type="Script" uid="uid://ydpbnw82mrqg" path="res://FX/controlling_rich_label.gd" id="24_p6cx8"]
 
 [sub_resource type="SpriteFrames" id="SpriteFrames_5j705"]
 animations = [{
@@ -22,21 +36,53 @@ animations = [{
 "speed": 5.0
 }]
 
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_julrh"]
-size = Vector2(64.5, 65.25)
-
-[sub_resource type="RectangleShape2D" id="RectangleShape2D_jfbm1"]
+[sub_resource type="RectangleShape2D" id="RectangleShape2D_10umb"]
 size = Vector2(276, 263)
 
-[sub_resource type="LabelSettings" id="LabelSettings_5ct8a"]
-font_size = 32
-font_color = Color(0.49803922, 0.36862746, 0.8509804, 1)
+[sub_resource type="LabelSettings" id="LabelSettings_10umb"]
+font_size = 31
+font_color = Color(0.8090962, 0.8090962, 0.8090962, 1)
+shadow_color = Color(0.4697796, 0.45352226, 0.52630603, 0.27450982)
 
-[sub_resource type="LabelSettings" id="LabelSettings_t7b75"]
-font_color = Color(0.86792076, 0.73408014, 1.1551381e-06, 1)
+[sub_resource type="RichTextEffect" id="RichTextEffect_72rfk"]
+script = ExtResource("15_xr27a")
+metadata/_custom_type_script = "uid://be4k5kxmk0vgt"
 
-[sub_resource type="LabelSettings" id="LabelSettings_wjx7g"]
-font_color = Color(2.3102762e-06, 0.6971268, 0.69772047, 1)
+[sub_resource type="RichTextEffect" id="RichTextEffect_2hop5"]
+script = ExtResource("16_b2bnu")
+metadata/_custom_type_script = "uid://cebjptjwcxq8m"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_gm7qj"]
+script = ExtResource("17_mwqjb")
+metadata/_custom_type_script = "uid://b3jyhbqrne8vo"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_sfqoe"]
+script = ExtResource("18_a0l45")
+metadata/_custom_type_script = "uid://ck3jqsaqirhst"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_uf61o"]
+script = ExtResource("19_rpusb")
+metadata/_custom_type_script = "uid://bqflipj0tew50"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_5ogq3"]
+script = ExtResource("20_cd7n4")
+metadata/_custom_type_script = "uid://djvsaljj04xxe"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_72713"]
+script = ExtResource("21_8ld35")
+metadata/_custom_type_script = "uid://c361cwa776wwr"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_kejo7"]
+script = ExtResource("22_5f2eq")
+metadata/_custom_type_script = "uid://bf3qtanrdj22f"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_8ugml"]
+script = ExtResource("23_wuc5a")
+metadata/_custom_type_script = "uid://ck22cew20jqkd"
+
+[sub_resource type="RichTextEffect" id="RichTextEffect_vjlh3"]
+script = ExtResource("24_p6cx8")
+metadata/_custom_type_script = "uid://ydpbnw82mrqg"
 
 [node name="EnemySynthesizer" type="Control" unique_id=1901967378]
 layout_mode = 3
@@ -72,267 +118,141 @@ offset_bottom = 127.75
 scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_cot1n")
 
-[node name="Work Area" type="Area2D" parent="." unique_id=1577580633]
-scale = Vector2(4, 4)
+[node name="Select Area" type="Area2D" parent="." unique_id=1102249972 groups=["Holo City Building"]]
 collision_layer = 32
 collision_mask = 48
 
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Work Area" unique_id=895185504]
-position = Vector2(0, 0.375)
-shape = SubResource("RectangleShape2D_julrh")
-debug_color = Color(0.424244, 0.625937, 1.15514e-06, 0.42)
-
-[node name="Select Area" type="Area2D" parent="." unique_id=1428813278 groups=["Holo City Building"]]
-collision_layer = 32
-collision_mask = 48
-
-[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=2041551092]
-shape = SubResource("RectangleShape2D_jfbm1")
+[node name="CollisionShape2D" type="CollisionShape2D" parent="Select Area" unique_id=1246834336]
+shape = SubResource("RectangleShape2D_10umb")
 debug_color = Color(0.306587, 0.494173, 1, 0.42)
 
-[node name="menuControl" type="Popup" parent="." unique_id=2146597857]
+[node name="Popup" type="Popup" parent="." unique_id=1265765822]
 oversampling_override = 1.0
 initial_position = 1
-size = Vector2i(900, 810)
+size = Vector2i(1400, 760)
+visible = true
 
-[node name="fabricatorMenuBackground" type="TextureRect" parent="menuControl" unique_id=542087916]
-texture_filter = 1
+[node name="TextureRect" type="TextureRect" parent="Popup" unique_id=1096622416]
+offset_right = 40.0
+offset_bottom = 40.0
+texture = ExtResource("6_b6rcd")
+
+[node name="Label" type="Label" parent="Popup" unique_id=1519386301]
 anchors_preset = 8
 anchor_left = 0.5
 anchor_top = 0.5
 anchor_right = 0.5
 anchor_bottom = 0.5
-offset_left = -450.0
-offset_top = -405.0
-offset_right = 450.0
-offset_bottom = 405.0
+offset_left = -649.0
+offset_top = -337.0
+offset_right = -175.0
+offset_bottom = -272.0
 grow_horizontal = 2
 grow_vertical = 2
-mouse_filter = 0
-texture = ExtResource("3_5csfg")
-
-[node name="VBoxContainer" type="VBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=599213315]
-layout_mode = 0
-offset_left = 318.0
-offset_top = 29.0
-offset_right = 605.0
-offset_bottom = 132.0
-mouse_filter = 0
-
-[node name="titleLabel" type="Label" parent="menuControl/fabricatorMenuBackground/VBoxContainer" unique_id=1720426334]
-layout_mode = 2
 text = "Enemy Synthesizer"
-label_settings = SubResource("LabelSettings_5ct8a")
-horizontal_alignment = 1
+label_settings = SubResource("LabelSettings_10umb")
+vertical_alignment = 1
 
-[node name="levelLabel" type="Label" parent="menuControl/fabricatorMenuBackground/VBoxContainer" unique_id=809409545]
-layout_mode = 2
-text = "Level: 1"
+[node name="Label2" type="Label" parent="Popup" unique_id=1718037417]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = 330.0
+offset_top = -333.0
+offset_right = 639.0
+offset_bottom = -268.0
+grow_horizontal = 2
+grow_vertical = 2
+text = "Elite Addon"
+label_settings = SubResource("LabelSettings_10umb")
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="currentWorkersLabel" type="Label" parent="menuControl/fabricatorMenuBackground/VBoxContainer" unique_id=1959251514]
-layout_mode = 2
-text = "Current Workers: 0"
-horizontal_alignment = 1
-vertical_alignment = 1
+[node name="GridContainer" type="GridContainer" parent="Popup" unique_id=1645978530]
+anchors_preset = -1
+anchor_left = 0.032
+anchor_top = 0.179
+anchor_right = 0.69600004
+anchor_bottom = 0.675
+offset_left = 0.19999695
+offset_top = -0.040008545
+offset_right = -0.40008545
+theme_override_constants/h_separation = 90
+theme_override_constants/v_separation = 100
+columns = 2
 
-[node name="Enemy Display Container" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=1004979552]
+[node name="TextureRect2" type="TextureRect" parent="Popup/GridContainer" unique_id=39139409]
+layout_mode = 2
+texture = ExtResource("7_w7cup")
+
+[node name="TextureRect" type="TextureRect" parent="Popup/GridContainer/TextureRect2" unique_id=1131492771]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 0
+offset_left = 26.0
+offset_top = 27.0
+offset_right = 101.0
+offset_bottom = 102.0
+texture = ExtResource("7_y70tk")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureButton" type="TextureButton" parent="Popup/GridContainer/TextureRect2" unique_id=403948202]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 110.0
+offset_right = 93.0
+offset_bottom = 150.0
+scale = Vector2(1.2, 1.2)
+texture_normal = ExtResource("8_1ukwv")
+texture_pressed = ExtResource("9_rradh")
+texture_hover = ExtResource("11_w7cup")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="Popup/GridContainer/TextureRect2" unique_id=287153661]
 layout_mode = 1
 anchors_preset = -1
-anchor_left = 0.13000001
-anchor_top = 0.19100001
-anchor_right = 0.61
-anchor_bottom = 0.29000002
-offset_top = 33.289993
-offset_right = -92.0
-offset_bottom = -6.9000244
-scale = Vector2(2, 2)
-mouse_filter = 0
-theme_override_constants/separation = 35
-
-[node name="SquareImage" type="TextureRect" parent="menuControl/fabricatorMenuBackground/Enemy Display Container" unique_id=1939840369]
-layout_mode = 2
-texture = ExtResource("7_rradh")
-expand_mode = 2
-
-[node name="TriangleImage" type="TextureRect" parent="menuControl/fabricatorMenuBackground/Enemy Display Container" unique_id=1743521944]
-layout_mode = 2
-texture = ExtResource("4_5ie4i")
-expand_mode = 2
-
-[node name="DiamondImage" type="TextureRect" parent="menuControl/fabricatorMenuBackground/Enemy Display Container" unique_id=29329015]
-layout_mode = 2
-texture = ExtResource("3_be4bi")
-expand_mode = 2
-
-[node name="HexagonImage" type="TextureRect" parent="menuControl/fabricatorMenuBackground/Enemy Display Container" unique_id=890964191]
-layout_mode = 2
-texture = ExtResource("5_cot1n")
-expand_mode = 2
-
-[node name="TextureButton" type="TextureButton" parent="menuControl/fabricatorMenuBackground" unique_id=535362373]
-layout_mode = 0
-offset_left = 322.0
-offset_top = 525.0
-offset_right = 386.0
-offset_bottom = 589.0
-scale = Vector2(0.27872187, 0.33458012)
-texture_normal = ExtResource("9_i6yja")
-texture_pressed = ExtResource("10_wo6u2")
-texture_hover = ExtResource("11_qngbw")
-
-[node name="upgradeScraperLabel" type="Label" parent="menuControl/fabricatorMenuBackground" unique_id=1759756859]
-layout_mode = 0
-offset_left = 367.0
-offset_top = 553.0
-offset_right = 537.0
-offset_bottom = 600.6667
-text = "Upgrade
-$100"
+anchor_left = 0.344
+anchor_top = 0.93700004
+anchor_right = 0.69500005
+anchor_bottom = 1.0550001
+offset_left = -7.0320015
+offset_top = 0.06399536
+offset_right = -3.9600067
+offset_bottom = 2.9599915
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=14x14]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 1"
+scroll_active = false
 horizontal_alignment = 1
+vertical_alignment = 1
 
-[node name="autoSellContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=839465818]
-layout_mode = 0
-offset_left = 131.0
-offset_top = 363.0
-offset_right = 779.0
-offset_bottom = 403.0
-tooltip_text = "When enabled, auto sell the respective gem for money when delivered to the generator."
-mouse_filter = 0
-theme_override_constants/separation = 107
+[node name="EnemiesPurchasedGrid" type="GridContainer" parent="Popup" unique_id=201552064]
+offset_left = 43.0
+offset_top = 553.0
+offset_right = 979.0
+offset_bottom = 719.0
 
-[node name="copperMoneySwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoSellContainer" unique_id=1596118059]
-layout_mode = 2
+[node name="sendWave" type="TextureButton" parent="Popup" unique_id=1732832009]
+offset_left = 987.0
+offset_top = 619.0
+offset_right = 1347.0
+offset_bottom = 719.0
+texture_normal = ExtResource("12_1i3ej")
+texture_pressed = ExtResource("13_b2gmc")
+texture_hover = ExtResource("14_yrdsf")
 
-[node name="quartzMoneySwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoSellContainer" unique_id=1364181754]
-layout_mode = 2
+[node name="Send Wave Label" type="RichTextLabel" parent="Popup" unique_id=43671223]
+offset_left = 1008.0
+offset_top = 591.0
+offset_right = 1299.0
+offset_bottom = 632.0
+mouse_filter = 2
+bbcode_enabled = true
+text = "[font_size=32][steel]Send Wave[/steel][/font_size]"
+autowrap_mode = 2
+horizontal_alignment = 1
+vertical_alignment = 1
+custom_effects = [SubResource("RichTextEffect_72rfk"), SubResource("RichTextEffect_2hop5"), SubResource("RichTextEffect_gm7qj"), SubResource("RichTextEffect_sfqoe"), SubResource("RichTextEffect_uf61o"), SubResource("RichTextEffect_5ogq3"), SubResource("RichTextEffect_72713"), SubResource("RichTextEffect_kejo7"), SubResource("RichTextEffect_8ugml"), SubResource("RichTextEffect_vjlh3")]
 
-[node name="amethystMoneySwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoSellContainer" unique_id=450705141]
-layout_mode = 2
-
-[node name="diamondMoneySwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoSellContainer" unique_id=786000396]
-layout_mode = 2
-
-[node name="galactiteMoneySwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoSellContainer" unique_id=568448845]
-layout_mode = 2
-
-[node name="autoConvertContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=1448344110]
-layout_mode = 0
-offset_left = 131.0
-offset_top = 398.0
-offset_right = 779.0
-offset_bottom = 438.0
-tooltip_text = "When enabled, auto convert the respective gem to energy when delivered to the generator."
-mouse_filter = 0
-theme_override_constants/separation = 107
-
-[node name="copperConvertSwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoConvertContainer" unique_id=472730773]
-layout_mode = 2
-
-[node name="quartzConvertSwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoConvertContainer" unique_id=2052554053]
-layout_mode = 2
-
-[node name="amethystConvertSwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoConvertContainer" unique_id=900290238]
-layout_mode = 2
-
-[node name="diamondConvertSwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoConvertContainer" unique_id=385005634]
-layout_mode = 2
-
-[node name="galactiteConvertSwitch" type="CheckButton" parent="menuControl/fabricatorMenuBackground/autoConvertContainer" unique_id=390097007]
-layout_mode = 2
-
-[node name="valueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground" unique_id=1379123887]
-layout_mode = 0
-offset_left = 126.0
-offset_top = 297.0
-offset_right = 783.0
-offset_bottom = 337.0
-theme_override_constants/separation = 94
-
-[node name="copperValueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/valueContainer" unique_id=694209023]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="moneyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/copperValueContainer" unique_id=1369995548]
-layout_mode = 2
-text = "$99"
-label_settings = SubResource("LabelSettings_t7b75")
-
-[node name="energyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/copperValueContainer" unique_id=1104199804]
-layout_mode = 2
-text = "99"
-label_settings = SubResource("LabelSettings_wjx7g")
-
-[node name="quartzValueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/valueContainer" unique_id=1055870222]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="moneyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/quartzValueContainer" unique_id=394278655]
-layout_mode = 2
-text = "$99"
-label_settings = SubResource("LabelSettings_t7b75")
-
-[node name="energyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/quartzValueContainer" unique_id=1112212507]
-layout_mode = 2
-text = "99"
-label_settings = SubResource("LabelSettings_wjx7g")
-
-[node name="amethystValueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/valueContainer" unique_id=1263183871]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="moneyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/amethystValueContainer" unique_id=1072198152]
-layout_mode = 2
-text = "$99"
-label_settings = SubResource("LabelSettings_t7b75")
-
-[node name="energyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/amethystValueContainer" unique_id=1521459865]
-layout_mode = 2
-text = "99"
-label_settings = SubResource("LabelSettings_wjx7g")
-
-[node name="diamondValueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/valueContainer" unique_id=34331037]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="moneyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/diamondValueContainer" unique_id=2137636693]
-layout_mode = 2
-text = "$99"
-label_settings = SubResource("LabelSettings_t7b75")
-
-[node name="energyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/diamondValueContainer" unique_id=1370935528]
-layout_mode = 2
-text = "99"
-label_settings = SubResource("LabelSettings_wjx7g")
-
-[node name="galactiteValueContainer" type="HBoxContainer" parent="menuControl/fabricatorMenuBackground/valueContainer" unique_id=769688296]
-layout_mode = 2
-theme_override_constants/separation = 10
-
-[node name="moneyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/galactiteValueContainer" unique_id=283218663]
-layout_mode = 2
-text = "$99"
-label_settings = SubResource("LabelSettings_t7b75")
-
-[node name="energyValue" type="Label" parent="menuControl/fabricatorMenuBackground/valueContainer/galactiteValueContainer" unique_id=1308246638]
-layout_mode = 2
-text = "99"
-label_settings = SubResource("LabelSettings_wjx7g")
-
-[connection signal="body_entered" from="Work Area" to="." method="_on_work_area_body_entered"]
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
-[connection signal="visibility_changed" from="menuControl" to="." method="_on_popup_visibility_changed"]
-[connection signal="mouse_entered" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_entered"]
-[connection signal="mouse_exited" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_mouse_exited"]
-[connection signal="pressed" from="menuControl/fabricatorMenuBackground/TextureButton" to="." method="_on_texture_button_pressed"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoSellContainer/copperMoneySwitch" to="." method="_on_copper_money_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoSellContainer/quartzMoneySwitch" to="." method="_on_quartz_money_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoSellContainer/amethystMoneySwitch" to="." method="_on_amethyst_money_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoSellContainer/diamondMoneySwitch" to="." method="_on_diamond_money_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoSellContainer/galactiteMoneySwitch" to="." method="_on_galactite_money_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoConvertContainer/copperConvertSwitch" to="." method="_on_copper_convert_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoConvertContainer/quartzConvertSwitch" to="." method="_on_quartz_convert_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoConvertContainer/amethystConvertSwitch" to="." method="_on_amethyst_convert_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoConvertContainer/diamondConvertSwitch" to="." method="_on_diamond_convert_switch_toggled"]
-[connection signal="toggled" from="menuControl/fabricatorMenuBackground/autoConvertContainer/galactiteConvertSwitch" to="." method="_on_galactite_convert_switch_toggled"]

@@ -85,5 +85,21 @@
   "FabricatorSettings": {
 	"BaseSlotCost": 50,
 	"CostScaling": 1.6,
+	},
+	
+  "EnemySynthesizerSettings": {
+	"basic_square": 1,
+	"speedy_triangle": 3,
+	"tanky_rectangle": 5,
+	"shooty_diamond": 30,
+	"hexagon_mothership": 500,
+	"packed_circle": 35,
+	"mini_packed_circle": 2,
+	"drilling_cone": 20,
+	"steel": 1.3,
+	"summoner": 1.8,
+	"windy": 1.2,
+	"unstoppable": 1.5,
+	"paracasual": 2
 	}
 }
