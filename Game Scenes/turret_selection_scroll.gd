@@ -28,11 +28,6 @@ func _ready() -> void:
 	
 	scroll.gui_input.connect(_on_scroll_gui_input)
 
-	# Both button pairs start hidden until a turret is brought. This is the
-	# actual overlap fix - previously only .show() was ever called, never
-	# .hide() on the opposite pair, so whichever button defaulted to visible
-	# in the .tscn (BeginButton) would bleed through in VS mode for both
-	# host and guest.
 	launchButton.hide()
 	launchLabel.hide()
 	readyButton.hide()
@@ -43,16 +38,38 @@ func _ready() -> void:
 			if TurretManager.getTurretStat(turret, "rarity") == rarity:
 				add_turret_button(turret)
 
-	if GameManager.VSmode:
+	if _is_vs_match():
 		if SteamManager.lobbyID != 0 and SteamManager.check_player_count() > 0:
 			if Steam.getLobbyOwner(SteamManager.lobbyID) == SteamManager.steam_id:
 				Steam.setLobbyData(SteamManager.lobbyID, "state", "waiting")
-				
-		for member in Steam.getNumLobbyMembers(SteamManager.lobbyID):
-			var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, member)
+
+		_sync_ready_states_dict()
+		SteamManager.lobby_members_updated.connect(_sync_ready_states_dict)
+		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
+
+
+# GameManager.VSmode is the intended source of truth, but if something on the
+# guest's join path (invite accept / pending_lobby_id flow) never sets it,
+# actually being in a Steam lobby is a reliable fallback - it's real network
+# state, not a local flag either side could forget to set.
+func _is_vs_match() -> bool:
+	return GameManager.VSmode or SteamManager.lobbyID != 0
+
+
+func _sync_ready_states_dict() -> void:
+	if SteamManager.lobbyID == 0:
+		return
+
+	var numMembers = Steam.getNumLobbyMembers(SteamManager.lobbyID)
+	for i in range(numMembers):
+		var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, i)
+		if not player_ready_states.has(mem_id):
 			player_ready_states[mem_id] = false
 
-		SteamManager.opponent_loadout_changed.connect(_on_opponent_loadout_changed)
+	# Catches the case where an opponent finishes joining after we already
+	# readied up locally - re-check now that they're in the dict.
+	_check_all_ready()
+
 
 func add_turret_button(turretID):
 	if EconomyManager.is_turret_unlocked(turretID):
@@ -113,8 +130,7 @@ func _on_turret_button_pressed(btn, turretID):
 		
 		_sync_loadout_to_steam()
 		
-		# Only one button pair should ever be visible at a time.
-		if not GameManager.VSmode:
+		if not _is_vs_match():
 			launchLabel.show()
 			launchButton.show()
 			readyLabel.hide()
@@ -157,7 +173,7 @@ func _on_turret_info_button_pressed() -> void:
 
 
 func _on_begin_button_pressed() -> void:
-	if GameManager.VSmode:
+	if _is_vs_match():
 		return
 		
 	SoundManager.stopMusic()
@@ -203,10 +219,16 @@ func _on_opponent_loadout_changed(slot: String, value: String) -> void:
 
 
 func _check_all_ready() -> void:
-	if has_triggered_start or not GameManager.VSmode:
+	if has_triggered_start or not _is_vs_match():
 		return
 
-	if player_ready_states.is_empty():
+	var expected_count = SteamManager.check_player_count()
+	if expected_count < 2:
+		return
+
+	# Don't trust a dict that hasn't caught up to the real lobby size yet -
+	# this is what let the host launch solo before.
+	if player_ready_states.size() < expected_count:
 		return
 
 	for player_id in player_ready_states:

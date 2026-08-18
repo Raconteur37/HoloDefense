@@ -137,6 +137,7 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 	if response == 1:
 		lobbyID = lobby_id
 		lobbyHost = Steam.getLobbyData(lobby_id, "lobby_host")
+		GameManager.VSmode = true
 		lobby_join_status.emit(true)
 		updateLobby()
 	else:
