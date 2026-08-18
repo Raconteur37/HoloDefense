@@ -182,7 +182,7 @@ func resetMultiplayerData() -> void:
 	if launchButton:
 		launchButton.disabled = false
 	if launchLabel:
-		launchLabel.text = "LAUNCH"
+		launchLabel.text = "[steel]Launch[/steel]"
 
 
 func _on_lobby_disconnected() -> void:
@@ -201,8 +201,12 @@ func _on_match_state_changed(new_state: String) -> void:
 		soloFrame.show()
 		$"Solo Frame/MultiplayerHolder".show()
 		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
+		
+		if GameManager.VSmode and SteamManager.lobbyHost != SteamManager.steam_name:
+			$"Solo Frame/BeginButton".hide()
+			$"Solo Frame/ReadyButton".show()
+			
 	elif new_state == "start_game":
-		# Both players receive this state from the host and start the game
 		animationPlayer.play("Launch")
 
 

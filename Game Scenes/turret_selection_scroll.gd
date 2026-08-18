@@ -42,7 +42,6 @@ func _ready() -> void:
 			var mem_id = Steam.getLobbyMemberByIndex(SteamManager.lobbyID, member)
 			player_ready_states[mem_id] = false
 
-
 func add_turret_button(turretID):
 	if EconomyManager.is_turret_unlocked(turretID):
 		var btn = Button.new()
@@ -151,13 +150,24 @@ func _on_begin_button_pressed() -> void:
 	PopupManager.clearCaptainPopups()
 	launchButton.disabled = true
 
+var is_local_ready: bool = false
 
 func _on_ready_button_pressed() -> void:
-	$ReadyLabel.text = "[steel]Ready[/steel]"
-	$"Solo Frame/ReadyButton".modulate = Color.LAWN_GREEN
+	is_local_ready = !is_local_ready
 	
-	if SteamManager.lobbyID != 0:
-		SteamManager.set_loadout_slot("is_ready", "true")
+	if is_local_ready:
+		$"../../ReadyLabel".text = "[steel]Readied Up[/steel]"
+		$"../ReadyButton".modulate = Color.LAWN_GREEN
+		
+		if SteamManager.lobbyID != 0:
+			SteamManager.set_loadout_slot("is_ready", "true")
+			
+	else:
+		$"../../ReadyLabel".text = "[steel]Ready[/steel]"
+		$"../ReadyButton".modulate = Color.WHITE 
+		
+		if SteamManager.lobbyID != 0:
+			SteamManager.set_loadout_slot("is_ready", "false")
 
 
 func _on_scroll_gui_input(event: InputEvent) -> void:
