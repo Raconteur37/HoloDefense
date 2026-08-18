@@ -156,15 +156,14 @@ func _on_ready_button_pressed() -> void:
 	is_local_ready = !is_local_ready
 	
 	if is_local_ready:
-		$"../../ReadyLabel".text = "[steel]Readied Up[/steel]"
-		$"../ReadyButton".modulate = Color.LAWN_GREEN
+		readyLabel.text = "[steel]Readied Up[/steel]"
+		readyButton.modulate = Color.LAWN_GREEN
 		
 		if SteamManager.lobbyID != 0:
 			SteamManager.set_loadout_slot("is_ready", "true")
-			
 	else:
-		$"../../ReadyLabel".text = "[steel]Ready[/steel]"
-		$"../ReadyButton".modulate = Color.WHITE 
+		readyLabel.text = "[steel]Ready[/steel]" 
+		readyButton.modulate = Color.WHITE 
 		
 		if SteamManager.lobbyID != 0:
 			SteamManager.set_loadout_slot("is_ready", "false")

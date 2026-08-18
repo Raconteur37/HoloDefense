@@ -3,6 +3,9 @@ extends Control
 @onready var soloFrame = $"Solo Frame"
 @onready var multiplayerFrame = $"Multiplayer Frame"
 
+@onready var readyButton = $"Solo Frame/ReadyButton"
+@onready var readyLabel = $ReadyLabel
+
 @onready var createButton = $"Multiplayer Frame/ContainerOne/Create Button"
 
 @onready var lobbyHost = $"Multiplayer Frame/Lobby Host"
@@ -80,6 +83,7 @@ func _on_solo_frame_visibility_changed() -> void:
 			turretDescriptionOne.show()
 			portal.show()
 			difLabel.show()
+			
 			if launchButton.visible:
 				launchLabel.show()
 		else:
@@ -88,7 +92,6 @@ func _on_solo_frame_visibility_changed() -> void:
 			turretDescriptionOne.hide()
 			portal.hide()
 			launchLabel.hide()
-
 
 # --- Difficulty Syncing Logic ---
 func _on_difficulty_slider_value_changed(value: float) -> void:
@@ -197,28 +200,28 @@ func _on_start_button_pressed() -> void:
 
 func _on_match_state_changed(new_state: String) -> void:
 	if new_state == "loadout":
-		multiplayerFrame.hide()
-		soloFrame.show()
-		$"Solo Frame/MultiplayerHolder".show()
-		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
 		
+		# --- 1. SET UP BUTTON VISIBILITY FIRST ---
 		if GameManager.VSmode:
 			if SteamManager.lobbyHost == SteamManager.steam_name:
+				# HOST: Show Launch, Hide Ready
 				launchButton.show()
-				launchLabel.show()
-				
-				$"Solo Frame/ReadyButton".hide() 
-				$"Solo Frame/ReadyLabel".hide()
+				if readyButton: readyButton.hide()
+				if readyLabel: readyLabel.hide()
 			else:
 				# GUEST: Hide Launch, Show Ready
 				launchButton.hide()
 				launchLabel.hide()
+				if readyButton: readyButton.show()
+				if readyLabel: readyLabel.show()
 				
-				$"Solo Frame/ReadyButton".show() 
-				$"Solo Frame/ReadyLabel".show()
+		# --- 2. NOW SHOW THE FRAME ---
+		multiplayerFrame.hide()
+		soloFrame.show()
+		$"Solo Frame/MultiplayerHolder".show()
+		$"Solo Frame/MultiplayerHolder/OpponentName".text = _pulse_name_label(SteamManager.opponentName, "#9ffff5", 0.3)
 				
 	elif new_state == "start_game":
-		# Both players receive this state from the host and start the game
 		animationPlayer.play("Launch")
 
 
