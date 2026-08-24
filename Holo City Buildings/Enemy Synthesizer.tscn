@@ -6,11 +6,6 @@
 [ext_resource type="Texture2D" uid="uid://7l2ipapi3iqh" path="res://Textures/Enemies/triangle_enemy.png" id="4_5ie4i"]
 [ext_resource type="Texture2D" uid="uid://ba4ufkdp80oca" path="res://Textures/Enemies/hexagon_enemy.png" id="5_cot1n"]
 [ext_resource type="Texture2D" uid="uid://btr2g3dx4mvp" path="res://Textures/Holo City/Enemy Synth/deploy_panel_dark.png" id="6_b6rcd"]
-[ext_resource type="Texture2D" uid="uid://b5j4yvyrm8xs0" path="res://Textures/Holo City/Enemy Synth/slot_white.png" id="7_w7cup"]
-[ext_resource type="Texture2D" uid="uid://bd8f5hp6t31m7" path="res://Textures/Enemies/Basic Square.png" id="7_y70tk"]
-[ext_resource type="Texture2D" uid="uid://804s120b3icn" path="res://Textures/Holo City/Enemy Synth/cost_tag.png" id="8_1ukwv"]
-[ext_resource type="Texture2D" uid="uid://tdopjjum2uac" path="res://Textures/Holo City/Enemy Synth/cost_tag_pressed.png" id="9_rradh"]
-[ext_resource type="Texture2D" uid="uid://cqnuwur0ivx55" path="res://Textures/Holo City/Enemy Synth/cost_tag_highlighted(1).png" id="11_w7cup"]
 [ext_resource type="Texture2D" uid="uid://bl41kwc4slh1" path="res://Textures/Holo City/Enemy Synth/button_send_wave.png" id="12_1i3ej"]
 [ext_resource type="Texture2D" uid="uid://cbaobhepxnst6" path="res://Textures/Holo City/Enemy Synth/button_send_wave_pressed.png" id="13_b2gmc"]
 [ext_resource type="Texture2D" uid="uid://jv2ss5u2fdj0" path="res://Textures/Holo City/Enemy Synth/button_send_wave_highlighted.png" id="14_yrdsf"]
@@ -20,6 +15,8 @@
 [ext_resource type="Script" uid="uid://ck3jqsaqirhst" path="res://FX/fortuitous_rich_label.gd" id="18_a0l45"]
 [ext_resource type="Script" uid="uid://bqflipj0tew50" path="res://FX/explsoive_rich_label.gd" id="19_rpusb"]
 [ext_resource type="Script" uid="uid://djvsaljj04xxe" path="res://FX/chaotic_rich_label.gd" id="20_cd7n4"]
+[ext_resource type="Texture2D" uid="uid://bfa31smvo2jtf" path="res://Textures/Holo City/Enemy Synth/checkbox_off.png" id="20_qngbw"]
+[ext_resource type="Texture2D" uid="uid://dhxd1f54mpeug" path="res://Textures/Holo City/Enemy Synth/checkbox_on.png" id="21_4akpf"]
 [ext_resource type="Script" uid="uid://c361cwa776wwr" path="res://FX/debuffer_rich_label.gd" id="21_8ld35"]
 [ext_resource type="Script" uid="uid://bf3qtanrdj22f" path="res://FX/tanky_rich_label.gd" id="22_5f2eq"]
 [ext_resource type="Script" uid="uid://ck22cew20jqkd" path="res://FX/summoner_rich_label.gd" id="23_wuc5a"]
@@ -84,6 +81,9 @@ metadata/_custom_type_script = "uid://ck22cew20jqkd"
 script = ExtResource("24_p6cx8")
 metadata/_custom_type_script = "uid://ydpbnw82mrqg"
 
+[sub_resource type="LabelSettings" id="LabelSettings_qngbw"]
+font_size = 21
+
 [node name="EnemySynthesizer" type="Control" unique_id=1901967378]
 layout_mode = 3
 anchors_preset = 0
@@ -131,6 +131,7 @@ oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(1400, 760)
 visible = true
+wrap_controls = false
 
 [node name="TextureRect" type="TextureRect" parent="Popup" unique_id=1096622416]
 offset_right = 40.0
@@ -179,59 +180,21 @@ anchor_bottom = 0.675
 offset_left = 0.19999695
 offset_top = -0.040008545
 offset_right = -0.40008545
-theme_override_constants/h_separation = 90
+theme_override_constants/h_separation = 60
 theme_override_constants/v_separation = 100
-columns = 2
-
-[node name="TextureRect2" type="TextureRect" parent="Popup/GridContainer" unique_id=39139409]
-layout_mode = 2
-texture = ExtResource("7_w7cup")
-
-[node name="TextureRect" type="TextureRect" parent="Popup/GridContainer/TextureRect2" unique_id=1131492771]
-custom_minimum_size = Vector2(10, 10)
-layout_mode = 0
-offset_left = 26.0
-offset_top = 27.0
-offset_right = 101.0
-offset_bottom = 102.0
-texture = ExtResource("7_y70tk")
-expand_mode = 1
-stretch_mode = 5
-
-[node name="TextureButton" type="TextureButton" parent="Popup/GridContainer/TextureRect2" unique_id=403948202]
-layout_mode = 0
-offset_left = 17.0
-offset_top = 110.0
-offset_right = 93.0
-offset_bottom = 150.0
-scale = Vector2(1.2, 1.2)
-texture_normal = ExtResource("8_1ukwv")
-texture_pressed = ExtResource("9_rradh")
-texture_hover = ExtResource("11_w7cup")
-
-[node name="RichTextLabel" type="RichTextLabel" parent="Popup/GridContainer/TextureRect2" unique_id=287153661]
-layout_mode = 1
-anchors_preset = -1
-anchor_left = 0.344
-anchor_top = 0.93700004
-anchor_right = 0.69500005
-anchor_bottom = 1.0550001
-offset_left = -7.0320015
-offset_top = 0.06399536
-offset_right = -3.9600067
-offset_bottom = 2.9599915
-mouse_filter = 2
-bbcode_enabled = true
-text = "[img=14x14]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 1"
-scroll_active = false
-horizontal_alignment = 1
-vertical_alignment = 1
+columns = 5
 
 [node name="EnemiesPurchasedGrid" type="GridContainer" parent="Popup" unique_id=201552064]
+clip_contents = true
+custom_minimum_size = Vector2(20, 20)
 offset_left = 43.0
 offset_top = 553.0
-offset_right = 979.0
-offset_bottom = 719.0
+offset_right = 1939.0
+offset_bottom = 877.0
+scale = Vector2(0.7, 0.7)
+size_flags_horizontal = 4
+size_flags_vertical = 4
+columns = 13
 
 [node name="sendWave" type="TextureButton" parent="Popup" unique_id=1732832009]
 offset_left = 987.0
@@ -255,4 +218,57 @@ horizontal_alignment = 1
 vertical_alignment = 1
 custom_effects = [SubResource("RichTextEffect_72rfk"), SubResource("RichTextEffect_2hop5"), SubResource("RichTextEffect_gm7qj"), SubResource("RichTextEffect_sfqoe"), SubResource("RichTextEffect_uf61o"), SubResource("RichTextEffect_5ogq3"), SubResource("RichTextEffect_72713"), SubResource("RichTextEffect_kejo7"), SubResource("RichTextEffect_8ugml"), SubResource("RichTextEffect_vjlh3")]
 
+[node name="CheckBoxContainer" type="VBoxContainer" parent="Popup" unique_id=2080613329]
+offset_left = 1010.0
+offset_top = 135.0
+offset_right = 1050.0
+offset_bottom = 175.0
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Popup/CheckBoxContainer" unique_id=747000783]
+layout_mode = 2
+
+[node name="SteelElite" type="TextureButton" parent="Popup/CheckBoxContainer/HBoxContainer" unique_id=928816493]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("20_qngbw")
+texture_pressed = ExtResource("21_4akpf")
+
+[node name="Label" type="Label" parent="Popup/CheckBoxContainer/HBoxContainer" unique_id=568217714]
+layout_mode = 2
+text = "Steel"
+label_settings = SubResource("LabelSettings_qngbw")
+
+[node name="HBoxContainer2" type="HBoxContainer" parent="Popup/CheckBoxContainer" unique_id=732883842]
+layout_mode = 2
+
+[node name="SummonerElite" type="TextureButton" parent="Popup/CheckBoxContainer/HBoxContainer2" unique_id=266056948]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("20_qngbw")
+texture_pressed = ExtResource("21_4akpf")
+
+[node name="Label" type="Label" parent="Popup/CheckBoxContainer/HBoxContainer2" unique_id=1588535522]
+layout_mode = 2
+text = "Summoner"
+label_settings = SubResource("LabelSettings_qngbw")
+
+[node name="HBoxContainer3" type="HBoxContainer" parent="Popup/CheckBoxContainer" unique_id=884678764]
+layout_mode = 2
+
+[node name="WindyElite" type="TextureButton" parent="Popup/CheckBoxContainer/HBoxContainer3" unique_id=1831897337]
+layout_mode = 2
+toggle_mode = true
+texture_normal = ExtResource("20_qngbw")
+texture_pressed = ExtResource("21_4akpf")
+
+[node name="Label" type="Label" parent="Popup/CheckBoxContainer/HBoxContainer3" unique_id=1656150012]
+layout_mode = 2
+text = "Windy"
+label_settings = SubResource("LabelSettings_qngbw")
+
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
+[connection signal="visibility_changed" from="Popup" to="." method="_on_popup_visibility_changed"]
+[connection signal="pressed" from="Popup/sendWave" to="." method="_on_send_wave_pressed"]
+[connection signal="toggled" from="Popup/CheckBoxContainer/HBoxContainer/SteelElite" to="." method="_on_steel_elite_toggled"]
+[connection signal="toggled" from="Popup/CheckBoxContainer/HBoxContainer2/SummonerElite" to="." method="_on_summoner_elite_toggled"]
+[connection signal="toggled" from="Popup/CheckBoxContainer/HBoxContainer3/WindyElite" to="." method="_on_windy_elite_toggled"]

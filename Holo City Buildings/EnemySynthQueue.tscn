@@ -1,0 +1,45 @@
+[gd_scene format=3 uid="uid://dipgkthm0e30w"]
+
+[ext_resource type="Texture2D" uid="uid://b5j4yvyrm8xs0" path="res://Textures/Holo City/Enemy Synth/slot_white.png" id="1_xrrjd"]
+[ext_resource type="Script" uid="uid://c66pvp1i87led" path="res://Scripts/Holo City Buildings/Enemy Synthesizer/enemy_synth_queue.gd" id="2_xte5t"]
+[ext_resource type="Texture2D" uid="uid://bd8f5hp6t31m7" path="res://Textures/Enemies/Basic Square.png" id="3_cfq4y"]
+
+[node name="EnemyDisplay" type="TextureRect" unique_id=1412201812]
+texture = ExtResource("1_xrrjd")
+script = ExtResource("2_xte5t")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=526313281]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 0
+offset_left = 26.0
+offset_top = 27.0
+offset_right = 101.0
+offset_bottom = 102.0
+texture = ExtResource("3_cfq4y")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="Panel" type="Panel" parent="." unique_id=878586953]
+layout_mode = 0
+offset_left = 51.0
+offset_top = 87.0
+offset_right = 117.0
+offset_bottom = 118.0
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=966329420]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.344
+anchor_top = 0.93700004
+anchor_right = 0.69500005
+anchor_bottom = 1.0550001
+offset_left = -8.0320015
+offset_top = -32.936005
+offset_right = 27.039993
+offset_bottom = -19.040009
+mouse_filter = 2
+bbcode_enabled = true
+text = "[color=red][wave amp=10.0 freq=7][font_size=20]X100[/font_size][/wave][/color]"
+scroll_active = false
+horizontal_alignment = 2
+vertical_alignment = 1

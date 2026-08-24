@@ -3,6 +3,20 @@ extends Node
 var enemy_data: Dictionary = {}
 var elite_data: Dictionary = {}
 
+# New variables for cost tracking
+var cost_multipliers_data: Dictionary = {}
+var enemies_with_cost: Array[Enemy.EnemyID] = []
+
+var enemyTextures = {
+	Enemy.EnemyID.BASIC_SQUARE : "res://Textures/Enemies/Basic Square.png",
+	Enemy.EnemyID.SPEEDY_TRIANGLE : "res://Textures/Enemies/triangle_enemy.png",
+	Enemy.EnemyID.SHOOTY_DIAMOND : "res://Textures/Enemies/diamond_enemy.png",
+	Enemy.EnemyID.HEXAGON_MOTHERSHIP : "res://Textures/Enemies/hexagon_enemy.png",
+	Enemy.EnemyID.TANKY_RECTANGLE : "res://Textures/Enemies/rectangle_enemy.png",
+	Enemy.EnemyID.PACKED_CIRCLE : "res://Textures/Enemies/circle_enemy.png",
+	Enemy.EnemyID.DRILLING_CONE : "res://Textures/Enemies/cone_enemy.png"
+}
+
 func _ready() -> void:
 	loadData()
 
@@ -20,18 +34,77 @@ func loadData():
 		push_error("EnemyInfo: JSON parse error — %s" % json.get_error_message())
 		return
 
-	# Load Enemy Data
+	# Load Cost Multipliers and convert string keys to enums
+	if json.data.has("costMultipliers") and json.data["costMultipliers"].size() > 0:
+		var raw_multipliers = json.data["costMultipliers"][0]
+		for key in raw_multipliers:
+			var elite_enum = _elite_id_to_enum(key)
+			cost_multipliers_data[elite_enum] = raw_multipliers[key]
+
+	# Load Enemy Data and build the cost list
 	for entry in json.data["enemies"]:
-		enemy_data[entry["id"]] = entry
+		var string_id = entry["id"]
+		enemy_data[string_id] = entry
 		
-	# Load Elite Data (It is stored inside an array at index 0 in the JSON)
+		# If the JSON entry has a cost, add its Enum ID to the list
+		if entry.has("cost"):
+			var enum_id = _id_to_enum(string_id)
+			if enum_id != Enemy.EnemyID.NONE:
+				enemies_with_cost.append(enum_id)
+		
+	# Load Elite Data (Stored inside an array at index 0 in the JSON)
 	if json.data.has("elite") and json.data["elite"].size() > 0:
 		elite_data = json.data["elite"][0]
 
-# --- Enemy Getters ---
+
+# --- Helpers ---
+
+func _get_enemy_texture(enemyID : Enemy.EnemyID):
+	return load(enemyTextures.get(enemyID))
 
 func _enum_to_id(enemy_id: Enemy.EnemyID) -> String:
 	return Enemy.EnemyID.keys()[enemy_id].to_lower()
+
+# Converts a string ID (like "basic_square") back to the enum (Enemy.EnemyID.BASIC_SQUARE)
+func _id_to_enum(id_string: String) -> Enemy.EnemyID:
+	for key in Enemy.EnemyID.keys():
+		if key.to_lower() == id_string.to_lower():
+			return Enemy.EnemyID[key]
+	return Enemy.EnemyID.NONE
+
+# Converts a string ID (like "steel") back to the elite enum
+func _elite_id_to_enum(id_string: String) -> Enemy.EliteType:
+	for key in Enemy.EliteType.keys():
+		if key.to_lower() == id_string.to_lower():
+			return Enemy.EliteType[key]
+	push_error("EnemyInfo: No EliteType found for '%s'" % id_string)
+	return Enemy.EliteType.values()[0] # Safe fallback to whatever the first enum value is
+
+
+# --- Cost & Multiplier Getters ---
+
+func get_all_cost_multipliers() -> Dictionary:
+	return cost_multipliers_data
+
+func get_elite_cost_multiplier(elite_type: Enemy.EliteType) -> float:
+	# Directly look up the enum key. Returns 1.0 as a fallback if not found.
+	return float(cost_multipliers_data.get(elite_type, 1.0)) 
+
+func get_enemies_with_cost_list() -> Array[Enemy.EnemyID]:
+	return enemies_with_cost
+
+# Gets a specific enemy enum from the cost list based on the provided array index
+func get_enemy_from_cost_list(index: int) -> Enemy.EnemyID:
+	if index >= 0 and index < enemies_with_cost.size():
+		return enemies_with_cost[index]
+	push_error("EnemyInfo: Index %s out of bounds for enemies_with_cost array" % index)
+	return Enemy.EnemyID.NONE
+	
+func get_enemy_cost(enemy_id: Enemy.EnemyID) -> int:
+	return int(get_enemy(enemy_id).get("cost", 0))
+
+
+# --- Enemy Getters ---
 
 func get_enemy(enemy_id: Enemy.EnemyID) -> Dictionary:
 	if enemy_id == Enemy.EnemyID.NONE:

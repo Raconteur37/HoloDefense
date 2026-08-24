@@ -95,3 +95,5 @@ func findNextProcess(buttonName):
 			get_tree().current_scene.find_child("Play Button Holder").hide()
 			get_tree().current_scene.find_child("Create Button").show()
 			get_tree().current_scene.find_child("ContainerOne").show()
+		"Quit":
+			get_tree().quit()

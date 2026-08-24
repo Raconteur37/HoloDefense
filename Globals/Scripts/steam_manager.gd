@@ -199,3 +199,39 @@ func add_turret_to_loadout(turret_name: String) -> void:
 	else:
 		current_loadout += "," + turret_name
 	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)
+
+
+@rpc("any_peer", "reliable")
+func receiveEnemy(enemyID: int, eliteType: int):
+	var sender = multiplayer.get_remote_sender_id()
+	if not sender in NetworkManager.players:
+		return
+		
+	var id = enemyID as Enemy.EnemyID
+	var e_type = eliteType as Enemy.EliteType
+	
+	if not EnemySpawnManager.ENEMIES.has(id):
+		return
+		
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	
+	var enemy = EnemySpawnManager.ENEMIES[id].instantiate()
+	
+	enemy.is_sent_enemy = true
+	
+	holder.add_child(enemy)
+	
+	if e_type != Enemy.EliteType.NONE:
+		enemy.type = Enemy.Type.ELITE
+		enemy.isElite = true
+		enemy.eliteType = e_type
+		
+		enemy.setElite() 
+		
+
+	enemy.global_position = EnemySpawnManager.getRandomOffscreenPosition()
+	WaveManager.registerActiveEnemy(enemy)
+
+
+func sendEnemy(enemyID: Enemy.EnemyID, eliteType: Enemy.EliteType, target_peer_id: int):
+	receiveEnemy.rpc_id(target_peer_id, enemyID as int, eliteType as int)

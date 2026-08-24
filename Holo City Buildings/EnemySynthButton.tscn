@@ -1,0 +1,54 @@
+[gd_scene format=3 uid="uid://b4kbh307lf5hh"]
+
+[ext_resource type="Texture2D" uid="uid://b5j4yvyrm8xs0" path="res://Textures/Holo City/Enemy Synth/slot_white.png" id="1_2fdfq"]
+[ext_resource type="Script" uid="uid://b3i7p3erphyjw" path="res://Scripts/Holo City Buildings/Enemy Synthesizer/enemy_synth_button.gd" id="2_4hlad"]
+[ext_resource type="Texture2D" uid="uid://bd8f5hp6t31m7" path="res://Textures/Enemies/Basic Square.png" id="3_52c03"]
+[ext_resource type="Texture2D" uid="uid://804s120b3icn" path="res://Textures/Holo City/Enemy Synth/cost_tag.png" id="4_x8u74"]
+[ext_resource type="Texture2D" uid="uid://tdopjjum2uac" path="res://Textures/Holo City/Enemy Synth/cost_tag_pressed.png" id="5_qa0oi"]
+[ext_resource type="Texture2D" uid="uid://cqnuwur0ivx55" path="res://Textures/Holo City/Enemy Synth/cost_tag_highlighted(1).png" id="6_2f78h"]
+
+[node name="Enemy Button" type="TextureRect" unique_id=1412201812]
+texture = ExtResource("1_2fdfq")
+script = ExtResource("2_4hlad")
+
+[node name="TextureRect" type="TextureRect" parent="." unique_id=526313281]
+custom_minimum_size = Vector2(10, 10)
+layout_mode = 0
+offset_left = 26.0
+offset_top = 27.0
+offset_right = 101.0
+offset_bottom = 102.0
+texture = ExtResource("3_52c03")
+expand_mode = 1
+stretch_mode = 5
+
+[node name="TextureButton" type="TextureButton" parent="." unique_id=433806506]
+layout_mode = 0
+offset_left = 17.0
+offset_top = 110.0
+offset_right = 93.0
+offset_bottom = 150.0
+scale = Vector2(1.2, 1.2)
+texture_normal = ExtResource("4_x8u74")
+texture_pressed = ExtResource("5_qa0oi")
+texture_hover = ExtResource("6_2f78h")
+
+[node name="RichTextLabel" type="RichTextLabel" parent="." unique_id=966329420]
+layout_mode = 1
+anchors_preset = -1
+anchor_left = 0.344
+anchor_top = 0.93700004
+anchor_right = 0.69500005
+anchor_bottom = 1.0550001
+offset_left = -7.0320015
+offset_top = 0.06399536
+offset_right = -3.9600067
+offset_bottom = 2.9599915
+mouse_filter = 2
+bbcode_enabled = true
+text = "[img=14x14]res://Textures/Citizens/Scrap/Common Scrap.png[/img] 1"
+scroll_active = false
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="pressed" from="TextureButton" to="." method="_on_texture_button_pressed"]

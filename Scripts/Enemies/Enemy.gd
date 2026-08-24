@@ -5,7 +5,7 @@ class_name Enemy
 enum EnemyID { NONE, BASIC_SQUARE, SPEEDY_TRIANGLE, SHOOTY_DIAMOND, HEXAGON_MOTHERSHIP, TANKY_RECTANGLE, PACKED_CIRCLE, MINI_PACKED_CIRCLE,
 DRILLING_CONE}
 enum Type {BASIC, BOSS, ELITE}
-enum EliteType {STEEL, TIME_FRACTURED, SUMMONER, WINDY, MENDING, UNSTOPPABLE, PARACASUAL}
+enum EliteType {NONE, STEEL, TIME_FRACTURED, SUMMONER, WINDY, MENDING, UNSTOPPABLE, PARACASUAL}
 
 var enemyName: String
 var health: float
@@ -270,9 +270,13 @@ func getEnemyTier():
 	return tier
 
 func rollForElite() -> void:
+	
+	if eliteType != null:
+		return
+	
 	if type == Type.BOSS:
 		return
-		
+	
 	if WaveManager.systemNumber >= WaveManager.getEliteSystemThresh():
 		var priorSystems = max(0, WaveManager.systemNumber - 1)
 		var totalWaves = (priorSystems * WaveManager.getWavesPerSystem()) + WaveManager.currentWave - 1
