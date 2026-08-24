@@ -147,15 +147,23 @@ func _on_send_wave_pressed() -> void:
 		push_warning("EnemySynth: No opponent found in lobby!")
 		return
 
+	var wave_data: Array = []
+	
 	for enemyID in readyQueue:
 		var eliteVariants = readyQueue[enemyID]
-		
 		for eliteType in eliteVariants:
 			var amount = eliteVariants[eliteType]
-			
-			for i in range(amount):
-				SteamManager.sendEnemy(enemyID, eliteType, target_peer)
+			if amount > 0:
+				wave_data.append({
+					"id": enemyID as int,
+					"elite": eliteType as int,
+					"amount": amount
+				})
+				
+	if wave_data.is_empty():
+		return
+
+	SteamManager.sendWave(wave_data, target_peer)
 
 	readyQueue.clear()
-	
 	updateUI()

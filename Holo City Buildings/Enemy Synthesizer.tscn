@@ -119,6 +119,7 @@ scale = Vector2(0.2, 0.2)
 texture = ExtResource("5_cot1n")
 
 [node name="Select Area" type="Area2D" parent="." unique_id=1102249972 groups=["Holo City Building"]]
+z_index = 13
 collision_layer = 32
 collision_mask = 48
 

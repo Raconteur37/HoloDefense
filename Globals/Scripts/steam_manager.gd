@@ -201,37 +201,40 @@ func add_turret_to_loadout(turret_name: String) -> void:
 	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)
 
 
+func sendWave(wave_data: Array, target_peer_id: int) -> void:
+	receiveWave.rpc_id(target_peer_id, wave_data)
+
+
 @rpc("any_peer", "reliable")
-func receiveEnemy(enemyID: int, eliteType: int):
+func receiveWave(wave_data: Array) -> void:
 	var sender = multiplayer.get_remote_sender_id()
 	if not sender in NetworkManager.players:
 		return
 		
-	var id = enemyID as Enemy.EnemyID
-	var e_type = eliteType as Enemy.EliteType
-	
-	if not EnemySpawnManager.ENEMIES.has(id):
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+	if not holder:
 		return
 		
-	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
-	
-	var enemy = EnemySpawnManager.ENEMIES[id].instantiate()
-	
-	enemy.is_sent_enemy = true
-	
-	holder.add_child(enemy)
-	
-	if e_type != Enemy.EliteType.NONE:
-		enemy.type = Enemy.Type.ELITE
-		enemy.isElite = true
-		enemy.eliteType = e_type
+
+	for spawn_info in wave_data:
+		var id = spawn_info["id"] as Enemy.EnemyID
+		var e_type = spawn_info["elite"] as Enemy.EliteType
+		var amount = spawn_info["amount"] as int
 		
-		enemy.setElite() 
-		
-
-	enemy.global_position = EnemySpawnManager.getRandomOffscreenPosition()
-	WaveManager.registerActiveEnemy(enemy)
-
-
-func sendEnemy(enemyID: Enemy.EnemyID, eliteType: Enemy.EliteType, target_peer_id: int):
-	receiveEnemy.rpc_id(target_peer_id, enemyID as int, eliteType as int)
+		if not EnemySpawnManager.ENEMIES.has(id):
+			continue
+			
+		for i in range(amount):
+			var enemy = EnemySpawnManager.ENEMIES[id].instantiate()
+			enemy.is_sent_enemy = true
+			
+			holder.add_child(enemy)
+			
+			if e_type != Enemy.EliteType.NONE:
+				enemy.type = Enemy.Type.ELITE
+				enemy.isElite = true
+				enemy.eliteType = e_type
+				enemy.setElite()
+				
+			enemy.global_position = EnemySpawnManager.getRandomOffscreenPosition()
+			WaveManager.registerActiveEnemy(enemy)
