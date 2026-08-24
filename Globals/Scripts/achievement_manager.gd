@@ -1,6 +1,6 @@
 extends Node
 
-const LOCAL_SAVE_PATH = "user://achievements.json"
+const BASE_SAVE_FILE_NAME = "achievements.json"
 const STEAM_FILE_NAME = "achievements_cloud.json"
 const CONFIG_PATH = "res://Config/Achievements.json" # Make sure your JSON file is saved here!
 
@@ -18,6 +18,15 @@ func _ready() -> void:
 
 	if not achievements["initial_reset"]:
 		execute_initial_reset()
+
+# Generate a unique local path based on whether Steam is running
+func get_local_save_path() -> String:
+	if Engine.has_singleton("Steam") and Steam.loggedOn():
+		var steam_id: int = Steam.getSteamID()
+		return "user://achievements_%s.json" % str(steam_id)
+	else:
+		# Fallback for non-Steam builds or if Steam is completely offline
+		return "user://" + BASE_SAVE_FILE_NAME
 
 # ----------------- Configuration & Initialization -----------------
 
@@ -97,24 +106,36 @@ func _grant_reward(achievement_name: String) -> void:
 
 func save_achievements() -> void:
 	var json_string = JSON.stringify(achievements)
+	var local_path = get_local_save_path()
 	
 	# 1. Save Locally
-	var file = FileAccess.open(LOCAL_SAVE_PATH, FileAccess.WRITE)
+	var file = FileAccess.open(local_path, FileAccess.WRITE)
 	if file:
 		file.store_string(json_string)
 		file.close()
 	else:
-		push_error("Failed to save achievements locally.")
+		push_error("AchievementManager: Failed to save achievements locally.")
 
 	# 2. Save to Steam Cloud
 	if Steam.isSteamRunning():
 		var data_buffer = json_string.to_utf8_buffer()
 		var success = Steam.fileWrite(STEAM_FILE_NAME, data_buffer, data_buffer.size())
 		if not success:
-			push_warning("Failed to write to Steam Cloud.")
+			push_warning("AchievementManager: Failed to write to Steam Cloud.")
 
 func load_achievements() -> void:
 	var json_string = ""
+	var local_path = get_local_save_path()
+	var legacy_path = "user://" + BASE_SAVE_FILE_NAME
+	
+	# --- LEGACY SAVE MIGRATION ---
+	if local_path != legacy_path and not FileAccess.file_exists(local_path) and FileAccess.file_exists(legacy_path):
+		var err = DirAccess.copy_absolute(legacy_path, local_path)
+		if err == OK:
+			print("AchievementManager: Successfully migrated legacy save to %s" % local_path)
+		else:
+			push_error("AchievementManager: Failed to migrate legacy save! Error code: %s" % err)
+	# -----------------------------
 
 	# Check Steam Cloud first
 	if Steam.isSteamRunning() and Steam.fileExists(STEAM_FILE_NAME):
@@ -125,8 +146,8 @@ func load_achievements() -> void:
 			json_string = read_result["buf"].get_string_from_utf8()
 
 	# Fallback to local save
-	if json_string == "" and FileAccess.file_exists(LOCAL_SAVE_PATH):
-		var file = FileAccess.open(LOCAL_SAVE_PATH, FileAccess.READ)
+	if json_string == "" and FileAccess.file_exists(local_path):
+		var file = FileAccess.open(local_path, FileAccess.READ)
 		if file:
 			json_string = file.get_as_text()
 			file.close()

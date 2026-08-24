@@ -27,18 +27,32 @@ var currentStats = {}
 var miniSentryKillsThisRun = 0
 var highestResearchLevel = 0
 
-
-var save_path = "user://turret_stats.json"
-var default_path = "res://Config/Turret Stats.json"
+const BASE_TURRET_STATS_FILE = "turret_stats.json"
+const DEFAULT_TURRET_PATH = "res://Config/Turret Stats.json"
 const TURRET_STATS_CLOUD_FILENAME = "turret_stats.json" # Steam Cloud filename, no path needed
 
 var lifetimeStats = {}
-const LIFETIME_SAVE_PATH = "user://lifetime_stats.json"
+const BASE_LIFETIME_STATS_FILE = "lifetime_stats.json"
 const LIFETIME_STATS_CLOUD_FILENAME = "lifetime_stats.json" # Steam Cloud filename, no path needed
 
 func _ready() -> void:
 	loadStats()
 	loadLifetimeStats()
+
+# Generate a unique local path based on whether Steam is running
+func get_turret_save_path() -> String:
+	if Engine.has_singleton("Steam") and Steam.loggedOn():
+		var steam_id: int = Steam.getSteamID()
+		return "user://turret_stats_%s.json" % str(steam_id)
+	else:
+		return "user://" + BASE_TURRET_STATS_FILE
+
+func get_lifetime_save_path() -> String:
+	if Engine.has_singleton("Steam") and Steam.loggedOn():
+		var steam_id: int = Steam.getSteamID()
+		return "user://lifetime_stats_%s.json" % str(steam_id)
+	else:
+		return "user://" + BASE_LIFETIME_STATS_FILE
 
 func get_turret_string(id: Turret.TurretID) -> String:
 	return Turret.TurretID.keys()[id].to_lower()
@@ -56,12 +70,22 @@ func addStat(turret, statName, statValue):
 		currentStats[turret][statName] = 0
 		
 	currentStats[turret][statName] += statValue
-	#writeTurretStatsToConfig()
 
 func loadStats():
 	var json_string = ""
 	var loaded_from_cloud = false
 	
+	var save_path = get_turret_save_path()
+	var legacy_path = "user://" + BASE_TURRET_STATS_FILE
+
+	# --- LEGACY SAVE MIGRATION ---
+	if save_path != legacy_path and not FileAccess.file_exists(save_path) and FileAccess.file_exists(legacy_path):
+		var err = DirAccess.copy_absolute(legacy_path, save_path)
+		if err == OK:
+			print("StatManager: Successfully migrated legacy turret stats save to %s" % save_path)
+		else:
+			push_error("StatManager: Failed to migrate legacy turret stats save! Error code: %s" % err)
+	# -----------------------------
 
 	if Engine.has_singleton("Steam") and Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp() and Steam.fileExists(TURRET_STATS_CLOUD_FILENAME):
 		var file_size = Steam.getFileSize(TURRET_STATS_CLOUD_FILENAME)
@@ -72,8 +96,8 @@ func loadStats():
 	
 	if not loaded_from_cloud:
 		if not FileAccess.file_exists(save_path):
-			if FileAccess.file_exists(default_path):
-				var default_file = FileAccess.open(default_path, FileAccess.READ)
+			if FileAccess.file_exists(DEFAULT_TURRET_PATH):
+				var default_file = FileAccess.open(DEFAULT_TURRET_PATH, FileAccess.READ)
 				var content = default_file.get_as_text()
 				default_file.close()
 				
@@ -81,12 +105,13 @@ func loadStats():
 				save_file.store_string(content)
 				save_file.close()
 			else:
-				push_error("Default stats file not found at: " + default_path)
+				push_error("Default stats file not found at: " + DEFAULT_TURRET_PATH)
 				return
 		
 		var file = FileAccess.open(save_path, FileAccess.READ)
-		json_string = file.get_as_text()
-		file.close()
+		if file:
+			json_string = file.get_as_text()
+			file.close()
 	
 	var json = JSON.new()
 	var parse_error = json.parse(json_string)
@@ -97,12 +122,11 @@ func loadStats():
 	else:
 		push_error("Failed to parse turret stats save file, " + save_path + " may be corrupted.")
 
-
 func backfillMissingTurretStats():
-	if not FileAccess.file_exists(default_path):
+	if not FileAccess.file_exists(DEFAULT_TURRET_PATH):
 		return
 	
-	var default_file = FileAccess.open(default_path, FileAccess.READ)
+	var default_file = FileAccess.open(DEFAULT_TURRET_PATH, FileAccess.READ)
 	var default_json_string = default_file.get_as_text()
 	default_file.close()
 	
@@ -126,8 +150,9 @@ func backfillMissingTurretStats():
 	if changed:
 		writeTurretStatsToConfig()
 
-func writeTurretStatsToConfig(): # this does the turret stats cus I named it before perm stats
+func writeTurretStatsToConfig(): 
 	var json_string = JSON.stringify(currentStats, "\t")
+	var save_path = get_turret_save_path()
 	
 	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if file:
@@ -162,7 +187,6 @@ func reset():
 	researchCompleted = 0
 	difficultyMultiplier = 0
 	systemsCompleted = 0
-	# Added the new enemies to the run reset:
 	miniPackedCirclesKilled = 0
 	packedCirclesKilled = 0
 	basicSquaresKilled = 0
@@ -171,7 +195,6 @@ func reset():
 	hexagonMothershipsKilled = 0
 	
 	miniSentryKillsThisRun = 0
-
 
 func getDefaultLifetimeStats() -> Dictionary: 
 	return {
@@ -200,8 +223,18 @@ func loadLifetimeStats():
 	var json_string = ""
 	var loaded_from_cloud = false
 	
-	# Check Steam Cloud first - replace this check with however SteamManager
-	# tracks init success, e.g. SteamManager.is_initialized, if you have one
+	var save_path = get_lifetime_save_path()
+	var legacy_path = "user://" + BASE_LIFETIME_STATS_FILE
+
+	# --- LEGACY SAVE MIGRATION ---
+	if save_path != legacy_path and not FileAccess.file_exists(save_path) and FileAccess.file_exists(legacy_path):
+		var err = DirAccess.copy_absolute(legacy_path, save_path)
+		if err == OK:
+			print("StatManager: Successfully migrated legacy lifetime stats save to %s" % save_path)
+		else:
+			push_error("StatManager: Failed to migrate legacy lifetime stats save! Error code: %s" % err)
+	# -----------------------------
+
 	if Engine.has_singleton("Steam") and Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp() and Steam.fileExists(LIFETIME_STATS_CLOUD_FILENAME):
 		var file_size = Steam.getFileSize(LIFETIME_STATS_CLOUD_FILENAME)
 		var result = Steam.fileRead(LIFETIME_STATS_CLOUD_FILENAME, file_size)
@@ -210,14 +243,15 @@ func loadLifetimeStats():
 			loaded_from_cloud = true
 	
 	if not loaded_from_cloud:
-		if not FileAccess.file_exists(LIFETIME_SAVE_PATH):
+		if not FileAccess.file_exists(save_path):
 			lifetimeStats = getDefaultLifetimeStats()
-			saveLifetimeStats() # create the file(s) so they exist next launch
+			saveLifetimeStats() 
 			return
 		
-		var file = FileAccess.open(LIFETIME_SAVE_PATH, FileAccess.READ)
-		json_string = file.get_as_text()
-		file.close()
+		var file = FileAccess.open(save_path, FileAccess.READ)
+		if file:
+			json_string = file.get_as_text()
+			file.close()
 	
 	var json = JSON.new()
 	var parse_error = json.parse(json_string)
@@ -234,17 +268,17 @@ func loadLifetimeStats():
 
 func saveLifetimeStats():
 	var json_string = JSON.stringify(lifetimeStats, "\t")
+	var save_path = get_lifetime_save_path()
 	
-	var file = FileAccess.open(LIFETIME_SAVE_PATH, FileAccess.WRITE)
+	var file = FileAccess.open(save_path, FileAccess.WRITE)
 	if file:
 		file.store_string(json_string)
 		file.close()
-		print("Lifetime stats saved successfully to: ", LIFETIME_SAVE_PATH)
+		print("Lifetime stats saved successfully to: ", save_path)
 	else:
 		print("Failed to open file for saving lifetime stats.")
 		return
 	
-	# Also push to Steam Cloud if it's available and enabled
 	if Engine.has_singleton("Steam") and Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp():
 		var data := json_string.to_utf8_buffer()
 		var success = Steam.fileWrite(LIFETIME_STATS_CLOUD_FILENAME, data, data.size())
@@ -253,11 +287,9 @@ func saveLifetimeStats():
 		else:
 			push_error("Steam Cloud write failed for lifetime stats")
 
-
 func commitRunToLifetimeStats():
 	lifetimeStats["wavesCompleted"] += wavesCompleted
 	lifetimeStats["enemiesKilled"] += enemiesKilled
-	#lifetimeStats["elapsedTime"] += elapsedTime
 	lifetimeStats["stardustEarned"] += startdustEarned
 	lifetimeStats["tierOneEnemiesKilled"] += tierOneEnemiesKilled
 	lifetimeStats["tierTwoEnemiesKilled"] += tierTwoEnemiesKilled
@@ -268,7 +300,6 @@ func commitRunToLifetimeStats():
 	lifetimeStats["researchCompleted"] += researchCompleted
 	lifetimeStats["systemsCompleted"] += systemsCompleted
 	
-	# Added the specific enemies killed stats so they save permanently
 	lifetimeStats["basicSquaresKilled"] += basicSquaresKilled
 	lifetimeStats["speedyTrianglesKilled"] += speedyTrianglesKilled
 	lifetimeStats["shootyDiamondsKilled"] += shootyDiamondsKilled
@@ -280,7 +311,6 @@ func commitRunToLifetimeStats():
 	
 	writeTurretStatsToConfig()
 	saveLifetimeStats()
-
 
 func getLifetimeStat(statName: String):
 	if lifetimeStats.has(statName):

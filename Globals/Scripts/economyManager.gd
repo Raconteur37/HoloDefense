@@ -72,6 +72,18 @@ func load_economy() -> void:
 	
 	var cloud_name = get_cloud_save_name()
 	var local_path = get_local_save_path()
+	var legacy_path = "user://" + BASE_SAVE_FILE_NAME
+
+	# --- LEGACY SAVE MIGRATION ---
+	# If a Steam player is booting up the update for the first time:
+	# Their new local_path won't exist yet, but their old legacy_path will.
+	if local_path != legacy_path and not FileAccess.file_exists(local_path) and FileAccess.file_exists(legacy_path):
+		var err = DirAccess.copy_absolute(legacy_path, local_path)
+		if err == OK:
+			print("EconomyManager: Successfully migrated legacy save to %s" % local_path)
+		else:
+			push_error("EconomyManager: Failed to migrate legacy save! Error code: %s" % err)
+	# -----------------------------
 
 	if Engine.has_singleton("Steam"):
 		if Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp():
