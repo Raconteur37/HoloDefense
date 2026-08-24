@@ -221,18 +221,20 @@ func add_turret_to_loadout(turret_name: String) -> void:
 
 
 
-func sendWave(wave_data: Array, _target_peer_id: int) -> void:
-	receiveWave.rpc(wave_data)
+func sendWave(wave_data: Array, target_peer_id: int) -> void:
+	receiveWave.rpc_id(target_peer_id, wave_data)
 
 @rpc("any_peer", "reliable")
 func receiveWave(wave_data: Array) -> void:
+	print("Received wave data from peer: ", multiplayer.get_remote_sender_id())
+	
 	var sender = multiplayer.get_remote_sender_id()
 	if sender == multiplayer.get_unique_id():
 		return
 		
-		
 	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
 	if not holder:
+		push_error("EnemySynth: Could not find EnemyNodeHolder to spawn enemies!")
 		return
 		
 	for spawn_info in wave_data:
