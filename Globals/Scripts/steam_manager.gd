@@ -2,6 +2,8 @@ extends Node
 
 const APP_ID = 4758080
 
+var multiplayer_peer: SteamMultiplayerPeer
+
 var steam_initialized: bool = false
 var steam_id: int = 0
 var steam_name: String = ""
@@ -73,6 +75,9 @@ func leaveLobby() -> void:
 	current_match_state = ""
 	current_difficulty = -1.0
 
+	multiplayer.multiplayer_peer = null
+	multiplayer_peer = null
+
 func advance_to_loadout() -> void:
 	if lobbyID == 0:
 		return
@@ -128,6 +133,11 @@ func _on_lobby_created(connect_result: int, lobby_id: int) -> void:
 		Steam.setLobbyData(lobby_id, "lobby_name", "VS Lobby")
 		Steam.setLobbyData(lobby_id, "lobby_host", steam_name)
 		lobbyHost = steam_name
+		
+		multiplayer_peer = SteamMultiplayerPeer.new()
+		multiplayer_peer.create_host(0)
+		multiplayer.multiplayer_peer = multiplayer_peer
+		
 		updateLobby()
 
 func _on_lobby_join_requested(lobby_id: int, _friend_id: int) -> void:
@@ -139,6 +149,15 @@ func _on_lobby_joined(lobby_id: int, _permissions: int, _locked: bool, response:
 		lobbyHost = Steam.getLobbyData(lobby_id, "lobby_host")
 		GameManager.VSmode = true
 		lobby_join_status.emit(true)
+		
+		var host_id = Steam.getLobbyOwner(lobby_id)
+		if host_id != steam_id:
+			multiplayer_peer = SteamMultiplayerPeer.new()
+			
+			multiplayer_peer.create_client(host_id, 0)
+			
+			multiplayer.multiplayer_peer = multiplayer_peer
+		
 		updateLobby()
 	else:
 		lobby_join_status.emit(false)
@@ -201,21 +220,21 @@ func add_turret_to_loadout(turret_name: String) -> void:
 	Steam.setLobbyMemberData(lobbyID, "loadout_list", current_loadout)
 
 
-func sendWave(wave_data: Array, target_peer_id: int) -> void:
-	receiveWave.rpc_id(target_peer_id, wave_data)
 
+func sendWave(wave_data: Array, _target_peer_id: int) -> void:
+	receiveWave.rpc(wave_data)
 
 @rpc("any_peer", "reliable")
 func receiveWave(wave_data: Array) -> void:
 	var sender = multiplayer.get_remote_sender_id()
-	if not sender in NetworkManager.players:
+	if sender == multiplayer.get_unique_id():
 		return
+		
 		
 	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
 	if not holder:
 		return
 		
-
 	for spawn_info in wave_data:
 		var id = spawn_info["id"] as Enemy.EnemyID
 		var e_type = spawn_info["elite"] as Enemy.EliteType

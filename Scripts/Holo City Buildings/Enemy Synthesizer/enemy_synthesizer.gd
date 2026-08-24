@@ -140,6 +140,7 @@ func _on_windy_elite_toggled(toggled_on: bool) -> void:
 	updatePrices()
 
 
+
 func _on_send_wave_pressed() -> void:
 	var target_peer = SteamManager.get_opponent_id()
 	
