@@ -1,7 +1,6 @@
 extends Node
 
-const SAVE_FILE_NAME := "economy.json"
-const LOCAL_SAVE_PATH := "user://" + SAVE_FILE_NAME
+const BASE_SAVE_FILE_NAME := "economy.json"
 
 var economy_data: Dictionary = {}
 var economy_loaded_successfully: bool = false
@@ -14,6 +13,19 @@ signal turret_unlocked_signal(turret_id)
 
 func _ready() -> void:
 	load_economy()
+
+# Generate a unique local path based on whether Steam is running
+func get_local_save_path() -> String:
+	if Engine.has_singleton("Steam") and Steam.loggedOn():
+		var steam_id: int = Steam.getSteamID()
+		return "user://economy_%s.json" % str(steam_id)
+	else:
+		# Fallback for non-Steam builds or if Steam is completely offline
+		return "user://" + BASE_SAVE_FILE_NAME
+
+# Keep the Steam Cloud name the same for everyone (Steam isolates this automatically)
+func get_cloud_save_name() -> String:
+	return BASE_SAVE_FILE_NAME
 
 func get_default_economy() -> Dictionary:
 	var turret_defaults = {}
@@ -57,13 +69,16 @@ func merge_with_defaults(loaded: Dictionary) -> Dictionary:
 func load_economy() -> void:
 	var loaded_dict: Dictionary = {}
 	var found_save := false
+	
+	var cloud_name = get_cloud_save_name()
+	var local_path = get_local_save_path()
 
 	if Engine.has_singleton("Steam"):
 		if Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp():
-			if Steam.fileExists(SAVE_FILE_NAME):
-				var file_size: int = Steam.getFileSize(SAVE_FILE_NAME)
+			if Steam.fileExists(cloud_name):
+				var file_size: int = Steam.getFileSize(cloud_name)
 				if file_size > 0:
-					var read_result: Dictionary = Steam.fileRead(SAVE_FILE_NAME, file_size)
+					var read_result: Dictionary = Steam.fileRead(cloud_name, file_size)
 					if read_result.get("ret", 0) > 0:
 						var json_string: String = read_result["buf"].get_string_from_utf8()
 						var parsed = JSON.parse_string(json_string)
@@ -72,8 +87,8 @@ func load_economy() -> void:
 							found_save = true
 							print("EconomyManager: loaded save from Steam Cloud")
 
-	if not found_save and FileAccess.file_exists(LOCAL_SAVE_PATH):
-		var file := FileAccess.open(LOCAL_SAVE_PATH, FileAccess.READ)
+	if not found_save and FileAccess.file_exists(local_path):
+		var file := FileAccess.open(local_path, FileAccess.READ)
 		if file:
 			var json_string := file.get_as_text()
 			file.close()
@@ -94,19 +109,21 @@ func load_economy() -> void:
 
 func save_economy() -> void:
 	var json_string := JSON.stringify(economy_data)
+	var cloud_name = get_cloud_save_name()
+	var local_path = get_local_save_path()
 
-	var file := FileAccess.open(LOCAL_SAVE_PATH, FileAccess.WRITE)
+	var file := FileAccess.open(local_path, FileAccess.WRITE)
 	if file:
 		file.store_string(json_string)
 		file.close()
-		print("EconomyManager: saved locally to %s" % LOCAL_SAVE_PATH)
+		print("EconomyManager: saved locally to %s" % local_path)
 	else:
 		push_error("EconomyManager: failed to open local save file for writing")
 
 	if Engine.has_singleton("Steam"):
 		if Steam.isCloudEnabledForAccount() and Steam.isCloudEnabledForApp():
 			var buffer := json_string.to_utf8_buffer()
-			var success: bool = Steam.fileWrite(SAVE_FILE_NAME, buffer, buffer.size())
+			var success: bool = Steam.fileWrite(cloud_name, buffer, buffer.size())
 			if success:
 				print("EconomyManager: saved to Steam Cloud")
 			else:
@@ -130,7 +147,6 @@ func unlock_turret(turret_id) -> void:
 			
 			turret_unlocked_signal.emit(turret_id)
 			
-
 			save_economy()
 
 
