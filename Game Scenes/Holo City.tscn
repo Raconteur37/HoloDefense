@@ -9,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://cbuod6sley3us" path="res://Holo City Buildings/Material Atomizer.tscn" id="4_6jm4f"]
 [ext_resource type="PackedScene" uid="uid://cxke0ql4vpvx1" path="res://Holo City Buildings/Research Lab.tscn" id="5_sub41"]
 [ext_resource type="PackedScene" uid="uid://dx6dlk4xpstr1" path="res://Holo City Buildings/Fabricator.tscn" id="6_1pif0"]
+[ext_resource type="PackedScene" uid="uid://dy3gwxg4ydqbe" path="res://Holo City Buildings/Enemy Synthesizer.tscn" id="11_2bojg"]
 [ext_resource type="Script" uid="uid://cyfmdyfsdhnla" path="res://Game Scenes/speed_control.gd" id="11_kvt3y"]
 
 [sub_resource type="NavigationPolygon" id="NavigationPolygon_mjf4j"]
@@ -97,5 +98,11 @@ horizontal_alignment = 1
 script = ExtResource("11_kvt3y")
 
 [node name="StartingCitizen" parent="." unique_id=145350999 instance=ExtResource("1_a5ly5")]
+
+[node name="EnemySynthesizer" parent="." unique_id=1901967378 instance=ExtResource("11_2bojg")]
+offset_left = 1782.0
+offset_top = 722.0
+offset_right = 1822.0
+offset_bottom = 762.0
 
 [connection signal="visibility_changed" from="TextureRect" to="TextureRect" method="_on_visibility_changed"]

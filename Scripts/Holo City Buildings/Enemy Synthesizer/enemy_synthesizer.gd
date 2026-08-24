@@ -29,7 +29,11 @@ func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: i
 			popup.show()
 			buildEnemyButtons()
 
-
+func _ready() -> void:
+	if GameManager.VSmode:
+		visible = true
+	else:
+		visible = false
 
 
 func _on_popup_visibility_changed() -> void:
