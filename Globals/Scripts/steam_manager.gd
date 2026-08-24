@@ -222,21 +222,23 @@ func add_turret_to_loadout(turret_name: String) -> void:
 
 
 func sendWave(wave_data: Array, target_peer_id: int) -> void:
+	if target_peer_id == 0:
+		push_warning("SteamManager: sendWave called with no valid target peer id.")
+		return
 	receiveWave.rpc_id(target_peer_id, wave_data)
 
 @rpc("any_peer", "reliable")
 func receiveWave(wave_data: Array) -> void:
-	print("Received wave data from peer: ", multiplayer.get_remote_sender_id())
-	
 	var sender = multiplayer.get_remote_sender_id()
-	if sender == multiplayer.get_unique_id():
+	if sender != get_opponent_id():
+		# Ignore anything that isn't from the recognized opponent in this lobby
 		return
-		
-	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
+
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder", true, false)
 	if not holder:
-		push_error("EnemySynth: Could not find EnemyNodeHolder to spawn enemies!")
+		push_warning("SteamManager: receiveWave couldn't find EnemyNodeHolder in the current scene.")
 		return
-		
+
 	for spawn_info in wave_data:
 		var id = spawn_info["id"] as Enemy.EnemyID
 		var e_type = spawn_info["elite"] as Enemy.EliteType
