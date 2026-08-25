@@ -118,7 +118,7 @@ func playInWaveMusic():
 		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
 		musicPlayer.play()
 	if musicOn and not musicPlayer.playing and GameManager.VSmode:
-		musicPlayer.volume_db = 1
+		musicPlayer.volume_db = 2
 		musicPlayer.stream = load("res://Sounds/Music/VS Mode.wav")
 		musicPlayer.play()
 	

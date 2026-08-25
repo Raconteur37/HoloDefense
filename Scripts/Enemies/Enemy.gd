@@ -40,6 +40,11 @@ var zombieFollowTarget: Enemy = null
 
 var specificDir = null
 
+# Anti-stuck variables
+var stuckTimer: float = 0.0
+var stuckThreshold: float = 3.0 # Seconds before recalculating
+var min_moving_speed: float = 1 # Min velocity to be considered "moving"
+
 # Attack logic
 var attackReady: bool = true
 var attackTimer: Timer
@@ -98,7 +103,6 @@ func _process(delta: float) -> void:
 		GameManager.turretTargetting.manualTarget = self
 
 func _physics_process(delta: float) -> void:
-	
 	if knockbackVelocity != Vector2.ZERO:
 		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)
 	
@@ -113,6 +117,8 @@ func _physics_process(delta: float) -> void:
 	turretsInRange = turretsInRange.filter(func(t): return is_instance_valid(t))
 
 	if turretsInRange.size() > 0 and not isZombie:
+		stuckTimer = 0.0 # Reset stuck timer while interacting with a turret
+		
 		var targetTurret = turretsInRange[0]
 		
 		if knockbackVelocity != Vector2.ZERO:
@@ -142,6 +148,17 @@ func _physics_process(delta: float) -> void:
 				startAttackCooldown()
 	else:
 		move()
+		
+		# Anti-stuck logic
+		# get_real_velocity() returns the actual movement speed after collisions are calculated
+		if get_real_velocity().length() < min_moving_speed and knockbackVelocity == Vector2.ZERO:
+			stuckTimer += delta
+			if stuckTimer >= stuckThreshold:
+				stuckTimer = 0.0
+				destination = Vector2.ZERO # Clear destination
+				updateDestination() # Force a fresh path calculation
+		else:
+			stuckTimer = 0.0 # Reset if moving normally
 
 	if isZombie and not initialTurn:
 		initZombie()
