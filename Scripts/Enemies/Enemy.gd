@@ -98,8 +98,6 @@ func _process(delta: float) -> void:
 		GameManager.turretTargetting.manualTarget = self
 
 func _physics_process(delta: float) -> void:
-	if is_sent_enemy and not multiplayer.is_server():
-		return
 	
 	if knockbackVelocity != Vector2.ZERO:
 		knockbackVelocity = knockbackVelocity.move_toward(Vector2.ZERO, knockbackDecay * delta)

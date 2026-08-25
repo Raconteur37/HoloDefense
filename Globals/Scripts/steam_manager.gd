@@ -265,6 +265,5 @@ func receiveWave(wave_data: Array) -> void:
 			enemy.global_position = EnemySpawnManager.getRandomOffscreenPosition()
 			WaveManager.registerActiveEnemy(enemy)
 			
-			# Add this block to kickstart the enemy's pathfinding!
 			if enemy.has_method("getDestination"):
 				enemy.getDestination()

@@ -239,12 +239,9 @@ func spawnFormationGroup(enemyID: Enemy.EnemyID, cols: int, ySpacing: float, xSp
 			enemy.global_position = Vector2(currentX, yStart + (row * ySpacing))
 			WaveManager.registerActiveEnemy(enemy)
 			
-			# If the enemies default to idle upon spawn, ensure they start walking
 			if enemy.has_method("getDestination"):
 				enemy.getDestination()
 		
-		# Move the X position further backwards offscreen for the next column
 		currentX += (xSpacing * stepDir)
 		
-	# Return the X position for the next enemy type, adding a small buffer space between groups
 	return currentX + (30.0 * stepDir)
