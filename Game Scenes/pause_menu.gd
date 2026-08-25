@@ -12,7 +12,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel") and not GameManager.VSmode: # Usually mapped to ESC
+	if event.is_action_pressed("ui_cancel"): # Usually mapped to ESC
 		toggle_pause()
 	if event is InputEventKey:
 		if event.keycode == KEY_F1 and event.pressed and visible:
@@ -25,7 +25,8 @@ func _input(event):
 
 func toggle_pause():
 	var new_pause_state = not get_tree().paused
-	get_tree().paused = new_pause_state
+	if not GameManager.VSmode:
+		get_tree().paused = new_pause_state
 	visible = new_pause_state
 	if visible:
 		generalButtons.show()
@@ -36,10 +37,6 @@ func toggle_pause():
 				giveup.show()
 		else:
 			giveup.hide()
-
-func _on_button_pressed() -> void:
-	get_tree().paused = false
-	visible = false
 
 
 func _on_restart_pressed() -> void:
@@ -88,3 +85,8 @@ func _on_settings_pressed() -> void:
 
 func _on_ui_volume_value_changed(value: float) -> void:
 	SoundManager.setUIVolume(value)
+
+
+func _on_resume_pressed() -> void:
+	get_tree().paused = false
+	visible = false

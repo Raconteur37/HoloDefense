@@ -114,10 +114,14 @@ func setUIVolume(value: float):
 
 func playInWaveMusic():
 	musicPlayer.volume_db = 0
-	if musicOn and not musicPlayer.playing:
+	if musicOn and not musicPlayer.playing and not GameManager.VSmode:
 		musicPlayer.stream = load("res://Sounds/Music/In Wave Song One.mp3")
 		musicPlayer.play()
-
+	if musicOn and not musicPlayer.playing and GameManager.VSmode:
+		musicPlayer.volume_db = 1
+		musicPlayer.stream = load("res://Sounds/Music/VS Mode.wav")
+		musicPlayer.play()
+	
 func playLoadoutMusic():
 	if musicOn:
 		musicPlayer.volume_db = 3

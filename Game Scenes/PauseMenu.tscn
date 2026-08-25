@@ -309,6 +309,7 @@ offset_bottom = 385.0
 text = "Paused"
 label_settings = SubResource("LabelSettings_7n6qv")
 
+[connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/Resume" to="." method="_on_resume_pressed"]
 [connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/GiveUp" to="." method="_on_give_up_pressed"]
 [connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/Settings" to="." method="_on_settings_pressed"]
 [connection signal="pressed" from="Background/GeneralButtons/VBoxContainer/Quit" to="." method="_on_quit_pressed"]

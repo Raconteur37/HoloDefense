@@ -45,7 +45,7 @@ func _on_area_2d_body_entered(body: Node2D) -> void:
 		StatManager.elapsedTime = runTime
 		
 		if GameManager.VSmode:
-			GameManager.vs_match_won = true
+			GameManager.vs_match_won = false
 			SteamManager.send_player_died()
 			get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
 		else:
