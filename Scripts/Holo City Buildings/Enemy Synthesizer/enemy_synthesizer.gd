@@ -142,12 +142,6 @@ func _on_windy_elite_toggled(toggled_on: bool) -> void:
 
 
 func _on_send_wave_pressed() -> void:
-	var target_peer = SteamManager.get_opponent_id()
-	
-	if target_peer == 0:
-		push_warning("EnemySynth: No opponent found in lobby!")
-		return
-
 	var wave_data: Array = []
 	
 	for enemyID in readyQueue:
@@ -164,7 +158,7 @@ func _on_send_wave_pressed() -> void:
 	if wave_data.is_empty():
 		return
 
-	SteamManager.sendWave(wave_data, target_peer)
+	SteamManager.sendWave(wave_data)
 
 	readyQueue.clear()
 	updateUI()

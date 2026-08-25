@@ -221,25 +221,27 @@ func add_turret_to_loadout(turret_name: String) -> void:
 
 
 
-func sendWave(wave_data: Array, _target_peer_id: int) -> void:
-	print("SteamManager: sendWave broadcasting %d spawn entries" % wave_data.size())
-	receiveWave.rpc(wave_data)
+func sendWave(wave_data: Array) -> void:
+	var connected_peers = multiplayer.get_peers()
+	
+	if connected_peers.is_empty():
+		push_error("EnemySynth: Nobody is connected to the P2P network!")
+		return
+		
+	var target_godot_peer = connected_peers[0]
+	
+	receiveWave.rpc_id(target_godot_peer, wave_data)
 
 @rpc("any_peer", "reliable")
 func receiveWave(wave_data: Array) -> void:
-	if not multiplayer_peer:
+	var sender = multiplayer.get_remote_sender_id()
+	if sender == multiplayer.get_unique_id():
 		return
-
-	var sender_steam_id = multiplayer_peer.get_steam64_from_peer_id(multiplayer.get_remote_sender_id())
-	print("SteamManager: receiveWave fired, sender_steam_id=%d, expected opponent=%d" % [sender_steam_id, get_opponent_id()])
-	if sender_steam_id != get_opponent_id():
-		return
-
-	var holder = get_tree().current_scene.find_child("EnemyNodeHolder", true, false)
+		
+	var holder = get_tree().current_scene.find_child("EnemyNodeHolder")
 	if not holder:
-		push_warning("SteamManager: receiveWave couldn't find EnemyNodeHolder in the current scene.")
 		return
-
+		
 	for spawn_info in wave_data:
 		var id = spawn_info["id"] as Enemy.EnemyID
 		var e_type = spawn_info["elite"] as Enemy.EliteType
