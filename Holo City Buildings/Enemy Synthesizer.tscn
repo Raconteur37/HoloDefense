@@ -137,7 +137,6 @@ debug_color = Color(0.306587, 0.494173, 1, 0.42)
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(1400, 760)
-visible = true
 wrap_controls = false
 
 [node name="TextureRect" type="TextureRect" parent="Popup" unique_id=1096622416]

@@ -142,7 +142,7 @@ func _on_windy_elite_toggled(toggled_on: bool) -> void:
 
 func _on_send_wave_pressed() -> void:
 	
-	if WaveManager.currentPhase == WaveManager.Phase.INTERMISSION:
+	if WaveManager.currentPhase == WaveManager.Phase.INTERMISSION or WaveManager.currentPhase == WaveManager.Phase.IDLE:
 		notifyLabel.show()
 		await get_tree().create_timer(3).timeout
 		notifyLabel.hide()

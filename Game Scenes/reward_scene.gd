@@ -116,7 +116,7 @@ func calculateRewards():
 func _ready():
 	if GameManager.VSmode:
 		multiplayerLabel.show()
-		if SteamManager.vs_match_won:
+		if GameManager.vs_match_won:
 			multiplayerLabel.text = "YOU HAVE DEFEATED " + str(SteamManager.opponentName)
 		else:
 			multiplayerLabel.text = "You've been defeated by " + str(SteamManager.opponentName)
