@@ -143,6 +143,7 @@ func _ready():
 	SoundManager.playGameOverMusic(false)
 
 	WaveManager.reset()
+	SteamManager.vs_match_won = false
 	#print(TurretManager.lockedCommonTurrets)
 
 

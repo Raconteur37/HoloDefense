@@ -84,6 +84,9 @@ metadata/_custom_type_script = "uid://ydpbnw82mrqg"
 [sub_resource type="LabelSettings" id="LabelSettings_qngbw"]
 font_size = 21
 
+[sub_resource type="LabelSettings" id="LabelSettings_4akpf"]
+font_size = 20
+
 [node name="EnemySynthesizer" type="Control" unique_id=1901967378]
 layout_mode = 3
 anchors_preset = 0
@@ -134,6 +137,7 @@ debug_color = Color(0.306587, 0.494173, 1, 0.42)
 oversampling_override = 1.0
 initial_position = 1
 size = Vector2i(1400, 760)
+visible = true
 wrap_controls = false
 
 [node name="TextureRect" type="TextureRect" parent="Popup" unique_id=1096622416]
@@ -268,6 +272,17 @@ texture_pressed = ExtResource("21_4akpf")
 layout_mode = 2
 text = "Windy"
 label_settings = SubResource("LabelSettings_qngbw")
+
+[node name="NotifyLabel" type="Label" parent="Popup" unique_id=1060188809]
+visible = false
+offset_left = 983.0
+offset_top = 537.0
+offset_right = 1358.0
+offset_bottom = 594.0
+text = "Cannot Send Wave during Intermission"
+label_settings = SubResource("LabelSettings_4akpf")
+horizontal_alignment = 1
+vertical_alignment = 1
 
 [connection signal="input_event" from="Select Area" to="." method="_on_select_area_input_event"]
 [connection signal="visibility_changed" from="Popup" to="." method="_on_popup_visibility_changed"]

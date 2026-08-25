@@ -8,6 +8,8 @@ extends Control
 @onready var gridContainer = $Popup/GridContainer
 @onready var enemyPurchaseGrid = $Popup/EnemiesPurchasedGrid
 
+@onready var notifyLabel = $Popup/NotifyLabel
+
 @onready var readyQueue = {} # A dict with the key of the enemy and value of another dict
 
 var currentPriceMult = 0
@@ -139,6 +141,13 @@ func _on_windy_elite_toggled(toggled_on: bool) -> void:
 
 
 func _on_send_wave_pressed() -> void:
+	
+	if WaveManager.currentPhase == WaveManager.Phase.INTERMISSION:
+		notifyLabel.show()
+		await get_tree().create_timer(3).timeout
+		notifyLabel.hide()
+		return
+	
 	var wave_data: Array = []
 	
 	for enemyID in readyQueue:
