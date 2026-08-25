@@ -20,8 +20,6 @@ var windyElite : bool = false
 @onready var summonerToggle = $Popup/CheckBoxContainer/HBoxContainer2/SummonerElite
 @onready var windyToggle = $Popup/CheckBoxContainer/HBoxContainer3/WindyElite
 
-# this is so we can hold elite data
-# {Enemy.BASIC_SQUARE : {regular : 10, steel_elite : 10}}
 
 func _on_select_area_input_event(viewport: Node, event: InputEvent, shape_idx: int) -> void:
 	if event is InputEventMouseButton:
@@ -42,7 +40,6 @@ func _on_popup_visibility_changed() -> void:
 func attemptBuy(enemyID : Enemy.EnemyID, cost : int):
 	if currentPriceMult != 0:
 		cost = cost * currentPriceMult
-	CityManager.currentScrap = 999
 	if CityManager.currentScrap >= cost:
 		CityManager.currentScrap -= cost
 		if steelElite:

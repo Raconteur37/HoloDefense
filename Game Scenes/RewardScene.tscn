@@ -251,6 +251,9 @@ font_color = Color(0.54509807, 0.70980394, 1, 0.34117648)
 [sub_resource type="LabelSettings" id="LabelSettings_81ej1"]
 font_color = Color(0.49803922, 0.76862746, 1, 1)
 
+[sub_resource type="LabelSettings" id="LabelSettings_qtl6j"]
+font_size = 50
+
 [node name="RewardScene" type="CanvasLayer" unique_id=303338687]
 script = ExtResource("1_mj4u4")
 
@@ -756,3 +759,12 @@ offset_right = 1385.0
 offset_bottom = 1056.0
 bbcode_enabled = true
 text = "[center][font_size=64][color=#00d4ff][pulse color=#00d4ff freq=2.0 ease=-2.0]Click anywhere to continue[/pulse][/color][/font_size][/center]"
+
+[node name="MultiplayerLabel" type="Label" parent="." unique_id=1280818993]
+visible = false
+offset_left = 591.0
+offset_top = 109.0
+offset_right = 1278.0
+offset_bottom = 171.0
+text = "BALLS HAS BEEN DEFEATED!"
+label_settings = SubResource("LabelSettings_qtl6j")

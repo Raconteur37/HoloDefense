@@ -12,7 +12,7 @@ func _ready() -> void:
 	process_mode = Node.PROCESS_MODE_ALWAYS
 
 func _input(event):
-	if event.is_action_pressed("ui_cancel"): # Usually mapped to ESC
+	if event.is_action_pressed("ui_cancel") and not GameManager.VSmode: # Usually mapped to ESC
 		toggle_pause()
 	if event is InputEventKey:
 		if event.keycode == KEY_F1 and event.pressed and visible:

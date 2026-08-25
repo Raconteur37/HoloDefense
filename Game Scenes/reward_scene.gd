@@ -43,6 +43,8 @@ var systemsCompleted = 0
 @onready var item = $BonusRollsContainer/MarginContainer/BonusHolder/Item
 @onready var itemHolderDisplay = $BonusRollsContainer/MarginContainer/BonusHolder
 
+@onready var multiplayerLabel = $MultiplayerLabel
+
 var activeTween
 
 var earnedIndex = 0
@@ -112,6 +114,12 @@ func calculateRewards():
 	
 
 func _ready():
+	if GameManager.VSmode:
+		multiplayerLabel.show()
+		if SteamManager.vs_match_won:
+			multiplayerLabel.text = "YOU HAVE DEFEATED " + str(SteamManager.opponentName)
+		else:
+			multiplayerLabel.text = "You've been defeated by " + str(SteamManager.opponentName)
 	PopupManager.losingPopup()
 	XpManager.saveXpData()
 	config_data = load_json("res://Config/Rewards.json")

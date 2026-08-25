@@ -34,6 +34,7 @@ func _ready() -> void:
 
 	portal.hide()
 	SoundManager.stopMusic()
+	GameManager.VSmode = false
 	Engine.time_scale = 1
 	if not SettingsManager.is_tutorial_done():
 		get_tree().change_scene_to_file("res://Game Scenes/Tutorial Scene.tscn")

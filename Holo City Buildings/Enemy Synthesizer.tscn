@@ -101,6 +101,7 @@ offset_top = -25.749998
 offset_right = 102.25
 offset_bottom = 102.25
 scale = Vector2(0.2, 0.2)
+mouse_filter = 2
 texture = ExtResource("3_be4bi")
 
 [node name="TextureRect2" type="TextureRect" parent="Sprite" unique_id=2053180539]
@@ -108,6 +109,7 @@ offset_top = -24.75
 offset_right = 128.0
 offset_bottom = 103.25
 scale = Vector2(0.2, 0.2)
+mouse_filter = 2
 texture = ExtResource("4_5ie4i")
 
 [node name="TextureRect3" type="TextureRect" parent="Sprite" unique_id=803907071]
@@ -116,6 +118,7 @@ offset_top = -0.25
 offset_right = 114.75
 offset_bottom = 127.75
 scale = Vector2(0.2, 0.2)
+mouse_filter = 2
 texture = ExtResource("5_cot1n")
 
 [node name="Select Area" type="Area2D" parent="." unique_id=1102249972 groups=["Holo City Building"]]

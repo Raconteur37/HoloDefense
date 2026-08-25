@@ -12,7 +12,7 @@ func _ready() -> void:
 	modulate.a = 0.0
 
 func _unhandled_input(event: InputEvent) -> void:
-	if event is InputEventMouseButton:
+	if event is InputEventMouseButton and not GameManager.VSmode:
 		if event.button_index == MOUSE_BUTTON_WHEEL_UP and event.pressed:
 			Engine.time_scale = minf(snappedf(Engine.time_scale + SPEED_STEP, 0.1), SPEED_MAX)
 		elif event.button_index == MOUSE_BUTTON_WHEEL_DOWN and event.pressed:

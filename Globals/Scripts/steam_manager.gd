@@ -12,6 +12,8 @@ var lobbyID: int = 0
 var lobbyHost: String = ""
 var opponentName: String = ""
 
+var vs_match_won: bool = false
+
 # Track states to prevent signal spam
 var current_match_state: String = ""
 var current_difficulty: float = -1.0
@@ -267,3 +269,21 @@ func receiveWave(wave_data: Array) -> void:
 			
 			if enemy.has_method("getDestination"):
 				enemy.getDestination()
+
+func send_player_died() -> void:
+	var connected_peers = multiplayer.get_peers()
+	if connected_peers.is_empty():
+		return
+		
+	var target_godot_peer = connected_peers[0]
+	receive_opponent_died.rpc_id(target_godot_peer)
+
+@rpc("any_peer", "reliable")
+func receive_opponent_died() -> void:
+	var sender = multiplayer.get_remote_sender_id()
+	if sender == multiplayer.get_unique_id():
+		return
+		
+	GameManager.vs_match_won = true
+	
+	get_tree().change_scene_to_file("res://Game Scenes/RewardScene.tscn")
